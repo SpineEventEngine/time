@@ -1,14 +1,4 @@
-rootProject.name = 'spine'
+rootProject.name = 'spine-time'
 
-include ':plugin-base'
-project(':plugin-base').projectDir = new File('./gradle-plugins/plugin-base')
-
-include ':model-compiler'
-project(':model-compiler').projectDir = new File('./gradle-plugins/model-compiler')
-
-include 'base'
-include 'testutil-base'
-include 'protoc-plugin'
-include 'protoc-plugin-tests'
-include 'codegen'
+include 'time'
 
