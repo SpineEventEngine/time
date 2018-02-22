@@ -16,7 +16,7 @@ function getProp() {
 
 # Upload the prepared reports to GCS.
 dpl --provider=gcs \
-    --access-key-id=GOOGX66ER6DXLZH7IKQF \
+    --access-key-id=GOOG5LZULEBFFFGGPA2G \
     --secret-access-key=${GCS_SECRET} \
     --bucket="$(getProp 'artifacts.bucket')" \
     --upload-dir="$(getProp 'artifacts.folder')"/${TRAVIS_BUILD_NUMBER}-${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH} \
