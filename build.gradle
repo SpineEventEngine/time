@@ -273,6 +273,7 @@ subprojects {
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
+            generatedSourceDirs += file(generatedJsDir)
             generatedSourceDirs += file(generatedJavaDir)
             generatedSourceDirs += file(generatedSpineDir)
             testSourceDirs += file(generatedTestJavaDir)
