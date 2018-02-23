@@ -95,6 +95,16 @@ public class Timestamps2Should {
     }
 
     @Test
+    public void calculate_timestamp_of_moment_in_the_future() {
+        final Timestamp currentTime = getCurrentTime();
+        final Timestamp expected = add(currentTime, TEN_SECONDS);
+
+        final Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
+
+        assertEquals(expected.getSeconds(), actual.getSeconds());
+    }
+
+    @Test
     public void compare_two_timestamps_return_negative_int_if_first_less_than_second_one() {
         final Timestamp time1 = getCurrentTime();
         final Timestamp time2 = add(time1, TEN_SECONDS);

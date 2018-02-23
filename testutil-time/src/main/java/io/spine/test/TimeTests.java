@@ -177,7 +177,7 @@ public class TimeTests {
          * @param seconds a positive number of seconds
          * @return the moment which is {@code seconds} from now
          */
-        public static Timestamp secondsFromNow(int seconds) {
+        public static Timestamp secondsFromNow(long seconds) {
             checkPositive(seconds);
             final Timestamp currentTime = getCurrentTime();
             final Timestamp result = add(currentTime, fromSeconds(seconds));
