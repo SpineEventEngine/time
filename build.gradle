@@ -235,23 +235,6 @@ subprojects {
         //    https://github.com/google/protobuf/issues/2054
         generateProtoTasks {
             all().each { final task ->
-                task.descriptorSetOptions.includeSourceInfo = true
-                task.doLast {
-                    ant.replaceregexp(
-                            match:'@java.lang.Deprecated|@deprecated',
-                            replace:'',
-                            flags:'g',
-                            byline:true
-                    ) {
-                        fileset(dir: "${protobuf.generatedFilesBaseDir}/main/java")
-
-                        final generatedTests = "${protobuf.generatedFilesBaseDir}/test/java"
-                        if (new File(generatedTests).exists()) {
-                            fileset(dir: generatedTests)
-                        }
-                    }
-                }
-                
                 // Configures built-in outputs. 
                 // Each block generates a '--<name>_out' flag to the protoc command line.
                 // See https://github.com/google/protobuf-gradle-plugin
