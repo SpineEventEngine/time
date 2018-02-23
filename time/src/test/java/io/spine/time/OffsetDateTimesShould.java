@@ -394,22 +394,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_years_to_add() {
-        OffsetDateTimes.addYears(todayNow, -5);
+        addYears(todayNow, -5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_years_to_add() {
-        OffsetDateTimes.addYears(todayNow, 0);
+        addYears(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_years_to_subtract() {
-        OffsetDateTimes.subtractYears(todayNow, -6);
+        subtractYears(todayNow, -6);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_years_to_subtract() {
-        OffsetDateTimes.subtractYears(todayNow, 0);
+        subtractYears(todayNow, 0);
     }
 
     /*
@@ -418,12 +418,12 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_months_to_add() {
-        OffsetDateTimes.addMonths(todayNow, -5);
+        addMonths(todayNow, -5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_months_to_add() {
-        OffsetDateTimes.addMonths(todayNow, 0);
+        addMonths(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -442,22 +442,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_days_to_add() {
-        OffsetDateTimes.addDays(todayNow, -5);
+        addDays(todayNow, -5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_days_to_add() {
-        OffsetDateTimes.addDays(todayNow, 0);
+        addDays(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_days_to_subtract() {
-        OffsetDateTimes.subtractDays(todayNow, -6);
+        subtractDays(todayNow, -6);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_days_to_subtract() {
-        OffsetDateTimes.subtractDays(todayNow, 0);
+        subtractDays(todayNow, 0);
     }
 
     /*
@@ -466,22 +466,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_hours_to_add() {
-        OffsetDateTimes.addHours(todayNow, -5);
+        addHours(todayNow, -5);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_hours_to_add() {
-        OffsetDateTimes.addHours(todayNow, 0);
+        addHours(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_hours_to_subtract() {
-        OffsetDateTimes.subtractHours(todayNow, -6);
+        subtractHours(todayNow, -6);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_hours_to_subtract() {
-        OffsetDateTimes.subtractHours(todayNow, 0);
+        subtractHours(todayNow, 0);
     }
 
     /*
@@ -490,22 +490,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_minutes_to_add() {
-        OffsetDateTimes.addMinutes(todayNow, -7);
+        addMinutes(todayNow, -7);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_minutes_to_add() {
-        OffsetDateTimes.addMinutes(todayNow, 0);
+        addMinutes(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_minutes_to_subtract() {
-        OffsetDateTimes.subtractMinutes(todayNow, -8);
+        subtractMinutes(todayNow, -8);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_minutes_to_subtract() {
-        OffsetDateTimes.subtractMinutes(todayNow, 0);
+        subtractMinutes(todayNow, 0);
     }
 
     /*
@@ -514,22 +514,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_seconds_to_add() {
-        OffsetDateTimes.addSeconds(todayNow, -25);
+        addSeconds(todayNow, -25);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_seconds_to_add() {
-        OffsetDateTimes.addSeconds(todayNow, 0);
+        addSeconds(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_seconds_to_subtract() {
-        OffsetDateTimes.subtractSeconds(todayNow, -27);
+        subtractSeconds(todayNow, -27);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_seconds_to_subtract() {
-        OffsetDateTimes.subtractSeconds(todayNow, 0);
+        subtractSeconds(todayNow, 0);
     }
 
     /*
@@ -538,22 +538,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_add() {
-        OffsetDateTimes.addMillis(todayNow, -500);
+        addMillis(todayNow, -500);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_add() {
-        OffsetDateTimes.addMillis(todayNow, 0);
+        addMillis(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_subtract() {
-        OffsetDateTimes.subtractMillis(todayNow, -270);
+        subtractMillis(todayNow, -270);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_subtract() {
-        OffsetDateTimes.subtractMillis(todayNow, 0);
+        subtractMillis(todayNow, 0);
     }
 
     /*
