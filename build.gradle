@@ -111,6 +111,8 @@ subprojects {
         generatedJavaDir = "$generatedRootDir/main/java"
         generatedTestJavaDir = "$generatedRootDir/test/java"
 
+        generatedJsDir = "$generatedRootDir/main/js"
+        
         generatedSpineDir = "$generatedRootDir/main/spine"
         generatedTestSpineDir = "$generatedRootDir/test/spine"
 
@@ -249,6 +251,17 @@ subprojects {
                         }
                     }
                 }
+                
+                // Configures built-in outputs. 
+                // Each block generates a '--<name>_out' flag to the protoc command line.
+                // See https://github.com/google/protobuf-gradle-plugin
+                task.builtins {
+                    // Generates `--js_out` flag to the protoc command line.
+                    // See https://github.com/google/protobuf/blob/master/js/README.md
+                    js {
+                        option "library=spine-time-${project.version}"
+                    }
+                }
             }
         }
     }
@@ -277,6 +290,7 @@ subprojects {
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
+            generatedSourceDirs += file(generatedJsDir)
             generatedSourceDirs += file(generatedJavaDir)
             generatedSourceDirs += file(generatedSpineDir)
             testSourceDirs += file(generatedTestJavaDir)
