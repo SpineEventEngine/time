@@ -1,4 +1,5 @@
 rootProject.name = 'spine-time'
 
 include 'time'
+include 'testutil-time'
 
