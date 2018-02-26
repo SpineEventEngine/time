@@ -23,16 +23,16 @@ package io.spine.test;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
+import io.spine.base.Time;
 import io.spine.time.Durations2;
-import io.spine.time.Time;
 
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
+import static io.spine.base.Time.getCurrentTime;
+import static io.spine.base.Time.systemTime;
 import static io.spine.time.Durations2.hours;
 import static io.spine.time.Durations2.seconds;
-import static io.spine.time.Time.getCurrentTime;
-import static io.spine.time.Time.systemTime;
 import static io.spine.validate.Validate.checkPositive;
 
 /**

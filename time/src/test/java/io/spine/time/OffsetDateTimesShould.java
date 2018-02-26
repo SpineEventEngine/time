@@ -28,6 +28,7 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Calendars.at;
 import static io.spine.time.Calendars.getDay;
@@ -52,7 +53,6 @@ import static io.spine.time.OffsetDateTimes.subtractMinutes;
 import static io.spine.time.OffsetDateTimes.subtractMonths;
 import static io.spine.time.OffsetDateTimes.subtractSeconds;
 import static io.spine.time.OffsetDateTimes.subtractYears;
-import static io.spine.time.Time.getCurrentTime;
 import static org.junit.Assert.assertEquals;
 
 public class OffsetDateTimesShould extends AbstractZonedTimeTest {

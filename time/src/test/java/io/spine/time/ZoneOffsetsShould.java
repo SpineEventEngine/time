@@ -29,11 +29,11 @@ import java.text.ParseException;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.Durations2.hours;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.Time.MILLIS_PER_SECOND;
-import static io.spine.time.Time.getCurrentTime;
 import static io.spine.time.ZoneOffsets.adjustZero;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;

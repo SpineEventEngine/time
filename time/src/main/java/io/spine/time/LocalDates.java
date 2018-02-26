@@ -61,7 +61,7 @@ public final class LocalDates {
     public static LocalDate of(int year, MonthOfYear month, int day) {
         checkPositive(year);
         checkPositive(day);
-        Time.checkDate(year, month, day);
+        Dates.checkDate(year, month, day);
 
         final LocalDate result = LocalDate.newBuilder()
                                           .setYear(year)
@@ -191,7 +191,7 @@ public final class LocalDates {
     }
 
     public static void checkDate(LocalDate date){
-        Time.checkDate(date.getYear(), date.getMonth(), date.getDay());
+        Dates.checkDate(date.getYear(), date.getMonth(), date.getDay());
     }
 
 }

@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Time.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.validate.Validate.checkPositive;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;

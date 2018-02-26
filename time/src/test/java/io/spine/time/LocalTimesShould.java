@@ -28,7 +28,10 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static io.spine.time.Calendars.getHours;
 import static io.spine.time.Calendars.getMinutes;
 import static io.spine.time.LocalTimes.addHours;
@@ -41,8 +44,6 @@ import static io.spine.time.LocalTimes.subtractHours;
 import static io.spine.time.LocalTimes.subtractMillis;
 import static io.spine.time.LocalTimes.subtractMinutes;
 import static io.spine.time.LocalTimes.subtractSeconds;
-import static io.spine.time.Time.MILLIS_PER_SECOND;
-import static io.spine.time.Time.NANOS_PER_MILLISECOND;
 import static java.util.Calendar.getInstance;
 import static org.junit.Assert.assertEquals;
 
@@ -231,7 +232,7 @@ public class LocalTimesShould {
     @Test
     public void pass_null_tolerance_check() {
         new NullPointerTester()
-                .setDefault(Timestamp.class, Time.getCurrentTime())
+                .setDefault(Timestamp.class, getCurrentTime())
                 .setDefault(ZoneOffset.class, ZoneOffsets.UTC)
                 .setDefault(LocalTime.class, LocalTimes.now())
                 .testAllPublicStaticMethods(LocalTimes.class);

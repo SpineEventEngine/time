@@ -18,28 +18,34 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
-
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
-import org.junit.Test;
-
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+package io.spine.time;
 
 /**
- * @author Alexander Yevsyukov
+ * Utilities related to time as part of International System of Units (SI).
+ *
+ * @author Mykhailo Drachuk
  */
-public class WebSafeTimestampStringifierShould {
+public class SiTime {
 
-    @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
+    /** The count of nanoseconds in one second. */
+    public static final int NANOS_PER_SECOND = 1_000_000_000;
 
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    /** The count of nanoseconds in one millisecond. */
+    public static final int NANOS_PER_MILLISECOND = 1_000_000;
+
+    /** The count of milliseconds in one second. */
+    public static final int MILLIS_PER_SECOND = 1000;
+
+    /** The count of nanoseconds in a microsecond. */
+    public static final int NANOS_PER_MICROSECOND = 1000;
+
+    /** The count of microseconds in one second. */
+    public static final int MICROS_PER_SECOND = 1_000_000;
+
+    /**
+     * Prevent instantiation of this utility class.
+     */
+    private SiTime() {
+        // Does nothing.
     }
 }

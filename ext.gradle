@@ -58,7 +58,7 @@ ext {
      *
      * This version is independent from the version of both `base`, `tools`, and `model-compiler`.
      */
-    spineBaseVersion = '0.10.25-SNAPSHOT'
+    spineBaseVersion = '0.10.27-SNAPSHOT'
     
     /**
      * The version of Spine tools.

@@ -16,6 +16,7 @@ import static com.google.protobuf.util.Durations.fromMillis;
 import static com.google.protobuf.util.Durations.fromNanos;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Durations.toMillis;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.util.Math.floorDiv;
 import static io.spine.util.Math.safeMultiply;
 
@@ -48,7 +49,7 @@ public final class Durations2 {
      * @return a non-null {@code Duration}
      */
     public static Duration fromMinutes(long minutes) {
-        final Duration duration = fromSeconds(safeMultiply(minutes, Time.SECONDS_PER_MINUTE));
+        final Duration duration = fromSeconds(safeMultiply(minutes, EarthTime.SECONDS_PER_MINUTE));
         return duration;
     }
 
@@ -59,7 +60,7 @@ public final class Durations2 {
      * @return a non-null {@code Duration}
      */
     public static Duration fromHours(long hours) {
-        final Duration duration = fromMinutes(safeMultiply(hours, Time.MINUTES_PER_HOUR));
+        final Duration duration = fromMinutes(safeMultiply(hours, EarthTime.MINUTES_PER_HOUR));
         return duration;
     }
 
@@ -156,7 +157,7 @@ public final class Durations2 {
     public static long toSeconds(Duration duration) {
         checkNotNull(duration);
         final long millis = toMillis(duration);
-        final long seconds = floorDiv(millis, Time.MILLIS_PER_SECOND);
+        final long seconds = floorDiv(millis, MILLIS_PER_SECOND);
         return seconds;
     }
 
@@ -169,7 +170,7 @@ public final class Durations2 {
     public static long toMinutes(Duration duration) {
         checkNotNull(duration);
         final long millis = toMillis(duration);
-        final long result = (millis / Time.MILLIS_PER_SECOND) / Time.SECONDS_PER_MINUTE;
+        final long result = (millis / MILLIS_PER_SECOND) / EarthTime.SECONDS_PER_MINUTE;
         return result;
     }
 
@@ -182,7 +183,7 @@ public final class Durations2 {
     public static long getHours(Duration value) {
         checkNotNull(value);
         final long hours = toMinutes(value);
-        final long result = hours / Time.MINUTES_PER_HOUR;
+        final long result = hours / EarthTime.MINUTES_PER_HOUR;
         return result;
     }
 
@@ -196,7 +197,7 @@ public final class Durations2 {
     public static int getMinutes(Duration value) {
         checkNotNull(value);
         final long allMinutes = toMinutes(value);
-        final long remainder = allMinutes % Time.MINUTES_PER_HOUR;
+        final long remainder = allMinutes % EarthTime.MINUTES_PER_HOUR;
         final int result = Long.valueOf(remainder)
                                .intValue();
         return result;
