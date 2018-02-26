@@ -27,8 +27,8 @@ import static java.lang.String.format;
 /**
  * Utilities for working with calendar dates.
  * 
- * <p>A calendar date is a reference to a particular day.  
- * For example, it a combination of a year, a month and a day.
+ * <p>A date is a reference to a particular day in some calendar system.  
+ * For example, it is a combination of a year, a month and a day.
  *
  * @author Mykhailo Drachuk
  */
