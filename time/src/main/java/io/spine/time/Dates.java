@@ -34,9 +34,7 @@ import static java.lang.String.format;
  */
 public class Dates {
 
-    /**
-     * Prevent instantiation of this utility class.
-     */
+    /** Prevent instantiation of this utility class. */
     private Dates() {
         // Does nothing.
     }

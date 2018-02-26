@@ -37,9 +37,7 @@ public class Years {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
 
-    /**
-     * Prevent instantiation of this utility class.
-     */
+    /** Prevent instantiation of this utility class. */
     private Years() {
         // Does nothing.
     }

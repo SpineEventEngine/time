@@ -42,9 +42,7 @@ public class SiTime {
     /** The count of microseconds in one second. */
     public static final int MICROS_PER_SECOND = 1_000_000;
 
-    /**
-     * Prevent instantiation of this utility class.
-     */
+    /** Prevent instantiation of this utility class. */
     private SiTime() {
         // Does nothing.
     }

@@ -23,8 +23,7 @@ package io.spine.time;
 /**
  * Utilities for working with time as perceived on Earth.
  *
- * @author Alexander Yevsyukov
- * @author Alexander Aleksandrov
+ * @author Mykhailo Drachuk
  */
 public class EarthTime {
     
@@ -37,9 +36,7 @@ public class EarthTime {
     /** The count of hours per day. */
     public static final int HOURS_PER_DAY = 24;
 
-    /**
-     * Prevent instantiation of this utility class.
-     */
+    /** Prevent instantiation of this utility class. */
     private EarthTime() {
         // Does nothing.
     }

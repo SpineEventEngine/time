@@ -29,6 +29,11 @@ public class Months {
 
     private static final int FEBRUARY_MIN = 28;
 
+    /** Prevent instantiation of this utility class. */
+    private Months() {
+        // Does nothing.
+    }
+
     /**
      * Obtains a number of days in the passed month of the year.
      */
@@ -40,12 +45,5 @@ public class Months {
         }
         days = FEBRUARY_MIN + ((0x3bbeecc >> (monthNumber * 2)) & 3);
         return days;
-    }
-
-    /**
-     * Prevent instantiation of this utility class.
-     */
-    private Months() {
-        // Does nothing.
     }
 }
