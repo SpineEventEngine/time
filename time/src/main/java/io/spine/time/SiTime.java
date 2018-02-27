@@ -21,7 +21,7 @@
 package io.spine.time;
 
 /**
- * Utilities related to time as part of International System of Units (SI).
+ * Constants related to time as part of International System of Units (SI).
  *
  * @author Mykhailo Drachuk
  */

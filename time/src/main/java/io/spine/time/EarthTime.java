@@ -21,7 +21,7 @@
 package io.spine.time;
 
 /**
- * Utilities for working with time as perceived on Earth.
+ * Constants for working with time as perceived on Earth.
  *
  * @author Mykhailo Drachuk
  */
