@@ -27,6 +27,12 @@ package io.spine.time;
  */
 public class Years {
 
+
+    /** Prevent instantiation of this utility class. */
+    private Years() {
+        // Does nothing.
+    }
+
     /**
      * Tests whether the passed year is a leap one.
      *
@@ -35,10 +41,5 @@ public class Years {
     @SuppressWarnings("MagicNumber") // The number is part of leap year calc.
     public static boolean isLeapYear(int year) {
         return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
-    }
-
-    /** Prevent instantiation of this utility class. */
-    private Years() {
-        // Does nothing.
     }
 }
