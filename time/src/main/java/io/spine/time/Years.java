@@ -27,7 +27,6 @@ package io.spine.time;
  */
 public class Years {
 
-
     /** Prevent instantiation of this utility class. */
     private Years() {
         // Does nothing.
