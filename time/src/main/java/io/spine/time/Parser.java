@@ -36,8 +36,8 @@ import static io.spine.time.Formats.UTC_ZONE_SIGN;
 import static io.spine.time.Formats.dateFormat;
 import static io.spine.time.Formats.dateTimeFormat;
 import static io.spine.time.Formats.timeFormat;
-import static io.spine.time.Time.MILLIS_PER_SECOND;
-import static io.spine.time.Time.NANOS_PER_MILLISECOND;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static java.lang.String.format;
 
 /**

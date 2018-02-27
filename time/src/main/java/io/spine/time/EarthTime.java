@@ -18,28 +18,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
-
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
-import org.junit.Test;
-
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+package io.spine.time;
 
 /**
- * @author Alexander Yevsyukov
+ * Constants for working with time as perceived on Earth.
+ *
+ * @author Mykhailo Drachuk
  */
-public class WebSafeTimestampStringifierShould {
+public class EarthTime {
+    
+    /** The count of seconds in one minute. */
+    public static final int SECONDS_PER_MINUTE = 60;
+    /** The count of seconds in one minute. */
+    public static final int SECONDS_PER_HOUR = 3600;
+    /** The count of minutes in one hour. */
+    public static final int MINUTES_PER_HOUR = 60;
+    /** The count of hours per day. */
+    public static final int HOURS_PER_DAY = 24;
 
-    @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
-
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    /** Prevent instantiation of this utility class. */
+    private EarthTime() {
+        // Does nothing.
     }
 }

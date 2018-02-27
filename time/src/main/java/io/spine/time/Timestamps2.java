@@ -25,6 +25,9 @@ import com.google.protobuf.TimestampOrBuilder;
 import javax.annotation.Nullable;
 import java.util.Date;
 
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
+
 /**
  * Utilities class for working with {@link Timestamp}s in addition to those available from
  * {@link com.google.protobuf.util.Timestamps Timestamps} class from Protobuf.
@@ -96,8 +99,8 @@ public final class Timestamps2 {
      * @return a {@link Date} instance
      */
     public static Date toDate(TimestampOrBuilder timestamp) {
-        final long millisecsFromNanos = timestamp.getNanos() / Time.NANOS_PER_MILLISECOND;
-        final long millisecsFromSeconds = timestamp.getSeconds() * Time.MILLIS_PER_SECOND;
+        final long millisecsFromNanos = timestamp.getNanos() / NANOS_PER_MILLISECOND;
+        final long millisecsFromSeconds = timestamp.getSeconds() * MILLIS_PER_SECOND;
         final Date date = new Date(millisecsFromSeconds + millisecsFromNanos);
         return date;
     }

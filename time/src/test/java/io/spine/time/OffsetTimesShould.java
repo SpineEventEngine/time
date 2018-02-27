@@ -31,6 +31,7 @@ import org.junit.Test;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.TestValues.random;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Calendars.at;
@@ -46,12 +47,11 @@ import static io.spine.time.OffsetTimes.subtractHours;
 import static io.spine.time.OffsetTimes.subtractMillis;
 import static io.spine.time.OffsetTimes.subtractMinutes;
 import static io.spine.time.OffsetTimes.subtractSeconds;
-import static io.spine.time.Time.HOURS_PER_DAY;
-import static io.spine.time.Time.MILLIS_PER_SECOND;
-import static io.spine.time.Time.MINUTES_PER_HOUR;
-import static io.spine.time.Time.NANOS_PER_MILLISECOND;
-import static io.spine.time.Time.SECONDS_PER_MINUTE;
-import static io.spine.time.Time.getCurrentTime;
+import static io.spine.time.EarthTime.HOURS_PER_DAY;
+import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
+import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static org.junit.Assert.assertEquals;
 
 /**

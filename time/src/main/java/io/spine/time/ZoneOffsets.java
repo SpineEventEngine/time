@@ -32,8 +32,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.Formats.formatOffsetTime;
-import static io.spine.time.Time.MINUTES_PER_HOUR;
-import static io.spine.time.Time.SECONDS_PER_MINUTE;
+import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
+import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
 import static io.spine.validate.Validate.checkBounds;
 import static java.lang.String.format;
 

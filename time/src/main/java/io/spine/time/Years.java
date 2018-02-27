@@ -18,28 +18,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
-
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
-import org.junit.Test;
-
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+package io.spine.time;
 
 /**
- * @author Alexander Yevsyukov
+ * Utilities for working with calendar years.
+ *
+ * @author Mykhailo Drachuk
  */
-public class WebSafeTimestampStringifierShould {
+public class Years {
 
-    @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
+    /** Prevent instantiation of this utility class. */
+    private Years() {
+        // Does nothing.
+    }
 
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    /**
+     * Tests whether the passed year is a leap one.
+     *
+     * @return {@code true} for a leap year, {@code false} otherwise
+     */
+    @SuppressWarnings("MagicNumber") // The number is part of leap year calc.
+    public static boolean isLeapYear(int year) {
+        return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
     }
 }

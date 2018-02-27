@@ -18,28 +18,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
-
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
-import org.junit.Test;
-
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+package io.spine.time;
 
 /**
- * @author Alexander Yevsyukov
+ * Utilities for working with calendar months.
+ *
+ * @author Mykhailo Drachuk
  */
-public class WebSafeTimestampStringifierShould {
+public class Months {
 
-    @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
+    private static final int FEBRUARY_MIN = 28;
 
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    /** Prevent instantiation of this utility class. */
+    private Months() {
+        // Does nothing.
+    }
+
+    /**
+     * Obtains a number of days in the passed month of the year.
+     */
+    public static int daysInMonth(int year, MonthOfYear month) {
+        final int monthNumber = month.getNumber();
+        final int days;
+        if (Years.isLeapYear(year) && monthNumber == 2) {
+            return FEBRUARY_MIN + 1;
+        }
+        days = FEBRUARY_MIN + ((0x3bbeecc >> (monthNumber * 2)) & 3);
+        return days;
     }
 }

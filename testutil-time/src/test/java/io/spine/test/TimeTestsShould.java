@@ -22,13 +22,13 @@ package io.spine.test;
 
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Timestamp;
-import io.spine.time.Time;
+import io.spine.base.Time;
 import org.junit.Assert;
 import org.junit.Test;
 
 import static com.google.protobuf.util.Timestamps.subtract;
+import static io.spine.base.Time.getCurrentTime;
 import static io.spine.time.Durations2.fromMinutes;
-import static io.spine.time.Time.getCurrentTime;
 import static org.junit.Assert.assertEquals;
 
 /**

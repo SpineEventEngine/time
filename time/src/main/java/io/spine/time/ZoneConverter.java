@@ -33,8 +33,8 @@ import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-import static io.spine.time.Time.MILLIS_PER_SECOND;
-import static io.spine.time.Time.getCurrentTime;
+import static io.spine.base.Time.getCurrentTime;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 
 /**
  * Converts from {@link TimeZone} to {@link ZoneOffset} using zone IDs and offsets.

@@ -23,7 +23,6 @@ package io.spine.time.string;
 import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
 import io.spine.time.Durations2;
-import io.spine.time.string.TimeStringifiers;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

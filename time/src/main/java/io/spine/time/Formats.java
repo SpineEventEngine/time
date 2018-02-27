@@ -26,8 +26,8 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Time.NANOS_PER_MICROSECOND;
-import static io.spine.time.Time.NANOS_PER_MILLISECOND;
+import static io.spine.time.SiTime.NANOS_PER_MICROSECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static java.lang.String.format;
 
 /**
