@@ -21,7 +21,7 @@
 package io.spine.time;
 
 /**
- * Utilities for working with months.
+ * Utilities for working with calendar months.
  *
  * @author Mykhailo Drachuk
  */
