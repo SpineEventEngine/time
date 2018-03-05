@@ -58,21 +58,21 @@ ext {
      *
      * This version is independent from the version of both `base`, `tools`, and `model-compiler`.
      */
-    spineBaseVersion = '0.10.27-SNAPSHOT'
+    spineBaseVersion = '0.10.29-SNAPSHOT'
     
     /**
      * The version of Spine tools.
      *
      * This version is independent from the version of both `base`, `model-compiler`, and `time`.
      */
-    spineToolsVersion = '0.10.25-SNAPSHOT'
+    spineToolsVersion = '0.10.29-SNAPSHOT'
 
     /**
      * The version of the Spine `model-compiler` plugin which is used to build `time`.
      *
      * Use the latest currently published version here.
      */
-    spineModelCompilerVersion = '0.10.25-SNAPSHOT'
+    spineModelCompilerVersion = '0.10.29-SNAPSHOT'
 
     protobufGradlePluginVerison = '0.8.4'
 }
