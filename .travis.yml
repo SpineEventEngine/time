@@ -18,7 +18,7 @@ script:
   - ./gradlew check --stacktrace
 
   # Decrypt and unarchive Maven and Google Cloud Storage credentials.
-  - openssl aes-256-cbc -K $encrypted_49f2a54a59ee_key -iv $encrypted_49f2a54a59ee_iv -in credentials.tar.enc -out credentials.tar -d
+  - openssl aes-256-cbc -K $encrypted_514b32ab8781_key -iv $encrypted_514b32ab8781_iv -in credentials.tar.enc -out credentials.tar -d
   - tar xvf credentials.tar
 
   - ./gradlew cleanGCS --info
