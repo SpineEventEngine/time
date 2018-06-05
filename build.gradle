@@ -42,7 +42,7 @@ buildscript {
     //noinspection GroovyAssignabilityCheck
     dependencies {
         classpath deps.build.guava
-        classpath (deps.build.protobufGradlePlugin) {
+        classpath (deps.build.gradlePlugins.protobuf) {
             // exclude an old Guava version
             exclude group: 'com.google.guava'
         }
