@@ -23,7 +23,8 @@ buildscript {
     // As long as `buildscript` section is always evaluated first,
     // we need to apply explicitly here.
     apply from: "$rootDir/config/gradle/dependencies.gradle"
-    
+    apply from: "$rootDir/ext.gradle"
+
     repositories {
         jcenter()
         google()
@@ -46,7 +47,7 @@ buildscript {
             exclude group: 'com.google.guava'
         }
 
-        classpath deps.build.spineTools
+        classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
     }
     configurations.all({
         resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
@@ -68,8 +69,7 @@ allprojects {
 
     group = 'io.spine'
     
-    // Use the same version numbering for the Spine Base library.
-    version = spineVersion
+    version = versionToPublish
 }
 
 
