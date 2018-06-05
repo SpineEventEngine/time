@@ -18,56 +18,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import groovy.time.TimeCategory
-
 buildscript {
 
-    // Applying from `ext.gradle` inside the `buildscript` section to reuse the properties.
-    //
-    // As long as `buildscript` section is always evaluated first, we need to apply
-    // `ext.gradle` explicitly here.
-    apply from: 'ext.gradle'
-
-    ext {
-        googleMavenCentralMirror = 'https://maven-central.storage.googleapis.com'
-        spineRepository = 'http://maven.teamdev.com/repository/spine'
-        spineSnapshotsRepository = 'http://maven.teamdev.com/repository/spine-snapshots'
-    }
-
+    // As long as `buildscript` section is always evaluated first,
+    // we need to apply explicitly here.
+    apply from: "$rootDir/config/gradle/dependencies.gradle"
+    
     repositories {
         jcenter()
-        maven { url = googleMavenCentralMirror }
+        google()
 
         mavenCentral()
         mavenLocal()
 
         // Spine releases repository.
-        maven { url = spineRepository }
+        maven { url = repos.spine }
 
         // Spine snapshots repository.
-        maven { url = spineSnapshotsRepository }
+        maven { url = repos.spineSnapshots }
     }
 
     //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath group: 'com.google.guava', name: 'guava', version: guavaVersion
-        classpath(group: 'com.google.protobuf', name: 'protobuf-gradle-plugin',
-                version: protobufGradlePluginVerison) {
+        classpath deps.build.guava
+        classpath (deps.build.protobufGradlePlugin) {
             // exclude an old Guava version
             exclude group: 'com.google.guava'
         }
 
-        classpath group: 'io.spine.tools',
-                  name: 'spine-model-compiler',
-                  version: spineModelCompilerVersion
-        
-        classpath group: 'io.spine.tools',
-                  name: 'spine-codestyle-checker',
-                  version: spineToolsVersion
-        
-        classpath group: 'io.spine.tools',
-                  name: 'gcs-plugin',
-                  version: spineToolsVersion
+        classpath deps.build.spineTools
     }
     configurations.all({
         resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
@@ -77,8 +56,6 @@ buildscript {
 apply from: 'ext.gradle'
 
 ext {
-    spineCodestyleCheckerId = 'io.spine.tools.spine-codestyle-checker'
-    spineGcsPlugin = 'io.spine.tools.gcs-plugin'
     spineJacocoScript = "${rootDir}/scripts/jacoco.gradle"
 
     credentialsPropertyFile = 'credentials.properties'
@@ -93,17 +70,15 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'project-report'
 
-
     group = 'io.spine'
+    
     // Use the same version numbering for the Spine Base library.
     version = spineVersion
 }
 
 
 subprojects {
-
     project.ext {
-        protobufDependency = "com.google.protobuf:protoc:${protobufVersion}"
         spineProtobufPluginId = 'io.spine.tools.spine-model-compiler'
 
         sourcesRootDir = "$projectDir/src"
@@ -117,78 +92,50 @@ subprojects {
         generatedSpineDir = "$generatedRootDir/main/spine"
         generatedTestSpineDir = "$generatedRootDir/test/spine"
 
-        testArtifactsScript = "$rootDir/scripts/test-artifacts.gradle"
-        generateDescriptorSetScript = "$rootDir/scripts/generate-descriptor-set.gradle"
-        filterInternalJavadocsScript = "$rootDir/scripts/no-internal-javadoc.gradle"
+//        testArtifactsScript = "$rootDir/scripts/test-artifacts.gradle"
+//        generateDescriptorSetScript = "$rootDir/scripts/generate-descriptor-set.gradle"
+//        filterInternalJavadocsScript = "$rootDir/scripts/no-internal-javadoc.gradle"
     }
 
     apply plugin: 'com.google.protobuf'
     apply plugin: 'java'
-    apply plugin: spineCodestyleCheckerId
     apply plugin: 'maven-publish'
-
-    // Verifies code style.
-    // The parameters are same for any kind of verification:
-    //
-    //      - "threshold" - is a number of code style violations to consider check passed.
-    //      - "reportType" - report type if a check is not passed. Can be either "error" or "warn".
-    //              * "warn" - the violations are logged to the build report.
-    //              * "error" - build will fail and its report will contain the violations.
-    //
-    //      For more details please see io.spine.tools.codestyle.CodestyleCheckerPlugin
-    codestyleChecker {
-
-        // Javadoc @link/@linkplain format checker.
-        //
-        // Finds and reports FQNs used in links in the wrong format.
-        javadocLinkChecker {
-            threshold = 0
-            reportType = "warn"
-        }
-
-        // Right margin line checker.
-        //
-        // Finds and reports about the lines of a code with length above threshold.
-        rightMarginWrappingChecker {
-            maxTextWidth = 100
-        }
-    }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
     repositories {
         jcenter()
-        maven { url = googleMavenCentralMirror }
         mavenCentral()
         mavenLocal()
 
         // Spine releases repository.
-        maven { url = spineRepository }
+        maven { url = repos.spine }
 
         // Spine snapshots repository.
-        maven { url = spineSnapshotsRepository }
+        maven { url = repos.spineSnapshots }
     }
 
     dependencies {
-        compile group: 'com.google.guava', name: 'guava', version: guavaVersion
-        compile group: 'com.google.code.findbugs', name: 'jsr305', version: findBugsVersion
+        compile deps.build.guava
+        compile deps.build.jsr305Annotations
 
         // As a Library, we provide logging facade API, not specific logger bindings.
         // Target apps are free to use any binding they need.
-        compile group: 'org.slf4j', name: 'slf4j-api', version: slf4JVersion
+        compile deps.build.slf4j
 
-        compile group: 'com.google.protobuf', name: 'protobuf-java', version: protobufVersion
-        compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: protobufVersion
+        compile deps.build.protobuf
+
+        //compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: protobufVersion
 
         // Use jdk14 bindings for test purposes only.
-        testCompile group: 'org.slf4j', name: 'slf4j-jdk14', version: slf4JVersion
-        testCompile(group: 'junit', name: 'junit', version: jUnitVersion) {
+        testCompile deps.test.slf4j
+        testCompile(deps.test.junit4) {
             exclude(module: 'hamcrest-core')
         }
-        testCompile group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrestVersion
-        testCompile group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
-        testCompile group: 'com.google.guava', name: 'guava-testlib', version: guavaVersion
+        testCompile deps.test.hamcrest
+        testCompile deps.test.mockito
+        testCompile deps.test.guavaTestlib
     }
 
     sourceSets {
@@ -227,7 +174,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = protobufDependency
+            artifact = deps.build.protobufGradlePlugin
         }
 
         // The below code removes deprecation annotations from the code generated by
@@ -269,7 +216,7 @@ subprojects {
         classifier "javadoc"
     }
 
-    apply from: filterInternalJavadocsScript
+    apply from: deps.scripts.filterInternalJavadocs
 
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
@@ -313,16 +260,3 @@ idea {
 apply from: spineJacocoScript
 
 apply from: publishPlugin
-
-apply plugin: spineGcsPlugin
-
-cleanGCS {
-    final Properties properties = new Properties()
-    final File gcsProperties = project.file("${rootDir}/config/gcs.properties")
-    properties.load(gcsProperties.newDataInputStream())
-
-    authKeyPath = "gcs-auth-key.json"
-    bucketName = properties.getProperty("artifacts.bucket")
-    targetFolder = properties.getProperty("artifacts.folder")
-    threshold = TimeCategory.getDays(10)
-}

@@ -18,28 +18,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 buildscript {
-    apply from: "$rootDir/ext.gradle"
-    
     repositories {
         jcenter()
-        maven { url = googleMavenCentralMirror }
 
         mavenCentral()
         mavenLocal()
 
         // Spine releases repository.
-        maven { url = spineRepository }
+        maven { url = repos.spine }
 
         // Spine snapshots repository.
-        maven { url = spineSnapshotsRepository }
+        maven { url = repos.spineSnapshots }
     }
 
     //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath group: 'com.google.guava', name: 'guava', version: guavaVersion
-        classpath(group: 'com.google.protobuf',
-                  name: 'protobuf-gradle-plugin',
-                  version: protobufGradlePluginVerison) {
+        classpath deps.build.guava
+        classpath(deps.build.protobufGradlePlugin) {
             // exclude an old Guava version
             exclude group: 'com.google.guava'
         }
@@ -56,13 +51,15 @@ configurations {
     testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
 }
 
+apply from: "$rootDir/config/gradle/dependencies.gradle"
+
 apply plugin: 'java'
 apply plugin: 'com.google.protobuf'
 apply plugin: spineProtobufPluginId
 
-apply from: generateDescriptorSetScript
+apply from: deps.scripts.generateDescriptorSet
 
-apply from: testArtifactsScript
+apply from: deps.scripts.testArtifacts
 
 dependencies {
     compile group: 'io.spine', name: 'spine-base', version: spineBaseVersion
