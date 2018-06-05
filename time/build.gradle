@@ -64,7 +64,7 @@ apply from: deps.scripts.testArtifacts
 dependencies {
     compile group: 'io.spine', name: 'spine-base', version: spineBaseVersion
 
-    testCompile group: 'io.spine', name: 'spine-testutil-base', version: spineBaseVersion
+    testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
     testCompile project(path: ':testutil-time')
 }
 
