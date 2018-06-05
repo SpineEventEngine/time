@@ -56,10 +56,6 @@ buildscript {
 apply from: 'ext.gradle'
 
 ext {
-    spineJacocoScript = "${rootDir}/scripts/jacoco.gradle"
-
-    credentialsPropertyFile = 'credentials.properties'
-    publishPlugin = "$rootDir/scripts/publish.gradle"
     projectsToPublish = ["time",
                          "testutil-time"]
 }
@@ -137,13 +133,19 @@ subprojects {
     sourceSets {
         main {
             proto.srcDirs = ["$sourcesRootDir/main/proto"]
-            java.srcDirs = [generatedJavaDir, "$sourcesRootDir/main/java", generatedSpineDir]
-            resources.srcDirs = ["$sourcesRootDir/main/resources", "$generatedRootDir/main/resources"]
+            java.srcDirs = [generatedJavaDir,
+                            "$sourcesRootDir/main/java",
+                            generatedSpineDir]
+            resources.srcDirs = ["$sourcesRootDir/main/resources",
+                                 "$generatedRootDir/main/resources"]
         }
         test {
             proto.srcDirs = ["$sourcesRootDir/test/proto"]
-            java.srcDirs = [generatedTestJavaDir, "$sourcesRootDir/test/java", generatedTestSpineDir]
-            resources.srcDirs = ["$sourcesRootDir/test/resources", "$generatedRootDir/test/resources"]
+            java.srcDirs = [generatedTestJavaDir,
+                            "$sourcesRootDir/test/java",
+                            generatedTestSpineDir]
+            resources.srcDirs = ["$sourcesRootDir/test/resources",
+                                 "$generatedRootDir/test/resources"]
         }
     }
 
@@ -253,6 +255,6 @@ idea {
 }
 
 // Aggregated coverage report across all subprojects.
-apply from: spineJacocoScript
+apply from: deps.scripts.jacoco
 
-apply from: publishPlugin
+apply from: deps.scripts.publish
