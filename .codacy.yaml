@@ -1,4 +1,4 @@
 ---
 exclude_paths:
-  - "time/src/test/**/*.*"
-  - "testutil-time/src/test/**/*.*"
+  - "base/src/main/java/io/spine/net/Patterns.java"
+  - "**/src/test/**/*.*"

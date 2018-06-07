@@ -7,9 +7,9 @@ env:
   global:
     # Encrypted `CODACY_PROJECT_TOKEN` variable according to:
     # https://docs.travis-ci.com/user/environment-variables/#Encrypting-environment-variables
-    - secure: "yJedEyy2CgEljYoI4YktCjv4+NlK1keVHX0tPmoffLnD8J5m12QdN4llhhUUBhvKt8xO5aiBKnAktmI5TiamomWoascupmr8ZMHSIof0fz6B2+WjTxHa4/sgyb2M8hy96bflPtf6fz+Q+4fg85MxH1ncuAEyO7mHgAxLkQgWQC7QGkUbc70/+vPVBrJ2VkdvORUzkCoixfBITJ44GrB7CuOOxymCqOORHkMomUAVKL4fWa86Dwcl6vU1Wek9/51dzBlsBcsGVfB1LUQSeWTafFFk9iqF33Fkkyr/UYgYtNXtiw5G6URwRoaa5Ht/ESsR9aks2C+Na4zNAX4zcXzuMz8wNfr+07+Hxb7f2Fm2ryuNF6IfpA2ZNe1p+z7kYWUGQw7E7+m0cgyPvhkT9ZTpz9LoWdipjVO8/CO12VYxw08YMBtpKJ9PwvAgFanxmRo+muPoHIU2lhBIIZu0eM3u65bNDiKOa7qo1yoGJROA1gxJHCB0+TdmBHmX5/2vUfx0TCxfuSp6OjDfkoDx2lIyY3R8JyFoga3WeEJI2YW77ItmoNDAZQQhkD90OsfcUfRUkeJp+uRcP/4Jn9pxl9mP5K/K7bkpGAV3ftNGBad59X3EesXtvu4N/OeXQi5h7Yji5MhKuFaet1LhJs9Nbik14V5HVtppQt8MNl+Pa/R2VBs="
+    - secure: "Zf93nPFDF2sFnnVGZvs7BzCzwkdunL8lhFOG5xpe1WBmr2+zxl0oykkOi5ZUXcmWDWMKcCMui6gxjZuQsnX0bOyFWROtuq84py5NMmlbKx1sJE6KBvNnNWm4slBbrfBj1ngFmwuxI/SFddxNsgwLdvCkMrvPrA54Ws6jsMrraCnywWlP75EVM0ckzZ7ovxMrqFfkW4BTUpgDiOTw4ZFB6QUPI3XmrsB1sDJ8vj3SE5bzd6lL4cuXqZtOxCX/XWKXFjoG9Wch5cukErN0kOVD/wVKT1oFmZZyEAOzWdHSCgoa4+kvGAMcR5TEzkQcVZoim0RcACfXGoqf1qBeW/wm+yidHDoCpt9B3da0hm8g1TJpAXigT6pB3fE5JYticx0m5uZm7HnHNlRdDNIpoY1FhNxNkmwEbu/tssK1rG/WZDIJyKF+OmpDujeuQ1LalSmgNKn1nmwvJQiaWag8N6jO760v3KKBmZL+h4O8xgnSrr2/IB70ecXaxuP6zZgUhRWgY4sPQuHRAJ1C2ST7WfMPhUjZTUSp47VhMbePyTvMgNHNv6HDJlWhwNBq8X8dmxMrS057AwcSV7LQHk/NQGnaONidGzlefRjreli3pTKGQ+9G9oxIvUzVZMe/8a7z4AV5f9TKaXVeX/HzuQS/vpKTv1toftGH4DqecHtK5oQKLSM="
     # Encrypted `GCS_SECRET` variable.
-    - secure: "aSu4WatRfyjgkt3GIhEIbsfsXmdaPppXuAD6NeO2qwr/dG/JXQh/GImJT8wXz5jrQiUL7UldimICiVwEpgl4p6hmbyAbCII7YnMjOWv+rGdKSnod/xsz5iWqlncY3dIzv+sZ7ZvkmjNzMlxvcp8t3eTlxA7LZxO07hCALh+uE9JjdFnj4Xxtm53SAJvnsvbhp/f+W6iEo4nQO0V6cn2LokpmL/E9cl0varztGRNcv/r+EgAuRFPFZO92/tFv8o2d+QNuitJfqRAi7lzTNC7/nPWBx5U0TgCnRCxVm0i3+aRGRw6JZPTgTV95gXVgb11b/aOn1WF0+ocjuC/p5HGB0bBAIADtFY5ud+9tgAlFvFrxn0g/O5qMM3URugXuUAgK31tyGuxtAbG/AU5bebfRiJcYYWiJVNCouJTGlM+WbxHXFO+1ZiSmxHKAHit2nTeeYqPDUGmnCHcDqRvn9CydRMd8bJJ0Htl8try99KQ0dPOVx+Tm8M2M2idfSbYbXe2kM6Cm1IiZWsZJ4vtRHK2XARSM06l7Ptpls1Xi6FWwxmU46hSQ1lVV8s4Bc6Kk8Cnq80rFSKnwXbZKQksOUdLyZpalTXMSMivxBR14PEUK33ZXfO5Ei6GXY6puxfrjmi9Lp0ehehbfElSCANQAmYCbjHgcwvmQICEFUEG2dz4hjLc="
+    - secure: "i8MhONZu7QjyM2V887A1Tydr1WMqQP5jJZNjIJjc1Uae8F0/z8cJZIZ1hstodN7FpoR4VF92zyhUwbt6fz/dsdPEJFccsiMlEc9vlqecQCd267160wgRZneaB6Xe/y/EUmq9XsGdn/k1Ey+QZwX9au/8RU191v+fDsCtMRYXzyEa/BvbQuSwuYRgQDxTAxuJgTmG5Sxl9jWqKw1BfxUcEoErc/jqymU58w6z2TxKxVzIXT29Jy/Z12VuSiS8opigSrIP8e/1fctC84wI7S52mext2ZfhPYSTHFKS+xg1vQDYPb8m5aomL8E6Of7hVD5BTnEnyjj+/Gr63GAzHXtkHhWoxo+vB+xBFfDu8wxM5Aqna3H7LMDD5kGCxQEz8qmzHBHMAhLnhsRzjNVu2+tLCZdeMN88Ud2uemL2SCAcR8Juleg7DGMj3D0SAbPyUH3+9yYYWzSg6iaxgTdHBnJ+uXUJp0Nu+M2EK6Kl+pYAsCLVfZRPGaajFXVnJEPPeSr2PYzk7F4pIzgn/E8AtYEJ0gcEbjoTItS8EjliJKDXM4HdkluXBFLvzIH1O1nCtxKNv4UkUmPhFbfHrPXDcsYq2zsEe+NkvsJlxjAwYnOMkT4NLiEsec1a7K9bBC+iQA9e8rriMbu6/1w63JErQyx05avPjgO8XRDK8hxTf4rhBmY="
 
 before_install:
   - chmod +x gradlew
@@ -18,10 +18,8 @@ script:
   - ./gradlew check --stacktrace
 
   # Decrypt and unarchive Maven and Google Cloud Storage credentials.
-  - openssl aes-256-cbc -K $encrypted_e7b1f6935175_key -iv $encrypted_e7b1f6935175_iv -in credentials.tar.enc -out credentials.tar -d
+  - openssl aes-256-cbc -K $encrypted_88ad5eb2de44_key -iv $encrypted_88ad5eb2de44_iv -in credentials.tar.enc -out credentials.tar -d
   - tar xvf credentials.tar
-
-  - ./gradlew cleanGCS --info
 
   # The publishing script should be executed in `script` section in order to
   # fail the Travis build if execution of this script is failed.
