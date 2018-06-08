@@ -50,8 +50,8 @@ import static java.util.Calendar.YEAR;
 @SuppressWarnings("ClassWithTooManyMethods")
 public final class OffsetDateTimes {
 
+    /** Prevent instantiation of this utility class. */
     private OffsetDateTimes() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -323,16 +323,16 @@ public final class OffsetDateTimes {
      * Performs date and time calculation using parameters of {@link Calendar#add(int, int)}.
      */
     private static OffsetDateTime change(OffsetDateTime value, int calendarField, int delta) {
-        final Calendar calendar = toCalendar(value);
+        Calendar calendar = toCalendar(value);
         calendar.add(calendarField, delta);
 
-        final LocalDate date = toLocalDate(calendar);
-        final LocalTime time = toLocalTime(calendar);
-        final int nanos = value.getTime()
-                               .getNanos();
-        final LocalTime timeWithNanos = time.toBuilder()
-                                            .setNanos(nanos)
-                                            .build();
+        LocalDate date = toLocalDate(calendar);
+        LocalTime time = toLocalTime(calendar);
+        int nanos = value.getTime()
+                         .getNano();
+        LocalTime timeWithNanos = time.toBuilder()
+                                      .setNano(nanos)
+                                      .build();
         return value.toBuilder()
                     .setDate(date)
                     .setTime(timeWithNanos)
@@ -343,17 +343,17 @@ public final class OffsetDateTimes {
      * Returns a ISO 8601 date/time string corresponding to the passed value.
      */
     public static String toString(OffsetDateTime value) {
-        final Calendar calendar = toCalendar(value);
-        final ZoneOffset offset = value.getOffset();
-        final StringBuilder result = new StringBuilder();
+        Calendar calendar = toCalendar(value);
+        ZoneOffset offset = value.getOffset();
+        StringBuilder result = new StringBuilder();
 
         // Format the date/time part.
-        final Date date = calendar.getTime();
-        final String dateTime = dateTimeFormat(offset).format(date);
+        Date date = calendar.getTime();
+        String dateTime = dateTimeFormat(offset).format(date);
         result.append(dateTime);
 
         // Format the fractional second part.
-        final LocalTime time = value.getTime();
+        LocalTime time = value.getTime();
         appendSubSecond(result, time);
 
         // Add time zone.

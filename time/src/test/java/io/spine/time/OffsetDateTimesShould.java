@@ -63,7 +63,6 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
     private static final int HOURS = 9;
     private static final int MINUTES = 30;
     private static final int SECONDS = 23;
-    private static final int MILLIS = 124;
     private static final int NANOS = 122;
 
     private LocalDate gmtToday;
@@ -75,7 +74,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
     public void setUp() {
         super.setUp();
         gmtToday = LocalDates.of(YEAR, MONTH, DAY);
-        now = LocalTimes.of(HOURS, MINUTES, SECONDS, MILLIS, NANOS);
+        now = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
         todayNow = OffsetDateTimes.now(zoneOffset);
     }
 
@@ -95,9 +94,9 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         assertEquals(getDay(cal), today.getDay());
 
         final LocalTime time = now.getTime();
-        assertEquals(getHours(cal), time.getHours());
-        assertEquals(getMinutes(cal), time.getMinutes());
-        assertEquals(getSeconds(cal), time.getSeconds());
+        assertEquals(getHours(cal), time.getHour());
+        assertEquals(getMinutes(cal), time.getMinute());
+        assertEquals(getSeconds(cal), time.getSecond());
         assertEquals(getZoneOffset(cal), now.getOffset()
                                             .getAmountSeconds());
         /* We cannot check milliseconds and nanos due to time gap between object creation */
@@ -227,7 +226,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
      */
 
     @Test
-    public void add_hours() {
+    public void add_Hour() {
         final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
         final int hoursToAdd = 2;
         final OffsetDateTime withAddedHours = addHours(dateTime, hoursToAdd);
@@ -236,16 +235,15 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final LocalTime time = withAddedHours.getTime();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS + hoursToAdd, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS + hoursToAdd, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, withAddedHours.getOffset());
     }
 
     @Test
-    public void subtract_hours() {
+    public void subtract_Hour() {
         final int hoursToSubtract = 4;
         final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
         final OffsetDateTime minusHours = subtractHours(offsetDateTime, hoursToSubtract);
@@ -255,11 +253,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = minusHours.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS - hoursToSubtract, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS - hoursToSubtract, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 
@@ -274,11 +271,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = withAddedMinutes.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES + minutesToAdd, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES + minutesToAdd, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset.getAmountSeconds(), offset.getAmountSeconds());
     }
 
@@ -293,11 +289,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = minusMinutes.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES - minutesToSubtract, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES - minutesToSubtract, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 
@@ -312,11 +307,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = withAddedSeconds.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS + secondsToAdd, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS + secondsToAdd, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 
@@ -331,11 +325,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = withSubtractedSeconds.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS - secondsToSubtract, time.getSeconds());
-        assertEquals(MILLIS, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS - secondsToSubtract, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 
@@ -350,11 +343,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = withAddedMillis.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS + millisToAdd, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 
@@ -369,11 +361,10 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         final ZoneOffset offset = withSubtractedMillis.getOffset();
 
         assertEquals(gmtToday, date);
-        assertEquals(HOURS, time.getHours());
-        assertEquals(MINUTES, time.getMinutes());
-        assertEquals(SECONDS, time.getSeconds());
-        assertEquals(MILLIS - millisToSubtract, time.getMillis());
-        assertEquals(NANOS, time.getNanos());
+        assertEquals(HOURS, time.getHour());
+        assertEquals(MINUTES, time.getMinute());
+        assertEquals(SECONDS, time.getSecond());
+        assertEquals(NANOS, time.getNano());
         assertEquals(zoneOffset, offset);
     }
 

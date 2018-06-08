@@ -82,9 +82,9 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         final Calendar cal = at(zoneOffset);
 
         final LocalTime time = now.getTime();
-        assertEquals(getHours(cal), time.getHours());
-        assertEquals(getMinutes(cal), time.getMinutes());
-        assertEquals(getSeconds(cal), time.getSeconds());
+        assertEquals(getHours(cal), time.getHour());
+        assertEquals(getMinutes(cal), time.getMinute());
+        assertEquals(getSeconds(cal), time.getSecond());
         assertEquals(getZoneOffset(cal), now.getOffset().getAmountSeconds());
         /* We cannot check milliseconds and nanos due to time gap between object creation */
     }
@@ -104,7 +104,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         int seconds = random(SECONDS_PER_MINUTE);
         int millis = random(MILLIS_PER_SECOND);
         int nanos = random(NANOS_PER_MILLISECOND);
-        return LocalTimes.of(hours, minutes, seconds, millis, nanos);
+        return LocalTimes.of(hours, minutes, seconds, nanos);
     }
 
     /*
@@ -112,7 +112,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
      */
 
     @Test
-    public void add_hours() {
+    public void add_Hour() {
         final int hoursDelta = random(1, 100);
         final Duration deltaDuration = Durations2.hours(hoursDelta);
 
@@ -125,7 +125,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
     }
 
     @Test
-    public void subtract_hours() {
+    public void subtract_Hour() {
         final int hoursDelta = random(1, 500);
         final Duration deltaDuration = Durations2.hours(hoursDelta);
 

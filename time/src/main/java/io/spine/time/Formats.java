@@ -168,7 +168,7 @@ final class Formats {
      * Appends the fractional second part of the time to the passed string builder.
      */
     static void appendSubSecond(StringBuilder builder, LocalTime time) {
-        long nanos = LocalTimes.getTotalNanos(time);
+        long nanos = time.getNano();
         if (nanos != 0) {
             builder.append(SUB_SECOND_SEPARATOR);
             builder.append(formatNanos(nanos));

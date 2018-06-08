@@ -37,8 +37,8 @@ import static java.lang.Math.abs;
 @Experimental
 public final class Intervals {
 
+    /** Prevent instantiation of this utility class. */
     private Intervals() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -52,9 +52,10 @@ public final class Intervals {
     public static Interval between(Timestamp start, Timestamp end) {
         checkArgument(isLaterThan(end, /*than*/ start),
                       "The end must be after the start of the interval.");
-        final Interval.Builder interval = Interval.newBuilder()
-                                                  .setStart(start)
-                                                  .setEnd(end);
+        Interval.Builder interval = Interval
+                .newBuilder()
+                .setStart(start)
+                .setEnd(end);
         return interval.build();
     }
 
@@ -67,8 +68,8 @@ public final class Intervals {
      * @return {@code true} if the timestamp is withing the interval, {@code false} otherwise
      */
     public static boolean contains(Interval interval, Timestamp timestamp) {
-        final boolean isAfterOrOnStart = compare(interval.getStart(), timestamp) <= 0;
-        final boolean isBeforeOrOnEnd = compare(timestamp, interval.getEnd()) <= 0;
+        boolean isAfterOrOnStart = compare(interval.getStart(), timestamp) <= 0;
+        boolean isBeforeOrOnEnd = compare(timestamp, interval.getEnd()) <= 0;
         return isAfterOrOnStart && isBeforeOrOnEnd;
     }
 
@@ -79,16 +80,17 @@ public final class Intervals {
      * @return the duration between the start and the end of the interval
      */
     public static Duration toDuration(Interval interval) {
-        final Timestamp start = interval.getStart();
-        final Timestamp end = interval.getEnd();
+        Timestamp start = interval.getStart();
+        Timestamp end = interval.getEnd();
         if (start.equals(end)) {
             return Durations2.ZERO;
         }
-        final long secondsBetween = end.getSeconds() - start.getSeconds();
-        final int nanosBetween = end.getNanos() - start.getNanos();
-        final Duration.Builder duration = Duration.newBuilder()
-                                                  .setSeconds(abs(secondsBetween))
-                                                  .setNanos(abs(nanosBetween));
+        long secondsBetween = end.getSeconds() - start.getSeconds();
+        int nanosBetween = end.getNanos() - start.getNanos();
+        Duration.Builder duration = Duration
+                .newBuilder()
+                .setSeconds(abs(secondsBetween))
+                .setNanos(abs(nanosBetween));
         return duration.build();
     }
 }

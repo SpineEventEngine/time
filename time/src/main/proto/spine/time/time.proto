@@ -60,15 +60,14 @@ message LocalDate {
     int32 day = 3 [(required) = true];
 }
 
-// A time without time-zone.
+// A time without a time-zone.
 //
 // It is a description of a time, not an instant on a time-line.
 message LocalTime {
-    int32 hours = 1 [(required) = true];
-    int32 minutes = 2 [(required) = true];
-    int32 seconds = 3;
-    int32 millis = 4;
-    int32 nanos = 5;
+    int32 hour = 1 [(required) = true];
+    int32 minute = 2 [(required) = true];
+    int32 second = 3;
+    int32 nano = 4;
 }
 
 // A time with an offset from UTC.

@@ -30,6 +30,7 @@ import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static io.spine.validate.Validate.checkPositive;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;
@@ -54,8 +55,8 @@ import static java.util.Calendar.getInstance;
                    "MagicConstant" /* We use conversion methods instead. */})
 final class Calendars {
 
+    /** Prevent instantiation of this utility class. */
     private Calendars() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -64,7 +65,7 @@ final class Calendars {
      * @return zone offset in seconds
      */
     static int getZoneOffset(Calendar cal) {
-        final int zoneOffset = cal.get(ZONE_OFFSET) / MILLIS_PER_SECOND;
+        int zoneOffset = cal.get(ZONE_OFFSET) / MILLIS_PER_SECOND;
         return zoneOffset;
     }
 
@@ -72,7 +73,7 @@ final class Calendars {
      * Obtains year using {@code Calendar}.
      */
     static int getYear(Calendar cal) {
-        final int year = cal.get(YEAR);
+        int year = cal.get(YEAR);
         return year;
     }
 
@@ -82,7 +83,7 @@ final class Calendars {
     static int getMonth(Calendar cal) {
         // The Calendar class assumes JANUARY is zero.
         // Therefore add 1 to get the reasonable value of month
-        final int month = cal.get(MONTH) + 1;
+        int month = cal.get(MONTH) + 1;
         return month;
     }
 
@@ -90,7 +91,7 @@ final class Calendars {
      * Obtains day of month using {@code Calendar}.
      */
     static int getDay(Calendar cal) {
-        final int result = cal.get(DAY_OF_MONTH);
+        int result = cal.get(DAY_OF_MONTH);
         return result;
     }
 
@@ -98,7 +99,7 @@ final class Calendars {
      * Obtains hours using {@code Calendar}.
      */
     static int getHours(Calendar cal) {
-        final int hours = cal.get(HOUR_OF_DAY);
+        int hours = cal.get(HOUR_OF_DAY);
         return hours;
     }
 
@@ -106,7 +107,7 @@ final class Calendars {
      * Obtains minutes using {@code Calendar}.
      */
     static int getMinutes(Calendar cal) {
-        final int minutes = cal.get(MINUTE);
+        int minutes = cal.get(MINUTE);
         return minutes;
     }
 
@@ -114,7 +115,7 @@ final class Calendars {
      * Obtains seconds using {@code Calendar}.
      */
     static int getSeconds(Calendar cal) {
-        final int seconds = cal.get(SECOND);
+        int seconds = cal.get(SECOND);
         return seconds;
     }
 
@@ -122,7 +123,7 @@ final class Calendars {
      * Obtains milliseconds using {@code Calendar}.
      */
     static int getMillis(Calendar cal) {
-        final int millis = cal.get(MILLISECOND);
+        int millis = cal.get(MILLISECOND);
         return millis;
     }
 
@@ -130,7 +131,7 @@ final class Calendars {
      * Obtains calendar from year, month, and day values.
      */
     private static Calendar createWithDate(int year, int month, int day) {
-        final Calendar calendar = getInstance();
+        Calendar calendar = getInstance();
         calendar.set(year, toMagicMonthNumber(month), day);
         return calendar;
     }
@@ -162,7 +163,7 @@ final class Calendars {
      * Obtains {@code Calendar} from hours, minutes, seconds and milliseconds values.
      */
     private static Calendar createWithTime(int hours, int minutes, int seconds, int millis) {
-        final Calendar calendar = getInstance();
+        Calendar calendar = getInstance();
         calendar.set(HOUR_OF_DAY, hours);
         calendar.set(MINUTE, minutes);
         calendar.set(SECOND, seconds);
@@ -174,7 +175,7 @@ final class Calendars {
      * Obtains {@code Calendar} from hours, minutes and seconds values.
      */
     static Calendar createWithTime(int hours, int minutes, int seconds) {
-        final Calendar calendar = getInstance();
+        Calendar calendar = getInstance();
         calendar.set(HOUR_OF_DAY, hours);
         calendar.set(MINUTE, minutes);
         calendar.set(SECOND, seconds);
@@ -185,7 +186,7 @@ final class Calendars {
      * Obtains {@code Calendar} from hours and minutes values.
      */
     static Calendar createWithTime(int hours, int minutes) {
-        final Calendar calendar = getInstance();
+        Calendar calendar = getInstance();
         calendar.set(HOUR_OF_DAY, hours);
         calendar.set(MINUTE, minutes);
         return calendar;
@@ -198,10 +199,10 @@ final class Calendars {
      * @return new {@code Calendar} instance at specific zone offset
      */
     static Calendar at(ZoneOffset zoneOffset) {
-        final TimeZone timeZone = ZoneConverter.getInstance()
+        TimeZone timeZone = ZoneConverter.getInstance()
                                                .reverse()
                                                .convert(zoneOffset);
-        final Calendar result = getInstance(timeZone);
+        Calendar result = getInstance(timeZone);
         return result;
     }
 
@@ -211,8 +212,8 @@ final class Calendars {
     static MonthOfYear getMonthOfYear(Calendar calendar) {
         // The Calendar class assumes JANUARY is zero.
         // Therefore add 1 to get the value of MonthOfYear.
-        final int monthByCalendar = calendar.get(MONTH);
-        final MonthOfYear month = MonthOfYear.forNumber(monthByCalendar + 1);
+        int monthByCalendar = calendar.get(MONTH);
+        MonthOfYear month = MonthOfYear.forNumber(monthByCalendar + 1);
         return month;
     }
 
@@ -220,10 +221,10 @@ final class Calendars {
      * Obtains local date using calendar.
      */
     static LocalDate toLocalDate(Calendar cal) {
-        final int year = getYear(cal);
-        final MonthOfYear month = getMonthOfYear(cal);
-        final int day = getDay(cal);
-        final LocalDate result = LocalDates.of(year, month, day);
+        int year = getYear(cal);
+        MonthOfYear month = getMonthOfYear(cal);
+        int day = getDay(cal);
+        LocalDate result = LocalDates.of(year, month, day);
         return result;
     }
 
@@ -231,7 +232,7 @@ final class Calendars {
      * Obtains local time using calendar.
      */
     static LocalTime toLocalTime(Calendar calendar) {
-        final int nanos = 0;
+        int nanos = 0;
         return toLocalTime(calendar, nanos);
     }
 
@@ -239,19 +240,18 @@ final class Calendars {
      * Obtains local time from Calendar with nanosecond precision.
      */
     static LocalTime toLocalTime(Calendar calendar, int nanos) {
-        final int hours = getHours(calendar);
-        final int minutes = getMinutes(calendar);
-        final int seconds = getSeconds(calendar);
-        final int millis = getMillis(calendar);
-        return LocalTimes.of(hours, minutes, seconds, millis, nanos);
+        int hours = getHours(calendar);
+        int minutes = getMinutes(calendar);
+        int seconds = getSeconds(calendar);
+        return LocalTimes.of(hours, minutes, seconds, nanos);
     }
 
     /**
      * Converts the passed Timestamp into Calendar at the passed time zone.
      */
     static Calendar toCalendar(Timestamp timestamp, ZoneOffset zoneOffset) {
-        final long millis = Timestamps.toMillis(timestamp);
-        final Calendar calendar = at(zoneOffset);
+        long millis = Timestamps.toMillis(timestamp);
+        Calendar calendar = at(zoneOffset);
         calendar.setTimeInMillis(millis);
         return calendar;
     }
@@ -262,7 +262,7 @@ final class Calendars {
      * <p>The calendar is initialized at the offset from the passed date.
      */
     static Calendar toCalendar(OffsetDate offsetDate) {
-        final Calendar calendar = at(offsetDate.getOffset());
+        Calendar calendar = at(offsetDate.getOffset());
         setDate(calendar, offsetDate.getDate());
         return calendar;
     }
@@ -271,10 +271,10 @@ final class Calendars {
      * Converts the passed {@code LocalTime} into {@code Calendar}.
      */
     static Calendar toCalendar(LocalTime localTime) {
-        return createWithTime(localTime.getHours(),
-                              localTime.getMinutes(),
-                              localTime.getSeconds(),
-                              localTime.getMillis());
+        return createWithTime(localTime.getHour(),
+                              localTime.getMinute(),
+                              localTime.getSecond(),
+                              localTime.getNano() * NANOS_PER_MILLISECOND);
     }
 
     /**
@@ -290,12 +290,12 @@ final class Calendars {
      * Converts the passed {@code OffsetTime} into {@code Calendar}.
      */
     static Calendar toCalendar(OffsetTime offsetTime) {
-        final LocalTime time = offsetTime.getTime();
-        final Calendar calendar = at(offsetTime.getOffset());
-        calendar.set(HOUR_OF_DAY, time.getHours());
-        calendar.set(MINUTE, time.getMinutes());
-        calendar.set(SECOND, time.getSeconds());
-        calendar.set(MILLISECOND, time.getMillis());
+        LocalTime time = offsetTime.getTime();
+        Calendar calendar = at(offsetTime.getOffset());
+        calendar.set(HOUR_OF_DAY, time.getHour());
+        calendar.set(MINUTE, time.getMinute());
+        calendar.set(SECOND, time.getSecond());
+        calendar.set(MILLISECOND, time.getNano() * NANOS_PER_MILLISECOND);
         return calendar;
     }
 
@@ -303,17 +303,17 @@ final class Calendars {
      * Converts the passed {@code OffsetDateTime} into {@code Calendar}.
      */
     static Calendar toCalendar(OffsetDateTime dateTime) {
-        final Calendar cal = at(dateTime.getOffset());
-        final LocalDate date = dateTime.getDate();
-        final LocalTime time = dateTime.getTime();
+        Calendar cal = at(dateTime.getOffset());
+        LocalDate date = dateTime.getDate();
+        LocalTime time = dateTime.getTime();
         cal.set(date.getYear(),
                 toMagicMonthNumber(date.getMonth()
                                        .getNumber()),
                 date.getDay(),
-                time.getHours(),
-                time.getMinutes(),
-                time.getSeconds());
-        cal.set(MILLISECOND, time.getMillis());
+                time.getHour(),
+                time.getMinute(),
+                time.getSecond());
+        cal.set(MILLISECOND, time.getNano() * NANOS_PER_MILLISECOND);
         return cal;
     }
 

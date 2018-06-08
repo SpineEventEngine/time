@@ -79,17 +79,17 @@ public class ZoneOffsetsShould {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void require_same_sign_for_hours_and_minutes_negative_hours() {
+    public void require_same_sign_for_hours_and_minutes_negative_Hour() {
         ofHoursMinutes(-1, 10);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void require_same_sign_for_hours_and_minutes_positive_hours() {
+    public void require_same_sign_for_hours_and_minutes_positive_Hour() {
         ofHoursMinutes(1, -10);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void do_not_accept_more_than_14_hours() {
+    public void do_not_accept_more_than_14_Hour() {
         ofHours(ZoneOffsets.MAX_HOURS_OFFSET + 1);
     }
 
@@ -132,7 +132,7 @@ public class ZoneOffsetsShould {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void fail_when_hours_and_minutes_have_different_sign_negative_hours() {
+    public void fail_when_hours_and_minutes_have_different_sign_negative_Hour() {
         ofHoursMinutes(-1, 10);
     }
 

@@ -87,6 +87,6 @@ public class CalendarsShould {
     public void convert_from_local_time_and_back() {
         final LocalTime time = LocalTimes.now();
 
-        assertEquals(time, toLocalTime(toCalendar(time), time.getNanos()));
+        assertEquals(time, toLocalTime(toCalendar(time), time.getNano()));
     }
 }

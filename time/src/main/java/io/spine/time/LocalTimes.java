@@ -20,27 +20,23 @@
 package io.spine.time;
 
 import com.google.protobuf.Timestamp;
+import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import io.spine.time.Formats.Parameter;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static io.spine.time.Calendars.checkArguments;
-import static io.spine.time.Calendars.getHours;
-import static io.spine.time.Calendars.getMillis;
-import static io.spine.time.Calendars.getMinutes;
-import static io.spine.time.Calendars.getSeconds;
 import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.Calendars.toLocalTime;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.Formats.appendSubSecond;
 import static io.spine.time.Formats.timeFormat;
+import static io.spine.time.SiTime.NANOS_PER_SECOND;
 import static io.spine.validate.Validate.checkBounds;
 import static java.util.Calendar.HOUR;
 import static java.util.Calendar.MILLISECOND;
@@ -56,8 +52,8 @@ import static java.util.Calendar.SECOND;
 @SuppressWarnings("ClassWithTooManyMethods") // OK for this utility class.
 public final class LocalTimes {
 
+    /** Prevent instantiation of this utility class. */
     private LocalTimes() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -73,34 +69,41 @@ public final class LocalTimes {
      * Obtains local time at the passed time zone.
      */
     public static LocalTime timeAt(Timestamp time, ZoneOffset zoneOffset) {
-        final Calendar cal = toCalendar(time, zoneOffset);
-
-        final int remainingNanos = time.getNanos() % NANOS_PER_MILLISECOND;
-        final LocalTime result = LocalTime.newBuilder()
-                                          .setHours(getHours(cal))
-                                          .setMinutes(getMinutes(cal))
-                                          .setSeconds(getSeconds(cal))
-                                          .setMillis(getMillis(cal))
-                                          .setNanos(remainingNanos)
-                                          .build();
-        return result;
+        Instant instant = Instant.ofEpochMilli(Timestamps.toMillis(time));
+        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
+        java.time.LocalTime lt = instant.atOffset(zo)
+                                        .toLocalTime();
+        return of(lt);
     }
 
     /**
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
-    public static LocalTime of(int hours, int minutes, int seconds, int millis, int nanos) {
+    public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
         checkClockTime(hours, minutes, seconds);
-        checkBounds(millis, Parameter.millis.name(), 0, MILLIS_PER_SECOND - 1);
-        checkBounds(nanos, Parameter.nanos.name(), 0, NANOS_PER_MILLISECOND - 1);
+        checkBounds(nanos, Parameter.nanos.name(), 0, NANOS_PER_SECOND - 1);
 
-        final LocalTime result = LocalTime.newBuilder()
-                                          .setHours(hours)
-                                          .setMinutes(minutes)
-                                          .setSeconds(seconds)
-                                          .setMillis(millis)
-                                          .setNanos(nanos)
-                                          .build();
+        LocalTime result = LocalTime
+                .newBuilder()
+                .setHour(hours)
+                .setMinute(minutes)
+                .setSecond(seconds)
+                .setNano(nanos)
+                .build();
+        return result;
+    }
+
+    /**
+     * Obtains local time from time passed {@code java.time} value. 
+     */
+    public static LocalTime of(java.time.LocalTime value) {
+        LocalTime result = LocalTime
+                .newBuilder()
+                .setHour(value.getHour())
+                .setMinute(value.getMinute())
+                .setSecond(value.getSecond())
+                .setNano(value.getNano())
+                .build();
         return result;
     }
 
@@ -111,24 +114,17 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains local time from hours, minutes, seconds, and milliseconds.
-     */
-    public static LocalTime of(int hours, int minutes, int seconds, int millis) {
-        return of(hours, minutes, seconds, millis, 0);
-    }
-
-    /**
      * Obtains local time from hours, minutes, and seconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds) {
-        return of(hours, minutes, seconds, 0, 0);
+        return of(hours, minutes, seconds, 0);
     }
 
     /**
      * Obtains local time from hours and minutes.
      */
     public static LocalTime of(int hours, int minutes) {
-        return of(hours, minutes, 0, 0, 0);
+        return of(hours, minutes, 0, 0);
     }
 
     /**
@@ -250,20 +246,8 @@ public final class LocalTimes {
         final Calendar cal = toCalendar(value);
         cal.add(calendarField, delta);
         final LocalTime result = toLocalTime(cal).toBuilder()
-                                                 .setNanos(value.getNanos())
+                                                 .setNano(value.getNano())
                                                  .build();
-        return result;
-    }
-
-    /**
-     * Obtains a fraction part of a second as total number of nanoseconds.
-     *
-     * <p>{@code LocalTime} stores a fractional part of a second as a number of milliseconds and
-     * nanoseconds. This method computes the total in nanoseconds.
-     */
-    static long getTotalNanos(LocalTime time) {
-        checkNotNull(time);
-        final long result = (long)time.getMillis() * NANOS_PER_MILLISECOND + time.getNanos();
         return result;
     }
 
@@ -291,6 +275,8 @@ public final class LocalTimes {
      * Parses the passed string into local time value.
      */
     public static LocalTime parse(String str) throws ParseException {
+        java.time.LocalTime parsed = java.time.LocalTime.parse(str);
+
         return Parser.parseLocalTime(str);
     }
 }

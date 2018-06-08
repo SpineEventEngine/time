@@ -76,6 +76,11 @@ public final class ZoneOffsets {
         return result;
     }
 
+    public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+        return java.time.ZoneOffset.of(value.getId()
+                                            .getValue());
+    }
+
     /**
      * Obtains the ZoneOffset instance using an offset in hours.
      */
@@ -205,9 +210,10 @@ public final class ZoneOffsets {
      * Otherwise returns the passed instance.
      */
     static ZoneOffset adjustZero(ZoneOffset offset) {
-        if (offset.getAmountSeconds() == 0 && offset.getId()
-                                                    .getValue()
-                                                    .isEmpty()) {
+        boolean noZoneId = offset.getId()
+                                 .getValue()
+                                 .isEmpty();
+        if (offset.getAmountSeconds() == 0 && noZoneId) {
             return UTC;
         }
         return offset;

@@ -211,7 +211,7 @@ public final class OffsetTimes {
      * Obtains offset time changed on specified amount of seconds.
      */
     private static OffsetTime changeSeconds(OffsetTime value, int secondsDelta) {
-        final OffsetTime result = change(value, SECOND, secondsDelta);
+        OffsetTime result = change(value, SECOND, secondsDelta);
         return result;
     }
 
@@ -219,7 +219,7 @@ public final class OffsetTimes {
      * Obtains offset time changed on specified amount of milliseconds.
      */
     private static OffsetTime changeMillis(OffsetTime value, int millisDelta) {
-        final OffsetTime result = change(value, MILLISECOND, millisDelta);
+        OffsetTime result = change(value, MILLISECOND, millisDelta);
         return result;
     }
 
@@ -227,14 +227,14 @@ public final class OffsetTimes {
      * Performs time calculation using parameters of {@link Calendar#add(int, int)}.
      */
     private static OffsetTime change(OffsetTime value, int calendarField, int delta) {
-        final Calendar cal = toCalendar(value);
+        Calendar cal = toCalendar(value);
         cal.add(calendarField, delta);
-        final int nanos = value.getTime()
-                               .getNanos();
-        final LocalTime localTime = toLocalTime(cal).toBuilder()
-                                                    .setNanos(nanos)
-                                                    .build();
-        final ZoneOffset zoneOffset = value.getOffset();
+        int nanos = value.getTime()
+                         .getNano();
+        LocalTime localTime = toLocalTime(cal).toBuilder()
+                                              .setNano(nanos)
+                                              .build();
+        ZoneOffset zoneOffset = value.getOffset();
         return OffsetTime.newBuilder()
                          .setTime(localTime)
                          .setOffset(zoneOffset)
@@ -245,17 +245,17 @@ public final class OffsetTimes {
      * Returns a ISO 8601 time string corresponding to the passed value.
      */
     public static String toString(OffsetTime value) {
-        final ZoneOffset offset = value.getOffset();
-        final Calendar calendar = toCalendar(value);
-        final StringBuilder result = new StringBuilder();
+        ZoneOffset offset = value.getOffset();
+        Calendar calendar = toCalendar(value);
+        StringBuilder result = new StringBuilder();
 
         // Format the date/time part.
-        final Date date = calendar.getTime();
-        final String dateTime = timeFormat(offset).format(date);
+        Date date = calendar.getTime();
+        String dateTime = timeFormat(offset).format(date);
         result.append(dateTime);
 
         // Format the fractional second part.
-        final LocalTime time = value.getTime();
+        LocalTime time = value.getTime();
         appendSubSecond(result, time);
 
         // Add time zone.

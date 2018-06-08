@@ -56,7 +56,6 @@ public class LocalTimesShould {
     private static final int hours = 9;
     private static final int minutes = 25;
     private static final int seconds = 30;
-    private static final int millis = 124;
     private static final int nanos = 122;
 
     /**
@@ -71,7 +70,7 @@ public class LocalTimesShould {
 
     @Before
     public void setUp() {
-        value = of(hours, minutes, seconds, millis, nanos);
+        value = of(hours, minutes, seconds, nanos);
     }
 
     @Test
@@ -86,59 +85,47 @@ public class LocalTimesShould {
           Assert only hours and minutes to reduce the probability of going over the second boundary
           between the LocalTime and Calendar instances construction in the initialization above.
         */
-        assertEquals(expectedHours, now.getHours());
-        assertEquals(expectedMinutes, now.getMinutes());
+        assertEquals(expectedHours, now.getHour());
+        assertEquals(expectedMinutes, now.getMinute());
     }
 
     @Test
     public void create_by_hours_and_minutes() {
         final LocalTime localTime = of(hours, minutes);
 
-        assertEquals(hours, localTime.getHours());
-        assertEquals(minutes, localTime.getMinutes());
+        assertEquals(hours, localTime.getHour());
+        assertEquals(minutes, localTime.getMinute());
     }
 
     @Test
     public void create_by_hours_minutes_seconds() {
         final LocalTime localTime = of(hours, minutes, seconds);
 
-        assertEquals(hours, localTime.getHours());
-        assertEquals(minutes, localTime.getMinutes());
-        assertEquals(seconds, localTime.getSeconds());
-    }
-
-    @Test
-    public void create_by_hours_minutes_seconds_millis() {
-        final LocalTime localTime = of(hours, minutes, seconds, millis);
-
-        assertEquals(hours, localTime.getHours());
-        assertEquals(minutes, localTime.getMinutes());
-        assertEquals(seconds, localTime.getSeconds());
-        assertEquals(millis, localTime.getMillis());
+        assertEquals(hours, localTime.getHour());
+        assertEquals(minutes, localTime.getMinute());
+        assertEquals(seconds, localTime.getSecond());
     }
 
     @Test
     public void create_with_nano_precision() {
-        final LocalTime localTime = of(hours, minutes, seconds, millis, nanos);
+        final LocalTime localTime = of(hours, minutes, seconds, nanos);
 
-        assertEquals(hours, localTime.getHours());
-        assertEquals(minutes, localTime.getMinutes());
-        assertEquals(seconds, localTime.getSeconds());
-        assertEquals(millis, localTime.getMillis());
-        assertEquals(nanos, localTime.getNanos());
+        assertEquals(hours, localTime.getHour());
+        assertEquals(minutes, localTime.getMinute());
+        assertEquals(seconds, localTime.getSecond());
+        assertEquals(nanos, localTime.getNano());
     }
 
     @Test
-    public void add_hours() {
+    public void add_Hour() {
         final int hoursToAdd = 2;
-        final LocalTime localTime = of(hours, minutes, seconds, millis, nanos);
+        final LocalTime localTime = of(hours, minutes, seconds, nanos);
         final LocalTime inFewHours = addHours(localTime, hoursToAdd);
 
-        assertEquals(hours + hoursToAdd, inFewHours.getHours());
-        assertEquals(minutes, inFewHours.getMinutes());
-        assertEquals(seconds, inFewHours.getSeconds());
-        assertEquals(millis, inFewHours.getMillis());
-        assertEquals(nanos, inFewHours.getNanos());
+        assertEquals(hours + hoursToAdd, inFewHours.getHour());
+        assertEquals(minutes, inFewHours.getMinute());
+        assertEquals(seconds, inFewHours.getSecond());
+        assertEquals(nanos, inFewHours.getNano());
     }
 
     @Test
@@ -146,11 +133,10 @@ public class LocalTimesShould {
         final int minutesToAdd = 15;
         final LocalTime inFewMinutes = addMinutes(value, minutesToAdd);
 
-        assertEquals(hours, inFewMinutes.getHours());
-        assertEquals(minutes + minutesToAdd, inFewMinutes.getMinutes());
-        assertEquals(seconds, inFewMinutes.getSeconds());
-        assertEquals(millis, inFewMinutes.getMillis());
-        assertEquals(nanos, inFewMinutes.getNanos());
+        assertEquals(hours, inFewMinutes.getHour());
+        assertEquals(minutes + minutesToAdd, inFewMinutes.getMinute());
+        assertEquals(seconds, inFewMinutes.getSecond());
+        assertEquals(nanos, inFewMinutes.getNano());
     }
 
     @Test
@@ -158,11 +144,10 @@ public class LocalTimesShould {
         final int secondsToAdd = 18;
         final LocalTime inFewSeconds = addSeconds(value, secondsToAdd);
 
-        assertEquals(hours, inFewSeconds.getHours());
-        assertEquals(minutes, inFewSeconds.getMinutes());
-        assertEquals(seconds + secondsToAdd, inFewSeconds.getSeconds());
-        assertEquals(millis, inFewSeconds.getMillis());
-        assertEquals(nanos, inFewSeconds.getNanos());
+        assertEquals(hours, inFewSeconds.getHour());
+        assertEquals(minutes, inFewSeconds.getMinute());
+        assertEquals(seconds + secondsToAdd, inFewSeconds.getSecond());
+        assertEquals(nanos, inFewSeconds.getNano());
     }
 
     @Test
@@ -170,23 +155,21 @@ public class LocalTimesShould {
         final int millisToAdd = 288;
         final LocalTime inFewMillis = addMillis(value, millisToAdd);
 
-        assertEquals(hours, inFewMillis.getHours());
-        assertEquals(minutes, inFewMillis.getMinutes());
-        assertEquals(seconds, inFewMillis.getSeconds());
-        assertEquals(millis + millisToAdd, inFewMillis.getMillis());
-        assertEquals(nanos, inFewMillis.getNanos());
+        assertEquals(hours, inFewMillis.getHour());
+        assertEquals(minutes, inFewMillis.getMinute());
+        assertEquals(seconds, inFewMillis.getSecond());
+        assertEquals(nanos, inFewMillis.getNano());
     }
 
     @Test
-    public void subtract_hours() {
+    public void subtract_Hour() {
         final int hoursToSubtract = 2;
         final LocalTime beforeFewHours = subtractHours(value, hoursToSubtract);
 
-        assertEquals(hours - hoursToSubtract, beforeFewHours.getHours());
-        assertEquals(minutes, beforeFewHours.getMinutes());
-        assertEquals(seconds, beforeFewHours.getSeconds());
-        assertEquals(millis, beforeFewHours.getMillis());
-        assertEquals(nanos, beforeFewHours.getNanos());
+        assertEquals(hours - hoursToSubtract, beforeFewHours.getHour());
+        assertEquals(minutes, beforeFewHours.getMinute());
+        assertEquals(seconds, beforeFewHours.getSecond());
+        assertEquals(nanos, beforeFewHours.getNano());
     }
 
     @Test
@@ -194,11 +177,10 @@ public class LocalTimesShould {
         final int minutesToSubtract = 15;
         final LocalTime beforeFewMinutes = subtractMinutes(value, minutesToSubtract);
 
-        assertEquals(hours, beforeFewMinutes.getHours());
-        assertEquals(minutes - minutesToSubtract, beforeFewMinutes.getMinutes());
-        assertEquals(seconds, beforeFewMinutes.getSeconds());
-        assertEquals(millis, beforeFewMinutes.getMillis());
-        assertEquals(nanos, beforeFewMinutes.getNanos());
+        assertEquals(hours, beforeFewMinutes.getHour());
+        assertEquals(minutes - minutesToSubtract, beforeFewMinutes.getMinute());
+        assertEquals(seconds, beforeFewMinutes.getSecond());
+        assertEquals(nanos, beforeFewMinutes.getNano());
     }
 
     @Test
@@ -206,11 +188,10 @@ public class LocalTimesShould {
         final int secondsToSubtract = 12;
         final LocalTime beforeFewSeconds = subtractSeconds(value, secondsToSubtract);
 
-        assertEquals(hours, beforeFewSeconds.getHours());
-        assertEquals(minutes, beforeFewSeconds.getMinutes());
-        assertEquals(seconds - secondsToSubtract, beforeFewSeconds.getSeconds());
-        assertEquals(millis, beforeFewSeconds.getMillis());
-        assertEquals(nanos, beforeFewSeconds.getNanos());
+        assertEquals(hours, beforeFewSeconds.getHour());
+        assertEquals(minutes, beforeFewSeconds.getMinute());
+        assertEquals(seconds - secondsToSubtract, beforeFewSeconds.getSecond());
+        assertEquals(nanos, beforeFewSeconds.getNano());
     }
 
     @Test
@@ -218,11 +199,10 @@ public class LocalTimesShould {
         final int millisToSubtract = 28;
         final LocalTime beforeFewMillis = subtractMillis(value, millisToSubtract);
 
-        assertEquals(hours, beforeFewMillis.getHours());
-        assertEquals(minutes, beforeFewMillis.getMinutes());
-        assertEquals(seconds, beforeFewMillis.getSeconds());
-        assertEquals(millis - millisToSubtract, beforeFewMillis.getMillis());
-        assertEquals(nanos, beforeFewMillis.getNanos());
+        assertEquals(hours, beforeFewMillis.getHour());
+        assertEquals(minutes, beforeFewMillis.getMinute());
+        assertEquals(seconds, beforeFewMillis.getSecond());
+        assertEquals(nanos, beforeFewMillis.getNano());
     }
 
     //
@@ -239,12 +219,12 @@ public class LocalTimesShould {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void not_accept_negative_hours() {
+    public void not_accept_negative_Hour() {
         of(-2, 20);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void not_accept_oob_hours() {
+    public void not_accept_oob_Hour() {
         of(24, 0);
     }
 
@@ -280,12 +260,12 @@ public class LocalTimesShould {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_nanos() {
-        of(0, 0, 0, 0, -1501);
+        of(0, 0, 0, -1501);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_oob_nanos() {
-        of(0, 0, 0, 0, NANOS_PER_MILLISECOND);
+        of(0, 0, 0, NANOS_PER_MILLISECOND);
     }
 
     //
@@ -294,7 +274,7 @@ public class LocalTimesShould {
 
     @Test
     public void convert_to_string_and_back() throws ParseException {
-        final LocalTime localTime = of(10, 20, 30, 40, 50);
+        final LocalTime localTime = of(10, 20, 30, 50);
 
         final String str = LocalTimes.toString(localTime);
         final LocalTime convertedBack = parse(str);
