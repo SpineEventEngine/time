@@ -24,7 +24,6 @@ import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import io.spine.time.Formats.Parameter;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -274,9 +273,8 @@ public final class LocalTimes {
     /**
      * Parses the passed string into local time value.
      */
-    public static LocalTime parse(String str) throws ParseException {
+    public static LocalTime parse(String str) {
         java.time.LocalTime parsed = java.time.LocalTime.parse(str);
-
-        return Parser.parseLocalTime(str);
+        return of(parsed);
     }
 }

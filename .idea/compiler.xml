@@ -9,4 +9,7 @@
       <module name="time_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="ErrorProneCompilerSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-XepExcludedPaths:.*/generated/.*" />
+  </component>
 </project>

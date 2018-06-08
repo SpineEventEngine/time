@@ -77,8 +77,8 @@ public final class ZoneOffsets {
     }
 
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
-        return java.time.ZoneOffset.of(value.getId()
-                                            .getValue());
+        java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
+        return result;
     }
 
     /**

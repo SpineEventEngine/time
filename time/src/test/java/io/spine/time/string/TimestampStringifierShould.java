@@ -22,7 +22,9 @@ package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifiers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static io.spine.base.Time.getCurrentTime;
 
@@ -30,6 +32,9 @@ import static io.spine.base.Time.getCurrentTime;
  * @author Alexander Yevsyukov
  */
 public class TimestampStringifierShould extends AbstractStringifierTest<Timestamp> {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     public TimestampStringifierShould() {
         super(TimeStringifiers.forTimestamp());
@@ -40,10 +45,11 @@ public class TimestampStringifierShould extends AbstractStringifierTest<Timestam
         return getCurrentTime();
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void throw_exception_when_try_to_convert_inappropriate_string_to_timestamp() {
         // This uses TextFormat printing, for the output won't be parsable.
-        final String time = getCurrentTime().toString();
+        String time = getCurrentTime().toString();
+        thrown.expect(IllegalArgumentException.class);
         Stringifiers.fromString(time, Timestamp.class);
     }
 }

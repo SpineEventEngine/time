@@ -47,8 +47,8 @@ import static java.util.Calendar.SECOND;
  */
 public final class OffsetTimes {
 
+    /** Prevent instantiation of this utility class. */
     private OffsetTimes() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -56,12 +56,13 @@ public final class OffsetTimes {
      */
     public static OffsetTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        final Calendar cal = at(zoneOffset);
-        final LocalTime localTime = toLocalTime(cal);
-        final OffsetTime result = OffsetTime.newBuilder()
-                                            .setTime(localTime)
-                                            .setOffset(adjustZero(zoneOffset))
-                                            .build();
+        Calendar cal = at(zoneOffset);
+        LocalTime localTime = toLocalTime(cal);
+        OffsetTime result = OffsetTime
+                .newBuilder()
+                .setTime(localTime)
+                .setOffset(adjustZero(zoneOffset))
+                .build();
         return result;
     }
 
@@ -69,7 +70,7 @@ public final class OffsetTimes {
      * Converts the passed timestamp to offset time at the passed time zone.
      */
     public static OffsetTime timeAt(Timestamp time, ZoneOffset zoneOffset) {
-        final LocalTime localTime = LocalTimes.timeAt(time, zoneOffset);
+        LocalTime localTime = LocalTimes.timeAt(time, zoneOffset);
         return of(localTime, zoneOffset);
     }
 
@@ -79,11 +80,11 @@ public final class OffsetTimes {
     public static OffsetTime of(LocalTime time, ZoneOffset zoneOffset) {
         checkNotNull(time);
         checkNotNull(zoneOffset);
-
-        final OffsetTime result = OffsetTime.newBuilder()
-                                            .setTime(time)
-                                            .setOffset(zoneOffset)
-                                            .build();
+        OffsetTime result = OffsetTime
+                .newBuilder()
+                .setTime(time)
+                .setOffset(zoneOffset)
+                .build();
         return result;
     }
 
@@ -96,7 +97,6 @@ public final class OffsetTimes {
     public static OffsetTime addHours(OffsetTime value, int hoursToAdd) {
         checkNotNull(value);
         checkPositive(hoursToAdd);
-
         return changeHours(value, hoursToAdd);
     }
 
@@ -109,7 +109,6 @@ public final class OffsetTimes {
     public static OffsetTime addMinutes(OffsetTime value, int minutesToAdd) {
         checkNotNull(value);
         checkPositive(minutesToAdd);
-
         return changeMinutes(value, minutesToAdd);
     }
 
@@ -122,7 +121,6 @@ public final class OffsetTimes {
     public static OffsetTime addSeconds(OffsetTime value, int secondsToAdd) {
         checkNotNull(value);
         checkPositive(secondsToAdd);
-
         return changeSeconds(value, secondsToAdd);
     }
 
@@ -135,7 +133,6 @@ public final class OffsetTimes {
     public static OffsetTime addMillis(OffsetTime value, int millisToAdd) {
         checkNotNull(value);
         checkPositive(millisToAdd);
-
         return changeMillis(value, millisToAdd);
     }
 
@@ -148,7 +145,6 @@ public final class OffsetTimes {
     public static OffsetTime subtractHours(OffsetTime value, int hoursToSubtract) {
         checkNotNull(value);
         checkPositive(hoursToSubtract);
-
         return changeHours(value, -hoursToSubtract);
     }
 
@@ -161,7 +157,6 @@ public final class OffsetTimes {
     public static OffsetTime subtractMinutes(OffsetTime value, int minutesToSubtract) {
         checkNotNull(value);
         checkPositive(minutesToSubtract);
-
         return changeMinutes(value, -minutesToSubtract);
     }
 
@@ -174,7 +169,6 @@ public final class OffsetTimes {
     public static OffsetTime subtractSeconds(OffsetTime value, int secondsToSubtract) {
         checkNotNull(value);
         checkPositive(secondsToSubtract);
-
         return changeSeconds(value, -secondsToSubtract);
     }
 
@@ -187,7 +181,6 @@ public final class OffsetTimes {
     public static OffsetTime subtractMillis(OffsetTime value, int millisToSubtract) {
         checkNotNull(value);
         checkPositive(millisToSubtract);
-
         return changeMillis(value, -millisToSubtract);
     }
 
@@ -195,7 +188,7 @@ public final class OffsetTimes {
      * Obtains offset time changed on specified amount of hours.
      */
     private static OffsetTime changeHours(OffsetTime value, int hoursDelta) {
-        final OffsetTime result = change(value, HOUR, hoursDelta);
+        OffsetTime result = change(value, HOUR, hoursDelta);
         return result;
     }
 
@@ -203,7 +196,7 @@ public final class OffsetTimes {
      * Obtains offset time changed on specified amount of minutes.
      */
     private static OffsetTime changeMinutes(OffsetTime value, int minutesDelta) {
-        final OffsetTime result = change(value, MINUTE, minutesDelta);
+        OffsetTime result = change(value, MINUTE, minutesDelta);
         return result;
     }
 
@@ -235,10 +228,11 @@ public final class OffsetTimes {
                                               .setNano(nanos)
                                               .build();
         ZoneOffset zoneOffset = value.getOffset();
-        return OffsetTime.newBuilder()
-                         .setTime(localTime)
-                         .setOffset(zoneOffset)
-                         .build();
+        OffsetTime.Builder result = OffsetTime
+                .newBuilder()
+                .setTime(localTime)
+                .setOffset(zoneOffset);
+        return result.build();
     }
 
     /**
