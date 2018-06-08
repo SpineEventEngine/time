@@ -1,4 +1,3 @@
 ---
 exclude_paths:
-  - "time/src/test/**/*.*"
-  - "testutil-time/src/test/**/*.*"
+  - "**/src/test/**/*.*"
