@@ -72,7 +72,6 @@ allprojects {
     version = versionToPublish
 }
 
-
 subprojects {
     project.ext {
         spineProtobufPluginId = 'io.spine.tools.spine-model-compiler'
