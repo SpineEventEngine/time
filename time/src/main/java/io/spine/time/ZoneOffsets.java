@@ -52,14 +52,15 @@ public final class ZoneOffsets {
     public static final int MIN_MINUTES_OFFSET = 0;
     public static final int MAX_MINUTES_OFFSET = 60;
 
-    public static final ZoneOffset UTC = ZoneOffset.newBuilder()
-                                                   .setId(ZoneId.newBuilder()
-                                                                .setValue("UTC"))
-                                                   .setAmountSeconds(0)
-                                                   .build();
+    public static final ZoneOffset UTC =
+            ZoneOffset.newBuilder()
+                      .setId(ZoneId.newBuilder()
+                                   .setValue("UTC"))
+                      .setAmountSeconds(0)
+                      .build();
 
+    /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -69,9 +70,9 @@ public final class ZoneOffsets {
      * @see TimeZone#getDefault()
      */
     public static ZoneOffset getDefault() {
-        final TimeZone timeZone = TimeZone.getDefault();
-        final ZoneOffset result = ZoneConverter.getInstance()
-                                               .convert(timeZone);
+        TimeZone timeZone = TimeZone.getDefault();
+        ZoneOffset result = ZoneConverter.getInstance()
+                                         .convert(timeZone);
         return result;
     }
 
@@ -81,8 +82,8 @@ public final class ZoneOffsets {
     public static ZoneOffset ofHours(int hours) {
         checkHourOffset(hours, false);
 
-        final Duration hourDuration = Durations2.fromHours(hours);
-        final int seconds = toSeconds(hourDuration);
+        Duration hourDuration = Durations2.fromHours(hours);
+        int seconds = toSeconds(hourDuration);
         return ofSeconds(seconds);
     }
 
@@ -109,8 +110,8 @@ public final class ZoneOffsets {
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
-        final Duration duration = hoursAndMinutes(hours, minutes);
-        final int seconds = toSeconds(duration);
+        Duration duration = hoursAndMinutes(hours, minutes);
+        int seconds = toSeconds(duration);
         return ofSeconds(seconds);
     }
 
@@ -122,7 +123,7 @@ public final class ZoneOffsets {
 
     private static void checkHourOffset(int hours, boolean assumingMinutes) {
         // If the offset contains minutes too, we make the range smaller by one hour from each end.
-        final int shift = (assumingMinutes ? 1 : 0);
+        int shift = (assumingMinutes ? 1 : 0);
         checkBounds(hours, Parameter.hours.name(),
                     MIN_HOURS_OFFSET + shift,
                     MAX_HOURS_OFFSET - shift);
@@ -146,20 +147,20 @@ public final class ZoneOffsets {
             final String errMsg = format("Invalid offset value: \"%s\"", value);
             throw new ParseException(errMsg, 0);
         }
-        final char signChar = value.charAt(0);
-        final boolean positive = signChar == Formats.PLUS;
-        final boolean negative = signChar == Formats.MINUS;
+        char signChar = value.charAt(0);
+        boolean positive = signChar == Formats.PLUS;
+        boolean negative = signChar == Formats.MINUS;
 
         if (!(positive || negative)) {
-            final String errMsg = format("Missing sign char in offset value: \"%s\"", value);
+            String errMsg = format("Missing sign char in offset value: \"%s\"", value);
             throw new ParseException(errMsg, 0);
         }
 
-        final String hoursStr = value.substring(1, pos);
-        final String minutesStr = value.substring(pos + 1);
-        final long hours = Long.parseLong(hoursStr);
-        final long minutes = Long.parseLong(minutesStr);
-        final long totalMinutes = hours * MINUTES_PER_HOUR + minutes;
+        String hoursStr = value.substring(1, pos);
+        String minutesStr = value.substring(pos + 1);
+        long hours = Long.parseLong(hoursStr);
+        long minutes = Long.parseLong(minutesStr);
+        long totalMinutes = hours * MINUTES_PER_HOUR + minutes;
         long seconds = totalMinutes * SECONDS_PER_MINUTE;
 
         if (negative) {
@@ -167,7 +168,7 @@ public final class ZoneOffsets {
         }
 
         @SuppressWarnings("NumericCastThatLosesPrecision") // OK since the value cannot grow larger.
-        final ZoneOffset result = ofSeconds((int) seconds);
+        ZoneOffset result = ofSeconds((int) seconds);
         return result;
     }
 
@@ -176,11 +177,11 @@ public final class ZoneOffsets {
      */
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        final long seconds = zoneOffset.getAmountSeconds();
-        final long totalMinutes = seconds / SECONDS_PER_MINUTE;
-        final long hours = totalMinutes / MINUTES_PER_HOUR;
-        final long minutes = totalMinutes % MINUTES_PER_HOUR;
-        final StringBuilder builder = new StringBuilder(6)
+        long seconds = zoneOffset.getAmountSeconds();
+        long totalMinutes = seconds / SECONDS_PER_MINUTE;
+        long hours = totalMinutes / MINUTES_PER_HOUR;
+        long minutes = totalMinutes % MINUTES_PER_HOUR;
+        StringBuilder builder = new StringBuilder(6)
                 .append(seconds >= 0 ? Formats.PLUS : Formats.MINUS)
                 .append(formatOffsetTime(hours, minutes));
         return builder.toString();
@@ -190,7 +191,7 @@ public final class ZoneOffsets {
         if (offsetInSeconds == 0 && zoneId == null) {
             return UTC;
         }
-        final String id = nullToEmpty(zoneId);
+        String id = nullToEmpty(zoneId);
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
                          .setId(ZoneId.newBuilder().setValue(id))

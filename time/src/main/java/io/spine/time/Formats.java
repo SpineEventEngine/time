@@ -50,28 +50,13 @@ final class Formats {
     static final char UTC_ZONE_SIGN = 'Z';
 
     private static final ThreadLocal<DateFormat> dateTimeFormat =
-            new ThreadLocal<DateFormat>() {
-                @Override
-                protected DateFormat initialValue() {
-                    return createDateTimeFormat(TimeZone.getDefault());
-                }
-            };
+            ThreadLocal.withInitial(() -> createDateTimeFormat(TimeZone.getDefault()));
 
     private static final ThreadLocal<DateFormat> timeFormat =
-            new ThreadLocal<DateFormat>() {
-                @Override
-                protected DateFormat initialValue() {
-                    return createTimeFormat(TimeZone.getDefault());
-                }
-            };
+            ThreadLocal.withInitial(() -> createTimeFormat(TimeZone.getDefault()));
 
     private static final ThreadLocal<DateFormat> dateFormat =
-            new ThreadLocal<DateFormat>() {
-                @Override
-                protected DateFormat initialValue() {
-                    return createDateFormat(TimeZone.getDefault());
-                }
-            };
+            ThreadLocal.withInitial(() -> createDateFormat(TimeZone.getDefault()));
 
     static String formatOffsetTime(long hours, long minutes) {
         return format(HOURS_AND_MINUTES_FORMAT, Math.abs(hours),
@@ -97,7 +82,7 @@ final class Formats {
      * Creates format for local date.
      */
     private static DateFormat createDateFormat(TimeZone timeZone) {
-        final SimpleDateFormat sdf = createDigitOnlyFormat(DATE_FORMAT);
+        SimpleDateFormat sdf = createDigitOnlyFormat(DATE_FORMAT);
         GregorianCalendar calendar = Calendars.newProlepticGregorianCalendar(timeZone);
         sdf.setCalendar(calendar);
         return sdf;
@@ -107,7 +92,7 @@ final class Formats {
      * Creates ISO 8601 date string format.
      */
     private static SimpleDateFormat createDateTimeFormat(TimeZone timeZone) {
-        final SimpleDateFormat sdf = createDigitOnlyFormat(DATE_TIME_FORMAT);
+        SimpleDateFormat sdf = createDigitOnlyFormat(DATE_TIME_FORMAT);
         GregorianCalendar calendar = Calendars.newProlepticGregorianCalendar(timeZone);
         sdf.setCalendar(calendar);
         return sdf;
@@ -117,7 +102,7 @@ final class Formats {
      * Creates ISO 8601 time string format.
      */
     private static SimpleDateFormat createTimeFormat(TimeZone timeZone) {
-        final SimpleDateFormat sdf = createDigitOnlyFormat(TIME_FORMAT);
+        SimpleDateFormat sdf = createDigitOnlyFormat(TIME_FORMAT);
         GregorianCalendar calendar = Calendars.newProlepticGregorianCalendar(timeZone);
         sdf.setCalendar(calendar);
         return sdf;
@@ -154,25 +139,25 @@ final class Formats {
     //---------------------
 
     static DateFormat dateTimeFormat(ZoneOffset offset) {
-        final TimeZone timeZone = toTimeZone(offset);
+        TimeZone timeZone = toTimeZone(offset);
         return createDateTimeFormat(timeZone);
     }
 
     private static TimeZone toTimeZone(ZoneOffset offset) {
-        final TimeZone timeZone = ZoneConverter.getInstance()
-                                               .reverse()
-                                               .convert(offset);
+        TimeZone timeZone = ZoneConverter.getInstance()
+                                         .reverse()
+                                         .convert(offset);
         checkNotNull(timeZone);
         return timeZone;
     }
 
     static DateFormat dateFormat(ZoneOffset offset) {
-        final TimeZone timeZone = toTimeZone(offset);
+        TimeZone timeZone = toTimeZone(offset);
         return createDateFormat(timeZone);
     }
 
     static DateFormat timeFormat(ZoneOffset offset) {
-        final TimeZone timeZone = toTimeZone(offset);
+        TimeZone timeZone = toTimeZone(offset);
         return createTimeFormat(timeZone);
     }
 
@@ -183,7 +168,7 @@ final class Formats {
      * Appends the fractional second part of the time to the passed string builder.
      */
     static void appendSubSecond(StringBuilder builder, LocalTime time) {
-        final long nanos = LocalTimes.getTotalNanos(time);
+        long nanos = LocalTimes.getTotalNanos(time);
         if (nanos != 0) {
             builder.append(SUB_SECOND_SEPARATOR);
             builder.append(formatNanos(nanos));
@@ -209,7 +194,7 @@ final class Formats {
         if (offset.getAmountSeconds() == 0) {
             builder.append(UTC_ZONE_SIGN);
         } else {
-            final String offsetStr = ZoneOffsets.toString(offset);
+            String offsetStr = ZoneOffsets.toString(offset);
             builder.append(offsetStr);
         }
     }
