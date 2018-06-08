@@ -118,8 +118,6 @@ subprojects {
 
         compile deps.build.protobuf
 
-        //compile group: 'com.google.protobuf', name: 'protobuf-java-util', version: protobufVersion
-
         // Use jdk14 bindings for test purposes only.
         testCompile deps.test.slf4j
         testCompile(deps.test.junit4) {
