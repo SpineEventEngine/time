@@ -88,8 +88,8 @@ subprojects {
         generatedTestSpineDir = "$generatedRootDir/test/spine"
     }
 
+    apply plugin: 'java-library'
     apply plugin: 'com.google.protobuf'
-    apply plugin: 'java'
     apply plugin: 'maven-publish'
 
     sourceCompatibility = 1.8
@@ -108,14 +108,14 @@ subprojects {
     }
 
     dependencies {
-        compile deps.build.guava
-        compile deps.build.jsr305Annotations
+        api deps.build.protobuf
+
+        implementation deps.build.guava
+        implementation deps.build.jsr305Annotations
 
         // As a Library, we provide logging facade API, not specific logger bindings.
         // Target apps are free to use any binding they need.
-        compile deps.build.slf4j
-
-        compile deps.build.protobuf
+        implementation deps.build.slf4j
 
         // Use jdk14 bindings for test purposes only.
         testCompile deps.test.slf4j
