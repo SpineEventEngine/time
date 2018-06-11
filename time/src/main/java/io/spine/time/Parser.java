@@ -89,12 +89,6 @@ final class Parser {
         return result;
     }
 
-    static LocalTime parseLocalTime(String str) throws ParseException {
-        final Parser parser = new Parser(str);
-        final LocalTime result = parser.parseLocalTime();
-        return result;
-    }
-
     /*
      * Implementation
      *******************/
@@ -154,19 +148,6 @@ final class Parser {
         final LocalDate localDate = Calendars.toLocalDate(calendar);
         final OffsetDate result = OffsetDates.of(localDate, zoneOffset);
         return result;
-    }
-
-    private LocalTime parseLocalTime() throws ParseException {
-        // The input string for local time does not have zone offset.
-        timezoneOffsetPosition = value.length();
-        initTimeParts();
-        parseTime(timeFormat());
-        zoneOffset = ZoneOffsets.getDefault();
-        Calendar calendar = createCalendar();
-        @SuppressWarnings("NumericCastThatLosesPrecision") // OK as we compute remainder
-        final int remainingNanos = (int) (nanos % NANOS_PER_MILLISECOND);
-        final LocalTime localTime = Calendars.toLocalTime(calendar, remainingNanos);
-        return localTime;
     }
 
     private Calendar createCalendar() {

@@ -24,19 +24,13 @@ import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.Formats.appendSubSecond;
-import static io.spine.time.Formats.timeFormat;
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static io.spine.time.SiTime.NANOS_PER_SECOND;
 
 /**
@@ -135,7 +129,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of hours added.
+     * Obtains new local time with specified number of hours added.
      */
     public static LocalTime addHours(LocalTime localTime, int hoursToAdd) {
         checkArguments(localTime, hoursToAdd);
@@ -143,7 +137,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of minutes added.
+     * Obtains new local time with specified number of minutes added.
      */
     public static LocalTime addMinutes(LocalTime localTime, int minutesToAdd) {
         checkArguments(localTime, minutesToAdd);
@@ -151,7 +145,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of seconds added.
+     * Obtains new local time with specified number of seconds added.
      */
     public static LocalTime addSeconds(LocalTime localTime, int secondsToAdd) {
         checkArguments(localTime, secondsToAdd);
@@ -159,11 +153,11 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of milliseconds added.
+     * Obtains new local time with specified number of nanoseconds added.
      */
-    public static LocalTime addMillis(LocalTime localTime, int millisToAdd) {
-        checkArguments(localTime, millisToAdd);
-        return of(toJavaTime(localTime).plusNanos((long)millisToAdd * NANOS_PER_MILLISECOND));
+    public static LocalTime addNanos(LocalTime localTime, long nanosToAdd) {
+        checkArguments(localTime, nanosToAdd);
+        return of(toJavaTime(localTime).plusNanos(nanosToAdd));
     }
 
     /**
@@ -191,11 +185,11 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of milliseconds subtracted.
+     * Obtains a copy of this local time with the specified number of nanoseconds subtracted.
      */
-    public static LocalTime subtractMillis(LocalTime localTime, int millisToSubtract) {
-        checkArguments(localTime, millisToSubtract);
-        return of(toJavaTime(localTime).minusNanos((long)millisToSubtract * NANOS_PER_MILLISECOND));
+    public static LocalTime subtractNanos(LocalTime localTime, long nanosToSubtract) {
+        checkArguments(localTime, nanosToSubtract);
+        return of(toJavaTime(localTime).minusNanos(nanosToSubtract));
     }
 
     /**
@@ -204,18 +198,8 @@ public final class LocalTimes {
      * <p>Examples of results: {@code "13:45:30.123456789"}, {@code "09:37:00"}.
      */
     public static String toString(LocalTime time) {
-        final Calendar calendar = toCalendar(time);
-        final StringBuilder result = new StringBuilder();
-
-        // Format the time part.
-        final Date date = calendar.getTime();
-        final String timePart = timeFormat().format(date);
-        result.append(timePart);
-
-        // Add the fractional second part.
-        appendSubSecond(result, time);
-
-        return result.toString();
+        String result = toJavaTime(time).toString();
+        return result;
     }
 
     /**

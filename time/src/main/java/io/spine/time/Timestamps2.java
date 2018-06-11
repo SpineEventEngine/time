@@ -37,8 +37,8 @@ import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
  */
 public final class Timestamps2 {
 
+    /** Prevent instantiation of this utility class. */
     private Timestamps2() {
-        // Prevent instantiation of this utility class.
     }
 
     /**

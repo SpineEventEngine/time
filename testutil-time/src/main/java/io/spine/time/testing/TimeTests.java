@@ -44,8 +44,8 @@ import static io.spine.validate.Validate.checkPositive;
 @VisibleForTesting
 public class TimeTests {
 
+    /** Prevent instantiation of this utility class. */
     private TimeTests() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
