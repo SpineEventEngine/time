@@ -223,7 +223,7 @@ public final class ZoneOffsets {
             }
         },
 
-        MINUTES(0, 14) {
+        MINUTES(0, 60) {
             @Override
             void check(int value) {
                 checkBounds(Math.abs(value));

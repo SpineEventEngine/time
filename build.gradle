@@ -32,6 +32,8 @@ buildscript {
         mavenCentral()
         mavenLocal()
 
+        maven { url = repos.gradlePlugins }
+
         // Spine releases repository.
         maven { url = repos.spine }
 
@@ -43,6 +45,10 @@ buildscript {
     dependencies {
         classpath deps.build.guava
         classpath (deps.build.gradlePlugins.protobuf) {
+            // exclude an old Guava version
+            exclude group: 'com.google.guava'
+        }
+        classpath (deps.build.gradlePlugins.errorProne) {
             // exclude an old Guava version
             exclude group: 'com.google.guava'
         }
@@ -89,6 +95,7 @@ subprojects {
     }
 
     apply plugin: 'java-library'
+    apply plugin: 'net.ltgt.errorprone'
     apply plugin: 'com.google.protobuf'
     apply plugin: 'maven-publish'
 
@@ -118,13 +125,17 @@ subprojects {
         implementation deps.build.slf4j
 
         // Use jdk14 bindings for test purposes only.
-        testCompile deps.test.slf4j
-        testCompile(deps.test.junit4) {
-            exclude(module: 'hamcrest-core')
-        }
+//        testCompile deps.test.slf4j
+//        testCompile(deps.test.junit4) {
+//            exclude(module: 'hamcrest-core')
+//        }
+        
+        testCompile deps.test.junit5Api
         testCompile deps.test.hamcrest
         testCompile deps.test.mockito
         testCompile deps.test.guavaTestlib
+
+        testRuntime deps.test.junit5Runner
     }
 
     sourceSets {
