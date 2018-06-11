@@ -21,7 +21,6 @@
 package io.spine.time;
 
 import com.google.protobuf.Duration;
-import io.spine.time.Formats.Parameter;
 
 import javax.annotation.Nullable;
 import java.text.ParseException;
@@ -31,10 +30,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.Formats.formatOffsetTime;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.validate.Validate.checkBounds;
+import static io.spine.time.Formats.formatOffsetTime;
+import static io.spine.util.Exceptions.unsupported;
 import static java.lang.String.format;
 
 /**
@@ -45,12 +44,6 @@ import static java.lang.String.format;
  * @see ZoneOffset
  */
 public final class ZoneOffsets {
-
-    public static final int MIN_HOURS_OFFSET = -11;
-    public static final int MAX_HOURS_OFFSET = 14;
-
-    public static final int MIN_MINUTES_OFFSET = 0;
-    public static final int MAX_MINUTES_OFFSET = 60;
 
     public static final ZoneOffset UTC =
             ZoneOffset.newBuilder()
@@ -85,7 +78,7 @@ public final class ZoneOffsets {
      * Obtains the ZoneOffset instance using an offset in hours.
      */
     public static ZoneOffset ofHours(int hours) {
-        checkHourOffset(hours, false);
+        Parameter.HOURS.check(hours);
 
         Duration hourDuration = Durations2.fromHours(hours);
         int seconds = toSeconds(hourDuration);
@@ -110,8 +103,8 @@ public final class ZoneOffsets {
      * <p>If a negative zone offset is created both passed values must be negative.
      */
     public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
-        checkHourOffset(hours, true);
-        checkMinuteOffset(minutes);
+        Parameter.HOURS.checkReduced(hours);
+        Parameter.MINUTES.check(minutes);
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
@@ -124,19 +117,6 @@ public final class ZoneOffsets {
     // It is safe, as we check bounds of the arguments.
     private static int toSeconds(Duration duration) {
         return (int) Durations2.toSeconds(duration);
-    }
-
-    private static void checkHourOffset(int hours, boolean assumingMinutes) {
-        // If the offset contains minutes too, we make the range smaller by one hour from each end.
-        int shift = (assumingMinutes ? 1 : 0);
-        checkBounds(hours, Parameter.hours.name(),
-                    MIN_HOURS_OFFSET + shift,
-                    MAX_HOURS_OFFSET - shift);
-    }
-
-    private static void checkMinuteOffset(int minutes) {
-        checkBounds(Math.abs(minutes), Parameter.minutes.name(),
-                    MIN_MINUTES_OFFSET, MAX_MINUTES_OFFSET);
     }
 
     /**
@@ -217,5 +197,70 @@ public final class ZoneOffsets {
             return UTC;
         }
         return offset;
+    }
+
+    /**
+     * Parameter checks for zone offset values.
+     */
+    enum Parameter {
+
+        HOURS(-11, 14) {
+
+            @Override
+            void check(int value) {
+                checkBounds(value);
+            }
+
+            /**
+             * Checks the hour value of an offset that contains minutes.
+             *
+             * <p>If the offset contains minutes too, we make the range smaller by one hour from
+             * each end.
+             */
+            @Override
+            void checkReduced(int value) {
+                DtPreconditions.checkBounds(value, name().toLowerCase(), min() + 1, max() - 1);
+            }
+        },
+
+        MINUTES(0, 14) {
+            @Override
+            void check(int value) {
+                checkBounds(Math.abs(value));
+            }
+
+            /**
+             * Always throws exception since minute offset parameters do not support
+             * reduced check.
+             */
+            @Override
+            void checkReduced(int value) {
+                throw unsupported();
+            }
+        };
+
+        private final int min;
+        private final int max;
+
+        Parameter(int min, int max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        abstract void check(int value);
+
+        abstract void checkReduced(int value);
+
+        protected void checkBounds(int value) {
+            DtPreconditions.checkBounds(value, name().toLowerCase(), min(), max());
+        }
+
+        int min() {
+            return min;
+        }
+
+        int max() {
+            return max;
+        }
     }
 }

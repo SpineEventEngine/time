@@ -44,6 +44,5 @@ public class SiTime {
 
     /** Prevent instantiation of this utility class. */
     private SiTime() {
-        // Does nothing.
     }
 }

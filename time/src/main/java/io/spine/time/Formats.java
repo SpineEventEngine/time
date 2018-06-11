@@ -63,19 +63,8 @@ final class Formats {
                       Math.abs(minutes));
     }
 
-    /**
-     * Names of arguments in preconditions checks.
-     */
-    enum Parameter {
-        hours,
-        minutes,
-        seconds,
-        millis,
-        nanos
-    }
-
+    /** Prevent instantiation of this utility class. */
     private Formats() {
-        // Prevent instantiation of this utility class.
     }
 
     /**

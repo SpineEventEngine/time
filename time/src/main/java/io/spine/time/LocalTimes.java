@@ -22,21 +22,21 @@ package io.spine.time;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
-import io.spine.time.Formats.Parameter;
 
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
-import static io.spine.time.Calendars.checkArguments;
+import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.Calendars.toLocalTime;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
+import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
 import static io.spine.time.Formats.appendSubSecond;
 import static io.spine.time.Formats.timeFormat;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.SiTime.NANOS_PER_SECOND;
-import static io.spine.validate.Validate.checkBounds;
 import static java.util.Calendar.HOUR;
 import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
@@ -80,7 +80,7 @@ public final class LocalTimes {
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
         checkClockTime(hours, minutes, seconds);
-        checkBounds(nanos, Parameter.nanos.name(), 0, NANOS_PER_SECOND - 1);
+        Parameter.NANOS.check(nanos);
 
         LocalTime result = LocalTime
                 .newBuilder()
@@ -107,9 +107,9 @@ public final class LocalTimes {
     }
 
     private static void checkClockTime(int hours, int minutes, int seconds) {
-        checkBounds(hours, Parameter.hours.name(), 0, HOURS_PER_DAY - 1);
-        checkBounds(minutes, Parameter.hours.name(), 0, MINUTES_PER_HOUR - 1);
-        checkBounds(seconds, Parameter.seconds.name(), 0, MINUTES_PER_HOUR - 1);
+        Parameter.HOURS.check(hours);
+        Parameter.MINUTES.check(minutes);
+        Parameter.SECONDS.check(seconds);
     }
 
     /**
@@ -276,5 +276,27 @@ public final class LocalTimes {
     public static LocalTime parse(String str) {
         java.time.LocalTime parsed = java.time.LocalTime.parse(str);
         return of(parsed);
+    }
+
+    /**
+     * Arguments in preconditions checks for time modification routines.
+     */
+    enum Parameter {
+
+        HOURS(HOURS_PER_DAY - 1),
+        MINUTES(MINUTES_PER_HOUR - 1),
+        SECONDS(SECONDS_PER_MINUTE - 1),
+        MILLIS(MILLIS_PER_SECOND - 1),
+        NANOS(NANOS_PER_SECOND - 1);
+
+        private final int upperBound;
+
+        Parameter(int bound) {
+            upperBound = bound;
+        }
+
+        void check(int value) {
+            DtPreconditions.checkBounds(value, name().toLowerCase(), 0, upperBound);
+        }
     }
 }

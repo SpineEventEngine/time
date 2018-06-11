@@ -18,9 +18,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.test;
+package io.spine.time.testing;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
@@ -106,6 +107,7 @@ public class TimeTests {
          * Rewinds the {@linkplain #getCurrentTime() "current time"} forward
          * by the passed amount of hours.
          */
+        @CanIgnoreReturnValue
         public synchronized Timestamp forward(long hoursDelta) {
             checkPositive(hoursDelta);
             final Timestamp newTime = add(this.currentTime, hours(hoursDelta));
@@ -117,6 +119,7 @@ public class TimeTests {
          * Rewinds the {@linkplain #getCurrentTime() "current time"} backward
          * by the passed amount of hours.
          */
+        @CanIgnoreReturnValue
         public synchronized Timestamp backward(long hoursDelta) {
             checkPositive(hoursDelta);
             final Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));

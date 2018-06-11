@@ -28,10 +28,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
-import static io.spine.validate.Validate.checkPositive;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MILLISECOND;
@@ -337,13 +335,5 @@ final class Calendars {
         GregorianCalendar calendar = new GregorianCalendar(timeZone);
         calendar.setGregorianChange(new Date(Long.MIN_VALUE));
         return calendar;
-    }
-
-    /**
-     * Ensures that the passed value is not null and the delta value is positive.
-     */
-    static void checkArguments(Object value, int delta) {
-        checkNotNull(value);
-        checkPositive(delta);
     }
 }

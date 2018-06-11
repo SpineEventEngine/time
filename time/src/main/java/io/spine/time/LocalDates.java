@@ -25,10 +25,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.checkArguments;
+import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.Calendars.toLocalDate;
-import static io.spine.validate.Validate.checkPositive;
+import static io.spine.time.DtPreconditions.checkPositive;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
@@ -42,8 +42,8 @@ import static java.util.Calendar.getInstance;
  */
 public final class LocalDates {
 
+    /** Prevent instantiation of this utility class. */
     private LocalDates() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -61,13 +61,14 @@ public final class LocalDates {
     public static LocalDate of(int year, MonthOfYear month, int day) {
         checkPositive(year);
         checkPositive(day);
-        Dates.checkDate(year, month, day);
+        DtPreconditions.checkDate(year, month, day);
 
-        final LocalDate result = LocalDate.newBuilder()
-                                          .setYear(year)
-                                          .setMonth(month)
-                                          .setDay(day)
-                                          .build();
+        LocalDate result = LocalDate
+                .newBuilder()
+                .setYear(year)
+                .setMonth(month)
+                .setDay(day)
+                .build();
         return result;
     }
 
@@ -190,8 +191,13 @@ public final class LocalDates {
         return result;
     }
 
-    public static void checkDate(LocalDate date){
-        Dates.checkDate(date.getYear(), date.getMonth(), date.getDay());
+    /**
+     * Verified fields of the passed local date instance.
+     *
+     * @param date the date to check
+     * @throws IllegalArgumentException if one of the date values has an invalid value
+     */
+    public static void checkDate(LocalDate date) {
+        DtPreconditions.checkDate(date.getYear(), date.getMonth(), date.getDay());
     }
-
 }

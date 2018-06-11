@@ -18,13 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.test;
+package io.spine.time.testing;
 
-import io.spine.test.TimeTests.BackToTheFuture;
 import org.junit.Before;
 import org.junit.Test;
 
-import static io.spine.test.TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,11 +32,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class BackToTheFutureShould {
 
-    private BackToTheFuture timeProvider;
+    private TimeTests.BackToTheFuture timeProvider;
 
     @Before
     public void setUp() {
-        timeProvider = new BackToTheFuture();
+        timeProvider = new TimeTests.BackToTheFuture();
     }
 
     @Test
@@ -50,10 +48,10 @@ public class BackToTheFutureShould {
     public void rewind_backward() {
         // Rewind to somewhere around present.
         assertNotEquals(timeProvider.getCurrentTime(),
-                        timeProvider.backward(THIRTY_YEARS_IN_HOURS));
+                        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS));
 
         // ... and back to 30 years in the past.
-        timeProvider.backward(THIRTY_YEARS_IN_HOURS);
+        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
         assertFalse(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
     }
@@ -62,9 +60,9 @@ public class BackToTheFutureShould {
     @Test
     public void rewind_forward() {
         // Rewind to somewhere around present.
-        timeProvider.backward(THIRTY_YEARS_IN_HOURS);
+        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
-        timeProvider.forward(THIRTY_YEARS_IN_HOURS + 24L);
+        timeProvider.forward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS + 24L);
 
         assertTrue(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
     }

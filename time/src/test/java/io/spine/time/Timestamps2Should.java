@@ -23,7 +23,7 @@ package io.spine.time;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import io.spine.test.TimeTests;
+import io.spine.time.testing.TimeTests;
 import org.junit.Test;
 
 import java.util.Date;

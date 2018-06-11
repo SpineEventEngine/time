@@ -90,22 +90,22 @@ public class ZoneOffsetsShould {
 
     @Test(expected = IllegalArgumentException.class)
     public void do_not_accept_more_than_14_Hour() {
-        ofHours(ZoneOffsets.MAX_HOURS_OFFSET + 1);
+        ofHours(14 + 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void do_not_accept_more_than_11_hours_by_abs() {
-        ofHours(ZoneOffsets.MIN_HOURS_OFFSET - 1);
+        ofHours(-11 - 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void do_not_accept_more_than_60_minutes() {
-        ofHoursMinutes(10, ZoneOffsets.MAX_MINUTES_OFFSET + 1);
+        ofHoursMinutes(10, 60 + 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void do_not_accept_more_than_17_hours_and_60_minutes() {
-        ofHoursMinutes(3, ZoneOffsets.MIN_MINUTES_OFFSET - 1);
+        ofHoursMinutes(3, 0 - 1);
     }
 
     @Test

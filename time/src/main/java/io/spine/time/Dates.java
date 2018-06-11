@@ -21,7 +21,7 @@
 package io.spine.time;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.validate.Validate.checkPositive;
+import static io.spine.util.Exceptions.newIllegalArgumentException;
 import static java.lang.String.format;
 
 /**
@@ -32,36 +32,10 @@ import static java.lang.String.format;
  *
  * @author Mykhailo Drachuk
  */
-public class Dates {
+class Dates {
 
     /** Prevent instantiation of this utility class. */
     private Dates() {
-        // Does nothing.
     }
-    
-    /**
-     * Ensures that the passed date is valid.
-     *
-     * @throws IllegalArgumentException if
-     * <ul>
-     *     <li>the year is less or equal zero,
-     *     <li>the month is {@code UNDEFINED},
-     *     <li>the day is less or equal zero or greater than can be in the month.
-     * </ul>
-     */
-    public static void checkDate(int year, MonthOfYear month, int day) {
-        checkPositive(year);
-        checkNotNull(month);
-        checkPositive(month.getNumber());
-        checkPositive(day);
 
-        final int daysInMonth = Months.daysInMonth(year, month);
-
-        if (day > daysInMonth) {
-            final String errMsg = format(
-                    "A number of days cannot be more than %d, for this month and year.",
-                    daysInMonth);
-            throw new IllegalArgumentException(errMsg);
-        }
-    }
 }
