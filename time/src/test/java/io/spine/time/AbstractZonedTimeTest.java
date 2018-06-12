@@ -20,10 +20,10 @@
 
 package io.spine.time;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.text.ParseException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import static io.spine.test.TestValues.random;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
@@ -40,7 +40,7 @@ public abstract class AbstractZonedTimeTest {
     @SuppressWarnings("ProtectedField") // OK for brevity of test code.
     protected ZoneOffset zoneOffset;
 
-    protected abstract void assertConversionAt(ZoneOffset zoneOffset) throws ParseException;
+    protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 
     private static ZoneOffset generateOffset() {
         // Reduce the hour range by one assuming minutes are also generated.
@@ -53,29 +53,39 @@ public abstract class AbstractZonedTimeTest {
         return ZoneOffsets.ofHoursMinutes(hours, minutes);
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         zoneOffset = generateOffset();
     }
 
-    @Test
-    public void convert_UTC_value_to_string() throws ParseException {
-        assertConversionAt(ZoneOffsets.UTC);
-    }
+    @SuppressWarnings("unused") // is used when running descending test suites
+    @Nested
+    @DisplayName("Convert values at")
+    class Convert {
 
-    @Test
-    public void convert_values_at_current_time_zone() throws ParseException {
-        ZoneOffset zoneOffset = ZoneOffsets.getDefault();
-        assertConversionAt(zoneOffset);
-    }
+        @Test
+        @DisplayName("UTC")
+        void utc() {
+            assertConversionAt(ZoneOffsets.UTC);
+        }
 
-    @Test
-    public void convert_value_at_negative_offset() throws ParseException {
-        assertConversionAt(ZoneOffsets.ofHoursMinutes(-5, -30));
-    }
+        @Test
+        @DisplayName("current time zone")
+        void currentTimeZone() {
+            ZoneOffset zoneOffset = ZoneOffsets.getDefault();
+            assertConversionAt(zoneOffset);
+        }
 
-    @Test
-    public void convert_value_at_positive_offset() throws ParseException {
-        assertConversionAt(ZoneOffsets.ofHoursMinutes(7, 40));
+        @Test
+        @DisplayName("negative offset")
+        void atNegativeOffset() {
+            assertConversionAt(ZoneOffsets.ofHoursMinutes(-5, -30));
+        }
+
+        @Test
+        @DisplayName("positive offset")
+        void atPositiveOffset() {
+            assertConversionAt(ZoneOffsets.ofHoursMinutes(7, 40));
+        }
     }
 }
