@@ -25,18 +25,8 @@ import com.google.protobuf.Timestamp;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Calendar;
-
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Calendars.at;
-import static io.spine.time.Calendars.getDay;
-import static io.spine.time.Calendars.getHours;
-import static io.spine.time.Calendars.getMinutes;
-import static io.spine.time.Calendars.getMonth;
-import static io.spine.time.Calendars.getSeconds;
-import static io.spine.time.Calendars.getYear;
-import static io.spine.time.Calendars.getZoneOffset;
 import static io.spine.time.OffsetDateTimes.addDays;
 import static io.spine.time.OffsetDateTimes.addHours;
 import static io.spine.time.OffsetDateTimes.addMinutes;
