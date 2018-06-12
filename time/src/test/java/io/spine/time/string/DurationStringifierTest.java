@@ -22,10 +22,10 @@ package io.spine.time.string;
 
 import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
-import io.spine.time.Durations2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static io.spine.time.Durations2.hoursAndMinutes;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -40,14 +40,14 @@ class DurationStringifierTest extends AbstractStringifierTest<Duration> {
 
     @Override
     protected Duration createObject() {
-        return Durations2.hoursAndMinutes(5, 37);
+        return hoursAndMinutes(5, 37);
     }
 
     @Test
     @DisplayName("Convert negative duration")
     void convertNegativeDuration() {
-        final Stringifier<Duration> stringifier = getStringifier();
-        final Duration negative = Durations2.hoursAndMinutes(-4, -31);
+        Stringifier<Duration> stringifier = getStringifier();
+        Duration negative = hoursAndMinutes(-4, -31);
         assertEquals(negative, stringifier.reverse()
                                           .convert(stringifier.convert(negative)));
     }
