@@ -43,6 +43,7 @@ import static io.spine.time.Durations2.isNegative;
 import static io.spine.time.Durations2.isPositive;
 import static io.spine.time.Durations2.isPositiveOrZero;
 import static io.spine.time.Durations2.isZero;
+import static io.spine.time.Durations2.milliseconds;
 import static io.spine.time.Durations2.minutes;
 import static io.spine.time.Durations2.nanos;
 import static io.spine.time.Durations2.seconds;
@@ -52,13 +53,14 @@ import static io.spine.time.Durations2.toSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings({"MagicNumber", "ClassWithTooManyMethods"})
+@SuppressWarnings("MagicNumber")
 @DisplayName("Durations2 should")
 class Durations2Test {
 
@@ -75,12 +77,62 @@ class Durations2Test {
     }
 
     @Nested
+    @DisplayName("Have DSL-like methods")
+    class Dsl {
+        @Test
+        @DisplayName("for seconds")
+        void forSeconds() {
+            assertEquals(100, seconds(100).getSeconds());
+        }
+        
+        @Test
+        @DisplayName("for minutes")
+        void forMinutes() {
+            assertEquals(5, getMinutes(minutes(5)));
+        }
+
+        @Test
+        @DisplayName("for hours")
+        void forHours() {
+            assertEquals(24, getHours(hours(24)));
+        }
+
+        @Test
+        @DisplayName("for milliseconds")
+        void forMillis() {
+            assertNotNull(milliseconds(100500L));
+        }
+
+        @Test
+        @DisplayName("for hours and minutes")
+        void hoursMinutesSeconds() {
+            long hours = 3;
+            long minutes = 25;
+            long secondsTotal = hoursToSeconds(hours) + minutesToSeconds(minutes);
+            Duration expected = seconds(secondsTotal);
+
+            Duration actual = hoursAndMinutes(hours, minutes);
+
+            assertEquals(expected, actual);
+        }
+
+    }
+
+    private static long minutesToSeconds(long minutes) {
+        return minutes * 60L;
+    }
+
+    private static long hoursToSeconds(long hours) {
+        return hours * 60L * 60L;
+    }
+
+    @Nested
     @DisplayName("Convert a number of hours")
     class HourConversion {
 
         private void test(long hours) {
             Duration expected = seconds(hoursToSeconds(hours));
-            Duration actual = fromHours(hours);
+            Duration actual = hours(hours);
             assertEquals(expected, actual);
         }
 
@@ -143,141 +195,150 @@ class Durations2Test {
             assertSame(duration, add(duration, null));
             assertSame(duration, add(null, duration));
         }
-    }
 
-    @Test
-    public void add_positive_durations() {
-        addDurationsTest(25, 5);
-        addDurationsTest(300, 338);
-    }
+        @Test
+        @DisplayName("positive durations")
+        void positiveDurations() {
+            testAddSeconds(25, 5);
+            testAddSeconds(300, 338);
+        }
 
-    @Test
-    public void add_negative_durations() {
-        addDurationsTest(-25, -5);
-        addDurationsTest(-300, -338);
-    }
+        @Test
+        @DisplayName("negative durations")
+        void negativeDurations() {
+            testAddSeconds(-25, -5);
+            testAddSeconds(-300, -338);
+        }
 
-    @Test
-    public void add_negative_and_positive_durations() {
-        addDurationsTest(25, -5);
-        addDurationsTest(-300, 338);
-    }
+        @Test
+        @DisplayName("both positive and negative durations")
+        void negativeAndPositive() {
+            testAddSeconds(25, -5);
+            testAddSeconds(-300, 338);
+        }
 
+        private void testAddSeconds(long seconds1, long seconds2) {
+            long secondsTotal = seconds1 + seconds2;
+            Duration sumExpected = seconds(secondsTotal);
+            Duration sumActual = add(seconds(seconds1), seconds(seconds2));
 
-    private static void addDurationsTest(long seconds1, long seconds2) {
-
-        final long secondsTotal = seconds1 + seconds2;
-        final Duration sumExpected = seconds(secondsTotal);
-
-        final Duration sumActual = add(seconds(seconds1), seconds(seconds2));
-
-        assertEquals(sumExpected, sumActual);
-    }
-    
-
-    @Test
-    public void convert_hours_and_minutes_to_duration() {
-
-        final long hours = 3;
-        final long minutes = 25;
-        final long secondsTotal = hoursToSeconds(hours) + minutesToSeconds(minutes);
-        final Duration expected = seconds(secondsTotal);
-
-        final Duration actual = hoursAndMinutes(hours, minutes);
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void convert_duration_to_nanoseconds() {
-        assertEquals(10, toNanos(nanos(10)));
-        assertEquals(-256, toNanos(nanos(-256)));
-    }
-
-    @Test
-    public void convert_duration_to_seconds() {
-        assertEquals(1, toSeconds(seconds(1)));
-        assertEquals(-256, toSeconds(seconds(-256)));
-    }
-
-    @Test
-    public void convert_duration_to_minutes() {
-        assertEquals(1, toMinutes(minutes(1)));
-        assertEquals(-256, toMinutes(minutes(-256)));
-    }
-
-    @Test
-    public void return_hours_from_duration() {
-        assertEquals(1, getHours(fromHours(1)));
-        assertEquals(-256, getHours(fromHours(-256)));
-    }
-
-    @Test
-    public void return_remainder_of_minutes_from_duration() {
-        final long minutesRemainder = 8;
-        final long minutesTotal = minutesRemainder + 60; // add 1 hour
-        assertEquals(minutesRemainder, getMinutes(fromMinutes(minutesTotal)));
-    }
-
-    @Test
-    public void verify_if_positive_or_zero() {
-        assertTrue(isPositiveOrZero(seconds(360)));
-        assertTrue(isPositiveOrZero(seconds(0)));
-        assertFalse(isPositiveOrZero(seconds(-32)));
-    }
-
-    @Test
-    public void verify_if_positive() {
-        assertTrue(isPositive(seconds(360)));
-        assertFalse(isPositive(seconds(0)));
-        assertFalse(isPositive(seconds(-32)));
-    }
-
-    @Test
-    public void verify_if_zero() {
-        assertTrue(isZero(seconds(0)));
-        assertFalse(isZero(seconds(360)));
-        assertFalse(isZero(seconds(-32)));
-    }
-
-    @Test
-    public void verify_if_negative() {
-        assertTrue(isNegative(seconds(-32)));
-        assertFalse(isNegative(seconds(360)));
-        assertFalse(isNegative(seconds(0)));
-    }
-
-    @Test
-    public void verify_if_greater() {
-        assertTrue(isGreaterThan(seconds(64), seconds(2)));
-        assertFalse(isGreaterThan(seconds(2), seconds(64)));
-        assertFalse(isGreaterThan(seconds(5), seconds(5)));
-    }
-
-    @Test
-    public void verify_if_less() {
-        assertTrue(isLessThan(seconds(2), seconds(64)));
-        assertFalse(isLessThan(seconds(64), seconds(2)));
-        assertFalse(isLessThan(seconds(5), seconds(5)));
+            assertEquals(sumExpected, sumActual);
+        }
     }
     
+    @Nested
+    @DisplayName("Convert Duration to")
+    class Convert {
+
+        @Test
+        @DisplayName("nanoseconds")
+        void amountOfNanoseconds() {
+            assertEquals(10, toNanos(nanos(10)));
+            assertEquals(-256, toNanos(nanos(-256)));
+        }
+
+        @Test
+        @DisplayName("seconds")
+        void amountOfSeconds() {
+            assertEquals(1, toSeconds(seconds(1)));
+            assertEquals(-256, toSeconds(seconds(-256)));
+        }
+
+        @Test
+        @DisplayName("minutes")
+        void amountOfMinutes() {
+            assertEquals(1, toMinutes(minutes(1)));
+            assertEquals(-256, toMinutes(minutes(-256)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Obtain from Duration")
+    class Obtain {
+
+        @Test
+        void amountOfHours() {
+            assertEquals(1, getHours(fromHours(1)));
+            assertEquals(-256, getHours(fromHours(-256)));
+        }
+
+        @Test
+        void remainderOfMinutes() {
+            final long minutesRemainder = 8;
+            final long minutesTotal = minutesRemainder + 60; // add 1 hour
+            assertEquals(minutesRemainder, getMinutes(fromMinutes(minutesTotal)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Verify if Duration is")
+    class Verify {
+
+        @Test
+        @DisplayName("positive or zero")
+        void positiveOrZero() {
+            assertTrue(isPositiveOrZero(seconds(360)));
+            assertTrue(isPositiveOrZero(seconds(0)));
+            assertFalse(isPositiveOrZero(seconds(-32)));
+        }
+
+        @Test
+        @DisplayName("positive")
+        void positive() {
+            assertTrue(isPositive(seconds(360)));
+            assertFalse(isPositive(seconds(0)));
+            assertFalse(isPositive(seconds(-32)));
+        }
+
+        @Test
+        @DisplayName("zero")
+        void zero() {
+            assertTrue(isZero(seconds(0)));
+            assertFalse(isZero(seconds(360)));
+            assertFalse(isZero(seconds(-32)));
+        }
+
+        @Test
+        @DisplayName("negative")
+        void negative() {
+            assertTrue(isNegative(seconds(-32)));
+            assertFalse(isNegative(seconds(360)));
+            assertFalse(isNegative(seconds(0)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Tell if Duration is")
+    class Compare {
+
+        @Test
+        @DisplayName("greater")
+        void greater() {
+            assertTrue(isGreaterThan(seconds(64), seconds(2)));
+            assertFalse(isGreaterThan(seconds(2), seconds(64)));
+            assertFalse(isGreaterThan(seconds(5), seconds(5)));
+        }
+
+        @Test
+        @DisplayName("less")
+        void less() {
+            assertTrue(isLessThan(seconds(2), seconds(64)));
+            assertFalse(isLessThan(seconds(64), seconds(2)));
+            assertFalse(isLessThan(seconds(5), seconds(5)));
+        }
+    }
+
     @Test
-    public void pass_the_null_tolerance_check() {
+    @DisplayName("Prohibit null values")
+    void nullCheck() {
         new NullPointerTester()
                 .setDefault(Duration.class, Duration.getDefaultInstance())
                 .testStaticMethods(Durations2.class, NullPointerTester.Visibility.PACKAGE);
     }
 
-    private static long hoursToSeconds(long hours) {
-        return hours * 60L * 60L;
-    }
-
-    private static long minutesToSeconds(long minutes) {
-        return minutes * 60L;
-    }
-
     @Test
-    public void provide_stringifier() {
+    @DisplayName("Provide Stringifier")
+    void stringifier() {
         final Stringifier<Duration> stringifier = TimeStringifiers.forDuration();
         final Duration duration = hoursAndMinutes(10, 20);
         assertEquals(duration, stringifier.reverse()

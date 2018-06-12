@@ -27,7 +27,6 @@ import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
@@ -64,7 +63,10 @@ public final class ZoneOffsets {
         return of(zo);
     }
 
-    static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+    /**
+     * Converts the passed instance to the Java Time value.
+     */
+    public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
         java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
         return result;
     }
@@ -147,11 +149,10 @@ public final class ZoneOffsets {
         return zo.toString();
     }
 
-    static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
+    private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
         if (offsetInSeconds == 0 && zoneId == null) {
             return UTC;
         }
-        String id = nullToEmpty(zoneId);
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
                          .build();
