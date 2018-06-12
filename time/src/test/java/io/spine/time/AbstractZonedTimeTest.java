@@ -26,6 +26,8 @@ import org.junit.Test;
 import java.text.ParseException;
 
 import static io.spine.test.TestValues.random;
+import static io.spine.time.ZoneOffsets.Parameter.HOURS;
+import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static java.lang.Math.abs;
 
 /**
@@ -42,10 +44,12 @@ public abstract class AbstractZonedTimeTest {
 
     private static ZoneOffset generateOffset() {
         // Reduce the hour range by one assuming minutes are also generated.
-        final int hours = random(-11 + 1, 14 - 1);
-        int minutes = random(0, 60);
+        int hours = random(HOURS.min() + 1, HOURS.max() - 1);
+        int minutes = random(MINUTES.min(), MINUTES.max());
         // Make minutes of the same sign with hours.
-        minutes = hours >= 0 ? abs(minutes) : -abs(minutes);
+        minutes = hours >= 0
+                  ? abs(minutes)
+                  : -abs(minutes);
         return ZoneOffsets.ofHoursMinutes(hours, minutes);
     }
 
