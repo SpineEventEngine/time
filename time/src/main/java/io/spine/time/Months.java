@@ -53,4 +53,12 @@ public class Months {
         MonthOfYear result = MonthOfYear.forNumber(ld.getMonthValue());
         return result;
     }
+
+    /**
+     * Converts the passed instance to the Java Time value.
+     */
+    public static java.time.Month toJavaTime(MonthOfYear value) {
+        java.time.Month result = java.time.Month.of(value.getNumber());
+        return result;
+    }
 }

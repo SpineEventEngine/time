@@ -22,7 +22,6 @@ package io.spine.time;
 import com.google.protobuf.Timestamp;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.ZoneOffsets.adjustZero;
 
 /**
  * Routines for working with {@link OffsetTime}.
@@ -49,7 +48,7 @@ public final class OffsetTimes {
         OffsetTime result = OffsetTime
                 .newBuilder()
                 .setTime(localTime)
-                .setOffset(adjustZero(zoneOffset))
+                .setOffset(zoneOffset)
                 .build();
         return result;
     }

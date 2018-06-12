@@ -135,7 +135,7 @@ class LocalTimesTest {
         void nullCheck() {
             new NullPointerTester()
                     .setDefault(Timestamp.class, Time.getCurrentTime())
-                    .setDefault(ZoneOffset.class, ZoneOffsets.UTC)
+                    .setDefault(ZoneOffset.class, ZoneOffsets.utc())
                     .setDefault(LocalTime.class, LocalTimes.now())
                     .testAllPublicStaticMethods(LocalTimes.class);
         }

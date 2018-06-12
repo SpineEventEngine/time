@@ -44,6 +44,9 @@ public final class LocalDates {
         return of(now);
     }
 
+    /**
+     * Creates an instance by the passed Java Time value.
+     */
     public static LocalDate of(java.time.LocalDate ld) {
         checkNotNull(ld);
         LocalDate.Builder result = LocalDate
@@ -54,7 +57,10 @@ public final class LocalDates {
         return result.build();
     }
 
-    static java.time.LocalDate toJavaTime(LocalDate date) {
+    /**
+     * Converts the passed value to Java Time instance.
+     */
+    public static java.time.LocalDate toJavaTime(LocalDate date) {
         java.time.LocalDate result = java.time.LocalDate.of(
                 date.getYear(),
                 date.getMonthValue(),

@@ -42,13 +42,20 @@ import static io.spine.util.Exceptions.unsupported;
  */
 public final class ZoneOffsets {
 
-    public static final ZoneOffset UTC = ZoneOffset
+    private static final ZoneOffset UTC = ZoneOffset
             .newBuilder()
             .setAmountSeconds(0)
             .build();
 
     /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
+    }
+
+    /**
+     * Obtains the UTC offset.
+     */
+    public static ZoneOffset utc() {
+        return UTC;
     }
 
     /**
@@ -94,7 +101,7 @@ public final class ZoneOffsets {
     /**
      * Obtains the ZoneOffset for the passed number of seconds.
      *
-     * <p>If zero is passed {@link #UTC} instance is returned.
+     * <p>If zero is passed {@link #utc()} instance is returned.
      *
      * @param seconds a positive, zero,
      * @return the instance for the passed offset
@@ -151,24 +158,11 @@ public final class ZoneOffsets {
 
     private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
         if (offsetInSeconds == 0 && zoneId == null) {
-            return UTC;
+            return utc();
         }
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
                          .build();
-    }
-
-    /**
-     * Verifies if the passed instance has zero offset and no ID.
-     *
-     * <p>If the passed instance is zero without a zone ID, returns the {@link #UTC} instance.
-     * Otherwise returns the passed instance.
-     */
-    static ZoneOffset adjustZero(ZoneOffset offset) {
-        if (offset.getAmountSeconds() == 0) {
-            return UTC;
-        }
-        return offset;
     }
 
     /**

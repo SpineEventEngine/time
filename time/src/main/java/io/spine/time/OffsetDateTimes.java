@@ -19,8 +19,6 @@
  */
 package io.spine.time;
 
-import static io.spine.time.ZoneOffsets.adjustZero;
-
 /**
  * Routines for working with {@link OffsetDateTime}.
  *
@@ -69,7 +67,7 @@ public final class OffsetDateTimes {
                 .newBuilder()
                 .setDate(date)
                 .setTime(time)
-                .setOffset(adjustZero(offset));
+                .setOffset(offset);
         return result.build();
     }
 

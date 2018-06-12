@@ -25,7 +25,7 @@ package io.spine.time;
  *
  * @author Mykhailo Drachuk
  */
-public class SiTime {
+class SiTime {
 
     /** The count of nanoseconds in one second. */
     static final int NANOS_PER_SECOND = 1_000_000_000;
@@ -34,7 +34,7 @@ public class SiTime {
     static final int NANOS_PER_MILLISECOND = 1_000_000;
 
     /** The count of milliseconds in one second. */
-    public static final int MILLIS_PER_SECOND = 1000;
+    static final int MILLIS_PER_SECOND = 1000;
 
     /** The count of nanoseconds in a microsecond. */
     static final int NANOS_PER_MICROSECOND = 1000;

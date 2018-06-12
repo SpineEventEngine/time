@@ -75,7 +75,7 @@ public abstract class AbstractZonedTimeTest {
         @Test
         @DisplayName("UTC")
         void utc() {
-            assertConversionAt(ZoneOffsets.UTC);
+            assertConversionAt(ZoneOffsets.utc());
         }
 
         @Test

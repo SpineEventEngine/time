@@ -41,14 +41,6 @@ class DtPreconditions {
     }
 
     /**
-     * Ensures that the passed value is not null and the delta value is positive.
-     */
-    static void checkArguments(Object value, long delta) {
-        checkNotNull(value);
-        checkPositive(delta);
-    }
-
-    /**
      * Ensures that target value is in between passed bounds.
      */
     static void checkBounds(int value, String paramName, int lowBound, int highBound) {
