@@ -34,7 +34,6 @@ import static io.spine.time.Formats.TIME_SEPARATOR;
 import static io.spine.time.Formats.TIME_VALUE_SEPARATOR;
 import static io.spine.time.Formats.UTC_ZONE_SIGN;
 import static io.spine.time.Formats.dateFormat;
-import static io.spine.time.Formats.dateTimeFormat;
 import static io.spine.time.Formats.timeFormat;
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
@@ -71,12 +70,6 @@ final class Parser {
         this.value = value;
     }
 
-    static OffsetDateTime parseOffsetDateTime(String value) throws ParseException {
-        final Parser parser = new Parser(value);
-        final OffsetDateTime result = parser.parseOffsetDateTime();
-        return result;
-    }
-
     static OffsetDate parseOffsetDate(String value) throws ParseException {
         final Parser parser = new Parser(value);
         final OffsetDate result = parser.parseOffsetDate();
@@ -106,21 +99,6 @@ final class Parser {
                 result += value.charAt(i) - '0';
             }
         }
-        return result;
-    }
-
-    private OffsetDateTime parseOffsetDateTime() throws ParseException {
-        initDayOffset();
-        initZoneOffsetPosition();
-        initTimeParts();
-
-        parseZoneOffset();
-        parseTime(dateTimeFormat(zoneOffset));
-
-        final Calendar calendar = createCalendar();
-        final LocalDate localDate = Calendars.toLocalDate(calendar);
-        final LocalTime localTime = Calendars.toLocalTime(calendar);
-        final OffsetDateTime result = OffsetDateTimes.of(localDate, localTime, zoneOffset);
         return result;
     }
 

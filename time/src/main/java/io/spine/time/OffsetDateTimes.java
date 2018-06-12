@@ -19,16 +19,8 @@
  */
 package io.spine.time;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.DtPreconditions.checkArguments;
-import static io.spine.time.Formats.appendSubSecond;
-import static io.spine.time.Formats.appendZoneOffset;
-import static io.spine.time.Formats.dateTimeFormat;
 import static io.spine.time.ZoneOffsets.adjustZero;
 
 /**
@@ -264,31 +256,15 @@ public final class OffsetDateTimes {
      * Returns a ISO 8601 date/time string corresponding to the passed value.
      */
     public static String toString(OffsetDateTime value) {
-        Calendar calendar = toCalendar(value);
-        ZoneOffset offset = value.getOffset();
-        StringBuilder result = new StringBuilder();
-
-        // Format the date/time part.
-        Date date = calendar.getTime();
-        String dateTime = dateTimeFormat(offset).format(date);
-        result.append(dateTime);
-
-        // Format the fractional second part.
-        LocalTime time = value.getTime();
-        appendSubSecond(result, time);
-
-        // Add time zone.
-        appendZoneOffset(result, offset);
-
-        return result.toString();
+        return toJavaTime(value).toString();
     }
 
     /**
      * Parse from ISO 8601 date/time string to {@code OffsetDateTime}.
      *
-     * @throws ParseException if the passed string is not a valid date-time value
      */
-    public static OffsetDateTime parse(String value) throws ParseException {
-        return Parser.parseOffsetDateTime(value);
+    public static OffsetDateTime parse(String value) {
+        java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(value);
+        return of(parsed);
     }
 }
