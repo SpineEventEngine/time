@@ -135,7 +135,7 @@ public final class ZoneOffsets {
     /**
      * Parses the time zone offset value formatted as a signed value of hours and minutes.
      *
-     * <p>Examples of accepted values: {@code +3:00}, {@code -04:30}.
+     * <p>Examples of accepted values: {@code +0300}, {@code -04:30}.
      */
     public static ZoneOffset parse(String value) {
         java.time.ZoneOffset parsed;

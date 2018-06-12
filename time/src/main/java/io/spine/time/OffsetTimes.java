@@ -19,8 +19,6 @@
  */
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -51,14 +49,6 @@ public final class OffsetTimes {
                 .setOffset(zoneOffset)
                 .build();
         return result;
-    }
-
-    /**
-     * Converts the passed timestamp to offset time at the passed time zone.
-     */
-    public static OffsetTime timeAt(Timestamp time, ZoneOffset zoneOffset) {
-        LocalTime localTime = LocalTimes.timeAt(time, zoneOffset);
-        return of(localTime, zoneOffset);
     }
 
     /**
