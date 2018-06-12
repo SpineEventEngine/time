@@ -19,7 +19,6 @@
  */
 package io.spine.time;
 
-import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.ZoneOffsets.adjustZero;
 
 /**
@@ -74,6 +73,9 @@ public final class OffsetDateTimes {
         return result.build();
     }
 
+    /**
+     * Converts the passed value to Java Time instance.
+     */
     public static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
         java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
                 LocalDates.toJavaTime(value.getDate()),

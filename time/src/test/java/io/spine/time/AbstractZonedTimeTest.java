@@ -37,8 +37,8 @@ import static java.lang.Math.abs;
  */
 public abstract class AbstractZonedTimeTest {
 
-    @SuppressWarnings("ProtectedField") // OK for brevity of test code.
-    protected ZoneOffset zoneOffset;
+    private ZoneOffset zoneOffset;
+    private java.time.ZoneOffset jtZoneOffset;
 
     protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 
@@ -53,9 +53,18 @@ public abstract class AbstractZonedTimeTest {
         return ZoneOffsets.ofHoursMinutes(hours, minutes);
     }
 
+    protected ZoneOffset zoneOffset() {
+        return this.zoneOffset;
+    }
+
+    protected java.time.ZoneOffset jtZoneOffset() {
+        return this.jtZoneOffset;
+    }
+
     @BeforeEach
     public void setUp() {
         zoneOffset = generateOffset();
+        jtZoneOffset = ZoneOffsets.toJavaTime(zoneOffset);
     }
 
     @SuppressWarnings("unused") // is used when running descending test suites

@@ -22,7 +22,6 @@ package io.spine.time;
 import com.google.protobuf.Timestamp;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkPositive;
 import static io.spine.time.ZoneOffsets.adjustZero;
 
 /**

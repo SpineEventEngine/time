@@ -83,7 +83,7 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
         @Test
         @DisplayName("date/time at offset")
         void dateTimeAtOffset() {
-            OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+            OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset());
 
             LocalDate date = offsetDateTime.getDate();
             LocalDates.checkDate(date);
@@ -91,7 +91,7 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
 
             assertEquals(gmtToday, date);
             assertEquals(now, time);
-            assertEquals(zoneOffset, offsetDateTime.getOffset());
+            assertEquals(zoneOffset(), offsetDateTime.getOffset());
         }
     }
 

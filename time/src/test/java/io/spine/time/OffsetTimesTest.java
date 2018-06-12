@@ -22,20 +22,14 @@ package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Timestamp;
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-
-import java.util.Calendar;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.TestValues.random;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Calendars.at;
-import static io.spine.time.Calendars.getHours;
-import static io.spine.time.Calendars.getMinutes;
-import static io.spine.time.Calendars.getSeconds;
-import static io.spine.time.Calendars.getZoneOffset;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
@@ -46,7 +40,16 @@ import static org.junit.Assert.assertEquals;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
-public class OffsetTimesShould extends AbstractZonedTimeTest {
+@DisplayName("OffsetTimes should")
+class OffsetTimesTest extends AbstractZonedTimeTest {
+
+    @Override
+    protected void assertConversionAt(ZoneOffset zoneOffset) {
+        OffsetTime now = OffsetTimes.now(zoneOffset);
+        String str = OffsetTimes.toString(now);
+        OffsetTime parsed = OffsetTimes.parse(str);
+        assertEquals(now, parsed);
+    }
 
     @Test
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
@@ -54,26 +57,26 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         assertHasPrivateParameterlessCtor(OffsetTimes.class);
     }
 
-    @Test
-    void obtain_current() {
-        final OffsetTime now = OffsetTimes.now(zoneOffset);
-        final Calendar cal = at(zoneOffset);
+    @Nested
+    @DisplayName("Create values with")
+    class Create {
 
-        final LocalTime time = now.getTime();
-        assertEquals(getHours(cal), time.getHour());
-        assertEquals(getMinutes(cal), time.getMinute());
-        assertEquals(getSeconds(cal), time.getSecond());
-        assertEquals(getZoneOffset(cal), now.getOffset().getAmountSeconds());
-        /* We cannot check milliseconds and nanos due to time gap between object creation */
-    }
+        @Test
+        @DisplayName("current time at offset")
+        void nowAtOffset() {
+            OffsetTime now = OffsetTimes.now(zoneOffset());
+            assertEquals(zoneOffset(), now.getOffset());
+        }
+        @Test
+        @DisplayName("local time at offset")
+        void localTimeAtOffset() {
+            LocalTime localTime = generateLocalTime();
+            OffsetTime distantTime = OffsetTimes.of(localTime, zoneOffset());
 
-    @Test
-    public void create_instance_on_local_time_at_offset() {
-        LocalTime localTime = generateLocalTime();
-        OffsetTime delhiTime = OffsetTimes.of(localTime, zoneOffset);
+            assertEquals(localTime, distantTime.getTime());
+            assertEquals(zoneOffset(), distantTime.getOffset());
+        }
 
-        assertEquals(localTime, delhiTime.getTime());
-        assertEquals(zoneOffset, delhiTime.getOffset());
     }
 
     private static LocalTime generateLocalTime() {
@@ -84,22 +87,14 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         return LocalTimes.of(hours, minutes, seconds, nanos);
     }
 
-
     @Test
-    public void pass_null_tolerance_test() {
+    @DisplayName("reject null values")
+    void nullCheck() {
         new NullPointerTester()
                 .setDefault(Timestamp.class, getCurrentTime())
-                .setDefault(OffsetTime.class, OffsetTimes.now(zoneOffset))
-                .setDefault(ZoneOffset.class, zoneOffset)
+                .setDefault(OffsetTime.class, OffsetTimes.now(zoneOffset()))
+                .setDefault(ZoneOffset.class, zoneOffset())
                 .setDefault(LocalTime.class, LocalTimes.now())
                 .testAllPublicStaticMethods(OffsetTimes.class);
-    }
-
-    @Override
-    protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetTime now = OffsetTimes.now(zoneOffset);
-        String str = OffsetTimes.toString(now);
-        OffsetTime parsed = OffsetTimes.parse(str);
-        assertEquals(now, parsed);
     }
 }
