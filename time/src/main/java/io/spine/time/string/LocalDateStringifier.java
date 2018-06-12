@@ -25,9 +25,6 @@ import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
 
 import java.io.Serializable;
-import java.text.ParseException;
-
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
  * The default stringifier for {@link LocalDate} instances.
@@ -52,11 +49,7 @@ final class LocalDateStringifier extends Stringifier<LocalDate> implements Seria
     @Override
     protected LocalDate fromString(String str) {
         final LocalDate date;
-        try {
-            date = LocalDates.parse(str);
-        } catch (ParseException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
+        date = LocalDates.parse(str);
         return date;
     }
 

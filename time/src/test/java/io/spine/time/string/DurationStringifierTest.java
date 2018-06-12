@@ -18,24 +18,37 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
+package io.spine.time.string;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.util.Exceptions.newIllegalArgumentException;
-import static java.lang.String.format;
+import com.google.protobuf.Duration;
+import io.spine.string.Stringifier;
+import io.spine.time.Durations2;
+import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Utilities for working with calendar dates.
- * 
- * <p>A date is a reference to a particular day in some calendar system.  
- * For example, it is a combination of a year, a month and a day.
- *
- * @author Mykhailo Drachuk
+ * @author Alexander Yevsyukov
  */
-class Dates {
+@DisplayName("DurationStringifier should")
+class DurationStringifierTest extends AbstractStringifierTest<Duration> {
 
-    /** Prevent instantiation of this utility class. */
-    private Dates() {
+    DurationStringifierTest() {
+        super(TimeStringifiers.forDuration());
     }
 
+    @Override
+    protected Duration createObject() {
+        return Durations2.hoursAndMinutes(5, 37);
+    }
+
+    @Test
+    @DisplayName("Convert negative duration")
+    void convertNegativeDuration() {
+        final Stringifier<Duration> stringifier = getStringifier();
+        final Duration negative = Durations2.hoursAndMinutes(-4, -31);
+        assertEquals(negative, stringifier.reverse()
+                                          .convert(stringifier.convert(negative)));
+    }
 }

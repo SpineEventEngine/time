@@ -21,7 +21,6 @@ package io.spine.time;
 
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import io.spine.base.Time;
 
 import java.time.Instant;
 
@@ -50,9 +49,7 @@ public final class LocalTimes {
      * Obtains current local time.
      */
     public static LocalTime now() {
-        final Timestamp time = Time.getCurrentTime();
-        final ZoneOffset zoneOffset = ZoneOffsets.getDefault();
-        return timeAt(time, zoneOffset);
+        return of(java.time.LocalTime.now());
     }
 
     /**
@@ -161,7 +158,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of hours subtracted.
+     * Obtains new local time with the specified number of hours subtracted.
      */
     public static LocalTime subtractHours(LocalTime localTime, int hoursToSubtract) {
         checkArguments(localTime, hoursToSubtract);
@@ -169,7 +166,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of minutes subtracted.
+     * Obtains new local time with the specified number of minutes subtracted.
      */
     public static LocalTime subtractMinutes(LocalTime localTime, int minutesToSubtract) {
         checkArguments(localTime, minutesToSubtract);
@@ -177,7 +174,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of seconds subtracted.
+     * Obtains new local time with the specified number of seconds subtracted.
      */
     public static LocalTime subtractSeconds(LocalTime localTime, int secondsToSubtract) {
         checkArguments(localTime, secondsToSubtract);
@@ -185,7 +182,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains a copy of this local time with the specified number of nanoseconds subtracted.
+     * Obtains new local time with the specified number of nanoseconds subtracted.
      */
     public static LocalTime subtractNanos(LocalTime localTime, long nanosToSubtract) {
         checkArguments(localTime, nanosToSubtract);

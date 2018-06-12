@@ -21,9 +21,13 @@
 package io.spine.time.string;
 
 import io.spine.string.Stringifier;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.time.DateTimeException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * The abstract base for stringifier tests.
@@ -46,7 +50,8 @@ public abstract class AbstractStringifierTest<T> {
     }
 
     @Test
-    public void convert() {
+    @DisplayName("Convert forward and backward")
+    void convert() {
         T obj = createObject();
 
         final String str = stringifier.convert(obj);
@@ -56,9 +61,13 @@ public abstract class AbstractStringifierTest<T> {
         assertEquals(obj, convertedBack);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void throw_IAE_on_empty_string() {
-        stringifier.reverse()
-                   .convert("");
+    @Test
+    @DisplayName("Prohibit empty string input")
+    void prohibitEmptyString() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> stringifier.reverse()
+                                 .convert("")
+        );
     }
 }

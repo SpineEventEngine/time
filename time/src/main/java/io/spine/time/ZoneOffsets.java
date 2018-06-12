@@ -23,20 +23,15 @@ package io.spine.time;
 import com.google.protobuf.Duration;
 
 import javax.annotation.Nullable;
-import java.text.ParseException;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.Formats.formatOffsetTime;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static io.spine.util.Exceptions.unsupported;
-import static java.lang.String.format;
 
 /**
  * Utilities for working with {@code ZoneOffset}s.
@@ -47,12 +42,10 @@ import static java.lang.String.format;
  */
 public final class ZoneOffsets {
 
-    public static final ZoneOffset UTC =
-            ZoneOffset.newBuilder()
-                      .setId(ZoneId.newBuilder()
-                                   .setValue("UTC"))
-                      .setAmountSeconds(0)
-                      .build();
+    public static final ZoneOffset UTC = ZoneOffset
+            .newBuilder()
+            .setAmountSeconds(0)
+            .build();
 
     /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
@@ -65,14 +58,14 @@ public final class ZoneOffsets {
      * @see TimeZone#getDefault()
      */
     public static ZoneOffset getDefault() {
-        TimeZone timeZone = TimeZone.getDefault();
-        ZoneOffset result = ZoneConverter.getInstance()
-                                         .convert(timeZone);
-        return result;
+        String id = java.time.ZoneId.systemDefault()
+                                    .normalized()
+                                    .getId();
+        java.time.ZoneOffset zo = java.time.ZoneOffset.of(id);
+        return of(zo);
     }
 
     static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
-        //TODO:2018-06-12:alexander.yevsyukov: Handle zone ID.
         java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
         return result;
     }
@@ -82,9 +75,7 @@ public final class ZoneOffsets {
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
         ZoneOffset.Builder result = ZoneOffset.newBuilder()
-                                              .setAmountSeconds(zo.getTotalSeconds())
-                                              .setId(ZoneId.newBuilder()
-                                                           .setValue(zo.getId()));
+                                              .setAmountSeconds(zo.getTotalSeconds());
         return result.build();
     }
 
@@ -137,38 +128,10 @@ public final class ZoneOffsets {
      * Parses the time zone offset value formatted as a signed value of hours and minutes.
      *
      * <p>Examples of accepted values: {@code +3:00}, {@code -04:30}.
-     *
-     * @throws ParseException if the passed value has invalid format
      */
-    public static ZoneOffset parse(String value) throws ParseException {
-        int pos = value.indexOf(':');
-        if (pos == -1) {
-            final String errMsg = format("Invalid offset value: \"%s\"", value);
-            throw new ParseException(errMsg, 0);
-        }
-        char signChar = value.charAt(0);
-        boolean positive = signChar == Formats.PLUS;
-        boolean negative = signChar == Formats.MINUS;
-
-        if (!(positive || negative)) {
-            String errMsg = format("Missing sign char in offset value: \"%s\"", value);
-            throw new ParseException(errMsg, 0);
-        }
-
-        String hoursStr = value.substring(1, pos);
-        String minutesStr = value.substring(pos + 1);
-        long hours = Long.parseLong(hoursStr);
-        long minutes = Long.parseLong(minutesStr);
-        long totalMinutes = hours * MINUTES_PER_HOUR + minutes;
-        long seconds = totalMinutes * SECONDS_PER_MINUTE;
-
-        if (negative) {
-            seconds = -seconds;
-        }
-
-        @SuppressWarnings("NumericCastThatLosesPrecision") // OK since the value cannot grow larger.
-        ZoneOffset result = ofSeconds((int) seconds);
-        return result;
+    public static ZoneOffset parse(String value) {
+        java.time.ZoneOffset parsed = java.time.ZoneOffset.of(value);
+        return of(parsed);
     }
 
     /**
@@ -176,14 +139,8 @@ public final class ZoneOffsets {
      */
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        long seconds = zoneOffset.getAmountSeconds();
-        long totalMinutes = seconds / SECONDS_PER_MINUTE;
-        long hours = totalMinutes / MINUTES_PER_HOUR;
-        long minutes = totalMinutes % MINUTES_PER_HOUR;
-        StringBuilder builder = new StringBuilder(6)
-                .append(seconds >= 0 ? Formats.PLUS : Formats.MINUS)
-                .append(formatOffsetTime(hours, minutes));
-        return builder.toString();
+        java.time.ZoneOffset zo = toJavaTime(zoneOffset);
+        return zo.toString();
     }
 
     static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {

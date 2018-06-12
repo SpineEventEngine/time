@@ -22,7 +22,6 @@ package io.spine.time;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
-import static java.lang.String.format;
 
 /**
  * Precondition routines specific to date/time.
@@ -52,7 +51,7 @@ class DtPreconditions {
     /**
      * Ensures that target value is in between passed bounds.
      */
-    public static void checkBounds(int value, String paramName, int lowBound, int highBound) {
+    static void checkBounds(int value, String paramName, int lowBound, int highBound) {
         checkNotNull(paramName);
         if (!isBetween(value, lowBound, highBound)) {
             throw newIllegalArgumentException("%s (%d) should be in bounds [%d, %d] inclusive",
@@ -62,31 +61,5 @@ class DtPreconditions {
 
     private static boolean isBetween(int value, int lowBound, int highBound) {
         return lowBound <= value && value <= highBound;
-    }
-
-    /**
-     * Ensures that the passed date is valid.
-     *
-     * @throws IllegalArgumentException if
-     * <ul>
-     *     <li>the year is less or equal zero,
-     *     <li>the month is {@code UNDEFINED},
-     *     <li>the day is less or equal zero or greater than can be in the month.
-     * </ul>
-     */
-    static void checkDate(int year, MonthOfYear month, int day) {
-        checkPositive(year);
-        checkNotNull(month);
-        checkPositive(month.getNumber());
-        checkPositive(day);
-
-        final int daysInMonth = Months.daysInMonth(year, month);
-
-        if (day > daysInMonth) {
-            final String errMsg = format(
-                    "A number of days cannot be more than %d, for this month and year.",
-                    daysInMonth);
-            throw new IllegalArgumentException(errMsg);
-        }
     }
 }

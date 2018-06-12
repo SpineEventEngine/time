@@ -21,13 +21,13 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -73,36 +73,32 @@ final class ZoneConverter extends Converter<TimeZone, ZoneOffset> implements Ser
      * <p>Otherwise {@code SimpleTimeZone} will be created using the offset.
      */
     private static TimeZone toTimeZone(ZoneOffset zoneOffset) {
-        final Optional<String> optional = getId(zoneOffset);
+        Optional<String> optional = getId(zoneOffset);
         if (optional.isPresent()) {
-            final String id = optional.get();
+            String id = optional.get();
             if (supportedIds.contains(id)) {
-                final TimeZone result = TimeZone.getTimeZone(id);
+                TimeZone result = TimeZone.getTimeZone(id);
                 return result;
             }
-            return toSimpleTimeZone(zoneOffset);
-        } else {
-            return toSimpleTimeZone(zoneOffset);
         }
+        return toSimpleTimeZone(zoneOffset);
     }
 
     private static Optional<String> getId(ZoneOffset offset) {
-        final String id = offset.getId()
+        String id = offset.getId()
                                 .getValue();
         if (id.length() > 0) {
             return Optional.of(id);
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     private static SimpleTimeZone toSimpleTimeZone(ZoneOffset zoneOffset) {
         @SuppressWarnings("NumericCastThatLosesPrecision")
         // OK as a valid zoneOffset isn't that big.
-        final int offsetMillis = (int) TimeUnit.SECONDS.toMillis(zoneOffset.getAmountSeconds());
-        final Optional<String> optional = getId(zoneOffset);
-        final String id = optional.isPresent()
-                ? optional.get()
-                : "temp";
+        int offsetMillis = (int) TimeUnit.SECONDS.toMillis(zoneOffset.getAmountSeconds());
+        Optional<String> optional = getId(zoneOffset);
+        String id = optional.orElse("temp");
         return new SimpleTimeZone(offsetMillis, id);
     }
 
@@ -113,11 +109,11 @@ final class ZoneConverter extends Converter<TimeZone, ZoneOffset> implements Ser
      * @return zone offset instance of specified timezone
      */
     private static ZoneOffset toZoneOffset(TimeZone timeZone) {
-        final Timestamp now = getCurrentTime();
-        final long date = Timestamps.toMillis(now);
-        final int offsetInSeconds = getOffsetInSeconds(timeZone, date);
+        Timestamp now = getCurrentTime();
+        long date = Timestamps.toMillis(now);
+        int offsetInSeconds = getOffsetInSeconds(timeZone, date);
         @Nullable
-        final String zoneId = timeZone.getID();
+        String zoneId = timeZone.getID();
         return ZoneOffsets.create(offsetInSeconds, zoneId);
     }
 
@@ -125,7 +121,7 @@ final class ZoneConverter extends Converter<TimeZone, ZoneOffset> implements Ser
      * Obtains offset of the passed {@code TimeZone} in seconds.
      */
     private static int getOffsetInSeconds(TimeZone timeZone, long date) {
-        final int seconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
+        int seconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
         return seconds;
     }
 

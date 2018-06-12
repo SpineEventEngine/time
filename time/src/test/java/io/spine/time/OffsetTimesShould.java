@@ -40,11 +40,11 @@ import static io.spine.time.Calendars.getMinutes;
 import static io.spine.time.Calendars.getSeconds;
 import static io.spine.time.Calendars.getZoneOffset;
 import static io.spine.time.OffsetTimes.addHours;
-import static io.spine.time.OffsetTimes.addMillis;
+import static io.spine.time.OffsetTimes.addNanos;
 import static io.spine.time.OffsetTimes.addMinutes;
 import static io.spine.time.OffsetTimes.addSeconds;
 import static io.spine.time.OffsetTimes.subtractHours;
-import static io.spine.time.OffsetTimes.subtractMillis;
+import static io.spine.time.OffsetTimes.subtractNanos;
 import static io.spine.time.OffsetTimes.subtractMinutes;
 import static io.spine.time.OffsetTimes.subtractSeconds;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
@@ -52,6 +52,7 @@ import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
+import static io.spine.time.SiTime.NANOS_PER_SECOND;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -91,8 +92,8 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void create_instance_on_local_time_at_offset() {
-        final LocalTime localTime = generateLocalTime();
-        final OffsetTime delhiTime = OffsetTimes.of(localTime, zoneOffset);
+        LocalTime localTime = generateLocalTime();
+        OffsetTime delhiTime = OffsetTimes.of(localTime, zoneOffset);
 
         assertEquals(localTime, delhiTime.getTime());
         assertEquals(zoneOffset, delhiTime.getOffset());
@@ -102,8 +103,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         int hours = random(HOURS_PER_DAY);
         int minutes = random(MINUTES_PER_HOUR);
         int seconds = random(SECONDS_PER_MINUTE);
-        int millis = random(MILLIS_PER_SECOND);
-        int nanos = random(NANOS_PER_MILLISECOND);
+        int nanos = random(NANOS_PER_SECOND);
         return LocalTimes.of(hours, minutes, seconds, nanos);
     }
 
@@ -197,7 +197,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         final Timestamp gmtFuture = Timestamps.add(gmtNow, deltaDuration);
         final LocalTime expectedFuture = LocalTimes.timeAt(gmtFuture, zoneOffset);
 
-        final LocalTime actualFuture = addMillis(now, millisDelta).getTime();
+        final LocalTime actualFuture = addNanos(now, millisDelta).getTime();
 
         assertEquals(expectedFuture, actualFuture);
     }
@@ -210,7 +210,7 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
         final Timestamp gmtPast = Timestamps.subtract(gmtNow, deltaDuration);
         final LocalTime expectedPast = LocalTimes.timeAt(gmtPast, zoneOffset);
 
-        final LocalTime actualPast = subtractMillis(now, millisDelta).getTime();
+        final LocalTime actualPast = subtractNanos(now, millisDelta).getTime();
 
         assertEquals(expectedPast, actualPast);
     }
@@ -303,22 +303,22 @@ public class OffsetTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_add() {
-        addMillis(now, -500);
+        addNanos(now, -500);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_add() {
-        addMillis(now, 0);
+        addNanos(now, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_subtract() {
-        subtractMillis(now, -270);
+        subtractNanos(now, -270);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_subtract() {
-        subtractMillis(now, 0);
+        subtractNanos(now, 0);
     }
 
     /*

@@ -20,19 +20,12 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
-
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;
-import static java.util.Calendar.MILLISECOND;
 import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.SECOND;
@@ -118,50 +111,6 @@ final class Calendars {
     }
 
     /**
-     * Obtains calendar from year, month, and day values.
-     */
-    private static Calendar createWithDate(int year, int month, int day) {
-        Calendar calendar = getInstance();
-        calendar.set(year, toMagicMonthNumber(month), day);
-        return calendar;
-    }
-
-    /**
-     * Converts the passed number of a month into a value of a magic constant used
-     * by {@link Calendar} API.
-     *
-     * @param month a one-based number of a month
-     */
-    private static int toMagicMonthNumber(int month) {
-        return month - 1;
-    }
-
-    /**
-     * Sets the date to calendar.
-     *
-     * @param calendar the target calendar
-     * @param date     the date to set
-     */
-    private static void setDate(Calendar calendar, LocalDate date) {
-        calendar.set(date.getYear(),
-                     toMagicMonthNumber(date.getMonth()
-                                            .getNumber()),
-                     date.getDay());
-    }
-
-    /**
-     * Obtains {@code Calendar} from hours, minutes, seconds and milliseconds values.
-     */
-    private static Calendar createWithTime(int hours, int minutes, int seconds, int millis) {
-        Calendar calendar = getInstance();
-        calendar.set(HOUR_OF_DAY, hours);
-        calendar.set(MINUTE, minutes);
-        calendar.set(SECOND, seconds);
-        calendar.set(MILLISECOND, millis);
-        return calendar;
-    }
-
-    /**
      * Obtains {@code Calendar} from hours, minutes and seconds values.
      */
     static Calendar createWithTime(int hours, int minutes, int seconds) {
@@ -216,107 +165,5 @@ final class Calendars {
         int day = getDay(cal);
         LocalDate result = LocalDates.of(year, month, day);
         return result;
-    }
-
-    /**
-     * Obtains local time using calendar.
-     */
-    static LocalTime toLocalTime(Calendar calendar) {
-        int nanos = 0;
-        return toLocalTime(calendar, nanos);
-    }
-
-    /**
-     * Obtains local time from Calendar with nanosecond precision.
-     */
-    static LocalTime toLocalTime(Calendar calendar, int nanos) {
-        int hours = getHours(calendar);
-        int minutes = getMinutes(calendar);
-        int seconds = getSeconds(calendar);
-        return LocalTimes.of(hours, minutes, seconds, nanos);
-    }
-
-    /**
-     * Converts the passed Timestamp into Calendar at the passed time zone.
-     */
-    static Calendar toCalendar(Timestamp timestamp, ZoneOffset zoneOffset) {
-        long millis = Timestamps.toMillis(timestamp);
-        Calendar calendar = at(zoneOffset);
-        calendar.setTimeInMillis(millis);
-        return calendar;
-    }
-
-    /**
-     * Converts the passed {@code OffsetDate} into {@code Calendar}.
-     *
-     * <p>The calendar is initialized at the offset from the passed date.
-     */
-    static Calendar toCalendar(OffsetDate offsetDate) {
-        Calendar calendar = at(offsetDate.getOffset());
-        setDate(calendar, offsetDate.getDate());
-        return calendar;
-    }
-
-    /**
-     * Converts the passed {@code LocalTime} into {@code Calendar}.
-     */
-    static Calendar toCalendar(LocalTime localTime) {
-        return createWithTime(localTime.getHour(),
-                              localTime.getMinute(),
-                              localTime.getSecond(),
-                              localTime.getNano() * NANOS_PER_MILLISECOND);
-    }
-
-    /**
-     * Converts the passed {@code LocalDate} into {@code Calendar}.
-     */
-    static Calendar toCalendar(LocalDate localDate) {
-        return createWithDate(localDate.getYear(),
-                              localDate.getMonthValue(),
-                              localDate.getDay());
-    }
-
-    /**
-     * Converts the passed {@code OffsetTime} into {@code Calendar}.
-     */
-    static Calendar toCalendar(OffsetTime offsetTime) {
-        LocalTime time = offsetTime.getTime();
-        Calendar calendar = at(offsetTime.getOffset());
-        calendar.set(HOUR_OF_DAY, time.getHour());
-        calendar.set(MINUTE, time.getMinute());
-        calendar.set(SECOND, time.getSecond());
-        calendar.set(MILLISECOND, time.getNano() * NANOS_PER_MILLISECOND);
-        return calendar;
-    }
-
-    /**
-     * Converts the passed {@code OffsetDateTime} into {@code Calendar}.
-     */
-    static Calendar toCalendar(OffsetDateTime dateTime) {
-        Calendar cal = at(dateTime.getOffset());
-        LocalDate date = dateTime.getDate();
-        LocalTime time = dateTime.getTime();
-        cal.set(date.getYear(),
-                toMagicMonthNumber(date.getMonth()
-                                       .getNumber()),
-                date.getDay(),
-                time.getHour(),
-                time.getMinute(),
-                time.getSecond());
-        cal.set(MILLISECOND, time.getNano() * NANOS_PER_MILLISECOND);
-        return cal;
-    }
-
-    /**
-     * Creates a new instance of Proleptic Gregorian Calendar.
-     *
-     * <p>The created instance is Gregorial calendar which extends to year one.
-     *
-     * @param timeZone the time zone in which the calendar is created
-     */
-    static GregorianCalendar newProlepticGregorianCalendar(TimeZone timeZone) {
-        GregorianCalendar calendar = new GregorianCalendar(timeZone);
-        calendar.setGregorianChange(new Date(Long.MIN_VALUE));
-        return calendar;
     }
 }
