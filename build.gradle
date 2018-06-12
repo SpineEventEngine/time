@@ -124,12 +124,6 @@ subprojects {
         // Target apps are free to use any binding they need.
         implementation deps.build.slf4j
 
-        // Use jdk14 bindings for test purposes only.
-//        testCompile deps.test.slf4j
-//        testCompile(deps.test.junit4) {
-//            exclude(module: 'hamcrest-core')
-//        }
-        
         testCompile deps.test.junit5Api
         testCompile deps.test.hamcrest
         testCompile deps.test.mockito
