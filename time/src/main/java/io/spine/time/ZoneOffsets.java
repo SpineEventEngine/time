@@ -69,9 +69,21 @@ public final class ZoneOffsets {
         return result;
     }
 
-    public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+    static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+        //TODO:2018-06-12:alexander.yevsyukov: Handle zone ID.
         java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
         return result;
+    }
+
+    /**
+     * Converts Java Time value to {@code ZoneOffset}.
+     */
+    public static ZoneOffset of(java.time.ZoneOffset zo) {
+        ZoneOffset.Builder result = ZoneOffset.newBuilder()
+                                              .setAmountSeconds(zo.getTotalSeconds())
+                                              .setId(ZoneId.newBuilder()
+                                                           .setValue(zo.getId()));
+        return result.build();
     }
 
     /**

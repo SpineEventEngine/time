@@ -24,22 +24,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.at;
-import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.Calendars.toCalendar;
-import static io.spine.time.Calendars.toLocalDate;
-import static io.spine.time.Calendars.toLocalTime;
+import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.Formats.appendSubSecond;
 import static io.spine.time.Formats.appendZoneOffset;
 import static io.spine.time.Formats.dateTimeFormat;
 import static io.spine.time.ZoneOffsets.adjustZero;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.HOUR;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.SECOND;
-import static java.util.Calendar.YEAR;
 
 /**
  * Routines for working with {@link OffsetDateTime}.
@@ -59,26 +49,47 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        final Calendar now = at(zoneOffset);
-        final LocalTime localTime = toLocalTime(now);
-        final LocalDate localDate = toLocalDate(now);
-
+        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
+        LocalTime localTime = LocalTimes.of(now.toLocalTime());
+        LocalDate localDate = LocalDates.of(now.toLocalDate());
         return create(localDate, localTime, zoneOffset);
     }
 
     /**
-     * Creates a new {@code OffsetDateTime} instance with the passed values.
+     * Creates a new instance with the passed values.
      */
     public static OffsetDateTime of(LocalDate date, LocalTime time, ZoneOffset offset) {
         return create(date, time, offset);
     }
 
+    /**
+     * Creates new instance based on the passed Java Time value.
+     */
+    public static OffsetDateTime of(java.time.OffsetDateTime jdt) {
+        java.time.LocalDate ld = jdt.toLocalDate();
+        java.time.LocalTime lt = jdt.toLocalTime();
+        java.time.ZoneOffset zo = jdt.toZonedDateTime().getOffset();
+        return create(LocalDates.of(ld),
+                      LocalTimes.of(lt),
+                      ZoneOffsets.of(zo));
+    }
+
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
-        return OffsetDateTime.newBuilder()
-                             .setDate(date)
-                             .setTime(time)
-                             .setOffset(adjustZero(offset))
-                             .build();
+        OffsetDateTime.Builder result = OffsetDateTime
+                .newBuilder()
+                .setDate(date)
+                .setTime(time)
+                .setOffset(adjustZero(offset));
+        return result.build();
+    }
+
+    private static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
+        java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
+                LocalDates.toJavaTime(value.getDate()),
+                LocalTimes.toJavaTime(value.getTime()),
+                ZoneOffsets.toJavaTime(value.getOffset())
+        );
+        return result;
     }
 
     /**
@@ -89,7 +100,8 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addYears(OffsetDateTime value, int yearsToAdd) {
         checkArguments(value, yearsToAdd);
-        return changeYear(value, yearsToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusYears(yearsToAdd));
     }
 
     /**
@@ -100,7 +112,8 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addMonths(OffsetDateTime value, int monthsToAdd) {
         checkArguments(value, monthsToAdd);
-        return changeMonth(value, monthsToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusMonths(monthsToAdd));
     }
 
     /**
@@ -111,7 +124,8 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addDays(OffsetDateTime value, int daysToAdd) {
         checkArguments(value, daysToAdd);
-        return changeDays(value, daysToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusDays(daysToAdd));
     }
 
     /**
@@ -122,7 +136,8 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addHours(OffsetDateTime value, int hoursToAdd) {
         checkArguments(value, hoursToAdd);
-        return changeHours(value, hoursToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusHours(hoursToAdd));
     }
 
     /**
@@ -133,7 +148,8 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addMinutes(OffsetDateTime value, int minutesToAdd) {
         checkArguments(value, minutesToAdd);
-        return changeMinutes(value, minutesToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusMinutes(minutesToAdd));
     }
 
     /**
@@ -144,62 +160,68 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime addSeconds(OffsetDateTime value, int secondsToAdd) {
         checkArguments(value, secondsToAdd);
-        return changeSeconds(value, secondsToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusSeconds(secondsToAdd));
     }
 
     /**
-     * Obtains a copy of the passed value with the specified number of milliseconds added.
+     * Obtains a copy of the passed value with the specified number of nanoseconds added.
      *
      * @param value       the value to update
-     * @param millisToAdd a positive number of milliseconds to add
+     * @param nanosToAdd a positive number of nanoseconds to add
      */
-    public static OffsetDateTime addMillis(OffsetDateTime value, int millisToAdd) {
-        checkArguments(value, millisToAdd);
-        return changeMillis(value, millisToAdd);
+    public static OffsetDateTime addNanos(OffsetDateTime value, int nanosToAdd) {
+        checkArguments(value, nanosToAdd);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.plusNanos(nanosToAdd));
     }
 
     /**
      * Obtains a copy of the passed value with the specified number of years subtracted.
      *
      * @param value           the value to update
-     * @param yearsToSubtract a positive number of years to subtract
+     * @param yearsToSubtract a number of years to subtract
      */
     public static OffsetDateTime subtractYears(OffsetDateTime value, int yearsToSubtract) {
         checkArguments(value, yearsToSubtract);
-        return changeYear(value, -yearsToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusYears(yearsToSubtract));
     }
 
     /**
      * Obtains a copy of the passed value with the specified number of months subtracted.
      *
      * @param value            the value to update
-     * @param monthsToSubtract a positive number of months to subtract
+     * @param monthsToSubtract a number of months to subtract
      */
     public static OffsetDateTime subtractMonths(OffsetDateTime value, int monthsToSubtract) {
         checkArguments(value, monthsToSubtract);
-        return changeMonth(value, -monthsToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusMonths(monthsToSubtract));
     }
 
     /**
      * Obtains a copy of the passed value with the specified number of days subtracted.
      *
      * @param value          the value to update
-     * @param daysToSubtract a positive number of days to subtract
+     * @param daysToSubtract a number of days to subtract
      */
     public static OffsetDateTime subtractDays(OffsetDateTime value, int daysToSubtract) {
         checkArguments(value, daysToSubtract);
-        return changeDays(value, -daysToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusDays(daysToSubtract));
     }
 
     /**
      * Obtains a copy of the passed value with the specified number of hours subtracted.
      *
      * @param value           the value to update
-     * @param hoursToSubtract a positive number of hours to subtract
+     * @param hoursToSubtract a number of hours to subtract
      */
     public static OffsetDateTime subtractHours(OffsetDateTime value, int hoursToSubtract) {
         checkArguments(value, hoursToSubtract);
-        return changeHours(value, -hoursToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusHours(hoursToSubtract));
     }
 
     /**
@@ -210,133 +232,32 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime subtractMinutes(OffsetDateTime value, int minutesToSubtract) {
         checkArguments(value, minutesToSubtract);
-        return changeMinutes(value, -minutesToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusMinutes(minutesToSubtract));
     }
 
     /**
      * Obtains a copy of the passed value with the specified number of seconds subtracted.
      *
      * @param value             the value to update
-     * @param secondsToSubtract a positive number of seconds to subtract
+     * @param secondsToSubtract a number of seconds to subtract
      */
     public static OffsetDateTime subtractSeconds(OffsetDateTime value, int secondsToSubtract) {
         checkArguments(value, secondsToSubtract);
-        return changeSeconds(value, -secondsToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusSeconds(secondsToSubtract));
     }
 
     /**
-     * Obtains a copy of the passed value with the specified number of milliseconds subtracted.
+     * Obtains a copy of the passed value with the specified number of nanoseconds subtracted.
      *
      * @param value            the value to update
-     * @param millisToSubtract a positive number of milliseconds to subtract
+     * @param nanosToSubtract a number of milliseconds to subtract
      */
-    public static OffsetDateTime subtractMillis(OffsetDateTime value, int millisToSubtract) {
-        checkArguments(value, millisToSubtract);
-        return changeMillis(value, -millisToSubtract);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of years.
-     *
-     * @param value      the value to update
-     * @param yearsDelta a number of years that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of the passed value with new years value
-     */
-    private static OffsetDateTime changeYear(OffsetDateTime value, int yearsDelta) {
-        return change(value, YEAR, yearsDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of months.
-     *
-     * @param value      the value to update
-     * @param monthDelta a number of months that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of the passed value with new months value
-     */
-    private static OffsetDateTime changeMonth(OffsetDateTime value, int monthDelta) {
-        return change(value, MONTH, monthDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of days.
-     *
-     * @param value     the value to update
-     * @param daysDelta a number of days that needs to be added or subtracted that can be
-     *                  either positive or negative
-     * @return copy of the passed value with new days value
-     */
-    private static OffsetDateTime changeDays(OffsetDateTime value, int daysDelta) {
-        return change(value, DAY_OF_MONTH, daysDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of hours.
-     *
-     * @param value      the value to update
-     * @param hoursDelta a number of hours that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of the passed value with new hours value
-     */
-    private static OffsetDateTime changeHours(OffsetDateTime value, int hoursDelta) {
-        return change(value, HOUR, hoursDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of minutes.
-     *
-     * @param value        offset date and time that will be changed
-     * @param minutesDelta a number of minutes that needs to be added or subtracted that can be
-     *                     either positive or negative
-     * @return copy of the passed value with new minutes value
-     */
-    private static OffsetDateTime changeMinutes(OffsetDateTime value, int minutesDelta) {
-        return change(value, MINUTE, minutesDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of seconds.
-     *
-     * @param value        offset date and time that will be changed
-     * @param secondsDelta a number of seconds that needs to be added or subtracted that can be
-     *                     either positive or negative
-     * @return copy of the passed value with new seconds value
-     */
-    private static OffsetDateTime changeSeconds(OffsetDateTime value, int secondsDelta) {
-        return change(value, SECOND, secondsDelta);
-    }
-
-    /**
-     * Obtains offset date and time changed on specified amount of milliseconds.
-     *
-     * @param value       offset date and time that will be changed
-     * @param millisDelta a number of milliseconds that needs to be added or subtracted that can be
-     *                    either positive or negative
-     * @return copy of the passed value with new milliseconds value
-     */
-    private static OffsetDateTime changeMillis(OffsetDateTime value, int millisDelta) {
-        return change(value, MILLISECOND, millisDelta);
-    }
-
-    /**
-     * Performs date and time calculation using parameters of {@link Calendar#add(int, int)}.
-     */
-    private static OffsetDateTime change(OffsetDateTime value, int calendarField, int delta) {
-        Calendar calendar = toCalendar(value);
-        calendar.add(calendarField, delta);
-
-        LocalDate date = toLocalDate(calendar);
-        LocalTime time = toLocalTime(calendar);
-        int nanos = value.getTime()
-                         .getNano();
-        LocalTime timeWithNanos = time.toBuilder()
-                                      .setNano(nanos)
-                                      .build();
-        return value.toBuilder()
-                    .setDate(date)
-                    .setTime(timeWithNanos)
-                    .build();
+    public static OffsetDateTime subtractNanos(OffsetDateTime value, long nanosToSubtract) {
+        checkArguments(value, nanosToSubtract);
+        java.time.OffsetDateTime jdt = toJavaTime(value);
+        return of(jdt.minusNanos(nanosToSubtract));
     }
 
     /**

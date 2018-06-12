@@ -26,7 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.at;
 import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.Calendars.toLocalTime;
 import static io.spine.time.DtPreconditions.checkPositive;
@@ -56,8 +55,11 @@ public final class OffsetTimes {
      */
     public static OffsetTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        Calendar cal = at(zoneOffset);
-        LocalTime localTime = toLocalTime(cal);
+        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
+        java.time.OffsetTime jt = java.time.LocalTime.now().atOffset(zo);
+
+        LocalTime localTime = LocalTimes.of(jt.toLocalTime());
+        
         OffsetTime result = OffsetTime
                 .newBuilder()
                 .setTime(localTime)

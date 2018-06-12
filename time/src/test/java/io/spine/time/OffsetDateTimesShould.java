@@ -40,17 +40,17 @@ import static io.spine.time.Calendars.getYear;
 import static io.spine.time.Calendars.getZoneOffset;
 import static io.spine.time.OffsetDateTimes.addDays;
 import static io.spine.time.OffsetDateTimes.addHours;
-import static io.spine.time.OffsetDateTimes.addMillis;
 import static io.spine.time.OffsetDateTimes.addMinutes;
 import static io.spine.time.OffsetDateTimes.addMonths;
+import static io.spine.time.OffsetDateTimes.addNanos;
 import static io.spine.time.OffsetDateTimes.addSeconds;
 import static io.spine.time.OffsetDateTimes.addYears;
 import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.subtractDays;
 import static io.spine.time.OffsetDateTimes.subtractHours;
-import static io.spine.time.OffsetDateTimes.subtractMillis;
 import static io.spine.time.OffsetDateTimes.subtractMinutes;
 import static io.spine.time.OffsetDateTimes.subtractMonths;
+import static io.spine.time.OffsetDateTimes.subtractNanos;
 import static io.spine.time.OffsetDateTimes.subtractSeconds;
 import static io.spine.time.OffsetDateTimes.subtractYears;
 import static org.junit.Assert.assertEquals;
@@ -85,15 +85,15 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void get_current_date_time() {
-        final OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
-        final Calendar cal = at(zoneOffset);
+        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
+        Calendar cal = at(zoneOffset);
 
-        final LocalDate today = now.getDate();
+        LocalDate today = now.getDate();
         assertEquals(getYear(cal), today.getYear());
         assertEquals(getMonth(cal), today.getMonthValue());
         assertEquals(getDay(cal), today.getDay());
 
-        final LocalTime time = now.getTime();
+        LocalTime time = now.getTime();
         assertEquals(getHours(cal), time.getHour());
         assertEquals(getMinutes(cal), time.getMinute());
         assertEquals(getSeconds(cal), time.getSecond());
@@ -104,11 +104,11 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void create_instance_with_date_time_at_offset() {
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
 
-        final LocalDate date = offsetDateTime.getDate();
+        LocalDate date = offsetDateTime.getDate();
         LocalDates.checkDate(date);
-        final LocalTime time = offsetDateTime.getTime();
+        LocalTime time = offsetDateTime.getTime();
 
         assertEquals(gmtToday, date);
         assertEquals(now, time);
@@ -121,13 +121,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_years() {
-        final int yearsToAdd = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime plusYears = addYears(offsetDateTime, yearsToAdd);
+        int yearsToAdd = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime plusYears = addYears(offsetDateTime, yearsToAdd);
 
-        final LocalDate date = plusYears.getDate();
-        final LocalTime time = plusYears.getTime();
-        final ZoneOffset offset = plusYears.getOffset();
+        LocalDate date = plusYears.getDate();
+        LocalTime time = plusYears.getTime();
+        ZoneOffset offset = plusYears.getOffset();
 
         assertEquals(YEAR + yearsToAdd, date.getYear());
         assertEquals(MONTH, date.getMonth());
@@ -138,13 +138,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_years() {
-        final int yearsToSubtract = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime minusYears = subtractYears(offsetDateTime, yearsToSubtract);
+        int yearsToSubtract = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime minusYears = subtractYears(offsetDateTime, yearsToSubtract);
 
-        final LocalDate date = minusYears.getDate();
+        LocalDate date = minusYears.getDate();
         LocalDates.checkDate(date);
-        final LocalTime time = minusYears.getTime();
+        LocalTime time = minusYears.getTime();
 
         assertEquals(YEAR - yearsToSubtract, date.getYear());
         assertEquals(now, time);
@@ -153,13 +153,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_months() {
-        final int monthsToAdd = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime plusYears = addMonths(offsetDateTime, monthsToAdd);
+        int monthsToAdd = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime plusYears = addMonths(offsetDateTime, monthsToAdd);
 
-        final LocalDate date = plusYears.getDate();
-        final LocalTime time = plusYears.getTime();
-        final ZoneOffset offset = plusYears.getOffset();
+        LocalDate date = plusYears.getDate();
+        LocalTime time = plusYears.getTime();
+        ZoneOffset offset = plusYears.getOffset();
 
         assertEquals(YEAR, date.getYear());
         assertEquals(DAY, date.getDay());
@@ -171,12 +171,12 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_months() {
-        final int monthsToSubtract = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime minusYears = subtractMonths(offsetDateTime, monthsToSubtract);
+        int monthsToSubtract = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime minusYears = subtractMonths(offsetDateTime, monthsToSubtract);
 
-        final LocalDate date = minusYears.getDate();
-        final LocalTime time = minusYears.getTime();
+        LocalDate date = minusYears.getDate();
+        LocalTime time = minusYears.getTime();
         LocalDates.checkDate(date);
 
         assertEquals(YEAR, date.getYear());
@@ -189,13 +189,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_days() {
-        final int daysToAdd = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime plusYears = addDays(offsetDateTime, daysToAdd);
+        int daysToAdd = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime plusYears = addDays(offsetDateTime, daysToAdd);
 
-        final LocalDate date = plusYears.getDate();
-        final LocalTime time = plusYears.getTime();
-        final ZoneOffset offset = plusYears.getOffset();
+        LocalDate date = plusYears.getDate();
+        LocalTime time = plusYears.getTime();
+        ZoneOffset offset = plusYears.getOffset();
 
         assertEquals(YEAR, date.getYear());
         assertEquals(MONTH, date.getMonth());
@@ -206,13 +206,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_days() {
-        final int daysToSubtract = 3;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime minusYears = subtractDays(offsetDateTime, daysToSubtract);
+        int daysToSubtract = 3;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime minusYears = subtractDays(offsetDateTime, daysToSubtract);
 
-        final LocalDate date = minusYears.getDate();
-        final LocalTime time = minusYears.getTime();
-        final ZoneOffset offset = minusYears.getOffset();
+        LocalDate date = minusYears.getDate();
+        LocalTime time = minusYears.getTime();
+        ZoneOffset offset = minusYears.getOffset();
 
         assertEquals(YEAR, date.getYear());
         assertEquals(MONTH, date.getMonth());
@@ -227,12 +227,12 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_Hour() {
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final int hoursToAdd = 2;
-        final OffsetDateTime withAddedHours = addHours(dateTime, hoursToAdd);
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        int hoursToAdd = 2;
+        OffsetDateTime withAddedHours = addHours(dateTime, hoursToAdd);
 
-        final LocalDate date = withAddedHours.getDate();
-        final LocalTime time = withAddedHours.getTime();
+        LocalDate date = withAddedHours.getDate();
+        LocalTime time = withAddedHours.getTime();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS + hoursToAdd, time.getHour());
@@ -244,13 +244,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_Hour() {
-        final int hoursToSubtract = 4;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime minusHours = subtractHours(offsetDateTime, hoursToSubtract);
+        int hoursToSubtract = 4;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime minusHours = subtractHours(offsetDateTime, hoursToSubtract);
 
-        final LocalDate date = minusHours.getDate();
-        final LocalTime time = minusHours.getTime();
-        final ZoneOffset offset = minusHours.getOffset();
+        LocalDate date = minusHours.getDate();
+        LocalTime time = minusHours.getTime();
+        ZoneOffset offset = minusHours.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS - hoursToSubtract, time.getHour());
@@ -262,13 +262,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_minutes() {
-        final int minutesToAdd = 11;
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime withAddedMinutes = addMinutes(dateTime, minutesToAdd);
+        int minutesToAdd = 11;
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime withAddedMinutes = addMinutes(dateTime, minutesToAdd);
 
-        final LocalDate date = withAddedMinutes.getDate();
-        final LocalTime time = withAddedMinutes.getTime();
-        final ZoneOffset offset = withAddedMinutes.getOffset();
+        LocalDate date = withAddedMinutes.getDate();
+        LocalTime time = withAddedMinutes.getTime();
+        ZoneOffset offset = withAddedMinutes.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -280,13 +280,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_minutes() {
-        final int minutesToSubtract = 11;
-        final OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime minusMinutes = subtractMinutes(offsetDateTime, minutesToSubtract);
+        int minutesToSubtract = 11;
+        OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime minusMinutes = subtractMinutes(offsetDateTime, minutesToSubtract);
 
-        final LocalDate date = minusMinutes.getDate();
-        final LocalTime time = minusMinutes.getTime();
-        final ZoneOffset offset = minusMinutes.getOffset();
+        LocalDate date = minusMinutes.getDate();
+        LocalTime time = minusMinutes.getTime();
+        ZoneOffset offset = minusMinutes.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -298,13 +298,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_seconds() {
-        final int secondsToAdd = 18;
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime withAddedSeconds = addSeconds(dateTime, secondsToAdd);
+        int secondsToAdd = 18;
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime withAddedSeconds = addSeconds(dateTime, secondsToAdd);
 
-        final LocalDate date = withAddedSeconds.getDate();
-        final LocalTime time = withAddedSeconds.getTime();
-        final ZoneOffset offset = withAddedSeconds.getOffset();
+        LocalDate date = withAddedSeconds.getDate();
+        LocalTime time = withAddedSeconds.getTime();
+        ZoneOffset offset = withAddedSeconds.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -316,13 +316,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_seconds() {
-        final int secondsToSubtract = 18;
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime withSubtractedSeconds = subtractSeconds(dateTime, secondsToSubtract);
+        int secondsToSubtract = 18;
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime withSubtractedSeconds = subtractSeconds(dateTime, secondsToSubtract);
 
-        final LocalDate date = withSubtractedSeconds.getDate();
-        final LocalTime time = withSubtractedSeconds.getTime();
-        final ZoneOffset offset = withSubtractedSeconds.getOffset();
+        LocalDate date = withSubtractedSeconds.getDate();
+        LocalTime time = withSubtractedSeconds.getTime();
+        ZoneOffset offset = withSubtractedSeconds.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -334,13 +334,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void add_millis() {
-        final int millisToAdd = 118;
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime withAddedMillis = addMillis(dateTime, millisToAdd);
+        int millisToAdd = 118;
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime withAddedMillis = addNanos(dateTime, millisToAdd);
 
-        final LocalDate date = withAddedMillis.getDate();
-        final LocalTime time = withAddedMillis.getTime();
-        final ZoneOffset offset = withAddedMillis.getOffset();
+        LocalDate date = withAddedMillis.getDate();
+        LocalTime time = withAddedMillis.getTime();
+        ZoneOffset offset = withAddedMillis.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -352,13 +352,13 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void subtract_millis() {
-        final int millisToSubtract = 118;
-        final OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
-        final OffsetDateTime withSubtractedMillis = subtractMillis(dateTime, millisToSubtract);
+        int millisToSubtract = 118;
+        OffsetDateTime dateTime = of(gmtToday, now, zoneOffset);
+        OffsetDateTime withSubtractedMillis = subtractNanos(dateTime, millisToSubtract);
 
-        final LocalDate date = withSubtractedMillis.getDate();
-        final LocalTime time = withSubtractedMillis.getTime();
-        final ZoneOffset offset = withSubtractedMillis.getOffset();
+        LocalDate date = withSubtractedMillis.getDate();
+        LocalTime time = withSubtractedMillis.getTime();
+        ZoneOffset offset = withSubtractedMillis.getOffset();
 
         assertEquals(gmtToday, date);
         assertEquals(HOURS, time.getHour());
@@ -529,22 +529,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_add() {
-        addMillis(todayNow, -500);
+        addNanos(todayNow, -500);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_add() {
-        addMillis(todayNow, 0);
+        addNanos(todayNow, 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_negative_millis_to_subtract() {
-        subtractMillis(todayNow, -270);
+        subtractNanos(todayNow, -270);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void not_accept_zero_millis_to_subtract() {
-        subtractMillis(todayNow, 0);
+        subtractNanos(todayNow, 0);
     }
 
     /*
@@ -553,9 +553,9 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) throws ParseException {
-        final OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
-        final String str = OffsetDateTimes.toString(now);
-        final OffsetDateTime parsed = OffsetDateTimes.parse(str);
+        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
+        String str = OffsetDateTimes.toString(now);
+        OffsetDateTime parsed = OffsetDateTimes.parse(str);
 
         assertEquals(now, parsed);
     }

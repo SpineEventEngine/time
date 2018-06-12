@@ -32,8 +32,6 @@ import static io.spine.time.Calendars.getMinutes;
 import static io.spine.time.Calendars.getMonthOfYear;
 import static io.spine.time.Calendars.getSeconds;
 import static io.spine.time.Calendars.getZoneOffset;
-import static io.spine.time.Calendars.toCalendar;
-import static io.spine.time.Calendars.toLocalTime;
 import static org.junit.Assert.assertEquals;
 
 public class CalendarsShould {
@@ -81,12 +79,5 @@ public class CalendarsShould {
         calendar.set(Calendar.MONTH, april);
         // The Calendar class assumes JANUARY is zero. Therefore add 1 to expected result.
         assertEquals(calendar.get(Calendar.MONTH) + 1, getMonthOfYear(calendar).getNumber());
-    }
-
-    @Test
-    public void convert_from_local_time_and_back() {
-        final LocalTime time = LocalTimes.now();
-
-        assertEquals(time, toLocalTime(toCalendar(time), time.getNano()));
     }
 }

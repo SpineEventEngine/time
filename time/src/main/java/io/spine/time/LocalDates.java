@@ -55,6 +55,25 @@ public final class LocalDates {
         return result;
     }
 
+    public static LocalDate of(java.time.LocalDate ld) {
+        checkNotNull(ld);
+        LocalDate.Builder result = LocalDate
+                .newBuilder()
+                .setYear(ld.getYear())
+                .setMonth(Months.of(ld))
+                .setDay(ld.getDayOfMonth());
+        return result.build();
+    }
+
+    static java.time.LocalDate toJavaTime(LocalDate date) {
+        java.time.LocalDate result = java.time.LocalDate.of(
+                date.getYear(),
+                date.getMonthValue(),
+                date.getDay()
+        );
+        return result;
+    }
+
     /**
      * Obtains local date from a year, month, and day.
      */

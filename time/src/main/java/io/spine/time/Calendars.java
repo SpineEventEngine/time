@@ -118,14 +118,6 @@ final class Calendars {
     }
 
     /**
-     * Obtains milliseconds using {@code Calendar}.
-     */
-    static int getMillis(Calendar cal) {
-        int millis = cal.get(MILLISECOND);
-        return millis;
-    }
-
-    /**
      * Obtains calendar from year, month, and day values.
      */
     private static Calendar createWithDate(int year, int month, int day) {
@@ -313,15 +305,6 @@ final class Calendars {
                 time.getSecond());
         cal.set(MILLISECOND, time.getNano() * NANOS_PER_MILLISECOND);
         return cal;
-    }
-
-    /**
-     * Creates a new instance of Proleptic Gregorian Calendar in the default time zone.
-     *
-     * <p>The created instance is Gregorial calendar which extends to year one.
-     */
-    static GregorianCalendar newProlepticGregorianCalendar() {
-        return newProlepticGregorianCalendar(TimeZone.getDefault());
     }
 
     /**
