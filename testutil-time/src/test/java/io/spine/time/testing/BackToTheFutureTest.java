@@ -20,49 +20,55 @@
 
 package io.spine.time.testing;
 
-import org.junit.Before;
-import org.junit.Test;
+import io.spine.time.testing.TimeTests.BackToTheFuture;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class BackToTheFutureShould {
+@DisplayName("BackToTheFuture should")
+class BackToTheFutureTest {
 
-    private TimeTests.BackToTheFuture timeProvider;
+    private BackToTheFuture timeProvider;
 
-    @Before
-    public void setUp() {
-        timeProvider = new TimeTests.BackToTheFuture();
+    @BeforeEach
+    void setUp() {
+        timeProvider = new BackToTheFuture();
     }
 
     @Test
-    public void create_with_start_in_the_future() {
+    @DisplayName("provide time from the future")
+    void getFutureTime() {
         assertTrue(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
     }
 
     @Test
-    public void rewind_backward() {
+    @DisplayName("rewind time backward")
+    void rewindBackward() {
         // Rewind to somewhere around present.
         assertNotEquals(timeProvider.getCurrentTime(),
-                        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS));
+                        timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS));
 
         // ... and back to 30 years in the past.
-        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS);
+        timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
         assertFalse(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
     }
 
     @SuppressWarnings("MagicNumber")
     @Test
-    public void rewind_forward() {
+    @DisplayName("rewind time forward")
+    void rewindForward() {
         // Rewind to somewhere around present.
-        timeProvider.backward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS);
+        timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
-        timeProvider.forward(TimeTests.BackToTheFuture.THIRTY_YEARS_IN_HOURS + 24L);
+        timeProvider.forward(BackToTheFuture.THIRTY_YEARS_IN_HOURS + 24L);
 
         assertTrue(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
     }

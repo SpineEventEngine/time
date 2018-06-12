@@ -24,7 +24,8 @@ import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.time.testing.TimeTests;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 
@@ -36,77 +37,36 @@ import static io.spine.base.Time.getCurrentTime;
 import static io.spine.base.Time.resetProvider;
 import static io.spine.base.Time.setProvider;
 import static io.spine.base.Time.systemTime;
+import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.SiTime.MICROS_PER_SECOND;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MICROSECOND;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
 import static io.spine.time.Durations2.fromMinutes;
-import static io.spine.time.EarthTime.HOURS_PER_DAY;
-import static io.spine.time.EarthTime.SECONDS_PER_HOUR;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_SECOND;
 import static io.spine.time.Timestamps2.compare;
 import static io.spine.time.Timestamps2.isBetween;
 import static io.spine.time.Timestamps2.isLaterThan;
 import static io.spine.time.Timestamps2.toDate;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings("ClassCanBeStatic")
-public class Timestamps2Should {
+@DisplayName("Timestamps2 should")
+class Timestamps2Test {
 
     private static final Duration TEN_SECONDS = fromSeconds(10L);
 
-    private static final Duration MINUTE = fromMinutes(1);
 
     @Test
-    public void have_private_constructor() {
+    @DisplayName(HAVE_PARAMETERLESS_CTOR)
+    void utilityCtor() {
         assertHasPrivateParameterlessCtor(Timestamps2.class);
     }
 
-    @Test
-    public void declare_unit_constants() {
-        // Make these useful constant used from our library code to prevent
-        // accidental removal.
-        assertNotEquals(0, NANOS_PER_MICROSECOND);
-        assertNotEquals(0, MICROS_PER_SECOND);
-        assertNotEquals(0, SECONDS_PER_HOUR);
-        assertNotEquals(0, HOURS_PER_DAY);
-    }
 
     @Test
-    public void calculate_timestamp_of_moment_minute_ago() {
-        Timestamp currentTime = getCurrentTime();
-        Timestamp expected = subtract(currentTime, MINUTE);
-
-        Timestamp actual = TimeTests.Past.minutesAgo(1);
-
-        assertEquals(expected.getSeconds(), actual.getSeconds());
-    }
-
-    @Test
-    public void calculate_timestamp_of_moment_seconds_ago() {
-        Timestamp currentTime = getCurrentTime();
-        Timestamp expected = subtract(currentTime, TEN_SECONDS);
-
-        Timestamp actual = TimeTests.Past.secondsAgo(TEN_SECONDS.getSeconds());
-
-        assertEquals(expected.getSeconds(), actual.getSeconds());
-    }
-
-    @Test
-    public void calculate_timestamp_of_moment_in_the_future() {
-        Timestamp currentTime = getCurrentTime();
-        Timestamp expected = add(currentTime, TEN_SECONDS);
-
-        Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
-
-        assertEquals(expected.getSeconds(), actual.getSeconds());
-    }
-
-    @Test
-    public void compare_two_timestamps_return_negative_int_if_first_less_than_second_one() {
+    void compare_two_timestamps_return_negative_int_if_first_less_than_second_one() {
         Timestamp time1 = getCurrentTime();
         Timestamp time2 = add(time1, TEN_SECONDS);
 
@@ -116,7 +76,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_two_timestamps_return_negative_int_if_first_is_null() {
+    void compare_two_timestamps_return_negative_int_if_first_is_null() {
         Timestamp currentTime = getCurrentTime();
 
         int result = compare(null, currentTime);
@@ -125,7 +85,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_two_timestamps_return_zero_if_timestamps_are_equal() {
+    void compare_two_timestamps_return_zero_if_timestamps_are_equal() {
         int secs = 256;
         int nanos = 512;
         Timestamp time1 = Timestamp.newBuilder()
@@ -143,14 +103,14 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_two_timestamps_return_zero_if_pass_null() {
+    void compare_two_timestamps_return_zero_if_pass_null() {
         int result = compare(null, null);
 
         assertEquals(0, result);
     }
 
     @Test
-    public void compare_two_timestamps_return_positive_int_if_first_greater_than_second_one() {
+    void compare_two_timestamps_return_positive_int_if_first_greater_than_second_one() {
         Timestamp currentTime = getCurrentTime();
         Timestamp timeAfterCurrent = add(currentTime, TEN_SECONDS);
 
@@ -160,7 +120,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_two_timestamps_return_positive_int_if_second_one_is_null() {
+    void compare_two_timestamps_return_positive_int_if_second_one_is_null() {
         Timestamp currentTime = getCurrentTime();
 
         int result = compare(currentTime, null);
@@ -169,7 +129,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void return_true_if_timestamp_is_between_two_timestamps() {
+    void return_true_if_timestamp_is_between_two_timestamps() {
         Timestamp start = getCurrentTime();
         Timestamp timeBetween = add(start, TEN_SECONDS);
         Timestamp finish = add(timeBetween, TEN_SECONDS);
@@ -180,7 +140,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void return_false_if_timestamp_is_not_between_two_timestamps() {
+    void return_false_if_timestamp_is_not_between_two_timestamps() {
         Timestamp start = getCurrentTime();
         Timestamp finish = add(start, TEN_SECONDS);
         Timestamp timeNotBetween = add(finish, TEN_SECONDS);
@@ -191,7 +151,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void return_true_if_timestamp_is_after_another_one() {
+    void return_true_if_timestamp_is_after_another_one() {
         Timestamp fromPoint = getCurrentTime();
         Timestamp timeToCheck = add(fromPoint, TEN_SECONDS);
 
@@ -201,7 +161,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void return_false_if_timestamp_is_not_after_another_one() {
+    void return_false_if_timestamp_is_not_after_another_one() {
         Timestamp fromPoint = getCurrentTime();
         Timestamp timeToCheck = subtract(fromPoint, TEN_SECONDS);
 
@@ -211,7 +171,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_timestamps_return_negative_int_if_first_less_than_second_one() {
+    void compare_timestamps_return_negative_int_if_first_less_than_second_one() {
         Timestamp time1 = getCurrentTime();
         Timestamp time2 = add(time1, TEN_SECONDS);
 
@@ -222,7 +182,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_two_timestamps_using_comparator_return_zero_if_timestamps_are_equal() {
+    void compare_two_timestamps_using_comparator_return_zero_if_timestamps_are_equal() {
         int secs = 256;
         int nanos = 512;
         Timestamp time1 = Timestamp.newBuilder()
@@ -241,7 +201,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void compare_timestamps_return_positive_int_if_first_greater_than_second_one() {
+    void compare_timestamps_return_positive_int_if_first_greater_than_second_one() {
         Timestamp currentTime = getCurrentTime();
         Timestamp timeAfterCurrent = add(currentTime, TEN_SECONDS);
 
@@ -252,7 +212,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void convert_timestamp_to_date_to_nearest_second() {
+    void convert_timestamp_to_date_to_nearest_second() {
 
         Timestamp expectedTime = getCurrentTime();
 
@@ -263,7 +223,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void convert_timestamp_to_nanos() {
+    void convert_timestamp_to_nanos() {
         Timestamp expectedTime = getCurrentTime();
 
         long nanos = toNanos(expectedTime);
@@ -274,7 +234,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void accept_time_provider() {
+    void accept_time_provider() {
         Timestamp fiveMinutesAgo = subtract(getCurrentTime(),
                                             fromMinutes(5));
 
@@ -284,7 +244,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void reset_time_provider_to_default() {
+    void reset_time_provider_to_default() {
         Timestamp aMinuteAgo = subtract(
                 systemTime(),
                 fromMinutes(1));
@@ -296,7 +256,7 @@ public class Timestamps2Should {
     }
 
     @Test
-    public void obtain_system_time_millis() {
+    void obtain_system_time_millis() {
         assertNotEquals(0, systemTime());
     }
 }

@@ -36,12 +36,6 @@ class SiTime {
     /** The count of milliseconds in one second. */
     static final int MILLIS_PER_SECOND = 1000;
 
-    /** The count of nanoseconds in a microsecond. */
-    static final int NANOS_PER_MICROSECOND = 1000;
-
-    /** The count of microseconds in one second. */
-    static final int MICROS_PER_SECOND = 1_000_000;
-
     /** Prevent instantiation of this utility class. */
     private SiTime() {
     }

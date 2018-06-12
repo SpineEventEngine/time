@@ -34,7 +34,7 @@ import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.parse;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static io.spine.time.SiTime.NANOS_PER_SECOND;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
