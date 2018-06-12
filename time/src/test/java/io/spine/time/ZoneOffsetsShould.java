@@ -106,7 +106,7 @@ public class ZoneOffsetsShould {
     }
 
     @Test
-    public void convert_to_string() throws ParseException {
+    public void convert_to_string() {
         ZoneOffset positive = ofHoursMinutes(5, 48);
         ZoneOffset negative = ofHoursMinutes(-3, -36);
 
