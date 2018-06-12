@@ -24,12 +24,9 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.HOUR_OF_DAY;
 import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.MONTH;
 import static java.util.Calendar.SECOND;
-import static java.util.Calendar.YEAR;
 import static java.util.Calendar.ZONE_OFFSET;
 import static java.util.Calendar.getInstance;
 
@@ -58,32 +55,6 @@ final class Calendars {
     static int getZoneOffset(Calendar cal) {
         int zoneOffset = cal.get(ZONE_OFFSET) / MILLIS_PER_SECOND;
         return zoneOffset;
-    }
-
-    /**
-     * Obtains year using {@code Calendar}.
-     */
-    static int getYear(Calendar cal) {
-        int year = cal.get(YEAR);
-        return year;
-    }
-
-    /**
-     * Obtains month using {@code Calendar}.
-     */
-    static int getMonth(Calendar cal) {
-        // The Calendar class assumes JANUARY is zero.
-        // Therefore add 1 to get the reasonable value of month
-        int month = cal.get(MONTH) + 1;
-        return month;
-    }
-
-    /**
-     * Obtains day of month using {@code Calendar}.
-     */
-    static int getDay(Calendar cal) {
-        int result = cal.get(DAY_OF_MONTH);
-        return result;
     }
 
     /**
@@ -121,28 +92,6 @@ final class Calendars {
                                          .reverse()
                                          .convert(zoneOffset);
         Calendar result = getInstance(timeZone);
-        return result;
-    }
-
-    /**
-     * Obtains month of year using calendar.
-     */
-    static MonthOfYear getMonthOfYear(Calendar calendar) {
-        // The Calendar class assumes JANUARY is zero.
-        // Therefore add 1 to get the value of MonthOfYear.
-        int monthByCalendar = calendar.get(MONTH);
-        MonthOfYear month = MonthOfYear.forNumber(monthByCalendar + 1);
-        return month;
-    }
-
-    /**
-     * Obtains local date using calendar.
-     */
-    static LocalDate toLocalDate(Calendar cal) {
-        int year = getYear(cal);
-        MonthOfYear month = getMonthOfYear(cal);
-        int day = getDay(cal);
-        LocalDate result = LocalDates.of(year, month, day);
         return result;
     }
 }

@@ -20,13 +20,9 @@
 
 package io.spine.time;
 
-import java.util.Calendar;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.toLocalDate;
 import static io.spine.time.DtPreconditions.checkPositive;
 import static java.lang.String.format;
-import static java.util.Calendar.getInstance;
 
 /**
  * Utilities for working with {@link LocalDate}.
@@ -44,9 +40,8 @@ public final class LocalDates {
      * Obtains current local date.
      */
     public static LocalDate now() {
-        final Calendar cal = getInstance();
-        final LocalDate result = toLocalDate(cal);
-        return result;
+        java.time.LocalDate now = java.time.LocalDate.now();
+        return of(now);
     }
 
     public static LocalDate of(java.time.LocalDate ld) {
