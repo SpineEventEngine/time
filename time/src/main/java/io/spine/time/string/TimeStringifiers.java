@@ -46,12 +46,12 @@ public final class TimeStringifiers {
         registerAll();
     }
 
+    /** Prevent instantiation of this utility class. */
     private TimeStringifiers() {
-        // Prevent instantiation of this utility class.
     }
 
     private static void registerAll() {
-        final StringifierRegistry registry = StringifierRegistry.getInstance();
+        StringifierRegistry registry = StringifierRegistry.getInstance();
         if (registry.get(Duration.class).isPresent()) {
             // Already registered.
             return;

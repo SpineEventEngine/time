@@ -25,7 +25,6 @@ import com.google.protobuf.Timestamp;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
 import java.util.Calendar;
 
 import static io.spine.base.Time.getCurrentTime;
@@ -53,6 +52,7 @@ import static io.spine.time.OffsetDateTimes.subtractMonths;
 import static io.spine.time.OffsetDateTimes.subtractNanos;
 import static io.spine.time.OffsetDateTimes.subtractSeconds;
 import static io.spine.time.OffsetDateTimes.subtractYears;
+import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.Assert.assertEquals;
 
 public class OffsetDateTimesShould extends AbstractZonedTimeTest {
@@ -75,7 +75,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
         super.setUp();
         gmtToday = LocalDates.of(YEAR, MONTH, DAY);
         now = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
-        todayNow = OffsetDateTimes.now(zoneOffset);
+        todayNow = OffsetDateTimes.now();
     }
 
     @Test
@@ -85,21 +85,22 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Test
     public void get_current_date_time() {
-        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
-        Calendar cal = at(zoneOffset);
+        OffsetDateTime now = OffsetDateTimes.now();
+        java.time.OffsetDateTime jn = toJavaTime(now);
+        assertEqualDateTime(jn, now);
+    }
 
-        LocalDate today = now.getDate();
-        assertEquals(getYear(cal), today.getYear());
-        assertEquals(getMonth(cal), today.getMonthValue());
-        assertEquals(getDay(cal), today.getDay());
+    private void assertEqualDateTime(java.time.OffsetDateTime jt, OffsetDateTime ot) {
+        LocalDate date = ot.getDate();
+        assertEquals(jt.getYear(), date.getYear());
+        assertEquals(jt.getMonthValue(), date.getMonthValue());
+        assertEquals(jt.getDayOfMonth(), date.getDay());
 
-        LocalTime time = now.getTime();
-        assertEquals(getHours(cal), time.getHour());
-        assertEquals(getMinutes(cal), time.getMinute());
-        assertEquals(getSeconds(cal), time.getSecond());
-        assertEquals(getZoneOffset(cal), now.getOffset()
-                                            .getAmountSeconds());
-        /* We cannot check milliseconds and nanos due to time gap between object creation */
+        LocalTime time = ot.getTime();
+        assertEquals(jt.getHour(), time.getHour());
+        assertEquals(jt.getMinute(), time.getMinute());
+        assertEquals(jt.getSecond(), time.getSecond());
+        assertEquals(jt.getNano(), time.getNano());
     }
 
     @Test
@@ -372,7 +373,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
     public void pass_null_tolerance_test() {
         new NullPointerTester()
                 .setDefault(Timestamp.class, getCurrentTime())
-                .setDefault(OffsetDateTime.class, OffsetDateTimes.now(zoneOffset))
+                .setDefault(OffsetDateTime.class, OffsetDateTimes.now())
                 .setDefault(ZoneOffset.class, zoneOffset)
                 .setDefault(LocalTime.class, LocalTimes.now())
                 .setDefault(LocalDate.class, LocalDates.now())
@@ -553,7 +554,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
+        OffsetDateTime now = OffsetDateTimes.now();
         String str = OffsetDateTimes.toString(now);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);
 

@@ -31,6 +31,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static io.spine.util.Exceptions.unsupported;
 
 /**
@@ -58,10 +59,8 @@ public final class ZoneOffsets {
      * @see TimeZone#getDefault()
      */
     public static ZoneOffset getDefault() {
-        String id = java.time.ZoneId.systemDefault()
-                                    .normalized()
-                                    .getId();
-        java.time.ZoneOffset zo = java.time.ZoneOffset.of(id);
+        java.time.ZoneOffset zo = java.time.OffsetTime.now()
+                                                      .getOffset();
         return of(zo);
     }
 
@@ -130,7 +129,12 @@ public final class ZoneOffsets {
      * <p>Examples of accepted values: {@code +3:00}, {@code -04:30}.
      */
     public static ZoneOffset parse(String value) {
-        java.time.ZoneOffset parsed = java.time.ZoneOffset.of(value);
+        java.time.ZoneOffset parsed;
+        try {
+            parsed = java.time.ZoneOffset.of(value);
+        } catch (RuntimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
         return of(parsed);
     }
 
@@ -150,7 +154,6 @@ public final class ZoneOffsets {
         String id = nullToEmpty(zoneId);
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
-                         .setId(ZoneId.newBuilder().setValue(id))
                          .build();
     }
 
@@ -161,10 +164,7 @@ public final class ZoneOffsets {
      * Otherwise returns the passed instance.
      */
     static ZoneOffset adjustZero(ZoneOffset offset) {
-        boolean noZoneId = offset.getId()
-                                 .getValue()
-                                 .isEmpty();
-        if (offset.getAmountSeconds() == 0 && noZoneId) {
+        if (offset.getAmountSeconds() == 0) {
             return UTC;
         }
         return offset;

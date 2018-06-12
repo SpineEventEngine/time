@@ -37,5 +37,4 @@ message ZoneId {
 // A time-zone offset from UTC, such as +02:00.
 message ZoneOffset {
     int32 amount_seconds = 1;
-    ZoneId id = 2;
 }

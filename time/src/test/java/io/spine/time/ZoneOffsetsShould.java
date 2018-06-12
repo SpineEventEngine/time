@@ -26,6 +26,7 @@ import com.google.protobuf.util.Timestamps;
 import org.junit.Test;
 
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,23 +50,19 @@ public class ZoneOffsetsShould {
 
     @Test
     public void get_current_zone_offset() {
-        final TimeZone timeZone = TimeZone.getDefault();
-        final ZoneOffset zoneOffset = ZoneOffsets.getDefault();
+        TimeZone timeZone = TimeZone.getDefault();
+        ZoneOffset zoneOffset = ZoneOffsets.getDefault();
 
-        final Timestamp now = getCurrentTime();
-        final long date = Timestamps.toMillis(now);
-        final int offsetSeconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
-
-        final String zoneId = timeZone.getID();
-        assertEquals(zoneId, zoneOffset.getId()
-                                       .getValue());
+        Timestamp now = getCurrentTime();
+        long date = Timestamps.toMillis(now);
+        int offsetSeconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
 
         assertEquals(offsetSeconds, zoneOffset.getAmountSeconds());
     }
 
     @Test
     public void create_instance_by_hours_offset() {
-        final Duration twoHours = hours(2);
+        Duration twoHours = hours(2);
         assertEquals(twoHours.getSeconds(), ofHours(2).getAmountSeconds());
     }
 
@@ -89,13 +86,13 @@ public class ZoneOffsetsShould {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void do_not_accept_more_than_14_Hour() {
-        ofHours(14 + 1);
+    public void do_not_accept_more_than_18_Hour() {
+        ofHours(18 + 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void do_not_accept_more_than_11_hours_by_abs() {
-        ofHours(-11 - 1);
+    public void do_not_accept_more_than_18_hours_by_abs() {
+        ofHours(-18 - 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -110,24 +107,24 @@ public class ZoneOffsetsShould {
 
     @Test
     public void convert_to_string() throws ParseException {
-        final ZoneOffset positive = ofHoursMinutes(5, 48);
-        final ZoneOffset negative = ofHoursMinutes(-3, -36);
+        ZoneOffset positive = ofHoursMinutes(5, 48);
+        ZoneOffset negative = ofHoursMinutes(-3, -36);
 
         assertEquals(positive, parse(ZoneOffsets.toString(positive)));
         assertEquals(negative, parse(ZoneOffsets.toString(negative)));
     }
 
     @Test
-    public void parse_string() throws ParseException {
-        assertEquals(ofHoursMinutes(4, 30), parse("+4:30"));
+    public void parse_string() {
+        assertEquals(ofHoursMinutes(4, 30), parse("+0430"));
         assertEquals(ofHoursMinutes(4, 30), parse("+04:30"));
 
-        assertEquals(ofHoursMinutes(-2, -45), parse("-2:45"));
+        assertEquals(ofHoursMinutes(-2, -45), parse("-0245"));
         assertEquals(ofHoursMinutes(-2, -45), parse("-02:45"));
     }
 
-    @Test(expected = ParseException.class)
-    public void fail_when_sign_char_missing() throws ParseException {
+    @Test(expected = IllegalArgumentException.class)
+    public void fail_when_sign_char_missing() {
         parse("x03:00");
     }
 
@@ -148,7 +145,9 @@ public class ZoneOffsetsShould {
         ZoneOffset offset = ZoneOffsets.getDefault();
         assertEquals(offset, adjustZero(offset));
 
-        ZoneOffset gmtOffset = ZoneOffsets.of(java.time.ZoneOffset.of("GMT"));
+        ZoneOffset gmtOffset = ZoneOffsets.of(java.time.ZoneId.of("GMT")
+                                                              .getRules()
+                                                              .getOffset(Instant.now()));
         checkNotNull(gmtOffset);
         assertEquals(gmtOffset, adjustZero(gmtOffset));
     }

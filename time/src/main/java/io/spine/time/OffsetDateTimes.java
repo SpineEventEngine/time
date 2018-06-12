@@ -19,7 +19,6 @@
  */
 package io.spine.time;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.ZoneOffsets.adjustZero;
 
@@ -39,11 +38,11 @@ public final class OffsetDateTimes {
     /**
      * Obtains current date/time at the passed time zone.
      */
-    public static OffsetDateTime now(ZoneOffset zoneOffset) {
-        checkNotNull(zoneOffset);
+    public static OffsetDateTime now() {
         java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
         LocalTime localTime = LocalTimes.of(now.toLocalTime());
         LocalDate localDate = LocalDates.of(now.toLocalDate());
+        ZoneOffset zoneOffset = ZoneOffsets.of(now.getOffset());
         return create(localDate, localTime, zoneOffset);
     }
 
@@ -75,7 +74,7 @@ public final class OffsetDateTimes {
         return result.build();
     }
 
-    private static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
+    public static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
         java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
                 LocalDates.toJavaTime(value.getDate()),
                 LocalTimes.toJavaTime(value.getTime()),

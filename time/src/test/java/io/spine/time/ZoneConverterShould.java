@@ -34,8 +34,6 @@ public class ZoneConverterShould {
     @Test
     public void convert_GMT_zone() {
         final ZoneOffset zoneOffset = ZoneOffset.newBuilder()
-                                                .setId(ZoneId.newBuilder()
-                                                             .setValue("GMT"))
                                                 .build();
 
         assertEquals(zoneOffset, converter.convert(converter.reverse()

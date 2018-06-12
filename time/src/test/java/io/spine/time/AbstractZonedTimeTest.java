@@ -65,12 +65,7 @@ public abstract class AbstractZonedTimeTest {
 
     @Test
     public void convert_values_at_current_time_zone() throws ParseException {
-        // Get current zone offset and strip ID value because it's not stored into date/time.
-        ZoneOffset zoneOffset = ZoneOffsets.getDefault()
-                                           .toBuilder()
-                                           .setId(ZoneId.newBuilder()
-                                                        .setValue(""))
-                                           .build();
+        ZoneOffset zoneOffset = ZoneOffsets.getDefault();
         assertConversionAt(zoneOffset);
     }
 

@@ -111,27 +111,6 @@ final class Calendars {
     }
 
     /**
-     * Obtains {@code Calendar} from hours, minutes and seconds values.
-     */
-    static Calendar createWithTime(int hours, int minutes, int seconds) {
-        Calendar calendar = getInstance();
-        calendar.set(HOUR_OF_DAY, hours);
-        calendar.set(MINUTE, minutes);
-        calendar.set(SECOND, seconds);
-        return calendar;
-    }
-
-    /**
-     * Obtains {@code Calendar} from hours and minutes values.
-     */
-    static Calendar createWithTime(int hours, int minutes) {
-        Calendar calendar = getInstance();
-        calendar.set(HOUR_OF_DAY, hours);
-        calendar.set(MINUTE, minutes);
-        return calendar;
-    }
-
-    /**
      * Obtains calendar at the specified zone offset
      *
      * @param zoneOffset time offset for specified zone
@@ -139,8 +118,8 @@ final class Calendars {
      */
     static Calendar at(ZoneOffset zoneOffset) {
         TimeZone timeZone = ZoneConverter.getInstance()
-                                               .reverse()
-                                               .convert(zoneOffset);
+                                         .reverse()
+                                         .convert(zoneOffset);
         Calendar result = getInstance(timeZone);
         return result;
     }

@@ -21,14 +21,11 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
-import com.google.common.collect.ImmutableSet;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.util.Optional;
-import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +43,6 @@ final class ZoneConverter extends Converter<TimeZone, ZoneOffset> implements Ser
     private static final ZoneConverter INSTANCE = new ZoneConverter();
 
     private static final long serialVersionUID = 0L;
-    private static final Set<String> supportedIds = ImmutableSet.copyOf(TimeZone.getAvailableIDs());
 
     static ZoneConverter getInstance() {
         return INSTANCE;
@@ -73,33 +69,14 @@ final class ZoneConverter extends Converter<TimeZone, ZoneOffset> implements Ser
      * <p>Otherwise {@code SimpleTimeZone} will be created using the offset.
      */
     private static TimeZone toTimeZone(ZoneOffset zoneOffset) {
-        Optional<String> optional = getId(zoneOffset);
-        if (optional.isPresent()) {
-            String id = optional.get();
-            if (supportedIds.contains(id)) {
-                TimeZone result = TimeZone.getTimeZone(id);
-                return result;
-            }
-        }
         return toSimpleTimeZone(zoneOffset);
-    }
-
-    private static Optional<String> getId(ZoneOffset offset) {
-        String id = offset.getId()
-                                .getValue();
-        if (id.length() > 0) {
-            return Optional.of(id);
-        }
-        return Optional.empty();
     }
 
     private static SimpleTimeZone toSimpleTimeZone(ZoneOffset zoneOffset) {
         @SuppressWarnings("NumericCastThatLosesPrecision")
         // OK as a valid zoneOffset isn't that big.
         int offsetMillis = (int) TimeUnit.SECONDS.toMillis(zoneOffset.getAmountSeconds());
-        Optional<String> optional = getId(zoneOffset);
-        String id = optional.orElse("temp");
-        return new SimpleTimeZone(offsetMillis, id);
+        return new SimpleTimeZone(offsetMillis, "temp");
     }
 
     /**
