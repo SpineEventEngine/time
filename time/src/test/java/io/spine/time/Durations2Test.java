@@ -23,9 +23,11 @@ import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
-import static com.google.protobuf.util.Durations.subtract;
+import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.ZERO;
 import static io.spine.time.Durations2.add;
@@ -33,6 +35,7 @@ import static io.spine.time.Durations2.fromHours;
 import static io.spine.time.Durations2.fromMinutes;
 import static io.spine.time.Durations2.getHours;
 import static io.spine.time.Durations2.getMinutes;
+import static io.spine.time.Durations2.hours;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.Durations2.isGreaterThan;
 import static io.spine.time.Durations2.isLessThan;
@@ -49,56 +52,97 @@ import static io.spine.time.Durations2.toSeconds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings({"MagicNumber", "ClassWithTooManyMethods"})
-public class Durations2Should {
+@DisplayName("Durations2 should")
+class Durations2Test {
 
     @Test
-    public void have_private_constructor() {
+    @DisplayName(HAVE_PARAMETERLESS_CTOR)
+    void utilityConstructor() {
         assertHasPrivateParameterlessCtor(Durations2.class);
     }
 
     @Test
-    public void have_ZERO_constant() {
+    @DisplayName("have ZERO constant")
+    void zeroConstant() {
         assertEquals(0, toNanos(ZERO));
     }
 
-    @Test(expected = ArithmeticException.class)
-    public void fail_to_convert_minutes_to_duration_if_input_is_too_big() {
-        fromMinutes(Long.MAX_VALUE);
+    @Nested
+    @DisplayName("Convert a number of hours")
+    class HourConversion {
+
+        private void test(long hours) {
+            Duration expected = seconds(hoursToSeconds(hours));
+            Duration actual = fromHours(hours);
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        @DisplayName("zero value")
+        void zero() {
+            test(0);
+        }
+
+        @Test
+        @DisplayName("positive value")
+        void positive() {
+            test(36);
+        }
+
+        @Test
+        @DisplayName("negative value")
+        void negative() {
+            test(-384);
+        }
     }
 
-    @Test
-    public void convert_hours_to_duration() {
-        testHourConversion(0);
-        testHourConversion(36);
-        testHourConversion(-384);
+    @Nested
+    @DisplayName("Fail if")
+    class MathError {
+
+        @Test
+        @DisplayName("hours value is too big")
+        void onHugeHours() {
+            assertThrows(
+                    ArithmeticException.class,
+                    () -> hours(Long.MAX_VALUE)
+            );
+        }
+
+        @Test
+        @DisplayName("minutes value is too big")
+        void onHugeMinutes() {
+            assertThrows(
+                    ArithmeticException.class,
+                    () -> minutes(Long.MAX_VALUE)
+            );
+        }
     }
 
-    private static void testHourConversion(long hours) {
-        final Duration expected = seconds(hoursToSeconds(hours));
-        final Duration actual = fromHours(hours);
-        assertEquals(expected, actual);
-    }
+    @Nested
+    @DisplayName("Add")
+    class Add {
 
-    @Test(expected = ArithmeticException.class)
-    public void fail_to_convert_hours_to_duration_if_input_is_too_big() {
-        fromHours(Long.MAX_VALUE);
-    }
+        @Test
+        @DisplayName("two nulls -> ZERO")
+        void nullPlusNull() {
+            assertEquals(ZERO, add(null, null));
+        }
 
-    @Test
-    public void add_null_durations_return_zero() {
-        assertEquals(ZERO, add(null, null));
-    }
-
-    @Test
-    public void add_duration_and_null() {
-        final Duration duration = seconds(525);
-        assertEquals(duration, add(duration, null));
-        assertEquals(duration, add(null, duration));
+        @Test
+        @DisplayName("null returning same instance")
+        void sameWithNull() {
+            Duration duration = seconds(525);
+            assertSame(duration, add(duration, null));
+            assertSame(duration, add(null, duration));
+        }
     }
 
     @Test
@@ -119,10 +163,6 @@ public class Durations2Should {
         addDurationsTest(-300, 338);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void fail_to_add_too_big_durations() {
-        add(seconds(Long.MAX_VALUE), seconds(256));
-    }
 
     private static void addDurationsTest(long seconds1, long seconds2) {
 
@@ -134,12 +174,6 @@ public class Durations2Should {
         assertEquals(sumExpected, sumActual);
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void fail_to_subtract_too_big_values() {
-        final Duration duration1 = seconds(Long.MAX_VALUE);
-        final Duration duration2 = seconds(Long.MAX_VALUE / 2);
-        subtract(duration1, duration2);
-    }
 
     @Test
     public void convert_hours_and_minutes_to_duration() {
