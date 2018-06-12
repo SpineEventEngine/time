@@ -26,6 +26,8 @@ import io.spine.time.OffsetDateTimes;
 
 import java.io.Serializable;
 
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+
 /**
  * Default stringifier for {@link OffsetDateTime}.
  *
@@ -48,7 +50,12 @@ final class OffsetDateTimeStringifier extends Stringifier<OffsetDateTime> implem
 
     @Override
     protected OffsetDateTime fromString(String str) {
-        OffsetDateTime result = OffsetDateTimes.parse(str);
+        OffsetDateTime result;
+        try {
+            result = OffsetDateTimes.parse(str);
+        } catch (RuntimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
         return result;
     }
 

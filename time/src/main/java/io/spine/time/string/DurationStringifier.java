@@ -45,13 +45,13 @@ final class DurationStringifier extends Stringifier<Duration> implements Seriali
 
     @Override
     protected String toString(Duration duration) {
-        final String result = Durations.toString(duration);
+        String result = Durations.toString(duration);
         return result;
     }
 
     @Override
     protected Duration fromString(String str) {
-        final Duration result;
+        Duration result;
         try {
             result = Durations.parse(str);
         } catch (ParseException e) {

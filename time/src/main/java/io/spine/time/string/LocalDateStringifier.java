@@ -23,6 +23,7 @@ package io.spine.time.string;
 import io.spine.string.Stringifier;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
+import io.spine.util.Exceptions;
 
 import java.io.Serializable;
 
@@ -48,8 +49,12 @@ final class LocalDateStringifier extends Stringifier<LocalDate> implements Seria
 
     @Override
     protected LocalDate fromString(String str) {
-        final LocalDate date;
-        date = LocalDates.parse(str);
+        LocalDate date;
+        try {
+            date = LocalDates.parse(str);
+        } catch (RuntimeException e) {
+            throw Exceptions.illegalArgumentWithCauseOf(e);
+        }
         return date;
     }
 

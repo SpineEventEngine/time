@@ -145,11 +145,10 @@ public class ZoneOffsetsShould {
     public void adjust_zero_offset_without_zone() {
         assertEquals(ZoneOffsets.UTC, adjustZero(ZoneOffsets.ofSeconds(0)));
 
-        final ZoneOffset offset = ZoneOffsets.getDefault();
+        ZoneOffset offset = ZoneOffsets.getDefault();
         assertEquals(offset, adjustZero(offset));
 
-        final ZoneOffset gmtOffset = ZoneConverter.getInstance()
-                                                  .convert(TimeZone.getTimeZone("GMT"));
+        ZoneOffset gmtOffset = ZoneOffsets.of(java.time.ZoneOffset.of("GMT"));
         checkNotNull(gmtOffset);
         assertEquals(gmtOffset, adjustZero(gmtOffset));
     }

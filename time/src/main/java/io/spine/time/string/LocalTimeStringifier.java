@@ -46,14 +46,14 @@ final class LocalTimeStringifier extends Stringifier<LocalTime> implements Seria
     @Override
     protected String toString(LocalTime time) {
         checkNotNull(time);
-        final String result = LocalTimes.toString(time);
+        String result = LocalTimes.toString(time);
         return result;
     }
 
     @Override
     protected LocalTime fromString(String str) {
         checkNotNull(str);
-        final LocalTime time;
+        LocalTime time;
         try {
           time = LocalTimes.parse(str);
         } catch (RuntimeException e) {
