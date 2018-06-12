@@ -30,16 +30,8 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.LocalTimes.addHours;
-import static io.spine.time.LocalTimes.addMinutes;
-import static io.spine.time.LocalTimes.addNanos;
-import static io.spine.time.LocalTimes.addSeconds;
 import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.parse;
-import static io.spine.time.LocalTimes.subtractHours;
-import static io.spine.time.LocalTimes.subtractNanos;
-import static io.spine.time.LocalTimes.subtractMinutes;
-import static io.spine.time.LocalTimes.subtractSeconds;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static io.spine.time.SiTime.NANOS_PER_SECOND;
 import static org.junit.Assert.assertEquals;
@@ -53,12 +45,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class LocalTimesTest {
 
     private java.time.LocalTime javaTimeNow;
-    private LocalTime value;
 
     @BeforeEach
     void getCurrentTime() {
         javaTimeNow = java.time.LocalTime.now();
-        value = of(javaTimeNow);
     }
 
     @Test
@@ -127,7 +117,6 @@ class LocalTimesTest {
 
             assertTimeEqual(javaTimeNow, test);
         }
-
     }
 
     private static void assertTimeEqual(java.time.LocalTime jt, LocalTime lt) {
@@ -135,89 +124,6 @@ class LocalTimesTest {
         assertEquals(jt.getMinute(), lt.getMinute());
         assertEquals(jt.getSecond(), lt.getSecond());
         assertEquals(jt.getNano(), lt.getNano());
-    }
-
-    @Nested
-    class Add {
-        @Test
-        void hours() {
-            int hoursToAdd = 2;
-            java.time.LocalTime jt = javaTimeNow.plusHours(hoursToAdd);
-
-            LocalTime test = addHours(value, hoursToAdd);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        void minutes() {
-            int minutesToAdd = 15;
-            java.time.LocalTime jt = javaTimeNow.plusMinutes(minutesToAdd);
-
-            LocalTime test = addMinutes(value, minutesToAdd);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        void seconds() {
-            int secondsToAdd = 18;
-            java.time.LocalTime jt = javaTimeNow.plusSeconds(secondsToAdd);
-
-            LocalTime test = addSeconds(value, secondsToAdd);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        void nanos() {
-            long nanosToAdd = 123_456_789L;
-            java.time.LocalTime jt = javaTimeNow.plusNanos(nanosToAdd);
-
-            LocalTime test = addNanos(value, nanosToAdd);
-            assertTimeEqual(jt, test);
-        }
-    }
-
-    @Nested
-    class Subtract {
-
-        @Test
-        @DisplayName("hours")
-        void hours() {
-            int hoursToSubtract = 2;
-            java.time.LocalTime jt = javaTimeNow.minusHours(hoursToSubtract);
-
-            LocalTime test = subtractHours(value, hoursToSubtract);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        @DisplayName("minutes")
-        void minutes() {
-            int minutesToSubtract = 15;
-            java.time.LocalTime jt = javaTimeNow.minusMinutes(minutesToSubtract);
-
-            LocalTime test = subtractMinutes(value, minutesToSubtract);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        @DisplayName("seconds")
-        void seconds() {
-            int secondsToSubtract = 12;
-            java.time.LocalTime jt = javaTimeNow.minusSeconds(secondsToSubtract);
-
-            LocalTime test = subtractSeconds(value, secondsToSubtract);
-            assertTimeEqual(jt, test);
-        }
-
-        @Test
-        @DisplayName("nanoseconds")
-        void nanos() {
-            long nanos = 280_457_989L;
-            java.time.LocalTime jt = javaTimeNow.minusNanos(nanos);
-
-            LocalTime test = subtractNanos(value, nanos);
-            assertTimeEqual(jt, test);
-        }
     }
 
     @Nested

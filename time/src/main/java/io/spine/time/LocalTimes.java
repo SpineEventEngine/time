@@ -25,7 +25,6 @@ import com.google.protobuf.util.Timestamps;
 import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
@@ -123,70 +122,6 @@ public final class LocalTimes {
      */
     public static LocalTime of(int hours, int minutes) {
         return of(hours, minutes, 0, 0);
-    }
-
-    /**
-     * Obtains new local time with specified number of hours added.
-     */
-    public static LocalTime addHours(LocalTime localTime, int hoursToAdd) {
-        checkArguments(localTime, hoursToAdd);
-        return of(toJavaTime(localTime).plusHours(hoursToAdd));
-    }
-
-    /**
-     * Obtains new local time with specified number of minutes added.
-     */
-    public static LocalTime addMinutes(LocalTime localTime, int minutesToAdd) {
-        checkArguments(localTime, minutesToAdd);
-        return of(toJavaTime(localTime).plusMinutes(minutesToAdd));
-    }
-
-    /**
-     * Obtains new local time with specified number of seconds added.
-     */
-    public static LocalTime addSeconds(LocalTime localTime, int secondsToAdd) {
-        checkArguments(localTime, secondsToAdd);
-        return of(toJavaTime(localTime).plusSeconds(secondsToAdd));
-    }
-
-    /**
-     * Obtains new local time with specified number of nanoseconds added.
-     */
-    public static LocalTime addNanos(LocalTime localTime, long nanosToAdd) {
-        checkArguments(localTime, nanosToAdd);
-        return of(toJavaTime(localTime).plusNanos(nanosToAdd));
-    }
-
-    /**
-     * Obtains new local time with the specified number of hours subtracted.
-     */
-    public static LocalTime subtractHours(LocalTime localTime, int hoursToSubtract) {
-        checkArguments(localTime, hoursToSubtract);
-        return of(toJavaTime(localTime).minusHours(hoursToSubtract));
-    }
-
-    /**
-     * Obtains new local time with the specified number of minutes subtracted.
-     */
-    public static LocalTime subtractMinutes(LocalTime localTime, int minutesToSubtract) {
-        checkArguments(localTime, minutesToSubtract);
-        return of(toJavaTime(localTime).minusMinutes(minutesToSubtract));
-    }
-
-    /**
-     * Obtains new local time with the specified number of seconds subtracted.
-     */
-    public static LocalTime subtractSeconds(LocalTime localTime, int secondsToSubtract) {
-        checkArguments(localTime, secondsToSubtract);
-        return of(toJavaTime(localTime).minusSeconds(secondsToSubtract));
-    }
-
-    /**
-     * Obtains new local time with the specified number of nanoseconds subtracted.
-     */
-    public static LocalTime subtractNanos(LocalTime localTime, long nanosToSubtract) {
-        checkArguments(localTime, nanosToSubtract);
-        return of(toJavaTime(localTime).minusNanos(nanosToSubtract));
     }
 
     /**

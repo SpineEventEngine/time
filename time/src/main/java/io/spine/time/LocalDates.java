@@ -24,7 +24,6 @@ import java.util.Calendar;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.Calendars.toLocalDate;
-import static io.spine.time.DtPreconditions.checkArguments;
 import static io.spine.time.DtPreconditions.checkPositive;
 import static java.lang.String.format;
 import static java.util.Calendar.getInstance;
@@ -84,60 +83,6 @@ public final class LocalDates {
                 .setDay(day)
                 .build();
         return result;
-    }
-
-    /**
-     * Obtains new local date with the specified number of years added.
-     */
-    public static LocalDate addYears(LocalDate localDate, int yearsToAdd) {
-        checkArguments(localDate, yearsToAdd);
-        java.time.LocalDate updated = toJavaTime(localDate).plusYears(yearsToAdd);
-        return of(updated);
-    }
-
-    /**
-     * Obtains new local date with the specified number of months added.
-     */
-    public static LocalDate addMonths(LocalDate localDate, int monthsToAdd) {
-        checkArguments(localDate, monthsToAdd);
-        java.time.LocalDate updated = toJavaTime(localDate).plusMonths(monthsToAdd);
-        return of(updated);
-    }
-
-    /**
-     * Obtains new local date with the specified number of days added.
-     */
-    public static LocalDate addDays(LocalDate localDate, int daysToAdd) {
-        checkArguments(localDate, daysToAdd);
-        java.time.LocalDate updated = toJavaTime(localDate).plusDays(daysToAdd);
-        return of(updated);
-    }
-
-    /**
-     * Obtains new local date with the specified number of years subtracted.
-     */
-    public static LocalDate subtractYears(LocalDate localDate, int yearsToSubtract) {
-        checkArguments(localDate, yearsToSubtract);
-        java.time.LocalDate updated = toJavaTime(localDate).minusYears(yearsToSubtract);
-        return of(updated);
-    }
-
-    /**
-     * Obtains new local date with the specified number of months subtracted.
-     */
-    public static LocalDate subtractMonths(LocalDate localDate, int monthsToSubtract) {
-        checkArguments(localDate, monthsToSubtract);
-        java.time.LocalDate updated = toJavaTime(localDate).minusMonths(monthsToSubtract);
-        return of(updated);
-    }
-
-    /**
-     * Obtains new local date with the specified number of days subtracted.
-     */
-    public static LocalDate subtractDays(LocalDate localDate, int daysToSubtract) {
-        checkArguments(localDate, daysToSubtract);
-        java.time.LocalDate updated = toJavaTime(localDate).minusDays(daysToSubtract);
-        return of(updated);
     }
 
     /**

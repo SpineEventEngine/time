@@ -27,6 +27,8 @@ import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import io.spine.time.Durations2;
 
+import java.time.LocalTime;
+
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
@@ -56,6 +58,20 @@ public class TimeTests {
     public static long currentTimeSeconds() {
         final long secs = getCurrentTime().getSeconds();
         return secs;
+    }
+
+    /**
+     * Waits till new day to come, if it's the last day second.
+     *
+     * <p>This method is useful for tests that obtain current date/time values
+     * and need to avoid the day edge for correctness of the test values.
+     */
+    @SuppressWarnings("StatementWithEmptyBody")
+    public static void avoidDayEdge() {
+        LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
+        do {
+            // Wait.
+        } while (LocalTime.now().isAfter(lastDaySecond));
     }
 
     /**
