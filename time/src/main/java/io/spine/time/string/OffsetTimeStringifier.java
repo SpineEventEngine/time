@@ -23,10 +23,8 @@ package io.spine.time.string;
 import io.spine.string.Stringifier;
 import io.spine.time.OffsetTime;
 import io.spine.time.OffsetTimes;
-import io.spine.util.Exceptions;
 
 import java.io.Serializable;
-import java.text.ParseException;
 
 /**
  * Default stringifier for {@link OffsetTime}.
@@ -50,12 +48,7 @@ final class OffsetTimeStringifier extends Stringifier<OffsetTime> implements Ser
 
     @Override
     protected OffsetTime fromString(String str) {
-        final OffsetTime result;
-        try {
-            result = OffsetTimes.parse(str);
-        } catch (ParseException e) {
-            throw Exceptions.illegalArgumentWithCauseOf(e);
-        }
+        OffsetTime result = OffsetTimes.parse(str);
         return result;
     }
 

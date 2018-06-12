@@ -76,12 +76,6 @@ message OffsetTime {
     ZoneOffset offset = 2 [(required) = true];
 }
 
-// A date with an offset from UTC.
-message OffsetDate {
-    LocalDate date = 1 [(required) = true];
-    ZoneOffset offset = 2 [(required) = true];
-}
-
 // A date-time with an offset from UTC.
 message OffsetDateTime {
     LocalDate date = 1 [(required) = true];

@@ -552,7 +552,7 @@ public class OffsetDateTimesShould extends AbstractZonedTimeTest {
      */
 
     @Override
-    protected void assertConversionAt(ZoneOffset zoneOffset) throws ParseException {
+    protected void assertConversionAt(ZoneOffset zoneOffset) {
         OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
         String str = OffsetDateTimes.toString(now);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);

@@ -21,17 +21,12 @@ package io.spine.time;
 
 import com.google.protobuf.Timestamp;
 
-import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.Calendars.toCalendar;
 import static io.spine.time.Calendars.toLocalTime;
 import static io.spine.time.DtPreconditions.checkPositive;
-import static io.spine.time.Formats.appendSubSecond;
-import static io.spine.time.Formats.appendZoneOffset;
-import static io.spine.time.Formats.timeFormat;
 import static io.spine.time.ZoneOffsets.adjustZero;
 import static java.util.Calendar.HOUR;
 import static java.util.Calendar.MILLISECOND;
@@ -87,6 +82,28 @@ public final class OffsetTimes {
                 .setTime(time)
                 .setOffset(zoneOffset)
                 .build();
+        return result;
+    }
+
+    /**
+     * Creates a new instance by passed Java Time value.
+     */
+    public static OffsetTime of(java.time.OffsetTime jt) {
+        checkNotNull(jt);
+        java.time.ZoneOffset zo = jt.getOffset();
+        java.time.LocalTime lt = jt.toLocalTime();
+        return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
+    }
+
+    /**
+     * Coverts the passed value to Java Time instance.
+     */
+    public static java.time.OffsetTime toJavaTime(OffsetTime value) {
+        checkNotNull(value);
+        java.time.OffsetTime result = java.time.OffsetTime.of(
+                LocalTimes.toJavaTime(value.getTime()),
+                ZoneOffsets.toJavaTime(value.getOffset())
+        );
         return result;
     }
 
@@ -241,29 +258,15 @@ public final class OffsetTimes {
      * Returns a ISO 8601 time string corresponding to the passed value.
      */
     public static String toString(OffsetTime value) {
-        ZoneOffset offset = value.getOffset();
-        Calendar calendar = toCalendar(value);
-        StringBuilder result = new StringBuilder();
-
-        // Format the date/time part.
-        Date date = calendar.getTime();
-        String dateTime = timeFormat(offset).format(date);
-        result.append(dateTime);
-
-        // Format the fractional second part.
-        LocalTime time = value.getTime();
-        appendSubSecond(result, time);
-
-        // Add time zone.
-        appendZoneOffset(result, offset);
-
-        return result.toString();
+        checkNotNull(value);
+        return toJavaTime(value).toString();
     }
 
     /**
      * Parse from ISO 8601 string to {@code OffsetTime}.
      */
-    public static OffsetTime parse(String str) throws ParseException {
-        return Parser.parseOffsetTime(str);
+    public static OffsetTime parse(String str) {
+        java.time.OffsetTime parsed = java.time.OffsetTime.parse(str);
+        return of(parsed);
     }
 }

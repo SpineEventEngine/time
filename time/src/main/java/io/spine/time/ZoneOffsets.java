@@ -33,6 +33,8 @@ import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
 import static io.spine.time.Formats.formatOffsetTime;
+import static io.spine.time.ZoneOffsets.Parameter.HOURS;
+import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static io.spine.util.Exceptions.unsupported;
 import static java.lang.String.format;
 
@@ -90,7 +92,7 @@ public final class ZoneOffsets {
      * Obtains the ZoneOffset instance using an offset in hours.
      */
     public static ZoneOffset ofHours(int hours) {
-        Parameter.HOURS.check(hours);
+        HOURS.check(hours);
 
         Duration hourDuration = Durations2.fromHours(hours);
         int seconds = toSeconds(hourDuration);
@@ -115,8 +117,8 @@ public final class ZoneOffsets {
      * <p>If a negative zone offset is created both passed values must be negative.
      */
     public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
-        Parameter.HOURS.checkReduced(hours);
-        Parameter.MINUTES.check(minutes);
+        HOURS.checkReduced(hours);
+        MINUTES.check(minutes);
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
@@ -216,7 +218,7 @@ public final class ZoneOffsets {
      */
     enum Parameter {
 
-        HOURS(-11, 14) {
+        HOURS(-18, 18) {
 
             @Override
             void check(int value) {
