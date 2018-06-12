@@ -179,7 +179,7 @@ public final class LocalDates {
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
      */
-    static void checkDate(int year, MonthOfYear month, int day) {
+    private static void checkDate(int year, MonthOfYear month, int day) {
         checkPositive(year);
         checkNotNull(month);
         checkPositive(month.getNumber());
