@@ -40,6 +40,7 @@ import static org.junit.Assert.assertEquals;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetTimes should")
 class OffsetTimesTest extends AbstractZonedTimeTest {
 

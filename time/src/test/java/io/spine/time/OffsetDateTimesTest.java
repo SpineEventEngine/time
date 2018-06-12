@@ -31,6 +31,7 @@ import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
 public class OffsetDateTimesTest extends AbstractZonedTimeTest {
 

@@ -60,7 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("MagicNumber")
+@SuppressWarnings({"MagicNumber", "ClassCanBeStatic"})
 @DisplayName("Durations2 should")
 class Durations2Test {
 

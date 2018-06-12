@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalTimes utility class should")
 class LocalTimesTest {
 

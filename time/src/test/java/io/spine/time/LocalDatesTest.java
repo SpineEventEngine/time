@@ -31,6 +31,7 @@ import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDates should")
 class LocalDatesTest {
 

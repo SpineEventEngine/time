@@ -41,6 +41,7 @@ import static io.spine.time.ZoneOffsets.parse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("ZoneOffsets should")
 class ZoneOffsetsTest {
 

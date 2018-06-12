@@ -31,6 +31,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Alexander Litus
  */
+@SuppressWarnings("ClassCanBeStatic")
 public class IntervalsShould {
 
     @Test

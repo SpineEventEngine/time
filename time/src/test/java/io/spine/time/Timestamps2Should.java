@@ -53,6 +53,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+@SuppressWarnings("ClassCanBeStatic")
 public class Timestamps2Should {
 
     private static final Duration TEN_SECONDS = fromSeconds(10L);
