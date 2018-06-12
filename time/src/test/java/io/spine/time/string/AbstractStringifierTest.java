@@ -24,8 +24,6 @@ import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.time.DateTimeException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -35,17 +33,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Alexander Yevsyukov
  * @param <T> the type of stringifier objects
  */
-public abstract class AbstractStringifierTest<T> {
+abstract class AbstractStringifierTest<T> {
 
     private final Stringifier<T> stringifier;
 
-    protected AbstractStringifierTest(Stringifier<T> stringifier) {
+    AbstractStringifierTest(Stringifier<T> stringifier) {
         this.stringifier = stringifier;
     }
 
     protected abstract T createObject();
 
-    protected Stringifier<T> getStringifier() {
+    Stringifier<T> getStringifier() {
         return stringifier;
     }
 

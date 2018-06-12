@@ -23,8 +23,8 @@ package io.spine.time.string;
 import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
 import io.spine.time.Durations2;
-import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
