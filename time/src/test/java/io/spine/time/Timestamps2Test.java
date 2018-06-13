@@ -22,17 +22,14 @@ package io.spine.time;
 
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
 import io.spine.time.testing.TimeTests;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
+import static com.google.protobuf.util.Timestamps.compare;
 import static com.google.protobuf.util.Timestamps.subtract;
-import static com.google.protobuf.util.Timestamps.toNanos;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.base.Time.resetProvider;
 import static io.spine.base.Time.setProvider;
@@ -40,12 +37,8 @@ import static io.spine.base.Time.systemTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.fromMinutes;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
-import static io.spine.time.Timestamps2.compare;
 import static io.spine.time.Timestamps2.isBetween;
 import static io.spine.time.Timestamps2.isLaterThan;
-import static io.spine.time.Timestamps2.toDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -76,15 +69,6 @@ class Timestamps2Test {
     }
 
     @Test
-    void compare_two_timestamps_return_negative_int_if_first_is_null() {
-        Timestamp currentTime = getCurrentTime();
-
-        int result = compare(null, currentTime);
-
-        assertTrue(result < 0);
-    }
-
-    @Test
     void compare_two_timestamps_return_zero_if_timestamps_are_equal() {
         int secs = 256;
         int nanos = 512;
@@ -100,32 +84,6 @@ class Timestamps2Test {
         int result = compare(time1, time2);
 
         assertEquals(0, result);
-    }
-
-    @Test
-    void compare_two_timestamps_return_zero_if_pass_null() {
-        int result = compare(null, null);
-
-        assertEquals(0, result);
-    }
-
-    @Test
-    void compare_two_timestamps_return_positive_int_if_first_greater_than_second_one() {
-        Timestamp currentTime = getCurrentTime();
-        Timestamp timeAfterCurrent = add(currentTime, TEN_SECONDS);
-
-        int result = compare(timeAfterCurrent, currentTime);
-
-        assertTrue(result > 0);
-    }
-
-    @Test
-    void compare_two_timestamps_return_positive_int_if_second_one_is_null() {
-        Timestamp currentTime = getCurrentTime();
-
-        int result = compare(currentTime, null);
-
-        assertTrue(result > 0);
     }
 
     @Test
@@ -170,69 +128,7 @@ class Timestamps2Test {
         assertFalse(isAfter);
     }
 
-    @Test
-    void compare_timestamps_return_negative_int_if_first_less_than_second_one() {
-        Timestamp time1 = getCurrentTime();
-        Timestamp time2 = add(time1, TEN_SECONDS);
-
-        int result = Timestamps.comparator()
-                               .compare(time1, time2);
-
-        assertTrue(result < 0);
-    }
-
-    @Test
-    void compare_two_timestamps_using_comparator_return_zero_if_timestamps_are_equal() {
-        int secs = 256;
-        int nanos = 512;
-        Timestamp time1 = Timestamp.newBuilder()
-                                   .setSeconds(secs)
-                                   .setNanos(nanos)
-                                   .build();
-        Timestamp time2 = Timestamp.newBuilder()
-                                   .setSeconds(secs)
-                                   .setNanos(nanos)
-                                   .build();
-
-        int result = Timestamps.comparator()
-                               .compare(time1, time2);
-
-        assertEquals(0, result);
-    }
-
-    @Test
-    void compare_timestamps_return_positive_int_if_first_greater_than_second_one() {
-        Timestamp currentTime = getCurrentTime();
-        Timestamp timeAfterCurrent = add(currentTime, TEN_SECONDS);
-
-        int result = Timestamps.comparator()
-                               .compare(timeAfterCurrent, currentTime);
-
-        assertTrue(result > 0);
-    }
-
-    @Test
-    void convert_timestamp_to_date_to_nearest_second() {
-
-        Timestamp expectedTime = getCurrentTime();
-
-        Date actualDate = toDate(expectedTime);
-        long actualSeconds = actualDate.getTime() / MILLIS_PER_SECOND;
-
-        assertEquals(expectedTime.getSeconds(), actualSeconds);
-    }
-
-    @Test
-    void convert_timestamp_to_nanos() {
-        Timestamp expectedTime = getCurrentTime();
-
-        long nanos = toNanos(expectedTime);
-        long expectedNanos = expectedTime.getSeconds() * NANOS_PER_SECOND +
-                expectedTime.getNanos();
-
-        assertEquals(expectedNanos, nanos);
-    }
-
+    //TODO:2018-06-13:alexander.yevsyukov: Move to Base tests
     @Test
     void accept_time_provider() {
         Timestamp fiveMinutesAgo = subtract(getCurrentTime(),
@@ -243,6 +139,7 @@ class Timestamps2Test {
         assertEquals(fiveMinutesAgo, getCurrentTime());
     }
 
+    //TODO:2018-06-13:alexander.yevsyukov: Move to Base tests
     @Test
     void reset_time_provider_to_default() {
         Timestamp aMinuteAgo = subtract(
@@ -257,6 +154,7 @@ class Timestamps2Test {
 
     @Test
     void obtain_system_time_millis() {
+        //TODO:2018-06-13:alexander.yevsyukov: Adjust Time to use Instant with nano precision.
         assertNotEquals(0, systemTime());
     }
 }

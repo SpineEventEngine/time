@@ -20,13 +20,8 @@
 package io.spine.time;
 
 import com.google.protobuf.Timestamp;
-import com.google.protobuf.TimestampOrBuilder;
 
-import javax.annotation.Nullable;
-import java.util.Date;
-
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
+import static com.google.protobuf.util.Timestamps.compare;
 
 /**
  * Utilities class for working with {@link Timestamp}s in addition to those available from
@@ -39,29 +34,6 @@ public final class Timestamps2 {
 
     /** Prevent instantiation of this utility class. */
     private Timestamps2() {
-    }
-
-    /**
-     * Compares two timestamps. Returns a negative integer, zero, or a positive integer
-     * if the first timestamp is less than, equal to, or greater than the second one.
-     *
-     * @param t1 a timestamp to compare
-     * @param t2 another timestamp to compare
-     * @return a negative integer, zero, or a positive integer
-     * if the first timestamp is less than, equal to, or greater than the second one
-     */
-    public static int compare(@Nullable Timestamp t1, @Nullable Timestamp t2) {
-        if (t1 == null) {
-            return (t2 == null) ? 0 : -1;
-        }
-        if (t2 == null) {
-            return 1;
-        }
-        int result = Long.compare(t1.getSeconds(), t2.getSeconds());
-        result = (result == 0)
-                 ? Integer.compare(t1.getNanos(), t2.getNanos())
-                 : result;
-        return result;
     }
 
     /**
@@ -91,17 +63,5 @@ public final class Timestamps2 {
     public static boolean isLaterThan(Timestamp timestamp, Timestamp thanTime) {
         final boolean isAfter = compare(timestamp, thanTime) > 0;
         return isAfter;
-    }
-
-    /**
-     * Converts a {@link Timestamp} to {@link Date} to the nearest millisecond.
-     *
-     * @return a {@link Date} instance
-     */
-    public static Date toDate(TimestampOrBuilder timestamp) {
-        final long millisecsFromNanos = timestamp.getNanos() / NANOS_PER_MILLISECOND;
-        final long millisecsFromSeconds = timestamp.getSeconds() * MILLIS_PER_SECOND;
-        final Date date = new Date(millisecsFromSeconds + millisecsFromNanos);
-        return date;
     }
 }
