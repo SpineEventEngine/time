@@ -57,7 +57,7 @@ class ZoneOffsetsTest {
 
         @Test
         @DisplayName("for the current time zone")
-        void get_current_zone_offset() {
+        void currentTimeZone() {
             TimeZone timeZone = TimeZone.getDefault();
             ZoneOffset zoneOffset = ZoneOffsets.getDefault();
 

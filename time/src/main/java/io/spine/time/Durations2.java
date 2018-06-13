@@ -6,12 +6,12 @@
 package io.spine.time;
 
 import com.google.protobuf.Duration;
-import com.google.protobuf.DurationOrBuilder;
 import com.google.protobuf.util.Durations;
 
 import javax.annotation.Nullable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.protobuf.util.Durations.compare;
 import static com.google.protobuf.util.Durations.fromMillis;
 import static com.google.protobuf.util.Durations.fromNanos;
 import static com.google.protobuf.util.Durations.fromSeconds;
@@ -121,6 +121,9 @@ public final class Durations2 {
     /**
      * Adds two durations one of which or both can be {@code null}.
      *
+     * <p>This method supplements the {@linkplain Durations#add(Duration, Duration) utility}
+     * from Protobuf Utils for accepting {@code null}s.
+     *
      * @param d1 a duration to add, could be {@code null}
      * @param d2 another duration to add, could be {@code null}
      * @return <ul>
@@ -128,6 +131,7 @@ public final class Durations2 {
      * <li>another {@code non-null} value, if one is {@code null}
      * <li>{@link #ZERO} if both values are {@code null}
      * </ul>
+     * @see Durations#add(Duration, Duration)
      */
     public static Duration add(@Nullable Duration d1, @Nullable Duration d2) {
         if (d1 == null && d2 == null) {
@@ -226,7 +230,7 @@ public final class Durations2 {
      * Returns {@code true} if the passed value is greater than zero,
      * {@code false} otherwise.
      */
-    public static boolean isPositive(DurationOrBuilder value) {
+    public static boolean isPositive(Duration value) {
         checkNotNull(value);
         boolean secondsPositive = value.getSeconds() > 0;
         boolean nanosPositive = value.getNanos() > 0;
@@ -236,7 +240,7 @@ public final class Durations2 {
     }
 
     /** Returns {@code true} if the passed value is zero, {@code false} otherwise. */
-    public static boolean isZero(DurationOrBuilder value) {
+    public static boolean isZero(Duration value) {
         checkNotNull(value);
         boolean noSeconds = value.getSeconds() == 0;
         boolean noNanos = value.getNanos() == 0;
@@ -260,12 +264,6 @@ public final class Durations2 {
     public static boolean isLessThan(Duration value, Duration another) {
         boolean result = compare(value, another) < 0;
         return result;
-    }
-
-    /** Numerically compare passed durations as nanosecond values. */
-    public static int compare(Duration d1, Duration d2) {
-        return Durations.comparator()
-                        .compare(d1, d2);
     }
 
     /** Returns {@code true} if the passed duration is negative, {@code false} otherwise. */

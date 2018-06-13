@@ -127,34 +127,4 @@ class Timestamps2Test {
 
         assertFalse(isAfter);
     }
-
-    //TODO:2018-06-13:alexander.yevsyukov: Move to Base tests
-    @Test
-    void accept_time_provider() {
-        Timestamp fiveMinutesAgo = subtract(getCurrentTime(),
-                                            fromMinutes(5));
-
-        setProvider(new TimeTests.FrozenMadHatterParty(fiveMinutesAgo));
-
-        assertEquals(fiveMinutesAgo, getCurrentTime());
-    }
-
-    //TODO:2018-06-13:alexander.yevsyukov: Move to Base tests
-    @Test
-    void reset_time_provider_to_default() {
-        Timestamp aMinuteAgo = subtract(
-                systemTime(),
-                fromMinutes(1));
-
-        setProvider(new TimeTests.FrozenMadHatterParty(aMinuteAgo));
-        resetProvider();
-
-        assertNotEquals(aMinuteAgo, getCurrentTime());
-    }
-
-    @Test
-    void obtain_system_time_millis() {
-        //TODO:2018-06-13:alexander.yevsyukov: Adjust Time to use Instant with nano precision.
-        assertNotEquals(0, systemTime());
-    }
 }
