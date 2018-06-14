@@ -73,6 +73,7 @@ public final class Timestamps2 {
      * Converts the passed timestamp to {@code Instant}.
      */
     public static Instant toInstant(Timestamp timestamp) {
+        checkNotNull(timestamp);
         return InstantConverter.INSTANCE.convert(timestamp);
     }
 
@@ -80,6 +81,7 @@ public final class Timestamps2 {
      * Creates {@code Timestamp} by the passed {@code Instant} value.
      */
     public static Timestamp fromInstant(Instant instant) {
+        checkNotNull(instant);
         return InstantConverter.INSTANCE.reverse()
                                         .convert(instant);
     }
