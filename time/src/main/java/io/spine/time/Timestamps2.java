@@ -21,6 +21,9 @@ package io.spine.time;
 
 import com.google.protobuf.Timestamp;
 
+import java.time.Instant;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Timestamps.compare;
 
 /**
@@ -47,8 +50,8 @@ public final class Timestamps2 {
      * the {@code finish} timestamps, {@code false} otherwise
      */
     public static boolean isBetween(Timestamp timestamp, Timestamp start, Timestamp finish) {
-        final boolean isAfterStart = compare(start, timestamp) < 0;
-        final boolean isBeforeFinish = compare(timestamp, finish) < 0;
+        boolean isAfterStart = compare(start, timestamp) < 0;
+        boolean isBeforeFinish = compare(timestamp, finish) < 0;
         return isAfterStart && isBeforeFinish;
     }
 
@@ -61,7 +64,29 @@ public final class Timestamps2 {
      * {@code false} otherwise
      */
     public static boolean isLaterThan(Timestamp timestamp, Timestamp thanTime) {
-        final boolean isAfter = compare(timestamp, thanTime) > 0;
+        boolean isAfter = compare(timestamp, thanTime) > 0;
         return isAfter;
+    }
+
+    /**
+     * Converts the passed timestamp to {@code Instant}.
+     */
+    public static Instant toInstant(Timestamp timestamp) {
+        checkNotNull(timestamp);
+        Instant result = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+        return result;
+    }
+
+    /**
+     * Creates {@code Timestamp} by the passed {@code Instant} value.
+     */
+    public static Timestamp fromInstant(Instant instant) {
+        checkNotNull(instant);
+        Timestamp result = Timestamp
+                .newBuilder()
+                .setSeconds(instant.getEpochSecond())
+                .setNanos(instant.getNano())
+                .build();
+        return result;
     }
 }

@@ -20,19 +20,27 @@
 
 package io.spine.time;
 
+import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
+import io.spine.base.Time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.time.Instant;
 
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Timestamps2.fromInstant;
 import static io.spine.time.Timestamps2.isLaterThan;
+import static io.spine.time.Timestamps2.toInstant;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -46,6 +54,15 @@ class Timestamps2Test {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void utilityCtor() {
         assertHasPrivateParameterlessCtor(Timestamps2.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void nullCheck() {
+        new NullPointerTester()
+                .setDefault(Timestamp.class, Time.getCurrentTime())
+                .setDefault(Instant.class, Instant.now())
+                .testAllPublicStaticMethods(Timestamps2.class);
     }
 
     @Nested
@@ -102,5 +119,28 @@ class Timestamps2Test {
 
             assertFalse(isAfter);
         }
+    }
+
+    private static void assertEqual(Timestamp timestamp, Instant instant) {
+        assertEquals(timestamp.getSeconds(), instant.getEpochSecond());
+        assertEquals(timestamp.getNanos(), instant.getNano());
+    }
+
+    @Test
+    @DisplayName("convert Timestamp to Instant")
+    void convertToInstant() {
+        Timestamp timestamp = Time.getCurrentTime();
+        Instant instant = toInstant(timestamp);
+
+        assertEqual(timestamp, instant);
+    }
+
+    @Test
+    @DisplayName("create Timestamp by Instant")
+    void createFromInstant() {
+        Instant instant = Instant.now();
+        Timestamp timestamp = fromInstant(instant);
+
+        assertEqual(timestamp, instant);
     }
 }
