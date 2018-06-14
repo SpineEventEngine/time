@@ -18,13 +18,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.test;
+package io.spine.time.testing;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import io.spine.time.Durations2;
+
+import java.time.LocalTime;
 
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
@@ -43,8 +46,8 @@ import static io.spine.validate.Validate.checkPositive;
 @VisibleForTesting
 public class TimeTests {
 
+    /** Prevent instantiation of this utility class. */
     private TimeTests() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
@@ -55,6 +58,20 @@ public class TimeTests {
     public static long currentTimeSeconds() {
         final long secs = getCurrentTime().getSeconds();
         return secs;
+    }
+
+    /**
+     * Waits till new day to come, if it's the last day second.
+     *
+     * <p>This method is useful for tests that obtain current date/time values
+     * and need to avoid the day edge for correctness of the test values.
+     */
+    @SuppressWarnings("StatementWithEmptyBody")
+    public static void avoidDayEdge() {
+        LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
+        do {
+            // Wait.
+        } while (LocalTime.now().isAfter(lastDaySecond));
     }
 
     /**
@@ -106,6 +123,7 @@ public class TimeTests {
          * Rewinds the {@linkplain #getCurrentTime() "current time"} forward
          * by the passed amount of hours.
          */
+        @CanIgnoreReturnValue
         public synchronized Timestamp forward(long hoursDelta) {
             checkPositive(hoursDelta);
             final Timestamp newTime = add(this.currentTime, hours(hoursDelta));
@@ -117,6 +135,7 @@ public class TimeTests {
          * Rewinds the {@linkplain #getCurrentTime() "current time"} backward
          * by the passed amount of hours.
          */
+        @CanIgnoreReturnValue
         public synchronized Timestamp backward(long hoursDelta) {
             checkPositive(hoursDelta);
             final Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));

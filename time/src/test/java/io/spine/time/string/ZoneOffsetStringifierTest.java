@@ -21,49 +21,34 @@
 package io.spine.time.string;
 
 import io.spine.string.Stringifier;
-import io.spine.time.LocalDate;
-import io.spine.time.LocalDates;
-import io.spine.util.Exceptions;
+import io.spine.time.ZoneOffset;
+import io.spine.time.ZoneOffsets;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import java.io.Serializable;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * The default stringifier for {@link LocalDate} instances.
- *
  * @author Alexander Yevsyukov
  */
-final class LocalDateStringifier extends Stringifier<LocalDate> implements Serializable {
+@DisplayName("ZoneOffsetStringifier should")
+class ZoneOffsetStringifierTest extends AbstractStringifierTest<ZoneOffset> {
 
-    private static final long serialVersionUID = 0L;
-    private static final LocalDateStringifier INSTANCE = new LocalDateStringifier();
-
-    static LocalDateStringifier getInstance() {
-        return INSTANCE;
+    ZoneOffsetStringifierTest() {
+        super(TimeStringifiers.forZoneOffset());
     }
 
     @Override
-    protected String toString(LocalDate date) {
-        final String result = LocalDates.toString(date);
-        return result;
+    protected ZoneOffset createObject() {
+        return ZoneOffsets.ofHoursMinutes(7, 40);
     }
 
-    @Override
-    protected LocalDate fromString(String str) {
-        LocalDate date;
-        try {
-            date = LocalDates.parse(str);
-        } catch (RuntimeException e) {
-            throw Exceptions.illegalArgumentWithCauseOf(e);
-        }
-        return date;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalDate()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
+    @Test
+    @DisplayName("Convert negative value")
+    void convertNegative() {
+        Stringifier<ZoneOffset> stringifier = getStringifier();
+        ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -45);
+        assertEquals(negative, stringifier.reverse()
+                                          .convert(stringifier.convert(negative)));
     }
 }

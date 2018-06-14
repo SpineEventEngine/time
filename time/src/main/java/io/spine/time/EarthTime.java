@@ -25,19 +25,21 @@ package io.spine.time;
  *
  * @author Mykhailo Drachuk
  */
-public class EarthTime {
+class EarthTime {
     
     /** The count of seconds in one minute. */
-    public static final int SECONDS_PER_MINUTE = 60;
+    static final int SECONDS_PER_MINUTE = 60;
+
     /** The count of seconds in one minute. */
-    public static final int SECONDS_PER_HOUR = 3600;
+    static final int SECONDS_PER_HOUR = 3600;
+
     /** The count of minutes in one hour. */
-    public static final int MINUTES_PER_HOUR = 60;
+    static final int MINUTES_PER_HOUR = 60;
+
     /** The count of hours per day. */
-    public static final int HOURS_PER_DAY = 24;
+    static final int HOURS_PER_DAY = 24;
 
     /** Prevent instantiation of this utility class. */
     private EarthTime() {
-        // Does nothing.
     }
 }

@@ -20,16 +20,14 @@
 
 package io.spine.time;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.text.ParseException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 
 import static io.spine.test.TestValues.random;
-import static io.spine.time.ZoneOffsets.MAX_HOURS_OFFSET;
-import static io.spine.time.ZoneOffsets.MAX_MINUTES_OFFSET;
-import static io.spine.time.ZoneOffsets.MIN_HOURS_OFFSET;
-import static io.spine.time.ZoneOffsets.MIN_MINUTES_OFFSET;
+import static io.spine.time.ZoneOffsets.Parameter.HOURS;
+import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static java.lang.Math.abs;
 
 /**
@@ -37,50 +35,61 @@ import static java.lang.Math.abs;
  *
  * @author Alexander Yevsyukov
  */
+@SuppressWarnings("ClassCanBeStatic")
 public abstract class AbstractZonedTimeTest {
 
-    @SuppressWarnings("ProtectedField") // OK for brevity of test code.
-    protected ZoneOffset zoneOffset;
+    private ZoneOffset zoneOffset;
 
-    protected abstract void assertConversionAt(ZoneOffset zoneOffset) throws ParseException;
+    protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 
     private static ZoneOffset generateOffset() {
         // Reduce the hour range by one assuming minutes are also generated.
-        final int hours = random(MIN_HOURS_OFFSET + 1, MAX_HOURS_OFFSET - 1);
-        int minutes = random(MIN_MINUTES_OFFSET, MAX_MINUTES_OFFSET);
+        int hours = random(HOURS.min() + 1, HOURS.max() - 1);
+        int minutes = random(MINUTES.min(), MINUTES.max());
         // Make minutes of the same sign with hours.
-        minutes = hours >= 0 ? abs(minutes) : -abs(minutes);
+        minutes = hours >= 0
+                  ? abs(minutes)
+                  : -abs(minutes);
         return ZoneOffsets.ofHoursMinutes(hours, minutes);
     }
 
-    @Before
+    protected ZoneOffset zoneOffset() {
+        return this.zoneOffset;
+    }
+
+    @BeforeEach
     public void setUp() {
         zoneOffset = generateOffset();
     }
 
-    @Test
-    public void convert_UTC_value_to_string() throws ParseException {
-        assertConversionAt(ZoneOffsets.UTC);
-    }
+    @SuppressWarnings("unused") // is used when running descending test suites
+    @Nested
+    @DisplayName("Convert values at")
+    class Convert {
 
-    @Test
-    public void convert_values_at_current_time_zone() throws ParseException {
-        // Get current zone offset and strip ID value because it's not stored into date/time.
-        final ZoneOffset zoneOffset = ZoneOffsets.getDefault()
-                                                 .toBuilder()
-                                                 .setId(ZoneId.newBuilder()
-                                                              .setValue(""))
-                                                 .build();
-        assertConversionAt(zoneOffset);
-    }
+        @Test
+        @DisplayName("UTC")
+        void utc() {
+            assertConversionAt(ZoneOffsets.utc());
+        }
 
-    @Test
-    public void convert_value_at_negative_offset() throws ParseException {
-        assertConversionAt(ZoneOffsets.ofHoursMinutes(-5, -30));
-    }
+        @Test
+        @DisplayName("current time zone")
+        void currentTimeZone() {
+            ZoneOffset zoneOffset = ZoneOffsets.getDefault();
+            assertConversionAt(zoneOffset);
+        }
 
-    @Test
-    public void convert_value_at_positive_offset() throws ParseException {
-        assertConversionAt(ZoneOffsets.ofHoursMinutes(7, 40));
+        @Test
+        @DisplayName("negative offset")
+        void atNegativeOffset() {
+            assertConversionAt(ZoneOffsets.ofHoursMinutes(-5, -30));
+        }
+
+        @Test
+        @DisplayName("positive offset")
+        void atPositiveOffset() {
+            assertConversionAt(ZoneOffsets.ofHoursMinutes(7, 40));
+        }
     }
 }

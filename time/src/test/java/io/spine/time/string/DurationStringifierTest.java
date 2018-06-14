@@ -20,26 +20,35 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Timestamp;
+import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+import static io.spine.time.Durations2.hoursAndMinutes;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class WebSafeTimestampStringifierShould {
+@DisplayName("DurationStringifier should")
+class DurationStringifierTest extends AbstractStringifierTest<Duration> {
+
+    DurationStringifierTest() {
+        super(TimeStringifiers.forDuration());
+    }
+
+    @Override
+    protected Duration createObject() {
+        return hoursAndMinutes(5, 37);
+    }
 
     @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
-
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    @DisplayName("Convert negative duration")
+    void convertNegativeDuration() {
+        Stringifier<Duration> stringifier = getStringifier();
+        Duration negative = hoursAndMinutes(-4, -31);
+        assertEquals(negative, stringifier.reverse()
+                                          .convert(stringifier.convert(negative)));
     }
 }

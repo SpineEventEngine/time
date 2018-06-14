@@ -25,7 +25,6 @@ import io.spine.time.LocalTime;
 import io.spine.time.LocalTimes;
 
 import java.io.Serializable;
-import java.text.ParseException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -47,17 +46,17 @@ final class LocalTimeStringifier extends Stringifier<LocalTime> implements Seria
     @Override
     protected String toString(LocalTime time) {
         checkNotNull(time);
-        final String result = LocalTimes.toString(time);
+        String result = LocalTimes.toString(time);
         return result;
     }
 
     @Override
     protected LocalTime fromString(String str) {
         checkNotNull(str);
-        final LocalTime time;
+        LocalTime time;
         try {
           time = LocalTimes.parse(str);
-        } catch (ParseException e) {
+        } catch (RuntimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }
         return time;

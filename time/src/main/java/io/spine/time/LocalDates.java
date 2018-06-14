@@ -20,19 +20,9 @@
 
 package io.spine.time;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Calendars.checkArguments;
-import static io.spine.time.Calendars.toCalendar;
-import static io.spine.time.Calendars.toLocalDate;
-import static io.spine.validate.Validate.checkPositive;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
-import static java.util.Calendar.getInstance;
+import static io.spine.time.DtPreconditions.checkPositive;
+import static java.lang.String.format;
 
 /**
  * Utilities for working with {@link LocalDate}.
@@ -42,16 +32,40 @@ import static java.util.Calendar.getInstance;
  */
 public final class LocalDates {
 
+    /** Prevent instantiation of this utility class. */
     private LocalDates() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
      * Obtains current local date.
      */
     public static LocalDate now() {
-        final Calendar cal = getInstance();
-        final LocalDate result = toLocalDate(cal);
+        java.time.LocalDate now = java.time.LocalDate.now();
+        return of(now);
+    }
+
+    /**
+     * Creates an instance by the passed Java Time value.
+     */
+    public static LocalDate of(java.time.LocalDate ld) {
+        checkNotNull(ld);
+        LocalDate.Builder result = LocalDate
+                .newBuilder()
+                .setYear(ld.getYear())
+                .setMonth(Months.of(ld))
+                .setDay(ld.getDayOfMonth());
+        return result.build();
+    }
+
+    /**
+     * Converts the passed value to Java Time instance.
+     */
+    public static java.time.LocalDate toJavaTime(LocalDate date) {
+        java.time.LocalDate result = java.time.LocalDate.of(
+                date.getYear(),
+                date.getMonthValue(),
+                date.getDay()
+        );
         return result;
     }
 
@@ -61,123 +75,25 @@ public final class LocalDates {
     public static LocalDate of(int year, MonthOfYear month, int day) {
         checkPositive(year);
         checkPositive(day);
-        Dates.checkDate(year, month, day);
+        checkDate(year, month, day);
 
-        final LocalDate result = LocalDate.newBuilder()
-                                          .setYear(year)
-                                          .setMonth(month)
-                                          .setDay(day)
-                                          .build();
+        LocalDate result = LocalDate
+                .newBuilder()
+                .setYear(year)
+                .setMonth(month)
+                .setDay(day)
+                .build();
         return result;
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of years added.
-     */
-    public static LocalDate addYears(LocalDate localDate, int yearsToAdd) {
-        checkArguments(localDate, yearsToAdd);
-        return changeYear(localDate, yearsToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of months added.
-     */
-    public static LocalDate addMonths(LocalDate localDate, int monthsToAdd) {
-        checkArguments(localDate, monthsToAdd);
-        return changeMonth(localDate, monthsToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of days added.
-     */
-    public static LocalDate addDays(LocalDate localDate, int daysToAdd) {
-        checkArguments(localDate, daysToAdd);
-        return changeDays(localDate, daysToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of years subtracted.
-     */
-    public static LocalDate subtractYears(LocalDate localDate, int yearsToSubtract) {
-        checkArguments(localDate, yearsToSubtract);
-        return changeYear(localDate, -yearsToSubtract);
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of months subtracted.
-     */
-    public static LocalDate subtractMonths(LocalDate localDate, int monthsToSubtract) {
-        checkArguments(localDate, monthsToSubtract);
-        return changeMonth(localDate, -monthsToSubtract);
-    }
-
-    /**
-     * Obtains a copy of this local date with the specified number of days subtracted.
-     */
-    public static LocalDate subtractDays(LocalDate localDate, int daysToSubtract) {
-        checkArguments(localDate, daysToSubtract);
-        return changeDays(localDate, -daysToSubtract);
-    }
-
-    /**
-     * Obtains local date changed on specified amount of years.
-     *
-     * @param localDate  local date that will be changed
-     * @param yearsDelta a number of years that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of this local date with new years value
-     */
-    private static LocalDate changeYear(LocalDate localDate, int yearsDelta) {
-        return change(localDate, YEAR, yearsDelta);
-    }
-
-    /**
-     * Obtains local date changed on specified amount of months.
-     *
-     * @param localDate  local date that will be changed
-     * @param monthDelta a number of months that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of this local date with new months value
-     */
-    private static LocalDate changeMonth(LocalDate localDate, int monthDelta) {
-        return change(localDate, MONTH, monthDelta);
-    }
-
-    /**
-     * Obtains local date changed on specified amount of days.
-     *
-     * @param localDate local date that will be changed
-     * @param daysDelta a number of days that needs to be added or subtracted that can be
-     *                  either positive or negative
-     * @return copy of this local date with new days value
-     */
-    private static LocalDate changeDays(LocalDate localDate, int daysDelta) {
-        return change(localDate, DAY_OF_MONTH, daysDelta);
-    }
-
-    /**
-     * Performs date calculation using parameters of {@link Calendar#add(int, int)}.
-     */
-    private static LocalDate change(LocalDate localDate, int calendarField, int delta) {
-        final Calendar cal = toCalendar(localDate);
-        cal.add(calendarField, delta);
-        return toLocalDate(cal);
     }
 
     /**
      * Parse from ISO 8601 date representation of the format {@code yyyy-MM-dd}.
      *
      * @return a LocalDate parsed from the string
-     * @throws ParseException if parsing fails.
      */
-    public static LocalDate parse(String str) throws ParseException {
-        final Date date = Formats.dateFormat().parse(str);
-
-        final Calendar calendar = getInstance();
-        calendar.setTime(date);
-
-        final LocalDate result = toLocalDate(calendar);
-        return result;
+    public static LocalDate parse(String str) {
+        java.time.LocalDate parsed = java.time.LocalDate.parse(str);
+        return of(parsed);
     }
 
     /**
@@ -185,13 +101,43 @@ public final class LocalDates {
      */
     public static String toString(LocalDate date) {
         checkNotNull(date);
-        final Date classicDate = toCalendar(date).getTime();
-        final String result = Formats.dateFormat().format(classicDate);
-        return result;
+        java.time.LocalDate ld = toJavaTime(date);
+        return ld.toString();
     }
 
-    public static void checkDate(LocalDate date){
-        Dates.checkDate(date.getYear(), date.getMonth(), date.getDay());
+    /**
+     * Verified fields of the passed local date instance.
+     *
+     * @param date the date to check
+     * @throws IllegalArgumentException if one of the date values has an invalid value
+     */
+    static void checkDate(LocalDate date) {
+        checkDate(date.getYear(), date.getMonth(), date.getDay());
     }
 
+    /**
+     * Ensures that the passed date is valid.
+     *
+     * @throws IllegalArgumentException if
+     * <ul>
+     *     <li>the year is less or equal zero,
+     *     <li>the month is {@code UNDEFINED},
+     *     <li>the day is less or equal zero or greater than can be in the month.
+     * </ul>
+     */
+    private static void checkDate(int year, MonthOfYear month, int day) {
+        checkPositive(year);
+        checkNotNull(month);
+        checkPositive(month.getNumber());
+        checkPositive(day);
+
+        final int daysInMonth = Months.daysInMonth(year, month);
+
+        if (day > daysInMonth) {
+            final String errMsg = format(
+                    "A number of days cannot be more than %d, for this month and year.",
+                    daysInMonth);
+            throw new IllegalArgumentException(errMsg);
+        }
+    }
 }

@@ -22,13 +22,15 @@ package io.spine.time.string;
 
 import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
+import org.junit.jupiter.api.DisplayName;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class LocalDateStringifierShould extends AbstractStringifierTest<LocalDate> {
+@DisplayName("LocalDateStringifier should")
+class LocalDateStringifierTest extends AbstractStringifierTest<LocalDate> {
 
-    public LocalDateStringifierShould() {
+    LocalDateStringifierTest() {
         super(TimeStringifiers.forLocalDate());
     }
 

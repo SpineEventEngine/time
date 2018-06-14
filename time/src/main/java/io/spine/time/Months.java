@@ -31,7 +31,6 @@ public class Months {
 
     /** Prevent instantiation of this utility class. */
     private Months() {
-        // Does nothing.
     }
 
     /**
@@ -45,5 +44,21 @@ public class Months {
         }
         days = FEBRUARY_MIN + ((0x3bbeecc >> (monthNumber * 2)) & 3);
         return days;
+    }
+
+    /**
+     * Obtains the month of the passed date.
+     */
+    public static MonthOfYear of(java.time.LocalDate ld) {
+        MonthOfYear result = MonthOfYear.forNumber(ld.getMonthValue());
+        return result;
+    }
+
+    /**
+     * Converts the passed instance to the Java Time value.
+     */
+    public static java.time.Month toJavaTime(MonthOfYear value) {
+        java.time.Month result = java.time.Month.of(value.getNumber());
+        return result;
     }
 }

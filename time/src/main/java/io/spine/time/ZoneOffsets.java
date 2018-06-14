@@ -21,21 +21,17 @@
 package io.spine.time;
 
 import com.google.protobuf.Duration;
-import io.spine.time.Formats.Parameter;
 
 import javax.annotation.Nullable;
-import java.text.ParseException;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Strings.nullToEmpty;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.Formats.formatOffsetTime;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.validate.Validate.checkBounds;
-import static java.lang.String.format;
+import static io.spine.time.ZoneOffsets.Parameter.HOURS;
+import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static io.spine.util.Exceptions.unsupported;
 
 /**
  * Utilities for working with {@code ZoneOffset}s.
@@ -46,20 +42,20 @@ import static java.lang.String.format;
  */
 public final class ZoneOffsets {
 
-    public static final int MIN_HOURS_OFFSET = -11;
-    public static final int MAX_HOURS_OFFSET = 14;
+    private static final ZoneOffset UTC = ZoneOffset
+            .newBuilder()
+            .setAmountSeconds(0)
+            .build();
 
-    public static final int MIN_MINUTES_OFFSET = 0;
-    public static final int MAX_MINUTES_OFFSET = 60;
-
-    public static final ZoneOffset UTC = ZoneOffset.newBuilder()
-                                                   .setId(ZoneId.newBuilder()
-                                                                .setValue("UTC"))
-                                                   .setAmountSeconds(0)
-                                                   .build();
-
+    /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
-        // Prevent instantiation of this utility class.
+    }
+
+    /**
+     * Obtains the UTC offset.
+     */
+    public static ZoneOffset utc() {
+        return UTC;
     }
 
     /**
@@ -69,27 +65,43 @@ public final class ZoneOffsets {
      * @see TimeZone#getDefault()
      */
     public static ZoneOffset getDefault() {
-        final TimeZone timeZone = TimeZone.getDefault();
-        final ZoneOffset result = ZoneConverter.getInstance()
-                                               .convert(timeZone);
+        java.time.ZoneOffset zo = java.time.OffsetTime.now()
+                                                      .getOffset();
+        return of(zo);
+    }
+
+    /**
+     * Converts the passed instance to the Java Time value.
+     */
+    public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+        java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
         return result;
+    }
+
+    /**
+     * Converts Java Time value to {@code ZoneOffset}.
+     */
+    public static ZoneOffset of(java.time.ZoneOffset zo) {
+        ZoneOffset.Builder result = ZoneOffset.newBuilder()
+                                              .setAmountSeconds(zo.getTotalSeconds());
+        return result.build();
     }
 
     /**
      * Obtains the ZoneOffset instance using an offset in hours.
      */
     public static ZoneOffset ofHours(int hours) {
-        checkHourOffset(hours, false);
+        HOURS.check(hours);
 
-        final Duration hourDuration = Durations2.fromHours(hours);
-        final int seconds = toSeconds(hourDuration);
+        Duration hourDuration = Durations2.fromHours(hours);
+        int seconds = toSeconds(hourDuration);
         return ofSeconds(seconds);
     }
 
     /**
      * Obtains the ZoneOffset for the passed number of seconds.
      *
-     * <p>If zero is passed {@link #UTC} instance is returned.
+     * <p>If zero is passed {@link #utc()} instance is returned.
      *
      * @param seconds a positive, zero,
      * @return the instance for the passed offset
@@ -104,13 +116,13 @@ public final class ZoneOffsets {
      * <p>If a negative zone offset is created both passed values must be negative.
      */
     public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
-        checkHourOffset(hours, true);
-        checkMinuteOffset(minutes);
+        HOURS.checkReduced(hours);
+        MINUTES.check(minutes);
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
-        final Duration duration = hoursAndMinutes(hours, minutes);
-        final int seconds = toSeconds(duration);
+        Duration duration = hoursAndMinutes(hours, minutes);
+        int seconds = toSeconds(duration);
         return ofSeconds(seconds);
     }
 
@@ -120,55 +132,19 @@ public final class ZoneOffsets {
         return (int) Durations2.toSeconds(duration);
     }
 
-    private static void checkHourOffset(int hours, boolean assumingMinutes) {
-        // If the offset contains minutes too, we make the range smaller by one hour from each end.
-        final int shift = (assumingMinutes ? 1 : 0);
-        checkBounds(hours, Parameter.hours.name(),
-                    MIN_HOURS_OFFSET + shift,
-                    MAX_HOURS_OFFSET - shift);
-    }
-
-    private static void checkMinuteOffset(int minutes) {
-        checkBounds(Math.abs(minutes), Parameter.minutes.name(),
-                    MIN_MINUTES_OFFSET, MAX_MINUTES_OFFSET);
-    }
-
     /**
      * Parses the time zone offset value formatted as a signed value of hours and minutes.
      *
-     * <p>Examples of accepted values: {@code +3:00}, {@code -04:30}.
-     *
-     * @throws ParseException if the passed value has invalid format
+     * <p>Examples of accepted values: {@code +0300}, {@code -04:30}.
      */
-    public static ZoneOffset parse(String value) throws ParseException {
-        int pos = value.indexOf(':');
-        if (pos == -1) {
-            final String errMsg = format("Invalid offset value: \"%s\"", value);
-            throw new ParseException(errMsg, 0);
+    public static ZoneOffset parse(String value) {
+        java.time.ZoneOffset parsed;
+        try {
+            parsed = java.time.ZoneOffset.of(value);
+        } catch (RuntimeException e) {
+            throw illegalArgumentWithCauseOf(e);
         }
-        final char signChar = value.charAt(0);
-        final boolean positive = signChar == Formats.PLUS;
-        final boolean negative = signChar == Formats.MINUS;
-
-        if (!(positive || negative)) {
-            final String errMsg = format("Missing sign char in offset value: \"%s\"", value);
-            throw new ParseException(errMsg, 0);
-        }
-
-        final String hoursStr = value.substring(1, pos);
-        final String minutesStr = value.substring(pos + 1);
-        final long hours = Long.parseLong(hoursStr);
-        final long minutes = Long.parseLong(minutesStr);
-        final long totalMinutes = hours * MINUTES_PER_HOUR + minutes;
-        long seconds = totalMinutes * SECONDS_PER_MINUTE;
-
-        if (negative) {
-            seconds = -seconds;
-        }
-
-        @SuppressWarnings("NumericCastThatLosesPrecision") // OK since the value cannot grow larger.
-        final ZoneOffset result = ofSeconds((int) seconds);
-        return result;
+        return of(parsed);
     }
 
     /**
@@ -176,39 +152,81 @@ public final class ZoneOffsets {
      */
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        final long seconds = zoneOffset.getAmountSeconds();
-        final long totalMinutes = seconds / SECONDS_PER_MINUTE;
-        final long hours = totalMinutes / MINUTES_PER_HOUR;
-        final long minutes = totalMinutes % MINUTES_PER_HOUR;
-        final StringBuilder builder = new StringBuilder(6)
-                .append(seconds >= 0 ? Formats.PLUS : Formats.MINUS)
-                .append(formatOffsetTime(hours, minutes));
-        return builder.toString();
+        java.time.ZoneOffset zo = toJavaTime(zoneOffset);
+        return zo.toString();
     }
 
-    static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
+    private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
         if (offsetInSeconds == 0 && zoneId == null) {
-            return UTC;
+            return utc();
         }
-        final String id = nullToEmpty(zoneId);
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
-                         .setId(ZoneId.newBuilder().setValue(id))
                          .build();
     }
 
     /**
-     * Verifies if the passed instance has zero offset and no ID.
-     *
-     * <p>If the passed instance is zero without a zone ID, returns the {@link #UTC} instance.
-     * Otherwise returns the passed instance.
+     * Parameter checks for zone offset values.
      */
-    static ZoneOffset adjustZero(ZoneOffset offset) {
-        if (offset.getAmountSeconds() == 0 && offset.getId()
-                                                    .getValue()
-                                                    .isEmpty()) {
-            return UTC;
+    enum Parameter {
+
+        HOURS(-18, 18) {
+
+            @Override
+            void check(int value) {
+                checkBounds(value);
+            }
+
+            /**
+             * Checks the hour value of an offset that contains minutes.
+             *
+             * <p>If the offset contains minutes too, we make the range smaller by one hour from
+             * each end.
+             */
+            @Override
+            void checkReduced(int value) {
+                DtPreconditions.checkBounds(value, name().toLowerCase(), min() + 1, max() - 1);
+            }
+        },
+
+        MINUTES(0, 60) {
+            @Override
+            void check(int value) {
+                checkBounds(Math.abs(value));
+            }
+
+            /**
+             * Always throws exception since minute offset parameters do not support
+             * reduced check.
+             */
+            @Override
+            void checkReduced(int value) {
+                throw unsupported();
+            }
+        };
+
+        private final int min;
+        private final int max;
+
+        Parameter(int min, int max) {
+            this.min = min;
+            this.max = max;
         }
-        return offset;
+
+        abstract void check(int value);
+
+        abstract void checkReduced(int value);
+
+        protected void checkBounds(int value) {
+            DtPreconditions.checkBounds(value, name().toLowerCase(), min(), max());
+        }
+
+        int min() {
+            return min;
+        }
+
+        int max() {
+            return max;
+        }
     }
 }

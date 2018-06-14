@@ -20,32 +20,16 @@
 package io.spine.time;
 
 import com.google.protobuf.Timestamp;
-import io.spine.base.Time;
-import io.spine.time.Formats.Parameter;
+import com.google.protobuf.util.Timestamps;
 
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_MILLISECOND;
-import static io.spine.time.Calendars.checkArguments;
-import static io.spine.time.Calendars.getHours;
-import static io.spine.time.Calendars.getMillis;
-import static io.spine.time.Calendars.getMinutes;
-import static io.spine.time.Calendars.getSeconds;
-import static io.spine.time.Calendars.toCalendar;
-import static io.spine.time.Calendars.toLocalTime;
 import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.Formats.appendSubSecond;
-import static io.spine.time.Formats.timeFormat;
-import static io.spine.validate.Validate.checkBounds;
-import static java.util.Calendar.HOUR;
-import static java.util.Calendar.MILLISECOND;
-import static java.util.Calendar.MINUTE;
-import static java.util.Calendar.SECOND;
+import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
+import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.SiTime.NANOS_PER_SECOND;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -56,215 +40,88 @@ import static java.util.Calendar.SECOND;
 @SuppressWarnings("ClassWithTooManyMethods") // OK for this utility class.
 public final class LocalTimes {
 
+    /** Prevent instantiation of this utility class. */
     private LocalTimes() {
-        // Prevent instantiation of this utility class.
     }
 
     /**
      * Obtains current local time.
      */
     public static LocalTime now() {
-        final Timestamp time = Time.getCurrentTime();
-        final ZoneOffset zoneOffset = ZoneOffsets.getDefault();
-        return timeAt(time, zoneOffset);
+        return of(java.time.LocalTime.now());
     }
 
     /**
      * Obtains local time at the passed time zone.
      */
     public static LocalTime timeAt(Timestamp time, ZoneOffset zoneOffset) {
-        final Calendar cal = toCalendar(time, zoneOffset);
-
-        final int remainingNanos = time.getNanos() % NANOS_PER_MILLISECOND;
-        final LocalTime result = LocalTime.newBuilder()
-                                          .setHours(getHours(cal))
-                                          .setMinutes(getMinutes(cal))
-                                          .setSeconds(getSeconds(cal))
-                                          .setMillis(getMillis(cal))
-                                          .setNanos(remainingNanos)
-                                          .build();
-        return result;
+        Instant instant = Instant.ofEpochMilli(Timestamps.toMillis(time));
+        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
+        java.time.LocalTime lt = instant.atOffset(zo)
+                                        .toLocalTime();
+        return of(lt);
     }
 
     /**
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
-    public static LocalTime of(int hours, int minutes, int seconds, int millis, int nanos) {
+    public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
         checkClockTime(hours, minutes, seconds);
-        checkBounds(millis, Parameter.millis.name(), 0, MILLIS_PER_SECOND - 1);
-        checkBounds(nanos, Parameter.nanos.name(), 0, NANOS_PER_MILLISECOND - 1);
+        Parameter.NANOS.check(nanos);
 
-        final LocalTime result = LocalTime.newBuilder()
-                                          .setHours(hours)
-                                          .setMinutes(minutes)
-                                          .setSeconds(seconds)
-                                          .setMillis(millis)
-                                          .setNanos(nanos)
-                                          .build();
+        LocalTime result = LocalTime
+                .newBuilder()
+                .setHour(hours)
+                .setMinute(minutes)
+                .setSecond(seconds)
+                .setNano(nanos)
+                .build();
         return result;
     }
 
-    private static void checkClockTime(int hours, int minutes, int seconds) {
-        checkBounds(hours, Parameter.hours.name(), 0, HOURS_PER_DAY - 1);
-        checkBounds(minutes, Parameter.hours.name(), 0, MINUTES_PER_HOUR - 1);
-        checkBounds(seconds, Parameter.seconds.name(), 0, MINUTES_PER_HOUR - 1);
+    /**
+     * Obtains local time from time passed {@code java.time} value. 
+     */
+    public static LocalTime of(java.time.LocalTime value) {
+        LocalTime result = LocalTime
+                .newBuilder()
+                .setHour(value.getHour())
+                .setMinute(value.getMinute())
+                .setSecond(value.getSecond())
+                .setNano(value.getNano())
+                .build();
+        return result;
     }
 
     /**
-     * Obtains local time from hours, minutes, seconds, and milliseconds.
+     * Converts the passed value to corresponding Java Time instance.
      */
-    public static LocalTime of(int hours, int minutes, int seconds, int millis) {
-        return of(hours, minutes, seconds, millis, 0);
+    public static java.time.LocalTime toJavaTime(LocalTime value) {
+        checkNotNull(value);
+        return java.time.LocalTime.of(value.getHour(),
+                                      value.getMinute(),
+                                      value.getSecond(),
+                                      value.getNano());
+    }
+
+    private static void checkClockTime(int hours, int minutes, int seconds) {
+        Parameter.HOURS.check(hours);
+        Parameter.MINUTES.check(minutes);
+        Parameter.SECONDS.check(seconds);
     }
 
     /**
      * Obtains local time from hours, minutes, and seconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds) {
-        return of(hours, minutes, seconds, 0, 0);
+        return of(hours, minutes, seconds, 0);
     }
 
     /**
      * Obtains local time from hours and minutes.
      */
     public static LocalTime of(int hours, int minutes) {
-        return of(hours, minutes, 0, 0, 0);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of hours added.
-     */
-    public static LocalTime addHours(LocalTime localTime, int hoursToAdd) {
-        checkArguments(localTime, hoursToAdd);
-        return changeHours(localTime, hoursToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of minutes added.
-     */
-    public static LocalTime addMinutes(LocalTime localTime, int minutesToAdd) {
-        checkArguments(localTime, minutesToAdd);
-        return changeMinutes(localTime, minutesToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of seconds added.
-     */
-    public static LocalTime addSeconds(LocalTime localTime, int secondsToAdd) {
-        checkArguments(localTime, secondsToAdd);
-        return changeSeconds(localTime, secondsToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of milliseconds added.
-     */
-    public static LocalTime addMillis(LocalTime localTime, int millisToAdd) {
-        checkArguments(localTime, millisToAdd);
-        return changeMillis(localTime, millisToAdd);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of hours subtracted.
-     */
-    public static LocalTime subtractHours(LocalTime localTime, int hoursToSubtract) {
-        checkArguments(localTime, hoursToSubtract);
-        return changeHours(localTime, -hoursToSubtract);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of minutes subtracted.
-     */
-    public static LocalTime subtractMinutes(LocalTime localTime, int minutesToSubtract) {
-        checkArguments(localTime, minutesToSubtract);
-        return changeMinutes(localTime, -minutesToSubtract);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of seconds subtracted.
-     */
-    public static LocalTime subtractSeconds(LocalTime localTime, int secondsToSubtract) {
-        checkArguments(localTime, secondsToSubtract);
-        return changeSeconds(localTime, -secondsToSubtract);
-    }
-
-    /**
-     * Obtains a copy of this local time with the specified number of milliseconds subtracted.
-     */
-    public static LocalTime subtractMillis(LocalTime localTime, int millisToSubtract) {
-        checkArguments(localTime, millisToSubtract);
-        return changeMillis(localTime, -millisToSubtract);
-    }
-
-    /**
-     * Obtains local time changed on specified amount of hours.
-     *
-     * @param localTime  local time that will be changed
-     * @param hoursDelta a number of hours that needs to be added or subtracted that can be
-     *                   either positive or negative
-     * @return copy of this local time with new hours value
-     */
-    private static LocalTime changeHours(LocalTime localTime, int hoursDelta) {
-        return change(localTime, HOUR, hoursDelta);
-    }
-
-    /**
-     * Obtains local time changed on specified amount of minutes.
-     *
-     * @param localTime    local time that will be changed
-     * @param minutesDelta a number of minutes that needs to be added or subtracted that can be
-     *                     either positive or negative
-     * @return copy of this local time with new minutes value
-     */
-    private static LocalTime changeMinutes(LocalTime localTime, int minutesDelta) {
-        return change(localTime, MINUTE, minutesDelta);
-    }
-
-    /**
-     * Obtains local time changed on specified amount of seconds.
-     *
-     * @param localTime    local time that will be changed
-     * @param secondsDelta a number of seconds that needs to be added or subtracted that can be
-     *                     either positive or negative
-     * @return copy of this local time with new seconds value
-     */
-    private static LocalTime changeSeconds(LocalTime localTime, int secondsDelta) {
-        return change(localTime, SECOND, secondsDelta);
-    }
-
-    /**
-     * Obtains local time changed on specified amount of milliseconds.
-     *
-     * @param localTime   local time that will be changed
-     * @param millisDelta a number of milliseconds that needs to be added or subtracted that can be
-     *                    either positive or negative
-     * @return copy of this local time with new milliseconds value
-     */
-    private static LocalTime changeMillis(LocalTime localTime, int millisDelta) {
-        return change(localTime, MILLISECOND, millisDelta);
-    }
-
-    /**
-     * Performs time calculation using parameters of {@link Calendar#add(int, int)}.
-     */
-    private static LocalTime change(LocalTime value, int calendarField, int delta) {
-        final Calendar cal = toCalendar(value);
-        cal.add(calendarField, delta);
-        final LocalTime result = toLocalTime(cal).toBuilder()
-                                                 .setNanos(value.getNanos())
-                                                 .build();
-        return result;
-    }
-
-    /**
-     * Obtains a fraction part of a second as total number of nanoseconds.
-     *
-     * <p>{@code LocalTime} stores a fractional part of a second as a number of milliseconds and
-     * nanoseconds. This method computes the total in nanoseconds.
-     */
-    static long getTotalNanos(LocalTime time) {
-        checkNotNull(time);
-        final long result = (long)time.getMillis() * NANOS_PER_MILLISECOND + time.getNanos();
-        return result;
+        return of(hours, minutes, 0, 0);
     }
 
     /**
@@ -273,24 +130,37 @@ public final class LocalTimes {
      * <p>Examples of results: {@code "13:45:30.123456789"}, {@code "09:37:00"}.
      */
     public static String toString(LocalTime time) {
-        final Calendar calendar = toCalendar(time);
-        final StringBuilder result = new StringBuilder();
-
-        // Format the time part.
-        final Date date = calendar.getTime();
-        final String timePart = timeFormat().format(date);
-        result.append(timePart);
-
-        // Add the fractional second part.
-        appendSubSecond(result, time);
-
-        return result.toString();
+        String result = toJavaTime(time).toString();
+        return result;
     }
 
     /**
      * Parses the passed string into local time value.
      */
-    public static LocalTime parse(String str) throws ParseException {
-        return Parser.parseLocalTime(str);
+    public static LocalTime parse(String str) {
+        java.time.LocalTime parsed = java.time.LocalTime.parse(str);
+        return of(parsed);
+    }
+
+    /**
+     * Arguments in preconditions checks for time modification routines.
+     */
+    enum Parameter {
+
+        HOURS(HOURS_PER_DAY - 1),
+        MINUTES(MINUTES_PER_HOUR - 1),
+        SECONDS(SECONDS_PER_MINUTE - 1),
+        MILLIS(MILLIS_PER_SECOND - 1),
+        NANOS(NANOS_PER_SECOND - 1);
+
+        private final int upperBound;
+
+        Parameter(int bound) {
+            upperBound = bound;
+        }
+
+        void check(int value) {
+            DtPreconditions.checkBounds(value, name().toLowerCase(), 0, upperBound);
+        }
     }
 }

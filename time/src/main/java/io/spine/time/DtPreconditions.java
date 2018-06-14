@@ -18,32 +18,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
+package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifiers;
-import org.junit.Test;
-
-import static io.spine.base.Time.getCurrentTime;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.util.Exceptions.newIllegalArgumentException;
 
 /**
+ * Precondition routines specific to date/time.
+ *
  * @author Alexander Yevsyukov
  */
-public class TimestampStringifierShould extends AbstractStringifierTest<Timestamp> {
+class DtPreconditions {
 
-    public TimestampStringifierShould() {
-        super(TimeStringifiers.forTimestamp());
+    /** Prevent instantiation of this utility class. */
+    private DtPreconditions() {
     }
 
-    @Override
-    protected Timestamp createObject() {
-        return getCurrentTime();
+    static void checkPositive(long value) {
+        if (value <= 0) {
+            throw newIllegalArgumentException("value (%d) must be positive", value);
+        }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void throw_exception_when_try_to_convert_inappropriate_string_to_timestamp() {
-        // This uses TextFormat printing, for the output won't be parsable.
-        final String time = getCurrentTime().toString();
-        Stringifiers.fromString(time, Timestamp.class);
+    /**
+     * Ensures that target value is in between passed bounds.
+     */
+    static void checkBounds(int value, String paramName, int lowBound, int highBound) {
+        checkNotNull(paramName);
+        if (!isBetween(value, lowBound, highBound)) {
+            throw newIllegalArgumentException("%s (%d) should be in bounds [%d, %d] inclusive",
+                                              paramName, value, lowBound, highBound);
+        }
+    }
+
+    private static boolean isBetween(int value, int lowBound, int highBound) {
+        return lowBound <= value && value <= highBound;
     }
 }

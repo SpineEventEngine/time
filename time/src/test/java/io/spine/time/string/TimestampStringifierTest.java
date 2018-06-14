@@ -20,20 +20,37 @@
 
 package io.spine.time.string;
 
-import io.spine.time.LocalTime;
-import io.spine.time.LocalTimes;
+import com.google.protobuf.Timestamp;
+import io.spine.string.Stringifiers;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static io.spine.base.Time.getCurrentTime;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class LocalTimeStringifierShould extends AbstractStringifierTest<LocalTime> {
+@DisplayName("TimestampStringifier should")
+class TimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
 
-    public LocalTimeStringifierShould() {
-        super(TimeStringifiers.forLocalTime());
+    TimestampStringifierTest() {
+        super(TimeStringifiers.forTimestamp());
     }
 
     @Override
-    protected LocalTime createObject() {
-        return LocalTimes.now();
+    protected Timestamp createObject() {
+        return getCurrentTime();
+    }
+
+    @Test
+    @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
+    void parsingError() {
+        // This uses TextFormat printing, for the output which won't be parsable.
+        String time = getCurrentTime().toString();
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Stringifiers.fromString(time, Timestamp.class)
+        );
     }
 }

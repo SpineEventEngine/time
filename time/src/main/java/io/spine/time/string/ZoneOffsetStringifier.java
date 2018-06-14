@@ -25,10 +25,8 @@ import io.spine.time.ZoneOffset;
 import io.spine.time.ZoneOffsets;
 
 import java.io.Serializable;
-import java.text.ParseException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
  * The default stringifier for {@code ZoneOffset} values.
@@ -55,11 +53,7 @@ final class ZoneOffsetStringifier extends Stringifier<ZoneOffset> implements Ser
     protected ZoneOffset fromString(String str) {
         checkNotNull(str);
         final ZoneOffset result;
-        try {
-            result = ZoneOffsets.parse(str);
-        } catch (ParseException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
+        result = ZoneOffsets.parse(str);
         return result;
     }
 

@@ -20,32 +20,29 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Duration;
+import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifier;
-import io.spine.time.Durations2;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static io.spine.base.Time.getCurrentTime;
+import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class DurationStringifierShould extends AbstractStringifierTest<Duration> {
-
-    public DurationStringifierShould() {
-        super(TimeStringifiers.forDuration());
-    }
-
-    @Override
-    protected Duration createObject() {
-        return Durations2.hoursAndMinutes(5, 37);
-    }
+@DisplayName("WebSafeTimestampStringifier should")
+class WebSafeTimestampStringifierTest {
 
     @Test
-    public void convert_negative_duration() {
-        final Stringifier<Duration> stringifier = getStringifier();
-        final Duration negative = Durations2.hoursAndMinutes(-4, -31);
-        assertEquals(negative, stringifier.reverse()
-                                          .convert(stringifier.convert(negative)));
+    @DisplayName("convert to a web-safe string and back")
+    void convertForwardAndBackward() {
+        Timestamp timestamp = getCurrentTime();
+        Stringifier<Timestamp> stringifier = forTimestampWebSafe();
+
+        String str = stringifier.convert(timestamp);
+        assertEquals(timestamp, stringifier.reverse()
+                                           .convert(str));
     }
 }
