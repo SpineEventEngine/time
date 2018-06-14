@@ -20,6 +20,7 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
@@ -38,6 +39,7 @@ import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Timestamps2.fromInstant;
+import static io.spine.time.Timestamps2.instantConverter;
 import static io.spine.time.Timestamps2.isLaterThan;
 import static io.spine.time.Timestamps2.toInstant;
 import static org.junit.Assert.assertEquals;
@@ -142,5 +144,20 @@ class Timestamps2Test {
         Timestamp timestamp = fromInstant(instant);
 
         assertEqual(timestamp, instant);
+    }
+
+    @Test
+    @DisplayName("provide converter to Instant")
+    void converterToInstant() {
+        Timestamp timestamp = Time.getCurrentTime();
+        Converter<Timestamp, Instant> converter = instantConverter();
+        Instant instant = converter.convert(timestamp);
+
+        // Check forward conversion.
+        assertEqual(timestamp, instant);
+
+        // Check backward conversion.
+        assertEquals(timestamp, converter.reverse()
+                                         .convert(instant));
     }
 }

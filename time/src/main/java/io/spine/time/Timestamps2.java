@@ -19,6 +19,7 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
@@ -72,21 +73,47 @@ public final class Timestamps2 {
      * Converts the passed timestamp to {@code Instant}.
      */
     public static Instant toInstant(Timestamp timestamp) {
-        checkNotNull(timestamp);
-        Instant result = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
-        return result;
+        return InstantConverter.INSTANCE.convert(timestamp);
     }
 
     /**
      * Creates {@code Timestamp} by the passed {@code Instant} value.
      */
     public static Timestamp fromInstant(Instant instant) {
-        checkNotNull(instant);
-        Timestamp result = Timestamp
-                .newBuilder()
-                .setSeconds(instant.getEpochSecond())
-                .setNanos(instant.getNano())
-                .build();
-        return result;
+        return InstantConverter.INSTANCE.reverse()
+                                        .convert(instant);
+    }
+
+    /**
+     * Obtains converter of {@code Timestamp}s to {@code Instant}s.
+     */
+    public static Converter<Timestamp, Instant> instantConverter() {
+        return InstantConverter.INSTANCE;
+    }
+
+    /**
+     * Converts {@code Timestamp} to {@code Instant}.
+     */
+    private static class InstantConverter extends Converter<Timestamp, Instant> {
+
+        private static final InstantConverter INSTANCE = new InstantConverter();
+
+        @Override
+        protected Instant doForward(Timestamp timestamp) {
+            checkNotNull(timestamp);
+            Instant result = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+            return result;
+        }
+
+        @Override
+        protected Timestamp doBackward(Instant instant) {
+            checkNotNull(instant);
+            Timestamp result = Timestamp
+                    .newBuilder()
+                    .setSeconds(instant.getEpochSecond())
+                    .setNanos(instant.getNano())
+                    .build();
+            return result;
+        }
     }
 }
