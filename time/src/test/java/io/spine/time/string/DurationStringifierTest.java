@@ -25,8 +25,10 @@ import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 /**
  * @author Alexander Yevsyukov
@@ -50,5 +52,12 @@ class DurationStringifierTest extends AbstractStringifierTest<Duration> {
         Duration negative = hoursAndMinutes(-4, -31);
         assertEquals(negative, stringifier.reverse()
                                           .convert(stringifier.convert(negative)));
+    }
+
+    @Test
+    @DisplayName("Serialize")
+    void serialize() {
+        DurationStringifier stringifier = reserializeAndAssert(DurationStringifier.getInstance());
+        assertSame(DurationStringifier.getInstance(), stringifier);
     }
 }
