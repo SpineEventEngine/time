@@ -39,7 +39,6 @@ import static java.lang.Math.abs;
 public abstract class AbstractZonedTimeTest {
 
     private ZoneOffset zoneOffset;
-    private java.time.ZoneOffset jtZoneOffset;
 
     protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 
@@ -58,14 +57,9 @@ public abstract class AbstractZonedTimeTest {
         return this.zoneOffset;
     }
 
-    protected java.time.ZoneOffset jtZoneOffset() {
-        return this.jtZoneOffset;
-    }
-
     @BeforeEach
     public void setUp() {
         zoneOffset = generateOffset();
-        jtZoneOffset = ZoneOffsets.toJavaTime(zoneOffset);
     }
 
     @SuppressWarnings("unused") // is used when running descending test suites

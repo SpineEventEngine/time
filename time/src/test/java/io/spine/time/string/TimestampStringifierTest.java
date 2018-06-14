@@ -21,25 +21,36 @@
 package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
-import org.junit.Test;
+import io.spine.string.Stringifiers;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class WebSafeTimestampStringifierShould {
+@DisplayName("TimestampStringifier should")
+class TimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
+
+    TimestampStringifierTest() {
+        super(TimeStringifiers.forTimestamp());
+    }
+
+    @Override
+    protected Timestamp createObject() {
+        return getCurrentTime();
+    }
 
     @Test
-    public void convert_back_and_forth() {
-        final Timestamp timestamp = getCurrentTime();
-        final Stringifier<Timestamp> stringifier = forTimestampWebSafe();
-
-        final String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
+    void parsingError() {
+        // This uses TextFormat printing, for the output which won't be parsable.
+        String time = getCurrentTime().toString();
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> Stringifiers.fromString(time, Timestamp.class)
+        );
     }
 }

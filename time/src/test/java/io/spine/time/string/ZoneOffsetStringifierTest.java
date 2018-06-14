@@ -20,20 +20,35 @@
 
 package io.spine.time.string;
 
-import io.spine.time.LocalTime;
-import io.spine.time.LocalTimes;
+import io.spine.string.Stringifier;
+import io.spine.time.ZoneOffset;
+import io.spine.time.ZoneOffsets;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class LocalTimeStringifierShould extends AbstractStringifierTest<LocalTime> {
+@DisplayName("ZoneOffsetStringifier should")
+class ZoneOffsetStringifierTest extends AbstractStringifierTest<ZoneOffset> {
 
-    public LocalTimeStringifierShould() {
-        super(TimeStringifiers.forLocalTime());
+    ZoneOffsetStringifierTest() {
+        super(TimeStringifiers.forZoneOffset());
     }
 
     @Override
-    protected LocalTime createObject() {
-        return LocalTimes.now();
+    protected ZoneOffset createObject() {
+        return ZoneOffsets.ofHoursMinutes(7, 40);
+    }
+
+    @Test
+    @DisplayName("Convert negative value")
+    void convertNegative() {
+        Stringifier<ZoneOffset> stringifier = getStringifier();
+        ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -45);
+        assertEquals(negative, stringifier.reverse()
+                                          .convert(stringifier.convert(negative)));
     }
 }

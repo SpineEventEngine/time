@@ -20,36 +20,22 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifiers;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import static io.spine.base.Time.getCurrentTime;
+import io.spine.time.LocalTime;
+import io.spine.time.LocalTimes;
+import org.junit.jupiter.api.DisplayName;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class TimestampStringifierShould extends AbstractStringifierTest<Timestamp> {
+@DisplayName("LocalTimeStringifier should")
+class LocalTimeStringifierTest extends AbstractStringifierTest<LocalTime> {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    public TimestampStringifierShould() {
-        super(TimeStringifiers.forTimestamp());
+    LocalTimeStringifierTest() {
+        super(TimeStringifiers.forLocalTime());
     }
 
     @Override
-    protected Timestamp createObject() {
-        return getCurrentTime();
-    }
-
-    @Test
-    public void throw_exception_when_try_to_convert_inappropriate_string_to_timestamp() {
-        // This uses TextFormat printing, for the output won't be parsable.
-        String time = getCurrentTime().toString();
-        thrown.expect(IllegalArgumentException.class);
-        Stringifiers.fromString(time, Timestamp.class);
+    protected LocalTime createObject() {
+        return LocalTimes.now();
     }
 }

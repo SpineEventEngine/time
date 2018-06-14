@@ -20,33 +20,29 @@
 
 package io.spine.time.string;
 
+import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifier;
-import io.spine.time.ZoneOffset;
-import io.spine.time.ZoneOffsets;
-import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static io.spine.base.Time.getCurrentTime;
+import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-public class ZoneOffsetStringifierShould extends AbstractStringifierTest<ZoneOffset> {
-
-    public ZoneOffsetStringifierShould() {
-        super(TimeStringifiers.forZoneOffset());
-    }
-
-    @Override
-    protected ZoneOffset createObject() {
-        return ZoneOffsets.ofHoursMinutes(7, 40);
-    }
+@DisplayName("WebSafeTimestampStringifier should")
+class WebSafeTimestampStringifierTest {
 
     @Test
-    public void convert_negative_zone_offset() {
-        final Stringifier<ZoneOffset> stringifier = getStringifier();
-        final ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -45);
+    @DisplayName("convert to a web-safe string and back")
+    void convertForwardAndBackward() {
+        Timestamp timestamp = getCurrentTime();
+        Stringifier<Timestamp> stringifier = forTimestampWebSafe();
 
-        assertEquals(negative, stringifier.reverse()
-                                          .convert(stringifier.convert(negative)));
+        String str = stringifier.convert(timestamp);
+        assertEquals(timestamp, stringifier.reverse()
+                                           .convert(str));
     }
 }

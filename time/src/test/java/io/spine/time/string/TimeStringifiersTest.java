@@ -41,7 +41,7 @@ import static io.spine.time.string.TimeStringifiers.forOffsetDateTime;
 import static io.spine.time.string.TimeStringifiers.forOffsetTime;
 import static io.spine.time.string.TimeStringifiers.forTimestamp;
 import static io.spine.time.string.TimeStringifiers.forZoneOffset;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov

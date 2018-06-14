@@ -29,7 +29,7 @@ import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")

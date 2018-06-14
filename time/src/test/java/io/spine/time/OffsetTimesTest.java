@@ -34,7 +34,7 @@ import static io.spine.time.EarthTime.HOURS_PER_DAY;
 import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
 import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
 import static io.spine.time.SiTime.NANOS_PER_SECOND;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Aleksandrov

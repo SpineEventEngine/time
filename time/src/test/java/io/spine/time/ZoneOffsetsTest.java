@@ -38,7 +38,7 @@ import static io.spine.time.SiTime.MILLIS_PER_SECOND;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
