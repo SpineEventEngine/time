@@ -24,7 +24,9 @@ import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -67,5 +69,13 @@ abstract class AbstractStringifierTest<T> {
                 () -> stringifier.reverse()
                                  .convert("")
         );
+    }
+
+    @Test
+    @DisplayName("Serialize")
+    void serialize() {
+        Stringifier<T> expected = getStringifier();
+        Stringifier<T> stringifier = reserializeAndAssert(expected);
+        assertSame(expected, stringifier);
     }
 }

@@ -20,35 +20,22 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Duration;
-import io.spine.string.Stringifier;
+import io.spine.time.OffsetDateTime;
+import io.spine.time.OffsetDateTimes;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import static io.spine.time.Durations2.hoursAndMinutes;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-@DisplayName("DurationStringifier should")
-class DurationStringifierTest extends AbstractStringifierTest<Duration> {
+@DisplayName("OffsetDateTimeStringifier should")
+class OffsetDateTimeStringifierTest extends AbstractStringifierTest<OffsetDateTime> {
 
-    DurationStringifierTest() {
-        super(TimeStringifiers.forDuration());
+    OffsetDateTimeStringifierTest() {
+        super(TimeStringifiers.forOffsetDateTime());
     }
 
     @Override
-    protected Duration createObject() {
-        return hoursAndMinutes(5, 37);
-    }
-
-    @Test
-    @DisplayName("Convert negative duration")
-    void convertNegativeDuration() {
-        Stringifier<Duration> stringifier = getStringifier();
-        Duration negative = hoursAndMinutes(-4, -31);
-        assertEquals(negative, stringifier.reverse()
-                                          .convert(stringifier.convert(negative)));
+    protected OffsetDateTime createObject() {
+        return OffsetDateTimes.now();
     }
 }

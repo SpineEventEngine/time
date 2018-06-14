@@ -34,6 +34,13 @@ public final class OffsetTimes {
     }
 
     /**
+     * Obtains offset time in the current time zone.
+     */
+    public static OffsetTime now() {
+        return of(java.time.OffsetTime.now());
+    }
+
+    /**
      * Obtains offset time using {@code ZoneOffset}.
      */
     public static OffsetTime now(ZoneOffset zoneOffset) {

@@ -21,28 +21,41 @@
 package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
+import com.google.protobuf.util.Timestamps;
 import io.spine.string.Stringifier;
+import io.spine.string.Stringifiers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
 @DisplayName("WebSafeTimestampStringifier should")
-class WebSafeTimestampStringifierTest {
+class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
+
+    WebSafeTimestampStringifierTest() {
+        super(forTimestampWebSafe());
+    }
+
+    @Override
+    protected Timestamp createObject() {
+        return getCurrentTime();
+    }
 
     @Test
-    @DisplayName("convert to a web-safe string and back")
-    void convertForwardAndBackward() {
-        Timestamp timestamp = getCurrentTime();
-        Stringifier<Timestamp> stringifier = forTimestampWebSafe();
-
-        String str = stringifier.convert(timestamp);
-        assertEquals(timestamp, stringifier.reverse()
-                                           .convert(str));
+    @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
+    void parsingError() {
+        Stringifier<Timestamp> webSafeStringifier = getStringifier();
+        String webSafe = webSafeStringifier.convert(getCurrentTime());
+        String corrupt = "XX" + webSafe.substring(2);
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> webSafeStringifier.reverse()
+                                        .convert(corrupt)
+        );
     }
 }
