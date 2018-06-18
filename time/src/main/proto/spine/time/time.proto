@@ -35,7 +35,7 @@ import "google/protobuf/duration.proto";
 import "spine/time/zone.proto";
 
 // Enum representing the 12 months of the year.
-enum MonthOfYear {
+enum Month {
     MONTH_UNDEFINED = 0;
     JANUARY = 1;
     FEBRUARY = 2;
@@ -56,7 +56,7 @@ enum MonthOfYear {
 // Use this message for describing a date (e.g. a birthday).
 message LocalDate {
     int32 year = 1 [(required) = true];
-    MonthOfYear month = 2 [(required) = true];
+    Month month = 2 [(required) = true];
     int32 day = 3 [(required) = true];
 }
 

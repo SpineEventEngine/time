@@ -53,7 +53,7 @@ class MonthsTest {
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
             LocalDate today = LocalDate.now();
-            MonthOfYear month = Months.of(today);
+            Month month = Months.of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
@@ -62,16 +62,16 @@ class MonthsTest {
     @Test
     @DisplayName("obtain a number of days in a month")
     void numberOfDays() {
-        assertEquals(28, daysInMonth(2018, MonthOfYear.FEBRUARY));
-        assertEquals(29, daysInMonth(2016, MonthOfYear.FEBRUARY));
-        assertEquals(31, daysInMonth(2018, MonthOfYear.OCTOBER));
+        assertEquals(28, daysInMonth(2018, Month.FEBRUARY));
+        assertEquals(29, daysInMonth(2016, Month.FEBRUARY));
+        assertEquals(31, daysInMonth(2018, Month.OCTOBER));
     }
 
     @Test
     @DisplayName("convert to Java Time value")
     void javaTime() {
-        for (MonthOfYear month : MonthOfYear.values()) {
-            if (month == MonthOfYear.MONTH_UNDEFINED || month == MonthOfYear.UNRECOGNIZED) {
+        for (Month month : Month.values()) {
+            if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
                 continue;
             }
 

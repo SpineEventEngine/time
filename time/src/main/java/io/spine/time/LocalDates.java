@@ -72,7 +72,7 @@ public final class LocalDates {
     /**
      * Obtains local date from a year, month, and day.
      */
-    public static LocalDate of(int year, MonthOfYear month, int day) {
+    public static LocalDate of(int year, Month month, int day) {
         checkPositive(year);
         checkPositive(day);
         checkDate(year, month, day);
@@ -125,7 +125,7 @@ public final class LocalDates {
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
      */
-    private static void checkDate(int year, MonthOfYear month, int day) {
+    private static void checkDate(int year, Month month, int day) {
         checkPositive(year);
         checkNotNull(month);
         checkPositive(month.getNumber());

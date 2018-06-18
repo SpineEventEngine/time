@@ -36,7 +36,7 @@ public class Months {
     /**
      * Obtains a number of days in the passed month of the year.
      */
-    public static int daysInMonth(int year, MonthOfYear month) {
+    public static int daysInMonth(int year, Month month) {
         final int monthNumber = month.getNumber();
         final int days;
         if (Years.isLeapYear(year) && monthNumber == 2) {
@@ -49,15 +49,15 @@ public class Months {
     /**
      * Obtains the month of the passed date.
      */
-    public static MonthOfYear of(java.time.LocalDate ld) {
-        MonthOfYear result = MonthOfYear.forNumber(ld.getMonthValue());
+    public static Month of(java.time.LocalDate ld) {
+        Month result = Month.forNumber(ld.getMonthValue());
         return result;
     }
 
     /**
      * Converts the passed instance to the Java Time value.
      */
-    public static java.time.Month toJavaTime(MonthOfYear value) {
+    public static java.time.Month toJavaTime(Month value) {
         java.time.Month result = java.time.Month.of(value.getNumber());
         return result;
     }

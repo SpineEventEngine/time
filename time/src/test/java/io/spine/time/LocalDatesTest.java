@@ -65,7 +65,7 @@ class LocalDatesTest {
         @DisplayName("year, month, and day")
         void byYearMonthDay() {
             int year = 2014;
-            MonthOfYear month = MonthOfYear.JULY;
+            Month month = Month.JULY;
             int day = 20;
 
             LocalDate localDate = LocalDates.of(year, month, day);
@@ -102,7 +102,7 @@ class LocalDatesTest {
         void negativeYear() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> LocalDates.of(-1987, MonthOfYear.AUGUST, 20)
+                    () -> LocalDates.of(-1987, Month.AUGUST, 20)
             );
         }
 
@@ -111,7 +111,7 @@ class LocalDatesTest {
         void negativeDay() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> LocalDates.of(1987, MonthOfYear.AUGUST, -20)
+                    () -> LocalDates.of(1987, Month.AUGUST, -20)
             );
         }
     }

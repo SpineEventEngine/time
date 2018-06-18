@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class OffsetDateTimesTest extends AbstractZonedTimeTest {
 
     private static final int YEAR = 2012;
-    private static final MonthOfYear MONTH = MonthOfYear.JULY;
+    private static final Month MONTH = Month.JULY;
     private static final int DAY = 16;
     private static final int HOURS = 9;
     private static final int MINUTES = 30;
