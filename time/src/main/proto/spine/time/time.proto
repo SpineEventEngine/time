@@ -82,14 +82,3 @@ message OffsetDateTime {
     LocalTime time = 2; // A time field is optional for more flexibility.
     ZoneOffset offset = 3 [(required) = true];
 }
-
-// An interval between two points in time.
-message Interval {
-    option (experimental_type) = true;
-
-    // A start of the interval.
-    google.protobuf.Timestamp start = 1;
-
-    // An end of the interval.
-    google.protobuf.Timestamp end = 2;
-}
