@@ -21,9 +21,7 @@
 package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
 import io.spine.string.Stringifier;
-import io.spine.string.Stringifiers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

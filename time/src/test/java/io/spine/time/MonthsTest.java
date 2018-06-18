@@ -71,7 +71,7 @@ class MonthsTest {
     @DisplayName("convert to Java Time value")
     void javaTime() {
         for (MonthOfYear month : MonthOfYear.values()) {
-            if (month == MonthOfYear.UNDEFINED || month == MonthOfYear.UNRECOGNIZED) {
+            if (month == MonthOfYear.MONTH_UNDEFINED || month == MonthOfYear.UNRECOGNIZED) {
                 continue;
             }
 

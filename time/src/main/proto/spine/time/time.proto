@@ -36,7 +36,7 @@ import "spine/time/zone.proto";
 
 // Enum representing the 12 months of the year.
 enum MonthOfYear {
-    UNDEFINED = 0;
+    MONTH_UNDEFINED = 0;
     JANUARY = 1;
     FEBRUARY = 2;
     MARCH = 3;
