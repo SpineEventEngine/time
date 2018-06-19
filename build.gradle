@@ -55,10 +55,10 @@ buildscript {
 
         classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
     }
-//
-//    configurations.all({
-//        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-//    })
+
+    configurations.all({
+        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+    })
 }
 
 apply from: 'ext.gradle'
@@ -104,9 +104,9 @@ subprojects {
             }
         }
 
-//        configurations.all({
-//            resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-//        })
+        configurations.all({
+            resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+        })
     }
 
     project.ext {

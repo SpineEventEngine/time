@@ -28,6 +28,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.LocalTimes.of;
@@ -234,7 +235,6 @@ class LocalTimesTest {
         }
     }
 
-
     @Test
     @DisplayName("Convert to String and back")
     void stringAndBack() {
@@ -243,5 +243,11 @@ class LocalTimesTest {
         String str = LocalTimes.toString(localTime);
         LocalTime convertedBack = parse(str);
         assertEquals(localTime, convertedBack);
+    }
+
+    @Test
+    @DisplayName("Provide Serializable Converter")
+    void serializeConverter() {
+        reserializeAndAssert(LocalTimes.converter());
     }
 }

@@ -19,6 +19,8 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.Constants.HOURS_PER_DAY;
 import static io.spine.time.Constants.MINUTES_PER_HOUR;
@@ -66,14 +68,8 @@ public final class LocalTimes {
      * Obtains local time from time passed {@code java.time} value. 
      */
     public static LocalTime of(java.time.LocalTime value) {
-        LocalTime result = LocalTime
-                .newBuilder()
-                .setHour(value.getHour())
-                .setMinute(value.getMinute())
-                .setSecond(value.getSecond())
-                .setNano(value.getNano())
-                .build();
-        return result;
+        checkNotNull(value);
+        return converter().convert(value);
     }
 
     /**
@@ -81,10 +77,8 @@ public final class LocalTimes {
      */
     public static java.time.LocalTime toJavaTime(LocalTime value) {
         checkNotNull(value);
-        return java.time.LocalTime.of(value.getHour(),
-                                      value.getMinute(),
-                                      value.getSecond(),
-                                      value.getNano());
+        return converter().reverse()
+                          .convert(value);
     }
 
     private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
@@ -145,6 +139,54 @@ public final class LocalTimes {
 
         void check(int value) {
             DtPreconditions.checkBounds(value, name().toLowerCase(), 0, upperBound);
+        }
+    }
+
+    /**
+     * Obtains the instance of Java Time converter.
+     */
+    public static Converter<java.time.LocalTime, LocalTime> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static final class JtConverter
+            extends AbstractConverter<java.time.LocalTime, LocalTime> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected LocalTime doForward(java.time.LocalTime value) {
+            LocalTime result = LocalTime
+                    .newBuilder()
+                    .setHour(value.getHour())
+                    .setMinute(value.getMinute())
+                    .setSecond(value.getSecond())
+                    .setNano(value.getNano())
+                    .build();
+            return result;
+        }
+
+        @Override
+        protected java.time.LocalTime doBackward(LocalTime value) {
+            java.time.LocalTime result = java.time.LocalTime
+                    .of(value.getHour(),
+                        value.getMinute(),
+                        value.getSecond(),
+                        value.getNano());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "LocalTimes.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
         }
     }
 }
