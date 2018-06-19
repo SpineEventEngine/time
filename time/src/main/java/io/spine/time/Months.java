@@ -20,6 +20,8 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
 /**
  * Utilities for working with calendar months.
  *
@@ -35,15 +37,40 @@ public class Months {
      * Obtains the month of the passed date.
      */
     public static Month of(java.time.LocalDate ld) {
-        Month result = Month.forNumber(ld.getMonthValue());
-        return result;
+        return converter().convert(ld.getMonth());
     }
 
     /**
      * Converts the passed instance to the Java Time value.
      */
     public static java.time.Month toJavaTime(Month value) {
-        java.time.Month result = java.time.Month.of(value.getNumber());
-        return result;
+        return converter().reverse()
+                          .convert(value);
+    }
+
+    /**
+     * Obtains the instance of Java Time converter.
+     */
+    public static Converter<java.time.Month, Month> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static class JtConverter extends Converter<java.time.Month, Month> {
+
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected Month doForward(java.time.Month month) {
+            Month result = Month.forNumber(month.getValue());
+            return result;
+        }
+
+        @Override
+        protected java.time.Month doBackward(Month month) {
+            return java.time.Month.of(month.getNumber());
+        }
     }
 }
