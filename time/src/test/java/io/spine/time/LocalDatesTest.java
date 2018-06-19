@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -131,5 +132,11 @@ class LocalDatesTest {
         LocalDate today = LocalDates.now();
         assertEquals(java.time.LocalDate.now(),
                      LocalDates.toJavaTime(today));
+    }
+
+    @Test
+    @DisplayName("serialize")
+    void serialize() {
+        reserializeAndAssert(LocalDates.converter());
     }
 }

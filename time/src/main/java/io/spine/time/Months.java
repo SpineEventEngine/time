@@ -22,10 +22,13 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
+import java.io.Serializable;
+
 /**
  * Utilities for working with calendar months.
  *
  * @author Mykhailo Drachuk
+ * @author Alexander Yevsyukov
  */
 public class Months {
 
@@ -58,8 +61,10 @@ public class Months {
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends Converter<java.time.Month, Month> {
+    private static class JtConverter extends Converter<java.time.Month, Month>
+            implements Serializable {
 
+        private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
         @Override
@@ -71,6 +76,11 @@ public class Months {
         @Override
         protected java.time.Month doBackward(Month month) {
             return java.time.Month.of(month.getNumber());
+        }
+
+        @Override
+        public String toString() {
+            return "Months.converter()";
         }
     }
 }

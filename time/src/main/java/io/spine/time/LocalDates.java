@@ -20,6 +20,9 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
+import java.io.Serializable;
 import java.time.YearMonth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -51,24 +54,16 @@ public final class LocalDates {
      */
     public static LocalDate of(java.time.LocalDate ld) {
         checkNotNull(ld);
-        LocalDate.Builder result = LocalDate
-                .newBuilder()
-                .setYear(ld.getYear())
-                .setMonth(Months.of(ld))
-                .setDay(ld.getDayOfMonth());
-        return result.build();
+        return converter().convert(ld);
     }
 
     /**
      * Converts the passed value to Java Time instance.
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
-        java.time.LocalDate result = java.time.LocalDate.of(
-                date.getYear(),
-                date.getMonthValue(),
-                date.getDay()
-        );
-        return result;
+        checkNotNull(date);
+        return converter().reverse()
+                          .convert(date);
     }
 
     /**
@@ -140,6 +135,48 @@ public final class LocalDates {
                     "A number of days cannot be more than %d, for this month and year.",
                     daysInMonth);
             throw new IllegalArgumentException(errMsg);
+        }
+    }
+
+    /**
+     * Obtains Java Time converter instance.
+     */
+    public static Converter<java.time.LocalDate, LocalDate> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java time and back.
+     */
+    private static class JtConverter extends Converter<java.time.LocalDate, LocalDate>
+            implements Serializable {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected LocalDate doForward(java.time.LocalDate date) {
+            LocalDate.Builder result = LocalDate
+                    .newBuilder()
+                    .setYear(date.getYear())
+                    .setMonth(Months.of(date))
+                    .setDay(date.getDayOfMonth());
+            return result.build();
+        }
+
+        @Override
+        protected java.time.LocalDate doBackward(LocalDate date) {
+            java.time.LocalDate result = java.time.LocalDate.of(
+                    date.getYear(),
+                    date.getMonthValue(),
+                    date.getDay()
+            );
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "LocalDates.converter()";
         }
     }
 }

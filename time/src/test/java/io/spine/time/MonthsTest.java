@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Months.toJavaTime;
@@ -69,5 +70,11 @@ class MonthsTest {
             java.time.Month jt = toJavaTime(month);
             assertEquals(month.getNumber(), jt.getValue());
         }
+    }
+
+    @Test
+    @DisplayName("serialize")
+    void serialize() {
+        reserializeAndAssert(Months.converter());
     }
 }
