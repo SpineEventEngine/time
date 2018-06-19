@@ -51,6 +51,9 @@ public final class OffsetDateTimes {
      * Creates a new instance with the passed values.
      */
     public static OffsetDateTime of(LocalDate date, LocalTime time, ZoneOffset offset) {
+        checkNotNull(date);
+        checkNotNull(time);
+        checkNotNull(offset);
         return create(date, time, offset);
     }
 
@@ -91,6 +94,7 @@ public final class OffsetDateTimes {
      * Parse from ISO 8601 date/time string to {@code OffsetDateTime}.
      */
     public static OffsetDateTime parse(String value) {
+        checkNotNull(value);
         java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(value);
         return of(parsed);
     }
@@ -112,10 +116,11 @@ public final class OffsetDateTimes {
         private static final JtConverter INSTANCE = new JtConverter();
 
         @Override
-        protected OffsetDateTime doForward(java.time.OffsetDateTime jdt) {
-            java.time.LocalDate ld = jdt.toLocalDate();
-            java.time.LocalTime lt = jdt.toLocalTime();
-            java.time.ZoneOffset zo = jdt.toZonedDateTime().getOffset();
+        protected OffsetDateTime doForward(java.time.OffsetDateTime value) {
+            checkNotNull(value);
+            java.time.LocalDate ld = value.toLocalDate();
+            java.time.LocalTime lt = value.toLocalTime();
+            java.time.ZoneOffset zo = value.toZonedDateTime().getOffset();
             return create(LocalDates.of(ld),
                           LocalTimes.of(lt),
                           ZoneOffsets.of(zo));
@@ -123,6 +128,7 @@ public final class OffsetDateTimes {
 
         @Override
         protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
+            checkNotNull(value);
             java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
                     LocalDates.toJavaTime(value.getDate()),
                     LocalTimes.toJavaTime(value.getTime()),

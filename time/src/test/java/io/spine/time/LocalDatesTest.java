@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.LocalDates.of;
 import static io.spine.time.LocalDates.toJavaTime;
@@ -42,6 +43,12 @@ class LocalDatesTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void haveUtilityConstructor() {
         assertHasPrivateParameterlessCtor(LocalDates.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void rejectNulls() {
+        new NullPointerTester().testAllPublicStaticMethods(LocalDates.class);
     }
 
     private static void assertDatesEqual(java.time.LocalDate jt, LocalDate ld) {

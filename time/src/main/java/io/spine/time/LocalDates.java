@@ -69,6 +69,7 @@ public final class LocalDates {
      * Obtains local date from a year, month, and day.
      */
     public static LocalDate of(int year, Month month, int day) {
+        checkNotNull(month);
         checkPositive(year);
         checkPositive(day);
         checkDate(year, month, day);
@@ -88,6 +89,7 @@ public final class LocalDates {
      * @return a LocalDate parsed from the string
      */
     public static LocalDate parse(String str) {
+        checkNotNull(str);
         java.time.LocalDate parsed = java.time.LocalDate.parse(str);
         return of(parsed);
     }
@@ -108,6 +110,7 @@ public final class LocalDates {
      * @throws IllegalArgumentException if one of the date values has an invalid value
      */
     static void checkDate(LocalDate date) {
+        checkNotNull(date);
         checkDate(date.getYear(), date.getMonth(), date.getDay());
     }
 
@@ -123,9 +126,8 @@ public final class LocalDates {
      * @throws IllegalArgumentException if one of the arguments is invalid
      */
     private static void checkDate(int year, Month month, int day) {
-        checkPositive(year);
         checkNotNull(month);
-        checkPositive(month.getNumber());
+        checkPositive(year);
         checkPositive(day);
 
         final int daysInMonth = YearMonth.of(year, month.getNumber())
@@ -155,6 +157,7 @@ public final class LocalDates {
 
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
+            checkNotNull(date);
             LocalDate.Builder result = LocalDate
                     .newBuilder()
                     .setYear(date.getYear())
@@ -165,6 +168,7 @@ public final class LocalDates {
 
         @Override
         protected java.time.LocalDate doBackward(LocalDate date) {
+            checkNotNull(date);
             java.time.LocalDate result = java.time.LocalDate.of(
                     date.getYear(),
                     date.getMonthValue(),

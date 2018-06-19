@@ -29,6 +29,7 @@ apply from: deps.scripts.generateDescriptorSet
 apply from: deps.scripts.testArtifacts
 
 dependencies {
+    api deps.compile.guava
     api group: 'io.spine', name: 'spine-base', version: spineBaseVersion
 
     testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion

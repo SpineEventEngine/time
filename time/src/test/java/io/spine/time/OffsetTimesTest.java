@@ -93,7 +93,7 @@ class OffsetTimesTest extends AbstractZonedTimeTest {
     void nullCheck() {
         new NullPointerTester()
                 .setDefault(Timestamp.class, getCurrentTime())
-                .setDefault(OffsetTime.class, OffsetTimes.now(zoneOffset()))
+                .setDefault(OffsetTime.class, OffsetTimes.now())
                 .setDefault(ZoneOffset.class, zoneOffset())
                 .setDefault(LocalTime.class, LocalTimes.now())
                 .testAllPublicStaticMethods(OffsetTimes.class);

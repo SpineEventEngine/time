@@ -75,10 +75,10 @@ public final class OffsetTimes {
     /**
      * Creates a new instance by passed Java Time value.
      */
-    public static OffsetTime of(java.time.OffsetTime jt) {
-        checkNotNull(jt);
-        java.time.ZoneOffset zo = jt.getOffset();
-        java.time.LocalTime lt = jt.toLocalTime();
+    public static OffsetTime of(java.time.OffsetTime value) {
+        checkNotNull(value);
+        java.time.ZoneOffset zo = value.getOffset();
+        java.time.LocalTime lt = value.toLocalTime();
         return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
     }
 

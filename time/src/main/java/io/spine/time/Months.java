@@ -22,7 +22,8 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
-import java.io.Serializable;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.DtPreconditions.checkBounds;
 
 /**
  * Utilities for working with calendar months.
@@ -32,21 +33,48 @@ import java.io.Serializable;
  */
 public class Months {
 
+    private static final String MONTH_PARAM = Month.class.getName()
+                                                         .toLowerCase();
+
     /** Prevent instantiation of this utility class. */
     private Months() {
+    }
+
+    static void checkMonth(int month) {
+        checkBounds(month, MONTH_PARAM,
+                    Month.JANUARY.getNumber(),
+                    Month.DECEMBER.getNumber());
+    }
+
+    /**
+     * Creates an instance by the passed number.
+     */
+    public static Month of(int month) {
+        checkMonth(month);
+        return Month.forNumber(month);
     }
 
     /**
      * Obtains the month of the passed date.
      */
-    public static Month of(java.time.LocalDate ld) {
-        return converter().convert(ld.getMonth());
+    public static Month of(java.time.LocalDate date) {
+        checkNotNull(date);
+        return converter().convert(date.getMonth());
+    }
+
+    /**
+     * Converts the passed Java Time value.
+     */
+    public static Month of(java.time.Month month) {
+        checkNotNull(month);
+        return converter().convert(month);
     }
 
     /**
      * Converts the passed instance to the Java Time value.
      */
     public static java.time.Month toJavaTime(Month value) {
+        checkNotNull(value);
         return converter().reverse()
                           .convert(value);
     }
@@ -61,20 +89,21 @@ public class Months {
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends Converter<java.time.Month, Month>
-            implements Serializable {
+    private static class JtConverter extends AbstractConverter<java.time.Month, Month> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
         @Override
         protected Month doForward(java.time.Month month) {
+            checkNotNull(month);
             Month result = Month.forNumber(month.getValue());
             return result;
         }
 
         @Override
         protected java.time.Month doBackward(Month month) {
+            checkNotNull(month);
             return java.time.Month.of(month.getNumber());
         }
 

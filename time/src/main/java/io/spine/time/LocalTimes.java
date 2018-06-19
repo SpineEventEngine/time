@@ -107,6 +107,7 @@ public final class LocalTimes {
      * <p>Examples of results: {@code "13:45:30.123456789"}, {@code "09:37:00"}.
      */
     public static String toString(LocalTime time) {
+        checkNotNull(time);
         String result = toJavaTime(time).toString();
         return result;
     }
@@ -115,6 +116,7 @@ public final class LocalTimes {
      * Parses the passed string into local time value.
      */
     public static LocalTime parse(String str) {
+        checkNotNull(str);
         java.time.LocalTime parsed = java.time.LocalTime.parse(str);
         return of(parsed);
     }
@@ -159,6 +161,7 @@ public final class LocalTimes {
 
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
+            checkNotNull(value);
             LocalTime result = LocalTime
                     .newBuilder()
                     .setHour(value.getHour())
@@ -171,6 +174,7 @@ public final class LocalTimes {
 
         @Override
         protected java.time.LocalTime doBackward(LocalTime value) {
+            checkNotNull(value);
             java.time.LocalTime result = java.time.LocalTime
                     .of(value.getHour(),
                         value.getMinute(),

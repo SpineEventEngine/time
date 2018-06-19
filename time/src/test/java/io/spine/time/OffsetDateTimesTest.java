@@ -20,6 +20,7 @@
 
 package io.spine.time;
 
+import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
@@ -68,6 +70,16 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void utilityConstructor() {
         assertHasPrivateParameterlessCtor(OffsetDateTimes.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void rejectNulls() {
+        new NullPointerTester()
+                .setDefault(LocalTime.class, LocalTimes.now())
+                .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
+                .setDefault(LocalDate.class, LocalDates.now())
+                .testAllPublicStaticMethods(OffsetDateTimes.class);
     }
 
     @Nested

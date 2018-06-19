@@ -21,9 +21,9 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import com.google.errorprone.annotations.ForOverride;
 
 import java.io.Serializable;
-import java.time.temporal.TemporalAccessor;
 
 /**
  * Abstract base for converters from Java Time.
@@ -35,4 +35,15 @@ import java.time.temporal.TemporalAccessor;
 abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serializable {
 
     private static final long serialVersionUID = 0L;
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Implementations must override providing their identity.
+     */
+    @Override
+    @ForOverride
+    public String toString() {
+        return super.toString();
+    }
 }
