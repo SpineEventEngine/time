@@ -60,7 +60,7 @@ class MonthsTest {
     }
 
     @Test
-    @DisplayName("convert to Java Time value")
+    @DisplayName("Convert to Java Time value")
     void javaTime() {
         for (Month month : Month.values()) {
             if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
@@ -73,7 +73,7 @@ class MonthsTest {
     }
 
     @Test
-    @DisplayName("serialize")
+    @DisplayName("Provide serializable Converter")
     void serialize() {
         reserializeAndAssert(Months.converter());
     }

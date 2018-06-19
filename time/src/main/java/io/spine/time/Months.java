@@ -82,5 +82,9 @@ public class Months {
         public String toString() {
             return "Months.converter()";
         }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }
