@@ -27,23 +27,8 @@ package io.spine.time;
  */
 public class Months {
 
-    private static final int FEBRUARY_MIN = 28;
-
     /** Prevent instantiation of this utility class. */
     private Months() {
-    }
-
-    /**
-     * Obtains a number of days in the passed month of the year.
-     */
-    public static int daysInMonth(int year, Month month) {
-        final int monthNumber = month.getNumber();
-        final int days;
-        if (Years.isLeapYear(year) && monthNumber == 2) {
-            return FEBRUARY_MIN + 1;
-        }
-        days = FEBRUARY_MIN + ((0x3bbeecc >> (monthNumber * 2)) & 3);
-        return days;
     }
 
     /**

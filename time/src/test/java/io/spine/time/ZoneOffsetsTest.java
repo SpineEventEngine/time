@@ -34,7 +34,7 @@ import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.hours;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;

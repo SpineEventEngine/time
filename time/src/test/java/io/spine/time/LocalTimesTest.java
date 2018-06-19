@@ -33,7 +33,7 @@ import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.parse;
 import static io.spine.time.LocalTimes.toJavaTime;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
+import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

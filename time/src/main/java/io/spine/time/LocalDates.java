@@ -20,6 +20,8 @@
 
 package io.spine.time;
 
+import java.time.YearMonth;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkPositive;
 import static java.lang.String.format;
@@ -131,8 +133,8 @@ public final class LocalDates {
         checkPositive(month.getNumber());
         checkPositive(day);
 
-        final int daysInMonth = Months.daysInMonth(year, month);
-
+        final int daysInMonth = YearMonth.of(year, month.getNumber())
+                                         .lengthOfMonth();
         if (day > daysInMonth) {
             final String errMsg = format(
                     "A number of days cannot be more than %d, for this month and year.",

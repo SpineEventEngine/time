@@ -21,24 +21,28 @@
 package io.spine.time;
 
 /**
- * Utilities for working with calendar years.
+ * Constants related to time as part of International System of Units (SI).
  *
  * @author Mykhailo Drachuk
  */
-public class Years {
+class Constants {
+
+    /** The count of nanoseconds in one second. */
+    static final int NANOS_PER_SECOND = 1_000_000_000;
+
+    /** The count of milliseconds in one second. */
+    static final int MILLIS_PER_SECOND = 1000;
+
+    /** The count of seconds in one minute. */
+    static final int SECONDS_PER_MINUTE = 60;
+
+    /** The count of minutes in one hour. */
+    static final int MINUTES_PER_HOUR = 60;
+
+    /** The count of hours per day. */
+    static final int HOURS_PER_DAY = 24;
 
     /** Prevent instantiation of this utility class. */
-    private Years() {
-        // Does nothing.
-    }
-
-    /**
-     * Tests whether the passed year is a leap one.
-     *
-     * @return {@code true} for a leap year, {@code false} otherwise
-     */
-    @SuppressWarnings("MagicNumber") // The number is part of leap year calc.
-    public static boolean isLeapYear(int year) {
-        return (((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0);
+    private Constants() {
     }
 }

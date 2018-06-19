@@ -28,7 +28,6 @@ import java.time.LocalDate;
 
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Months.daysInMonth;
 import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -57,14 +56,6 @@ class MonthsTest {
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
-    }
-
-    @Test
-    @DisplayName("obtain a number of days in a month")
-    void numberOfDays() {
-        assertEquals(28, daysInMonth(2018, Month.FEBRUARY));
-        assertEquals(29, daysInMonth(2016, Month.FEBRUARY));
-        assertEquals(31, daysInMonth(2018, Month.OCTOBER));
     }
 
     @Test

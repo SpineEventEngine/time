@@ -19,17 +19,12 @@
  */
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
-
-import java.time.Instant;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.EarthTime.HOURS_PER_DAY;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
+import static io.spine.time.Constants.HOURS_PER_DAY;
+import static io.spine.time.Constants.MINUTES_PER_HOUR;
+import static io.spine.time.Constants.SECONDS_PER_MINUTE;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
+import static io.spine.time.Constants.NANOS_PER_SECOND;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -52,22 +47,10 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains local time at the passed time zone.
-     */
-    public static LocalTime timeAt(Timestamp time, ZoneOffset zoneOffset) {
-        Instant instant = Instant.ofEpochMilli(Timestamps.toMillis(time));
-        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
-        java.time.LocalTime lt = instant.atOffset(zo)
-                                        .toLocalTime();
-        return of(lt);
-    }
-
-    /**
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
-        checkClockTime(hours, minutes, seconds);
-        Parameter.NANOS.check(nanos);
+        checkClockTime(hours, minutes, seconds, nanos);
 
         LocalTime result = LocalTime
                 .newBuilder()
@@ -104,10 +87,11 @@ public final class LocalTimes {
                                       value.getNano());
     }
 
-    private static void checkClockTime(int hours, int minutes, int seconds) {
+    private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
         Parameter.HOURS.check(hours);
         Parameter.MINUTES.check(minutes);
         Parameter.SECONDS.check(seconds);
+        Parameter.NANOS.check(nanos);
     }
 
     /**

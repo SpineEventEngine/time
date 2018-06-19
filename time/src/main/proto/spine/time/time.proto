@@ -51,6 +51,15 @@ enum Month {
     DECEMBER = 12;
 }
 
+// A combination of year and month in the ISO-8601 calendar system, such as 2018-06.
+//
+// The purpose of this type is to store values like "June 2018".
+//
+message YearMonth {
+    int32 year = 1 [(required) = true];
+    Month month = 2 [(required) = true];
+}
+
 // A day of week.
 //
 // The int value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).

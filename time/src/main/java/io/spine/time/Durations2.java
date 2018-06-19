@@ -16,9 +16,9 @@ import static com.google.protobuf.util.Durations.fromMillis;
 import static com.google.protobuf.util.Durations.fromNanos;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Durations.toMillis;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.Constants.MINUTES_PER_HOUR;
+import static io.spine.time.Constants.SECONDS_PER_MINUTE;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.util.Math.floorDiv;
 import static io.spine.util.Math.safeMultiply;
 

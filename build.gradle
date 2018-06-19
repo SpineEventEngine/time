@@ -55,9 +55,10 @@ buildscript {
 
         classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
     }
-    configurations.all({
-        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-    })
+//
+//    configurations.all({
+//        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+//    })
 }
 
 apply from: 'ext.gradle'
@@ -79,6 +80,35 @@ allprojects {
 }
 
 subprojects {
+
+    buildscript {
+        repositories {
+            jcenter()
+
+            mavenCentral()
+            mavenLocal()
+
+            // Spine releases repository.
+            maven { url = repos.spine }
+
+            // Spine snapshots repository.
+            maven { url = repos.spineSnapshots }
+        }
+
+        //noinspection GroovyAssignabilityCheck
+        dependencies {
+            classpath deps.build.guava
+            classpath(deps.build.gradlePlugins.protobuf) {
+                // exclude an old Guava version
+                exclude group: 'com.google.guava'
+            }
+        }
+
+//        configurations.all({
+//            resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
+//        })
+    }
+
     project.ext {
         spineProtobufPluginId = 'io.spine.tools.spine-model-compiler'
 

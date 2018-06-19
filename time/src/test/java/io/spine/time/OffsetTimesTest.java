@@ -30,10 +30,10 @@ import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.TestValues.random;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.EarthTime.HOURS_PER_DAY;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
+import static io.spine.time.Constants.HOURS_PER_DAY;
+import static io.spine.time.Constants.MINUTES_PER_HOUR;
+import static io.spine.time.Constants.SECONDS_PER_MINUTE;
+import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
