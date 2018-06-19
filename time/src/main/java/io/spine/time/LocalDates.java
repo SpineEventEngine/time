@@ -115,12 +115,13 @@ public final class LocalDates {
     /**
      * Ensures that the passed date is valid.
      *
-     * @throws IllegalArgumentException if
+     * <p>Verifies that:
      * <ul>
      *     <li>the year is less or equal zero,
-     *     <li>the month is {@code UNDEFINED},
+     *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
+     * @throws IllegalArgumentException if one of the arguments is invalid
      */
     private static void checkDate(int year, Month month, int day) {
         checkPositive(year);
