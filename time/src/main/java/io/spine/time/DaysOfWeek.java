@@ -20,6 +20,8 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -38,7 +40,7 @@ public class DaysOfWeek {
      */
     public static DayOfWeek of(java.time.DayOfWeek day) {
         checkNotNull(day);
-        DayOfWeek result = DayOfWeek.forNumber(day.getValue());
+        DayOfWeek result = converter().convert(day);
         return result;
     }
 
@@ -47,7 +49,42 @@ public class DaysOfWeek {
      */
     public static Object toJavaTime(DayOfWeek day) {
         checkNotNull(day);
-        java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
+        java.time.DayOfWeek result = converter().reverse()
+                                                .convert(day);
         return result;
+    }
+
+    /**
+     * Obtains the converter from Java Time.
+     */
+    public static Converter<java.time.DayOfWeek, DayOfWeek> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static final class JtConverter
+            extends AbstractConverter<java.time.DayOfWeek, DayOfWeek> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected DayOfWeek doForward(java.time.DayOfWeek day) {
+            DayOfWeek result = DayOfWeek.forNumber(day.getValue());
+            return result;
+        }
+
+        @Override
+        protected java.time.DayOfWeek doBackward(DayOfWeek day) {
+            java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "DaysOfWeek.converter()";
+        }
     }
 }

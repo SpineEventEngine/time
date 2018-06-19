@@ -22,7 +22,6 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
-import java.io.Serializable;
 import java.time.YearMonth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -149,8 +148,7 @@ public final class LocalDates {
     /**
      * Converts from Java time and back.
      */
-    private static class JtConverter extends Converter<java.time.LocalDate, LocalDate>
-            implements Serializable {
+    private static class JtConverter extends AbstractConverter<java.time.LocalDate, LocalDate> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
