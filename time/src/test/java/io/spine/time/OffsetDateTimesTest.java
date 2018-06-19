@@ -25,6 +25,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.OffsetDateTimes.of;
@@ -107,5 +108,11 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
         assertEquals(jt.getMinute(), time.getMinute());
         assertEquals(jt.getSecond(), time.getSecond());
         assertEquals(jt.getNano(), time.getNano());
+    }
+
+    @Test
+    @DisplayName("provide serializable Converter")
+    void converter() {
+        reserializeAndAssert(OffsetDateTimes.converter());
     }
 }

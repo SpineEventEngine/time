@@ -19,6 +19,10 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Routines for working with {@link OffsetDateTime}.
  *
@@ -53,13 +57,9 @@ public final class OffsetDateTimes {
     /**
      * Creates new instance based on the passed Java Time value.
      */
-    public static OffsetDateTime of(java.time.OffsetDateTime jdt) {
-        java.time.LocalDate ld = jdt.toLocalDate();
-        java.time.LocalTime lt = jdt.toLocalTime();
-        java.time.ZoneOffset zo = jdt.toZonedDateTime().getOffset();
-        return create(LocalDates.of(ld),
-                      LocalTimes.of(lt),
-                      ZoneOffsets.of(zo));
+    public static OffsetDateTime of(java.time.OffsetDateTime value) {
+        checkNotNull(value);
+        return converter().convert(value);
     }
 
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
@@ -75,12 +75,9 @@ public final class OffsetDateTimes {
      * Converts the passed value to Java Time instance.
      */
     public static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
-        java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
-                LocalDates.toJavaTime(value.getDate()),
-                LocalTimes.toJavaTime(value.getTime()),
-                ZoneOffsets.toJavaTime(value.getOffset())
-        );
-        return result;
+        checkNotNull(value);
+        return converter().reverse()
+                          .convert(value);
     }
 
     /**
@@ -92,10 +89,55 @@ public final class OffsetDateTimes {
 
     /**
      * Parse from ISO 8601 date/time string to {@code OffsetDateTime}.
-     *
      */
     public static OffsetDateTime parse(String value) {
         java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(value);
         return of(parsed);
+    }
+
+    /**
+     * Obtains converter from Java Time and back.
+     */
+    public static Converter<java.time.OffsetDateTime, OffsetDateTime> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static final class JtConverter
+            extends AbstractConverter<java.time.OffsetDateTime, OffsetDateTime> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected OffsetDateTime doForward(java.time.OffsetDateTime jdt) {
+            java.time.LocalDate ld = jdt.toLocalDate();
+            java.time.LocalTime lt = jdt.toLocalTime();
+            java.time.ZoneOffset zo = jdt.toZonedDateTime().getOffset();
+            return create(LocalDates.of(ld),
+                          LocalTimes.of(lt),
+                          ZoneOffsets.of(zo));
+        }
+
+        @Override
+        protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
+            java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
+                    LocalDates.toJavaTime(value.getDate()),
+                    LocalTimes.toJavaTime(value.getTime()),
+                    ZoneOffsets.toJavaTime(value.getOffset())
+            );
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "OffsetDateTimes.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }
