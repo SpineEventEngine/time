@@ -34,7 +34,6 @@ import static io.spine.time.Constants.NANOS_PER_SECOND;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("ClassWithTooManyMethods") // OK for this utility class.
 public final class LocalTimes {
 
     /** Prevent instantiation of this utility class. */
