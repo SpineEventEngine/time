@@ -32,8 +32,7 @@ import java.time.temporal.TemporalAccessor;
  * @param <P> either a Protobuf {@code Message} or {@code ProtocolMessageEnum}
  * @author Alexander Yevsyukov
  */
-abstract class AbstractConverter<T extends TemporalAccessor, P>
-        extends Converter<T, P> implements Serializable {
+abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serializable {
 
     private static final long serialVersionUID = 0L;
 }

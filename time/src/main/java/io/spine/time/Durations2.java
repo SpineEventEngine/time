@@ -5,6 +5,7 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 import com.google.protobuf.util.Durations;
 
@@ -272,5 +273,61 @@ public final class Durations2 {
         long nanos = toNanos(value);
         boolean isNegative = nanos < 0;
         return isNegative;
+    }
+
+    /**
+     * Converts the passed Java Time value.
+     */
+    public static Duration of(java.time.Duration value) {
+        return converter().convert(value);
+    }
+
+    /**
+     * Converts the passed value to Java Time value.
+     */
+    public static java.time.Duration toJavaTime(Duration value) {
+        return converter().reverse()
+                          .convert(value);
+    }
+
+    /**
+     * Obtains the instance of Java Time converter.
+     */
+    public static Converter<java.time.Duration, Duration> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time {@code Duration} to Protobuf {@code Duration} and back.
+     */
+    private static final class JtConverter extends AbstractConverter<java.time.Duration, Duration> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected Duration doForward(java.time.Duration duration) {
+            Duration.Builder result = Duration
+                    .newBuilder()
+                    .setSeconds(duration.getSeconds())
+                    .setNanos(duration.getNano());
+            return result.build();
+        }
+
+        @Override
+        protected java.time.Duration doBackward(Duration duration) {
+            java.time.Duration result = java.time.Duration
+                    .ofSeconds(duration.getSeconds(), duration.getNanos());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Durations2.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }

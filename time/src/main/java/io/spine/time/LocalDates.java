@@ -177,5 +177,9 @@ public final class LocalDates {
         public String toString() {
             return "LocalDates.converter()";
         }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }

@@ -86,5 +86,9 @@ public class DaysOfWeek {
         public String toString() {
             return "DaysOfWeek.converter()";
         }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }

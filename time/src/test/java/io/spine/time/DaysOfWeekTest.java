@@ -23,6 +23,7 @@ package io.spine.time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,5 +47,11 @@ class DaysOfWeekTest {
             DayOfWeek wd = DaysOfWeek.of(weekDay);
             assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
         }
+    }
+
+    @Test
+    @DisplayName("provide Serializable Converter")
+    void serializeConverter() {
+        reserializeAndAssert(DaysOfWeek.converter());
     }
 }

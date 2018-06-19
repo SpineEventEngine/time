@@ -19,6 +19,7 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import io.spine.string.Stringifier;
@@ -27,6 +28,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.ZERO;
@@ -339,9 +341,25 @@ class Durations2Test {
     @Test
     @DisplayName("Provide Stringifier")
     void stringifier() {
-        final Stringifier<Duration> stringifier = TimeStringifiers.forDuration();
-        final Duration duration = hoursAndMinutes(10, 20);
+        Stringifier<Duration> stringifier = TimeStringifiers.forDuration();
+        Duration duration = hoursAndMinutes(10, 20);
         assertEquals(duration, stringifier.reverse()
                                           .convert(stringifier.convert(duration)));
+    }
+
+    @Test
+    @DisplayName("Convert from JavaTime and back")
+    void convert() {
+        java.time.Duration d = java.time.Duration.ofMinutes(5);
+        Converter<java.time.Duration, Duration> converter = Durations2.converter();
+        Duration converted = converter.convert(d);
+        assertEquals(d, converter.reverse()
+                                 .convert(converted));
+    }
+
+    @Test
+    @DisplayName("provide Serializable Converter")
+    void serializeConverter() {
+        reserializeAndAssert(Durations2.converter());
     }
 }
