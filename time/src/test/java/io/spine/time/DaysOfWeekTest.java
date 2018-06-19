@@ -20,23 +20,31 @@
 
 package io.spine.time;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
- * Constants for working with time as perceived on Earth.
- *
- * @author Mykhailo Drachuk
+ * @author Alexander Yevsyukov
  */
-class EarthTime {
-    
-    /** The count of seconds in one minute. */
-    static final int SECONDS_PER_MINUTE = 60;
+@DisplayName("DaysOfWeek should")
+class DaysOfWeekTest {
 
-    /** The count of minutes in one hour. */
-    static final int MINUTES_PER_HOUR = 60;
+    @Test
+    @DisplayName(HAVE_PARAMETERLESS_CTOR)
+    void utilityCtor() {
+        assertHasPrivateParameterlessCtor(DaysOfWeek.class);
+    }
 
-    /** The count of hours per day. */
-    static final int HOURS_PER_DAY = 24;
-
-    /** Prevent instantiation of this utility class. */
-    private EarthTime() {
+    @Test
+    @DisplayName("convert from Java Time and back")
+    void fromJavaTime() {
+        for (java.time.DayOfWeek weekDay: java.time.DayOfWeek.values()) {
+            DayOfWeek wd = DaysOfWeek.of(weekDay);
+            assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
+        }
     }
 }

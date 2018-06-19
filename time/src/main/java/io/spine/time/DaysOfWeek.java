@@ -20,23 +20,34 @@
 
 package io.spine.time;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
- * Constants for working with time as perceived on Earth.
+ * Utilities for working with {@link io.spine.time.DayOfWeek DayOfWeek} instances.
  *
- * @author Mykhailo Drachuk
+ * @author Alexander Yevsyukov
  */
-class EarthTime {
-    
-    /** The count of seconds in one minute. */
-    static final int SECONDS_PER_MINUTE = 60;
+public class DaysOfWeek {
 
-    /** The count of minutes in one hour. */
-    static final int MINUTES_PER_HOUR = 60;
+    /** Prevents instantiation of this utility class. */
+    private DaysOfWeek() {
+    }
 
-    /** The count of hours per day. */
-    static final int HOURS_PER_DAY = 24;
+    /**
+     * Obtains the week day corresponding to the passed Java Time value.
+     */
+    public static DayOfWeek of(java.time.DayOfWeek day) {
+        checkNotNull(day);
+        DayOfWeek result = DayOfWeek.forNumber(day.getValue());
+        return result;
+    }
 
-    /** Prevent instantiation of this utility class. */
-    private EarthTime() {
+    /**
+     * Converts the passed instance to Java Time value.
+     */
+    public static Object toJavaTime(DayOfWeek day) {
+        checkNotNull(day);
+        java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
+        return result;
     }
 }

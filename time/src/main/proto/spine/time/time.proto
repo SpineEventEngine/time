@@ -51,6 +51,21 @@ enum Month {
     DECEMBER = 12;
 }
 
+// A day of week.
+//
+// The int value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
+//
+enum DayOfWeek {
+    DOW_UNDEFINED = 0;
+    MONDAY = 1;
+    TUESDAY = 2;
+    WEDNESDAY = 3;
+    THURSDAY = 4;
+    FRIDAY = 5;
+    SATURDAY = 6;
+    SUNDAY = 7;
+}
+
 // A date without a time-zone.
 //
 // Use this message for describing a date (e.g. a birthday).
