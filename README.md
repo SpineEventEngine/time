@@ -8,7 +8,7 @@
 In addition to `Timestamp` and `Duration` natively available from Protobuf, the Spine Time library 
 provides a set of data types for describing date and time in a business model. 
 
-The types provided by  this library follow the conventions offered by [Java Time](http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html).
+The types provided by this library follow the conventions offered by [Java Time](http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html).
 
 ## Supported Languages
 
