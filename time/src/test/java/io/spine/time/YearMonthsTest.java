@@ -25,64 +25,67 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Months.toJavaTime;
+import static io.spine.time.YearMonths.toJavaTime;
+import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("ClassCanBeStatic")
-@DisplayName("Months should")
-class MonthsTest {
+@DisplayName("YearMonths should")
+class YearMonthsTest {
 
     @Test
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Months.class);
+    void utilityCtor() {
+        assertHasPrivateParameterlessCtor(YearMonths.class);
     }
 
     @Test
     @DisplayName(NOT_ACCEPT_NULLS)
     void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(Months.class);
+        new NullPointerTester().testAllPublicStaticMethods(YearMonths.class);
+    }
+
+    private static void assertMonthsEqual(java.time.YearMonth jt, YearMonth value) {
+        assertEquals(jt.getYear(), value.getYear());
+        assertEquals(jt.getMonthValue(), value.getMonthValue());
     }
 
     @Nested
-    @DisplayName("Create an instance")
+    @DisplayName("Create new instances")
     class Create {
 
         @Test
-        @DisplayName("by java.time.LocalDate")
-        void fromJavaTimeLocalDate() {
-            LocalDate today = LocalDate.now();
-            Month month = Months.of(today);
+        @DisplayName("for current month")
+        void currentMonth() {
+            avoidDayEdge();
+            assertMonthsEqual(java.time.YearMonth.now(), YearMonths.now());
+        }
 
-            assertEquals(today.getMonthValue(), month.getNumber());
+        @Test
+        @DisplayName("by year and month")
+        void yearMonth() {
+            java.time.YearMonth ym = java.time.YearMonth.now();
+            assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
         }
     }
 
     @Test
-    @DisplayName("convert to Java Time value")
-    void javaTime() {
-        for (Month month : Month.values()) {
-            if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
-                continue;
-            }
-
-            java.time.Month jt = toJavaTime(month);
-            assertEquals(month.getNumber(), jt.getValue());
-        }
+    @DisplayName("convert from Java Time and back")
+    void convert() {
+        java.time.YearMonth expected = java.time.YearMonth.now();
+        YearMonth converted = YearMonths.of(expected);
+        assertEquals(expected, toJavaTime(converted));
     }
 
     @Test
     @DisplayName("provide serializable Converter")
-    void serialize() {
-        reserializeAndAssert(Months.converter());
+    void converter() {
+        reserializeAndAssert(YearMonths.converter());
     }
 }

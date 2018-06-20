@@ -20,6 +20,10 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
+import java.time.YearMonth;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkPositive;
 import static java.lang.String.format;
@@ -49,30 +53,23 @@ public final class LocalDates {
      */
     public static LocalDate of(java.time.LocalDate ld) {
         checkNotNull(ld);
-        LocalDate.Builder result = LocalDate
-                .newBuilder()
-                .setYear(ld.getYear())
-                .setMonth(Months.of(ld))
-                .setDay(ld.getDayOfMonth());
-        return result.build();
+        return converter().convert(ld);
     }
 
     /**
      * Converts the passed value to Java Time instance.
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
-        java.time.LocalDate result = java.time.LocalDate.of(
-                date.getYear(),
-                date.getMonthValue(),
-                date.getDay()
-        );
-        return result;
+        checkNotNull(date);
+        return converter().reverse()
+                          .convert(date);
     }
 
     /**
      * Obtains local date from a year, month, and day.
      */
-    public static LocalDate of(int year, MonthOfYear month, int day) {
+    public static LocalDate of(int year, Month month, int day) {
+        checkNotNull(month);
         checkPositive(year);
         checkPositive(day);
         checkDate(year, month, day);
@@ -92,6 +89,7 @@ public final class LocalDates {
      * @return a LocalDate parsed from the string
      */
     public static LocalDate parse(String str) {
+        checkNotNull(str);
         java.time.LocalDate parsed = java.time.LocalDate.parse(str);
         return of(parsed);
     }
@@ -112,32 +110,80 @@ public final class LocalDates {
      * @throws IllegalArgumentException if one of the date values has an invalid value
      */
     static void checkDate(LocalDate date) {
+        checkNotNull(date);
         checkDate(date.getYear(), date.getMonth(), date.getDay());
     }
 
     /**
      * Ensures that the passed date is valid.
      *
-     * @throws IllegalArgumentException if
+     * <p>Verifies that:
      * <ul>
      *     <li>the year is less or equal zero,
-     *     <li>the month is {@code UNDEFINED},
+     *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
+     * @throws IllegalArgumentException if one of the arguments is invalid
      */
-    private static void checkDate(int year, MonthOfYear month, int day) {
-        checkPositive(year);
+    private static void checkDate(int year, Month month, int day) {
         checkNotNull(month);
-        checkPositive(month.getNumber());
+        checkPositive(year);
         checkPositive(day);
 
-        final int daysInMonth = Months.daysInMonth(year, month);
-
+        final int daysInMonth = YearMonth.of(year, month.getNumber())
+                                         .lengthOfMonth();
         if (day > daysInMonth) {
             final String errMsg = format(
                     "A number of days cannot be more than %d, for this month and year.",
                     daysInMonth);
             throw new IllegalArgumentException(errMsg);
+        }
+    }
+
+    /**
+     * Obtains Java Time converter instance.
+     */
+    public static Converter<java.time.LocalDate, LocalDate> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java time and back.
+     */
+    private static class JtConverter extends AbstractConverter<java.time.LocalDate, LocalDate> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected LocalDate doForward(java.time.LocalDate date) {
+            checkNotNull(date);
+            LocalDate.Builder result = LocalDate
+                    .newBuilder()
+                    .setYear(date.getYear())
+                    .setMonth(Months.of(date))
+                    .setDay(date.getDayOfMonth());
+            return result.build();
+        }
+
+        @Override
+        protected java.time.LocalDate doBackward(LocalDate date) {
+            checkNotNull(date);
+            java.time.LocalDate result = java.time.LocalDate.of(
+                    date.getYear(),
+                    date.getMonthValue(),
+                    date.getDay()
+            );
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "LocalDates.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
         }
     }
 }

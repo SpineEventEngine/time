@@ -28,6 +28,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
 
 /**
@@ -74,6 +75,9 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
      * Converts the passed web-safe timestamp representation to the RFC 3339 date string format.
      */
     private static String fromWebSafe(String webSafe) {
+        checkArgument(webSafe.length() > MINUTE_SEPARATOR_INDEX + 2,
+                      "The passed string (%) is not in web-safe date/time format",
+                      webSafe);
         char[] chars = webSafe.toCharArray();
         chars[HOUR_SEPARATOR_INDEX] = COLON;
         chars[MINUTE_SEPARATOR_INDEX] = COLON;
@@ -92,7 +96,7 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
     // It is OK because all necessary information from caught exception is passed.
     protected Timestamp fromString(String webSafe) {
         try {
-            final String rfcStr = fromWebSafe(webSafe);
+            String rfcStr = fromWebSafe(webSafe);
             return Timestamps.parse(rfcStr);
         } catch (ParseException e) {
             throw newIllegalArgumentException(e.getMessage(), e);

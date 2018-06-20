@@ -22,67 +22,44 @@ package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.time.LocalDate;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("ClassCanBeStatic")
-@DisplayName("Months should")
-class MonthsTest {
+@DisplayName("DaysOfWeek should")
+class DaysOfWeekTest {
 
     @Test
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Months.class);
+    void utilityCtor() {
+        assertHasPrivateParameterlessCtor(DaysOfWeek.class);
     }
 
     @Test
     @DisplayName(NOT_ACCEPT_NULLS)
     void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(Months.class);
+        new NullPointerTester().testAllPublicStaticMethods(DaysOfWeek.class);
     }
 
-    @Nested
-    @DisplayName("Create an instance")
-    class Create {
-
-        @Test
-        @DisplayName("by java.time.LocalDate")
-        void fromJavaTimeLocalDate() {
-            LocalDate today = LocalDate.now();
-            Month month = Months.of(today);
-
-            assertEquals(today.getMonthValue(), month.getNumber());
+    @Test
+    @DisplayName("convert from Java Time and back")
+    void fromJavaTime() {
+        for (java.time.DayOfWeek weekDay: java.time.DayOfWeek.values()) {
+            DayOfWeek wd = DaysOfWeek.of(weekDay);
+            assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
         }
     }
 
     @Test
-    @DisplayName("convert to Java Time value")
-    void javaTime() {
-        for (Month month : Month.values()) {
-            if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
-                continue;
-            }
-
-            java.time.Month jt = toJavaTime(month);
-            assertEquals(month.getNumber(), jt.getValue());
-        }
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void serialize() {
-        reserializeAndAssert(Months.converter());
+    @DisplayName("provide Serializable Converter")
+    void serializeConverter() {
+        reserializeAndAssert(DaysOfWeek.converter());
     }
 }

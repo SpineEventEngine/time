@@ -23,93 +23,90 @@ package io.spine.time;
 import com.google.common.base.Converter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkBounds;
 
 /**
- * Utilities for working with calendar months.
+ * Utilities for working with {@code YearMonth} values.
  *
- * @author Mykhailo Drachuk
  * @author Alexander Yevsyukov
  */
-public class Months {
+public class YearMonths {
 
-    private static final String MONTH_PARAM = Month.class.getName()
-                                                         .toLowerCase();
-
-    /** Prevent instantiation of this utility class. */
-    private Months() {
-    }
-
-    static void checkMonth(int month) {
-        checkBounds(month, MONTH_PARAM,
-                    Month.JANUARY.getNumber(),
-                    Month.DECEMBER.getNumber());
+    /** Prevents instantiation of this utility class. */
+    private YearMonths() {
     }
 
     /**
-     * Creates an instance by the passed number.
+     * Obtains current month.
      */
-    public static Month of(int month) {
-        checkMonth(month);
-        return Month.forNumber(month);
+    public static YearMonth now() {
+        return of(java.time.YearMonth.now());
     }
 
     /**
-     * Obtains the month of the passed date.
+     * Creates an instance with the the passed year and month.
      */
-    public static Month of(java.time.LocalDate date) {
-        checkNotNull(date);
-        return converter().convert(date.getMonth());
+    public static YearMonth of(int year, int month) {
+        return create(year, month);
+    }
+
+    private static YearMonth create(int year, int month) {
+        Months.checkMonth(month);
+        YearMonth.Builder result = YearMonth
+                .newBuilder()
+                .setYear(year)
+                .setMonth(Months.of(month));
+        return result.build();
     }
 
     /**
      * Converts the passed Java Time value.
      */
-    public static Month of(java.time.Month month) {
-        checkNotNull(month);
-        return converter().convert(month);
+    public static YearMonth of(java.time.YearMonth value) {
+        checkNotNull(value);
+        return converter().convert(value);
     }
 
     /**
-     * Converts the passed instance to the Java Time value.
+     * Converts the passed value to Java Time.
      */
-    public static java.time.Month toJavaTime(Month value) {
+    public static java.time.YearMonth toJavaTime(YearMonth value) {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
     }
 
     /**
-     * Obtains the instance of Java Time converter.
+     * Obtains the converter from Java Time and back.
      */
-    public static Converter<java.time.Month, Month> converter() {
+    public static Converter<java.time.YearMonth, YearMonth> converter() {
         return JtConverter.INSTANCE;
     }
 
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.Month, Month> {
+    private static final class JtConverter
+            extends AbstractConverter<java.time.YearMonth, YearMonth> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
         @Override
-        protected Month doForward(java.time.Month month) {
-            checkNotNull(month);
-            Month result = Month.forNumber(month.getValue());
+        protected YearMonth doForward(java.time.YearMonth value) {
+            YearMonth result = create(value.getYear(), value.getMonthValue());
             return result;
         }
 
         @Override
-        protected java.time.Month doBackward(Month month) {
-            checkNotNull(month);
-            return java.time.Month.of(month.getNumber());
+        protected java.time.YearMonth doBackward(YearMonth value) {
+            java.time.YearMonth result = java.time.YearMonth
+                    .of(value.getYear(), value.getMonthValue());
+            return result;
         }
 
         @Override
         public String toString() {
-            return "Months.converter()";
+            return "YearMonths.converter()";
         }
 
         private Object readResolve() {

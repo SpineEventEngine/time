@@ -25,8 +25,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.LocalDates.of;
+import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,6 +43,12 @@ class LocalDatesTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void haveUtilityConstructor() {
         assertHasPrivateParameterlessCtor(LocalDates.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void rejectNulls() {
+        new NullPointerTester().testAllPublicStaticMethods(LocalDates.class);
     }
 
     private static void assertDatesEqual(java.time.LocalDate jt, LocalDate ld) {
@@ -65,7 +75,7 @@ class LocalDatesTest {
         @DisplayName("year, month, and day")
         void byYearMonthDay() {
             int year = 2014;
-            MonthOfYear month = MonthOfYear.JULY;
+            Month month = Month.JULY;
             int day = 20;
 
             LocalDate localDate = LocalDates.of(year, month, day);
@@ -102,7 +112,7 @@ class LocalDatesTest {
         void negativeYear() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> LocalDates.of(-1987, MonthOfYear.AUGUST, 20)
+                    () -> LocalDates.of(-1987, Month.AUGUST, 20)
             );
         }
 
@@ -111,7 +121,7 @@ class LocalDatesTest {
         void negativeDay() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> LocalDates.of(1987, MonthOfYear.AUGUST, -20)
+                    () -> LocalDates.of(1987, Month.AUGUST, -20)
             );
         }
     }
@@ -125,11 +135,17 @@ class LocalDatesTest {
     }
 
     @Test
-    @DisplayName("conver to Java Time")
-    void toJavaTime() {
+    @DisplayName("convert to Java Time and back")
+    void convert() {
         avoidDayEdge();
         LocalDate today = LocalDates.now();
-        assertEquals(java.time.LocalDate.now(),
-                     LocalDates.toJavaTime(today));
+        java.time.LocalDate converted = toJavaTime(today);
+        assertEquals(today, of(converted));
+    }
+
+    @Test
+    @DisplayName("have Serializable Converter")
+    void serialize() {
+        reserializeAndAssert(LocalDates.converter());
     }
 }

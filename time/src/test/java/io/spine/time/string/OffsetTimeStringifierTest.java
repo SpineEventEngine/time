@@ -20,40 +20,22 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
+import io.spine.time.OffsetTime;
+import io.spine.time.OffsetTimes;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
-@DisplayName("WebSafeTimestampStringifier should")
-class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
+@DisplayName("OffsetTimeStringifier should")
+public class OffsetTimeStringifierTest extends AbstractStringifierTest<OffsetTime> {
 
-    WebSafeTimestampStringifierTest() {
-        super(forTimestampWebSafe());
+    OffsetTimeStringifierTest() {
+        super(TimeStringifiers.forOffsetTime());
     }
 
     @Override
-    protected Timestamp createObject() {
-        return getCurrentTime();
-    }
-
-    @Test
-    @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
-    void parsingError() {
-        Stringifier<Timestamp> webSafeStringifier = getStringifier();
-        String webSafe = webSafeStringifier.convert(getCurrentTime());
-        String corrupt = "XX" + webSafe.substring(2);
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> webSafeStringifier.reverse()
-                                        .convert(corrupt)
-        );
+    protected OffsetTime createObject() {
+        return OffsetTimes.now();
     }
 }

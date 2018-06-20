@@ -28,12 +28,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.parse;
 import static io.spine.time.LocalTimes.toJavaTime;
-import static io.spine.time.SiTime.NANOS_PER_SECOND;
+import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -56,6 +58,12 @@ class LocalTimesTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void haveUtilityConstructor() {
         assertHasPrivateParameterlessCtor(LocalTimes.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void rejectNulls() {
+        new NullPointerTester().testAllPublicStaticMethods(LocalTimes.class);
     }
 
     @Test
@@ -234,7 +242,6 @@ class LocalTimesTest {
         }
     }
 
-
     @Test
     @DisplayName("Convert to String and back")
     void stringAndBack() {
@@ -243,5 +250,11 @@ class LocalTimesTest {
         String str = LocalTimes.toString(localTime);
         LocalTime convertedBack = parse(str);
         assertEquals(localTime, convertedBack);
+    }
+
+    @Test
+    @DisplayName("Provide Serializable Converter")
+    void serializeConverter() {
+        reserializeAndAssert(LocalTimes.converter());
     }
 }

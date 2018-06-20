@@ -20,26 +20,31 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
+import java.io.Serializable;
+
 /**
- * Constants for working with time as perceived on Earth.
+ * Abstract base for converters from Java Time.
  *
- * @author Mykhailo Drachuk
+ * @param <T> a Java Time type
+ * @param <P> either a Protobuf {@code Message} or {@code ProtocolMessageEnum}
+ * @author Alexander Yevsyukov
  */
-class EarthTime {
-    
-    /** The count of seconds in one minute. */
-    static final int SECONDS_PER_MINUTE = 60;
+abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serializable {
 
-    /** The count of seconds in one minute. */
-    static final int SECONDS_PER_HOUR = 3600;
+    private static final long serialVersionUID = 0L;
 
-    /** The count of minutes in one hour. */
-    static final int MINUTES_PER_HOUR = 60;
-
-    /** The count of hours per day. */
-    static final int HOURS_PER_DAY = 24;
-
-    /** Prevent instantiation of this utility class. */
-    private EarthTime() {
+    /**
+     * {@inheritDoc}
+     *
+     * <p>Implementations must override providing their identity.
+     */
+    @SuppressWarnings("RedundantMethodOverride") /*
+        We cannot use the @ForOverride annotation since it is not allowed for public methods.
+        The method is given for documentation purposes. */
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

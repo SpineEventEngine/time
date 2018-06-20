@@ -35,8 +35,8 @@ import "google/protobuf/duration.proto";
 import "spine/time/zone.proto";
 
 // Enum representing the 12 months of the year.
-enum MonthOfYear {
-    UNDEFINED = 0;
+enum Month {
+    MONTH_UNDEFINED = 0;
     JANUARY = 1;
     FEBRUARY = 2;
     MARCH = 3;
@@ -51,12 +51,36 @@ enum MonthOfYear {
     DECEMBER = 12;
 }
 
+// A combination of year and month in the ISO-8601 calendar system, such as 2018-06.
+//
+// The purpose of this type is to store values like "June 2018".
+//
+message YearMonth {
+    int32 year = 1 [(required) = true];
+    Month month = 2 [(required) = true];
+}
+
+// A day of week.
+//
+// The int value follows the ISO-8601 standard, from 1 (Monday) to 7 (Sunday).
+//
+enum DayOfWeek {
+    DOW_UNDEFINED = 0;
+    MONDAY = 1;
+    TUESDAY = 2;
+    WEDNESDAY = 3;
+    THURSDAY = 4;
+    FRIDAY = 5;
+    SATURDAY = 6;
+    SUNDAY = 7;
+}
+
 // A date without a time-zone.
 //
 // Use this message for describing a date (e.g. a birthday).
 message LocalDate {
     int32 year = 1 [(required) = true];
-    MonthOfYear month = 2 [(required) = true];
+    Month month = 2 [(required) = true];
     int32 day = 3 [(required) = true];
 }
 
@@ -81,15 +105,4 @@ message OffsetDateTime {
     LocalDate date = 1 [(required) = true];
     LocalTime time = 2; // A time field is optional for more flexibility.
     ZoneOffset offset = 3 [(required) = true];
-}
-
-// An interval between two points in time.
-message Interval {
-    option (experimental_type) = true;
-
-    // A start of the interval.
-    google.protobuf.Timestamp start = 1;
-
-    // An end of the interval.
-    google.protobuf.Timestamp end = 2;
 }

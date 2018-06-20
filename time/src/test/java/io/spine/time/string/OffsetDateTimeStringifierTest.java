@@ -18,22 +18,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
+package io.spine.time.string;
+
+import io.spine.time.OffsetDateTime;
+import io.spine.time.OffsetDateTimes;
+import org.junit.jupiter.api.DisplayName;
 
 /**
- * Constants related to time as part of International System of Units (SI).
- *
- * @author Mykhailo Drachuk
+ * @author Alexander Yevsyukov
  */
-class SiTime {
+@DisplayName("OffsetDateTimeStringifier should")
+class OffsetDateTimeStringifierTest extends AbstractStringifierTest<OffsetDateTime> {
 
-    /** The count of nanoseconds in one second. */
-    static final int NANOS_PER_SECOND = 1_000_000_000;
+    OffsetDateTimeStringifierTest() {
+        super(TimeStringifiers.forOffsetDateTime());
+    }
 
-    /** The count of milliseconds in one second. */
-    static final int MILLIS_PER_SECOND = 1000;
-
-    /** Prevent instantiation of this utility class. */
-    private SiTime() {
+    @Override
+    protected OffsetDateTime createObject() {
+        return OffsetDateTimes.now();
     }
 }

@@ -17,33 +17,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-buildscript {
-    repositories {
-        jcenter()
-
-        mavenCentral()
-        mavenLocal()
-
-        // Spine releases repository.
-        maven { url = repos.spine }
-
-        // Spine snapshots repository.
-        maven { url = repos.spineSnapshots }
-    }
-
-    //noinspection GroovyAssignabilityCheck
-    dependencies {
-        classpath deps.build.guava
-        classpath(deps.build.gradlePlugins.protobuf) {
-            // exclude an old Guava version
-            exclude group: 'com.google.guava'
-        }
-    }
-    
-    configurations.all({
-        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-    })
-}
 
 configurations {
     // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
@@ -56,6 +29,7 @@ apply from: deps.scripts.generateDescriptorSet
 apply from: deps.scripts.testArtifacts
 
 dependencies {
+    api deps.build.guava
     api group: 'io.spine', name: 'spine-base', version: spineBaseVersion
 
     testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion

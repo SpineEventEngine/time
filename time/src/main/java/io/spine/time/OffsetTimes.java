@@ -34,6 +34,13 @@ public final class OffsetTimes {
     }
 
     /**
+     * Obtains offset time in the current time zone.
+     */
+    public static OffsetTime now() {
+        return of(java.time.OffsetTime.now());
+    }
+
+    /**
      * Obtains offset time using {@code ZoneOffset}.
      */
     public static OffsetTime now(ZoneOffset zoneOffset) {
@@ -68,10 +75,10 @@ public final class OffsetTimes {
     /**
      * Creates a new instance by passed Java Time value.
      */
-    public static OffsetTime of(java.time.OffsetTime jt) {
-        checkNotNull(jt);
-        java.time.ZoneOffset zo = jt.getOffset();
-        java.time.LocalTime lt = jt.toLocalTime();
+    public static OffsetTime of(java.time.OffsetTime value) {
+        checkNotNull(value);
+        java.time.ZoneOffset zo = value.getOffset();
+        java.time.LocalTime lt = value.toLocalTime();
         return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
     }
 

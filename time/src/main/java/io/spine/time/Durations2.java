@@ -5,6 +5,7 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 import com.google.protobuf.util.Durations;
 
@@ -16,15 +17,15 @@ import static com.google.protobuf.util.Durations.fromMillis;
 import static com.google.protobuf.util.Durations.fromNanos;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Durations.toMillis;
-import static io.spine.time.EarthTime.MINUTES_PER_HOUR;
-import static io.spine.time.EarthTime.SECONDS_PER_MINUTE;
-import static io.spine.time.SiTime.MILLIS_PER_SECOND;
+import static io.spine.time.Constants.MINUTES_PER_HOUR;
+import static io.spine.time.Constants.SECONDS_PER_MINUTE;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.util.Math.floorDiv;
 import static io.spine.util.Math.safeMultiply;
 
 /**
  * Utility class for working with durations in addition to those available from the
- * {@link com.google.protobuf.util.Durations Durations} class in the Protobuf library.
+ * {@link com.google.protobuf.util.Durations Durations} class in the Protobuf Util library.
  *
  * <p>Use {@code import static io.spine.protobuf.Durations2.*} for compact initialization
  * like this:
@@ -272,5 +273,65 @@ public final class Durations2 {
         long nanos = toNanos(value);
         boolean isNegative = nanos < 0;
         return isNegative;
+    }
+
+    /**
+     * Converts the passed Java Time value.
+     */
+    public static Duration of(java.time.Duration value) {
+        checkNotNull(value);
+        return converter().convert(value);
+    }
+
+    /**
+     * Converts the passed value to Java Time value.
+     */
+    public static java.time.Duration toJavaTime(Duration value) {
+        checkNotNull(value);
+        return converter().reverse()
+                          .convert(value);
+    }
+
+    /**
+     * Obtains the instance of Java Time converter.
+     */
+    public static Converter<java.time.Duration, Duration> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time {@code Duration} to Protobuf {@code Duration} and back.
+     */
+    private static final class JtConverter extends AbstractConverter<java.time.Duration, Duration> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected Duration doForward(java.time.Duration duration) {
+            checkNotNull(duration);
+            Duration.Builder result = Duration
+                    .newBuilder()
+                    .setSeconds(duration.getSeconds())
+                    .setNanos(duration.getNano());
+            return result.build();
+        }
+
+        @Override
+        protected java.time.Duration doBackward(Duration duration) {
+            checkNotNull(duration);
+            java.time.Duration result = java.time.Duration
+                    .ofSeconds(duration.getSeconds(), duration.getNanos());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Durations2.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }
