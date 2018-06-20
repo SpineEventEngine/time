@@ -20,27 +20,30 @@
 
 package io.spine.time;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Constants related to time as part of International System of Units (SI).
  *
  * @author Mykhailo Drachuk
  */
+@SuppressWarnings("NumericCastThatLosesPrecision")
 class Constants {
 
     /** The count of nanoseconds in one second. */
-    static final int NANOS_PER_SECOND = 1_000_000_000;
+    static final int NANOS_PER_SECOND = (int) TimeUnit.SECONDS.toNanos(1);
 
     /** The count of milliseconds in one second. */
-    static final int MILLIS_PER_SECOND = 1000;
+    static final int MILLIS_PER_SECOND = (int) TimeUnit.SECONDS.toMillis(1);
 
     /** The count of seconds in one minute. */
-    static final int SECONDS_PER_MINUTE = 60;
+    static final int SECONDS_PER_MINUTE = (int) TimeUnit.MINUTES.toSeconds(1);
 
     /** The count of minutes in one hour. */
-    static final int MINUTES_PER_HOUR = 60;
+    static final int MINUTES_PER_HOUR = (int) TimeUnit.HOURS.toMinutes(1);
 
     /** The count of hours per day. */
-    static final int HOURS_PER_DAY = 24;
+    static final int HOURS_PER_DAY = (int) TimeUnit.DAYS.toHours(1);
 
     /** Prevent instantiation of this utility class. */
     private Constants() {
