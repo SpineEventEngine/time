@@ -122,7 +122,7 @@ class ZoneOffsetsTest {
         }
 
         @Test
-        @DisplayName("more than minus 18 hours")
+        @DisplayName("less than -18 hours")
         void overMinus18Hours() {
             assertThrows(
                     IllegalArgumentException.class,
