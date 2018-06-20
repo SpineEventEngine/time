@@ -28,5 +28,3 @@ dependencies {
 In addition to the generated types and basic factory and calculation routines, the library 
 provides converters between its types and Java Time. It is expected that an application would 
 perform the date/time calculations using Java Time.
-
-  
