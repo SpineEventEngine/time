@@ -25,7 +25,7 @@ import static io.spine.util.Math.safeMultiply;
 
 /**
  * Utility class for working with durations in addition to those available from the
- * {@link com.google.protobuf.util.Durations Durations} class in the Protobuf library.
+ * {@link com.google.protobuf.util.Durations Durations} class in the Protobuf Util library.
  *
  * <p>Use {@code import static io.spine.protobuf.Durations2.*} for compact initialization
  * like this:

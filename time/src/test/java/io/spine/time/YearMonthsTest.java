@@ -22,6 +22,7 @@ package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
@@ -29,6 +30,7 @@ import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.YearMonths.toJavaTime;
+import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -47,6 +49,30 @@ class YearMonthsTest {
     @DisplayName(NOT_ACCEPT_NULLS)
     void rejectNulls() {
         new NullPointerTester().testAllPublicStaticMethods(YearMonths.class);
+    }
+
+    private static void assertMonthsEqual(java.time.YearMonth jt, YearMonth value) {
+        assertEquals(jt.getYear(), value.getYear());
+        assertEquals(jt.getMonthValue(), value.getMonthValue());
+    }
+
+    @Nested
+    @DisplayName("Create new instances")
+    class Create {
+
+        @Test
+        @DisplayName("for current month")
+        void currentMonth() {
+            avoidDayEdge();
+            assertMonthsEqual(java.time.YearMonth.now(), YearMonths.now());
+        }
+
+        @Test
+        @DisplayName("by year and month")
+        void yearMonth() {
+            java.time.YearMonth ym = java.time.YearMonth.now();
+            assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
+        }
     }
 
     @Test
