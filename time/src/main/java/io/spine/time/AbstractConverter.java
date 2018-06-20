@@ -21,7 +21,6 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
-import com.google.errorprone.annotations.ForOverride;
 
 import java.io.Serializable;
 
@@ -41,8 +40,10 @@ abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serial
      *
      * <p>Implementations must override providing their identity.
      */
+    @SuppressWarnings("RedundantMethodOverride") /*
+        We cannot use the @ForOverride annotation since it is not allowed for public methods.
+        The method is given for documentation purposes. */
     @Override
-    @ForOverride
     public String toString() {
         return super.toString();
     }
