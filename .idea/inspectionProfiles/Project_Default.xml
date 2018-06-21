@@ -197,10 +197,6 @@
       <option name="CHECK_DUPLICATE_KEYS_WITH_DIFFERENT_VALUES" value="true" />
     </inspection_tool>
     <inspection_tool class="DuplicateStringLiteralInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
-      <scope name="Tests" level="WEAK WARNING" enabled="false">
-        <option name="MIN_STRING_LENGTH" value="3" />
-        <option name="IGNORE_PROPERTY_KEYS" value="true" />
-      </scope>
       <scope name="Production" level="WARNING" enabled="true">
         <option name="MIN_STRING_LENGTH" value="5" />
         <option name="IGNORE_PROPERTY_KEYS" value="false" />
