@@ -161,7 +161,6 @@ public final class LocalTimes {
 
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
-            checkNotNull(value);
             LocalTime result = LocalTime
                     .newBuilder()
                     .setHour(value.getHour())
@@ -174,7 +173,6 @@ public final class LocalTimes {
 
         @Override
         protected java.time.LocalTime doBackward(LocalTime value) {
-            checkNotNull(value);
             java.time.LocalTime result = java.time.LocalTime
                     .of(value.getHour(),
                         value.getMinute(),

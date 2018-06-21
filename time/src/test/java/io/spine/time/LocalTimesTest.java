@@ -32,6 +32,7 @@ import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.parse;
 import static io.spine.time.LocalTimes.toJavaTime;
@@ -72,10 +73,7 @@ class LocalTimesTest {
         LocalTime now = LocalTimes.now();
         java.time.LocalTime javaTime = toJavaTime(now);
 
-        assertEquals(now.getHour(), javaTime.getHour());
-        assertEquals(now.getMinute(), javaTime.getMinute());
-        assertEquals(now.getSecond(), javaTime.getSecond());
-        assertEquals(now.getNano(), javaTime.getNano());
+        assertTimesEqual(javaTime, now);
     }
 
     @Nested
@@ -87,12 +85,8 @@ class LocalTimesTest {
             java.time.LocalTime javaTime = java.time.LocalTime.now();
             LocalTime now = of(javaTime);
 
-            assertEquals(javaTime.getHour(), now.getHour());
-            assertEquals(javaTime.getMinute(), now.getMinute());
-            assertEquals(javaTime.getSecond(), now.getSecond());
-            assertEquals(javaTime.getNano(), now.getNano());
+            assertTimesEqual(javaTime, now);
         }
-
 
         @Test
         @DisplayName("hours and minutes")
@@ -103,6 +97,7 @@ class LocalTimesTest {
             assertEquals(javaTimeNow.getHour(), test.getHour());
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
         }
+
 
         @Test
         @DisplayName("hours, minutes, and seconds")
@@ -115,7 +110,6 @@ class LocalTimesTest {
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
             assertEquals(javaTimeNow.getSecond(), test.getSecond());
         }
-
         @Test
         @DisplayName("hours, minutes, seconds, and nanos")
         void createWithNanoPrecision() {
@@ -124,15 +118,9 @@ class LocalTimesTest {
                                 javaTimeNow.getSecond(),
                                 javaTimeNow.getNano());
 
-            assertTimeEqual(javaTimeNow, test);
+            assertTimesEqual(javaTimeNow, test);
         }
-    }
 
-    private static void assertTimeEqual(java.time.LocalTime jt, LocalTime lt) {
-        assertEquals(jt.getHour(), lt.getHour());
-        assertEquals(jt.getMinute(), lt.getMinute());
-        assertEquals(jt.getSecond(), lt.getSecond());
-        assertEquals(jt.getNano(), lt.getNano());
     }
 
     @Nested

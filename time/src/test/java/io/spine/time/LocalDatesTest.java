@@ -29,6 +29,7 @@ import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.of;
 import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -49,13 +50,6 @@ class LocalDatesTest {
     @DisplayName(NOT_ACCEPT_NULLS)
     void rejectNulls() {
         new NullPointerTester().testAllPublicStaticMethods(LocalDates.class);
-    }
-
-    private static void assertDatesEqual(java.time.LocalDate jt, LocalDate ld) {
-        assertEquals(jt.getYear(), ld.getYear());
-        assertEquals(jt.getMonthValue(), ld.getMonth()
-                                           .getNumber());
-        assertEquals(jt.getDayOfMonth(), ld.getDay());
     }
 
     @Test
@@ -137,7 +131,6 @@ class LocalDatesTest {
     @Test
     @DisplayName("convert to Java Time and back")
     void convert() {
-        avoidDayEdge();
         LocalDate today = LocalDates.now();
         java.time.LocalDate converted = toJavaTime(today);
         assertEquals(today, of(converted));
