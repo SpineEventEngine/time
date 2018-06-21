@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Assertion utilities for date/time tests.
  *
- * <p>We add this class to avoid dependencies between tests.
+ * <p>The purpose of this class is to avoid dependencies between tests.
  *
  * @author Alexander Yevsyukov
  */
@@ -47,10 +47,5 @@ class Asserts {
         assertEquals(jt.getMonthValue(), ld.getMonth()
                                            .getNumber());
         assertEquals(jt.getDayOfMonth(), ld.getDay());
-    }
-
-    static void assertDateTimesEqual(java.time.LocalDateTime jt, LocalDateTime ld) {
-        assertDatesEqual(jt.toLocalDate(), ld.getDate());
-        assertTimesEqual(jt.toLocalTime(), ld.getTime());
     }
 }

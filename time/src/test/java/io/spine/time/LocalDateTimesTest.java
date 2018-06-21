@@ -67,6 +67,7 @@ class LocalDateTimesTest {
             LocalTime time = LocalTimes.now();
 
             LocalDateTime dateTime = of(date, time);
+
             assertEquals(date, dateTime.getDate());
             assertEquals(time, dateTime.getTime());
         }
