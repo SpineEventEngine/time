@@ -72,14 +72,12 @@ public class DaysOfWeek {
 
         @Override
         protected DayOfWeek doForward(java.time.DayOfWeek day) {
-            checkNotNull(day);
             DayOfWeek result = DayOfWeek.forNumber(day.getValue());
             return result;
         }
 
         @Override
         protected java.time.DayOfWeek doBackward(DayOfWeek day) {
-            checkNotNull(day);
             java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
             return result;
         }

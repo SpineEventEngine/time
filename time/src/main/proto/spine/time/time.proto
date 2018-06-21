@@ -94,6 +94,12 @@ message LocalTime {
     int32 nano = 4;
 }
 
+// A date-time without a time-zone.
+message LocalDateTime {
+    LocalDate date = 1 [(required) = true];
+    LocalTime time = 2 [(required) = true];
+}
+
 // A time with an offset from UTC.
 message OffsetTime {
     LocalTime time = 1 [(required) = true];
