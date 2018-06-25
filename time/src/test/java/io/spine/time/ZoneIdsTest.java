@@ -20,14 +20,18 @@
 
 package io.spine.time;
 
-import io.spine.test.Tests;
+import com.google.common.base.Converter;
+import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
+import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
-import static org.junit.jupiter.api.Assertions.*;
+import static io.spine.time.ZoneIds.toJavaTime;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("ZoneIds should")
 class ZoneIdsTest {
@@ -36,6 +40,13 @@ class ZoneIdsTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void utilityCtor() {
         assertHasPrivateParameterlessCtor(ZoneIds.class);
+    }
+
+    @Test
+    @DisplayName(NOT_ACCEPT_NULLS)
+    void nullCheck() {
+        new NullPointerTester()
+                .testAllPublicStaticMethods(ZoneIds.class);
     }
 
     @Nested
@@ -49,6 +60,43 @@ class ZoneIdsTest {
                                          .getId(),
                          ZoneIds.systemDefault()
                                 .getValue());
+        }
+
+        @Test
+        @DisplayName("by an ID value")
+        void byValue() {
+            for (String id : java.time.ZoneId.getAvailableZoneIds()) {
+                assertEquals(id, ZoneIds.of(id).getValue());
+            }
+        }
+
+        @Test
+        @DisplayName("by Java Time value")
+        void byJavaTime() {
+            ZoneId expected = ZoneIds.systemDefault();
+            assertEquals(expected, ZoneIds.of(toJavaTime(expected)));
+        }
+    }
+
+    @Nested
+    @DisplayName("Provide Converter from/to Java Time which")
+    class Convert {
+
+        private final Converter<java.time.ZoneId, ZoneId> converter = ZoneIds.converter();
+
+        @Test
+        @DisplayName("converts values back and forth")
+        void convert() {
+            ZoneId expected = ZoneIds.systemDefault();
+            java.time.ZoneId converted = converter.reverse().convert(expected);
+
+            assertEquals(expected, converter.convert(converted));
+        }
+
+        @Test
+        @DisplayName("is serializable")
+        void serialize() {
+            reserializeAndAssert(converter);
         }
     }
 }
