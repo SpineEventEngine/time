@@ -39,6 +39,7 @@ import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
@@ -88,6 +89,12 @@ class ZoneOffsetsTest {
             assertEquals(hoursAndMinutes(-4, -50).getSeconds(),
                          ofHoursMinutes(-4, -50).getAmountSeconds());
         }
+    }
+
+    @Test
+    @DisplayName("Return UTC for zero offset")
+    void zeroOffset() {
+        assertSame(ZoneOffsets.utc(), ZoneOffsets.ofSeconds(0));
     }
 
     @Nested
