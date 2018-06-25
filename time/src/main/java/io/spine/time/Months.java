@@ -89,7 +89,7 @@ public class Months {
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.Month, Month> {
+    private static final class JtConverter extends AbstractConverter<java.time.Month, Month> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();

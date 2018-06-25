@@ -96,7 +96,7 @@ public final class Timestamps2 {
     /**
      * Converts {@code Timestamp} to {@code Instant}.
      */
-    private static class InstantConverter extends Converter<Timestamp, Instant> {
+    private static final class InstantConverter extends Converter<Timestamp, Instant> {
 
         private static final InstantConverter INSTANCE = new InstantConverter();
 

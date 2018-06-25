@@ -239,7 +239,8 @@ public final class ZoneOffsets {
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.ZoneOffset, ZoneOffset> {
+    private static final class JtConverter
+            extends AbstractConverter<java.time.ZoneOffset, ZoneOffset> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();

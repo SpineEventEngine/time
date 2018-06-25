@@ -38,6 +38,9 @@ class DtPreconditions {
     private DtPreconditions() {
     }
 
+    /**
+     * Ensures that the passed value is greater than zero.
+     */
     static void checkPositive(long value) {
         if (value <= 0) {
             throw newIllegalArgumentException("value (%d) must be positive", value);
@@ -59,6 +62,9 @@ class DtPreconditions {
         return lowBound <= value && value <= highBound;
     }
 
+    /**
+     * Ensures that the passed message is neither {@code null} nor default.
+     */
     static void checkNotDefault(Message dateTimeValue) {
         checkNotNull(dateTimeValue);
         checkArgument(Validate.isNotDefault(dateTimeValue),

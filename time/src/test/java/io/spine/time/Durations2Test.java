@@ -22,8 +22,6 @@ package io.spine.time;
 import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
-import io.spine.string.Stringifier;
-import io.spine.time.string.TimeStringifiers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -54,10 +52,10 @@ import static io.spine.time.Durations2.toNanos;
 import static io.spine.time.Durations2.toSeconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Alexander Yevsyukov
@@ -336,15 +334,6 @@ class Durations2Test {
         new NullPointerTester()
                 .setDefault(Duration.class, Duration.getDefaultInstance())
                 .testStaticMethods(Durations2.class, NullPointerTester.Visibility.PACKAGE);
-    }
-
-    @Test
-    @DisplayName("Provide Stringifier")
-    void stringifier() {
-        Stringifier<Duration> stringifier = TimeStringifiers.forDuration();
-        Duration duration = hoursAndMinutes(10, 20);
-        assertEquals(duration, stringifier.reverse()
-                                          .convert(stringifier.convert(duration)));
     }
 
     @Test

@@ -150,7 +150,8 @@ public final class LocalDates {
     /**
      * Converts from Java time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.LocalDate, LocalDate> {
+    private static final class JtConverter
+            extends AbstractConverter<java.time.LocalDate, LocalDate> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();

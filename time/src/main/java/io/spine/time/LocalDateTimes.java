@@ -86,7 +86,7 @@ public class LocalDateTimes {
     /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter
+    private static final class JtConverter
             extends AbstractConverter<java.time.LocalDateTime, LocalDateTime> {
 
         private static final long serialVersionUID = 0L;
