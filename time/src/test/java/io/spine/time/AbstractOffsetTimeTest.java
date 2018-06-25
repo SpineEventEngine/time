@@ -36,7 +36,7 @@ import static java.lang.Math.abs;
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
-public abstract class AbstractZonedTimeTest {
+public abstract class AbstractOffsetTimeTest {
 
     private ZoneOffset zoneOffset;
 

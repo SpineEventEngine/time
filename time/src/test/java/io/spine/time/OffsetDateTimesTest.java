@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
-public class OffsetDateTimesTest extends AbstractZonedTimeTest {
+public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
 
     private static final int YEAR = 2012;
     private static final Month MONTH = Month.JULY;
@@ -46,12 +46,12 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
     private static final int SECONDS = 23;
     private static final int NANOS = 122;
 
-    private LocalDate gmtToday;
-    private LocalTime now;
+    private LocalDate date;
+    private LocalTime time;
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetDateTime now = OffsetDateTimes.now();
+        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
         String str = OffsetDateTimes.toString(now);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);
 
@@ -62,8 +62,8 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        gmtToday = LocalDates.of(YEAR, MONTH, DAY);
-        now = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
+        date = LocalDates.of(YEAR, MONTH, DAY);
+        time = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
         @Test
         @DisplayName("date/time at offset")
         void dateTimeAtOffset() {
-            OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset());
+            OffsetDateTime offsetDateTime = of(date, time, zoneOffset());
 
             LocalDate date = offsetDateTime.getDateTime()
                                            .getDate();
@@ -105,8 +105,8 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
             LocalTime time = offsetDateTime.getDateTime()
                                            .getTime();
 
-            assertEquals(gmtToday, date);
-            assertEquals(now, time);
+            assertEquals(OffsetDateTimesTest.this.date, date);
+            assertEquals(OffsetDateTimesTest.this.time, time);
             assertEquals(zoneOffset(), offsetDateTime.getOffset());
         }
     }

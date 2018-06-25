@@ -36,14 +36,22 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Obtains current date/time at the passed time zone.
+     * Obtains current date/time at the system time zone.
      */
     public static OffsetDateTime now() {
-        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
+        ZoneOffset offset = ZoneOffsets.getDefault();
+        return now(offset);
+    }
+
+    /**
+     * Obtains current date-time at the the passed time zone.
+     */
+    public static OffsetDateTime now(ZoneOffset offset) {
+        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(offset);
+        java.time.OffsetDateTime now = java.time.OffsetDateTime.now(zo);
         LocalTime localTime = LocalTimes.of(now.toLocalTime());
         LocalDate localDate = LocalDates.of(now.toLocalDate());
-        ZoneOffset zoneOffset = ZoneOffsets.of(now.getOffset());
-        return create(localDate, localTime, zoneOffset);
+        return create(localDate, localTime, offset);
     }
 
     /**

@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetTimes should")
-class OffsetTimesTest extends AbstractZonedTimeTest {
+class OffsetTimesTest extends AbstractOffsetTimeTest {
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
