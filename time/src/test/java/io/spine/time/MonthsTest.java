@@ -29,10 +29,12 @@ import java.time.LocalDate;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Months.checkMonth;
+import static io.spine.time.Months.of;
 import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
@@ -47,12 +49,6 @@ class MonthsTest {
         assertHasPrivateParameterlessCtor(Months.class);
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(Months.class);
-    }
-
     @Nested
     @DisplayName("Create an instance")
     class Create {
@@ -61,22 +57,79 @@ class MonthsTest {
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
             LocalDate today = LocalDate.now();
-            Month month = Months.of(today);
+            Month month = of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
+
+        @Test
+        @DisplayName("by month number")
+        void fromNumber() {
+            for (int month = java.time.Month.JANUARY.getValue();
+                 month <= java.time.Month.DECEMBER.getValue();
+                 month++) {
+                 assertEquals(month, of(month).getNumber());
+            }
+        }
     }
 
-    @Test
-    @DisplayName("convert to Java Time value")
-    void javaTime() {
-        for (Month month : Month.values()) {
-            if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
-                continue;
-            }
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
 
-            java.time.Month jt = toJavaTime(month);
-            assertEquals(month.getNumber(), jt.getValue());
+        @Test
+        @DisplayName("null arguments")
+        void rejectNulls() {
+            new NullPointerTester().testAllPublicStaticMethods(Months.class);
+        }
+
+        @Test
+        @DisplayName("invalid month value")
+        void outOfBoundsMonth() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkMonth(0)
+            );
+
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkMonth(13)
+            );
+        }
+
+        @Test
+        @DisplayName("invalid Month instance")
+        void invalidMonth() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(Month.MONTH_UNDEFINED)
+            );
+
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(Month.UNRECOGNIZED)
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("Convert from/to")
+    class Convert {
+
+        //TODO:2018-06-25:alexander.yevsyukov: Test toString() / parse() once implemented.
+
+        @Test
+        @DisplayName("Java Time")
+        void javaTime() {
+            for (Month month : Month.values()) {
+                if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
+                    continue;
+                }
+
+                java.time.Month jt = toJavaTime(month);
+                assertEquals(month.getNumber(), jt.getValue());
+                assertEquals(month, of(jt));
+            }
         }
     }
 

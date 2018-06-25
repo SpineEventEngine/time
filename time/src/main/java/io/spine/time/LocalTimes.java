@@ -21,13 +21,15 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
+import java.time.DateTimeException;
+
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Constants.HOURS_PER_DAY;
-import static io.spine.time.Constants.MINUTES_PER_HOUR;
-import static io.spine.time.Constants.SECONDS_PER_MINUTE;
-import static io.spine.time.Constants.MILLIS_PER_SECOND;
-import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static io.spine.time.DtPreconditions.checkNotDefault;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.NANO_OF_SECOND;
+import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -90,10 +92,14 @@ public final class LocalTimes {
     }
 
     private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
-        Parameter.hours.check(hours);
-        Parameter.minutes.check(minutes);
-        Parameter.seconds.check(seconds);
-        Parameter.nanos.check(nanos);
+        try {
+            HOUR_OF_DAY.checkValidValue(hours);
+            MINUTE_OF_HOUR.checkValidValue(minutes);
+            SECOND_OF_MINUTE.checkValidValue(seconds);
+            NANO_OF_SECOND.checkValidValue(nanos);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
     }
 
     /**
@@ -128,28 +134,6 @@ public final class LocalTimes {
         checkNotNull(str);
         java.time.LocalTime parsed = java.time.LocalTime.parse(str);
         return of(parsed);
-    }
-
-    /**
-     * Arguments in preconditions checks for time modification routines.
-     */
-    enum Parameter {
-
-        hours(HOURS_PER_DAY - 1),
-        minutes(MINUTES_PER_HOUR - 1),
-        seconds(SECONDS_PER_MINUTE - 1),
-        millis(MILLIS_PER_SECOND - 1),
-        nanos(NANOS_PER_SECOND - 1);
-
-        private final int upperBound;
-
-        Parameter(int bound) {
-            upperBound = bound;
-        }
-
-        void check(int value) {
-            DtPreconditions.checkBounds(value, name(), 0, upperBound);
-        }
     }
 
     /**

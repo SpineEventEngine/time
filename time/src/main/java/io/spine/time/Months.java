@@ -22,8 +22,11 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
+import java.time.DateTimeException;
+
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkBounds;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 /**
  * Utilities for working with calendar months.
@@ -33,17 +36,16 @@ import static io.spine.time.DtPreconditions.checkBounds;
  */
 public class Months {
 
-    private static final String MONTH_PARAM = Month.class.getSimpleName()
-                                                         .toLowerCase();
-
     /** Prevent instantiation of this utility class. */
     private Months() {
     }
 
     static void checkMonth(int month) {
-        checkBounds(month, MONTH_PARAM,
-                    Month.JANUARY.getNumber(),
-                    Month.DECEMBER.getNumber());
+        try {
+            MONTH_OF_YEAR.checkValidValue(month);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
     }
 
     /**
@@ -75,6 +77,7 @@ public class Months {
      */
     public static java.time.Month toJavaTime(Month value) {
         checkNotNull(value);
+        checkMonth(value.getNumber());
         return converter().reverse()
                           .convert(value);
     }
