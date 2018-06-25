@@ -33,7 +33,7 @@ import static io.spine.time.DtPreconditions.checkBounds;
  */
 public class Months {
 
-    private static final String MONTH_PARAM = Month.class.getName()
+    private static final String MONTH_PARAM = Month.class.getSimpleName()
                                                          .toLowerCase();
 
     /** Prevent instantiation of this utility class. */

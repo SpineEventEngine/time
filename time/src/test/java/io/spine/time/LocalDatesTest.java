@@ -25,11 +25,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.time.Year;
+
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
+import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.of;
 import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -89,6 +92,33 @@ class LocalDatesTest {
     }
 
     @Nested
+    @DisplayName("Check")
+    class Check {
+
+        @Test
+        @DisplayName("lower year bound")
+        void yearTooLow() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkDate(LocalDate.newBuilder()
+                                             .setYear(Year.MIN_VALUE - 1)
+                                             .build())
+            );
+        }
+
+        @Test
+        @DisplayName("year high bound")
+        void yearTooHigh() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkDate(LocalDate.newBuilder()
+                                             .setYear(Year.MAX_VALUE + 1)
+                                             .build())
+            );
+        }
+    }
+
+    @Nested
     @DisplayName("Reject")
     class Arguments {
 
@@ -138,20 +168,25 @@ class LocalDatesTest {
         }
     }
 
-    @Test
-    @DisplayName("convert to string and back")
-    void stringify() {
-        LocalDate today = LocalDates.now();
-        String str = LocalDates.toString(today);
-        assertEquals(today, LocalDates.parse(str));
-    }
+    @Nested
+    @DisplayName("Convert from/to")
+    class Convert {
 
-    @Test
-    @DisplayName("convert to Java Time and back")
-    void convert() {
-        LocalDate today = LocalDates.now();
-        java.time.LocalDate converted = toJavaTime(today);
-        assertEquals(today, of(converted));
+        @Test
+        @DisplayName("String")
+        void stringify() {
+            LocalDate today = LocalDates.now();
+            String str = LocalDates.toString(today);
+            assertEquals(today, LocalDates.parse(str));
+        }
+
+        @Test
+        @DisplayName("Java Time")
+        void convert() {
+            LocalDate today = LocalDates.now();
+            java.time.LocalDate converted = toJavaTime(today);
+            assertEquals(today, of(converted));
+        }
     }
 
     @Test

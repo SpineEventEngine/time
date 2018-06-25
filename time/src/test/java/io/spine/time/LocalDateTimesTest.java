@@ -27,13 +27,13 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDateTimes.of;
 import static io.spine.time.LocalDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
@@ -46,15 +46,6 @@ class LocalDateTimesTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void utilityCtor() {
         assertHasPrivateParameterlessCtor(LocalDateTimes.class);
-    }
-
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester()
-                .setDefault(LocalTime.class, LocalTimes.now())
-                .setDefault(LocalDate.class, LocalDates.now())
-                .testAllPublicStaticMethods(LocalDateTimes.class);
     }
 
     @Nested
@@ -84,13 +75,52 @@ class LocalDateTimesTest {
         }
     }
 
-    @Test
-    @DisplayName("convert to Java Time and back")
-    void javaTime() {
-        LocalDateTime now = LocalDateTimes.now();
-        java.time.LocalDateTime converted = toJavaTime(now);
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
 
-        assertEquals(now, of(converted));
+        @Test
+        @DisplayName("null arguments")
+        void rejectNulls() {
+            new NullPointerTester()
+                    .setDefault(LocalTime.class, LocalTimes.now())
+                    .setDefault(LocalDate.class, LocalDates.now())
+                    .testAllPublicStaticMethods(LocalDateTimes.class);
+        }
+
+        @Test
+        @DisplayName("default date")
+        void defaultDate() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> of(LocalDate.getDefaultInstance(), LocalTimes.now())
+            );
+        }
+
+        @Test
+        @DisplayName("default time")
+        void defaultTime() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> of(LocalDates.now(), LocalTime.getDefaultInstance())
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("Convert from/to")
+    class Convert {
+
+        //TODO:2018-06-25:alexander.yevsyukov: Test String conversion once implemented.
+
+        @Test
+        @DisplayName("Java Time")
+        void javaTime() {
+            LocalDateTime now = LocalDateTimes.now();
+            java.time.LocalDateTime converted = toJavaTime(now);
+
+            assertEquals(now, of(converted));
+        }
     }
 
     @Test

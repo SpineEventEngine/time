@@ -22,11 +22,15 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
+import java.time.DateTimeException;
 import java.time.YearMonth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkPositive;
+import static io.spine.time.Months.checkMonth;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.lang.String.format;
+import static java.time.temporal.ChronoField.YEAR;
 
 /**
  * Utilities for working with {@link LocalDate}.
@@ -119,15 +123,22 @@ public final class LocalDates {
      *
      * <p>Verifies that:
      * <ul>
-     *     <li>the year is less or equal zero,
+     *     <li>the year is within the {@linkplain java.time.Year#MIN_VALUE min}/
+     *     {@linkplain java.time.Year#MAX_VALUE max} range,
      *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
      * @throws IllegalArgumentException if one of the arguments is invalid
      */
     private static void checkDate(int year, Month month, int day) {
+        try {
+            YEAR.checkValidValue(year);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
+        
         checkNotNull(month);
-        checkPositive(year);
+        checkMonth(month.getNumber());
         checkPositive(day);
 
         final int daysInMonth = YearMonth.of(year, month.getNumber())

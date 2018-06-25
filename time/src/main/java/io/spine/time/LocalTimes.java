@@ -90,10 +90,10 @@ public final class LocalTimes {
     }
 
     private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
-        Parameter.HOURS.check(hours);
-        Parameter.MINUTES.check(minutes);
-        Parameter.SECONDS.check(seconds);
-        Parameter.NANOS.check(nanos);
+        Parameter.hours.check(hours);
+        Parameter.minutes.check(minutes);
+        Parameter.seconds.check(seconds);
+        Parameter.nanos.check(nanos);
     }
 
     /**
@@ -135,11 +135,11 @@ public final class LocalTimes {
      */
     enum Parameter {
 
-        HOURS(HOURS_PER_DAY - 1),
-        MINUTES(MINUTES_PER_HOUR - 1),
-        SECONDS(SECONDS_PER_MINUTE - 1),
-        MILLIS(MILLIS_PER_SECOND - 1),
-        NANOS(NANOS_PER_SECOND - 1);
+        hours(HOURS_PER_DAY - 1),
+        minutes(MINUTES_PER_HOUR - 1),
+        seconds(SECONDS_PER_MINUTE - 1),
+        millis(MILLIS_PER_SECOND - 1),
+        nanos(NANOS_PER_SECOND - 1);
 
         private final int upperBound;
 
@@ -148,7 +148,7 @@ public final class LocalTimes {
         }
 
         void check(int value) {
-            DtPreconditions.checkBounds(value, name().toLowerCase(), 0, upperBound);
+            DtPreconditions.checkBounds(value, name(), 0, upperBound);
         }
     }
 
