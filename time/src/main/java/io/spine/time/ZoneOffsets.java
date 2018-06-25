@@ -255,5 +255,14 @@ public final class ZoneOffsets {
                     .ofTotalSeconds(value.getAmountSeconds());
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "ZoneOffsets.converter()";
+        }
+        
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }
