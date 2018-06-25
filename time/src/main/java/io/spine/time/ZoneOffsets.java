@@ -20,6 +20,7 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 
 import javax.annotation.Nullable;
@@ -74,17 +75,15 @@ public final class ZoneOffsets {
      * Converts the passed instance to the Java Time value.
      */
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
-        java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
-        return result;
+        return converter().reverse()
+                          .convert(value);
     }
 
     /**
      * Converts Java Time value to {@code ZoneOffset}.
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
-        ZoneOffset.Builder result = ZoneOffset.newBuilder()
-                                              .setAmountSeconds(zo.getTotalSeconds());
-        return result.build();
+        return converter().convert(zo);
     }
 
     /**
@@ -166,6 +165,13 @@ public final class ZoneOffsets {
     }
 
     /**
+     * Obtains converter from Java Time and back.
+     */
+    public static Converter<java.time.ZoneOffset, ZoneOffset> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
      * Parameter checks for zone offset values.
      */
     enum Parameter {
@@ -227,6 +233,27 @@ public final class ZoneOffsets {
 
         int max() {
             return max;
+        }
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static class JtConverter extends AbstractConverter<java.time.ZoneOffset, ZoneOffset> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected ZoneOffset doForward(java.time.ZoneOffset value) {
+            return ofSeconds(value.getTotalSeconds());
+        }
+
+        @Override
+        protected java.time.ZoneOffset doBackward(ZoneOffset value) {
+            java.time.ZoneOffset result = java.time.ZoneOffset
+                    .ofTotalSeconds(value.getAmountSeconds());
+            return result;
         }
     }
 }

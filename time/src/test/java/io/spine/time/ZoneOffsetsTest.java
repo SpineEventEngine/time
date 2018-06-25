@@ -20,6 +20,7 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
@@ -29,6 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.TimeZone;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
@@ -203,6 +205,29 @@ class ZoneOffsetsTest {
                     () -> parse("x03:00")
             );
         }
+    }
 
+    @Nested
+    @DisplayName("Provide Converter from/to Java Time which")
+    class Convert {
+
+        private final Converter<java.time.ZoneOffset, ZoneOffset> converter =
+                ZoneOffsets.converter();
+
+        @Test
+        @DisplayName("converts values back and forth")
+        void convert() {
+            ZoneOffset expected = ZoneOffsets.getDefault();
+
+            java.time.ZoneOffset converted = converter.reverse()
+                                                      .convert(expected);
+            assertEquals(expected, converter.convert(converted));
+        }
+
+        @Test
+        @DisplayName("is serializable")
+        void serializable() {
+            reserializeAndAssert(converter);
+        }
     }
 }
