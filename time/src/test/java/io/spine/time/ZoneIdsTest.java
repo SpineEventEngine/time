@@ -33,6 +33,7 @@ import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.ZoneIds.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("ZoneIds should")
 class ZoneIdsTest {
 

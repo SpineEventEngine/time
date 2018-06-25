@@ -24,7 +24,6 @@ package spine.time;
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.io";
-option java_generate_equals_and_hash = true;
 option java_multiple_files = true;
 option java_outer_classname = "TimeProto";
 option java_package = "io.spine.time";
@@ -118,14 +117,11 @@ message OffsetTime {
 // A date-time with an offset from UTC.
 message OffsetDateTime {
 
-    // The local date.
-    LocalDate date = 1 [(required) = true];
-
-    // Optional local time.
-    LocalTime time = 2;
+    // The local date-time.
+    LocalDateTime date_time = 1 [(required) = true];
 
     // The offset of the time-zone from UTC.
-    ZoneOffset offset = 3 [(required) = true];
+    ZoneOffset offset = 2 [(required) = true];
 }
 
 // An ID of a time-zone, such as `Europe/Amsterdam`.

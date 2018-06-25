@@ -99,9 +99,11 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
         void dateTimeAtOffset() {
             OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset());
 
-            LocalDate date = offsetDateTime.getDate();
+            LocalDate date = offsetDateTime.getDateTime()
+                                           .getDate();
             LocalDates.checkDate(date);
-            LocalTime time = offsetDateTime.getTime();
+            LocalTime time = offsetDateTime.getDateTime()
+                                           .getTime();
 
             assertEquals(gmtToday, date);
             assertEquals(now, time);
@@ -110,12 +112,14 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
     }
 
     private static void assertEqualDateTime(java.time.OffsetDateTime jt, OffsetDateTime ot) {
-        LocalDate date = ot.getDate();
+        LocalDate date = ot.getDateTime()
+                           .getDate();
         assertEquals(jt.getYear(), date.getYear());
         assertEquals(jt.getMonthValue(), date.getMonthValue());
         assertEquals(jt.getDayOfMonth(), date.getDay());
 
-        LocalTime time = ot.getTime();
+        LocalTime time = ot.getDateTime()
+                           .getTime();
         assertEquals(jt.getHour(), time.getHour());
         assertEquals(jt.getMinute(), time.getMinute());
         assertEquals(jt.getSecond(), time.getSecond());

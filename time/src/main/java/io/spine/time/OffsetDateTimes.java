@@ -29,7 +29,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("ClassWithTooManyMethods")
 public final class OffsetDateTimes {
 
     /** Prevent instantiation of this utility class. */
@@ -68,8 +67,7 @@ public final class OffsetDateTimes {
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
         OffsetDateTime.Builder result = OffsetDateTime
                 .newBuilder()
-                .setDate(date)
-                .setTime(time)
+                .setDateTime(LocalDateTimes.of(date, time))
                 .setOffset(offset);
         return result.build();
     }
@@ -128,8 +126,7 @@ public final class OffsetDateTimes {
         @Override
         protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
             java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
-                    LocalDates.toJavaTime(value.getDate()),
-                    LocalTimes.toJavaTime(value.getTime()),
+                    LocalDateTimes.toJavaTime(value.getDateTime()),
                     ZoneOffsets.toJavaTime(value.getOffset())
             );
             return result;

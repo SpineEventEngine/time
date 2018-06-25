@@ -38,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Alexander Yevsyukov
  */
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDateTimes should")
 class LocalDateTimesTest {
 

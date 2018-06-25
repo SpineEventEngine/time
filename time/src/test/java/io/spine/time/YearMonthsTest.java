@@ -36,6 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Alexander Yevsyukov
  */
+@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("YearMonths should")
 class YearMonthsTest {
 
