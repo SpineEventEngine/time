@@ -30,6 +30,8 @@ import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Asserts.assertDatesEqual;
+import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,14 +39,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
 public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
-
-    private static final int YEAR = 2012;
-    private static final Month MONTH = Month.JULY;
-    private static final int DAY = 16;
-    private static final int HOURS = 9;
-    private static final int MINUTES = 30;
-    private static final int SECONDS = 23;
-    private static final int NANOS = 122;
 
     private LocalDate date;
     private LocalTime time;
@@ -62,8 +56,8 @@ public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
     @BeforeEach
     public void setUp() {
         super.setUp();
-        date = LocalDates.of(YEAR, MONTH, DAY);
-        time = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
+        date = LocalDates.now();
+        time = LocalTimes.now();
     }
 
     @Test
@@ -112,18 +106,9 @@ public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
     }
 
     private static void assertEqualDateTime(java.time.OffsetDateTime jt, OffsetDateTime ot) {
-        LocalDate date = ot.getDateTime()
-                           .getDate();
-        assertEquals(jt.getYear(), date.getYear());
-        assertEquals(jt.getMonthValue(), date.getMonthValue());
-        assertEquals(jt.getDayOfMonth(), date.getDay());
-
-        LocalTime time = ot.getDateTime()
-                           .getTime();
-        assertEquals(jt.getHour(), time.getHour());
-        assertEquals(jt.getMinute(), time.getMinute());
-        assertEquals(jt.getSecond(), time.getSecond());
-        assertEquals(jt.getNano(), time.getNano());
+        LocalDateTime dateTime = ot.getDateTime();
+        assertDatesEqual(jt.toLocalDate(), dateTime.getDate());
+        assertTimesEqual(jt.toLocalTime(), dateTime.getTime());
     }
 
     @Test
