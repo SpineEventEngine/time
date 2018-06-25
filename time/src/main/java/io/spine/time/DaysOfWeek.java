@@ -22,7 +22,11 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 
+import java.time.DateTimeException;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
  * Utilities for working with {@link io.spine.time.DayOfWeek DayOfWeek} instances.
@@ -44,11 +48,20 @@ public class DaysOfWeek {
         return result;
     }
 
+    private static void checkDay(int day) {
+        try {
+            DAY_OF_WEEK.checkValidValue(day);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
+    }
+
     /**
      * Converts the passed instance to Java Time value.
      */
     public static Object toJavaTime(DayOfWeek day) {
         checkNotNull(day);
+        checkDay(day.getNumber());
         java.time.DayOfWeek result = converter().reverse()
                                                 .convert(day);
         return result;

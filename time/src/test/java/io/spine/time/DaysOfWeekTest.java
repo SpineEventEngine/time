@@ -22,13 +22,15 @@ package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.DaysOfWeek.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
@@ -42,21 +44,47 @@ class DaysOfWeekTest {
         assertHasPrivateParameterlessCtor(DaysOfWeek.class);
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(DaysOfWeek.class);
-    }
 
-    @Test
-    @DisplayName("convert from Java Time and back")
-    void fromJavaTime() {
-        for (java.time.DayOfWeek weekDay: java.time.DayOfWeek.values()) {
-            DayOfWeek wd = DaysOfWeek.of(weekDay);
-            assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
+
+        @Test
+        @DisplayName("null params")
+        void rejectNulls() {
+            new NullPointerTester().testAllPublicStaticMethods(DaysOfWeek.class);
+        }
+
+        @Test
+        @DisplayName("out of bounds values")
+        void outOfBounds() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(DayOfWeek.UNRECOGNIZED)
+            );
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(DayOfWeek.DOW_UNDEFINED)
+            );
         }
     }
 
+    @Nested
+    @DisplayName("Convert from/to")
+    class Convert {
+
+        //TODO:2018-06-25:alexander.yevsyukov: test toString() / parse() once implemented.
+
+        @Test
+        @DisplayName("Java Time")
+        void fromJavaTime() {
+            for (java.time.DayOfWeek weekDay: java.time.DayOfWeek.values()) {
+                DayOfWeek wd = DaysOfWeek.of(weekDay);
+                assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
+            }
+        }
+    }
+    
     @Test
     @DisplayName("provide Serializable Converter")
     void serializeConverter() {
