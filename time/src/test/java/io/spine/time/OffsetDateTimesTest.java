@@ -98,7 +98,7 @@ public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
             LocalDates.checkDate(date);
             LocalTime time = offsetDateTime.getDateTime()
                                            .getTime();
-
+            LocalTimes.checkTime(time);
             assertEquals(OffsetDateTimesTest.this.date, date);
             assertEquals(OffsetDateTimesTest.this.time, time);
             assertEquals(zoneOffset(), offsetDateTime.getOffset());

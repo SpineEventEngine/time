@@ -118,6 +118,24 @@ class LocalDatesTest {
                     () -> LocalDates.of(1987, Month.AUGUST, -20)
             );
         }
+
+        @Test
+        @DisplayName("default value in Java Time conversion")
+        void defaultForConversion() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(LocalDate.getDefaultInstance())
+            );
+        }
+
+        @Test
+        @DisplayName("default value in String conversion")
+        void defaultForString() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> LocalDates.toString(LocalDate.getDefaultInstance())
+            );
+        }
     }
 
     @Test

@@ -27,6 +27,7 @@ import static io.spine.time.Constants.MINUTES_PER_HOUR;
 import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.Constants.NANOS_PER_SECOND;
+import static io.spine.time.DtPreconditions.checkNotDefault;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -78,6 +79,14 @@ public final class LocalTimes {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
+    }
+
+    static void checkTime(LocalTime time) {
+        checkNotDefault(time);
+        checkClockTime(time.getHour(),
+                       time.getMinute(),
+                       time.getSecond(),
+                       time.getNano());
     }
 
     private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {

@@ -25,8 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Assertion utilities for date/time tests.
  *
- * <p>The purpose of this class is to avoid dependencies between tests.
- *
  * @author Alexander Yevsyukov
  */
 class Asserts {

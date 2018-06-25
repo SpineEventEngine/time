@@ -60,7 +60,7 @@ public final class LocalDates {
      * Converts the passed value to Java Time instance.
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
-        checkNotNull(date);
+        checkDate(date);
         return converter().reverse()
                           .convert(date);
     }
@@ -98,7 +98,7 @@ public final class LocalDates {
      * Converts a local date into ISO 8601 string with the format {@code yyyy-MM-dd}.
      */
     public static String toString(LocalDate date) {
-        checkNotNull(date);
+        checkDate(date);
         java.time.LocalDate ld = toJavaTime(date);
         return ld.toString();
     }
