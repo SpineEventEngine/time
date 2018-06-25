@@ -32,8 +32,6 @@ option java_package = "io.spine.time";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
 
-import "spine/time/zone.proto";
-
 // Enum representing the 12 months of the year.
 enum Month {
     MONTH_UNDEFINED = 0;
@@ -98,6 +96,16 @@ message LocalTime {
 message LocalDateTime {
     LocalDate date = 1 [(required) = true];
     LocalTime time = 2 [(required) = true];
+}
+
+// An ID of a time-zone, such as `Europe/Amsterdam`.
+message ZoneId {
+    string value = 1;
+}
+
+// A time-zone offset from UTC, such as +02:00.
+message ZoneOffset {
+    int32 amount_seconds = 1;
 }
 
 // A time with an offset from UTC.
