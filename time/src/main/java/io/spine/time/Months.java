@@ -96,14 +96,12 @@ public class Months {
 
         @Override
         protected Month doForward(java.time.Month month) {
-            checkNotNull(month);
             Month result = Month.forNumber(month.getValue());
             return result;
         }
 
         @Override
         protected java.time.Month doBackward(Month month) {
-            checkNotNull(month);
             return java.time.Month.of(month.getNumber());
         }
 

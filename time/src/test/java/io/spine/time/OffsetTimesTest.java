@@ -26,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.TestValues.random;
@@ -97,5 +98,11 @@ class OffsetTimesTest extends AbstractZonedTimeTest {
                 .setDefault(ZoneOffset.class, zoneOffset())
                 .setDefault(LocalTime.class, LocalTimes.now())
                 .testAllPublicStaticMethods(OffsetTimes.class);
+    }
+
+    @Test
+    @DisplayName("provide serializable Converter")
+    void converter() {
+        reserializeAndAssert(OffsetTimes.converter());
     }
 }

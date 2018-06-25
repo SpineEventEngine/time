@@ -309,7 +309,6 @@ public final class Durations2 {
 
         @Override
         protected Duration doForward(java.time.Duration duration) {
-            checkNotNull(duration);
             Duration.Builder result = Duration
                     .newBuilder()
                     .setSeconds(duration.getSeconds())
@@ -319,7 +318,6 @@ public final class Durations2 {
 
         @Override
         protected java.time.Duration doBackward(Duration duration) {
-            checkNotNull(duration);
             java.time.Duration result = java.time.Duration
                     .ofSeconds(duration.getSeconds(), duration.getNanos());
             return result;

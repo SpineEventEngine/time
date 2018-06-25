@@ -19,6 +19,8 @@
  */
 package io.spine.time;
 
+import com.google.common.base.Converter;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -47,15 +49,8 @@ public final class OffsetTimes {
         checkNotNull(zoneOffset);
         java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
         java.time.OffsetTime jt = java.time.LocalTime.now().atOffset(zo);
-
         LocalTime localTime = LocalTimes.of(jt.toLocalTime());
-        
-        OffsetTime result = OffsetTime
-                .newBuilder()
-                .setTime(localTime)
-                .setOffset(zoneOffset)
-                .build();
-        return result;
+        return create(localTime, zoneOffset);
     }
 
     /**
@@ -64,6 +59,10 @@ public final class OffsetTimes {
     public static OffsetTime of(LocalTime time, ZoneOffset zoneOffset) {
         checkNotNull(time);
         checkNotNull(zoneOffset);
+        return create(time, zoneOffset);
+    }
+
+    private static OffsetTime create(LocalTime time, ZoneOffset zoneOffset) {
         OffsetTime result = OffsetTime
                 .newBuilder()
                 .setTime(time)
@@ -77,9 +76,7 @@ public final class OffsetTimes {
      */
     public static OffsetTime of(java.time.OffsetTime value) {
         checkNotNull(value);
-        java.time.ZoneOffset zo = value.getOffset();
-        java.time.LocalTime lt = value.toLocalTime();
-        return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
+        return converter().convert(value);
     }
 
     /**
@@ -87,11 +84,8 @@ public final class OffsetTimes {
      */
     public static java.time.OffsetTime toJavaTime(OffsetTime value) {
         checkNotNull(value);
-        java.time.OffsetTime result = java.time.OffsetTime.of(
-                LocalTimes.toJavaTime(value.getTime()),
-                ZoneOffsets.toJavaTime(value.getOffset())
-        );
-        return result;
+        return converter().reverse()
+                          .convert(value);
     }
 
     /**
@@ -108,5 +102,47 @@ public final class OffsetTimes {
     public static OffsetTime parse(String str) {
         java.time.OffsetTime parsed = java.time.OffsetTime.parse(str);
         return of(parsed);
+    }
+
+    /**
+     * Obtains converter from Java Time.
+     */
+    public static Converter<java.time.OffsetTime, OffsetTime> converter() {
+        return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static final class JtConverter
+            extends AbstractConverter<java.time.OffsetTime, OffsetTime> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected OffsetTime doForward(java.time.OffsetTime value) {
+            java.time.LocalTime lt = value.toLocalTime();
+            java.time.ZoneOffset zo = value.getOffset();
+            return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
+        }
+
+        @Override
+        protected java.time.OffsetTime doBackward(OffsetTime value) {
+            java.time.OffsetTime result = java.time.OffsetTime.of(
+                    LocalTimes.toJavaTime(value.getTime()),
+                    ZoneOffsets.toJavaTime(value.getOffset())
+            );
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "OffsetTimes.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
+        }
     }
 }

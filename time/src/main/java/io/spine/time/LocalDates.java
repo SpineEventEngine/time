@@ -157,7 +157,6 @@ public final class LocalDates {
 
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
-            checkNotNull(date);
             LocalDate.Builder result = LocalDate
                     .newBuilder()
                     .setYear(date.getYear())
@@ -168,7 +167,6 @@ public final class LocalDates {
 
         @Override
         protected java.time.LocalDate doBackward(LocalDate date) {
-            checkNotNull(date);
             java.time.LocalDate result = java.time.LocalDate.of(
                     date.getYear(),
                     date.getMonthValue(),

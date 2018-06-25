@@ -117,7 +117,6 @@ public final class OffsetDateTimes {
 
         @Override
         protected OffsetDateTime doForward(java.time.OffsetDateTime value) {
-            checkNotNull(value);
             java.time.LocalDate ld = value.toLocalDate();
             java.time.LocalTime lt = value.toLocalTime();
             java.time.ZoneOffset zo = value.toZonedDateTime().getOffset();
@@ -128,7 +127,6 @@ public final class OffsetDateTimes {
 
         @Override
         protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
-            checkNotNull(value);
             java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
                     LocalDates.toJavaTime(value.getDate()),
                     LocalTimes.toJavaTime(value.getTime()),
