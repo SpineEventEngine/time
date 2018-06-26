@@ -35,16 +35,11 @@ final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.Of
 
     /** Prevents instantiation from outside. */
     private OffsetTimeStringifier() {
-        super(OffsetTimes.converter());
+        super(OffsetTimes.converter(), java.time.OffsetTime::parse);
     }
 
     static OffsetTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    java.time.OffsetTime parse(String str) {
-        return java.time.OffsetTime.parse(str);
     }
 
     @Override

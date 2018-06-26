@@ -24,30 +24,16 @@ import io.spine.time.LocalDateTime;
 import io.spine.time.LocalDateTimes;
 
 /**
- * The default stringifier for {@link io.spine.time.LocalDateTime LocalDateTime} values.
- *
  * @author Alexander Yevsyukov
  */
-final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.time.LocalDateTime> {
+class LocalDateTimeStringifierTest extends AbstractStringifierTest<LocalDateTime> {
 
-    private static final long serialVersionUID = 0L;
-    private static final LocalDateTimeStringifier INSTANCE = new LocalDateTimeStringifier();
-
-    /** Prevents instantiation from outside. */
-    private LocalDateTimeStringifier() {
-        super(LocalDateTimes.converter(), java.time.LocalDateTime::parse);
-    }
-
-    static LocalDateTimeStringifier getInstance() {
-        return INSTANCE;
+    LocalDateTimeStringifierTest() {
+        super(TimeStringifiers.forLocalDateTime());
     }
 
     @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalDateTime()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
+    protected LocalDateTime createObject() {
+        return LocalDateTimes.now();
     }
 }

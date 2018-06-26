@@ -20,34 +20,17 @@
 
 package io.spine.time.string;
 
-import io.spine.time.LocalDateTime;
-import io.spine.time.LocalDateTimes;
+import java.io.Serializable;
 
 /**
- * The default stringifier for {@link io.spine.time.LocalDateTime LocalDateTime} values.
- *
+ * A function that computes an output value of type {@code R} from an input value of type
+ * {@code T} and is {@link Serializable}.
+ * 
+ * @param <T> input value type
+ * @param <R> output value type
  * @author Alexander Yevsyukov
  */
-final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.time.LocalDateTime> {
-
-    private static final long serialVersionUID = 0L;
-    private static final LocalDateTimeStringifier INSTANCE = new LocalDateTimeStringifier();
-
-    /** Prevents instantiation from outside. */
-    private LocalDateTimeStringifier() {
-        super(LocalDateTimes.converter(), java.time.LocalDateTime::parse);
-    }
-
-    static LocalDateTimeStringifier getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalDateTime()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
-    }
+@FunctionalInterface
+interface SerializableFunction<T, R> extends Serializable {
+    R apply(T input);
 }

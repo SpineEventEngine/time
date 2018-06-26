@@ -36,16 +36,11 @@ final class OffsetDateTimeStringifier
 
     /** Prevents instantiation from outside. */
     private OffsetDateTimeStringifier() {
-        super(OffsetDateTimes.converter());
+        super(OffsetDateTimes.converter(), java.time.OffsetDateTime::parse);
     }
 
     static OffsetDateTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    java.time.OffsetDateTime parse(String str) {
-        return java.time.OffsetDateTime.parse(str);
     }
 
     @Override

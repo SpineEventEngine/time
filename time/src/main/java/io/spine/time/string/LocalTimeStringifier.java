@@ -35,16 +35,11 @@ final class LocalTimeStringifier extends JtStringifier<LocalTime, java.time.Loca
 
     /** Prevents instantiation from outside. */
     private LocalTimeStringifier() {
-        super(LocalTimes.converter());
+        super(LocalTimes.converter(), java.time.LocalTime::parse);
     }
     
     static LocalTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    java.time.LocalTime parse(String str) {
-        return java.time.LocalTime.parse(str);
     }
 
     @Override

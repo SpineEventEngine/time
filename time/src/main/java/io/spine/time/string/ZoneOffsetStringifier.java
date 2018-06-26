@@ -35,16 +35,11 @@ final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.Zo
 
     /** Prevents instantiation from outside. */
     private ZoneOffsetStringifier() {
-        super(ZoneOffsets.converter());
+        super(ZoneOffsets.converter(), java.time.ZoneOffset::of);
     }
 
     static ZoneOffsetStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    java.time.ZoneOffset parse(String str) {
-        return java.time.ZoneOffset.of(str);
     }
 
     @Override

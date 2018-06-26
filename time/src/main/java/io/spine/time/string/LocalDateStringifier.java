@@ -35,16 +35,11 @@ final class LocalDateStringifier extends JtStringifier<LocalDate, java.time.Loca
 
     /** Prevents instantiation from outside. */
     private LocalDateStringifier() {
-        super(LocalDates.converter());
+        super(LocalDates.converter(), java.time.LocalDate::parse);
     }
 
     static LocalDateStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    java.time.LocalDate parse(String str) {
-        return java.time.LocalDate.parse(str);
     }
 
     @Override

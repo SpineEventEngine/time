@@ -36,15 +36,15 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
     private static final long serialVersionUID = 0L;
 
-    @SuppressWarnings("NonSerializableFieldInSerializableClass")
-        /* All the converters are internal to Spine Time and are Serializable. */
+    @SuppressWarnings("NonSerializableFieldInSerializableClass") /* All converters
+        passed to JtStringifier are internal to Spine Time and are Serializable. */
     private final Converter<J, T> converter;
+    private final SerializableFunction<String, J> parser;
 
-    JtStringifier(Converter<J, T> converter) {
+    JtStringifier(Converter<J, T> converter, SerializableFunction<String, J> parser) {
         this.converter = checkNotNull(converter);
+        this.parser = checkNotNull(parser);
     }
-
-    abstract J parse(String str);
 
     @Override
     protected String toString(T value) {
@@ -59,11 +59,12 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
     protected T fromString(String str) {
         T value;
         try {
-            J parsed = parse(str);
+            J parsed = parser.apply(str);
             value = converter.convert(parsed);
         } catch (RuntimeException e) {
             throw Exceptions.illegalArgumentWithCauseOf(e);
         }
         return value;
     }
+
 }
