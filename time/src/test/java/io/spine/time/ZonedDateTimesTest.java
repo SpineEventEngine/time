@@ -70,6 +70,17 @@ class ZonedDateTimesTest {
             ZonedDateTime expected = ZonedDateTimes.now();
             assertEquals(expected, ZonedDateTimes.of(toJavaTime(expected)));
         }
+
+        @Test
+        @DisplayName("for local date/time and time-zone")
+        void byDateTimeAndOffset() {
+            LocalDateTime expectedTime = LocalDateTimes.now();
+            ZoneId expectedZone = ZoneIds.systemDefault();
+
+            ZonedDateTime value = ZonedDateTimes.of(expectedTime, expectedZone);
+            assertEquals(expectedTime, value.getDateTime());
+            assertEquals(expectedZone, value.getZone());
+        }
     }
 
     @Nested
