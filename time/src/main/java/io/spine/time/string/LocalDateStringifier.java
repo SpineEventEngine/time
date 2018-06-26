@@ -20,22 +20,23 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
 import io.spine.util.Exceptions;
-
-import java.io.Serializable;
 
 /**
  * The default stringifier for {@link LocalDate} instances.
  *
  * @author Alexander Yevsyukov
  */
-final class LocalDateStringifier extends Stringifier<LocalDate> implements Serializable {
+final class LocalDateStringifier extends SerializableStringifier<LocalDate> {
 
     private static final long serialVersionUID = 0L;
     private static final LocalDateStringifier INSTANCE = new LocalDateStringifier();
+
+    /** Prevents instantiation from outside. */
+    private LocalDateStringifier() {
+    }
 
     static LocalDateStringifier getInstance() {
         return INSTANCE;

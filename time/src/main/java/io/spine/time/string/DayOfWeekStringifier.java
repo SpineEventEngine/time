@@ -20,51 +20,40 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Duration;
-import com.google.protobuf.util.Durations;
-
-import java.text.ParseException;
-
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import io.spine.time.DayOfWeek;
 
 /**
- * The default stringifier for {@code Duration}s.
+ * The default stringifier for {@link io.spine.time.DayOfWeek DayOfWeek} instances.
  *
  * @author Alexander Yevsyukov
  */
-final class DurationStringifier extends SerializableStringifier<Duration> {
+final class DayOfWeekStringifier extends SerializableStringifier<DayOfWeek> {
 
     private static final long serialVersionUID = 0L;
-    private static final DurationStringifier INSTANCE = new DurationStringifier();
+    private static final DayOfWeekStringifier INSTANCE = new DayOfWeekStringifier();
 
     /** Prevents instantiation from outside. */
-    private DurationStringifier() {
+    private DayOfWeekStringifier() {
     }
 
-    static DurationStringifier getInstance() {
+    static DayOfWeekStringifier getInstance() {
         return INSTANCE;
     }
 
     @Override
-    protected String toString(Duration duration) {
-        String result = Durations.toString(duration);
-        return result;
+    protected String toString(DayOfWeek value) {
+        return value.toString();
     }
 
     @Override
-    protected Duration fromString(String str) {
-        Duration result;
-        try {
-            result = Durations.parse(str);
-        } catch (ParseException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
+    protected DayOfWeek fromString(String s) {
+        DayOfWeek result = Enum.valueOf(DayOfWeek.class, s);
         return result;
     }
 
     @Override
     public String toString() {
-        return "TimeStringifiers.forDuration()";
+        return "TimeStringifiers.forDayOfWeek()";
     }
 
     private Object readResolve() {

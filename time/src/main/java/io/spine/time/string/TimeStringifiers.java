@@ -26,6 +26,7 @@ import com.google.protobuf.util.Durations;
 import com.google.protobuf.util.Timestamps;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
+import io.spine.time.DayOfWeek;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
 import io.spine.time.LocalTime;
@@ -57,6 +58,7 @@ public final class TimeStringifiers {
             return;
         }
 
+        registry.register(forDayOfWeek(), DayOfWeek.class);
         registry.register(forDuration(), Duration.class);
         registry.register(forZoneOffset(), ZoneOffset.class);
         registry.register(forTimestamp(), Timestamp.class);
@@ -64,6 +66,17 @@ public final class TimeStringifiers {
         registry.register(forLocalTime(), LocalTime.class);
         registry.register(forOffsetDateTime(), OffsetDateTime.class);
         registry.register(forOffsetTime(), OffsetTime.class);
+    }
+
+    /**
+     * Obtains default stringifier for {@code DayOfWeek}s.
+     *
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     */
+    public static Stringifier<DayOfWeek> forDayOfWeek() {
+        return DayOfWeekStringifier.getInstance();
     }
 
     /**

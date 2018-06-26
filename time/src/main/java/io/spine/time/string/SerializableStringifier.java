@@ -20,50 +20,17 @@
 
 package io.spine.time.string;
 
-import io.spine.time.ZoneOffset;
-import io.spine.time.ZoneOffsets;
+import io.spine.string.Stringifier;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.io.Serializable;
 
 /**
- * The default stringifier for {@code ZoneOffset} values.
+ * Abstract base for date-time stringifiers.
  *
+ * @param <T> the type to stringify
  * @author Alexander Yevsyukov
  */
-final class ZoneOffsetStringifier extends SerializableStringifier<ZoneOffset> {
+abstract class SerializableStringifier<T> extends Stringifier<T> implements Serializable {
 
     private static final long serialVersionUID = 0L;
-    private static final ZoneOffsetStringifier INSTANCE = new ZoneOffsetStringifier();
-
-    /** Prevents instantiation from outside. */
-    private ZoneOffsetStringifier() {
-    }
-
-    static ZoneOffsetStringifier getInstance() {
-        return INSTANCE;
-    }
-
-    @Override
-    protected String toString(ZoneOffset offset) {
-        checkNotNull(offset);
-        final String result = ZoneOffsets.toString(offset);
-        return result;
-    }
-
-    @Override
-    protected ZoneOffset fromString(String str) {
-        checkNotNull(str);
-        final ZoneOffset result;
-        result = ZoneOffsets.parse(str);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forZoneOffset()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
-    }
 }

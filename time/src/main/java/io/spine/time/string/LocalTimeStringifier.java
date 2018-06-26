@@ -20,11 +20,8 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.LocalTime;
 import io.spine.time.LocalTimes;
-
-import java.io.Serializable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -34,11 +31,15 @@ import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
  *
  * @author Alexander Yevsyukov
  */
-final class LocalTimeStringifier extends Stringifier<LocalTime> implements Serializable {
+final class LocalTimeStringifier extends SerializableStringifier<LocalTime> {
 
     private static final long serialVersionUID = 0L;
     private static final LocalTimeStringifier INSTANCE = new LocalTimeStringifier();
 
+    /** Prevents instantiation from outside. */
+    private LocalTimeStringifier() {
+    }
+    
     static LocalTimeStringifier getInstance() {
         return INSTANCE;
     }

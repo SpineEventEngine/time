@@ -22,9 +22,7 @@ package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import io.spine.string.Stringifier;
 
-import java.io.Serializable;
 import java.text.ParseException;
 
 import static io.spine.util.Exceptions.newIllegalArgumentException;
@@ -34,10 +32,14 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  *
  * @author Alexander Yevsyukov
  */
-final class TimestampStringifier extends Stringifier<Timestamp> implements Serializable {
+final class TimestampStringifier extends SerializableStringifier<Timestamp> {
 
     private static final long serialVersionUID = 0L;
     private static final TimestampStringifier INSTANCE = new TimestampStringifier();
+
+    /** Prevents instantiation from outside. */
+    private TimestampStringifier() {
+    }
 
     static TimestampStringifier getInstance() {
         return INSTANCE;

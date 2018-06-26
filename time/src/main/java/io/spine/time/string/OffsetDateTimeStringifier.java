@@ -20,11 +20,8 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.OffsetDateTime;
 import io.spine.time.OffsetDateTimes;
-
-import java.io.Serializable;
 
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
@@ -33,10 +30,14 @@ import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
  *
  * @author Alexander Yevsyukov
  */
-final class OffsetDateTimeStringifier extends Stringifier<OffsetDateTime> implements Serializable {
+final class OffsetDateTimeStringifier extends SerializableStringifier<OffsetDateTime> {
 
     private static final long serialVersionUID = 0L;
     private static final OffsetDateTimeStringifier INSTANCE = new OffsetDateTimeStringifier();
+
+    /** Prevents instantiation from outside. */
+    private OffsetDateTimeStringifier() {
+    }
 
     static OffsetDateTimeStringifier getInstance() {
         return INSTANCE;

@@ -22,9 +22,7 @@ package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import io.spine.string.Stringifier;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
@@ -40,7 +38,7 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  *
  * @author Alexander Yevsyukov
  */
-final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements Serializable {
+final class WebSafeTimestampStringifer extends SerializableStringifier<Timestamp> {
 
     private static final long serialVersionUID = 0L;
     private static final WebSafeTimestampStringifer INSTANCE = new WebSafeTimestampStringifer();
@@ -57,6 +55,10 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
      * The index of a character separating minutes and seconds.
      */
     private static final int MINUTE_SEPARATOR_INDEX = 16;
+
+    /** Prevents instantiation from outside. */
+    private WebSafeTimestampStringifer() {
+    }
 
     static WebSafeTimestampStringifer getInstance() {
         return INSTANCE;

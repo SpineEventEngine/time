@@ -59,7 +59,7 @@ public class DaysOfWeek {
     /**
      * Converts the passed instance to Java Time value.
      */
-    public static Object toJavaTime(DayOfWeek day) {
+    public static java.time.DayOfWeek toJavaTime(DayOfWeek day) {
         checkNotNull(day);
         checkDay(day.getNumber());
         java.time.DayOfWeek result = converter().reverse()
