@@ -29,12 +29,12 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("ZonedDateTimes should")
@@ -44,15 +44,6 @@ class ZonedDateTimesTest {
     @DisplayName(HAVE_PARAMETERLESS_CTOR)
     void utilityCtor() {
         assertHasPrivateParameterlessCtor(ZonedDateTimes.class);
-    }
-
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(ZoneId.class, ZoneIds.systemDefault())
-                .setDefault(LocalDateTime.class, LocalDateTimes.now())
-                .testAllPublicStaticMethods(ZonedDateTimes.class);
     }
 
     @Nested
@@ -101,6 +92,36 @@ class ZonedDateTimesTest {
         @DisplayName("is serializable")
         void serialize() {
             reserializeAndAssert(converter);
+        }
+    }
+
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
+
+        @Test
+        @DisplayName("null params")
+        void nullCheck() {
+            new NullPointerTester()
+                    .setDefault(ZoneId.class, ZoneIds.systemDefault())
+                    .setDefault(LocalDateTime.class, LocalDateTimes.now())
+                    .testAllPublicStaticMethods(ZonedDateTimes.class);
+        }
+
+        @Test
+        @DisplayName("default values")
+        void defaultValues() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> ZonedDateTimes.of(LocalDateTime.getDefaultInstance(),
+                                            ZoneIds.systemDefault())
+            );
+
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> ZonedDateTimes.of(LocalDateTimes.now(),
+                                            ZoneId.getDefaultInstance())
+            );
         }
     }
 }

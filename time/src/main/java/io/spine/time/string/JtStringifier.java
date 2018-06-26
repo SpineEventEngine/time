@@ -21,9 +21,9 @@
 package io.spine.time.string;
 
 import com.google.common.base.Converter;
-import io.spine.util.Exceptions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
  * An abstract base for stringifier that use Java Time types for conversion to string and parsing.
@@ -62,7 +62,7 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
             J parsed = parser.apply(str);
             value = converter.convert(parsed);
         } catch (RuntimeException e) {
-            throw Exceptions.illegalArgumentWithCauseOf(e);
+            throw illegalArgumentWithCauseOf(e);
         }
         return value;
     }
