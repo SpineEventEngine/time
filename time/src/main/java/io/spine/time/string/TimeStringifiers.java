@@ -26,6 +26,7 @@ import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import io.spine.time.DayOfWeek;
 import io.spine.time.LocalDate;
+import io.spine.time.LocalDateTime;
 import io.spine.time.LocalTime;
 import io.spine.time.Month;
 import io.spine.time.OffsetDateTime;
@@ -135,6 +136,20 @@ public final class TimeStringifiers {
         return LocalDateStringifier.getInstance();
     }
 
+    /**
+     * Obtains default stringifier for local date-time values in ISO-8601 formats.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.LocalDateTimes#toString(LocalDateTime)
+     *      LocalDateTimes.toString(LocalDateTime)
+     * @see io.spine.time.LocalDateTimes#parse(String)
+     *      LocalDateTimes.parse(String)
+     */
+    public static Stringifier<LocalDateTime> forLocalDateTime() {
+        return LocalDateTimeStringifier.getInstance();
+    }
     /**
      * Obtains default stringifier for {@code LocalTime} values.
      *

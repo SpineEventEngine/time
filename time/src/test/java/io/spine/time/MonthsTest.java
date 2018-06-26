@@ -116,7 +116,12 @@ class MonthsTest {
     @DisplayName("Convert from/to")
     class Convert {
 
-        //TODO:2018-06-25:alexander.yevsyukov: Test toString() / parse() once implemented.
+        @Test
+        @DisplayName("String")
+        void toStringParse() {
+            Month expected = Months.now();
+            assertEquals(expected, Months.parse(Months.toString(expected)));
+        }
 
         @Test
         @DisplayName("Java Time")

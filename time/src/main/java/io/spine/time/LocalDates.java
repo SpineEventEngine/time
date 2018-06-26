@@ -101,7 +101,7 @@ public final class LocalDates {
     }
 
     /**
-     * Converts a local date into ISO 8601 string with the format {@code yyyy-MM-dd}.
+     * Converts a local date into ISO-8601 string with the format {@code yyyy-MM-dd}.
      *
      * @see #parse(String)
      */

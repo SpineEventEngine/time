@@ -30,6 +30,7 @@ import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDateTimes.of;
+import static io.spine.time.LocalDateTimes.parse;
 import static io.spine.time.LocalDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -111,7 +112,12 @@ class LocalDateTimesTest {
     @DisplayName("Convert from/to")
     class Convert {
 
-        //TODO:2018-06-25:alexander.yevsyukov: Test String conversion once implemented.
+        @Test
+        @DisplayName("String")
+        void toStringParse() {
+            LocalDateTime expected = LocalDateTimes.now();
+            assertEquals(expected, parse(LocalDateTimes.toString(expected)));
+        }
 
         @Test
         @DisplayName("Java Time")

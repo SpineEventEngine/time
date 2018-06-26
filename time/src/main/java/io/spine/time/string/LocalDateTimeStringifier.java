@@ -20,23 +20,37 @@
 
 package io.spine.time.string;
 
-import io.spine.test.TestValues;
-import io.spine.time.Month;
-import org.junit.jupiter.api.DisplayName;
+import io.spine.time.LocalDateTime;
+import io.spine.time.LocalDateTimes;
 
 /**
- * @author Alexander Yevsyukov
+ * The default stringifier for {@link io.spine.time.LocalDateTime LocalDateTime} values.
  */
-@DisplayName("MonthStringifier should")
-class MonthStringifierTest extends AbstractStringifierTest<Month> {
+final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.time.LocalDateTime> {
 
-    MonthStringifierTest() {
-        super(TimeStringifiers.forMonth());
+    private static final long serialVersionUID = 0L;
+    private static final LocalDateTimeStringifier INSTANCE = new LocalDateTimeStringifier();
+
+    /** Prevents instantiation from outside. */
+    private LocalDateTimeStringifier() {
+        super(LocalDateTimes.converter());
+    }
+
+    static LocalDateTimeStringifier getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    protected Month createObject() {
-        int randomMonth = TestValues.random(Month.DECEMBER.getNumber() - 1) + 1;
-        return Month.forNumber(randomMonth);
+    java.time.LocalDateTime parse(String str) {
+        return java.time.LocalDateTime.parse(str);
+    }
+
+    @Override
+    public String toString() {
+        return "TimeStringifiers.forLocalDateTime()";
+    }
+
+    private Object readResolve() {
+        return INSTANCE;
     }
 }

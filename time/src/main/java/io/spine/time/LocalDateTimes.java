@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.LocalDates.checkDate;
@@ -83,6 +84,29 @@ public class LocalDateTimes {
      */
     public static Converter<java.time.LocalDateTime, LocalDateTime> converter() {
         return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Parses the date-time value from ISO-8601 format string.
+     *
+     * @see #toString(LocalDateTime)
+     */
+    public static LocalDateTime parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forLocalDateTime()
+                               .reverse()
+                               .convert(str);
+    }
+
+    /**
+     * Converts a local date-time value into ISO-8601 format string.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(LocalDateTime value) {
+        checkNotNull(value);
+        return TimeStringifiers.forLocalDateTime()
+                               .convert(value);
     }
 
     /**

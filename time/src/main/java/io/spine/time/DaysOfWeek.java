@@ -43,6 +43,14 @@ public class DaysOfWeek {
     }
 
     /**
+     * Obtains today's day of week.
+     */
+    public static DayOfWeek now() {
+        return of(java.time.LocalDate.now()
+                                     .getDayOfWeek());
+    }
+
+    /**
      * Obtains the week day corresponding to the passed Java Time value.
      */
     public static DayOfWeek of(java.time.DayOfWeek day) {

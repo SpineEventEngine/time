@@ -24,7 +24,7 @@ import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
 
 /**
- * The default stringifier for {@link LocalDate} instances.
+ * The default stringifier for {@link io.spine.time.LocalDate LocalDate} instances.
  *
  * @author Alexander Yevsyukov
  */

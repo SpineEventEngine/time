@@ -73,7 +73,12 @@ class DaysOfWeekTest {
     @DisplayName("Convert from/to")
     class Convert {
 
-        //TODO:2018-06-25:alexander.yevsyukov: test toString() / parse() once implemented.
+        @Test
+        @DisplayName("String")
+        void toStringParse() {
+            DayOfWeek expected = DaysOfWeek.now();
+            assertEquals(expected, DaysOfWeek.parse(DaysOfWeek.toString(expected)));
+        }
 
         @Test
         @DisplayName("Java Time")
