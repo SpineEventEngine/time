@@ -21,8 +21,11 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -87,6 +90,35 @@ public class Months {
      */
     public static Converter<java.time.Month, Month> converter() {
         return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Obtains string representation of the passed month.
+     *
+     * <p>Returned string is an internal representation, and should not be used in
+     * the user interface.
+     *
+     * <p>For displaying a month, please use
+     * {@link java.time.Month#getDisplayName(TextStyle, Locale)}.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(Month value) {
+        checkNotNull(value);
+        return TimeStringifiers.forMonth()
+                               .convert(value);
+    }
+
+    /**
+     * Parses a month from an internal representation string.
+     *
+     * @see #toString(Month)
+     */
+    public static Month parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forMonth()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

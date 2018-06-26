@@ -21,8 +21,11 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -65,6 +68,35 @@ public class DaysOfWeek {
         java.time.DayOfWeek result = converter().reverse()
                                                 .convert(day);
         return result;
+    }
+
+    /**
+     * Obtains string representation of the passed day of week.
+     *
+     * <p>Returned string is an internal representation, and should not be used
+     * in the user interface.
+     *
+     * <p>For displaying a day of week, please use
+     * {@link java.time.DayOfWeek#getDisplayName(TextStyle, Locale)}.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(DayOfWeek value) {
+        checkNotNull(value);
+        return TimeStringifiers.forDayOfWeek()
+                               .convert(value);
+    }
+
+    /**
+     * Parses a day of week value from an internal representation string.
+     *
+     * @see #toString(DayOfWeek)
+     */
+    public static DayOfWeek parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forDayOfWeek()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

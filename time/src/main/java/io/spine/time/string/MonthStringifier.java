@@ -20,23 +20,44 @@
 
 package io.spine.time.string;
 
-import io.spine.test.TestValues;
-import io.spine.time.DayOfWeek;
-import org.junit.jupiter.api.DisplayName;
+import io.spine.time.Month;
 
 /**
+ * The default stringifier for {@link io.spine.time.Month Month} instances.
+ *
  * @author Alexander Yevsyukov
  */
-@DisplayName("DayOfWeekStringifier should")
-class DayOfWeekStringifierTest extends AbstractStringifierTest<DayOfWeek> {
+final class MonthStringifier extends SerializableStringifier<Month> {
 
-    DayOfWeekStringifierTest() {
-        super(TimeStringifiers.forDayOfWeek());
+    private static final long serialVersionUID = 0L;
+
+    private static final MonthStringifier INSTANCE = new MonthStringifier();
+
+    /** Prevents instantiation from outside. */
+    private MonthStringifier() {
+    }
+
+    static MonthStringifier getInstance() {
+        return INSTANCE;
     }
 
     @Override
-    protected DayOfWeek createObject() {
-        int randomDay = TestValues.random(DayOfWeek.SUNDAY.getNumber() - 1) + 1;
-        return DayOfWeek.forNumber(randomDay);
+    protected String toString(Month month) {
+        return month.toString();
+    }
+
+    @Override
+    protected Month fromString(String s) {
+        Month result = Enum.valueOf(Month.class, s);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeStringifiers.forMonth()";
+    }
+
+    private Object readResolve() {
+        return INSTANCE;
     }
 }
