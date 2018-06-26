@@ -21,8 +21,10 @@
 package io.spine.time.string;
 
 import io.spine.time.LocalDate;
-import io.spine.time.LocalDates;
 import io.spine.util.Exceptions;
+
+import static io.spine.time.LocalDates.of;
+import static io.spine.time.LocalDates.toJavaTime;
 
 /**
  * The default stringifier for {@link LocalDate} instances.
@@ -44,15 +46,16 @@ final class LocalDateStringifier extends SerializableStringifier<LocalDate> {
 
     @Override
     protected String toString(LocalDate date) {
-        final String result = LocalDates.toString(date);
-        return result;
+        java.time.LocalDate ld = toJavaTime(date);
+        return ld.toString();
     }
 
     @Override
     protected LocalDate fromString(String str) {
         LocalDate date;
         try {
-            date = LocalDates.parse(str);
+            java.time.LocalDate parsed = java.time.LocalDate.parse(str);
+            date = of(parsed);
         } catch (RuntimeException e) {
             throw Exceptions.illegalArgumentWithCauseOf(e);
         }

@@ -21,8 +21,9 @@
 package io.spine.time.string;
 
 import io.spine.time.OffsetDateTime;
-import io.spine.time.OffsetDateTimes;
 
+import static io.spine.time.OffsetDateTimes.of;
+import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
@@ -44,8 +45,8 @@ final class OffsetDateTimeStringifier extends SerializableStringifier<OffsetDate
     }
 
     @Override
-    protected String toString(OffsetDateTime dateTime) {
-        final String result = OffsetDateTimes.toString(dateTime);
+    protected String toString(OffsetDateTime value) {
+        String result = toJavaTime(value).toString();
         return result;
     }
 
@@ -53,7 +54,8 @@ final class OffsetDateTimeStringifier extends SerializableStringifier<OffsetDate
     protected OffsetDateTime fromString(String str) {
         OffsetDateTime result;
         try {
-            result = OffsetDateTimes.parse(str);
+            java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(str);
+            result = of(parsed);
         } catch (RuntimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }

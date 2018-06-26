@@ -21,9 +21,10 @@
 package io.spine.time.string;
 
 import io.spine.time.LocalTime;
-import io.spine.time.LocalTimes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.LocalTimes.of;
+import static io.spine.time.LocalTimes.toJavaTime;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
@@ -47,7 +48,7 @@ final class LocalTimeStringifier extends SerializableStringifier<LocalTime> {
     @Override
     protected String toString(LocalTime time) {
         checkNotNull(time);
-        String result = LocalTimes.toString(time);
+        String result = toJavaTime(time).toString();
         return result;
     }
 
@@ -56,7 +57,8 @@ final class LocalTimeStringifier extends SerializableStringifier<LocalTime> {
         checkNotNull(str);
         LocalTime time;
         try {
-          time = LocalTimes.parse(str);
+            java.time.LocalTime parsed = java.time.LocalTime.parse(str);
+            time = of(parsed);
         } catch (RuntimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }

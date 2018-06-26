@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
 import java.time.YearMonth;
@@ -90,21 +91,24 @@ public final class LocalDates {
     /**
      * Parse from ISO 8601 date representation of the format {@code yyyy-MM-dd}.
      *
-     * @return a LocalDate parsed from the string
+     * @see #toString(LocalDate)
      */
     public static LocalDate parse(String str) {
         checkNotNull(str);
-        java.time.LocalDate parsed = java.time.LocalDate.parse(str);
-        return of(parsed);
+        return TimeStringifiers.forLocalDate()
+                               .reverse()
+                               .convert(str);
     }
 
     /**
      * Converts a local date into ISO 8601 string with the format {@code yyyy-MM-dd}.
+     *
+     * @see #parse(String)
      */
     public static String toString(LocalDate date) {
         checkDate(date);
-        java.time.LocalDate ld = toJavaTime(date);
-        return ld.toString();
+        return TimeStringifiers.forLocalDate()
+                               .convert(date);
     }
 
     /**

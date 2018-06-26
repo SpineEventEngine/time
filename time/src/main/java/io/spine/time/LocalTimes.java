@@ -20,6 +20,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
 
@@ -120,20 +121,25 @@ public final class LocalTimes {
      * Converts the passed time to string with optional part representing a fraction of a second.
      *
      * <p>Examples of results: {@code "13:45:30.123456789"}, {@code "09:37:00"}.
+     *
+     * @see #parse(String)
      */
     public static String toString(LocalTime time) {
         checkNotNull(time);
-        String result = toJavaTime(time).toString();
-        return result;
+        return TimeStringifiers.forLocalTime()
+                               .convert(time);
     }
 
     /**
      * Parses the passed string into local time value.
+     *
+     * @see #toString(LocalTime)
      */
     public static LocalTime parse(String str) {
         checkNotNull(str);
-        java.time.LocalTime parsed = java.time.LocalTime.parse(str);
-        return of(parsed);
+        return TimeStringifiers.forLocalTime()
+                               .reverse()
+                               .convert(str);
     }
 
     /**
