@@ -20,6 +20,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -93,15 +94,18 @@ public final class OffsetTimes {
      */
     public static String toString(OffsetTime value) {
         checkNotNull(value);
-        return toJavaTime(value).toString();
+        return TimeStringifiers.forOffsetTime()
+                               .convert(value);
     }
 
     /**
      * Parse from ISO 8601 string to {@code OffsetTime}.
      */
     public static OffsetTime parse(String str) {
-        java.time.OffsetTime parsed = java.time.OffsetTime.parse(str);
-        return of(parsed);
+        checkNotNull(str);
+        return TimeStringifiers.forOffsetTime()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

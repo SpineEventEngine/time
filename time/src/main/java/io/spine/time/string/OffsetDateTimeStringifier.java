@@ -21,23 +21,22 @@
 package io.spine.time.string;
 
 import io.spine.time.OffsetDateTime;
-
-import static io.spine.time.OffsetDateTimes.of;
-import static io.spine.time.OffsetDateTimes.toJavaTime;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import io.spine.time.OffsetDateTimes;
 
 /**
  * Default stringifier for {@link OffsetDateTime}.
  *
  * @author Alexander Yevsyukov
  */
-final class OffsetDateTimeStringifier extends SerializableStringifier<OffsetDateTime> {
+final class OffsetDateTimeStringifier
+        extends JtStringifier<OffsetDateTime, java.time.OffsetDateTime> {
 
     private static final long serialVersionUID = 0L;
     private static final OffsetDateTimeStringifier INSTANCE = new OffsetDateTimeStringifier();
 
     /** Prevents instantiation from outside. */
     private OffsetDateTimeStringifier() {
+        super(OffsetDateTimes.converter());
     }
 
     static OffsetDateTimeStringifier getInstance() {
@@ -45,21 +44,8 @@ final class OffsetDateTimeStringifier extends SerializableStringifier<OffsetDate
     }
 
     @Override
-    protected String toString(OffsetDateTime value) {
-        String result = toJavaTime(value).toString();
-        return result;
-    }
-
-    @Override
-    protected OffsetDateTime fromString(String str) {
-        OffsetDateTime result;
-        try {
-            java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(str);
-            result = of(parsed);
-        } catch (RuntimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
-        return result;
+    java.time.OffsetDateTime parse(String str) {
+        return java.time.OffsetDateTime.parse(str);
     }
 
     @Override

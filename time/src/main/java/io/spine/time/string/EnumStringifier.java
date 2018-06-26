@@ -20,39 +20,30 @@
 
 package io.spine.time.string;
 
-import io.spine.time.OffsetTime;
-import io.spine.time.OffsetTimes;
-
 /**
- * Default stringifier for {@link OffsetTime}.
+ * Abstract base for stringifiers that work with enum values.
  *
+ * @param <E> the type of the enum
  * @author Alexander Yevsyukov
  */
-final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.OffsetTime> {
+abstract class EnumStringifier<E extends Enum<E>> extends SerializableStringifier<E> {
 
     private static final long serialVersionUID = 0L;
-    private static final OffsetTimeStringifier INSTANCE = new OffsetTimeStringifier();
 
-    /** Prevents instantiation from outside. */
-    private OffsetTimeStringifier() {
-        super(OffsetTimes.converter());
-    }
+    private final Class<E> enumClass;
 
-    static OffsetTimeStringifier getInstance() {
-        return INSTANCE;
+    EnumStringifier(Class<E> aClass) {
+        enumClass = aClass;
     }
 
     @Override
-    java.time.OffsetTime parse(String str) {
-        return java.time.OffsetTime.parse(str);
+    protected final String toString(E e) {
+        return e.toString();
     }
 
     @Override
-    public String toString() {
-        return "TimeStringifiers.forOffsetTime()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
+    protected final E fromString(String s) {
+        E result = Enum.valueOf(enumClass, s);
+        return result;
     }
 }

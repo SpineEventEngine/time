@@ -27,28 +27,18 @@ import io.spine.time.DayOfWeek;
  *
  * @author Alexander Yevsyukov
  */
-final class DayOfWeekStringifier extends SerializableStringifier<DayOfWeek> {
+final class DayOfWeekStringifier extends EnumStringifier<DayOfWeek> {
 
     private static final long serialVersionUID = 0L;
     private static final DayOfWeekStringifier INSTANCE = new DayOfWeekStringifier();
 
     /** Prevents instantiation from outside. */
     private DayOfWeekStringifier() {
+        super(DayOfWeek.class);
     }
 
     static DayOfWeekStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    protected String toString(DayOfWeek value) {
-        return value.toString();
-    }
-
-    @Override
-    protected DayOfWeek fromString(String s) {
-        DayOfWeek result = Enum.valueOf(DayOfWeek.class, s);
-        return result;
     }
 
     @Override

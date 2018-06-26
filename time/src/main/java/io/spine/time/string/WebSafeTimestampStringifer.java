@@ -87,8 +87,8 @@ final class WebSafeTimestampStringifer extends SerializableStringifier<Timestamp
     }
 
     @Override
-    protected String toString(Timestamp timestamp) {
-        String result = Timestamps.toString(timestamp);
+    protected String toString(Timestamp value) {
+        String result = Timestamps.toString(value);
         result = toWebSafe(result);
         return result;
     }

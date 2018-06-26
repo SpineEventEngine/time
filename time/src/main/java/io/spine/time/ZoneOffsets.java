@@ -22,6 +22,7 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
+import io.spine.time.string.TimeStringifiers;
 
 import javax.annotation.Nullable;
 import java.util.TimeZone;
@@ -31,7 +32,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static io.spine.util.Exceptions.unsupported;
 
 /**
@@ -137,13 +137,10 @@ public final class ZoneOffsets {
      * <p>Examples of accepted values: {@code +0300}, {@code -04:30}.
      */
     public static ZoneOffset parse(String value) {
-        java.time.ZoneOffset parsed;
-        try {
-            parsed = java.time.ZoneOffset.of(value);
-        } catch (RuntimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
-        return of(parsed);
+        checkNotNull(value);
+        return TimeStringifiers.forZoneOffset()
+                               .reverse()
+                               .convert(value);
     }
 
     /**
@@ -151,8 +148,8 @@ public final class ZoneOffsets {
      */
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        java.time.ZoneOffset zo = toJavaTime(zoneOffset);
-        return zo.toString();
+        return TimeStringifiers.forZoneOffset()
+                               .convert(zoneOffset);
     }
 
     private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {

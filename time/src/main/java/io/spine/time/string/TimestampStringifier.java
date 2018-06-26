@@ -46,8 +46,8 @@ final class TimestampStringifier extends SerializableStringifier<Timestamp> {
     }
 
     @Override
-    protected String toString(Timestamp obj) {
-        return Timestamps.toString(obj);
+    protected String toString(Timestamp value) {
+        return Timestamps.toString(value);
     }
 
     @Override

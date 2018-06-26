@@ -27,7 +27,7 @@ import io.spine.time.Month;
  *
  * @author Alexander Yevsyukov
  */
-final class MonthStringifier extends SerializableStringifier<Month> {
+final class MonthStringifier extends EnumStringifier<Month> {
 
     private static final long serialVersionUID = 0L;
 
@@ -35,21 +35,11 @@ final class MonthStringifier extends SerializableStringifier<Month> {
 
     /** Prevents instantiation from outside. */
     private MonthStringifier() {
+        super(Month.class);
     }
 
     static MonthStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    protected String toString(Month month) {
-        return month.toString();
-    }
-
-    @Override
-    protected Month fromString(String s) {
-        Month result = Enum.valueOf(Month.class, s);
-        return result;
     }
 
     @Override

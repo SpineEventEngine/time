@@ -20,39 +20,25 @@
 
 package io.spine.time.string;
 
-import io.spine.time.OffsetTime;
-import io.spine.time.OffsetTimes;
+import io.spine.test.TestValues;
+import io.spine.time.Month;
+import org.junit.jupiter.api.DisplayName;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Default stringifier for {@link OffsetTime}.
- *
  * @author Alexander Yevsyukov
  */
-final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.OffsetTime> {
+@DisplayName("MonthStringifier should")
+class MonthStringifierTest extends AbstractStringifierTest<Month> {
 
-    private static final long serialVersionUID = 0L;
-    private static final OffsetTimeStringifier INSTANCE = new OffsetTimeStringifier();
-
-    /** Prevents instantiation from outside. */
-    private OffsetTimeStringifier() {
-        super(OffsetTimes.converter());
-    }
-
-    static OffsetTimeStringifier getInstance() {
-        return INSTANCE;
+    MonthStringifierTest() {
+        super(TimeStringifiers.forMonth());
     }
 
     @Override
-    java.time.OffsetTime parse(String str) {
-        return java.time.OffsetTime.parse(str);
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forOffsetTime()";
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
+    protected Month createObject() {
+        int randomMonth = TestValues.random(Month.DECEMBER.getNumber() - 1) + 1;
+        return Month.forNumber(randomMonth);
     }
 }
