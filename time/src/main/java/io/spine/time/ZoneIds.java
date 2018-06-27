@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -75,6 +76,31 @@ public class ZoneIds {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
+    }
+
+    /**
+     * Parses zone ID from the passed string, ensuring that the ID is valid and is
+     * available for use.
+     *
+     * @see #toString(ZoneId)
+     * @see java.time.ZoneId#of(String)
+     */
+    public static ZoneId parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forZoneId()
+                               .reverse()
+                               .convert(str);
+    }
+
+    /**
+     * Converts the passed instance to the string representation of the zone ID.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(ZoneId value) {
+        checkNotNull(value);
+        return TimeStringifiers.forZoneId()
+                               .convert(value);
     }
 
     /**

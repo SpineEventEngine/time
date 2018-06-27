@@ -32,6 +32,7 @@ import io.spine.time.Month;
 import io.spine.time.OffsetDateTime;
 import io.spine.time.OffsetTime;
 import io.spine.time.YearMonth;
+import io.spine.time.ZoneId;
 import io.spine.time.ZoneOffset;
 
 /**
@@ -68,6 +69,7 @@ public final class TimeStringifiers {
         registry.register(forOffsetTime(), OffsetTime.class);
         registry.register(forTimestamp(), Timestamp.class);
         registry.register(forYearMonth(), YearMonth.class);
+        registry.register(forZoneId(), ZoneId.class);
         registry.register(forZoneOffset(), ZoneOffset.class);
     }
 
@@ -219,6 +221,19 @@ public final class TimeStringifiers {
      */
     public static Stringifier<YearMonth> forYearMonth() {
         return YearMonthStringifier.getInstance();
+    }
+
+    /**
+     * Obtains default stringifier for {@code ZoneId}s.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.ZoneIds#toString(ZoneId) ZoneIds.toString(ZoneId)
+     * @see io.spine.time.ZoneIds#parse(String) ZoneIds.parse(String)
+     */
+    public static Stringifier<ZoneId> forZoneId() {
+        return ZoneIdStringifier.getInstance();
     }
 
     /**
