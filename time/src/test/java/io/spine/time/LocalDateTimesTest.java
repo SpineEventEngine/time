@@ -105,25 +105,4 @@ class LocalDateTimesTest
             );
         }
     }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("String")
-        void toStringParse() {
-            LocalDateTime expected = LocalDateTimes.now();
-            assertEquals(expected, parse(LocalDateTimes.toString(expected)));
-        }
-
-        @Test
-        @DisplayName("Java Time")
-        void javaTime() {
-            LocalDateTime now = LocalDateTimes.now();
-            java.time.LocalDateTime converted = toJavaTime(now);
-
-            assertEquals(now, of(converted));
-        }
-    }
 }

@@ -98,7 +98,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
     }
 
     @Test
-    @DisplayName("Return UTC for zero offset")
+    @DisplayName("return UTC for zero offset")
     void zeroOffset() {
         assertSame(ZoneOffsets.utc(), ZoneOffsets.ofSeconds(0));
     }

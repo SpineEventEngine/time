@@ -62,7 +62,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     }
 
     @Test
-    @DisplayName("Convert to JavaTime value")
+    @DisplayName("convert to JavaTime value")
     void convertToJavaTime() {
         LocalTime now = LocalTimes.now();
         java.time.LocalTime javaTime = toJavaTime(now);

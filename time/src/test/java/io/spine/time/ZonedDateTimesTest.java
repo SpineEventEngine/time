@@ -91,23 +91,6 @@ class ZonedDateTimesTest
     }
 
     @Nested
-    @DisplayName("Provide Converter from/to Java Time which")
-    class Convert {
-
-        private final Converter<java.time.ZonedDateTime, ZonedDateTime> converter =
-                ZonedDateTimes.converter();
-
-        @Test
-        @DisplayName("converts values back and forth")
-        void convert() {
-            ZonedDateTime expected = ZonedDateTimes.now();
-            java.time.ZonedDateTime converted = converter.reverse()
-                                                         .convert(expected);
-            assertEquals(expected, converter.convert(converted));
-        }
-    }
-
-    @Nested
     @DisplayName("Reject")
     class Arguments {
 

@@ -54,7 +54,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
     }
 
     @Test
-    @DisplayName("Obtain current date")
+    @DisplayName("obtain current date")
     void obtainCurrentDate() {
         avoidDayEdge();
         LocalDate today = LocalDates.now();
