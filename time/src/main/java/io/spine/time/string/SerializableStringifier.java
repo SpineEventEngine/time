@@ -42,6 +42,7 @@ abstract class SerializableStringifier<T> extends Stringifier<T> implements Seri
      * @param identity the identity of the stringifier, which is used in {@link #toString()}.
      */
     SerializableStringifier(String identity) {
+        super();
         this.identity = identity;
     }
 
