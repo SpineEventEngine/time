@@ -35,19 +35,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("ZoneIds should")
-class ZoneIdsTest {
+class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(ZoneIds.class);
+    ZoneIdsTest() {
+        super(ZoneIds.class, ZoneIds.converter());
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void nullCheck() {
-        new NullPointerTester()
-                .testAllPublicStaticMethods(ZoneIds.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
     }
 
     @Nested
@@ -99,11 +95,5 @@ class ZoneIdsTest {
             ZoneId expected = ZoneIds.systemDefault();
             assertEquals(expected, ZoneIds.parse(ZoneIds.toString(expected)));
         }
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void serialize() {
-        reserializeAndAssert(ZoneIds.converter());
     }
 }

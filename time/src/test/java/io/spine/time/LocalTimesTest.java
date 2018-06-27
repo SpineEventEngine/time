@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
-@DisplayName("LocalTimes utility class should")
+@DisplayName("LocalTimes should")
 class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.LocalTime> {
 
     private java.time.LocalTime javaTimeNow;

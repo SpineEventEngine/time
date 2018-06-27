@@ -27,9 +27,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -38,12 +35,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("ZonedDateTimes should")
-class ZonedDateTimesTest {
+class ZonedDateTimesTest
+        extends AbstractDateTimeUtilityTest<ZonedDateTime, java.time.ZonedDateTime> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(ZonedDateTimes.class);
+    ZonedDateTimesTest() {
+        super(ZonedDateTimes.class, ZonedDateTimes.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(ZoneId.class, ZoneIds.systemDefault())
+                  .setDefault(LocalDateTime.class, LocalDateTimes.now());
+
     }
 
     @Nested
@@ -98,26 +101,11 @@ class ZonedDateTimesTest {
                                                          .convert(expected);
             assertEquals(expected, converter.convert(converted));
         }
-
-        @Test
-        @DisplayName("is serializable")
-        void serialize() {
-            reserializeAndAssert(converter);
-        }
     }
 
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null params")
-        void nullCheck() {
-            new NullPointerTester()
-                    .setDefault(ZoneId.class, ZoneIds.systemDefault())
-                    .setDefault(LocalDateTime.class, LocalDateTimes.now())
-                    .testAllPublicStaticMethods(ZonedDateTimes.class);
-        }
 
         @Test
         @DisplayName("default values")

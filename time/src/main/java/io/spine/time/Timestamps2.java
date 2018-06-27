@@ -74,7 +74,8 @@ public final class Timestamps2 {
      */
     public static Instant toInstant(Timestamp timestamp) {
         checkNotNull(timestamp);
-        return InstantConverter.INSTANCE.convert(timestamp);
+        return InstantConverter.INSTANCE.reverse()
+                                        .convert(timestamp);
     }
 
     /**
@@ -82,40 +83,49 @@ public final class Timestamps2 {
      */
     public static Timestamp fromInstant(Instant instant) {
         checkNotNull(instant);
-        return InstantConverter.INSTANCE.reverse()
-                                        .convert(instant);
+        return InstantConverter.INSTANCE.convert(instant);
     }
 
     /**
      * Obtains converter of {@code Timestamp}s to {@code Instant}s.
      */
-    public static Converter<Timestamp, Instant> instantConverter() {
+    public static Converter<Instant, Timestamp> converter() {
         return InstantConverter.INSTANCE;
     }
 
     /**
      * Converts {@code Timestamp} to {@code Instant}.
      */
-    private static final class InstantConverter extends Converter<Timestamp, Instant> {
+    private static final class InstantConverter extends AbstractConverter<Instant, Timestamp> {
 
+        private static final long serialVersionUID = 0L;
         private static final InstantConverter INSTANCE = new InstantConverter();
 
         @Override
-        protected Instant doForward(Timestamp timestamp) {
-            checkNotNull(timestamp);
-            Instant result = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+        protected Timestamp doForward(Instant value) {
+            checkNotNull(value);
+            Timestamp result = Timestamp
+                    .newBuilder()
+                    .setSeconds(value.getEpochSecond())
+                    .setNanos(value.getNano())
+                    .build();
             return result;
         }
 
         @Override
-        protected Timestamp doBackward(Instant instant) {
-            checkNotNull(instant);
-            Timestamp result = Timestamp
-                    .newBuilder()
-                    .setSeconds(instant.getEpochSecond())
-                    .setNanos(instant.getNano())
-                    .build();
+        protected Instant doBackward(Timestamp value) {
+            checkNotNull(value);
+            Instant result = Instant.ofEpochSecond(value.getSeconds(), value.getNanos());
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Timestamps2.converter()";
+        }
+
+        private Object readResolve() {
+            return INSTANCE;
         }
     }
 }

@@ -27,9 +27,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Months.checkMonth;
 import static io.spine.time.Months.of;
 import static io.spine.time.Months.toJavaTime;
@@ -41,12 +38,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("Months should")
-class MonthsTest {
+class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Months.class);
+    MonthsTest() {
+        super(Months.class, Months.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
     }
 
     @Nested
@@ -76,12 +76,6 @@ class MonthsTest {
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null arguments")
-        void rejectNulls() {
-            new NullPointerTester().testAllPublicStaticMethods(Months.class);
-        }
 
         @Test
         @DisplayName("invalid month value")
@@ -136,11 +130,5 @@ class MonthsTest {
                 assertEquals(month, of(jt));
             }
         }
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void serialize() {
-        reserializeAndAssert(Months.converter());
     }
 }

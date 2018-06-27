@@ -25,10 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.YearMonths.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,18 +34,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("YearMonths should")
-class YearMonthsTest {
+class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.YearMonth> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(YearMonths.class);
+    YearMonthsTest() {
+        super(YearMonths.class, YearMonths.converter());
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(YearMonths.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
     }
 
     private static void assertMonthsEqual(java.time.YearMonth jt, YearMonth value) {
@@ -74,13 +67,6 @@ class YearMonthsTest {
             java.time.YearMonth ym = java.time.YearMonth.now();
             assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
         }
-    }
-
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void converter() {
-        reserializeAndAssert(YearMonths.converter());
     }
 
     @Nested

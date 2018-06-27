@@ -26,7 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 
@@ -50,7 +49,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     abstract void addDefaults(NullPointerTester nullTester);
 
     @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
+    @DisplayName("have utility constructor")
     void haveUtilityConstructor() {
         assertHasPrivateParameterlessCtor(utilityClass);
     }
@@ -64,7 +63,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     }
 
     @Test
-    @DisplayName("provide serializable Converter")
+    @DisplayName("provide serializable Converter from/to Java Time")
     void converter() {
         reserializeAndAssert(converter);
     }

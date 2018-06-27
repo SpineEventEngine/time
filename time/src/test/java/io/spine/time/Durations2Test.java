@@ -26,9 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.ZERO;
 import static io.spine.time.Durations2.add;
 import static io.spine.time.Durations2.fromHours;
@@ -62,12 +59,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 @SuppressWarnings({"MagicNumber", "ClassCanBeStatic", "InnerClassMayBeStatic"})
 @DisplayName("Durations2 should")
-class Durations2Test {
+class Durations2Test extends AbstractDateTimeUtilityTest<Duration, java.time.Duration> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Durations2.class);
+    Durations2Test() {
+        super(Durations2.class, Durations2.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(Duration.class, Duration.getDefaultInstance());
     }
 
     @Test
@@ -329,14 +329,6 @@ class Durations2Test {
     }
 
     @Test
-    @DisplayName("Prohibit null values")
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(Duration.class, Duration.getDefaultInstance())
-                .testStaticMethods(Durations2.class, NullPointerTester.Visibility.PACKAGE);
-    }
-
-    @Test
     @DisplayName("Convert from JavaTime and back")
     void convert() {
         java.time.Duration d = java.time.Duration.ofMinutes(5);
@@ -344,11 +336,5 @@ class Durations2Test {
         Duration converted = converter.convert(d);
         assertEquals(d, converter.reverse()
                                  .convert(converted));
-    }
-
-    @Test
-    @DisplayName("provide Serializable Converter")
-    void serializeConverter() {
-        reserializeAndAssert(Durations2.converter());
     }
 }

@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
-@DisplayName("LocalDates utility class should")
+@DisplayName("LocalDates should")
 class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
     LocalDatesTest() {
@@ -174,11 +174,5 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
             java.time.LocalDate converted = toJavaTime(today);
             assertEquals(today, of(converted));
         }
-    }
-
-    @Test
-    @DisplayName("have Serializable Converter")
-    void serialize() {
-        reserializeAndAssert(LocalDates.converter());
     }
 }
