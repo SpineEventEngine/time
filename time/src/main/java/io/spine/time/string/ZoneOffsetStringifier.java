@@ -33,18 +33,14 @@ final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.Zo
     private static final long serialVersionUID = 0L;
     private static final ZoneOffsetStringifier INSTANCE = new ZoneOffsetStringifier();
 
-    /** Prevents instantiation from outside. */
     private ZoneOffsetStringifier() {
-        super(ZoneOffsets.converter(), java.time.ZoneOffset::of);
+        super("TimeStringifiers.forZoneOffset()",
+              java.time.ZoneOffset::of,
+              ZoneOffsets.converter());
     }
 
     static ZoneOffsetStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forZoneOffset()";
     }
 
     private Object readResolve() {

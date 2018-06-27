@@ -33,18 +33,14 @@ final class LocalDateStringifier extends JtStringifier<LocalDate, java.time.Loca
     private static final long serialVersionUID = 0L;
     private static final LocalDateStringifier INSTANCE = new LocalDateStringifier();
 
-    /** Prevents instantiation from outside. */
     private LocalDateStringifier() {
-        super(LocalDates.converter(), java.time.LocalDate::parse);
+        super("TimeStringifiers.forLocalDate()",
+              java.time.LocalDate::parse,
+              LocalDates.converter());
     }
 
     static LocalDateStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalDate()";
     }
 
     private Object readResolve() {

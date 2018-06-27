@@ -34,16 +34,13 @@ final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
     private static final ZoneIdStringifier INSTANCE = new ZoneIdStringifier();
 
     private ZoneIdStringifier() {
-        super(ZoneIds.converter(), java.time.ZoneId::of);
+        super("TimeStringifiers.forZoneId()",
+              java.time.ZoneId::of,
+              ZoneIds.converter());
     }
 
     static ZoneIdStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forZoneId()";
     }
 
     private Object readResolve() {

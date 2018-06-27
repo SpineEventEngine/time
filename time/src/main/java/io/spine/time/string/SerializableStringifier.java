@@ -33,4 +33,23 @@ import java.io.Serializable;
 abstract class SerializableStringifier<T> extends Stringifier<T> implements Serializable {
 
     private static final long serialVersionUID = 0L;
+
+    private final String identity;
+
+    /**
+     * Creates a new instance with the passed identity.
+     *
+     * @param identity the identity of the stringifier, which is used in {@link #toString()}.
+     */
+    SerializableStringifier(String identity) {
+        this.identity = identity;
+    }
+
+    /**
+     * Returns the identity of the stringifier.
+     */
+    @Override
+    public final String toString() {
+        return identity;
+    }
 }

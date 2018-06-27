@@ -56,9 +56,8 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
      */
     private static final int MINUTE_SEPARATOR_INDEX = 16;
 
-    /** Prevents instantiation from outside. */
     private WebSafeTimestampStringifier() {
-        super();
+        super("TimeStringifiers.forTimestampWebSafe()");
     }
 
     static WebSafeTimestampStringifier getInstance() {
@@ -104,11 +103,6 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
         } catch (ParseException e) {
             throw newIllegalArgumentException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forTimestampWebSafe()";
     }
 
     private Object readResolve() {

@@ -34,15 +34,12 @@ final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.Year
     private static final YearMonthStringifier INSTANCE = new YearMonthStringifier();
 
     private YearMonthStringifier() {
-        super(YearMonths.converter(), java.time.YearMonth::parse);
+        super("TimeStringifiers.forYearMonth()",
+              java.time.YearMonth::parse,
+              YearMonths.converter());
     }
     static YearMonthStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forYearMonth()";
     }
 
     private Object readResolve() {

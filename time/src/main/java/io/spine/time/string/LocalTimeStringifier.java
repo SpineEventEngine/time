@@ -33,18 +33,14 @@ final class LocalTimeStringifier extends JtStringifier<LocalTime, java.time.Loca
     private static final long serialVersionUID = 0L;
     private static final LocalTimeStringifier INSTANCE = new LocalTimeStringifier();
 
-    /** Prevents instantiation from outside. */
     private LocalTimeStringifier() {
-        super(LocalTimes.converter(), java.time.LocalTime::parse);
+        super("TimeStringifiers.forLocalTime()",
+              java.time.LocalTime::parse,
+              LocalTimes.converter());
     }
     
     static LocalTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalTime()";
     }
 
     private Object readResolve() {

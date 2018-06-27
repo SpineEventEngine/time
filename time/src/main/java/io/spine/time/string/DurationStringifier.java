@@ -37,8 +37,8 @@ final class DurationStringifier extends SerializableStringifier<Duration> {
     private static final long serialVersionUID = 0L;
     private static final DurationStringifier INSTANCE = new DurationStringifier();
 
-    /** Prevents instantiation from outside. */
     private DurationStringifier() {
+        super("TimeStringifiers.forDuration()");
     }
 
     static DurationStringifier getInstance() {
@@ -60,11 +60,6 @@ final class DurationStringifier extends SerializableStringifier<Duration> {
             throw illegalArgumentWithCauseOf(e);
         }
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forDuration()";
     }
 
     private Object readResolve() {

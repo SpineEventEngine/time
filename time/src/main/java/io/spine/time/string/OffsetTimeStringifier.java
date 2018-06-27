@@ -33,18 +33,14 @@ final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.Of
     private static final long serialVersionUID = 0L;
     private static final OffsetTimeStringifier INSTANCE = new OffsetTimeStringifier();
 
-    /** Prevents instantiation from outside. */
     private OffsetTimeStringifier() {
-        super(OffsetTimes.converter(), java.time.OffsetTime::parse);
+        super("TimeStringifiers.forOffsetTime()",
+              java.time.OffsetTime::parse,
+              OffsetTimes.converter());
     }
 
     static OffsetTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forOffsetTime()";
     }
 
     private Object readResolve() {

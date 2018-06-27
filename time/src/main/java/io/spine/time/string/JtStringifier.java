@@ -41,7 +41,10 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
     private final Converter<J, T> converter;
     private final SerializableFunction<String, J> parser;
 
-    JtStringifier(Converter<J, T> converter, SerializableFunction<String, J> parser) {
+    JtStringifier(String identity,
+                  SerializableFunction<String, J> parser,
+                  Converter<J, T> converter) {
+        super(identity);
         this.converter = checkNotNull(converter);
         this.parser = checkNotNull(parser);
     }

@@ -32,7 +32,8 @@ abstract class EnumStringifier<E extends Enum<E>> extends SerializableStringifie
 
     private final Class<E> enumClass;
 
-    EnumStringifier(Class<E> aClass) {
+    EnumStringifier(String identity, Class<E> aClass) {
+        super(identity);
         enumClass = aClass;
     }
 

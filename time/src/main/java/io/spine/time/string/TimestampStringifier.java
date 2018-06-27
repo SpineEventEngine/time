@@ -37,8 +37,8 @@ final class TimestampStringifier extends SerializableStringifier<Timestamp> {
     private static final long serialVersionUID = 0L;
     private static final TimestampStringifier INSTANCE = new TimestampStringifier();
 
-    /** Prevents instantiation from outside. */
     private TimestampStringifier() {
+        super("TimeStringifiers.forTimestamp()");
     }
 
     static TimestampStringifier getInstance() {
@@ -59,11 +59,6 @@ final class TimestampStringifier extends SerializableStringifier<Timestamp> {
         } catch (ParseException e) {
             throw newIllegalArgumentException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forTimestamp()";
     }
 
     private Object readResolve() {

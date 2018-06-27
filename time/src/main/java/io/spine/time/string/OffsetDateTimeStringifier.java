@@ -34,18 +34,14 @@ final class OffsetDateTimeStringifier
     private static final long serialVersionUID = 0L;
     private static final OffsetDateTimeStringifier INSTANCE = new OffsetDateTimeStringifier();
 
-    /** Prevents instantiation from outside. */
     private OffsetDateTimeStringifier() {
-        super(OffsetDateTimes.converter(), java.time.OffsetDateTime::parse);
+        super("TimeStringifiers.forOffsetDateTime()",
+              java.time.OffsetDateTime::parse,
+              OffsetDateTimes.converter());
     }
 
     static OffsetDateTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forOffsetDateTime()";
     }
 
     private Object readResolve() {

@@ -33,18 +33,12 @@ final class MonthStringifier extends EnumStringifier<Month> {
 
     private static final MonthStringifier INSTANCE = new MonthStringifier();
 
-    /** Prevents instantiation from outside. */
     private MonthStringifier() {
-        super(Month.class);
+        super("TimeStringifiers.forMonth()", Month.class);
     }
 
     static MonthStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forMonth()";
     }
 
     private Object readResolve() {

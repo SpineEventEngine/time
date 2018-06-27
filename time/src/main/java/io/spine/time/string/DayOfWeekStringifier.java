@@ -32,18 +32,12 @@ final class DayOfWeekStringifier extends EnumStringifier<DayOfWeek> {
     private static final long serialVersionUID = 0L;
     private static final DayOfWeekStringifier INSTANCE = new DayOfWeekStringifier();
 
-    /** Prevents instantiation from outside. */
     private DayOfWeekStringifier() {
-        super(DayOfWeek.class);
+        super("TimeStringifiers.forDayOfWeek()", DayOfWeek.class);
     }
 
     static DayOfWeekStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forDayOfWeek()";
     }
 
     private Object readResolve() {
