@@ -26,10 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.ZoneIds.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> {
 
     ZoneIdsTest() {
-        super(ZoneIds.class, ZoneIds.converter());
+        super(ZoneIds.class, ZoneIds::systemDefault, ZoneIds.converter());
     }
 
     @Override

@@ -49,7 +49,7 @@ class Timestamps2Test extends AbstractDateTimeUtilityTest<Timestamp, java.time.I
     private static final Duration TEN_SECONDS = fromSeconds(10L);
 
     Timestamps2Test() {
-        super(Timestamps2.class, Timestamps2.converter());
+        super(Timestamps2.class, Time::getCurrentTime, Timestamps2.converter());
     }
 
     @Override

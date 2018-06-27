@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
@@ -30,13 +31,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.TimeZone;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.Durations2.hours;
 import static io.spine.time.Durations2.hoursAndMinutes;
-import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;
@@ -46,12 +44,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("ZoneOffsets should")
-class ZoneOffsetsTest {
+class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(ZoneOffsets.class);
+    ZoneOffsetsTest() {
+        super(ZoneOffsets.class, ZoneOffsets::getDefault, ZoneOffsets.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
     }
 
     @Nested
@@ -222,12 +223,6 @@ class ZoneOffsetsTest {
             java.time.ZoneOffset converted = converter.reverse()
                                                       .convert(expected);
             assertEquals(expected, converter.convert(converted));
-        }
-
-        @Test
-        @DisplayName("is serializable")
-        void serializable() {
-            reserializeAndAssert(converter);
         }
     }
 }

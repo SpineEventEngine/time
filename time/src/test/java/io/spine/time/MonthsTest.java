@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
     MonthsTest() {
-        super(Months.class, Months.converter());
+        super(Months.class, Months::now, Months.converter());
     }
 
     @Override

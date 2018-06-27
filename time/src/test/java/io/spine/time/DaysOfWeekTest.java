@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.DayOfWeek> {
 
     DaysOfWeekTest() {
-        super(DaysOfWeek.class, DaysOfWeek.converter());
+        super(DaysOfWeek.class, DaysOfWeek::now, DaysOfWeek.converter());
     }
 
     @Override

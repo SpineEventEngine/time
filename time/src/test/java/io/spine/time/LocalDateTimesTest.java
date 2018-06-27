@@ -42,7 +42,7 @@ class LocalDateTimesTest
         extends AbstractDateTimeUtilityTest<LocalDateTime, java.time.LocalDateTime> {
 
     LocalDateTimesTest() {
-        super(LocalDateTimes.class, LocalDateTimes.converter());
+        super(LocalDateTimes.class, LocalDateTimes::now, LocalDateTimes.converter());
     }
 
     @Override

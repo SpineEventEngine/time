@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Year;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.of;
@@ -41,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
     LocalDatesTest() {
-        super(LocalDates.class, LocalDates.converter());
+        super(LocalDates.class, LocalDates::now, LocalDates.converter());
     }
 
     @Override

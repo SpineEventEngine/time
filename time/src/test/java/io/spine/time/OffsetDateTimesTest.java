@@ -41,7 +41,7 @@ public class OffsetDateTimesTest
     private LocalTime time;
 
     OffsetDateTimesTest() {
-        super(OffsetDateTimes.class, OffsetDateTimes.converter());
+        super(OffsetDateTimes.class, OffsetDateTimes::now, OffsetDateTimes.converter());
     }
 
     @Override

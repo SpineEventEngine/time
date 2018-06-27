@@ -62,7 +62,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class Durations2Test extends AbstractDateTimeUtilityTest<Duration, java.time.Duration> {
 
     Durations2Test() {
-        super(Durations2.class, Durations2.converter());
+        super(Durations2.class, () -> Durations2.ZERO, Durations2.converter());
     }
 
     @Override

@@ -75,6 +75,7 @@ public final class ZoneOffsets {
      * Converts the passed instance to the Java Time value.
      */
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
+        checkNotNull(value);
         return converter().reverse()
                           .convert(value);
     }
@@ -83,6 +84,7 @@ public final class ZoneOffsets {
      * Converts Java Time value to {@code ZoneOffset}.
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
+        checkNotNull(zo);
         return converter().convert(zo);
     }
 

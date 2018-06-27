@@ -37,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.YearMonth> {
 
     YearMonthsTest() {
-        super(YearMonths.class, YearMonths.converter());
+        super(YearMonths.class, YearMonths::now, YearMonths.converter());
     }
 
     @Override

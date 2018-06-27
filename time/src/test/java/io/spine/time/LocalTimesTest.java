@@ -45,7 +45,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     private java.time.LocalTime javaTimeNow;
 
     LocalTimesTest() {
-        super(LocalTimes.class, LocalTimes.converter());
+        super(LocalTimes.class, LocalTimes::now, LocalTimes.converter());
     }
 
     @Override

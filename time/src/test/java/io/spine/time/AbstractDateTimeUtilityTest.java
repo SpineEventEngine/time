@@ -25,6 +25,8 @@ import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Supplier;
+
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
@@ -40,13 +42,34 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
 
     private final Class<?> utilityClass;
     private final Converter<J, T> converter;
+    private final Supplier<T> current;
 
-    AbstractDateTimeUtilityTest(Class<?> utilityClass, Converter<J, T> converter) {
+    /**
+     * Creates new test suite.
+     *
+     * @param utilityClass
+     *        the utility class to test
+     * @param current
+     *        the supplier value of the data type at the current time or location (e.g. for
+     *        {@code ZoneOffset} or {@code ZoneId}).
+     *        It could be method reference of the utility class, or another supplier for such values
+     *        if they are available elsewhere.
+     * @param converter
+     *        the converter from/to Java Time provided by the utility class
+     */
+    AbstractDateTimeUtilityTest(Class<?> utilityClass,
+                                Supplier<T> current,
+                                Converter<J, T> converter) {
         this.utilityClass = utilityClass;
+        this.current = current;
         this.converter = converter;
     }
 
     abstract void addDefaults(NullPointerTester nullTester);
+
+    T getCurrent() {
+        return current.get();
+    }
 
     @Test
     @DisplayName("have utility constructor")
