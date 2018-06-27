@@ -24,8 +24,6 @@ import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -85,7 +83,8 @@ public class DaysOfWeek {
      * in the user interface.
      *
      * <p>For displaying a day of week, please use
-     * {@link java.time.DayOfWeek#getDisplayName(TextStyle, Locale)}.
+     * {@link java.time.DayOfWeek#getDisplayName(java.time.format.TextStyle, java.util.Locale)
+     *  java.time.DayOfWeek.getDisplayName(TextStyle, Locale)}.
      *
      * @see #parse(String)
      */

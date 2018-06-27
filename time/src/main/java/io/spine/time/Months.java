@@ -24,8 +24,6 @@ import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
 
 import java.time.DateTimeException;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -106,7 +104,8 @@ public class Months {
      * the user interface.
      *
      * <p>For displaying a month, please use
-     * {@link java.time.Month#getDisplayName(TextStyle, Locale)}.
+     * {@link java.time.Month#getDisplayName(java.time.format.TextStyle, java.util.Locale)
+     * java.time.Month.getDisplayName(TextStyle, Locale)}.
      *
      * @see #parse(String)
      */
