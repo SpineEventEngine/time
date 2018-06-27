@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test;
 import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static io.spine.time.LocalTimes.of;
-import static io.spine.time.LocalTimes.parse;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,7 +44,11 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     private java.time.LocalTime javaTimeNow;
 
     LocalTimesTest() {
-        super(LocalTimes.class, LocalTimes::now, LocalTimes.converter());
+        super(LocalTimes.class,
+              LocalTimes::now,
+              LocalTimes::toString,
+              LocalTimes::parse,
+              LocalTimes.converter());
     }
 
     @Override
@@ -208,17 +211,6 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
                         () -> of(0, 0, 0, NANOS_PER_SECOND)
                 );
             }
-
         }
-    }
-
-    @Test
-    @DisplayName("Convert to String and back")
-    void stringAndBack() {
-        LocalTime localTime = LocalTimes.now();
-
-        String str = LocalTimes.toString(localTime);
-        LocalTime convertedBack = parse(str);
-        assertEquals(localTime, convertedBack);
     }
 }

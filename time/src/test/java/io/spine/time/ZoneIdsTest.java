@@ -20,7 +20,6 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -34,7 +33,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> {
 
     ZoneIdsTest() {
-        super(ZoneIds.class, ZoneIds::systemDefault, ZoneIds.converter());
+        super(ZoneIds.class,
+              ZoneIds::systemDefault,
+              ZoneIds::toString,
+              ZoneIds::parse,
+              ZoneIds.converter());
     }
 
     @Override
@@ -68,28 +71,6 @@ class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> 
         void byJavaTime() {
             ZoneId expected = ZoneIds.systemDefault();
             assertEquals(expected, ZoneIds.of(toJavaTime(expected)));
-        }
-    }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("Java Time")
-        void javaTime() {
-            ZoneId expected = ZoneIds.systemDefault();
-            Converter<java.time.ZoneId, ZoneId> converter = ZoneIds.converter();
-            java.time.ZoneId converted = converter.reverse().convert(expected);
-
-            assertEquals(expected, converter.convert(converted));
-        }
-
-        @Test
-        @DisplayName("String")
-        void toFromString() {
-            ZoneId expected = ZoneIds.systemDefault();
-            assertEquals(expected, ZoneIds.parse(ZoneIds.toString(expected)));
         }
     }
 }

@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.time.DaysOfWeek.toJavaTime;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -36,7 +35,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.DayOfWeek> {
 
     DaysOfWeekTest() {
-        super(DaysOfWeek.class, DaysOfWeek::now, DaysOfWeek.converter());
+        super(DaysOfWeek.class,
+              DaysOfWeek::now,
+              DaysOfWeek::toString,
+              DaysOfWeek::parse,
+              DaysOfWeek.converter());
     }
 
     @Override
@@ -59,27 +62,6 @@ class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.Da
                     IllegalArgumentException.class,
                     () -> toJavaTime(DayOfWeek.DOW_UNDEFINED)
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("String")
-        void toStringParse() {
-            DayOfWeek expected = DaysOfWeek.now();
-            assertEquals(expected, DaysOfWeek.parse(DaysOfWeek.toString(expected)));
-        }
-
-        @Test
-        @DisplayName("Java Time")
-        void fromJavaTime() {
-            for (java.time.DayOfWeek weekDay: java.time.DayOfWeek.values()) {
-                DayOfWeek wd = DaysOfWeek.of(weekDay);
-                assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
-            }
         }
     }
 }

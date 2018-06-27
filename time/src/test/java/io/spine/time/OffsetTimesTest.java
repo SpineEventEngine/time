@@ -43,7 +43,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.OffsetTime> {
 
     OffsetTimesTest() {
-        super(OffsetTimes.class, OffsetTimes::now, OffsetTimes.converter());
+        super(OffsetTimes.class,
+              OffsetTimes::now,
+              OffsetTimes::toString,
+              OffsetTimes::parse,
+              OffsetTimes.converter());
     }
 
     @Override

@@ -37,6 +37,7 @@ import io.spine.time.OffsetTime;
 import io.spine.time.YearMonth;
 import io.spine.time.ZoneId;
 import io.spine.time.ZoneOffset;
+import io.spine.time.ZonedDateTime;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -220,6 +221,21 @@ public final class TimeStringifiers {
     }
 
     /**
+     * Obtains default stringifier for {@code ZonedDateTime}.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.ZonedDateTimes#toString(ZonedDateTime)
+     *      ZonedDateTimes.toString(ZonedDateTime)
+     * @see io.spine.time.ZonedDateTimes#parse(String)
+     *      ZonedDateTimes.parse(String)
+     */
+    public static Stringifier<ZonedDateTime> forZonedDateTime() {
+        return ZonedDateTimeStringifier.getInstance();
+    }
+
+    /**
      * Obtains default stringifier for {@code ZoneOffset}s.
      *
      * <p>This stringifier is automatically registered in the
@@ -253,6 +269,7 @@ public final class TimeStringifiers {
                     forTimestamp(),
                     forYearMonth(),
                     forZoneId(),
+                    forZonedDateTime(),
                     forZoneOffset()
             );
         }

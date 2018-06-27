@@ -8,6 +8,7 @@ package io.spine.time;
 import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 import com.google.protobuf.util.Durations;
+import io.spine.time.string.TimeStringifiers;
 
 import javax.annotation.Nullable;
 
@@ -290,6 +291,21 @@ public final class Durations2 {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
+    }
+
+    /**
+     * Parses the string with a duration.
+     *
+     * <p>Unlike {@link com.google.protobuf.util.Durations#parse(String) its Protobuf counterpart}
+     * this method does not throw a checked exception.
+     *
+     * @throws IllegalArgumentException if the string is not of required format
+     */
+    public static Duration parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forDuration()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

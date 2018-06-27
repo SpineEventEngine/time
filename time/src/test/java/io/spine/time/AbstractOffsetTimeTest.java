@@ -26,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static io.spine.test.TestValues.random;
@@ -46,9 +47,11 @@ public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtili
     private ZoneOffset zoneOffset;
 
     AbstractOffsetTimeTest(Class<?> utilityClass,
-                           Supplier<T> now,
+                           Supplier<T> current,
+                           Function<T, String> strOut,
+                           Function<String, T> parser,
                            Converter<J, T> converter) {
-        super(utilityClass, now, converter);
+        super(utilityClass, current, strOut, parser, converter);
     }
 
     protected abstract void assertConversionAt(ZoneOffset zoneOffset);

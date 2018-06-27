@@ -29,7 +29,6 @@ import java.time.Year;
 
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
-import static io.spine.time.LocalDates.of;
 import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,7 +39,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
     LocalDatesTest() {
-        super(LocalDates.class, LocalDates::now, LocalDates.converter());
+        super(LocalDates.class,
+              LocalDates::now,
+              LocalDates::toString,
+              LocalDates::parse,
+              LocalDates.converter());
     }
 
     @Override
@@ -151,27 +154,6 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
                     IllegalArgumentException.class,
                     () -> LocalDates.toString(LocalDate.getDefaultInstance())
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("String")
-        void stringify() {
-            LocalDate today = LocalDates.now();
-            String str = LocalDates.toString(today);
-            assertEquals(today, LocalDates.parse(str));
-        }
-
-        @Test
-        @DisplayName("Java Time")
-        void convert() {
-            LocalDate today = LocalDates.now();
-            java.time.LocalDate converted = toJavaTime(today);
-            assertEquals(today, of(converted));
         }
     }
 }

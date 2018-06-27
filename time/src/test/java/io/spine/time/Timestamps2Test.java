@@ -24,6 +24,7 @@ import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
+import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -49,7 +50,11 @@ class Timestamps2Test extends AbstractDateTimeUtilityTest<Timestamp, java.time.I
     private static final Duration TEN_SECONDS = fromSeconds(10L);
 
     Timestamps2Test() {
-        super(Timestamps2.class, Time::getCurrentTime, Timestamps2.converter());
+        super(Timestamps2.class,
+              Time::getCurrentTime,
+              Timestamps::toString,
+              Timestamps2::parse,
+              Timestamps2.converter());
     }
 
     @Override

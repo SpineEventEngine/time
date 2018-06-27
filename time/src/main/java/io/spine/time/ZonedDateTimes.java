@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
@@ -75,6 +76,25 @@ public class ZonedDateTimes {
         checkNotDefault(value);
         return converter().reverse()
                           .convert(value);
+    }
+
+    /**
+     * Converts the passed value to ISO-8601 zoned date/time string.
+     */
+    public static String toString(ZonedDateTime value) {
+        checkNotNull(value);
+        return TimeStringifiers.forZonedDateTime()
+                               .convert(value);
+    }
+
+    /**
+     * Parses the ISO-8601 string representation of the zoned date-time value.
+     */
+    public static ZonedDateTime parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forZonedDateTime()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

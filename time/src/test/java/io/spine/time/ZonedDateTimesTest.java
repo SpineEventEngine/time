@@ -39,7 +39,11 @@ class ZonedDateTimesTest
         extends AbstractDateTimeUtilityTest<ZonedDateTime, java.time.ZonedDateTime> {
 
     ZonedDateTimesTest() {
-        super(ZonedDateTimes.class, ZonedDateTimes::now, ZonedDateTimes.converter());
+        super(ZonedDateTimes.class,
+              ZonedDateTimes::now,
+              ZonedDateTimes::toString,
+              ZonedDateTimes::parse,
+              ZonedDateTimes.converter());
     }
 
     @Override

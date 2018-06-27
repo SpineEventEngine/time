@@ -20,7 +20,6 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
@@ -47,7 +46,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
 
     ZoneOffsetsTest() {
-        super(ZoneOffsets.class, ZoneOffsets::getDefault, ZoneOffsets.converter());
+        super(ZoneOffsets.class,
+              ZoneOffsets::getDefault,
+              ZoneOffsets::toString,
+              ZoneOffsets::parse,
+              ZoneOffsets.converter());
     }
 
     @Override
@@ -205,24 +208,6 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
                     IllegalArgumentException.class,
                     () -> parse("x03:00")
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("Provide Converter from/to Java Time which")
-    class Convert {
-
-        private final Converter<java.time.ZoneOffset, ZoneOffset> converter =
-                ZoneOffsets.converter();
-
-        @Test
-        @DisplayName("converts values back and forth")
-        void convert() {
-            ZoneOffset expected = ZoneOffsets.getDefault();
-
-            java.time.ZoneOffset converted = converter.reverse()
-                                                      .convert(expected);
-            assertEquals(expected, converter.convert(converted));
         }
     }
 }

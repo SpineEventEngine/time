@@ -41,7 +41,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
     MonthsTest() {
-        super(Months.class, Months::now, Months.converter());
+        super(Months.class,
+              Months::now,
+              Months::toString,
+              Months::parse,
+              Months.converter());
     }
 
     @Override
@@ -103,32 +107,6 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
                     IllegalArgumentException.class,
                     () -> toJavaTime(Month.UNRECOGNIZED)
             );
-        }
-    }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("String")
-        void toStringParse() {
-            Month expected = Months.now();
-            assertEquals(expected, Months.parse(Months.toString(expected)));
-        }
-
-        @Test
-        @DisplayName("Java Time")
-        void javaTime() {
-            for (Month month : Month.values()) {
-                if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
-                    continue;
-                }
-
-                java.time.Month jt = toJavaTime(month);
-                assertEquals(month.getNumber(), jt.getValue());
-                assertEquals(month, of(jt));
-            }
         }
     }
 }

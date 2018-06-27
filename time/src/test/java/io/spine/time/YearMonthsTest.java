@@ -25,7 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.time.YearMonths.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,7 +36,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.YearMonth> {
 
     YearMonthsTest() {
-        super(YearMonths.class, YearMonths::now, YearMonths.converter());
+        super(YearMonths.class,
+              YearMonths::now,
+              YearMonths::toString,
+              YearMonths::parse,
+              YearMonths.converter());
     }
 
     @Override
@@ -66,26 +69,6 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
         void yearMonth() {
             java.time.YearMonth ym = java.time.YearMonth.now();
             assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
-        }
-    }
-
-    @Nested
-    @DisplayName("Convert from/to")
-    class Convert {
-
-        @Test
-        @DisplayName("Java Time")
-        void fromJavaTime() {
-            java.time.YearMonth expected = java.time.YearMonth.now();
-            YearMonth converted = YearMonths.of(expected);
-            assertEquals(expected, toJavaTime(converted));
-        }
-
-        @Test
-        @DisplayName("String")
-        void fromString() {
-            YearMonth expected = YearMonths.now();
-            assertEquals(expected, YearMonths.parse(YearMonths.toString(expected)));
         }
     }
 }

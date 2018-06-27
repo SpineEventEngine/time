@@ -21,6 +21,7 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 import com.google.protobuf.Timestamp;
+import io.spine.time.string.TimeStringifiers;
 
 import java.time.Instant;
 
@@ -76,6 +77,21 @@ public final class Timestamps2 {
         checkNotNull(timestamp);
         return InstantConverter.INSTANCE.reverse()
                                         .convert(timestamp);
+    }
+
+    /**
+     * Parses the string with a timestamp.
+     *
+     * <p>Unlike {@link com.google.protobuf.util.Timestamps#parse(String) its Protobuf counterpart}
+     * this method does not throw a checked exception.
+     *
+     * @throws IllegalArgumentException if the string is not of required format
+     */
+    public static Timestamp parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forTimestamp()
+                               .reverse()
+                               .convert(str);
     }
 
     /**
