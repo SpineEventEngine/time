@@ -20,14 +20,10 @@
 
 package io.spine.time.string;
 
-import com.google.common.reflect.TypeToken;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
@@ -95,20 +91,11 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("be registered")
     void isRegistered() {
-        Class<?> dataClass = getStringifierDataClass();
+        Class<? extends Stringifier> cls = stringifier.getClass();
+        Class<?> dataClass = TimeStringifiers.Registrar.getDataClass(cls);
 
         assertTrue(StringifierRegistry.getInstance()
                                       .get(dataClass)
                                       .isPresent());
-    }
-
-    private Class<?> getStringifierDataClass() {
-        TypeToken<?> supertypeToken = TypeToken.of(stringifier.getClass())
-                                               .getSupertype(Stringifier.class);
-        ParameterizedType genericSupertype =
-                (ParameterizedType) supertypeToken.getType();
-        Type[] typeArguments = genericSupertype.getActualTypeArguments();
-        Type typeArgument = typeArguments[0];
-        return (Class<?>) typeArgument;
     }
 }

@@ -80,24 +80,30 @@ class ZoneIdsTest {
     }
 
     @Nested
-    @DisplayName("Provide Converter from/to Java Time which")
+    @DisplayName("Convert from/to")
     class Convert {
 
-        private final Converter<java.time.ZoneId, ZoneId> converter = ZoneIds.converter();
-
         @Test
-        @DisplayName("converts values back and forth")
-        void convert() {
+        @DisplayName("Java Time")
+        void javaTime() {
             ZoneId expected = ZoneIds.systemDefault();
+            Converter<java.time.ZoneId, ZoneId> converter = ZoneIds.converter();
             java.time.ZoneId converted = converter.reverse().convert(expected);
 
             assertEquals(expected, converter.convert(converted));
         }
 
         @Test
-        @DisplayName("is serializable")
-        void serialize() {
-            reserializeAndAssert(converter);
+        @DisplayName("String")
+        void toFromString() {
+            ZoneId expected = ZoneIds.systemDefault();
+            assertEquals(expected, ZoneIds.parse(ZoneIds.toString(expected)));
         }
+    }
+
+    @Test
+    @DisplayName("provide serializable Converter")
+    void serialize() {
+        reserializeAndAssert(ZoneIds.converter());
     }
 }
