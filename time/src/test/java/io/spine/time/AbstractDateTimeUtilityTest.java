@@ -41,8 +41,8 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     private final Class<?> utilityClass;
     private final Converter<J, T> converter;
 
-    AbstractDateTimeUtilityTest(Class<?> aClass, Converter<J, T> converter) {
-        this.utilityClass = aClass;
+    AbstractDateTimeUtilityTest(Class<?> utilityClass, Converter<J, T> converter) {
+        this.utilityClass = utilityClass;
         this.converter = converter;
     }
 

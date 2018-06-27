@@ -26,10 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.OffsetDateTimes.of;
@@ -38,10 +34,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
-public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
+public class OffsetDateTimesTest
+        extends AbstractOffsetTimeTest<OffsetDateTime, java.time.OffsetDateTime> {
 
     private LocalDate date;
     private LocalTime time;
+
+    OffsetDateTimesTest() {
+        super(OffsetDateTimes.class, OffsetDateTimes.converter());
+    }
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
@@ -53,27 +54,19 @@ public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
     }
 
     @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(LocalTime.class, LocalTimes.now())
+                  .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
+                  .setDefault(LocalDate.class, LocalDates.now());
+
+    }
+
+    @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
         date = LocalDates.now();
         time = LocalTimes.now();
-    }
-
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(OffsetDateTimes.class);
-    }
-
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester()
-                .setDefault(LocalTime.class, LocalTimes.now())
-                .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
-                .setDefault(LocalDate.class, LocalDates.now())
-                .testAllPublicStaticMethods(OffsetDateTimes.class);
     }
 
     @Nested
@@ -109,11 +102,5 @@ public class OffsetDateTimesTest extends AbstractOffsetTimeTest {
         LocalDateTime dateTime = ot.getDateTime();
         assertDatesEqual(jt.toLocalDate(), dateTime.getDate());
         assertTimesEqual(jt.toLocalTime(), dateTime.getTime());
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void converter() {
-        reserializeAndAssert(OffsetDateTimes.converter());
     }
 }

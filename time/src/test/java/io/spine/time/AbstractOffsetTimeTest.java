@@ -20,6 +20,7 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -33,12 +34,18 @@ import static java.lang.Math.abs;
 /**
  * Abstract base for test of time with offset.
  *
+ * @param <T> the type with which the utility class work
+ * @param <J> the Java Type which corresponds to the type {@code <T>}
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
-public abstract class AbstractOffsetTimeTest {
+public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtilityTest<T, J> {
 
     private ZoneOffset zoneOffset;
+
+    AbstractOffsetTimeTest(Class<?> utilityClass, Converter<J, T> converter) {
+        super(utilityClass, converter);
+    }
 
     protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 
