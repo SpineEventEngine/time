@@ -25,6 +25,8 @@ import io.spine.string.StringifierRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Modifier;
+
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -97,5 +99,11 @@ abstract class AbstractStringifierTest<T> {
         assertTrue(StringifierRegistry.getInstance()
                                       .get(dataClass)
                                       .isPresent());
+    }
+
+    @Test
+    @DisplayName("have final class")
+    void isFinalClass() {
+        assertTrue(Modifier.isFinal(stringifier.getClass().getModifiers()));
     }
 }
