@@ -39,7 +39,6 @@ final class TimestampStringifier extends SerializableStringifier<Timestamp> {
 
     /** Prevents instantiation from outside. */
     private TimestampStringifier() {
-        super();
     }
 
     static TimestampStringifier getInstance() {
