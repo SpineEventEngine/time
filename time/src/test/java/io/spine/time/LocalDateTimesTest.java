@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDateTimes.of;
 import static io.spine.time.LocalDateTimes.parse;
@@ -41,12 +38,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDateTimes should")
-class LocalDateTimesTest {
+class LocalDateTimesTest
+        extends AbstractDateTimeUtilityTest<LocalDateTime, java.time.LocalDateTime> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(LocalDateTimes.class);
+    LocalDateTimesTest() {
+        super(LocalDateTimes.class, LocalDateTimes.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(LocalTime.class, LocalTimes.now())
+                  .setDefault(LocalDate.class, LocalDates.now());
+
     }
 
     @Nested
@@ -79,15 +82,6 @@ class LocalDateTimesTest {
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null arguments")
-        void rejectNulls() {
-            new NullPointerTester()
-                    .setDefault(LocalTime.class, LocalTimes.now())
-                    .setDefault(LocalDate.class, LocalDates.now())
-                    .testAllPublicStaticMethods(LocalDateTimes.class);
-        }
 
         @Test
         @DisplayName("default date")
@@ -127,11 +121,5 @@ class LocalDateTimesTest {
 
             assertEquals(now, of(converted));
         }
-    }
-
-    @Test
-    @DisplayName("have Serializable Converter")
-    void serialize() {
-        reserializeAndAssert(LocalDateTimes.converter());
     }
 }

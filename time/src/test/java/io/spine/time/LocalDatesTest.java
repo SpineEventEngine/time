@@ -28,9 +28,6 @@ import org.junit.jupiter.api.Test;
 import java.time.Year;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.of;
@@ -40,19 +37,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
-@DisplayName("LocalDates should")
-class LocalDatesTest {
+@DisplayName("LocalDates utility class should")
+class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void haveUtilityConstructor() {
-        assertHasPrivateParameterlessCtor(LocalDates.class);
+    LocalDatesTest() {
+        super(LocalDates.class, LocalDates.converter());
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(LocalDates.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(LocalDate.class, LocalDates.now())
+                  .setDefault(int.class, 1);
+
     }
 
     @Test
@@ -121,15 +117,6 @@ class LocalDatesTest {
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null arguments")
-        void nullCheck() {
-            new NullPointerTester()
-                    .setDefault(LocalDate.class, LocalDates.now())
-                    .setDefault(int.class, 1)
-                    .testAllPublicStaticMethods(LocalDates.class);
-        }
 
         @Test
         @DisplayName("negative year value")

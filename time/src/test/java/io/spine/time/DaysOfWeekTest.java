@@ -25,9 +25,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.DaysOfWeek.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -36,24 +33,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Alexander Yevsyukov
  */
 @DisplayName("DaysOfWeek should")
-class DaysOfWeekTest {
+class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.DayOfWeek> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(DaysOfWeek.class);
+    DaysOfWeekTest() {
+        super(DaysOfWeek.class, DaysOfWeek.converter());
     }
 
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
+    }
 
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null params")
-        void rejectNulls() {
-            new NullPointerTester().testAllPublicStaticMethods(DaysOfWeek.class);
-        }
 
         @Test
         @DisplayName("out of bounds values")
@@ -88,11 +81,5 @@ class DaysOfWeekTest {
                 assertEquals(weekDay, DaysOfWeek.toJavaTime(wd));
             }
         }
-    }
-    
-    @Test
-    @DisplayName("provide Serializable Converter")
-    void serializeConverter() {
-        reserializeAndAssert(DaysOfWeek.converter());
     }
 }
