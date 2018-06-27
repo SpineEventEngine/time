@@ -38,10 +38,10 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  *
  * @author Alexander Yevsyukov
  */
-final class WebSafeTimestampStringifer extends SerializableStringifier<Timestamp> {
+final class WebSafeTimestampStringifier extends SerializableStringifier<Timestamp> {
 
     private static final long serialVersionUID = 0L;
-    private static final WebSafeTimestampStringifer INSTANCE = new WebSafeTimestampStringifer();
+    private static final WebSafeTimestampStringifier INSTANCE = new WebSafeTimestampStringifier();
 
     private static final char COLON = ':';
     private static final Pattern PATTERN_COLON = Pattern.compile(String.valueOf(COLON));
@@ -57,10 +57,11 @@ final class WebSafeTimestampStringifer extends SerializableStringifier<Timestamp
     private static final int MINUTE_SEPARATOR_INDEX = 16;
 
     /** Prevents instantiation from outside. */
-    private WebSafeTimestampStringifer() {
+    private WebSafeTimestampStringifier() {
+        super();
     }
 
-    static WebSafeTimestampStringifer getInstance() {
+    static WebSafeTimestampStringifier getInstance() {
         return INSTANCE;
     }
 

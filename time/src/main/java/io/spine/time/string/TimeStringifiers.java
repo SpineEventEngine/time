@@ -106,7 +106,7 @@ public final class TimeStringifiers {
      * <p>This stringifier can be convenient for storing IDs based on {@code Timestamp}s.
      */
     public static Stringifier<Timestamp> forTimestampWebSafe() {
-        return WebSafeTimestampStringifer.getInstance();
+        return WebSafeTimestampStringifier.getInstance();
     }
 
     /**
