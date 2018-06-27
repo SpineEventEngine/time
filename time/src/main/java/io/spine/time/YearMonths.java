@@ -21,8 +21,10 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.DtPreconditions.checkNotDefault;
 
 /**
  * Utilities for working with {@code YearMonth} values.
@@ -80,6 +82,30 @@ public class YearMonths {
      */
     public static Converter<java.time.YearMonth, YearMonth> converter() {
         return JtConverter.INSTANCE;
+    }
+
+    /**
+     * Parses a year-month from the passed string.
+     *
+     * @see #toString(YearMonth)
+     */
+    public static YearMonth parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forYearMonth()
+                               .reverse()
+                               .convert(str);
+    }
+
+    /**
+     * Converts the passed value into a ISO-8601 year-month string, such as {@code "2018-06"}.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(YearMonth value) {
+        checkNotNull(value);
+        checkNotDefault(value);
+        return TimeStringifiers.forYearMonth()
+                               .convert(value);
     }
 
     /**

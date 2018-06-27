@@ -20,15 +20,21 @@
 
 package io.spine.time.string;
 
+import com.google.common.reflect.TypeToken;
 import io.spine.string.Stringifier;
+import io.spine.string.StringifierRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The abstract base for stringifier tests.
@@ -84,5 +90,25 @@ abstract class AbstractStringifierTest<T> {
         Stringifier<T> expected = getStringifier();
         Stringifier<T> stringifier = reserializeAndAssert(expected);
         assertSame(expected, stringifier);
+    }
+
+    @Test
+    @DisplayName("be registered")
+    void isRegistered() {
+        Class<?> dataClass = getStringifierDataClass();
+
+        assertTrue(StringifierRegistry.getInstance()
+                                      .get(dataClass)
+                                      .isPresent());
+    }
+
+    private Class<?> getStringifierDataClass() {
+        TypeToken<?> supertypeToken = TypeToken.of(stringifier.getClass())
+                                               .getSupertype(Stringifier.class);
+        ParameterizedType genericSupertype =
+                (ParameterizedType) supertypeToken.getType();
+        Type[] typeArguments = genericSupertype.getActualTypeArguments();
+        Type typeArgument = typeArguments[0];
+        return (Class<?>) typeArgument;
     }
 }

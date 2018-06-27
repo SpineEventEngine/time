@@ -76,17 +76,30 @@ class YearMonthsTest {
         }
     }
 
-    @Test
-    @DisplayName("convert from Java Time and back")
-    void convert() {
-        java.time.YearMonth expected = java.time.YearMonth.now();
-        YearMonth converted = YearMonths.of(expected);
-        assertEquals(expected, toJavaTime(converted));
-    }
 
     @Test
     @DisplayName("provide serializable Converter")
     void converter() {
         reserializeAndAssert(YearMonths.converter());
+    }
+
+    @Nested
+    @DisplayName("Convert from/to")
+    class Convert {
+
+        @Test
+        @DisplayName("Java Time")
+        void fromJavaTime() {
+            java.time.YearMonth expected = java.time.YearMonth.now();
+            YearMonth converted = YearMonths.of(expected);
+            assertEquals(expected, toJavaTime(converted));
+        }
+
+        @Test
+        @DisplayName("String")
+        void fromString() {
+            YearMonth expected = YearMonths.now();
+            assertEquals(expected, YearMonths.parse(YearMonths.toString(expected)));
+        }
     }
 }

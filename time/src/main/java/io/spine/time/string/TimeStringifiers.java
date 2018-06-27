@@ -31,6 +31,7 @@ import io.spine.time.LocalTime;
 import io.spine.time.Month;
 import io.spine.time.OffsetDateTime;
 import io.spine.time.OffsetTime;
+import io.spine.time.YearMonth;
 import io.spine.time.ZoneOffset;
 
 /**
@@ -60,11 +61,13 @@ public final class TimeStringifiers {
         registry.register(forDayOfWeek(), DayOfWeek.class);
         registry.register(forDuration(), Duration.class);
         registry.register(forLocalDate(), LocalDate.class);
+        registry.register(forLocalDateTime(), LocalDateTime.class);
         registry.register(forLocalTime(), LocalTime.class);
         registry.register(forMonth(), Month.class);
         registry.register(forOffsetDateTime(), OffsetDateTime.class);
         registry.register(forOffsetTime(), OffsetTime.class);
         registry.register(forTimestamp(), Timestamp.class);
+        registry.register(forYearMonth(), YearMonth.class);
         registry.register(forZoneOffset(), ZoneOffset.class);
     }
 
@@ -202,6 +205,20 @@ public final class TimeStringifiers {
      */
     public static Stringifier<OffsetTime> forOffsetTime() {
         return OffsetTimeStringifier.getInstance();
+    }
+
+
+    /**
+     * Obtains default stringifier for {@code YearMonth} values.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.YearMonths#toString(YearMonth) YearMonths.toString(YearMonth)
+     * @see io.spine.time.YearMonths#parse(String) YearMonths.parse(String)
+     */
+    public static Stringifier<YearMonth> forYearMonth() {
+        return YearMonthStringifier.getInstance();
     }
 
     /**
