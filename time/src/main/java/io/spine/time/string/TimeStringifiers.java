@@ -276,7 +276,7 @@ public final class TimeStringifiers {
 
         private void register() {
             StringifierRegistry registry = StringifierRegistry.getInstance();
-            if (registry.get(Duration.class).isPresent()) {
+            if (registry.get(stringifiers.get(0).getClass()).isPresent()) {
                 // Already registered.
                 return;
             }

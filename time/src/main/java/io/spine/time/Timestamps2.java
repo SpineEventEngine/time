@@ -80,7 +80,7 @@ public final class Timestamps2 {
     }
 
     /**
-     * Parses the string with a timestamp.
+     * Parses a timestamp from an RFC-3339 date-time string.
      *
      * <p>Unlike {@link com.google.protobuf.util.Timestamps#parse(String) its Protobuf counterpart}
      * this method does not throw a checked exception.

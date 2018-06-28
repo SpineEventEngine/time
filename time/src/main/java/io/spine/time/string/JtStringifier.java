@@ -69,5 +69,4 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
         }
         return value;
     }
-
 }

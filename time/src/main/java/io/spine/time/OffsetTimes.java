@@ -90,7 +90,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Returns a ISO 8601 time string corresponding to the passed value.
+     * Returns a ISO-8601 time string corresponding to the passed value.
      */
     public static String toString(OffsetTime value) {
         checkNotNull(value);
@@ -99,7 +99,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Parse from ISO 8601 string to {@code OffsetTime}.
+     * Parse from ISO-8601 string to {@code OffsetTime}.
      */
     public static OffsetTime parse(String str) {
         checkNotNull(str);

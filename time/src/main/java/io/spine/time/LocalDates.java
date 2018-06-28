@@ -89,7 +89,7 @@ public final class LocalDates {
     }
 
     /**
-     * Parse from ISO 8601 date representation of the format {@code yyyy-MM-dd}.
+     * Parse from ISO-8601 date representation of the format {@code yyyy-MM-dd}.
      *
      * @see #toString(LocalDate)
      */
