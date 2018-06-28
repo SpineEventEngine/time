@@ -20,51 +20,27 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.LocalTime;
 import io.spine.time.LocalTimes;
-
-import java.io.Serializable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
  * The default stringifier for {@link LocalTime} values.
  *
  * @author Alexander Yevsyukov
  */
-final class LocalTimeStringifier extends Stringifier<LocalTime> implements Serializable {
+final class LocalTimeStringifier extends JtStringifier<LocalTime, java.time.LocalTime> {
 
     private static final long serialVersionUID = 0L;
     private static final LocalTimeStringifier INSTANCE = new LocalTimeStringifier();
 
+    private LocalTimeStringifier() {
+        super("TimeStringifiers.forLocalTime()",
+              java.time.LocalTime::parse,
+              LocalTimes.converter());
+    }
+    
     static LocalTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    protected String toString(LocalTime time) {
-        checkNotNull(time);
-        String result = LocalTimes.toString(time);
-        return result;
-    }
-
-    @Override
-    protected LocalTime fromString(String str) {
-        checkNotNull(str);
-        LocalTime time;
-        try {
-          time = LocalTimes.parse(str);
-        } catch (RuntimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
-        return time;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalTime()";
     }
 
     private Object readResolve() {

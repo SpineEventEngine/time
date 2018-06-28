@@ -21,9 +21,13 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
+
+import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkBounds;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 /**
  * Utilities for working with calendar months.
@@ -33,17 +37,23 @@ import static io.spine.time.DtPreconditions.checkBounds;
  */
 public class Months {
 
-    private static final String MONTH_PARAM = Month.class.getName()
-                                                         .toLowerCase();
-
     /** Prevent instantiation of this utility class. */
     private Months() {
     }
 
+    /**
+     * Obtains current month.
+     */
+    public static Month now() {
+        return of(java.time.LocalDate.now().getMonth());
+    }
+
     static void checkMonth(int month) {
-        checkBounds(month, MONTH_PARAM,
-                    Month.JANUARY.getNumber(),
-                    Month.DECEMBER.getNumber());
+        try {
+            MONTH_OF_YEAR.checkValidValue(month);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
     }
 
     /**
@@ -75,6 +85,7 @@ public class Months {
      */
     public static java.time.Month toJavaTime(Month value) {
         checkNotNull(value);
+        checkMonth(value.getNumber());
         return converter().reverse()
                           .convert(value);
     }
@@ -87,9 +98,39 @@ public class Months {
     }
 
     /**
+     * Obtains string representation of the passed month.
+     *
+     * <p>Returned string is an internal representation, and should not be used in
+     * the user interface.
+     *
+     * <p>For displaying a month, please use
+     * {@link java.time.Month#getDisplayName(java.time.format.TextStyle, java.util.Locale)
+     * java.time.Month.getDisplayName(TextStyle, Locale)}.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(Month value) {
+        checkNotNull(value);
+        return TimeStringifiers.forMonth()
+                               .convert(value);
+    }
+
+    /**
+     * Parses a month from an internal representation string.
+     *
+     * @see #toString(Month)
+     */
+    public static Month parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forMonth()
+                               .reverse()
+                               .convert(str);
+    }
+
+    /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.Month, Month> {
+    private static final class JtConverter extends AbstractConverter<java.time.Month, Month> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();

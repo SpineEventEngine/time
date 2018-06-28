@@ -21,12 +21,17 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
+import java.time.DateTimeException;
 import java.time.YearMonth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkPositive;
+import static io.spine.time.Months.checkMonth;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.lang.String.format;
+import static java.time.temporal.ChronoField.YEAR;
 
 /**
  * Utilities for working with {@link LocalDate}.
@@ -60,7 +65,7 @@ public final class LocalDates {
      * Converts the passed value to Java Time instance.
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
-        checkNotNull(date);
+        checkDate(date);
         return converter().reverse()
                           .convert(date);
     }
@@ -84,23 +89,26 @@ public final class LocalDates {
     }
 
     /**
-     * Parse from ISO 8601 date representation of the format {@code yyyy-MM-dd}.
+     * Parse from ISO-8601 date representation of the format {@code yyyy-MM-dd}.
      *
-     * @return a LocalDate parsed from the string
+     * @see #toString(LocalDate)
      */
     public static LocalDate parse(String str) {
         checkNotNull(str);
-        java.time.LocalDate parsed = java.time.LocalDate.parse(str);
-        return of(parsed);
+        return TimeStringifiers.forLocalDate()
+                               .reverse()
+                               .convert(str);
     }
 
     /**
-     * Converts a local date into ISO 8601 string with the format {@code yyyy-MM-dd}.
+     * Converts a local date into ISO-8601 string with the format {@code yyyy-MM-dd}.
+     *
+     * @see #parse(String)
      */
     public static String toString(LocalDate date) {
-        checkNotNull(date);
-        java.time.LocalDate ld = toJavaTime(date);
-        return ld.toString();
+        checkDate(date);
+        return TimeStringifiers.forLocalDate()
+                               .convert(date);
     }
 
     /**
@@ -119,15 +127,22 @@ public final class LocalDates {
      *
      * <p>Verifies that:
      * <ul>
-     *     <li>the year is less or equal zero,
+     *     <li>the year is within the {@linkplain java.time.Year#MIN_VALUE min}/
+     *     {@linkplain java.time.Year#MAX_VALUE max} range,
      *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
      * @throws IllegalArgumentException if one of the arguments is invalid
      */
     private static void checkDate(int year, Month month, int day) {
+        try {
+            YEAR.checkValidValue(year);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
+        
         checkNotNull(month);
-        checkPositive(year);
+        checkMonth(month.getNumber());
         checkPositive(day);
 
         final int daysInMonth = YearMonth.of(year, month.getNumber())
@@ -150,7 +165,8 @@ public final class LocalDates {
     /**
      * Converts from Java time and back.
      */
-    private static class JtConverter extends AbstractConverter<java.time.LocalDate, LocalDate> {
+    private static final class JtConverter
+            extends AbstractConverter<java.time.LocalDate, LocalDate> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();

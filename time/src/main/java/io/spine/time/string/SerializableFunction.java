@@ -18,10 +18,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import java.io.Serializable;
+
+/**
+ * A function that computes an output value of type {@code R} from an input value of type
+ * {@code T} and is {@link Serializable}.
+ * 
+ * @param <T> input value type
+ * @param <R> output value type
+ * @author Alexander Yevsyukov
+ */
+@FunctionalInterface
+interface SerializableFunction<T, R> extends Serializable {
+    R apply(T input);
 }

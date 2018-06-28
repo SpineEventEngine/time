@@ -20,48 +20,27 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.OffsetTime;
 import io.spine.time.OffsetTimes;
-
-import java.io.Serializable;
-
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
  * Default stringifier for {@link OffsetTime}.
  *
  * @author Alexander Yevsyukov
  */
-final class OffsetTimeStringifier extends Stringifier<OffsetTime> implements Serializable {
+final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.OffsetTime> {
 
     private static final long serialVersionUID = 0L;
     private static final OffsetTimeStringifier INSTANCE = new OffsetTimeStringifier();
 
+    private OffsetTimeStringifier() {
+        super("TimeStringifiers.forOffsetTime()",
+              java.time.OffsetTime::parse,
+              OffsetTimes.converter());
+    }
+
     static OffsetTimeStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    protected String toString(OffsetTime time) {
-        String result = OffsetTimes.toString(time);
-        return result;
-    }
-
-    @Override
-    protected OffsetTime fromString(String str) {
-        OffsetTime result;
-        try {
-            result = OffsetTimes.parse(str);
-        } catch (RuntimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forOffsetTime()";
     }
 
     private Object readResolve() {

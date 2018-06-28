@@ -24,6 +24,7 @@ import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
+import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -35,11 +36,7 @@ import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Timestamps2.fromInstant;
-import static io.spine.time.Timestamps2.instantConverter;
 import static io.spine.time.Timestamps2.isLaterThan;
 import static io.spine.time.Timestamps2.toInstant;
 import static org.junit.Assert.assertEquals;
@@ -48,23 +45,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("Timestamps2 should")
-class Timestamps2Test {
+class Timestamps2Test extends AbstractDateTimeUtilityTest<Timestamp, java.time.Instant> {
 
     private static final Duration TEN_SECONDS = fromSeconds(10L);
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(Timestamps2.class);
+    Timestamps2Test() {
+        super(Timestamps2.class,
+              Time::getCurrentTime,
+              Timestamps::toString,
+              Timestamps2::parse,
+              Timestamps2.converter());
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(Timestamp.class, Time.getCurrentTime())
-                .setDefault(Instant.class, Instant.now())
-                .testAllPublicStaticMethods(Timestamps2.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(Timestamp.class, Time.getCurrentTime())
+                  .setDefault(Instant.class, Instant.now());
+
     }
 
     @Nested
@@ -150,7 +147,8 @@ class Timestamps2Test {
     @DisplayName("provide converter to Instant")
     void converterToInstant() {
         Timestamp timestamp = Time.getCurrentTime();
-        Converter<Timestamp, Instant> converter = instantConverter();
+        Converter<Timestamp, Instant> converter = Timestamps2.converter()
+                                                             .reverse();
         Instant instant = converter.convert(timestamp);
 
         // Check forward conversion.

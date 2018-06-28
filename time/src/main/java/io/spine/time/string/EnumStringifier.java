@@ -18,10 +18,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+/**
+ * Abstract base for stringifiers that work with enum values.
+ *
+ * @param <E> the type of the enum
+ * @author Alexander Yevsyukov
+ */
+abstract class EnumStringifier<E extends Enum<E>> extends SerializableStringifier<E> {
+
+    private static final long serialVersionUID = 0L;
+
+    private final Class<E> enumClass;
+
+    EnumStringifier(String identity, Class<E> aClass) {
+        super(identity);
+        enumClass = aClass;
+    }
+
+    @Override
+    protected final String toString(E e) {
+        return e.toString();
+    }
+
+    @Override
+    protected final E fromString(String s) {
+        E result = Enum.valueOf(enumClass, s);
+        return result;
+    }
 }

@@ -20,6 +20,7 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -29,7 +30,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Alexander Aleksandrov
  * @author Alexander Yevsyukov
  */
-@SuppressWarnings("ClassWithTooManyMethods")
 public final class OffsetDateTimes {
 
     /** Prevent instantiation of this utility class. */
@@ -37,14 +37,22 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Obtains current date/time at the passed time zone.
+     * Obtains current date/time at the system time zone.
      */
     public static OffsetDateTime now() {
-        java.time.OffsetDateTime now = java.time.OffsetDateTime.now();
+        ZoneOffset offset = ZoneOffsets.getDefault();
+        return now(offset);
+    }
+
+    /**
+     * Obtains current date-time at the the passed time zone.
+     */
+    public static OffsetDateTime now(ZoneOffset offset) {
+        java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(offset);
+        java.time.OffsetDateTime now = java.time.OffsetDateTime.now(zo);
         LocalTime localTime = LocalTimes.of(now.toLocalTime());
         LocalDate localDate = LocalDates.of(now.toLocalDate());
-        ZoneOffset zoneOffset = ZoneOffsets.of(now.getOffset());
-        return create(localDate, localTime, zoneOffset);
+        return create(localDate, localTime, offset);
     }
 
     /**
@@ -68,8 +76,7 @@ public final class OffsetDateTimes {
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
         OffsetDateTime.Builder result = OffsetDateTime
                 .newBuilder()
-                .setDate(date)
-                .setTime(time)
+                .setDateTime(LocalDateTimes.of(date, time))
                 .setOffset(offset);
         return result.build();
     }
@@ -84,19 +91,22 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Returns a ISO 8601 date/time string corresponding to the passed value.
+     * Returns a ISO-8601 date/time string corresponding to the passed value.
      */
     public static String toString(OffsetDateTime value) {
-        return toJavaTime(value).toString();
+        checkNotNull(value);
+        return TimeStringifiers.forOffsetDateTime()
+                               .convert(value);
     }
 
     /**
-     * Parse from ISO 8601 date/time string to {@code OffsetDateTime}.
+     * Parses from ISO-8601 date/time string to {@code OffsetDateTime}.
      */
     public static OffsetDateTime parse(String value) {
         checkNotNull(value);
-        java.time.OffsetDateTime parsed = java.time.OffsetDateTime.parse(value);
-        return of(parsed);
+        return TimeStringifiers.forOffsetDateTime()
+                               .reverse()
+                               .convert(value);
     }
 
     /**
@@ -128,8 +138,7 @@ public final class OffsetDateTimes {
         @Override
         protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
             java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
-                    LocalDates.toJavaTime(value.getDate()),
-                    LocalTimes.toJavaTime(value.getTime()),
+                    LocalDateTimes.toJavaTime(value.getDateTime()),
                     ZoneOffsets.toJavaTime(value.getOffset())
             );
             return result;

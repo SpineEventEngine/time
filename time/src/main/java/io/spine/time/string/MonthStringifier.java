@@ -18,10 +18,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.time.Month;
+
+/**
+ * The default stringifier for {@link io.spine.time.Month Month} instances.
+ *
+ * @author Alexander Yevsyukov
+ */
+final class MonthStringifier extends EnumStringifier<Month> {
+
+    private static final long serialVersionUID = 0L;
+
+    private static final MonthStringifier INSTANCE = new MonthStringifier();
+
+    private MonthStringifier() {
+        super("TimeStringifiers.forMonth()", Month.class);
+    }
+
+    static MonthStringifier getInstance() {
+        return INSTANCE;
+    }
+
+    private Object readResolve() {
+        return INSTANCE;
+    }
 }

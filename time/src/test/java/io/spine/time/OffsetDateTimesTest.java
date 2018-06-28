@@ -26,32 +26,31 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Asserts.assertDatesEqual;
+import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
-public class OffsetDateTimesTest extends AbstractZonedTimeTest {
+public class OffsetDateTimesTest
+        extends AbstractOffsetTimeTest<OffsetDateTime, java.time.OffsetDateTime> {
 
-    private static final int YEAR = 2012;
-    private static final Month MONTH = Month.JULY;
-    private static final int DAY = 16;
-    private static final int HOURS = 9;
-    private static final int MINUTES = 30;
-    private static final int SECONDS = 23;
-    private static final int NANOS = 122;
+    private LocalDate date;
+    private LocalTime time;
 
-    private LocalDate gmtToday;
-    private LocalTime now;
+    OffsetDateTimesTest() {
+        super(OffsetDateTimes.class,
+              OffsetDateTimes::now,
+              OffsetDateTimes::toString,
+              OffsetDateTimes::parse,
+              OffsetDateTimes.converter());
+    }
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetDateTime now = OffsetDateTimes.now();
+        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
         String str = OffsetDateTimes.toString(now);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);
 
@@ -59,27 +58,19 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
     }
 
     @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(LocalTime.class, LocalTimes.now())
+                  .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
+                  .setDefault(LocalDate.class, LocalDates.now());
+
+    }
+
+    @Override
     @BeforeEach
     public void setUp() {
         super.setUp();
-        gmtToday = LocalDates.of(YEAR, MONTH, DAY);
-        now = LocalTimes.of(HOURS, MINUTES, SECONDS, NANOS);
-    }
-
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(OffsetDateTimes.class);
-    }
-
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester()
-                .setDefault(LocalTime.class, LocalTimes.now())
-                .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
-                .setDefault(LocalDate.class, LocalDates.now())
-                .testAllPublicStaticMethods(OffsetDateTimes.class);
+        date = LocalDates.now();
+        time = LocalTimes.now();
     }
 
     @Nested
@@ -97,34 +88,23 @@ public class OffsetDateTimesTest extends AbstractZonedTimeTest {
         @Test
         @DisplayName("date/time at offset")
         void dateTimeAtOffset() {
-            OffsetDateTime offsetDateTime = of(gmtToday, now, zoneOffset());
+            OffsetDateTime offsetDateTime = of(date, time, zoneOffset());
 
-            LocalDate date = offsetDateTime.getDate();
+            LocalDate date = offsetDateTime.getDateTime()
+                                           .getDate();
             LocalDates.checkDate(date);
-            LocalTime time = offsetDateTime.getTime();
-
-            assertEquals(gmtToday, date);
-            assertEquals(now, time);
+            LocalTime time = offsetDateTime.getDateTime()
+                                           .getTime();
+            LocalTimes.checkTime(time);
+            assertEquals(OffsetDateTimesTest.this.date, date);
+            assertEquals(OffsetDateTimesTest.this.time, time);
             assertEquals(zoneOffset(), offsetDateTime.getOffset());
         }
     }
 
     private static void assertEqualDateTime(java.time.OffsetDateTime jt, OffsetDateTime ot) {
-        LocalDate date = ot.getDate();
-        assertEquals(jt.getYear(), date.getYear());
-        assertEquals(jt.getMonthValue(), date.getMonthValue());
-        assertEquals(jt.getDayOfMonth(), date.getDay());
-
-        LocalTime time = ot.getTime();
-        assertEquals(jt.getHour(), time.getHour());
-        assertEquals(jt.getMinute(), time.getMinute());
-        assertEquals(jt.getSecond(), time.getSecond());
-        assertEquals(jt.getNano(), time.getNano());
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void converter() {
-        reserializeAndAssert(OffsetDateTimes.converter());
+        LocalDateTime dateTime = ot.getDateTime();
+        assertDatesEqual(jt.toLocalDate(), dateTime.getDate());
+        assertTimesEqual(jt.toLocalTime(), dateTime.getTime());
     }
 }

@@ -20,49 +20,53 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Duration;
-import com.google.protobuf.util.Durations;
+import com.google.common.base.Converter;
 
-import java.text.ParseException;
-
+import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 
 /**
- * The default stringifier for {@code Duration}s.
+ * An abstract base for stringifier that use Java Time types for conversion to string and parsing.
  *
+ * @param <T> the type to stringify
+ * @param <J> the Java Time type which corresponds to type {@code T}
  * @author Alexander Yevsyukov
  */
-final class DurationStringifier extends SerializableStringifier<Duration> {
+abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
     private static final long serialVersionUID = 0L;
-    private static final DurationStringifier INSTANCE = new DurationStringifier();
 
-    private DurationStringifier() {
-        super("TimeStringifiers.forDuration()");
-    }
+    @SuppressWarnings("NonSerializableFieldInSerializableClass") /* All converters
+        passed to JtStringifier are internal to Spine Time and are Serializable. */
+    private final Converter<J, T> converter;
+    private final SerializableFunction<String, J> parser;
 
-    static DurationStringifier getInstance() {
-        return INSTANCE;
+    JtStringifier(String identity,
+                  SerializableFunction<String, J> parser,
+                  Converter<J, T> converter) {
+        super(identity);
+        this.converter = checkNotNull(converter);
+        this.parser = checkNotNull(parser);
     }
 
     @Override
-    protected String toString(Duration duration) {
-        String result = Durations.toString(duration);
+    protected String toString(T value) {
+        J javaTime = converter.reverse()
+                              .convert(value);
+        checkNotNull(javaTime);
+        String result = javaTime.toString();
         return result;
     }
 
     @Override
-    protected Duration fromString(String str) {
-        Duration result;
+    protected T fromString(String str) {
+        T value;
         try {
-            result = Durations.parse(str);
-        } catch (ParseException e) {
+            J parsed = parser.apply(str);
+            value = converter.convert(parsed);
+        } catch (RuntimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }
-        return result;
-    }
-
-    private Object readResolve() {
-        return INSTANCE;
+        return value;
     }
 }

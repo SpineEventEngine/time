@@ -27,30 +27,30 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.time.Months.checkMonth;
+import static io.spine.time.Months.of;
 import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("Months should")
-class MonthsTest {
+class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Months.class);
+    MonthsTest() {
+        super(Months.class,
+              Months::now,
+              Months::toString,
+              Months::parse,
+              Months.converter());
     }
 
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(Months.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
     }
 
     @Nested
@@ -61,28 +61,52 @@ class MonthsTest {
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
             LocalDate today = LocalDate.now();
-            Month month = Months.of(today);
+            Month month = of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
-    }
 
-    @Test
-    @DisplayName("convert to Java Time value")
-    void javaTime() {
-        for (Month month : Month.values()) {
-            if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
-                continue;
+        @Test
+        @DisplayName("by month number")
+        void fromNumber() {
+            for (int month = java.time.Month.JANUARY.getValue();
+                 month <= java.time.Month.DECEMBER.getValue();
+                 month++) {
+                 assertEquals(month, of(month).getNumber());
             }
-
-            java.time.Month jt = toJavaTime(month);
-            assertEquals(month.getNumber(), jt.getValue());
         }
     }
 
-    @Test
-    @DisplayName("provide serializable Converter")
-    void serialize() {
-        reserializeAndAssert(Months.converter());
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
+
+        @Test
+        @DisplayName("invalid month value")
+        void outOfBoundsMonth() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkMonth(0)
+            );
+
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkMonth(13)
+            );
+        }
+
+        @Test
+        @DisplayName("invalid Month instance")
+        void invalidMonth() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(Month.MONTH_UNDEFINED)
+            );
+
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(Month.UNRECOGNIZED)
+            );
+        }
     }
 }

@@ -26,15 +26,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.test.TestValues.random;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Constants.HOURS_PER_DAY;
 import static io.spine.time.Constants.MINUTES_PER_HOUR;
-import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static io.spine.time.Constants.NANOS_PER_SECOND;
+import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -43,7 +40,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetTimes should")
-class OffsetTimesTest extends AbstractZonedTimeTest {
+class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.OffsetTime> {
+
+    OffsetTimesTest() {
+        super(OffsetTimes.class,
+              OffsetTimes::now,
+              OffsetTimes::toString,
+              OffsetTimes::parse,
+              OffsetTimes.converter());
+    }
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
@@ -53,10 +58,12 @@ class OffsetTimesTest extends AbstractZonedTimeTest {
         assertEquals(now, parsed);
     }
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void haveUtilityConstructor() {
-        assertHasPrivateParameterlessCtor(OffsetTimes.class);
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(Timestamp.class, getCurrentTime())
+                  .setDefault(OffsetTime.class, OffsetTimes.now())
+                  .setDefault(ZoneOffset.class, zoneOffset())
+                  .setDefault(LocalTime.class, LocalTimes.now());
     }
 
     @Nested
@@ -87,22 +94,5 @@ class OffsetTimesTest extends AbstractZonedTimeTest {
         int seconds = random(SECONDS_PER_MINUTE);
         int nanos = random(NANOS_PER_SECOND);
         return LocalTimes.of(hours, minutes, seconds, nanos);
-    }
-
-    @Test
-    @DisplayName("reject null values")
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(Timestamp.class, getCurrentTime())
-                .setDefault(OffsetTime.class, OffsetTimes.now())
-                .setDefault(ZoneOffset.class, zoneOffset())
-                .setDefault(LocalTime.class, LocalTimes.now())
-                .testAllPublicStaticMethods(OffsetTimes.class);
-    }
-
-    @Test
-    @DisplayName("provide serializable Converter")
-    void converter() {
-        reserializeAndAssert(OffsetTimes.converter());
     }
 }

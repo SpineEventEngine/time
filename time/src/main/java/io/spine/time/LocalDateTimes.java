@@ -21,8 +21,11 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.LocalDates.checkDate;
+import static io.spine.time.LocalTimes.checkTime;
 
 /**
  * Utilities for working with {@code LocalDateTime}.
@@ -54,8 +57,8 @@ public class LocalDateTimes {
      * Creates an instance with the passed date and time.
      */
     public static LocalDateTime of(LocalDate date, LocalTime time) {
-        checkNotNull(date);
-        checkNotNull(time);
+        checkDate(date);
+        checkTime(time);
         return create(date, time);
     }
 
@@ -84,9 +87,32 @@ public class LocalDateTimes {
     }
 
     /**
+     * Parses the date-time value from ISO-8601 format string.
+     *
+     * @see #toString(LocalDateTime)
+     */
+    public static LocalDateTime parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forLocalDateTime()
+                               .reverse()
+                               .convert(str);
+    }
+
+    /**
+     * Converts a local date-time value into ISO-8601 format string.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(LocalDateTime value) {
+        checkNotNull(value);
+        return TimeStringifiers.forLocalDateTime()
+                               .convert(value);
+    }
+
+    /**
      * Converts from Java Time and back.
      */
-    private static class JtConverter
+    private static final class JtConverter
             extends AbstractConverter<java.time.LocalDateTime, LocalDateTime> {
 
         private static final long serialVersionUID = 0L;

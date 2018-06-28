@@ -21,13 +21,18 @@
 package io.spine.time.string;
 
 import io.spine.string.Stringifier;
+import io.spine.string.StringifierRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Modifier;
+
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The abstract base for stringifier tests.
@@ -50,7 +55,13 @@ abstract class AbstractStringifierTest<T> {
     }
 
     @Test
-    @DisplayName("Convert forward and backward")
+    @DisplayName("have private singleton constructor")
+    void privateCtor() {
+        assertHasPrivateParameterlessCtor(getStringifier().getClass());
+    }
+
+    @Test
+    @DisplayName("convert forward and backward")
     void convert() {
         T obj = createObject();
 
@@ -62,7 +73,7 @@ abstract class AbstractStringifierTest<T> {
     }
 
     @Test
-    @DisplayName("Prohibit empty string input")
+    @DisplayName("prohibit empty string input")
     void prohibitEmptyString() {
         assertThrows(
                 IllegalArgumentException.class,
@@ -72,10 +83,27 @@ abstract class AbstractStringifierTest<T> {
     }
 
     @Test
-    @DisplayName("Serialize")
+    @DisplayName("serialize")
     void serialize() {
         Stringifier<T> expected = getStringifier();
         Stringifier<T> stringifier = reserializeAndAssert(expected);
         assertSame(expected, stringifier);
+    }
+
+    @Test
+    @DisplayName("be registered")
+    void isRegistered() {
+        Class<? extends Stringifier> cls = stringifier.getClass();
+        Class<?> dataClass = TimeStringifiers.Registrar.getDataClass(cls);
+
+        assertTrue(StringifierRegistry.getInstance()
+                                      .get(dataClass)
+                                      .isPresent());
+    }
+
+    @Test
+    @DisplayName("have final class")
+    void isFinalClass() {
+        assertTrue(Modifier.isFinal(stringifier.getClass().getModifiers()));
     }
 }

@@ -21,8 +21,13 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
+
+import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
  * Utilities for working with {@link io.spine.time.DayOfWeek DayOfWeek} instances.
@@ -36,6 +41,14 @@ public class DaysOfWeek {
     }
 
     /**
+     * Obtains today's day of week.
+     */
+    public static DayOfWeek now() {
+        return of(java.time.LocalDate.now()
+                                     .getDayOfWeek());
+    }
+
+    /**
      * Obtains the week day corresponding to the passed Java Time value.
      */
     public static DayOfWeek of(java.time.DayOfWeek day) {
@@ -44,14 +57,53 @@ public class DaysOfWeek {
         return result;
     }
 
+    private static void checkDay(int day) {
+        try {
+            DAY_OF_WEEK.checkValidValue(day);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
+    }
+
     /**
      * Converts the passed instance to Java Time value.
      */
-    public static Object toJavaTime(DayOfWeek day) {
+    public static java.time.DayOfWeek toJavaTime(DayOfWeek day) {
         checkNotNull(day);
+        checkDay(day.getNumber());
         java.time.DayOfWeek result = converter().reverse()
                                                 .convert(day);
         return result;
+    }
+
+    /**
+     * Obtains string representation of the passed day of week.
+     *
+     * <p>Returned string is an internal representation, and should not be used
+     * in the user interface.
+     *
+     * <p>For displaying a day of week, please use
+     * {@link java.time.DayOfWeek#getDisplayName(java.time.format.TextStyle, java.util.Locale)
+     *  java.time.DayOfWeek.getDisplayName(TextStyle, Locale)}.
+     *
+     * @see #parse(String)
+     */
+    public static String toString(DayOfWeek value) {
+        checkNotNull(value);
+        return TimeStringifiers.forDayOfWeek()
+                               .convert(value);
+    }
+
+    /**
+     * Parses a day of week value from an internal representation string.
+     *
+     * @see #toString(DayOfWeek)
+     */
+    public static DayOfWeek parse(String str) {
+        checkNotNull(str);
+        return TimeStringifiers.forDayOfWeek()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

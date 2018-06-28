@@ -18,10 +18,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.time.ZonedDateTime;
+import io.spine.time.ZonedDateTimes;
+import org.junit.jupiter.api.DisplayName;
+
+/**
+ * @author Alexander Yevsyukov
+ */
+@DisplayName("ZonedDateTimeStringifier should")
+class ZonedDateTimeStringifierTest extends AbstractStringifierTest<ZonedDateTime> {
+
+    ZonedDateTimeStringifierTest() {
+        super(TimeStringifiers.forZonedDateTime());
+    }
+
+    @Override
+    protected ZonedDateTime createObject() {
+        return ZonedDateTimes.now();
+    }
 }

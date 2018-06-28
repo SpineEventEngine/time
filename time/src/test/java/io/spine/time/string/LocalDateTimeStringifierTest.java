@@ -18,10 +18,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.time.LocalDateTime;
+import io.spine.time.LocalDateTimes;
+
+/**
+ * @author Alexander Yevsyukov
+ */
+class LocalDateTimeStringifierTest extends AbstractStringifierTest<LocalDateTime> {
+
+    LocalDateTimeStringifierTest() {
+        super(TimeStringifiers.forLocalDateTime());
+    }
+
+    @Override
+    protected LocalDateTime createObject() {
+        return LocalDateTimes.now();
+    }
 }

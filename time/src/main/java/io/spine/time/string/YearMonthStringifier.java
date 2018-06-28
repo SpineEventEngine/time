@@ -18,10 +18,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.time.YearMonth;
+import io.spine.time.YearMonths;
+
+/**
+ * The default stringifier for {@link io.spine.time.YearMonth YearMonth} instances.
+ *
+ * @author Alexander Yevsyukov
+ */
+final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.YearMonth> {
+
+    private static final long serialVersionUID = 0L;
+    private static final YearMonthStringifier INSTANCE = new YearMonthStringifier();
+
+    private YearMonthStringifier() {
+        super("TimeStringifiers.forYearMonth()",
+              java.time.YearMonth::parse,
+              YearMonths.converter());
+    }
+    static YearMonthStringifier getInstance() {
+        return INSTANCE;
+    }
+
+    private Object readResolve() {
+        return INSTANCE;
+    }
 }

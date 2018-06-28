@@ -25,21 +25,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.time.DaysOfWeek.toJavaTime;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static io.spine.time.ZoneIds.toJavaTime;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Alexander Yevsyukov
- */
-@DisplayName("DaysOfWeek should")
-class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.DayOfWeek> {
+@SuppressWarnings("ClassCanBeStatic")
+@DisplayName("ZoneIds should")
+class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> {
 
-    DaysOfWeekTest() {
-        super(DaysOfWeek.class,
-              DaysOfWeek::now,
-              DaysOfWeek::toString,
-              DaysOfWeek::parse,
-              DaysOfWeek.converter());
+    ZoneIdsTest() {
+        super(ZoneIds.class,
+              ZoneIds::systemDefault,
+              ZoneIds::toString,
+              ZoneIds::parse,
+              ZoneIds.converter());
     }
 
     @Override
@@ -48,20 +46,31 @@ class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.Da
     }
 
     @Nested
-    @DisplayName("Reject")
-    class Arguments {
+    @DisplayName("Create new instance")
+    class Create {
 
         @Test
-        @DisplayName("out of bounds values")
-        void outOfBounds() {
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> toJavaTime(DayOfWeek.UNRECOGNIZED)
-            );
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> toJavaTime(DayOfWeek.DOW_UNDEFINED)
-            );
+        @DisplayName("for the current time-zone")
+        void forCurrentTimeZone() {
+            assertEquals(java.time.ZoneId.systemDefault()
+                                         .getId(),
+                         ZoneIds.systemDefault()
+                                .getValue());
+        }
+
+        @Test
+        @DisplayName("by an ID value")
+        void byValue() {
+            for (String id : java.time.ZoneId.getAvailableZoneIds()) {
+                assertEquals(id, ZoneIds.of(id).getValue());
+            }
+        }
+
+        @Test
+        @DisplayName("by Java Time value")
+        void byJavaTime() {
+            ZoneId expected = ZoneIds.systemDefault();
+            assertEquals(expected, ZoneIds.of(toJavaTime(expected)));
         }
     }
 }

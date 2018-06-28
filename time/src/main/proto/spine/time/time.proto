@@ -24,15 +24,12 @@ package spine.time;
 import "spine/options.proto";
 
 option (type_url_prefix) = "type.spine.io";
-option java_generate_equals_and_hash = true;
 option java_multiple_files = true;
 option java_outer_classname = "TimeProto";
 option java_package = "io.spine.time";
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/duration.proto";
-
-import "spine/time/zone.proto";
 
 // Enum representing the 12 months of the year.
 enum Month {
@@ -51,7 +48,7 @@ enum Month {
     DECEMBER = 12;
 }
 
-// A combination of year and month in the ISO-8601 calendar system, such as 2018-06.
+// A combination of year and month in the ISO-8601 calendar system, such as `2018-06`.
 //
 // The purpose of this type is to store values like "June 2018".
 //
@@ -100,15 +97,45 @@ message LocalDateTime {
     LocalTime time = 2 [(required) = true];
 }
 
+// A time-zone offset from UTC, such as `+02:00`.
+message ZoneOffset {
+
+    // The total offset in seconds.
+    int32 amount_seconds = 1;
+}
+
 // A time with an offset from UTC.
 message OffsetTime {
+
+    // The local time.
     LocalTime time = 1 [(required) = true];
+
+    // The offset of the time-zone from UTC.
     ZoneOffset offset = 2 [(required) = true];
 }
 
 // A date-time with an offset from UTC.
 message OffsetDateTime {
-    LocalDate date = 1 [(required) = true];
-    LocalTime time = 2; // A time field is optional for more flexibility.
-    ZoneOffset offset = 3 [(required) = true];
+
+    // The local date-time.
+    LocalDateTime date_time = 1 [(required) = true];
+
+    // The offset of the time-zone from UTC.
+    ZoneOffset offset = 2 [(required) = true];
+}
+
+// An ID of a time-zone, such as `Europe/Amsterdam`.
+message ZoneId {
+    string value = 1;
+}
+
+// A date-time with a time-zone in the ISO-8601 calendar system,
+// such as `2018-06-25T19:22:45+01:00 Europe/Amsterdam`.
+message ZonedDateTime {
+
+    // The local date-time.
+    LocalDateTime date_time = 1 [(required) = true];
+
+    // The time-zone.
+    ZoneId zone = 2 [(required) = true];
 }

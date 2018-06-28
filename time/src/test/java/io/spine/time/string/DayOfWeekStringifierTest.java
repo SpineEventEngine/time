@@ -18,10 +18,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.test.TestValues;
+import io.spine.time.DayOfWeek;
+import org.junit.jupiter.api.DisplayName;
+
+/**
+ * @author Alexander Yevsyukov
+ */
+@DisplayName("DayOfWeekStringifier should")
+class DayOfWeekStringifierTest extends AbstractStringifierTest<DayOfWeek> {
+
+    DayOfWeekStringifierTest() {
+        super(TimeStringifiers.forDayOfWeek());
+    }
+
+    @Override
+    protected DayOfWeek createObject() {
+        int randomDay = TestValues.random(DayOfWeek.SUNDAY.getNumber() - 1) + 1;
+        return DayOfWeek.forNumber(randomDay);
+    }
 }

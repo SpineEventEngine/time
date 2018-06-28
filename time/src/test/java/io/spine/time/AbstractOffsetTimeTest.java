@@ -20,10 +20,14 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static io.spine.test.TestValues.random;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
@@ -33,12 +37,22 @@ import static java.lang.Math.abs;
 /**
  * Abstract base for test of time with offset.
  *
+ * @param <T> the type with which the utility class work
+ * @param <J> the Java Type which corresponds to the type {@code <T>}
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
-public abstract class AbstractZonedTimeTest {
+public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtilityTest<T, J> {
 
     private ZoneOffset zoneOffset;
+
+    AbstractOffsetTimeTest(Class<?> utilityClass,
+                           Supplier<T> current,
+                           Function<T, String> strOut,
+                           Function<String, T> parser,
+                           Converter<J, T> converter) {
+        super(utilityClass, current, strOut, parser, converter);
+    }
 
     protected abstract void assertConversionAt(ZoneOffset zoneOffset);
 

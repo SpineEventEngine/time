@@ -20,60 +20,51 @@
 
 package io.spine.time.string;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
+import com.google.common.reflect.TypeToken;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Durations;
-import com.google.protobuf.util.Timestamps;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
+import io.spine.time.DayOfWeek;
 import io.spine.time.LocalDate;
-import io.spine.time.LocalDates;
+import io.spine.time.LocalDateTime;
 import io.spine.time.LocalTime;
+import io.spine.time.Month;
 import io.spine.time.OffsetDateTime;
 import io.spine.time.OffsetTime;
+import io.spine.time.YearMonth;
+import io.spine.time.ZoneId;
 import io.spine.time.ZoneOffset;
+import io.spine.time.ZonedDateTime;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * A collection of stringifiers for date/time value objects.
  *
  * @author Alexander Yevsyukov
- * @see #forDuration() Duration stringifier
- * @see #forTimestamp() Timestap stringifier
  */
 public final class TimeStringifiers {
 
     static {
-        registerAll();
+        new Registrar().register();
     }
 
     /** Prevent instantiation of this utility class. */
     private TimeStringifiers() {
     }
 
-    private static void registerAll() {
-        StringifierRegistry registry = StringifierRegistry.getInstance();
-        if (registry.get(Duration.class).isPresent()) {
-            // Already registered.
-            return;
-        }
-
-        registry.register(forDuration(), Duration.class);
-        registry.register(forZoneOffset(), ZoneOffset.class);
-        registry.register(forTimestamp(), Timestamp.class);
-        registry.register(forLocalDate(), LocalDate.class);
-        registry.register(forLocalTime(), LocalTime.class);
-        registry.register(forOffsetDateTime(), OffsetDateTime.class);
-        registry.register(forOffsetTime(), OffsetTime.class);
-    }
-
     /**
-     * Obtains default stringifier for {@code ZoneOffset}s.
+     * Obtains default stringifier for {@code DayOfWeek}s.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      */
-    public static Stringifier<ZoneOffset> forZoneOffset() {
-        return ZoneOffsetStringifier.getInstance();
+    public static Stringifier<DayOfWeek> forDayOfWeek() {
+        return DayOfWeekStringifier.getInstance();
     }
 
     /**
@@ -82,8 +73,8 @@ public final class TimeStringifiers {
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      *
-     * @see Durations#toString(Duration)
-     * @see Durations#parse(String)
+     * @see com.google.protobuf.util.Durations#toString(Duration) Durations.toString(Duration)
+     * @see com.google.protobuf.util.Durations#parse(String) Durations.parse(String)
      */
     public static Stringifier<Duration> forDuration() {
         return DurationStringifier.getInstance();
@@ -92,7 +83,8 @@ public final class TimeStringifiers {
     /**
      * Obtains a stringifier that coverts a Timestamp into to RFC 3339 date string format.
      *
-     * @see Timestamps#toString(Timestamp)
+     * @see com.google.protobuf.util.Timestamps#toString(Timestamp) Timestamps.toString(Timestamp)
+     * @see com.google.protobuf.util.Timestamps#parse(String) Timestamps.parse(String)
      */
     public static Stringifier<Timestamp> forTimestamp() {
         return TimestampStringifier.getInstance();
@@ -115,7 +107,7 @@ public final class TimeStringifiers {
      * <p>This stringifier can be convenient for storing IDs based on {@code Timestamp}s.
      */
     public static Stringifier<Timestamp> forTimestampWebSafe() {
-        return WebSafeTimestampStringifer.getInstance();
+        return WebSafeTimestampStringifier.getInstance();
     }
 
     /**
@@ -126,22 +118,51 @@ public final class TimeStringifiers {
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      *
-     * @see LocalDates#parse(String)
+     * @see io.spine.time.LocalDates#toString(LocalDate) LocalDates.toString(LocalDate)
+     * @see io.spine.time.LocalDates#parse(String) LocalDates.parse(String)
      */
     public static Stringifier<LocalDate> forLocalDate() {
         return LocalDateStringifier.getInstance();
     }
 
     /**
+     * Obtains default stringifier for local date-time values in ISO-8601 formats.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.LocalDateTimes#toString(LocalDateTime)
+     *      LocalDateTimes.toString(LocalDateTime)
+     * @see io.spine.time.LocalDateTimes#parse(String)
+     *      LocalDateTimes.parse(String)
+     */
+    public static Stringifier<LocalDateTime> forLocalDateTime() {
+        return LocalDateTimeStringifier.getInstance();
+    }
+    /**
      * Obtains default stringifier for {@code LocalTime} values.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      *
+     * @see io.spine.time.LocalTimes#toString(LocalTime) LocalTimes.toString(LocalTime)
      * @see io.spine.time.LocalTimes#parse(String) LocalTimes.parse(String)
      */
     public static Stringifier<LocalTime> forLocalTime() {
         return LocalTimeStringifier.getInstance();
+    }
+
+    /**
+     * Obtains a stringifier for {@code Month} values.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.Months#toString(Month) Months.toString(Month)
+     * @see io.spine.time.Months#parse(String) Months.parse(String)
+     */
+    public static Stringifier<Month> forMonth() {
+        return MonthStringifier.getInstance();
     }
 
     /**
@@ -150,7 +171,10 @@ public final class TimeStringifiers {
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      *
-     * @see io.spine.time.OffsetDateTimes#parse(String) OffsetDateTimes.parse(String)
+     * @see io.spine.time.OffsetDateTimes#toString(OffsetDateTime)
+     *      OffsetDateTimes.toString(OffsetDateTime)
+     * @see io.spine.time.OffsetDateTimes#parse(String)
+     *      OffsetDateTimes.parse(String)
      */
     public static Stringifier<OffsetDateTime> forOffsetDateTime() {
         return OffsetDateTimeStringifier.getInstance();
@@ -162,9 +186,116 @@ public final class TimeStringifiers {
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
      *
+     * @see io.spine.time.OffsetTimes#toString(OffsetTime) OffsetTimes.toString(OffsetTime)
      * @see io.spine.time.OffsetTimes#parse(String) OffsetTimes.parse(String)
      */
     public static Stringifier<OffsetTime> forOffsetTime() {
         return OffsetTimeStringifier.getInstance();
+    }
+
+
+    /**
+     * Obtains default stringifier for {@code YearMonth} values.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.YearMonths#toString(YearMonth) YearMonths.toString(YearMonth)
+     * @see io.spine.time.YearMonths#parse(String) YearMonths.parse(String)
+     */
+    public static Stringifier<YearMonth> forYearMonth() {
+        return YearMonthStringifier.getInstance();
+    }
+
+    /**
+     * Obtains default stringifier for {@code ZoneId}s.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.ZoneIds#toString(ZoneId) ZoneIds.toString(ZoneId)
+     * @see io.spine.time.ZoneIds#parse(String) ZoneIds.parse(String)
+     */
+    public static Stringifier<ZoneId> forZoneId() {
+        return ZoneIdStringifier.getInstance();
+    }
+
+    /**
+     * Obtains default stringifier for {@code ZonedDateTime}.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.ZonedDateTimes#toString(ZonedDateTime)
+     *      ZonedDateTimes.toString(ZonedDateTime)
+     * @see io.spine.time.ZonedDateTimes#parse(String)
+     *      ZonedDateTimes.parse(String)
+     */
+    public static Stringifier<ZonedDateTime> forZonedDateTime() {
+        return ZonedDateTimeStringifier.getInstance();
+    }
+
+    /**
+     * Obtains default stringifier for {@code ZoneOffset}s.
+     *
+     * <p>This stringifier is automatically registered in the
+     * {@link StringifierRegistry StringifierRegistry}.
+     *
+     * @see io.spine.time.ZoneOffsets#toString(ZoneOffset) ZoneOffsets.toString(ZoneOffset)
+     * @see io.spine.time.ZoneOffsets#parse(String) ZoneOffsets.parse(String)
+     */
+    public static Stringifier<ZoneOffset> forZoneOffset() {
+        return ZoneOffsetStringifier.getInstance();
+    }
+
+    /**
+     * Registers standard date-time stringifers at the {@link io.spine.string.StringifierRegistry
+     * StringiferRegistry}.
+     */
+    static class Registrar {
+
+        private final ImmutableList<Stringifier<?>> stringifiers;
+
+        private Registrar() {
+            stringifiers = ImmutableList.of(
+                    forDayOfWeek(),
+                    forDuration(),
+                    forLocalDate(),
+                    forLocalDateTime(),
+                    forLocalTime(),
+                    forMonth(),
+                    forOffsetDateTime(),
+                    forOffsetTime(),
+                    forTimestamp(),
+                    forYearMonth(),
+                    forZoneId(),
+                    forZonedDateTime(),
+                    forZoneOffset()
+            );
+        }
+
+        private void register() {
+            StringifierRegistry registry = StringifierRegistry.getInstance();
+            if (registry.get(stringifiers.get(0).getClass()).isPresent()) {
+                // Already registered.
+                return;
+            }
+
+            for (Stringifier<?> stringifier : stringifiers) {
+                Class<?> dataClass = getDataClass(stringifier.getClass());
+                registry.register(stringifier, dataClass);
+            }
+        }
+
+        @VisibleForTesting
+        static Class<?> getDataClass(Class<? extends Stringifier> stringifierClass) {
+            TypeToken<?> supertypeToken = TypeToken.of(stringifierClass)
+                                                   .getSupertype(Stringifier.class);
+            ParameterizedType genericSupertype =
+                    (ParameterizedType) supertypeToken.getType();
+            Type[] typeArguments = genericSupertype.getActualTypeArguments();
+            Type typeArgument = typeArguments[0];
+            return (Class<?>) typeArgument;
+        }
     }
 }

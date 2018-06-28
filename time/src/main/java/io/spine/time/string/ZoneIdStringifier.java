@@ -18,10 +18,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '0.10.43-SNAPSHOT'
+package io.spine.time.string;
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
+import io.spine.time.ZoneId;
+import io.spine.time.ZoneIds;
+
+/**
+ * The default stringifier for {@link io.spine.time.ZoneId ZoneId} instances.
+ *
+ * @author Alexander Yevsyukov
+ */
+final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
+
+    private static final long serialVersionUID = 0L;
+    private static final ZoneIdStringifier INSTANCE = new ZoneIdStringifier();
+
+    private ZoneIdStringifier() {
+        super("TimeStringifiers.forZoneId()",
+              java.time.ZoneId::of,
+              ZoneIds.converter());
+    }
+
+    static ZoneIdStringifier getInstance() {
+        return INSTANCE;
+    }
+
+    private Object readResolve() {
+        return INSTANCE;
+    }
 }

@@ -20,13 +20,17 @@
 package io.spine.time;
 
 import com.google.common.base.Converter;
+import io.spine.time.string.TimeStringifiers;
+
+import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Constants.HOURS_PER_DAY;
-import static io.spine.time.Constants.MINUTES_PER_HOUR;
-import static io.spine.time.Constants.SECONDS_PER_MINUTE;
-import static io.spine.time.Constants.MILLIS_PER_SECOND;
-import static io.spine.time.Constants.NANOS_PER_SECOND;
+import static io.spine.time.DtPreconditions.checkNotDefault;
+import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.temporal.ChronoField.HOUR_OF_DAY;
+import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
+import static java.time.temporal.ChronoField.NANO_OF_SECOND;
+import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -80,11 +84,23 @@ public final class LocalTimes {
                           .convert(value);
     }
 
+    static void checkTime(LocalTime time) {
+        checkNotDefault(time);
+        checkClockTime(time.getHour(),
+                       time.getMinute(),
+                       time.getSecond(),
+                       time.getNano());
+    }
+
     private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
-        Parameter.HOURS.check(hours);
-        Parameter.MINUTES.check(minutes);
-        Parameter.SECONDS.check(seconds);
-        Parameter.NANOS.check(nanos);
+        try {
+            HOUR_OF_DAY.checkValidValue(hours);
+            MINUTE_OF_HOUR.checkValidValue(minutes);
+            SECOND_OF_MINUTE.checkValidValue(seconds);
+            NANO_OF_SECOND.checkValidValue(nanos);
+        } catch (DateTimeException e) {
+            throw illegalArgumentWithCauseOf(e);
+        }
     }
 
     /**
@@ -105,42 +121,25 @@ public final class LocalTimes {
      * Converts the passed time to string with optional part representing a fraction of a second.
      *
      * <p>Examples of results: {@code "13:45:30.123456789"}, {@code "09:37:00"}.
+     *
+     * @see #parse(String)
      */
     public static String toString(LocalTime time) {
         checkNotNull(time);
-        String result = toJavaTime(time).toString();
-        return result;
+        return TimeStringifiers.forLocalTime()
+                               .convert(time);
     }
 
     /**
      * Parses the passed string into local time value.
+     *
+     * @see #toString(LocalTime)
      */
     public static LocalTime parse(String str) {
         checkNotNull(str);
-        java.time.LocalTime parsed = java.time.LocalTime.parse(str);
-        return of(parsed);
-    }
-
-    /**
-     * Arguments in preconditions checks for time modification routines.
-     */
-    enum Parameter {
-
-        HOURS(HOURS_PER_DAY - 1),
-        MINUTES(MINUTES_PER_HOUR - 1),
-        SECONDS(SECONDS_PER_MINUTE - 1),
-        MILLIS(MILLIS_PER_SECOND - 1),
-        NANOS(NANOS_PER_SECOND - 1);
-
-        private final int upperBound;
-
-        Parameter(int bound) {
-            upperBound = bound;
-        }
-
-        void check(int value) {
-            DtPreconditions.checkBounds(value, name().toLowerCase(), 0, upperBound);
-        }
+        return TimeStringifiers.forLocalTime()
+                               .reverse()
+                               .convert(str);
     }
 
     /**

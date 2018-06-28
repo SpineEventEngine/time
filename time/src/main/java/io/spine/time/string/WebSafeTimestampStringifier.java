@@ -22,9 +22,7 @@ package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import io.spine.string.Stringifier;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
@@ -40,10 +38,10 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  *
  * @author Alexander Yevsyukov
  */
-final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements Serializable {
+final class WebSafeTimestampStringifier extends SerializableStringifier<Timestamp> {
 
     private static final long serialVersionUID = 0L;
-    private static final WebSafeTimestampStringifer INSTANCE = new WebSafeTimestampStringifer();
+    private static final WebSafeTimestampStringifier INSTANCE = new WebSafeTimestampStringifier();
 
     private static final char COLON = ':';
     private static final Pattern PATTERN_COLON = Pattern.compile(String.valueOf(COLON));
@@ -58,7 +56,11 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
      */
     private static final int MINUTE_SEPARATOR_INDEX = 16;
 
-    static WebSafeTimestampStringifer getInstance() {
+    private WebSafeTimestampStringifier() {
+        super("TimeStringifiers.forTimestampWebSafe()");
+    }
+
+    static WebSafeTimestampStringifier getInstance() {
         return INSTANCE;
     }
 
@@ -85,8 +87,8 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
     }
 
     @Override
-    protected String toString(Timestamp timestamp) {
-        String result = Timestamps.toString(timestamp);
+    protected String toString(Timestamp value) {
+        String result = Timestamps.toString(value);
         result = toWebSafe(result);
         return result;
     }
@@ -101,11 +103,6 @@ final class WebSafeTimestampStringifer extends Stringifier<Timestamp> implements
         } catch (ParseException e) {
             throw newIllegalArgumentException(e.getMessage(), e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forTimestampWebSafe()";
     }
 
     private Object readResolve() {

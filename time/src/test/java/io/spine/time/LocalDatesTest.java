@@ -25,12 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import java.time.Year;
+
 import static io.spine.time.Asserts.assertDatesEqual;
-import static io.spine.time.LocalDates.of;
+import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,22 +36,25 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDates should")
-class LocalDatesTest {
+class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void haveUtilityConstructor() {
-        assertHasPrivateParameterlessCtor(LocalDates.class);
+    LocalDatesTest() {
+        super(LocalDates.class,
+              LocalDates::now,
+              LocalDates::toString,
+              LocalDates::parse,
+              LocalDates.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(LocalDate.class, LocalDates.now())
+                  .setDefault(int.class, 1);
+
     }
 
     @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(LocalDates.class);
-    }
-
-    @Test
-    @DisplayName("Obtain current date")
+    @DisplayName("obtain current date")
     void obtainCurrentDate() {
         avoidDayEdge();
         LocalDate today = LocalDates.now();
@@ -89,17 +90,35 @@ class LocalDatesTest {
     }
 
     @Nested
-    @DisplayName("Reject")
-    class Arguments {
+    @DisplayName("Check")
+    class Check {
 
         @Test
-        @DisplayName("null arguments")
-        void nullCheck() {
-            new NullPointerTester()
-                    .setDefault(LocalDate.class, LocalDates.now())
-                    .setDefault(int.class, 1)
-                    .testAllPublicStaticMethods(LocalDates.class);
+        @DisplayName("lower year bound")
+        void yearTooLow() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkDate(LocalDate.newBuilder()
+                                             .setYear(Year.MIN_VALUE - 1)
+                                             .build())
+            );
         }
+
+        @Test
+        @DisplayName("year high bound")
+        void yearTooHigh() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> checkDate(LocalDate.newBuilder()
+                                             .setYear(Year.MAX_VALUE + 1)
+                                             .build())
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("Reject")
+    class Arguments {
 
         @Test
         @DisplayName("negative year value")
@@ -118,27 +137,23 @@ class LocalDatesTest {
                     () -> LocalDates.of(1987, Month.AUGUST, -20)
             );
         }
-    }
 
-    @Test
-    @DisplayName("convert to string and back")
-    void stringify() {
-        LocalDate today = LocalDates.now();
-        String str = LocalDates.toString(today);
-        assertEquals(today, LocalDates.parse(str));
-    }
+        @Test
+        @DisplayName("default value in Java Time conversion")
+        void defaultForConversion() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> toJavaTime(LocalDate.getDefaultInstance())
+            );
+        }
 
-    @Test
-    @DisplayName("convert to Java Time and back")
-    void convert() {
-        LocalDate today = LocalDates.now();
-        java.time.LocalDate converted = toJavaTime(today);
-        assertEquals(today, of(converted));
-    }
-
-    @Test
-    @DisplayName("have Serializable Converter")
-    void serialize() {
-        reserializeAndAssert(LocalDates.converter());
+        @Test
+        @DisplayName("default value in String conversion")
+        void defaultForString() {
+            assertThrows(
+                    IllegalArgumentException.class,
+                    () -> LocalDates.toString(LocalDate.getDefaultInstance())
+            );
+        }
     }
 }

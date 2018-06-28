@@ -21,22 +21,15 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
-import com.google.protobuf.Timestamp;
-import io.spine.base.Time;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.DisplayNames.NOT_ACCEPT_NULLS;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Asserts.assertTimesEqual;
-import static io.spine.time.LocalTimes.of;
-import static io.spine.time.LocalTimes.parse;
-import static io.spine.time.LocalTimes.toJavaTime;
 import static io.spine.time.Constants.NANOS_PER_SECOND;
+import static io.spine.time.LocalTimes.of;
+import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -45,10 +38,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings("ClassCanBeStatic")
-@DisplayName("LocalTimes utility class should")
-class LocalTimesTest {
+@DisplayName("LocalTimes should")
+class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.LocalTime> {
 
     private java.time.LocalTime javaTimeNow;
+
+    LocalTimesTest() {
+        super(LocalTimes.class,
+              LocalTimes::now,
+              LocalTimes::toString,
+              LocalTimes::parse,
+              LocalTimes.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        // None.
+    }
 
     @BeforeEach
     void getCurrentTime() {
@@ -56,19 +62,7 @@ class LocalTimesTest {
     }
 
     @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void haveUtilityConstructor() {
-        assertHasPrivateParameterlessCtor(LocalTimes.class);
-    }
-
-    @Test
-    @DisplayName(NOT_ACCEPT_NULLS)
-    void rejectNulls() {
-        new NullPointerTester().testAllPublicStaticMethods(LocalTimes.class);
-    }
-
-    @Test
-    @DisplayName("Convert to JavaTime value")
+    @DisplayName("convert to JavaTime value")
     void convertToJavaTime() {
         LocalTime now = LocalTimes.now();
         java.time.LocalTime javaTime = toJavaTime(now);
@@ -123,19 +117,10 @@ class LocalTimesTest {
 
     }
 
+    @SuppressWarnings("EmptyClass")
     @Nested
     @DisplayName("Reject")
     class Arguments {
-
-        @Test
-        @DisplayName("null arguments")
-        void nullCheck() {
-            new NullPointerTester()
-                    .setDefault(Timestamp.class, Time.getCurrentTime())
-                    .setDefault(ZoneOffset.class, ZoneOffsets.utc())
-                    .setDefault(LocalTime.class, LocalTimes.now())
-                    .testAllPublicStaticMethods(LocalTimes.class);
-        }
 
         @Nested
         @DisplayName("Hour value which is")
@@ -226,23 +211,6 @@ class LocalTimesTest {
                         () -> of(0, 0, 0, NANOS_PER_SECOND)
                 );
             }
-
         }
-    }
-
-    @Test
-    @DisplayName("Convert to String and back")
-    void stringAndBack() {
-        LocalTime localTime = of(10, 20, 30, 50);
-
-        String str = LocalTimes.toString(localTime);
-        LocalTime convertedBack = parse(str);
-        assertEquals(localTime, convertedBack);
-    }
-
-    @Test
-    @DisplayName("Provide Serializable Converter")
-    void serializeConverter() {
-        reserializeAndAssert(LocalTimes.converter());
     }
 }

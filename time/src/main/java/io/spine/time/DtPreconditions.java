@@ -20,6 +20,10 @@
 
 package io.spine.time;
 
+import com.google.protobuf.Message;
+import io.spine.validate.Validate;
+
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
 
@@ -34,6 +38,9 @@ class DtPreconditions {
     private DtPreconditions() {
     }
 
+    /**
+     * Ensures that the passed value is greater than zero.
+     */
     static void checkPositive(long value) {
         if (value <= 0) {
             throw newIllegalArgumentException("value (%d) must be positive", value);
@@ -53,5 +60,16 @@ class DtPreconditions {
 
     private static boolean isBetween(int value, int lowBound, int highBound) {
         return lowBound <= value && value <= highBound;
+    }
+
+    /**
+     * Ensures that the passed message is neither {@code null} nor default.
+     */
+    static void checkNotDefault(Message dateTimeValue) {
+        checkNotNull(dateTimeValue);
+        checkArgument(Validate.isNotDefault(dateTimeValue),
+                      "Date-time value of class %s cannot have a default value",
+                      dateTimeValue.getClass()
+                                   .getName());
     }
 }

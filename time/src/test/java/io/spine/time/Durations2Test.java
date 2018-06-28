@@ -19,18 +19,14 @@
  */
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
-import io.spine.string.Stringifier;
-import io.spine.time.string.TimeStringifiers;
+import com.google.protobuf.util.Durations;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.test.TestValues.random;
 import static io.spine.time.Durations2.ZERO;
 import static io.spine.time.Durations2.add;
 import static io.spine.time.Durations2.fromHours;
@@ -54,22 +50,30 @@ import static io.spine.time.Durations2.toNanos;
 import static io.spine.time.Durations2.toSeconds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Alexander Yevsyukov
  */
 @SuppressWarnings({"MagicNumber", "ClassCanBeStatic", "InnerClassMayBeStatic"})
 @DisplayName("Durations2 should")
-class Durations2Test {
+class Durations2Test extends AbstractDateTimeUtilityTest<Duration, java.time.Duration> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityConstructor() {
-        assertHasPrivateParameterlessCtor(Durations2.class);
+    Durations2Test() {
+        super(Durations2.class,
+              // Pass a random value, so that non-zero value is used in conversion tests.
+              () -> add(seconds(random(10000)), nanos(random(100_000))),
+              Durations::toString,
+              Durations2::parse,
+              Durations2.converter());
+    }
+
+    @Override
+    void addDefaults(NullPointerTester nullTester) {
+        nullTester.setDefault(Duration.class, Duration.getDefaultInstance());
     }
 
     @Test
@@ -328,38 +332,5 @@ class Durations2Test {
             assertFalse(isLessThan(seconds(64), seconds(2)));
             assertFalse(isLessThan(seconds(5), seconds(5)));
         }
-    }
-
-    @Test
-    @DisplayName("Prohibit null values")
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(Duration.class, Duration.getDefaultInstance())
-                .testStaticMethods(Durations2.class, NullPointerTester.Visibility.PACKAGE);
-    }
-
-    @Test
-    @DisplayName("Provide Stringifier")
-    void stringifier() {
-        Stringifier<Duration> stringifier = TimeStringifiers.forDuration();
-        Duration duration = hoursAndMinutes(10, 20);
-        assertEquals(duration, stringifier.reverse()
-                                          .convert(stringifier.convert(duration)));
-    }
-
-    @Test
-    @DisplayName("Convert from JavaTime and back")
-    void convert() {
-        java.time.Duration d = java.time.Duration.ofMinutes(5);
-        Converter<java.time.Duration, Duration> converter = Durations2.converter();
-        Duration converted = converter.convert(d);
-        assertEquals(d, converter.reverse()
-                                 .convert(converted));
-    }
-
-    @Test
-    @DisplayName("provide Serializable Converter")
-    void serializeConverter() {
-        reserializeAndAssert(Durations2.converter());
     }
 }

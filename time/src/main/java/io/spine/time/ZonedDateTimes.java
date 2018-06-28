@@ -27,43 +27,44 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
 
 /**
- * Utilities for working with {@code YearMonth} values.
+ * Utilities for working with {@code ZonedDateTime}.
  *
  * @author Alexander Yevsyukov
  */
-public class YearMonths {
+public class ZonedDateTimes {
 
     /** Prevents instantiation of this utility class. */
-    private YearMonths() {
+    private ZonedDateTimes() {
     }
 
     /**
-     * Obtains current month.
+     * Obtains the zoned time for the local date-time at the passed time zone.
      */
-    public static YearMonth now() {
-        return of(java.time.YearMonth.now());
+    public static ZonedDateTime of(LocalDateTime dateTime, ZoneId zone) {
+        checkNotDefault(dateTime);
+        checkNotDefault(zone);
+        return create(dateTime, zone);
     }
 
-    /**
-     * Creates an instance with the the passed year and month.
-     */
-    public static YearMonth of(int year, int month) {
-        return create(year, month);
-    }
-
-    private static YearMonth create(int year, int month) {
-        Months.checkMonth(month);
-        YearMonth.Builder result = YearMonth
+    private static ZonedDateTime create(LocalDateTime dateTime, ZoneId zone) {
+        ZonedDateTime.Builder result = ZonedDateTime
                 .newBuilder()
-                .setYear(year)
-                .setMonth(Months.of(month));
+                .setDateTime(dateTime)
+                .setZone(zone);
         return result.build();
     }
 
     /**
-     * Converts the passed Java Time value.
+     * Obtains current date-time in the system time-zone.
      */
-    public static YearMonth of(java.time.YearMonth value) {
+    public static ZonedDateTime now() {
+        return converter().convert(java.time.ZonedDateTime.now());
+    }
+
+    /**
+     * Creates the instance by the passed Java Time value.
+     */
+    public static ZonedDateTime of(java.time.ZonedDateTime value) {
         checkNotNull(value);
         return converter().convert(value);
     }
@@ -71,68 +72,64 @@ public class YearMonths {
     /**
      * Converts the passed value to Java Time.
      */
-    public static java.time.YearMonth toJavaTime(YearMonth value) {
-        checkNotNull(value);
+    public static java.time.ZonedDateTime toJavaTime(ZonedDateTime value) {
+        checkNotDefault(value);
         return converter().reverse()
                           .convert(value);
     }
 
     /**
-     * Obtains the converter from Java Time and back.
+     * Converts the passed value to ISO-8601 zoned date/time string.
      */
-    public static Converter<java.time.YearMonth, YearMonth> converter() {
-        return JtConverter.INSTANCE;
+    public static String toString(ZonedDateTime value) {
+        checkNotNull(value);
+        return TimeStringifiers.forZonedDateTime()
+                               .convert(value);
     }
 
     /**
-     * Parses a year-month from the passed string.
-     *
-     * @see #toString(YearMonth)
+     * Parses the ISO-8601 string representation of the zoned date-time value.
      */
-    public static YearMonth parse(String str) {
+    public static ZonedDateTime parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forYearMonth()
+        return TimeStringifiers.forZonedDateTime()
                                .reverse()
                                .convert(str);
     }
 
     /**
-     * Converts the passed value into a ISO-8601 year-month string, such as {@code "2018-06"}.
-     *
-     * @see #parse(String)
+     * Obtains converter from Java Time and back.
      */
-    public static String toString(YearMonth value) {
-        checkNotNull(value);
-        checkNotDefault(value);
-        return TimeStringifiers.forYearMonth()
-                               .convert(value);
+    public static Converter<java.time.ZonedDateTime, ZonedDateTime> converter() {
+        return JtConverter.INSTANCE;
     }
 
     /**
      * Converts from Java Time and back.
      */
     private static final class JtConverter
-            extends AbstractConverter<java.time.YearMonth, YearMonth> {
+            extends AbstractConverter<java.time.ZonedDateTime, ZonedDateTime> {
 
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
         @Override
-        protected YearMonth doForward(java.time.YearMonth value) {
-            YearMonth result = create(value.getYear(), value.getMonthValue());
-            return result;
+        protected ZonedDateTime doForward(java.time.ZonedDateTime value) {
+            LocalDateTime dateTime = LocalDateTimes.of(value.toLocalDateTime());
+            ZoneId zoneId = ZoneIds.of(value.getZone());
+            return create(dateTime, zoneId);
         }
 
         @Override
-        protected java.time.YearMonth doBackward(YearMonth value) {
-            java.time.YearMonth result = java.time.YearMonth
-                    .of(value.getYear(), value.getMonthValue());
-            return result;
+        protected java.time.ZonedDateTime doBackward(ZonedDateTime value) {
+            java.time.LocalDateTime dateTime = LocalDateTimes.toJavaTime(value.getDateTime());
+            java.time.ZoneId zoneId = ZoneIds.toJavaTime(value.getZone());
+            return java.time.ZonedDateTime.of(dateTime, zoneId);
         }
 
         @Override
         public String toString() {
-            return "YearMonths.converter()";
+            return "ZonedDateTimes.converter()";
         }
 
         private Object readResolve() {

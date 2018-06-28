@@ -20,47 +20,27 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
-import io.spine.util.Exceptions;
-
-import java.io.Serializable;
 
 /**
- * The default stringifier for {@link LocalDate} instances.
+ * The default stringifier for {@link io.spine.time.LocalDate LocalDate} instances.
  *
  * @author Alexander Yevsyukov
  */
-final class LocalDateStringifier extends Stringifier<LocalDate> implements Serializable {
+final class LocalDateStringifier extends JtStringifier<LocalDate, java.time.LocalDate> {
 
     private static final long serialVersionUID = 0L;
     private static final LocalDateStringifier INSTANCE = new LocalDateStringifier();
 
+    private LocalDateStringifier() {
+        super("TimeStringifiers.forLocalDate()",
+              java.time.LocalDate::parse,
+              LocalDates.converter());
+    }
+
     static LocalDateStringifier getInstance() {
         return INSTANCE;
-    }
-
-    @Override
-    protected String toString(LocalDate date) {
-        final String result = LocalDates.toString(date);
-        return result;
-    }
-
-    @Override
-    protected LocalDate fromString(String str) {
-        LocalDate date;
-        try {
-            date = LocalDates.parse(str);
-        } catch (RuntimeException e) {
-            throw Exceptions.illegalArgumentWithCauseOf(e);
-        }
-        return date;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeStringifiers.forLocalDate()";
     }
 
     private Object readResolve() {

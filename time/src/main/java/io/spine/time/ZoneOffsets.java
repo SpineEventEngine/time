@@ -20,7 +20,9 @@
 
 package io.spine.time;
 
+import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
+import io.spine.time.string.TimeStringifiers;
 
 import javax.annotation.Nullable;
 import java.util.TimeZone;
@@ -30,7 +32,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static io.spine.util.Exceptions.unsupported;
 
 /**
@@ -74,17 +75,17 @@ public final class ZoneOffsets {
      * Converts the passed instance to the Java Time value.
      */
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
-        java.time.ZoneOffset result = java.time.ZoneOffset.ofTotalSeconds(value.getAmountSeconds());
-        return result;
+        checkNotNull(value);
+        return converter().reverse()
+                          .convert(value);
     }
 
     /**
      * Converts Java Time value to {@code ZoneOffset}.
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
-        ZoneOffset.Builder result = ZoneOffset.newBuilder()
-                                              .setAmountSeconds(zo.getTotalSeconds());
-        return result.build();
+        checkNotNull(zo);
+        return converter().convert(zo);
     }
 
     /**
@@ -138,13 +139,10 @@ public final class ZoneOffsets {
      * <p>Examples of accepted values: {@code +0300}, {@code -04:30}.
      */
     public static ZoneOffset parse(String value) {
-        java.time.ZoneOffset parsed;
-        try {
-            parsed = java.time.ZoneOffset.of(value);
-        } catch (RuntimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
-        return of(parsed);
+        checkNotNull(value);
+        return TimeStringifiers.forZoneOffset()
+                               .reverse()
+                               .convert(value);
     }
 
     /**
@@ -152,8 +150,8 @@ public final class ZoneOffsets {
      */
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        java.time.ZoneOffset zo = toJavaTime(zoneOffset);
-        return zo.toString();
+        return TimeStringifiers.forZoneOffset()
+                               .convert(zoneOffset);
     }
 
     private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
@@ -163,6 +161,13 @@ public final class ZoneOffsets {
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
                          .build();
+    }
+
+    /**
+     * Obtains converter from Java Time and back.
+     */
+    public static Converter<java.time.ZoneOffset, ZoneOffset> converter() {
+        return JtConverter.INSTANCE;
     }
 
     /**
@@ -227,6 +232,37 @@ public final class ZoneOffsets {
 
         int max() {
             return max;
+        }
+    }
+
+    /**
+     * Converts from Java Time and back.
+     */
+    private static final class JtConverter
+            extends AbstractConverter<java.time.ZoneOffset, ZoneOffset> {
+
+        private static final long serialVersionUID = 0L;
+        private static final JtConverter INSTANCE = new JtConverter();
+
+        @Override
+        protected ZoneOffset doForward(java.time.ZoneOffset value) {
+            return ofSeconds(value.getTotalSeconds());
+        }
+
+        @Override
+        protected java.time.ZoneOffset doBackward(ZoneOffset value) {
+            java.time.ZoneOffset result = java.time.ZoneOffset
+                    .ofTotalSeconds(value.getAmountSeconds());
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "ZoneOffsets.converter()";
+        }
+        
+        private Object readResolve() {
+            return INSTANCE;
         }
     }
 }
