@@ -32,7 +32,7 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  *
  * @author Alexander Yevsyukov
  */
-class DtPreconditions {
+final class DtPreconditions {
 
     /** Prevent instantiation of this utility class. */
     private DtPreconditions() {

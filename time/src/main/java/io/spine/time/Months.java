@@ -35,7 +35,7 @@ import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
  * @author Mykhailo Drachuk
  * @author Alexander Yevsyukov
  */
-public class Months {
+public final class Months {
 
     /** Prevent instantiation of this utility class. */
     private Months() {

@@ -32,7 +32,7 @@ import static io.spine.time.LocalTimes.checkTime;
  *
  * @author Alexander Yevsyukov
  */
-public class LocalDateTimes {
+public final class LocalDateTimes {
 
     /** Prevents instantiation of this utility class. */
     private LocalDateTimes() {
