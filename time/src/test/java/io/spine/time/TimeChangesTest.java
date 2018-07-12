@@ -29,6 +29,9 @@ import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * @author Alexander Yevsyukov
+ */
 class TimeChangesTest {
 
     @Test
