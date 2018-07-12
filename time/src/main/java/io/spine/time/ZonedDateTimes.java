@@ -31,7 +31,7 @@ import static io.spine.time.DtPreconditions.checkNotDefault;
  *
  * @author Alexander Yevsyukov
  */
-public class ZonedDateTimes {
+public final class ZonedDateTimes {
 
     /** Prevents instantiation of this utility class. */
     private ZonedDateTimes() {

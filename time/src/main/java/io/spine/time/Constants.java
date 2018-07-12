@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * @author Mykhailo Drachuk
  */
 @SuppressWarnings("NumericCastThatLosesPrecision")
-class Constants {
+final class Constants {
 
     /** The count of nanoseconds in one second. */
     static final int NANOS_PER_SECOND = (int) TimeUnit.SECONDS.toNanos(1);

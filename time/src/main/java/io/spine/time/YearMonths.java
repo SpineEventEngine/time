@@ -31,7 +31,7 @@ import static io.spine.time.DtPreconditions.checkNotDefault;
  *
  * @author Alexander Yevsyukov
  */
-public class YearMonths {
+public final class YearMonths {
 
     /** Prevents instantiation of this utility class. */
     private YearMonths() {

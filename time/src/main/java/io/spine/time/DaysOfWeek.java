@@ -34,7 +34,7 @@ import static java.time.temporal.ChronoField.DAY_OF_WEEK;
  *
  * @author Alexander Yevsyukov
  */
-public class DaysOfWeek {
+public final class DaysOfWeek {
 
     /** Prevents instantiation of this utility class. */
     private DaysOfWeek() {

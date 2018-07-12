@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Alexander Yevsyukov
  */
-public class ZoneIds {
+public final class ZoneIds {
 
     /** Prevents instantiation of this utility class. */
     private ZoneIds() {
