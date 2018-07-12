@@ -56,7 +56,7 @@ public class TimeTests {
      * @return a seconds value
      */
     public static long currentTimeSeconds() {
-        final long secs = getCurrentTime().getSeconds();
+        long secs = getCurrentTime().getSeconds();
         return secs;
     }
 
@@ -81,6 +81,7 @@ public class TimeTests {
      * sensitive to bounds of minutes, hours, days, etc.
      */
     public static class FrozenMadHatterParty implements Time.Provider {
+
         private final Timestamp frozenTime;
 
         public FrozenMadHatterParty(Timestamp frozenTime) {
@@ -126,7 +127,7 @@ public class TimeTests {
         @CanIgnoreReturnValue
         public synchronized Timestamp forward(long hoursDelta) {
             checkPositive(hoursDelta);
-            final Timestamp newTime = add(this.currentTime, hours(hoursDelta));
+            Timestamp newTime = add(this.currentTime, hours(hoursDelta));
             setCurrentTime(newTime);
             return newTime;
         }
@@ -138,7 +139,7 @@ public class TimeTests {
         @CanIgnoreReturnValue
         public synchronized Timestamp backward(long hoursDelta) {
             checkPositive(hoursDelta);
-            final Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));
+            Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));
             setCurrentTime(newTime);
             return newTime;
         }
@@ -149,8 +150,8 @@ public class TimeTests {
      */
     public static class Past {
 
+        /** Prevents instantiation of this utility class. */
         private Past() {
-            // Do not allow creating instances of this utility class.
         }
 
         /**
@@ -162,8 +163,8 @@ public class TimeTests {
          */
         public static Timestamp minutesAgo(int value) {
             checkPositive(value);
-            final Timestamp currentTime = getCurrentTime();
-            final Timestamp result = subtract(currentTime, Durations2.fromMinutes(value));
+            Timestamp currentTime = getCurrentTime();
+            Timestamp result = subtract(currentTime, Durations2.fromMinutes(value));
             return result;
         }
 
@@ -175,8 +176,8 @@ public class TimeTests {
          */
         public static Timestamp secondsAgo(long value) {
             checkPositive(value);
-            final Timestamp currentTime = getCurrentTime();
-            final Timestamp result = subtract(currentTime, seconds(value));
+            Timestamp currentTime = getCurrentTime();
+            Timestamp result = subtract(currentTime, seconds(value));
             return result;
         }
     }
@@ -186,8 +187,8 @@ public class TimeTests {
      */
     public static class Future {
 
+        /** Prevents instantiation of this utility class. */        
         private Future() {
-            // Do not allow creating instances of this utility class.
         }
 
         /**
@@ -198,8 +199,8 @@ public class TimeTests {
          */
         public static Timestamp secondsFromNow(long seconds) {
             checkPositive(seconds);
-            final Timestamp currentTime = getCurrentTime();
-            final Timestamp result = add(currentTime, fromSeconds(seconds));
+            Timestamp currentTime = getCurrentTime();
+            Timestamp result = add(currentTime, fromSeconds(seconds));
             return result;
         }
 
@@ -210,13 +211,13 @@ public class TimeTests {
         public static boolean isFuture(Timestamp timestamp) {
             // Do not use `getCurrentTime()` as we may use custom `TimestampProvider` already.
             // Get time from metal.
-            final Timestamp currentSystemTime = systemTime();
+            Timestamp currentSystemTime = systemTime();
 
             // NOTE: we have the risk of having these two timestamps too close to each other
             // so that the passed timestamp becomes "the past" around the time of this call.
             // To avoid this, select some time in the "distant" future.
-            final boolean result = Timestamps.comparator()
-                                             .compare(currentSystemTime, timestamp) < 0;
+            boolean result = Timestamps.comparator()
+                                       .compare(currentSystemTime, timestamp) < 0;
             return result;
         }
     }
