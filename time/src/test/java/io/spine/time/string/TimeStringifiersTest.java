@@ -24,7 +24,7 @@ import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
-import io.spine.test.Tests;
+import io.spine.testing.UtilityClassTest;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalTime;
 import io.spine.time.OffsetDateTime;
@@ -33,7 +33,6 @@ import io.spine.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.test.DisplayNames.HAVE_PARAMETERLESS_CTOR;
 import static io.spine.time.string.TimeStringifiers.forDuration;
 import static io.spine.time.string.TimeStringifiers.forLocalDate;
 import static io.spine.time.string.TimeStringifiers.forLocalTime;
@@ -47,12 +46,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Alexander Yevsyukov
  */
 @DisplayName("TimeStringifiers should")
-class TimeStringifiersTest {
+class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
 
-    @Test
-    @DisplayName(HAVE_PARAMETERLESS_CTOR)
-    void utilityCtor() {
-        Tests.assertHasPrivateParameterlessCtor(TimeStringifiers.class);
+    TimeStringifiersTest() {
+        super(TimeStringifiers.class);
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent") // OK since it would break the test if missing.
@@ -63,12 +60,17 @@ class TimeStringifiersTest {
     @Test
     @DisplayName("register stringifiers for standard types")
     void registerStringifiers() {
-        assertEquals(forZoneOffset(), getStringifier(ZoneOffset.class));
-        assertEquals(forDuration(), getStringifier(Duration.class));
-        assertEquals(forTimestamp(), getStringifier(Timestamp.class));
-        assertEquals(forLocalDate(), getStringifier(LocalDate.class));
-        assertEquals(forLocalTime(), getStringifier(LocalTime.class));
-        assertEquals(forOffsetDateTime(), getStringifier(OffsetDateTime.class));
-        assertEquals(forOffsetTime(), getStringifier(OffsetTime.class));
+        assertStringifier(ZoneOffset.class, forZoneOffset());
+        assertStringifier(Duration.class, forDuration());
+        assertStringifier(Timestamp.class, forTimestamp());
+        assertStringifier(LocalDate.class, forLocalDate());
+        assertStringifier(LocalTime.class, forLocalTime());
+        assertStringifier(OffsetDateTime.class, forOffsetDateTime());
+        assertStringifier(OffsetTime.class, forOffsetTime());
+    }
+
+    private static <T> void assertStringifier(Class<T> dataClass, Stringifier<T> stringifier) {
+        Stringifier<?> current = getStringifier(dataClass);
+        assertEquals(stringifier, current);
     }
 }

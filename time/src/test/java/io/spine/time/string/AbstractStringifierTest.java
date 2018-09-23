@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Modifier;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;

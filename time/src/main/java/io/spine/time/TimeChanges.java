@@ -28,7 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Alexander Yevsyukov
  */
-public class TimeChanges {
+public final class TimeChanges {
 
     /** Prevents instantiation of this utility class. */
     private TimeChanges() {
