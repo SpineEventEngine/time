@@ -49,8 +49,8 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     }
 
     @Override
-    protected void setDefaults(NullPointerTester tester) {
-        super.setDefaults(tester);
+    protected void configure(NullPointerTester tester) {
+        super.configure(tester);
         tester.setDefault(Timestamp.class, getCurrentTime());
     }
 

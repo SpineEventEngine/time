@@ -40,8 +40,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
     }
 
     @Override
-    protected void setDefaults(NullPointerTester tester) {
-        super.setDefaults(tester);
+    protected void configure(NullPointerTester tester) {
+        super.configure(tester);
         ZoneOffset utc = ZoneOffsets.utc();
         tester.setDefault(OffsetTime.class, OffsetTimes.now(utc))
               .setDefault(OffsetDateTime.class, OffsetDateTimes.now(utc))
