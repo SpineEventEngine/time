@@ -21,8 +21,8 @@ import static com.google.protobuf.util.Durations.toMillis;
 import static io.spine.time.Constants.MINUTES_PER_HOUR;
 import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static io.spine.time.Constants.MILLIS_PER_SECOND;
-import static io.spine.util.Math.floorDiv;
-import static io.spine.util.Math.safeMultiply;
+import static io.spine.util.Math2.floorDiv;
+import static io.spine.util.Math2.safeMultiply;
 
 /**
  * Utility class for working with durations in addition to those available from the

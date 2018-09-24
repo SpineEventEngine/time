@@ -26,7 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.test.TestValues.random;
+import static io.spine.testing.TestValues.random;
 import static io.spine.time.Durations2.ZERO;
 import static io.spine.time.Durations2.add;
 import static io.spine.time.Durations2.fromHours;

@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static io.spine.test.TestValues.random;
+import static io.spine.testing.TestValues.random;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static java.lang.Math.abs;

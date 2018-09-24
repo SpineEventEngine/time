@@ -20,7 +20,7 @@
 
 package io.spine.time.string;
 
-import io.spine.test.TestValues;
+import io.spine.testing.TestValues;
 import io.spine.time.DayOfWeek;
 import org.junit.jupiter.api.DisplayName;
 

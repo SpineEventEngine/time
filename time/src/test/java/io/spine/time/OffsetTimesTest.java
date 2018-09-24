@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.test.TestValues.random;
+import static io.spine.testing.TestValues.random;
 import static io.spine.time.Constants.HOURS_PER_DAY;
 import static io.spine.time.Constants.MINUTES_PER_HOUR;
 import static io.spine.time.Constants.NANOS_PER_SECOND;

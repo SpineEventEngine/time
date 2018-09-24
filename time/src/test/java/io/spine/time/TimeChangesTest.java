@@ -21,34 +21,32 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
+import io.spine.testing.UtilityClassTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Alexander Yevsyukov
  */
-class TimeChangesTest {
+class TimeChangesTest extends UtilityClassTest<TimeChanges> {
 
-    @Test
-    void utilityCtor() {
-        assertHasPrivateParameterlessCtor(TimeChanges.class);
+    TimeChangesTest() {
+        super(TimeChanges.class);
     }
 
-    @Test
-    void nullCheck() {
+    @Override
+    protected void configure(NullPointerTester tester) {
+        super.configure(tester);
         ZoneOffset utc = ZoneOffsets.utc();
-        new NullPointerTester()
-                .setDefault(OffsetTime.class, OffsetTimes.now(utc))
-                .setDefault(OffsetDateTime.class, OffsetDateTimes.now(utc))
-                .setDefault(LocalDate.class, LocalDates.now())
-                .setDefault(LocalTime.class, LocalTimes.now())
-                .testAllPublicStaticMethods(TimeChanges.class);
+        tester.setDefault(OffsetTime.class, OffsetTimes.now(utc))
+              .setDefault(OffsetDateTime.class, OffsetDateTimes.now(utc))
+              .setDefault(LocalDate.class, LocalDates.now())
+              .setDefault(LocalTime.class, LocalTimes.now());
     }
 
     @Nested

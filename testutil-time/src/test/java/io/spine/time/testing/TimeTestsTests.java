@@ -24,6 +24,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
+import io.spine.testing.UtilityClassTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,34 +33,32 @@ import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.test.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
 import static io.spine.time.Durations2.fromMinutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("TimeTests should")
-class TimeTestsTests {
+class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
     private static final Duration TEN_SECONDS = fromSeconds(10L);
     private static final Duration MINUTE = fromMinutes(1);
 
-    @Test
-    @DisplayName("have utility constructors")
-    void haveUtilityCtors() {
-        assertHasPrivateParameterlessCtor(TimeTests.class);
-        assertHasPrivateParameterlessCtor(TimeTests.Future.class);
-        assertHasPrivateParameterlessCtor(TimeTests.Past.class);
+    TimeTestsTests() {
+        super(TimeTests.class);
+    }
+
+    @Override
+    protected void configure(NullPointerTester tester) {
+        super.configure(tester);
+        tester.setDefault(Timestamp.class, getCurrentTime());
     }
 
     @Test
-    @DisplayName("reject nulls")
-    void nullCheck() {
-        new NullPointerTester()
-                .setDefault(Timestamp.class, getCurrentTime())
-                .testAllPublicStaticMethods(TimeTests.class);
+    @DisplayName("have utility constructors in nested utility classes")
+    void haveUtilityCtors() {
+        assertHasPrivateParameterlessCtor(TimeTests.Future.class);
+        assertHasPrivateParameterlessCtor(TimeTests.Past.class);
     }
 
     @Test

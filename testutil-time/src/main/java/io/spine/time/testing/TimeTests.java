@@ -29,6 +29,7 @@ import io.spine.time.Durations2;
 
 import java.time.LocalTime;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
@@ -44,7 +45,7 @@ import static io.spine.validate.Validate.checkPositive;
  * @author Alexander Yevsykov
  */
 @VisibleForTesting
-public class TimeTests {
+public final class TimeTests {
 
     /** Prevent instantiation of this utility class. */
     private TimeTests() {
@@ -148,7 +149,7 @@ public class TimeTests {
     /**
      * Utility class for working with timestamps in the past.
      */
-    public static class Past {
+    public static final class Past {
 
         /** Prevents instantiation of this utility class. */
         private Past() {
@@ -185,7 +186,7 @@ public class TimeTests {
     /**
      * Utility class for working with timestamps of the the future.
      */
-    public static class Future {
+    public static final class Future {
 
         /** Prevents instantiation of this utility class. */        
         private Future() {
@@ -209,6 +210,7 @@ public class TimeTests {
          * with {@linkplain Time#systemTime() system time}.
          */
         public static boolean isFuture(Timestamp timestamp) {
+            checkNotNull(timestamp);
             // Do not use `getCurrentTime()` as we may use custom `TimestampProvider` already.
             // Get time from metal.
             Timestamp currentSystemTime = systemTime();
