@@ -20,8 +20,6 @@
 
 package io.spine.time.string;
 
-import com.google.protobuf.Duration;
-import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import io.spine.testing.UtilityClassTest;
@@ -33,18 +31,13 @@ import io.spine.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.time.string.TimeStringifiers.forDuration;
 import static io.spine.time.string.TimeStringifiers.forLocalDate;
 import static io.spine.time.string.TimeStringifiers.forLocalTime;
 import static io.spine.time.string.TimeStringifiers.forOffsetDateTime;
 import static io.spine.time.string.TimeStringifiers.forOffsetTime;
-import static io.spine.time.string.TimeStringifiers.forTimestamp;
 import static io.spine.time.string.TimeStringifiers.forZoneOffset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("TimeStringifiers should")
 class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
 
@@ -61,8 +54,6 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
     @DisplayName("register stringifiers for standard types")
     void registerStringifiers() {
         assertStringifier(ZoneOffset.class, forZoneOffset());
-        assertStringifier(Duration.class, forDuration());
-        assertStringifier(Timestamp.class, forTimestamp());
         assertStringifier(LocalDate.class, forLocalDate());
         assertStringifier(LocalTime.class, forLocalTime());
         assertStringifier(OffsetDateTime.class, forOffsetDateTime());

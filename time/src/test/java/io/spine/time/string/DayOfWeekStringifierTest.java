@@ -24,14 +24,11 @@ import io.spine.testing.TestValues;
 import io.spine.time.DayOfWeek;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("DayOfWeekStringifier should")
 class DayOfWeekStringifierTest extends AbstractStringifierTest<DayOfWeek> {
 
     DayOfWeekStringifierTest() {
-        super(TimeStringifiers.forDayOfWeek());
+        super(TimeStringifiers.forDayOfWeek(), DayOfWeek.class);
     }
 
     @Override

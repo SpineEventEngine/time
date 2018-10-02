@@ -31,7 +31,7 @@ import org.junit.jupiter.api.DisplayName;
 public class OffsetTimeStringifierTest extends AbstractStringifierTest<OffsetTime> {
 
     OffsetTimeStringifierTest() {
-        super(TimeStringifiers.forOffsetTime());
+        super(TimeStringifiers.forOffsetTime(), aClass);
     }
 
     @Override

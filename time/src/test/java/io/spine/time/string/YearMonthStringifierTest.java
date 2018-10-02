@@ -24,14 +24,11 @@ import io.spine.time.YearMonth;
 import io.spine.time.YearMonths;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("YearMonthStringifier should")
 class YearMonthStringifierTest extends AbstractStringifierTest<YearMonth> {
 
     YearMonthStringifierTest() {
-        super(TimeStringifiers.forYearMonth());
+        super(TimeStringifiers.forYearMonth(), YearMonth.class);
     }
 
     @Override
