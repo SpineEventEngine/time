@@ -20,12 +20,11 @@
 
 package io.spine.time.string;
 
+import io.spine.string.EnumStringifier;
 import io.spine.time.DayOfWeek;
 
 /**
  * The default stringifier for {@link io.spine.time.DayOfWeek DayOfWeek} instances.
- *
- * @author Alexander Yevsyukov
  */
 final class DayOfWeekStringifier extends EnumStringifier<DayOfWeek> {
 
