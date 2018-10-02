@@ -20,11 +20,9 @@
 
 package io.spine.time.string;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.reflect.TypeToken;
-import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
+import io.spine.string.Registrar;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import io.spine.time.DayOfWeek;
@@ -39,16 +37,26 @@ import io.spine.time.ZoneId;
 import io.spine.time.ZoneOffset;
 import io.spine.time.ZonedDateTime;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * A collection of stringifiers for date/time value objects.
  */
 public final class TimeStringifiers {
 
     static {
-        new Registrar().register();
+        Registrar registrar = new Registrar(ImmutableList.of(
+                forDayOfWeek(),
+                forLocalDate(),
+                forLocalDateTime(),
+                forLocalTime(),
+                forMonth(),
+                forOffsetDateTime(),
+                forOffsetTime(),
+                forYearMonth(),
+                forZoneId(),
+                forZonedDateTime(),
+                forZoneOffset()
+        ));
+        registrar.register();
     }
 
     /** Prevent instantiation of this utility class. */
@@ -63,29 +71,6 @@ public final class TimeStringifiers {
      */
     public static Stringifier<DayOfWeek> forDayOfWeek() {
         return DayOfWeekStringifier.getInstance();
-    }
-
-    /**
-     * Obtains the default stringifier for {@code Duration} instances.
-     *
-     * <p>This stringifier is automatically registered in the
-     * {@link StringifierRegistry StringifierRegistry}.
-     *
-     * @see com.google.protobuf.util.Durations#toString(Duration) Durations.toString(Duration)
-     * @see com.google.protobuf.util.Durations#parse(String) Durations.parse(String)
-     */
-    public static Stringifier<Duration> forDuration() {
-        return DurationStringifier.getInstance();
-    }
-
-    /**
-     * Obtains a stringifier that coverts a Timestamp into to RFC 3339 date string format.
-     *
-     * @see com.google.protobuf.util.Timestamps#toString(Timestamp) Timestamps.toString(Timestamp)
-     * @see com.google.protobuf.util.Timestamps#parse(String) Timestamps.parse(String)
-     */
-    public static Stringifier<Timestamp> forTimestamp() {
-        return TimestampStringifier.getInstance();
     }
 
     /**
@@ -244,56 +229,5 @@ public final class TimeStringifiers {
      */
     public static Stringifier<ZoneOffset> forZoneOffset() {
         return ZoneOffsetStringifier.getInstance();
-    }
-
-    /**
-     * Registers standard date-time stringifers at the {@link io.spine.string.StringifierRegistry
-     * StringiferRegistry}.
-     */
-    static class Registrar {
-
-        private final ImmutableList<Stringifier<?>> stringifiers;
-
-        private Registrar() {
-            stringifiers = ImmutableList.of(
-                    forDayOfWeek(),
-                    forDuration(),
-                    forLocalDate(),
-                    forLocalDateTime(),
-                    forLocalTime(),
-                    forMonth(),
-                    forOffsetDateTime(),
-                    forOffsetTime(),
-                    forTimestamp(),
-                    forYearMonth(),
-                    forZoneId(),
-                    forZonedDateTime(),
-                    forZoneOffset()
-            );
-        }
-
-        private void register() {
-            StringifierRegistry registry = StringifierRegistry.getInstance();
-            if (registry.get(stringifiers.get(0).getClass()).isPresent()) {
-                // Already registered.
-                return;
-            }
-
-            for (Stringifier<?> stringifier : stringifiers) {
-                Class<?> dataClass = getDataClass(stringifier.getClass());
-                registry.register(stringifier, dataClass);
-            }
-        }
-
-        @VisibleForTesting
-        static Class<?> getDataClass(Class<? extends Stringifier> stringifierClass) {
-            TypeToken<?> supertypeToken = TypeToken.of(stringifierClass)
-                                                   .getSupertype(Stringifier.class);
-            ParameterizedType genericSupertype =
-                    (ParameterizedType) supertypeToken.getType();
-            Type[] typeArguments = genericSupertype.getActualTypeArguments();
-            Type typeArgument = typeArguments[0];
-            return (Class<?>) typeArgument;
-        }
     }
 }

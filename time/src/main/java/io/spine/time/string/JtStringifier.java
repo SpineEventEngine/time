@@ -31,7 +31,6 @@ import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
  *
  * @param <T> the type to stringify
  * @param <J> the Java Time type which corresponds to type {@code T}
- * @author Alexander Yevsyukov
  */
 abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
