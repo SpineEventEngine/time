@@ -33,8 +33,8 @@ import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.getCurrentTime;
+import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
-import static io.spine.time.Durations2.fromMinutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

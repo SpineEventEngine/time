@@ -20,12 +20,11 @@
 
 package io.spine.time.string;
 
+import io.spine.string.EnumStringifier;
 import io.spine.time.Month;
 
 /**
  * The default stringifier for {@link io.spine.time.Month Month} instances.
- *
- * @author Alexander Yevsyukov
  */
 final class MonthStringifier extends EnumStringifier<Month> {
 

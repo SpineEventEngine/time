@@ -24,14 +24,11 @@ import io.spine.testing.TestValues;
 import io.spine.time.Month;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("MonthStringifier should")
 class MonthStringifierTest extends AbstractStringifierTest<Month> {
 
     MonthStringifierTest() {
-        super(TimeStringifiers.forMonth());
+        super(TimeStringifiers.forMonth(), Month.class);
     }
 
     @Override

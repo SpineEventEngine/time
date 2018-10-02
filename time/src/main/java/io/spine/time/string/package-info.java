@@ -22,7 +22,10 @@
  * This package provides stringifiers for date/time objects.
  */
 
+@CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.time.string;
+
+import com.google.errorprone.annotations.CheckReturnValue;
 
 import javax.annotation.ParametersAreNonnullByDefault;

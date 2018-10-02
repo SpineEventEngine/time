@@ -22,6 +22,7 @@ package io.spine.time;
 
 import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
+import io.spine.protobuf.Durations2;
 import io.spine.time.string.TimeStringifiers;
 
 import javax.annotation.Nullable;
@@ -29,7 +30,8 @@ import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.Durations2.hoursAndMinutes;
+import static io.spine.protobuf.Durations2.fromHours;
+import static io.spine.protobuf.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.Parameter.HOURS;
 import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static io.spine.util.Exceptions.unsupported;
@@ -37,8 +39,6 @@ import static io.spine.util.Exceptions.unsupported;
 /**
  * Utilities for working with {@code ZoneOffset}s.
  *
- * @author Alexander Yevsyukov
- * @author Alexander Aleksandrov
  * @see ZoneOffset
  */
 public final class ZoneOffsets {
@@ -94,7 +94,7 @@ public final class ZoneOffsets {
     public static ZoneOffset ofHours(int hours) {
         HOURS.check(hours);
 
-        Duration hourDuration = Durations2.fromHours(hours);
+        Duration hourDuration = fromHours(hours);
         int seconds = toSeconds(hourDuration);
         return ofSeconds(seconds);
     }
@@ -128,7 +128,7 @@ public final class ZoneOffsets {
     }
 
     @SuppressWarnings("NumericCastThatLosesPrecision")
-    // It is safe, as we check bounds of the arguments.
+    // It is safe, as we check bounds of the arguments when creating Durations.
     private static int toSeconds(Duration duration) {
         return (int) Durations2.toSeconds(duration);
     }

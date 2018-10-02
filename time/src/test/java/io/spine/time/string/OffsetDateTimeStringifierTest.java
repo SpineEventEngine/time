@@ -24,14 +24,11 @@ import io.spine.time.OffsetDateTime;
 import io.spine.time.OffsetDateTimes;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("OffsetDateTimeStringifier should")
 class OffsetDateTimeStringifierTest extends AbstractStringifierTest<OffsetDateTime> {
 
     OffsetDateTimeStringifierTest() {
-        super(TimeStringifiers.forOffsetDateTime());
+        super(TimeStringifiers.forOffsetDateTime(), OffsetDateTime.class);
     }
 
     @Override

@@ -24,14 +24,11 @@ import io.spine.time.ZonedDateTime;
 import io.spine.time.ZonedDateTimes;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("ZonedDateTimeStringifier should")
 class ZonedDateTimeStringifierTest extends AbstractStringifierTest<ZonedDateTime> {
 
     ZonedDateTimeStringifierTest() {
-        super(TimeStringifiers.forZonedDateTime());
+        super(TimeStringifiers.forZonedDateTime(), ZonedDateTime.class);
     }
 
     @Override

@@ -37,15 +37,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The abstract base for stringifier tests.
  *
- * @author Alexander Yevsyukov
  * @param <T> the type of stringifier objects
  */
 abstract class AbstractStringifierTest<T> {
 
     private final Stringifier<T> stringifier;
+    private final Class<T> dataClass;
 
-    AbstractStringifierTest(Stringifier<T> stringifier) {
+    AbstractStringifierTest(Stringifier<T> stringifier, Class<T> dataClass) {
         this.stringifier = stringifier;
+        this.dataClass = dataClass;
     }
 
     protected abstract T createObject();
@@ -93,9 +94,6 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("be registered")
     void isRegistered() {
-        Class<? extends Stringifier> cls = stringifier.getClass();
-        Class<?> dataClass = TimeStringifiers.Registrar.getDataClass(cls);
-
         assertTrue(StringifierRegistry.getInstance()
                                       .get(dataClass)
                                       .isPresent());

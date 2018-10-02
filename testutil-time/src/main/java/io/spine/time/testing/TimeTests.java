@@ -25,7 +25,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
-import io.spine.time.Durations2;
 
 import java.time.LocalTime;
 
@@ -35,14 +34,13 @@ import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.base.Time.systemTime;
-import static io.spine.time.Durations2.hours;
-import static io.spine.time.Durations2.seconds;
+import static io.spine.protobuf.Durations2.fromMinutes;
+import static io.spine.protobuf.Durations2.hours;
+import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.validate.Validate.checkPositive;
 
 /**
  * Utility class for working with time-related tests.
- *
- * @author Alexander Yevsykov
  */
 @VisibleForTesting
 public final class TimeTests {
@@ -165,7 +163,7 @@ public final class TimeTests {
         public static Timestamp minutesAgo(int value) {
             checkPositive(value);
             Timestamp currentTime = getCurrentTime();
-            Timestamp result = subtract(currentTime, Durations2.fromMinutes(value));
+            Timestamp result = subtract(currentTime, fromMinutes(value));
             return result;
         }
 

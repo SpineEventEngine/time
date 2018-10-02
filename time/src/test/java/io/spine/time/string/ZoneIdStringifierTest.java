@@ -24,14 +24,11 @@ import io.spine.time.ZoneId;
 import io.spine.time.ZoneIds;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("ZoneIdStringifier should")
 class ZoneIdStringifierTest extends AbstractStringifierTest<ZoneId> {
 
     ZoneIdStringifierTest() {
-        super(TimeStringifiers.forZoneId());
+        super(TimeStringifiers.forZoneId(), ZoneId.class);
     }
 
     @Override

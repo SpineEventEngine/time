@@ -22,7 +22,10 @@
  * This package provides classes for working with date/time objects.
  */
 
+@CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.time;
+
+import com.google.errorprone.annotations.CheckReturnValue;
 
 import javax.annotation.ParametersAreNonnullByDefault;

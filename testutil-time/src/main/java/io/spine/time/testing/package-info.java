@@ -18,37 +18,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
-
-import com.google.protobuf.Duration;
-import io.spine.string.Stringifier;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import static io.spine.time.Durations2.hoursAndMinutes;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 /**
- * @author Alexander Yevsyukov
+ * This package provides utilities for testing date/time logic.
  */
-@DisplayName("DurationStringifier should")
-class DurationStringifierTest extends AbstractStringifierTest<Duration> {
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.time.testing;
 
-    DurationStringifierTest() {
-        super(TimeStringifiers.forDuration());
-    }
+import com.google.errorprone.annotations.CheckReturnValue;
 
-    @Override
-    protected Duration createObject() {
-        return hoursAndMinutes(5, 37);
-    }
-
-    @Test
-    @DisplayName("Convert negative duration")
-    void convertNegativeDuration() {
-        Stringifier<Duration> stringifier = getStringifier();
-        Duration negative = hoursAndMinutes(-4, -31);
-        assertEquals(negative, stringifier.reverse()
-                                          .convert(stringifier.convert(negative)));
-    }
-}
+import javax.annotation.ParametersAreNonnullByDefault;

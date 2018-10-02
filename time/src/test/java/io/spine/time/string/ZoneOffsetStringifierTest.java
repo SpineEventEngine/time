@@ -28,14 +28,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("ZoneOffsetStringifier should")
 class ZoneOffsetStringifierTest extends AbstractStringifierTest<ZoneOffset> {
 
     ZoneOffsetStringifierTest() {
-        super(TimeStringifiers.forZoneOffset());
+        super(TimeStringifiers.forZoneOffset(), ZoneOffset.class);
     }
 
     @Override

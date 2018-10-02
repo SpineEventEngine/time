@@ -20,28 +20,35 @@
 
 package io.spine.time.string;
 
+import com.google.common.truth.StringSubject;
 import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("WebSafeTimestampStringifier should")
 class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
 
     WebSafeTimestampStringifierTest() {
-        super(forTimestampWebSafe());
+        super(forTimestampWebSafe(), Timestamp.class);
     }
 
     @Override
     protected Timestamp createObject() {
         return getCurrentTime();
+    }
+
+    @Test
+    @Override
+    @DisplayName("be obtained directly via `TimeStringifiers.forTimestampWebSafe()`")
+    void isRegistered() {
+        // Do not test since this stringifier is not registered.
+        // It should be obtained directly via TimeStringifiers.forTimestampWebSafe().
     }
 
     @Test
@@ -55,5 +62,15 @@ class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp>
                 () -> webSafeStringifier.reverse()
                                         .convert(corrupt)
         );
+    }
+
+    @Test
+    @DisplayName("replaces colons with dashes")
+    void webSafety() {
+        Stringifier<Timestamp> webSafeStringifier = getStringifier();
+        String webSafe = webSafeStringifier.convert(getCurrentTime());
+        StringSubject assertOutput = assertThat(webSafe);
+        assertOutput.doesNotContain(":");
+        assertOutput.contains("-");
     }
 }

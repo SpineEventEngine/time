@@ -94,8 +94,6 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
     }
 
     @Override
-    @SuppressWarnings("ThrowInsideCatchBlockWhichIgnoresCaughtException")
-    // It is OK because all necessary information from caught exception is passed.
     protected Timestamp fromString(String webSafe) {
         try {
             String rfcStr = fromWebSafe(webSafe);

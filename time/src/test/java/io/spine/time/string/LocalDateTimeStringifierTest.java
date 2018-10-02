@@ -23,13 +23,10 @@ package io.spine.time.string;
 import io.spine.time.LocalDateTime;
 import io.spine.time.LocalDateTimes;
 
-/**
- * @author Alexander Yevsyukov
- */
 class LocalDateTimeStringifierTest extends AbstractStringifierTest<LocalDateTime> {
 
     LocalDateTimeStringifierTest() {
-        super(TimeStringifiers.forLocalDateTime());
+        super(TimeStringifiers.forLocalDateTime(), LocalDateTime.class);
     }
 
     @Override

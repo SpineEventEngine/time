@@ -24,14 +24,11 @@ import io.spine.time.LocalTime;
 import io.spine.time.LocalTimes;
 import org.junit.jupiter.api.DisplayName;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("LocalTimeStringifier should")
 class LocalTimeStringifierTest extends AbstractStringifierTest<LocalTime> {
 
     LocalTimeStringifierTest() {
-        super(TimeStringifiers.forLocalTime());
+        super(TimeStringifiers.forLocalTime(), LocalTime.class);
     }
 
     @Override
