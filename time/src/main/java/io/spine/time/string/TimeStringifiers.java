@@ -44,8 +44,6 @@ import java.lang.reflect.Type;
 
 /**
  * A collection of stringifiers for date/time value objects.
- *
- * @author Alexander Yevsyukov
  */
 public final class TimeStringifiers {
 

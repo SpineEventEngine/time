@@ -20,6 +20,7 @@
 
 package io.spine.time.string;
 
+import io.spine.util.SerializableFunction;
 import com.google.common.base.Converter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
