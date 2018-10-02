@@ -19,12 +19,11 @@
  */
 
 /**
- * This package provides stringifiers for date/time objects.
+ * This package provides utilities for testing date/time logic.
  */
-
 @CheckReturnValue
 @ParametersAreNonnullByDefault
-package io.spine.time.string;
+package io.spine.time.testing;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 

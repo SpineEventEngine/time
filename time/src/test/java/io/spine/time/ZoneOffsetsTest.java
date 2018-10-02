@@ -32,8 +32,8 @@ import java.util.TimeZone;
 
 import static io.spine.base.Time.getCurrentTime;
 import static io.spine.time.Constants.MILLIS_PER_SECOND;
-import static io.spine.time.Durations2.hours;
-import static io.spine.time.Durations2.hoursAndMinutes;
+import static io.spine.protobuf.Durations2.hours;
+import static io.spine.protobuf.Durations2.hoursAndMinutes;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;

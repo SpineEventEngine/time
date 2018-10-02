@@ -25,7 +25,7 @@ import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.time.Durations2.hoursAndMinutes;
+import static io.spine.protobuf.Durations2.hoursAndMinutes;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
