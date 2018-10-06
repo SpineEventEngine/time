@@ -22,23 +22,17 @@ buildscript {
 
     // As long as `buildscript` section is always evaluated first,
     // we need to apply explicitly here.
+    apply from: "$rootDir/version.gradle"
     apply from: "$rootDir/config/gradle/dependencies.gradle"
-    apply from: "$rootDir/ext.gradle"
 
     repositories {
-        jcenter()
         google()
-
-        mavenCentral()
-        mavenLocal()
-
         maven { url = repos.gradlePlugins }
-
-        // Spine releases repository.
+        maven { url = repos.oldSpine }
+        maven { url = repos.oldSpineSnapshots }
         maven { url = repos.spine }
-
-        // Spine snapshots repository.
         maven { url = repos.spineSnapshots }
+        mavenLocal()
     }
 
     //noinspection GroovyAssignabilityCheck
@@ -61,7 +55,7 @@ buildscript {
     })
 }
 
-apply from: 'ext.gradle'
+//apply from: 'version.gradle'
 
 ext {
     projectsToPublish = ["time",
@@ -83,16 +77,13 @@ subprojects {
 
     buildscript {
         repositories {
-            jcenter()
-
-            mavenCentral()
-            mavenLocal()
-
-            // Spine releases repository.
+            google()
+            maven { url = repos.gradlePlugins }
+            maven { url = repos.oldSpine }
+            maven { url = repos.oldSpineSnapshots }
             maven { url = repos.spine }
-
-            // Spine snapshots repository.
             maven { url = repos.spineSnapshots }
+            mavenLocal()
         }
 
         //noinspection GroovyAssignabilityCheck
