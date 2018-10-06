@@ -28,9 +28,6 @@ import org.junit.jupiter.api.Test;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * @author Alexander Yevsyukov
- */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("YearMonths should")
 class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.YearMonth> {

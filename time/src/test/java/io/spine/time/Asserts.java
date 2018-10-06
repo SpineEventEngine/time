@@ -24,8 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Assertion utilities for date/time tests.
- *
- * @author Alexander Yevsyukov
  */
 class Asserts {
 

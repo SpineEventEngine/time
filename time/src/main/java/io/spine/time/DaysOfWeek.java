@@ -31,8 +31,6 @@ import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
  * Utilities for working with {@link io.spine.time.DayOfWeek DayOfWeek} instances.
- *
- * @author Alexander Yevsyukov
  */
 public final class DaysOfWeek {
 

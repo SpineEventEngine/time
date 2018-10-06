@@ -29,8 +29,6 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
 
 /**
  * Precondition routines specific to date/time.
- *
- * @author Alexander Yevsyukov
  */
 final class DtPreconditions {
 

@@ -33,10 +33,6 @@ import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * @author Alexander Aleksandrov
- * @author Alexander Yevsyukov
- */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalTimes should")
 class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.LocalTime> {

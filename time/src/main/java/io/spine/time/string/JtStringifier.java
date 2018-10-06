@@ -20,6 +20,7 @@
 
 package io.spine.time.string;
 
+import io.spine.string.SerializableStringifier;
 import io.spine.util.SerializableFunction;
 import com.google.common.base.Converter;
 

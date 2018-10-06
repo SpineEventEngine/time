@@ -29,7 +29,6 @@ import java.io.Serializable;
  *
  * @param <T> a Java Time type
  * @param <P> either a Protobuf {@code Message} or {@code ProtocolMessageEnum}
- * @author Alexander Yevsyukov
  */
 abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serializable {
 

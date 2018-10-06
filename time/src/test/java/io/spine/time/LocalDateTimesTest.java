@@ -33,9 +33,6 @@ import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * @author Alexander Yevsyukov
- */
 @SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDateTimes should")
 class LocalDateTimesTest
