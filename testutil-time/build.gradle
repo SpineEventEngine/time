@@ -18,15 +18,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 dependencies {
-    // Depend on JUnit in the production part of the code, as this module exposes testing utilities
-    // that are based on JUnit.
-    compile deps.test.junit4
-
-    // Depend on Mockito in the production code because this module exposes testing utilities
-    // based on this library.
-    compile deps.test.mockito
-    
-    // Depend on the base module that contains `Timestamps` and other utility classes.
+    // Depend on the `time` module which contains types and utility classes.
     compile project(path: ':time')
 
     testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion

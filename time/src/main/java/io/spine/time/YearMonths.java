@@ -28,8 +28,6 @@ import static io.spine.time.DtPreconditions.checkNotDefault;
 
 /**
  * Utilities for working with {@code YearMonth} values.
- *
- * @author Alexander Yevsyukov
  */
 public final class YearMonths {
 
@@ -117,6 +115,10 @@ public final class YearMonths {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("YearMonths.converter()");
+        }
+
         @Override
         protected YearMonth doForward(java.time.YearMonth value) {
             YearMonth result = create(value.getYear(), value.getMonthValue());
@@ -128,11 +130,6 @@ public final class YearMonths {
             java.time.YearMonth result = java.time.YearMonth
                     .of(value.getYear(), value.getMonthValue());
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "YearMonths.converter()";
         }
 
         private Object readResolve() {

@@ -38,7 +38,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @param <T> the type with which the utility class work
  * @param <J> the Java Type which corresponds to the type {@code <T>}
- * @author Alexander Yevsyukov
  */
 abstract class AbstractDateTimeUtilityTest<T, J> {
 

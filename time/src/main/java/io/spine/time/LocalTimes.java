@@ -25,7 +25,6 @@ import io.spine.time.string.TimeStringifiers;
 import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkNotDefault;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
@@ -34,9 +33,6 @@ import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Routines for working with {@link LocalTime}.
- *
- * @author Alexander Aleksandrov
- * @author Alexander Yevsyukov
  */
 public final class LocalTimes {
 
@@ -85,7 +81,6 @@ public final class LocalTimes {
     }
 
     static void checkTime(LocalTime time) {
-        checkNotDefault(time);
         checkClockTime(time.getHour(),
                        time.getMinute(),
                        time.getSecond(),
@@ -158,6 +153,10 @@ public final class LocalTimes {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("LocalTimes.converter()");
+        }
+
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
             LocalTime result = LocalTime
@@ -178,11 +177,6 @@ public final class LocalTimes {
                         value.getSecond(),
                         value.getNano());
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "LocalTimes.converter()";
         }
 
         private Object readResolve() {

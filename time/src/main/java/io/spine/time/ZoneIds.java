@@ -27,8 +27,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Utilities for working with {@code ZoneId}.
- *
- * @author Alexander Yevsyukov
  */
 public final class ZoneIds {
 
@@ -118,6 +116,10 @@ public final class ZoneIds {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("ZoneIds.converter()");
+        }
+
         @Override
         protected ZoneId doForward(java.time.ZoneId id) {
             return create(id.getId());
@@ -126,11 +128,6 @@ public final class ZoneIds {
         @Override
         protected java.time.ZoneId doBackward(ZoneId id) {
             return java.time.ZoneId.of(id.getValue());
-        }
-
-        @Override
-        public String toString() {
-            return "ZoneIds.converter()";
         }
 
         private Object readResolve() {

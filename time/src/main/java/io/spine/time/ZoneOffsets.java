@@ -244,6 +244,10 @@ public final class ZoneOffsets {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("ZoneOffsets.converter()");
+        }
+
         @Override
         protected ZoneOffset doForward(java.time.ZoneOffset value) {
             return ofSeconds(value.getTotalSeconds());
@@ -256,11 +260,6 @@ public final class ZoneOffsets {
             return result;
         }
 
-        @Override
-        public String toString() {
-            return "ZoneOffsets.converter()";
-        }
-        
         private Object readResolve() {
             return INSTANCE;
         }

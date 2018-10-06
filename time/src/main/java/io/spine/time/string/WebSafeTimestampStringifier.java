@@ -22,6 +22,7 @@ package io.spine.time.string;
 
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
+import io.spine.string.SerializableStringifier;
 
 import java.text.ParseException;
 import java.util.regex.Pattern;
@@ -35,8 +36,6 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  * <p>The stringifier replaces colons in the time part of a a RFC 3339 date string
  * with dashes when converting a timestamp to a string. It also restores the colons
  * back during the backward conversion.
- *
- * @author Alexander Yevsyukov
  */
 final class WebSafeTimestampStringifier extends SerializableStringifier<Timestamp> {
 

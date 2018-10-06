@@ -29,8 +29,6 @@ import static io.spine.time.LocalTimes.checkTime;
 
 /**
  * Utilities for working with {@code LocalDateTime}.
- *
- * @author Alexander Yevsyukov
  */
 public final class LocalDateTimes {
 
@@ -118,6 +116,10 @@ public final class LocalDateTimes {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("LocalDateTimes.converter()");
+        }
+
         @Override
         protected LocalDateTime doForward(java.time.LocalDateTime value) {
             LocalDate date = LocalDates.of(value.toLocalDate());
@@ -130,11 +132,6 @@ public final class LocalDateTimes {
             java.time.LocalDate date = LocalDates.toJavaTime(value.getDate());
             java.time.LocalTime time = LocalTimes.toJavaTime(value.getTime());
             return java.time.LocalDateTime.of(date, time);
-        }
-
-        @Override
-        public String toString() {
-            return "LocalDateTimes.converter()";
         }
 
         private Object readResolve() {

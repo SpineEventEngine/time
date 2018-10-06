@@ -18,39 +18,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.string;
+ext {
+    // The version of the Spine Base module to be used in this project.
+    spineBaseVersion = '0.11.00-SNAPSHOT'
 
-import io.spine.string.Stringifier;
-
-import java.io.Serializable;
-
-/**
- * Abstract base for date-time stringifiers.
- *
- * @param <T> the type to stringify
- * @author Alexander Yevsyukov
- */
-abstract class SerializableStringifier<T> extends Stringifier<T> implements Serializable {
-
-    private static final long serialVersionUID = 0L;
-
-    private final String identity;
-
-    /**
-     * Creates a new instance with the passed identity.
-     *
-     * @param identity the identity of the stringifier, which is used in {@link #toString()}.
-     */
-    SerializableStringifier(String identity) {
-        super();
-        this.identity = identity;
-    }
-
-    /**
-     * Returns the identity of the stringifier.
-     */
-    @Override
-    public final String toString() {
-        return identity;
-    }
+    // Publish this library with the same version number as Base.
+    versionToPublish = spineBaseVersion
 }

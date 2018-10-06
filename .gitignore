@@ -26,7 +26,6 @@
 # Therefore, instructions below are superset of instructions required for all the projects.
 
 # IntelliJ IDEA modules and interim config files.
-*.iml
 .idea/*.xml
 .idea/.name
 .idea/libraries/**
@@ -34,6 +33,8 @@
 
 # Do not ignore the following IDEA settings
 !.idea/misc.xml
+!.idea/codeStyles/codeStyleConfig.xml
+!.idea/codeStyles/Project.xml
 
 # Gradle interim configs
 .gradle/**
@@ -65,9 +66,12 @@ gradle-app.setting
 # Spine model compiler auto-generated resources
 /tools/gradle-plugins/model-compiler/src/main/resources/spine-protoc.gradle
 
-# Login details to Maven repository.
-# Each workstation should have developer's login defined in this file.
+# Credentials to Maven repositories and Google Cloud Storage used for Travis build reports
+credentials.tar
 credentials.properties
+cloudrepo.properties
+deploy_key_rsa
+gcs-auth-key.json
 
 # Log files
 *.log

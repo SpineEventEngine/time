@@ -28,9 +28,6 @@ import org.junit.jupiter.api.Test;
 import static io.spine.time.DaysOfWeek.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-/**
- * @author Alexander Yevsyukov
- */
 @DisplayName("DaysOfWeek should")
 class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.DayOfWeek> {
 

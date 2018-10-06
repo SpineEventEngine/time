@@ -26,9 +26,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Routines for working with {@link OffsetDateTime}.
- *
- * @author Alexander Aleksandrov
- * @author Alexander Yevsyukov
  */
 public final class OffsetDateTimes {
 
@@ -125,6 +122,10 @@ public final class OffsetDateTimes {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("OffsetDateTimes.converter()");
+        }
+
         @Override
         protected OffsetDateTime doForward(java.time.OffsetDateTime value) {
             java.time.LocalDate ld = value.toLocalDate();
@@ -142,11 +143,6 @@ public final class OffsetDateTimes {
                     ZoneOffsets.toJavaTime(value.getOffset())
             );
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "OffsetDateTimes.converter()";
         }
 
         private Object readResolve() {

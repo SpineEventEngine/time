@@ -25,8 +25,6 @@ import io.spine.time.ZoneIds;
 
 /**
  * The default stringifier for {@link io.spine.time.ZoneId ZoneId} instances.
- *
- * @author Alexander Yevsyukov
  */
 final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
 

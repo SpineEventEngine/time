@@ -41,7 +41,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("ZoneOffsets should")
 class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
 
