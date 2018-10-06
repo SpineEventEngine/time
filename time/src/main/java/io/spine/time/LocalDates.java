@@ -35,9 +35,6 @@ import static java.time.temporal.ChronoField.YEAR;
 
 /**
  * Utilities for working with {@link LocalDate}.
- *
- * @author Alexander Yevsyukov
- * @author Alexander Aleksandrov
  */
 public final class LocalDates {
 
@@ -171,6 +168,10 @@ public final class LocalDates {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("LocalDates.converter()");
+        }
+
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
             LocalDate.Builder result = LocalDate
@@ -189,11 +190,6 @@ public final class LocalDates {
                     date.getDay()
             );
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "LocalDates.converter()";
         }
 
         private Object readResolve() {

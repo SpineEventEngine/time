@@ -34,16 +34,17 @@ abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serial
 
     private static final long serialVersionUID = 0L;
 
+    private final String identify;
+
+    protected AbstractConverter(String identity) {
+        this.identify = identity;
+    }
+
     /**
-     * {@inheritDoc}
-     *
-     * <p>Implementations must override providing their identity.
+     * Returns converter identity.
      */
-    @SuppressWarnings("RedundantMethodOverride") /*
-        We cannot use the @ForOverride annotation since it is not allowed for public methods.
-        The method is given for documentation purposes. */
     @Override
     public String toString() {
-        return super.toString();
+        return identify;
     }
 }

@@ -28,8 +28,6 @@ import static io.spine.time.DtPreconditions.checkNotDefault;
 
 /**
  * Utilities for working with {@code ZonedDateTime}.
- *
- * @author Alexander Yevsyukov
  */
 public final class ZonedDateTimes {
 
@@ -113,6 +111,10 @@ public final class ZonedDateTimes {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("ZonedDateTimes.converter()");
+        }
+
         @Override
         protected ZonedDateTime doForward(java.time.ZonedDateTime value) {
             LocalDateTime dateTime = LocalDateTimes.of(value.toLocalDateTime());
@@ -125,11 +127,6 @@ public final class ZonedDateTimes {
             java.time.LocalDateTime dateTime = LocalDateTimes.toJavaTime(value.getDateTime());
             java.time.ZoneId zoneId = ZoneIds.toJavaTime(value.getZone());
             return java.time.ZonedDateTime.of(dateTime, zoneId);
-        }
-
-        @Override
-        public String toString() {
-            return "ZonedDateTimes.converter()";
         }
 
         private Object readResolve() {

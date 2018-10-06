@@ -31,9 +31,6 @@ import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 /**
  * Utilities for working with calendar months.
- *
- * @author Mykhailo Drachuk
- * @author Alexander Yevsyukov
  */
 public final class Months {
 
@@ -135,6 +132,10 @@ public final class Months {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("Months.converter()");
+        }
+
         @Override
         protected Month doForward(java.time.Month month) {
             Month result = Month.forNumber(month.getValue());
@@ -144,11 +145,6 @@ public final class Months {
         @Override
         protected java.time.Month doBackward(Month month) {
             return java.time.Month.of(month.getNumber());
-        }
-
-        @Override
-        public String toString() {
-            return "Months.converter()";
         }
 
         private Object readResolve() {

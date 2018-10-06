@@ -120,6 +120,10 @@ public final class DaysOfWeek {
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
+        private JtConverter() {
+            super("DaysOfWeek.converter()");
+        }
+
         @Override
         protected DayOfWeek doForward(java.time.DayOfWeek day) {
             DayOfWeek result = DayOfWeek.forNumber(day.getValue());
@@ -130,11 +134,6 @@ public final class DaysOfWeek {
         protected java.time.DayOfWeek doBackward(DayOfWeek day) {
             java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "DaysOfWeek.converter()";
         }
 
         private Object readResolve() {
