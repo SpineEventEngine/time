@@ -32,7 +32,6 @@ import static io.spine.time.OffsetDateTimes.of;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetDateTimes should")
 public class OffsetDateTimesTest
         extends AbstractOffsetTimeTest<OffsetDateTime, java.time.OffsetDateTime> {

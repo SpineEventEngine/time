@@ -33,7 +33,6 @@ import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalTimes should")
 class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.LocalTime> {
 
@@ -113,7 +112,6 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
 
     }
 
-    @SuppressWarnings("EmptyClass")
     @Nested
     @DisplayName("Reject")
     class Arguments {
@@ -208,5 +206,12 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
                 );
             }
         }
+    }
+
+    @Test
+    @DisplayName("parse midnight string")
+    void midnightString() {
+        assertEquals(LocalTime.getDefaultInstance(), LocalTimes.parse("00:00"));
+        assertEquals(LocalTime.getDefaultInstance(), LocalTimes.parse("00:00:00"));
     }
 }

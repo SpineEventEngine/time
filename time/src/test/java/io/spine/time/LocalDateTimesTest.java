@@ -33,7 +33,6 @@ import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("LocalDateTimes should")
 class LocalDateTimesTest
         extends AbstractDateTimeUtilityTest<LocalDateTime, java.time.LocalDateTime> {
@@ -92,14 +91,17 @@ class LocalDateTimesTest
                     () -> of(LocalDate.getDefaultInstance(), LocalTimes.now())
             );
         }
+    }
 
-        @Test
-        @DisplayName("default time")
-        void defaultTime() {
-            assertThrows(
-                    IllegalArgumentException.class,
-                    () -> of(LocalDates.now(), LocalTime.getDefaultInstance())
-            );
-        }
+    @Test
+    @DisplayName("accept midnight time")
+    void midnight() {
+        LocalDate today = LocalDates.now();
+        LocalTime midnight = LocalTimes.parse("00:00:00");
+
+        LocalDateTime todayMidnight = LocalDateTimes.of(today, midnight);
+
+        assertEquals(today, todayMidnight.getDate());
+        assertEquals(midnight, todayMidnight.getTime());
     }
 }

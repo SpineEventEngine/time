@@ -25,7 +25,6 @@ import io.spine.time.string.TimeStringifiers;
 import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.time.DtPreconditions.checkNotDefault;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
@@ -82,7 +81,6 @@ public final class LocalTimes {
     }
 
     static void checkTime(LocalTime time) {
-        checkNotDefault(time);
         checkClockTime(time.getHour(),
                        time.getMinute(),
                        time.getSecond(),

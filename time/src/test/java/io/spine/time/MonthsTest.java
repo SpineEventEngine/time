@@ -33,7 +33,6 @@ import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("Months should")
 class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 

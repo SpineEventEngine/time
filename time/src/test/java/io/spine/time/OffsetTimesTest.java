@@ -34,7 +34,6 @@ import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SuppressWarnings("ClassCanBeStatic")
 @DisplayName("OffsetTimes should")
 class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.OffsetTime> {
 
