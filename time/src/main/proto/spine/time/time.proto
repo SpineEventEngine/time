@@ -53,7 +53,11 @@ enum Month {
 // The purpose of this type is to store values like "June 2018".
 //
 message YearMonth {
+
+    // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1 [(required) = true];
+
+    // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
 }
 
@@ -76,8 +80,14 @@ enum DayOfWeek {
 //
 // Use this message for describing a date (e.g. a birthday).
 message LocalDate {
+
+    // A year with `1` being year 1 CE and `-1` being 1 BC. 
     int32 year = 1 [(required) = true];
+
+    // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
+
+    // A day which must be from 1 to 31 and valid for the year and month.
     int32 day = 3 [(required) = true];
 }
 
