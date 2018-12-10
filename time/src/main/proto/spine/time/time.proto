@@ -85,9 +85,17 @@ message LocalDate {
 //
 // It is a description of a time, not an instant on a time-line.
 message LocalTime {
-    int32 hour = 1 [(required) = true];
-    int32 minute = 2 [(required) = true];
+
+    // An hour from 0 to 23.
+    int32 hour = 1;
+
+    // Minutes of an hour from 0 to 59.
+    int32 minute = 2;
+
+    // Seconds of a minute, specified from 0 to 59.
     int32 second = 3;
+
+    // Fractions of a second from 0 to 999,999,999.
     int32 nano = 4;
 }
 
