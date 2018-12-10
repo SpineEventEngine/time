@@ -214,4 +214,18 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         assertEquals(LocalTime.getDefaultInstance(), LocalTimes.parse("00:00"));
         assertEquals(LocalTime.getDefaultInstance(), LocalTimes.parse("00:00:00"));
     }
+
+    @Test
+    @DisplayName("builds a midnight date")
+    void buildMidnight() {
+        LocalTime time = LocalTimeVBuilder
+                .newBuilder()
+                .setHour(0)
+                .setMinute(0)
+                .setSecond(0)
+                .build();
+        assertEquals(0, time.getHour());
+        assertEquals(0, time.getMinute());
+        assertEquals(0, time.getSecond());
+    }
 }
