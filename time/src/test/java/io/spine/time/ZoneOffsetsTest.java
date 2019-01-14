@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -31,9 +31,9 @@ import org.junit.jupiter.api.Test;
 import java.util.TimeZone;
 
 import static io.spine.base.Time.getCurrentTime;
-import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
+import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;

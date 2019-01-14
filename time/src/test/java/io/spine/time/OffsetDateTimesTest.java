@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.Asserts.assertTimesEqual;
-import static io.spine.time.OffsetDateTimes.of;
+import static io.spine.time.OffsetDateTimes.now;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -49,7 +49,7 @@ public class OffsetDateTimesTest
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetDateTime now = OffsetDateTimes.now(zoneOffset);
+        OffsetDateTime now = now(zoneOffset);
         String str = OffsetDateTimes.toString(now);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);
 
@@ -79,7 +79,7 @@ public class OffsetDateTimesTest
         @Test
         @DisplayName("current date/time")
         void currentDateTime() {
-            OffsetDateTime now = OffsetDateTimes.now();
+            OffsetDateTime now = now();
             java.time.OffsetDateTime jn = toJavaTime(now);
             assertEqualDateTime(jn, now);
         }
@@ -87,7 +87,7 @@ public class OffsetDateTimesTest
         @Test
         @DisplayName("date/time at offset")
         void dateTimeAtOffset() {
-            OffsetDateTime offsetDateTime = of(date, time, zoneOffset());
+            OffsetDateTime offsetDateTime = OffsetDateTimes.of(date, time, zoneOffset());
 
             LocalDate date = offsetDateTime.getDateTime()
                                            .getDate();

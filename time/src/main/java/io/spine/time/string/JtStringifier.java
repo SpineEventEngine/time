@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -20,9 +20,9 @@
 
 package io.spine.time.string;
 
+import com.google.common.base.Converter;
 import io.spine.string.SerializableStringifier;
 import io.spine.util.SerializableFunction;
-import com.google.common.base.Converter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
