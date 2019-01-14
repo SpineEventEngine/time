@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -26,9 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.time.Asserts.assertDatesEqual;
-import static io.spine.time.LocalDateTimes.of;
-import static io.spine.time.LocalDateTimes.parse;
-import static io.spine.time.LocalDateTimes.toJavaTime;
+import static io.spine.time.LocalDateTimes.now;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -62,7 +60,7 @@ class LocalDateTimesTest
             LocalDate date = LocalDates.now();
             LocalTime time = LocalTimes.now();
 
-            LocalDateTime dateTime = of(date, time);
+            LocalDateTime dateTime = LocalDateTimes.of(date, time);
 
             assertEquals(date, dateTime.getDate());
             assertEquals(time, dateTime.getTime());
@@ -72,7 +70,7 @@ class LocalDateTimesTest
         @DisplayName("current date-time")
         void currentDateTime() {
             avoidDayEdge();
-            LocalDateTime now = LocalDateTimes.now();
+            LocalDateTime now = now();
             // Check that the date is the same. It's safe as we've not passed the end of the day.
             assertDatesEqual(java.time.LocalDate.now(), now.getDate());
             // We don't compare time here as it's surely changed.
@@ -88,7 +86,7 @@ class LocalDateTimesTest
         void defaultDate() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> of(LocalDate.getDefaultInstance(), LocalTimes.now())
+                    () -> LocalDateTimes.of(LocalDate.getDefaultInstance(), LocalTimes.now())
             );
         }
     }

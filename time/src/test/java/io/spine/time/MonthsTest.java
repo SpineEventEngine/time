@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static io.spine.time.Months.checkMonth;
-import static io.spine.time.Months.of;
 import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -57,7 +56,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
             LocalDate today = LocalDate.now();
-            Month month = of(today);
+            Month month = Months.of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
@@ -68,7 +67,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
             for (int month = java.time.Month.JANUARY.getValue();
                  month <= java.time.Month.DECEMBER.getValue();
                  month++) {
-                 assertEquals(month, of(month).getNumber());
+                 assertEquals(month, Months.of(month).getNumber());
             }
         }
     }

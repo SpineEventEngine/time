@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.Constants.NANOS_PER_SECOND;
-import static io.spine.time.LocalTimes.of;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -72,7 +71,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         @DisplayName("Java Time value")
         void byJavaTime() {
             java.time.LocalTime javaTime = java.time.LocalTime.now();
-            LocalTime now = of(javaTime);
+            LocalTime now = LocalTimes.of(javaTime);
 
             assertTimesEqual(javaTime, now);
         }
@@ -80,8 +79,8 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         @Test
         @DisplayName("hours and minutes")
         void createByHoursAndMinutes() {
-            LocalTime test = of(javaTimeNow.getHour(),
-                                javaTimeNow.getMinute());
+            LocalTime test = LocalTimes.of(javaTimeNow.getHour(),
+                                           javaTimeNow.getMinute());
 
             assertEquals(javaTimeNow.getHour(), test.getHour());
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
@@ -91,10 +90,9 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         @Test
         @DisplayName("hours, minutes, and seconds")
         void createByHoursMinutesAndSeconds() {
-            LocalTime test = of(javaTimeNow.getHour(),
-                                javaTimeNow.getMinute(),
-                                javaTimeNow.getSecond());
-
+            LocalTime test = LocalTimes.of(javaTimeNow.getHour(),
+                                           javaTimeNow.getMinute(),
+                                           javaTimeNow.getSecond());
             assertEquals(javaTimeNow.getHour(), test.getHour());
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
             assertEquals(javaTimeNow.getSecond(), test.getSecond());
@@ -102,10 +100,10 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         @Test
         @DisplayName("hours, minutes, seconds, and nanos")
         void createWithNanoPrecision() {
-            LocalTime test = of(javaTimeNow.getHour(),
-                                javaTimeNow.getMinute(),
-                                javaTimeNow.getSecond(),
-                                javaTimeNow.getNano());
+            LocalTime test = LocalTimes.of(javaTimeNow.getHour(),
+                                           javaTimeNow.getMinute(),
+                                           javaTimeNow.getSecond(),
+                                           javaTimeNow.getNano());
 
             assertTimesEqual(javaTimeNow, test);
         }
@@ -124,7 +122,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void negative() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(-2, 20)
+                        () -> LocalTimes.of(-2, 20)
                 );
             }
 
@@ -133,7 +131,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void outOfBounds() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(24, 0)
+                        () -> LocalTimes.of(24, 0)
                 );
             }
         }
@@ -147,7 +145,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void negative() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, -20)
+                        () -> LocalTimes.of(0, -20)
                 );
             }
 
@@ -156,7 +154,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void outOfBounds() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, 60)
+                        () -> LocalTimes.of(0, 60)
                 );
             }
         }
@@ -170,7 +168,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void negative() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, 0, -50)
+                        () -> LocalTimes.of(0, 0, -50)
                 );
             }
 
@@ -179,7 +177,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void outOfBounds() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, 0, 60)
+                        () -> LocalTimes.of(0, 0, 60)
                 );
             }
         }
@@ -193,7 +191,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void negative() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, 0, 0, -1)
+                        () -> LocalTimes.of(0, 0, 0, -1)
                 );
             }
 
@@ -202,7 +200,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             void outOfBounds() {
                 assertThrows(
                         IllegalArgumentException.class,
-                        () -> of(0, 0, 0, NANOS_PER_SECOND)
+                        () -> LocalTimes.of(0, 0, 0, NANOS_PER_SECOND)
                 );
             }
         }

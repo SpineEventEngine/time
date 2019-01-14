@@ -1,5 +1,5 @@
 /*
- * Copyright 2018, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -20,7 +20,6 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import com.google.common.testing.NullPointerTester;
 import io.spine.validate.Validate;
 import org.junit.jupiter.api.DisplayName;
