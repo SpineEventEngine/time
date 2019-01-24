@@ -18,24 +18,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-buildscript {
+buildscript { final scriptHandler ->
 
     // As long as `buildscript` section is always evaluated first,
     // we need to apply explicitly here.
     apply from: "$rootDir/version.gradle"
     apply from: "$rootDir/config/gradle/dependencies.gradle"
 
-    repositories {
-        google()
-        maven { url = repos.gradlePlugins }
-        maven { url = repos.oldSpine }
-        maven { url = repos.oldSpineSnapshots }
-        maven { url = repos.spine }
-        maven { url = repos.spineSnapshots }
-        mavenLocal()
-    }
-
-    //noinspection GroovyAssignabilityCheck
+    defaultRepositories(scriptHandler)
     dependencies {
         classpath deps.build.guava
         classpath (deps.build.gradlePlugins.protobuf) {
@@ -50,12 +40,8 @@ buildscript {
         classpath "io.spine.tools:spine-model-compiler:$spineBaseVersion"
     }
 
-    configurations.all({
-        resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-    })
+    forceConfiguration(scriptHandler)
 }
-
-//apply from: 'version.gradle'
 
 ext {
     projectsToPublish = ["time",
@@ -73,20 +59,13 @@ allprojects {
     version = versionToPublish
 }
 
+final boolean isTravis = System.env.TRAVIS == 'true'
+
 subprojects {
 
-    buildscript {
-        repositories {
-            google()
-            maven { url = repos.gradlePlugins }
-            maven { url = repos.oldSpine }
-            maven { url = repos.oldSpineSnapshots }
-            maven { url = repos.spine }
-            maven { url = repos.spineSnapshots }
-            mavenLocal()
-        }
+    buildscript { final scriptHandler ->
 
-        //noinspection GroovyAssignabilityCheck
+        defaultRepositories(scriptHandler)
         dependencies {
             classpath deps.build.guava
             classpath(deps.build.gradlePlugins.protobuf) {
@@ -95,9 +74,7 @@ subprojects {
             }
         }
 
-        configurations.all({
-            resolutionStrategy.cacheChangingModulesFor(0, 'seconds')
-        })
+        forceConfiguration(scriptHandler)
     }
 
     project.ext {
@@ -123,18 +100,21 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
-    repositories {
-        jcenter()
-        mavenCentral()
-        mavenLocal()
+    // Specific setup for a Travis build,
+    // which prevents appearing of warning messages in build logs.
+    //
+    // It is expected that warnings are viewed and analyzed in the local build logs.
+    if (isTravis) {
+        javadoc {
 
-        // Spine releases repository.
-        maven { url = repos.spine }
-
-        // Spine snapshots repository.
-        maven { url = repos.spineSnapshots }
+            // Set the maximum number of Javadoc warnings to print.
+            //
+            // If the parameter value is zero, all warnings will be printed.
+            options.addStringOption('Xmaxwarns', '1')
+        }
     }
 
+    defaultRepositories(project)
     dependencies {
         errorprone deps.build.errorProneCore
         errorproneJavac deps.build.errorProneJavac
@@ -233,17 +213,17 @@ subprojects {
     
     task sourceJar(type: Jar) {
         from sourceSets.main.allJava
-        classifier "sources"
+        archiveClassifier.set("sources")
     }
 
     task testOutputJar(type: Jar) {
         from sourceSets.test.output
-        classifier "test"
+        archiveClassifier.set("test")
     }
 
     task javadocJar(type: Jar, dependsOn: 'javadoc') {
         from ("$projectDir/build/docs/javadoc")
-        classifier "javadoc"
+        archiveClassifier.set("javadoc")
     }
 
     apply from: deps.scripts.filterInternalJavadocs
