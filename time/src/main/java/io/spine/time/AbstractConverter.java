@@ -37,6 +37,7 @@ abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serial
     private final String identify;
 
     protected AbstractConverter(String identity) {
+        super();
         this.identify = identity;
     }
 
