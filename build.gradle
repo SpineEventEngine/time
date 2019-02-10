@@ -95,6 +95,7 @@ subprojects {
     apply plugin: 'java-library'
     apply plugin: 'net.ltgt.errorprone'
     apply plugin: 'pmd'
+    apply plugin: 'checkstyle'
     apply plugin: 'com.google.protobuf'
     apply plugin: 'maven-publish'
 
@@ -251,6 +252,8 @@ subprojects {
     }
 
     apply from: deps.scripts.pmd
+
+    apply from: deps.scripts.checkstyle
 }
 
 // IDEA project configuration.
