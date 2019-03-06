@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
@@ -98,7 +98,7 @@ public final class ZonedDateTimes {
     /**
      * Obtains converter from Java Time and back.
      */
-    public static Converter<java.time.ZonedDateTime, ZonedDateTime> converter() {
+    public static SerializableConverter<java.time.ZonedDateTime, ZonedDateTime> converter() {
         return JtConverter.INSTANCE;
     }
 

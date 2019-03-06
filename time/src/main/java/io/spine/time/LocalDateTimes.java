@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.LocalDates.checkDate;
@@ -80,7 +80,7 @@ public final class LocalDateTimes {
     /**
      * Obtains converter from Java Time.
      */
-    public static Converter<java.time.LocalDateTime, LocalDateTime> converter() {
+    public static SerializableConverter<java.time.LocalDateTime, LocalDateTime> converter() {
         return JtConverter.INSTANCE;
     }
 

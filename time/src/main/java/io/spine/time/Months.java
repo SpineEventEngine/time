@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import java.time.DateTimeException;
 
@@ -90,7 +90,7 @@ public final class Months {
     /**
      * Obtains the instance of Java Time converter.
      */
-    public static Converter<java.time.Month, Month> converter() {
+    public static SerializableConverter<java.time.Month, Month> converter() {
         return JtConverter.INSTANCE;
     }
 

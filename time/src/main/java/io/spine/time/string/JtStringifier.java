@@ -20,8 +20,8 @@
 
 package io.spine.time.string;
 
-import com.google.common.base.Converter;
 import io.spine.string.SerializableStringifier;
+import io.spine.util.SerializableConverter;
 import io.spine.util.SerializableFunction;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -37,14 +37,12 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
     private static final long serialVersionUID = 0L;
 
-    @SuppressWarnings("NonSerializableFieldInSerializableClass") /* All converters
-        passed to JtStringifier are internal to Spine Time and are Serializable. */
-    private final Converter<J, T> converter;
+    private final SerializableConverter<J, T> converter;
     private final SerializableFunction<String, J> parser;
 
     JtStringifier(String identity,
                   SerializableFunction<String, J> parser,
-                  Converter<J, T> converter) {
+                  SerializableConverter<J, T> converter) {
         super(identity);
         this.converter = checkNotNull(converter);
         this.parser = checkNotNull(parser);

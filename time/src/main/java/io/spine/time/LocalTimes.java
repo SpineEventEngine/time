@@ -19,8 +19,8 @@
  */
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import java.time.DateTimeException;
 
@@ -140,7 +140,7 @@ public final class LocalTimes {
     /**
      * Obtains the instance of Java Time converter.
      */
-    public static Converter<java.time.LocalTime, LocalTime> converter() {
+    public static SerializableConverter<java.time.LocalTime, LocalTime> converter() {
         return JtConverter.INSTANCE;
     }
 

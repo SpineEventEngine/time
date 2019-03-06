@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
@@ -78,7 +78,7 @@ public final class YearMonths {
     /**
      * Obtains the converter from Java Time and back.
      */
-    public static Converter<java.time.YearMonth, YearMonth> converter() {
+    public static SerializableConverter<java.time.YearMonth, YearMonth> converter() {
         return JtConverter.INSTANCE;
     }
 

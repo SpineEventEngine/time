@@ -19,8 +19,8 @@
  */
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -108,7 +108,7 @@ public final class OffsetTimes {
     /**
      * Obtains converter from Java Time.
      */
-    public static Converter<java.time.OffsetTime, OffsetTime> converter() {
+    public static SerializableConverter<java.time.OffsetTime, OffsetTime> converter() {
         return JtConverter.INSTANCE;
     }
 
