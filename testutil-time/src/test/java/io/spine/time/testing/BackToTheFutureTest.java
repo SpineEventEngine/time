@@ -41,7 +41,7 @@ class BackToTheFutureTest {
 
     @Test
     @DisplayName("provide time from the future")
-    void getFutureTime() {
+    void futureTime() {
         assertTrue(TimeTests.Future.isFuture(timeProvider.currentTime()));
     }
 

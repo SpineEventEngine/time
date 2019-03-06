@@ -59,7 +59,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
         super("TimeStringifiers.forTimestampWebSafe()");
     }
 
-    static WebSafeTimestampStringifier getInstance() {
+    static WebSafeTimestampStringifier instance() {
         return INSTANCE;
     }
 

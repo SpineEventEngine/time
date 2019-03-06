@@ -25,8 +25,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Utility class for working with date-time changes.
- *
- * @author Alexander Yevsyukov
  */
 public final class TimeChanges {
 

@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Constants related to time as part of International System of Units (SI).
- *
- * @author Mykhailo Drachuk
  */
 @SuppressWarnings("NumericCastThatLosesPrecision")
 final class Constants {

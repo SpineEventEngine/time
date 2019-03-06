@@ -25,8 +25,6 @@ import io.spine.time.ZoneOffsets;
 
 /**
  * The default stringifier for {@code ZoneOffset} values.
- *
- * @author Alexander Yevsyukov
  */
 final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.ZoneOffset> {
 
@@ -39,7 +37,7 @@ final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.Zo
               ZoneOffsets.converter());
     }
 
-    static ZoneOffsetStringifier getInstance() {
+    static ZoneOffsetStringifier instance() {
         return INSTANCE;
     }
 

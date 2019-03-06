@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Modifier;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static com.google.common.truth.Truth8.assertThat;
 import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -51,14 +52,14 @@ abstract class AbstractStringifierTest<T> {
 
     protected abstract T createObject();
 
-    Stringifier<T> getStringifier() {
+    Stringifier<T> stringifier() {
         return stringifier;
     }
 
     @Test
     @DisplayName("have private singleton constructor")
     void privateCtor() {
-        assertHasPrivateParameterlessCtor(getStringifier().getClass());
+        assertHasPrivateParameterlessCtor(stringifier().getClass());
     }
 
     @Test
@@ -86,7 +87,7 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("serialize")
     void serialize() {
-        Stringifier<T> expected = getStringifier();
+        Stringifier<T> expected = stringifier();
         Stringifier<T> stringifier = reserializeAndAssert(expected);
         assertSame(expected, stringifier);
     }
@@ -94,9 +95,9 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("be registered")
     void isRegistered() {
-        assertTrue(StringifierRegistry.getInstance()
-                                      .get(dataClass)
-                                      .isPresent());
+        StringifierRegistry registry = StringifierRegistry.instance();
+        assertThat(registry.get(dataClass))
+                .isPresent();
     }
 
     @Test

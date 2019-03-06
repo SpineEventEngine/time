@@ -25,8 +25,6 @@ import io.spine.time.YearMonths;
 
 /**
  * The default stringifier for {@link io.spine.time.YearMonth YearMonth} instances.
- *
- * @author Alexander Yevsyukov
  */
 final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.YearMonth> {
 
@@ -38,7 +36,7 @@ final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.Year
               java.time.YearMonth::parse,
               YearMonths.converter());
     }
-    static YearMonthStringifier getInstance() {
+    static YearMonthStringifier instance() {
         return INSTANCE;
     }
 

@@ -54,7 +54,7 @@ class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp>
     @Test
     @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
     void parsingError() {
-        Stringifier<Timestamp> webSafeStringifier = getStringifier();
+        Stringifier<Timestamp> webSafeStringifier = stringifier();
         String webSafe = webSafeStringifier.convert(currentTime());
         String corrupt = "XX" + webSafe.substring(2);
         assertThrows(
@@ -67,7 +67,7 @@ class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp>
     @Test
     @DisplayName("replaces colons with dashes")
     void webSafety() {
-        Stringifier<Timestamp> webSafeStringifier = getStringifier();
+        Stringifier<Timestamp> webSafeStringifier = stringifier();
         String webSafe = webSafeStringifier.convert(currentTime());
         StringSubject assertOutput = assertThat(webSafe);
         assertOutput.doesNotContain(":");

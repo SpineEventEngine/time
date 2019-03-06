@@ -43,7 +43,7 @@ class ZoneOffsetStringifierTest extends AbstractStringifierTest<ZoneOffset> {
     @Test
     @DisplayName("Convert negative value")
     void convertNegative() {
-        Stringifier<ZoneOffset> stringifier = getStringifier();
+        Stringifier<ZoneOffset> stringifier = stringifier();
         ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -45);
         assertEquals(negative, stringifier.reverse()
                                           .convert(stringifier.convert(negative)));

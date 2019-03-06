@@ -70,7 +70,7 @@ public final class TimeStringifiers {
      * {@link StringifierRegistry StringifierRegistry}.
      */
     public static Stringifier<DayOfWeek> forDayOfWeek() {
-        return DayOfWeekStringifier.getInstance();
+        return DayOfWeekStringifier.instance();
     }
 
     /**
@@ -90,7 +90,7 @@ public final class TimeStringifiers {
      * <p>This stringifier can be convenient for storing IDs based on {@code Timestamp}s.
      */
     public static Stringifier<Timestamp> forTimestampWebSafe() {
-        return WebSafeTimestampStringifier.getInstance();
+        return WebSafeTimestampStringifier.instance();
     }
 
     /**
@@ -105,7 +105,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.LocalDates#parse(String) LocalDates.parse(String)
      */
     public static Stringifier<LocalDate> forLocalDate() {
-        return LocalDateStringifier.getInstance();
+        return LocalDateStringifier.instance();
     }
 
     /**
@@ -120,7 +120,7 @@ public final class TimeStringifiers {
      *      LocalDateTimes.parse(String)
      */
     public static Stringifier<LocalDateTime> forLocalDateTime() {
-        return LocalDateTimeStringifier.getInstance();
+        return LocalDateTimeStringifier.instance();
     }
     /**
      * Obtains default stringifier for {@code LocalTime} values.
@@ -132,7 +132,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.LocalTimes#parse(String) LocalTimes.parse(String)
      */
     public static Stringifier<LocalTime> forLocalTime() {
-        return LocalTimeStringifier.getInstance();
+        return LocalTimeStringifier.instance();
     }
 
     /**
@@ -145,7 +145,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.Months#parse(String) Months.parse(String)
      */
     public static Stringifier<Month> forMonth() {
-        return MonthStringifier.getInstance();
+        return MonthStringifier.instance();
     }
 
     /**
@@ -160,7 +160,7 @@ public final class TimeStringifiers {
      *      OffsetDateTimes.parse(String)
      */
     public static Stringifier<OffsetDateTime> forOffsetDateTime() {
-        return OffsetDateTimeStringifier.getInstance();
+        return OffsetDateTimeStringifier.instance();
     }
 
     /**
@@ -173,7 +173,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.OffsetTimes#parse(String) OffsetTimes.parse(String)
      */
     public static Stringifier<OffsetTime> forOffsetTime() {
-        return OffsetTimeStringifier.getInstance();
+        return OffsetTimeStringifier.instance();
     }
 
 
@@ -187,7 +187,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.YearMonths#parse(String) YearMonths.parse(String)
      */
     public static Stringifier<YearMonth> forYearMonth() {
-        return YearMonthStringifier.getInstance();
+        return YearMonthStringifier.instance();
     }
 
     /**
@@ -200,7 +200,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.ZoneIds#parse(String) ZoneIds.parse(String)
      */
     public static Stringifier<ZoneId> forZoneId() {
-        return ZoneIdStringifier.getInstance();
+        return ZoneIdStringifier.instance();
     }
 
     /**
@@ -215,7 +215,7 @@ public final class TimeStringifiers {
      *      ZonedDateTimes.parse(String)
      */
     public static Stringifier<ZonedDateTime> forZonedDateTime() {
-        return ZonedDateTimeStringifier.getInstance();
+        return ZonedDateTimeStringifier.instance();
     }
 
     /**
@@ -228,6 +228,6 @@ public final class TimeStringifiers {
      * @see io.spine.time.ZoneOffsets#parse(String) ZoneOffsets.parse(String)
      */
     public static Stringifier<ZoneOffset> forZoneOffset() {
-        return ZoneOffsetStringifier.getInstance();
+        return ZoneOffsetStringifier.instance();
     }
 }

@@ -25,8 +25,6 @@ import io.spine.time.LocalDateTimes;
 
 /**
  * The default stringifier for {@link io.spine.time.LocalDateTime LocalDateTime} values.
- *
- * @author Alexander Yevsyukov
  */
 final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.time.LocalDateTime> {
 
@@ -39,7 +37,7 @@ final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.t
               LocalDateTimes.converter());
     }
 
-    static LocalDateTimeStringifier getInstance() {
+    static LocalDateTimeStringifier instance() {
         return INSTANCE;
     }
 

@@ -36,7 +36,7 @@ final class MonthStringifier extends EnumStringifier<Month> {
         super("TimeStringifiers.forMonth()", Month.class);
     }
 
-    static MonthStringifier getInstance() {
+    static MonthStringifier instance() {
         return INSTANCE;
     }
 
