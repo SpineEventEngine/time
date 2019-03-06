@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.TimeZone;
 
-import static io.spine.base.Time.getCurrentTime;
+import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
 import static io.spine.time.Constants.MILLIS_PER_SECOND;
@@ -67,7 +67,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
             TimeZone timeZone = TimeZone.getDefault();
             ZoneOffset zoneOffset = ZoneOffsets.getDefault();
 
-            Timestamp now = getCurrentTime();
+            Timestamp now = currentTime();
             long date = Timestamps.toMillis(now);
             int offsetSeconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
 

@@ -42,20 +42,20 @@ class BackToTheFutureTest {
     @Test
     @DisplayName("provide time from the future")
     void getFutureTime() {
-        assertTrue(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
+        assertTrue(TimeTests.Future.isFuture(timeProvider.currentTime()));
     }
 
     @Test
     @DisplayName("rewind time backward")
     void rewindBackward() {
         // Rewind to somewhere around present.
-        assertNotEquals(timeProvider.getCurrentTime(),
+        assertNotEquals(timeProvider.currentTime(),
                         timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS));
 
         // ... and back to 30 years in the past.
         timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
-        assertFalse(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
+        assertFalse(TimeTests.Future.isFuture(timeProvider.currentTime()));
     }
 
     @SuppressWarnings("MagicNumber")
@@ -67,6 +67,6 @@ class BackToTheFutureTest {
 
         timeProvider.forward(BackToTheFuture.THIRTY_YEARS_IN_HOURS + 24L);
 
-        assertTrue(TimeTests.Future.isFuture(timeProvider.getCurrentTime()));
+        assertTrue(TimeTests.Future.isFuture(timeProvider.currentTime()));
     }
 }

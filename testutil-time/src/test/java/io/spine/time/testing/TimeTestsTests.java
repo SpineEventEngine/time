@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
-import static io.spine.base.Time.getCurrentTime;
+import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +51,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Override
     protected void configure(NullPointerTester tester) {
         super.configure(tester);
-        tester.setDefault(Timestamp.class, getCurrentTime());
+        tester.setDefault(Timestamp.class, currentTime());
     }
 
     @Test
@@ -64,13 +64,13 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("have frozen time provider")
     void frozenTimeProvider() {
-        final Timestamp fiveMinutesAgo = subtract(getCurrentTime(),
+        final Timestamp fiveMinutesAgo = subtract(currentTime(),
                                                   fromMinutes(5));
 
         final Time.Provider provider =
                 new TimeTests.FrozenMadHatterParty(fiveMinutesAgo);
 
-        assertEquals(fiveMinutesAgo, provider.getCurrentTime());
+        assertEquals(fiveMinutesAgo, provider.currentTime());
     }
 
     @Test
@@ -82,7 +82,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("obtain time in the future")
     void obtainFutureTime() {
-        Timestamp currentTime = getCurrentTime();
+        Timestamp currentTime = currentTime();
         Timestamp expected = add(currentTime, TEN_SECONDS);
 
         Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
@@ -93,7 +93,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("obtain time in the past")
     void obtainPastTime() {
-        Timestamp currentTime = getCurrentTime();
+        Timestamp currentTime = currentTime();
         Timestamp expected = subtract(currentTime, TEN_SECONDS);
 
         Timestamp actual = TimeTests.Past.secondsAgo(TEN_SECONDS.getSeconds());
@@ -104,7 +104,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("create instances for minutes ago")
     void minutesAgo() {
-        Timestamp currentTime = getCurrentTime();
+        Timestamp currentTime = currentTime();
         Timestamp expected = subtract(currentTime, MINUTE);
 
         Timestamp actual = TimeTests.Past.minutesAgo(1);

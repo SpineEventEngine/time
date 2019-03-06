@@ -26,7 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.base.Time.getCurrentTime;
+import static io.spine.base.Time.currentTime;
 import static io.spine.testing.TestValues.random;
 import static io.spine.time.Constants.HOURS_PER_DAY;
 import static io.spine.time.Constants.MINUTES_PER_HOUR;
@@ -55,7 +55,7 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
 
     @Override
     void addDefaults(NullPointerTester nullTester) {
-        nullTester.setDefault(Timestamp.class, getCurrentTime())
+        nullTester.setDefault(Timestamp.class, currentTime())
                   .setDefault(OffsetTime.class, OffsetTimes.now())
                   .setDefault(ZoneOffset.class, zoneOffset())
                   .setDefault(LocalTime.class, LocalTimes.now());
