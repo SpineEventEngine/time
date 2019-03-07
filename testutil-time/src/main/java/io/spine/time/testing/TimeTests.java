@@ -32,7 +32,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
-import static io.spine.base.Time.getCurrentTime;
+import static io.spine.base.Time.currentTime;
 import static io.spine.base.Time.systemTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
@@ -50,12 +50,12 @@ public final class TimeTests {
     }
 
     /**
-     * Returns the {@linkplain Time#getCurrentTime() current time} in seconds.
+     * Returns the {@linkplain Time#currentTime() current time} in seconds.
      *
      * @return a seconds value
      */
     public static long currentTimeSeconds() {
-        long secs = getCurrentTime().getSeconds();
+        long secs = currentTime().getSeconds();
         return secs;
     }
 
@@ -89,7 +89,7 @@ public final class TimeTests {
 
         /** Returns the value passed to the constructor. */
         @Override
-        public Timestamp getCurrentTime() {
+        public Timestamp currentTime() {
             return frozenTime;
         }
     }
@@ -111,7 +111,7 @@ public final class TimeTests {
         }
 
         @Override
-        public synchronized Timestamp getCurrentTime() {
+        public synchronized Timestamp currentTime() {
             return this.currentTime;
         }
 
@@ -120,7 +120,7 @@ public final class TimeTests {
         }
 
         /**
-         * Rewinds the {@linkplain #getCurrentTime() "current time"} forward
+         * Rewinds the {@linkplain #currentTime() "current time"} forward
          * by the passed amount of hours.
          */
         @CanIgnoreReturnValue
@@ -132,7 +132,7 @@ public final class TimeTests {
         }
 
         /**
-         * Rewinds the {@linkplain #getCurrentTime() "current time"} backward
+         * Rewinds the {@linkplain #currentTime() "current time"} backward
          * by the passed amount of hours.
          */
         @CanIgnoreReturnValue
@@ -162,7 +162,7 @@ public final class TimeTests {
          */
         public static Timestamp minutesAgo(int value) {
             checkPositive(value);
-            Timestamp currentTime = getCurrentTime();
+            Timestamp currentTime = currentTime();
             Timestamp result = subtract(currentTime, fromMinutes(value));
             return result;
         }
@@ -175,7 +175,7 @@ public final class TimeTests {
          */
         public static Timestamp secondsAgo(long value) {
             checkPositive(value);
-            Timestamp currentTime = getCurrentTime();
+            Timestamp currentTime = currentTime();
             Timestamp result = subtract(currentTime, seconds(value));
             return result;
         }
@@ -198,7 +198,7 @@ public final class TimeTests {
          */
         public static Timestamp secondsFromNow(long seconds) {
             checkPositive(seconds);
-            Timestamp currentTime = getCurrentTime();
+            Timestamp currentTime = currentTime();
             Timestamp result = add(currentTime, fromSeconds(seconds));
             return result;
         }
@@ -209,7 +209,7 @@ public final class TimeTests {
          */
         public static boolean isFuture(Timestamp timestamp) {
             checkNotNull(timestamp);
-            // Do not use `getCurrentTime()` as we may use custom `TimestampProvider` already.
+            // Do not use `currentTime()` as we may use custom `TimestampProvider` already.
             // Get time from metal.
             Timestamp currentSystemTime = systemTime();
 

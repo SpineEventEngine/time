@@ -20,9 +20,7 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
-
-import java.io.Serializable;
+import io.spine.util.SerializableConverter;
 
 /**
  * Abstract base for converters from Java Time.
@@ -30,7 +28,7 @@ import java.io.Serializable;
  * @param <T> a Java Time type
  * @param <P> either a Protobuf {@code Message} or {@code ProtocolMessageEnum}
  */
-abstract class AbstractConverter<T, P> extends Converter<T, P> implements Serializable {
+abstract class AbstractConverter<T, P> extends SerializableConverter<T, P> {
 
     private static final long serialVersionUID = 0L;
 

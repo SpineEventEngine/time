@@ -35,7 +35,7 @@ final class DayOfWeekStringifier extends EnumStringifier<DayOfWeek> {
         super("TimeStringifiers.forDayOfWeek()", DayOfWeek.class);
     }
 
-    static DayOfWeekStringifier getInstance() {
+    static DayOfWeekStringifier instance() {
         return INSTANCE;
     }
 

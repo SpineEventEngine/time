@@ -20,6 +20,7 @@
 
 package io.spine.time.string;
 
+import com.google.common.truth.Truth8;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import io.spine.testing.UtilityClassTest;
@@ -30,6 +31,8 @@ import io.spine.time.OffsetTime;
 import io.spine.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
 
 import static io.spine.time.string.TimeStringifiers.forLocalDate;
 import static io.spine.time.string.TimeStringifiers.forLocalTime;
@@ -45,11 +48,6 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
         super(TimeStringifiers.class);
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent") // OK since it would break the test if missing.
-    private static Stringifier<Object> getStringifier(Class<?> cls) {
-        return StringifierRegistry.getInstance().get(cls).get();
-    }
-
     @Test
     @DisplayName("register stringifiers for standard types")
     void registerStringifiers() {
@@ -61,7 +59,15 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
     }
 
     private static <T> void assertStringifier(Class<T> dataClass, Stringifier<T> stringifier) {
-        Stringifier<?> current = getStringifier(dataClass);
+        Stringifier<?> current = stringifierOf(dataClass);
         assertEquals(stringifier, current);
+    }
+
+    private static Stringifier<Object> stringifierOf(Class<?> cls) {
+        Optional<Stringifier<Object>> stringifier = StringifierRegistry.instance()
+                                                                       .get(cls);
+        Truth8.assertThat(stringifier).isPresent();
+        //noinspection OptionalGetWithoutIsPresent
+        return stringifier.get();
     }
 }

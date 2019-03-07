@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import java.time.DateTimeException;
 
@@ -107,7 +107,7 @@ public final class DaysOfWeek {
     /**
      * Obtains the converter from Java Time.
      */
-    public static Converter<java.time.DayOfWeek, DayOfWeek> converter() {
+    public static SerializableConverter<java.time.DayOfWeek, DayOfWeek> converter() {
         return JtConverter.INSTANCE;
     }
 

@@ -37,7 +37,7 @@ final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
               ZoneIds.converter());
     }
 
-    static ZoneIdStringifier getInstance() {
+    static ZoneIdStringifier instance() {
         return INSTANCE;
     }
 

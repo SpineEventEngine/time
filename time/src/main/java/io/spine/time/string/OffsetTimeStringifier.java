@@ -25,8 +25,6 @@ import io.spine.time.OffsetTimes;
 
 /**
  * Default stringifier for {@link OffsetTime}.
- *
- * @author Alexander Yevsyukov
  */
 final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.OffsetTime> {
 
@@ -39,7 +37,7 @@ final class OffsetTimeStringifier extends JtStringifier<OffsetTime, java.time.Of
               OffsetTimes.converter());
     }
 
-    static OffsetTimeStringifier getInstance() {
+    static OffsetTimeStringifier instance() {
         return INSTANCE;
     }
 

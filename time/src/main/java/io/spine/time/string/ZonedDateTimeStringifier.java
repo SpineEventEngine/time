@@ -25,8 +25,6 @@ import io.spine.time.ZonedDateTimes;
 
 /**
  * The default stringifier for {@code ZonedDateTime} values.
- *
- * @author Alexander Yevsyukov
  */
 final class ZonedDateTimeStringifier extends JtStringifier<ZonedDateTime, java.time.ZonedDateTime> {
 
@@ -39,7 +37,7 @@ final class ZonedDateTimeStringifier extends JtStringifier<ZonedDateTime, java.t
               ZonedDateTimes.converter());
     }
 
-    static ZonedDateTimeStringifier getInstance() {
+    static ZonedDateTimeStringifier instance() {
         return INSTANCE;
     }
 

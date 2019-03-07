@@ -20,8 +20,8 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import java.time.DateTimeException;
 import java.time.YearMonth;
@@ -155,7 +155,7 @@ public final class LocalDates {
     /**
      * Obtains Java Time converter instance.
      */
-    public static Converter<java.time.LocalDate, LocalDate> converter() {
+    public static SerializableConverter<java.time.LocalDate, LocalDate> converter() {
         return JtConverter.INSTANCE;
     }
 

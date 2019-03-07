@@ -20,10 +20,10 @@
 
 package io.spine.time;
 
-import com.google.common.base.Converter;
 import com.google.protobuf.Duration;
 import io.spine.protobuf.Durations2;
 import io.spine.time.string.TimeStringifiers;
+import io.spine.util.SerializableConverter;
 
 import javax.annotation.Nullable;
 import java.util.TimeZone;
@@ -166,7 +166,7 @@ public final class ZoneOffsets {
     /**
      * Obtains converter from Java Time and back.
      */
-    public static Converter<java.time.ZoneOffset, ZoneOffset> converter() {
+    public static SerializableConverter<java.time.ZoneOffset, ZoneOffset> converter() {
         return JtConverter.INSTANCE;
     }
 

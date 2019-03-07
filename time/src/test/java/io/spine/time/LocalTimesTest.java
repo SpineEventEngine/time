@@ -51,7 +51,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     }
 
     @BeforeEach
-    void getCurrentTime() {
+    void initLocalTimeNow() {
         javaTimeNow = java.time.LocalTime.now();
     }
 
