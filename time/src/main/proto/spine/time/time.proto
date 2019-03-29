@@ -54,6 +54,7 @@ enum Month {
 // The purpose of this type is to store values like "June 2018".
 //
 message YearMonth {
+    option (is).java_type = "io.spine.time.YearMonthTemporal";
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
