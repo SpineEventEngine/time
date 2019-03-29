@@ -114,6 +114,8 @@ message LocalTime {
 
 // A date-time without a time-zone.
 message LocalDateTime {
+    option (is).java_type = "io.spine.time.LocalDateTimeTemporal";
+
     LocalDate date = 1 [(required) = true];
     LocalTime time = 2 [(required) = true];
 }
