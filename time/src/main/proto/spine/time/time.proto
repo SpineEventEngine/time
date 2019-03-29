@@ -139,6 +139,7 @@ message OffsetTime {
 
 // A date-time with an offset from UTC.
 message OffsetDateTime {
+    option (is).java_type = "io.spine.time.OffsetDateTimeTemporal";
 
     // The local date-time.
     LocalDateTime date_time = 1 [(required) = true];
