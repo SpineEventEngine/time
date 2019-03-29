@@ -29,11 +29,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
-import static io.spine.time.Constants.MILLIS_PER_SECOND;
 import static io.spine.time.ZoneOffsets.ofHours;
 import static io.spine.time.ZoneOffsets.ofHoursMinutes;
 import static io.spine.time.ZoneOffsets.parse;
@@ -43,6 +43,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("ZoneOffsets should")
 class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
+
+    /** The count of milliseconds in one second. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int MILLIS_PER_SECOND = (int) TimeUnit.SECONDS.toMillis(1);
 
     ZoneOffsetsTest() {
         super(ZoneOffsets.class,

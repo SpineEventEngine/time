@@ -26,16 +26,27 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static io.spine.base.Time.currentTime;
 import static io.spine.testing.TestValues.random;
-import static io.spine.time.Constants.HOURS_PER_DAY;
-import static io.spine.time.Constants.MINUTES_PER_HOUR;
-import static io.spine.time.Constants.NANOS_PER_SECOND;
-import static io.spine.time.Constants.SECONDS_PER_MINUTE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("OffsetTimes should")
 class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.OffsetTime> {
+
+    /** The count of nanoseconds in one second. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int NANOS_PER_SECOND = (int) TimeUnit.SECONDS.toNanos(1);
+    /** The count of seconds in one minute. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int SECONDS_PER_MINUTE = (int) TimeUnit.MINUTES.toSeconds(1);
+    /** The count of minutes in one hour. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int MINUTES_PER_HOUR = (int) TimeUnit.HOURS.toMinutes(1);
+    /** The count of hours per day. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int HOURS_PER_DAY = (int) TimeUnit.DAYS.toHours(1);
 
     OffsetTimesTest() {
         super(OffsetTimes.class,
