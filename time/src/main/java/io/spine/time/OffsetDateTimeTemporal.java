@@ -27,6 +27,12 @@ import java.time.Instant;
 
 import static io.spine.protobuf.Timestamps2.fromInstant;
 
+/**
+ * An implementation of {@link io.spine.time.temporal.Temporal} based on {@link OffsetDateTime}.
+ *
+ * <p>This interface is designed to be implemented by {@code io.spine.time.OffsetDateTime}
+ * exclusively. The interface does not add any abstract methods to its message counterpart.
+ */
 interface OffsetDateTimeTemporal extends TemporalMessage<OffsetDateTime>, OffsetDateTimeOrBuilder {
 
     @Override
