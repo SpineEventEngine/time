@@ -156,6 +156,7 @@ message ZoneId {
 // A date-time with a time-zone in the ISO-8601 calendar system,
 // such as `2018-06-25T19:22:45+01:00 Europe/Amsterdam`.
 message ZonedDateTime {
+    option (is).java_type = "io.spine.time.ZonedDateTimeTemporal";
 
     // The local date-time.
     LocalDateTime date_time = 1 [(required) = true];
