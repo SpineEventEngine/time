@@ -82,6 +82,7 @@ enum DayOfWeek {
 //
 // Use this message for describing a date (e.g. a birthday).
 message LocalDate {
+    option (is).java_type = "io.spine.time.LocalDateTemporal";
 
     // A year with `1` being year 1 CE and `-1` being 1 BC. 
     int32 year = 1;
