@@ -32,14 +32,32 @@ import org.junit.jupiter.api.Test;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 
+/**
+ * The implementation base for test suites covering {@link io.spine.time.temporal.Temporal}
+ * implementations.
+ *
+ * @param <T>
+ *         the type of {@link io.spine.time.temporal.Temporal}
+ */
 abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
 
     private final Class<T> type;
 
+    /**
+     * Constructs the test suite.
+     *
+     * @param type
+     *         the exact runtime type of {@link io.spine.time.temporal.Temporal} under the test
+     */
     protected TemporalMessageTest(Class<T> type) {
         this.type = checkNotNull(type);
     }
 
+    /**
+     * Creates a new non-default valid instance of {@link io.spine.time.temporal.Temporal}.
+     *
+     * <p>A typical implementation obtains the current time value.
+     */
     abstract T create();
 
     @Test
