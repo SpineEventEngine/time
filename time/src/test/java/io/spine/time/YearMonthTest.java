@@ -21,6 +21,9 @@
 package io.spine.time;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("YearMonth should")
 class YearMonthTest extends TemporalMessageTest<YearMonth> {
@@ -32,5 +35,12 @@ class YearMonthTest extends TemporalMessageTest<YearMonth> {
     @Override
     YearMonth create() {
         return YearMonths.now();
+    }
+
+    @Test
+    @DisplayName("consider the current month to be in the past")
+    void nowIsInPast() {
+        YearMonth now = YearMonths.now();
+        assertTrue(now.isInPast());
     }
 }
