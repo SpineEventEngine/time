@@ -47,15 +47,15 @@ extend google.protobuf.FieldOptions {
     TimeOption when = 73819;
 }
 
-// The field value is a `Timestamp` which points to the moment in the future or the past.
+// The field value is point in time which lies in the future or in the past.
 //
-// Is applicable only to `Timestamp`s.
+// Is applicable only to `Timestamp`s and types marked as `Temporal`. See `io.spine.time.Temporal`.
 // Repeated fields are supported.
 //
 // Example: Using `(when)` option.
 //
 //     message ScheduleMeeting {
-//         google.protobuf.Timestamp start = 1 [(when).in = FUTURE];
+//         spine.time.ZonedDateTime start = 1 [(when).in = FUTURE];
 //     }
 //
 message TimeOption {
