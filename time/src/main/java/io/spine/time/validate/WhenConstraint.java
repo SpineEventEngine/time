@@ -24,16 +24,16 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.base.FieldPath;
-import io.spine.option.Time;
-import io.spine.option.TimeOption;
 import io.spine.time.Temporal;
 import io.spine.time.Temporals;
+import io.spine.time.validation.Time;
+import io.spine.time.validation.TimeOption;
 import io.spine.validate.ConstraintViolation;
 import io.spine.validate.FieldValue;
 import io.spine.validate.FieldValueConstraint;
 
-import static io.spine.option.Time.FUTURE;
-import static io.spine.option.Time.TIME_UNDEFINED;
+import static io.spine.time.validation.Time.FUTURE;
+import static io.spine.time.validation.Time.TIME_UNDEFINED;
 import static io.spine.validate.FieldValidator.errorMsgFormat;
 
 /**

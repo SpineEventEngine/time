@@ -22,8 +22,8 @@ package io.spine.time.validate;
 
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
-import io.spine.option.OptionsProto;
-import io.spine.option.TimeOption;
+import io.spine.time.validation.TimeOption;
+import io.spine.time.validation.TimeOptionsProto;
 import io.spine.validate.Constraint;
 import io.spine.validate.FieldValidatingOption;
 import io.spine.validate.FieldValue;
@@ -38,7 +38,7 @@ import io.spine.validate.FieldValue;
 final class When<T extends Message> extends FieldValidatingOption<TimeOption, T> {
 
     private When() {
-        super(OptionsProto.when);
+        super(TimeOptionsProto.when);
     }
 
     /** Creates a new instance of this option. */
