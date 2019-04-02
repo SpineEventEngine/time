@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+// API Note on Packaging
+// ---------------------
+// We do not define the package for this file to allow shorter options for user-defined types.
+// This allows to write:
+//
+//      [(when).in = FUTURE];
+//
+// instead of:
+//
+//      [(spine.time.when).in = FUTURE];
+//
+
+import "spine/options.proto";
+
+option (type_url_prefix) = "type.spine.io";
+option java_package = "io.spine.time.validation";
+option java_outer_classname = "TimeOptionsProto";
+option java_multiple_files = true;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+
+    // See `TimeOption`.
+    TimeOption when = 73819;
+}
+
+// The field value is a `Timestamp` which points to the moment in the future or the past.
+//
+// Is applicable only to `Timestamp`s.
+// Repeated fields are supported.
+//
+// Example: Using `(when)` option.
+//
+//     message ScheduleMeeting {
+//         google.protobuf.Timestamp start = 1 [(when).in = FUTURE];
+//     }
+//
+message TimeOption {
+
+    // The default error message format string.
+    //
+    // The format parameter is "past" or "future" string, depending on the restriction.
+    //
+    option (default_message) = "Point in time must be in the %s.";
+
+    // Defines a restriction for the timestamp.
+    Time in = 1;
+
+    // A user-defined validation error format message.
+    string msg_format = 2;
+}
+
+// This enumeration defines restriction for date/time values.
+enum Time {
+
+    // The default value (if the time option is not set).
+    TIME_UNDEFINED = 0;
+
+    // The value must be in the past.
+    PAST = 1;
+
+    // The value must be in the future.
+    FUTURE = 2;
+}
