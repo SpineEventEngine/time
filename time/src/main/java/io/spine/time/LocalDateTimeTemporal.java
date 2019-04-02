@@ -24,11 +24,11 @@ import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
 
-import static io.spine.protobuf.Timestamps2.fromInstant;
+import static io.spine.time.Timestamps2.fromInstant;
 import static java.time.ZoneOffset.UTC;
 
 /**
- * An implementation of {@link io.spine.time.temporal.Temporal} based on {@link LocalDateTime}.
+ * An implementation of {@link Temporal} based on {@link LocalDateTime}.
  *
  * <p>This interface is designed to be implemented by {@code io.spine.time.LocalDateTime}
  * exclusively. The interface does not add any abstract methods to its message counterpart.

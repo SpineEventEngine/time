@@ -18,39 +18,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
-
-import com.google.protobuf.Any;
-import com.google.protobuf.Message;
-import io.spine.protobuf.AnyPacker;
-
 /**
- * A {@link Temporal} implemented with a message.
- *
- * <p>Messages marked with the {@code Temporal} interface should use this type instead of using
- * the {@code Temporal} directly.
- *
- * <p>To create a temporal message type:
- * <ol>
- *     <li>create a new interface derived from this one;
- *     <li>specify the target message type as the type parameter;
- *     <li>implement leftover abstract methods inherited from {@link Temporal};
- *     <li>mark the target message with the {@code (is)} option.
- * </ol>
- *
- * @param <T>
- *         the type of itself
+ * This package defines validation constraints for time-bearing types.
  */
-public interface TemporalMessage<T extends TemporalMessage<T>> extends Temporal<T>, Message {
 
-    /**
-     * Packs this message into an {@code Any}.
-     *
-     * @return this message as an {@code Any}
-     */
-    @Override
-    default Any toAny() {
-        Any any = AnyPacker.pack(this);
-        return any;
-    }
-}
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.spine.time.validate;
+
+import com.google.errorprone.annotations.CheckReturnValue;
+
+import javax.annotation.ParametersAreNonnullByDefault;

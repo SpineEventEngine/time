@@ -18,39 +18,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
+package io.spine.time.validate;
 
-import com.google.protobuf.Any;
 import com.google.protobuf.Message;
-import io.spine.protobuf.AnyPacker;
+import com.google.protobuf.Timestamp;
+import io.spine.option.OptionsProto;
+import io.spine.option.TimeOption;
+import io.spine.validate.Constraint;
+import io.spine.validate.FieldValidatingOption;
+import io.spine.validate.FieldValue;
 
 /**
- * A {@link Temporal} implemented with a message.
- *
- * <p>Messages marked with the {@code Temporal} interface should use this type instead of using
- * the {@code Temporal} directly.
- *
- * <p>To create a temporal message type:
- * <ol>
- *     <li>create a new interface derived from this one;
- *     <li>specify the target message type as the type parameter;
- *     <li>implement leftover abstract methods inherited from {@link Temporal};
- *     <li>mark the target message with the {@code (is)} option.
- * </ol>
+ * A validating option that specified the point in time which a {@link Timestamp} field value
+ * has.
  *
  * @param <T>
- *         the type of itself
+ *         the type of validated message
  */
-public interface TemporalMessage<T extends TemporalMessage<T>> extends Temporal<T>, Message {
+final class When<T extends Message> extends FieldValidatingOption<TimeOption, T> {
 
-    /**
-     * Packs this message into an {@code Any}.
-     *
-     * @return this message as an {@code Any}
-     */
+    private When() {
+        super(OptionsProto.when);
+    }
+
+    /** Creates a new instance of this option. */
+    public static <T extends Message> When<T> create() {
+        return new When<>();
+    }
+
     @Override
-    default Any toAny() {
-        Any any = AnyPacker.pack(this);
-        return any;
+    public Constraint<FieldValue<T>> constraintFor(FieldValue<T> value) {
+        return new WhenConstraint<>(optionValue(value));
     }
 }

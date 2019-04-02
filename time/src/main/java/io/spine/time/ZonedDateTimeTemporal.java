@@ -24,10 +24,10 @@ import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
 
-import static io.spine.protobuf.Timestamps2.fromInstant;
+import static io.spine.time.Timestamps2.fromInstant;
 
 /**
- * An implementation of {@link io.spine.time.temporal.Temporal} based on {@link ZonedDateTime}.
+ * An implementation of {@link io.spine.time.Temporal} based on {@link ZonedDateTime}.
  *
  * <p>This interface is designed to be implemented by {@code io.spine.time.ZonedDateTime}
  * exclusively. The interface does not add any abstract methods to its message counterpart.
