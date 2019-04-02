@@ -20,26 +20,45 @@
 
 package io.spine.time;
 
+import com.google.protobuf.Any;
 import com.google.protobuf.Timestamp;
+import io.spine.annotation.Internal;
+import io.spine.protobuf.AnyPacker;
 
-import java.time.Instant;
-
-import static io.spine.protobuf.Timestamps2.fromInstant;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.protobuf.util.Timestamps.checkValid;
 
 /**
- * An implementation of {@link io.spine.time.temporal.Temporal} based on {@link ZonedDateTime}.
- *
- * <p>This interface is designed to be implemented by {@code io.spine.time.ZonedDateTime}
- * exclusively. The interface does not add any abstract methods to its message counterpart.
+ * An implementation of {@link Temporal} for the Protobuf {@link Timestamp}.
  */
-interface ZonedDateTimeTemporal extends TemporalMessage<ZonedDateTime>, ZonedDateTimeOrBuilder {
+@Internal
+public final class TimestampTemporal implements Temporal<TimestampTemporal> {
+
+    private final Timestamp value;
+
+    private TimestampTemporal(Timestamp value) {
+        this.value = value;
+    }
+
+    /**
+     * Creates a new instance with the given {@code Timestamp}.
+     *
+     * <p>The given value must be valid in terms of {@code Timestamps.checkValid(..)}. Otherwise,
+     * as {@code IllegalStateException} is thrown.
+     */
+    static TimestampTemporal from(Timestamp value) {
+        checkNotNull(value);
+        checkValid(value);
+        return new TimestampTemporal(value);
+    }
 
     @Override
-    default Timestamp toTimestamp() {
-        Instant instant = java.time.ZonedDateTime
-                .of(LocalDateTimes.toJavaTime(getDateTime()), ZoneIds.toJavaTime(getZone()))
-                .toInstant();
-        Timestamp result = fromInstant(instant);
-        return result;
+    public Timestamp toTimestamp() {
+        return value;
+    }
+
+    @Override
+    public Any toAny() {
+        return AnyPacker.pack(value);
     }
 }

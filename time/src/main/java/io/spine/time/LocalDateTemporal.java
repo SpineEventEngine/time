@@ -21,7 +21,6 @@
 package io.spine.time;
 
 import com.google.protobuf.Timestamp;
-import io.spine.time.temporal.TemporalMessage;
 
 import java.time.Instant;
 

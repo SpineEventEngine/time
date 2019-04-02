@@ -20,26 +20,39 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-
-import java.time.Instant;
-
-import static io.spine.protobuf.Timestamps2.fromInstant;
+import com.google.protobuf.Any;
+import com.google.protobuf.Message;
+import io.spine.protobuf.AnyPacker;
 
 /**
- * An implementation of {@link io.spine.time.temporal.Temporal} based on {@link ZonedDateTime}.
+ * A {@link Temporal} implemented with a message.
  *
- * <p>This interface is designed to be implemented by {@code io.spine.time.ZonedDateTime}
- * exclusively. The interface does not add any abstract methods to its message counterpart.
+ * <p>Messages marked with the {@code Temporal} interface should use this type instead of using
+ * the {@code Temporal} directly.
+ *
+ * <p>To create a temporal message type:
+ * <ol>
+ *     <li>create a new interface derived from this one;
+ *     <li>specify the target message type as the type parameter;
+ *     <li>implement leftover abstract methods inherited from {@link Temporal};
+ *     <li>mark the target message with the {@code (is)} option.
+ * </ol>
+ *
+ * @param <T>
+ *         the type of itself
  */
-interface ZonedDateTimeTemporal extends TemporalMessage<ZonedDateTime>, ZonedDateTimeOrBuilder {
+@SuppressWarnings("InterfaceNeverImplemented")
+    // See SpineEventEngine/time for canonical implementations.
+public interface TemporalMessage<T extends TemporalMessage<T>> extends Temporal<T>, Message {
 
+    /**
+     * Packs this message into an {@code Any}.
+     *
+     * @return this message as an {@code Any}
+     */
     @Override
-    default Timestamp toTimestamp() {
-        Instant instant = java.time.ZonedDateTime
-                .of(LocalDateTimes.toJavaTime(getDateTime()), ZoneIds.toJavaTime(getZone()))
-                .toInstant();
-        Timestamp result = fromInstant(instant);
-        return result;
+    default Any toAny() {
+        Any any = AnyPacker.pack(this);
+        return any;
     }
 }
