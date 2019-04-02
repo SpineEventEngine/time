@@ -43,6 +43,7 @@ import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Disabled
@@ -161,14 +162,16 @@ class WhenTest {
     }
 
     void assertIsValid(boolean isValid) {
+        assertNotNull(violations);
         if (isValid) {
             assertTrue(violations.isEmpty(), () -> violations.toString());
         } else {
-            assertViolations(violations);
+            assertViolations();
         }
     }
 
-    private static void assertViolations(List<ConstraintViolation> violations) {
+    private void assertViolations() {
+        assertNotNull(violations);
         assertFalse(violations.isEmpty());
         for (ConstraintViolation violation : violations) {
             assertHasCorrectFormat(violation);
@@ -189,6 +192,7 @@ class WhenTest {
 
     void assertSingleViolation(Message message, String expectedErrMsg) {
         assertNotValid(message);
+        assertNotNull(violations);
         assertEquals(1, violations.size());
         assertSingleViolation(expectedErrMsg);
     }
