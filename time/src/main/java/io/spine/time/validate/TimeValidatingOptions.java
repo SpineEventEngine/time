@@ -21,6 +21,7 @@
 package io.spine.time.validate;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.Immutable;
 import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
 import io.spine.validate.FieldValidatingOption;
@@ -33,6 +34,7 @@ import java.util.Set;
  * fields.
  */
 @Internal
+@Immutable
 public final class TimeValidatingOptions implements ValidatingOptions {
 
     @Override
