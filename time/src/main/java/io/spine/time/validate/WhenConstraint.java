@@ -39,18 +39,15 @@ import static io.spine.validate.FieldValidator.errorMsgFormat;
 /**
  * A constraint that, when applied to a {@link Timestamp} field value, checks for whether the
  * actual value is in the future or in the past, defined by the value of the field option.
- *
- * @param <T>
- *         the type of validated message
  */
-final class WhenConstraint<T extends Message> extends FieldValueConstraint<T, TimeOption> {
+final class WhenConstraint extends FieldValueConstraint<Message, TimeOption> {
 
     WhenConstraint(TimeOption optionValue) {
         super(optionValue);
     }
 
     @Override
-    public ImmutableList<ConstraintViolation> check(FieldValue<T> fieldValue) {
+    public ImmutableList<ConstraintViolation> check(FieldValue<Message> fieldValue) {
         Time when = optionValue().getIn();
         if (when == TIME_UNDEFINED) {
             return ImmutableList.of();

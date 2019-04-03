@@ -35,19 +35,19 @@ import io.spine.validate.FieldValue;
  * @param <T>
  *         the type of validated message
  */
-final class When<T extends Message> extends FieldValidatingOption<TimeOption, T> {
+final class When extends FieldValidatingOption<TimeOption, Message> {
 
     private When() {
         super(TimeOptionsProto.when);
     }
 
     /** Creates a new instance of this option. */
-    public static <T extends Message> When<T> create() {
-        return new When<>();
+    public static When create() {
+        return new When();
     }
 
     @Override
-    public Constraint<FieldValue<T>> constraintFor(FieldValue<T> value) {
-        return new WhenConstraint<>(optionValue(value));
+    public Constraint<FieldValue<Message>> constraintFor(FieldValue<Message> value) {
+        return new WhenConstraint(optionValue(value));
     }
 }

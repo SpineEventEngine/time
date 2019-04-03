@@ -37,8 +37,11 @@ import java.util.Set;
 @Immutable
 public final class TimeValidatingOptions implements ValidatingOptions {
 
+    private static final ImmutableSet<FieldValidatingOption<?, Message>> TYPE_OPTIONS =
+            ImmutableSet.of(When.create());
+
     @Override
-    public <T extends Message> Set<FieldValidatingOption<?, T>> forMessage() {
-        return ImmutableSet.of(When.create());
+    public Set<FieldValidatingOption<?, Message>> forMessage() {
+        return TYPE_OPTIONS;
     }
 }
