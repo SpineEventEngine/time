@@ -31,9 +31,6 @@ import io.spine.validate.FieldValue;
 /**
  * A validating option that specified the point in time which a {@link Timestamp} field value
  * has.
- *
- * @param <T>
- *         the type of validated message
  */
 final class When extends FieldValidatingOption<TimeOption, Message> {
 
