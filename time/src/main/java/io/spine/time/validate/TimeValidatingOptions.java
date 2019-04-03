@@ -24,21 +24,19 @@ import com.google.common.collect.ImmutableSet;
 import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
 import io.spine.validate.FieldValidatingOption;
-import io.spine.validate.FieldValue;
-import io.spine.validate.ValidatorFactory;
+import io.spine.validate.ValidatingOptions;
 
 import java.util.Set;
 
 /**
- * An implementation of {@link ValidatorFactory} which adds the {@link When} option for message
+ * An implementation of {@link ValidatingOptions} which adds the {@link When} option for message
  * fields.
  */
 @Internal
-public final class TimeValidatorFactory implements ValidatorFactory {
+public final class TimeValidatingOptions implements ValidatingOptions {
 
     @Override
-    public <T extends Message> Set<FieldValidatingOption<?, T>>
-    optionsForMessage(FieldValue<T> value) {
+    public <T extends Message> Set<FieldValidatingOption<?, T>> forMessage() {
         return ImmutableSet.of(When.create());
     }
 }
