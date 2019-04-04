@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TimestampTemporalTest {
 
     @Test
-    @DisplayName("be created from a Timestamp")
+    @DisplayName("be instantiable from a plain Timestamp")
     void fromTimestamp() {
         Timestamp timestamp = Time.currentTime();
         Temporal<?> temporal = Temporals.from(timestamp);

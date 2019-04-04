@@ -38,7 +38,7 @@ import static org.mockito.Mockito.mock;
 class TemporalsTest {
 
     @Test
-    @DisplayName("crete from a Timestamp")
+    @DisplayName("be instantiable from a Timestamp")
     void timestamp() {
         Timestamp timestamp = Time.currentTime();
         Temporal<?> temporal = Temporals.from(timestamp);
@@ -46,7 +46,7 @@ class TemporalsTest {
     }
 
     @Test
-    @DisplayName("crete from a temporal message")
+    @DisplayName("be instantiable from a temporal message")
     void message() {
         TemporalMessage mock = mock(TemporalMessage.class);
         Temporal<?> temporal = Temporals.from(mock);
@@ -61,7 +61,7 @@ class TemporalsTest {
     }
 
     @Test
-    @DisplayName("create from Instant")
+    @DisplayName("be instantiable from an Instant")
     void createFromInstant() {
         Instant instant = Instant.now();
         Temporal timestamp = Temporals.from(instant);
