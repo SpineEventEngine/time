@@ -22,6 +22,7 @@ package io.spine.time;
 
 import com.google.protobuf.Any;
 import com.google.protobuf.Message;
+import io.spine.annotation.Internal;
 import io.spine.protobuf.AnyPacker;
 
 /**
@@ -41,6 +42,7 @@ import io.spine.protobuf.AnyPacker;
  * @param <T>
  *         the type of itself
  */
+@Internal
 public interface TemporalMessage<T extends TemporalMessage<T>> extends Temporal<T>, Message {
 
     /**
