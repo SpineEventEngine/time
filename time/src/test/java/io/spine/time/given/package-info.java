@@ -18,6 +18,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Contains the test environment for {@code io.spine.time} tests.
+ */
+
 @CheckReturnValue
 @ParametersAreNonnullByDefault
 package io.spine.time.given;
