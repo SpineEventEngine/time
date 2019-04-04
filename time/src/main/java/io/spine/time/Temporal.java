@@ -94,9 +94,9 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * @param other
      *         the value to compare to
      * @return <ul>
-     *             <li>an integer greater than 0 if point in time occurs later than the other
-     *             <li>an integer less than 0 if point in time occurs earlier than other
-     *             <li>and 0 of these points in time are identical
+     *             <li>an integer greater than 0 if point in time occurs later than the other;
+     *             <li>an integer less than 0 if point in time occurs earlier than other;
+     *             <li>and 0 of these points in time are identical.
      *         </ul>
      * @implNote Translates both temporal values into {@code Timestamp}s and compares them.
      */
