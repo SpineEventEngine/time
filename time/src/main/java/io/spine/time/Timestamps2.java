@@ -28,9 +28,10 @@ import java.time.Instant;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utilities class for working with {@link com.google.protobuf.Timestamp Timestamp} values in
- * addition to those available from {@link com.google.protobuf.util.Timestamps Timestamps} utility
- * class from the Protobuf Util library.
+ * Utility for working with {@link com.google.protobuf.Timestamp} values.
+ *
+ * <p>Extends the {@link com.google.protobuf.util.Timestamps} utility from the Google Protobuf
+ * library.
  *
  * @deprecated Use {@link TimestampTemporal} instead. Also, consider domain-specific types for time
  *         representation.
@@ -45,7 +46,7 @@ public final class Timestamps2 {
     /**
      * Converts the passed timestamp to {@code Instant}.
      *
-     * @deprecated Use {@link Temporal}s instead.
+     * @deprecated Use {@link Temporal#toInstant()} instead.
      */
     @Deprecated
     public static Instant toInstant(Timestamp timestamp) {
@@ -65,7 +66,7 @@ public final class Timestamps2 {
      *         the second point in time, must be after the {@code start} timestamp
      * @return {@code true} if the {@code timestamp} is after the {@code start} and before
      *         the {@code finish} timestamps, {@code false} otherwise
-     * @deprecated Use {@link Temporal}s instead.
+     * @deprecated Use {@link Temporal#isBetween(Temporal, Temporal)} instead.
      */
     @Deprecated
     public static boolean isBetween(Timestamp timestamp, Timestamp start, Timestamp finish) {
@@ -87,7 +88,7 @@ public final class Timestamps2 {
      *         the first point in time which is supposed to be before the {@code timestamp}
      * @return {@code true} if the {@code timestamp} is later than {@code thanTime} timestamp,
      *         {@code false} otherwise
-     * @deprecated Use {@link Temporal}s instead.
+     * @deprecated Use {@link Temporal#isLaterThan(Temporal)} instead.
      */
     @Deprecated
     public static boolean isLaterThan(Timestamp timestamp, Timestamp thanTime) {
@@ -122,7 +123,7 @@ public final class Timestamps2 {
     /**
      * Creates {@code Timestamp} by the passed {@code Instant} value.
      *
-     * @deprecated Use {@link Temporal}s instead.
+     * @deprecated Use {@link Temporals#from(Instant)} instead.
      */
     @Deprecated
     public static Timestamp fromInstant(Instant instant) {
