@@ -46,7 +46,7 @@ public final class Timestamps2 {
     /**
      * Converts the passed timestamp to {@code Instant}.
      *
-     * @deprecated Use {@link Temporal#toInstant()} instead.
+     * @deprecated Use {@link InstantConverter)} instead.
      */
     @Deprecated
     public static Instant toInstant(Timestamp timestamp) {
@@ -123,7 +123,7 @@ public final class Timestamps2 {
     /**
      * Creates {@code Timestamp} by the passed {@code Instant} value.
      *
-     * @deprecated Use {@link Temporals#from(Instant)} instead.
+     * @deprecated Use {@link InstantConverter} instead.
      */
     @Deprecated
     public static Timestamp fromInstant(Instant instant) {
