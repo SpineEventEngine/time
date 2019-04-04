@@ -20,6 +20,7 @@
 
 package io.spine.time.validate;
 
+import com.google.protobuf.Duration;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
@@ -43,6 +44,7 @@ import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("(when) option should")
@@ -159,6 +161,16 @@ class WhenTest {
         assertValid(validTimeInPast);
     }
 
+    @Test
+    @DisplayName("throw an IllegalArgumentException if applied on a non-temporal type")
+    void throwIaeOnWrongType() {
+        WhenMisuse failingMessage = WhenMisuse
+                .newBuilder()
+                .setDuration(Duration.getDefaultInstance())
+                .build();
+        assertThrows(IllegalArgumentException.class, () -> validate(failingMessage));
+    }
+
     void validate(Message msg) {
         MessageValidator validator = MessageValidator.newInstance(msg);
         violations = validator.validate();
@@ -176,7 +188,6 @@ class WhenTest {
     void assertNotValid(Message msg) {
         validate(msg);
         assertIsValid(false);
-
     }
 
     void assertIsValid(boolean isValid) {
