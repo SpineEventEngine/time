@@ -139,6 +139,26 @@ class WhenTest {
         assertSingleViolation(invalidMsg, "Point in time must be in the future.");
     }
 
+    @Test
+    @DisplayName("ignore (when).in = TIME_UNDEFINED if in the past")
+    void ignoreTimeUndefinedInFuture() {
+        AlwaysValidTime validTimeInPast = AlwaysValidTime
+                .newBuilder()
+                .setValue(past())
+                .build();
+        assertValid(validTimeInPast);
+    }
+
+    @Test
+    @DisplayName("ignore (when).in = TIME_UNDEFINED if in the future")
+    void ignoreTimeUndefinedInPast() {
+        AlwaysValidTime validTimeInPast = AlwaysValidTime
+                .newBuilder()
+                .setValue(future())
+                .build();
+        assertValid(validTimeInPast);
+    }
+
     void validate(Message msg) {
         MessageValidator validator = MessageValidator.newInstance(msg);
         violations = validator.validate();

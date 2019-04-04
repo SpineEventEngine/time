@@ -25,3 +25,7 @@ message TimeInPastFieldValue {
 message TimeWithoutOptsFieldValue {
     google.protobuf.Timestamp value = 1;
 }
+
+message AlwaysValidTime {
+    google.protobuf.Timestamp value = 1 [(when).in = TIME_UNDEFINED];
+}
