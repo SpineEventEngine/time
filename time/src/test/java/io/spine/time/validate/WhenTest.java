@@ -171,26 +171,26 @@ class WhenTest {
         assertThrows(IllegalArgumentException.class, () -> validate(failingMessage));
     }
 
-    void validate(Message msg) {
+    private void validate(Message msg) {
         MessageValidator validator = MessageValidator.newInstance(msg);
         violations = validator.validate();
     }
 
-    ConstraintViolation firstViolation() {
+    private ConstraintViolation firstViolation() {
         return violations.get(0);
     }
 
-    void assertValid(Message msg) {
+    private void assertValid(Message msg) {
         validate(msg);
         assertIsValid(true);
     }
 
-    void assertNotValid(Message msg) {
+    private void assertNotValid(Message msg) {
         validate(msg);
         assertIsValid(false);
     }
 
-    void assertIsValid(boolean isValid) {
+    private void assertIsValid(boolean isValid) {
         assertNotNull(violations);
         if (isValid) {
             assertTrue(violations.isEmpty(), () -> violations.toString());
@@ -219,7 +219,7 @@ class WhenTest {
         }
     }
 
-    void assertSingleViolation(Message message, String expectedErrMsg) {
+    private void assertSingleViolation(Message message, String expectedErrMsg) {
         assertNotValid(message);
         assertNotNull(violations);
         assertEquals(1, violations.size());
@@ -227,7 +227,7 @@ class WhenTest {
     }
 
     /** Checks that a message is not valid and has a single violation. */
-    void assertSingleViolation(String expectedErrMsg) {
+    private void assertSingleViolation(String expectedErrMsg) {
         ConstraintViolation violation = firstViolation();
         String actualErrorMessage = format(violation.getMsgFormat(), violation.getParamList()
                                                                               .toArray());
