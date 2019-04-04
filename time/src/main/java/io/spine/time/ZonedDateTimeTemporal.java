@@ -24,8 +24,6 @@ import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
 
-import static io.spine.time.Timestamps2.fromInstant;
-
 /**
  * An implementation of {@link io.spine.time.Temporal} based on {@link ZonedDateTime}.
  *
@@ -39,7 +37,8 @@ interface ZonedDateTimeTemporal extends TemporalMessage<ZonedDateTime>, ZonedDat
         Instant instant = java.time.ZonedDateTime
                 .of(LocalDateTimes.toJavaTime(getDateTime()), ZoneIds.toJavaTime(getZone()))
                 .toInstant();
-        Timestamp result = fromInstant(instant);
+        Timestamp result = InstantConverter.instance()
+                                           .convert(instant);
         return result;
     }
 }

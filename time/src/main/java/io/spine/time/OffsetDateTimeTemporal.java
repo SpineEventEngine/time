@@ -24,8 +24,6 @@ import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
 
-import static io.spine.time.Timestamps2.fromInstant;
-
 /**
  * An implementation of {@link io.spine.time.Temporal} based on {@link OffsetDateTime}.
  *
@@ -40,7 +38,8 @@ interface OffsetDateTimeTemporal extends TemporalMessage<OffsetDateTime>, Offset
                 .of(LocalDateTimes.toJavaTime(getDateTime()),
                     ZoneOffsets.toJavaTime(getOffset()))
                 .toInstant();
-        Timestamp result = fromInstant(instant);
+        Timestamp result = InstantConverter.instance()
+                                           .convert(instant);
         return result;
     }
 }

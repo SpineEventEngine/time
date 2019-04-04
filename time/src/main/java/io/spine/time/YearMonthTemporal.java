@@ -24,7 +24,6 @@ import com.google.protobuf.Timestamp;
 
 import java.time.Instant;
 
-import static io.spine.time.Timestamps2.fromInstant;
 import static java.time.ZoneOffset.UTC;
 
 /**
@@ -42,7 +41,8 @@ interface YearMonthTemporal extends TemporalMessage<YearMonth>, YearMonthOrBuild
                 .atDay(1)
                 .atStartOfDay()
                 .toInstant(UTC);
-        Timestamp result = fromInstant(instant);
+        Timestamp result = InstantConverter.instance()
+                                           .convert(instant);
         return result;
     }
 }
