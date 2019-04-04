@@ -91,6 +91,7 @@ class TemporalTest {
         assertTrue(earlier.isEarlierOrSameAs(earlier));
         assertTrue(earlier.isLaterOrSameAs(earlier));
         assertTrue(earlier.isSameAs(earlier));
+        assertFalse(earlier.isSameAs(later));
     }
 
     @Test
