@@ -1,0 +1,87 @@
+/*
+ * Copyright 2019, TeamDev. All rights reserved.
+ *
+ * Redistribution and use in source and/or binary forms, with or without
+ * modification, must retain the above copyright notice and the following
+ * disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+syntax = "proto3";
+
+// API Note on Packaging
+// ---------------------
+// We do not define the package for this file to allow shorter options for user-defined types.
+// This allows to write:
+//
+//      [(when).in = FUTURE];
+//
+// instead of:
+//
+//      [(spine.time.when).in = FUTURE];
+//
+
+import "spine/options.proto";
+
+option (type_url_prefix) = "type.spine.io";
+option java_package = "io.spine.time.validation";
+option java_outer_classname = "TimeOptionsProto";
+option java_multiple_files = true;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FieldOptions {
+
+    // See `TimeOption`.
+    TimeOption when = 73819;
+}
+
+// The field value is point in time which lies in the future or in the past.
+//
+// Is applicable only to `Timestamp`s and types marked as `Temporal`. See `io.spine.time.Temporal`.
+// Repeated fields are supported.
+//
+// Example: Using `(when)` option.
+//
+//     message ScheduleMeeting {
+//         spine.time.ZonedDateTime start = 1 [(when).in = FUTURE];
+//     }
+//
+message TimeOption {
+
+    // The default error message format string.
+    //
+    // The format parameter is "past" or "future" string, depending on the restriction.
+    //
+    option (default_message) = "Point in time must be in the %s.";
+
+    // Defines a restriction for the timestamp.
+    Time in = 1;
+
+    // A user-defined validation error format message.
+    string msg_format = 2;
+}
+
+// This enumeration defines restriction for date/time values.
+enum Time {
+
+    // The default value (if the time option is not set).
+    TIME_UNDEFINED = 0;
+
+    // The value must be in the past.
+    PAST = 1;
+
+    // The value must be in the future.
+    FUTURE = 2;
+}

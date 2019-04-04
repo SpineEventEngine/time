@@ -20,30 +20,27 @@
 
 package io.spine.time;
 
-import java.util.concurrent.TimeUnit;
+import com.google.protobuf.Timestamp;
+
+import java.time.Instant;
+
+import static java.time.ZoneOffset.UTC;
 
 /**
- * Constants related to time as part of International System of Units (SI).
+ * An implementation of {@link Temporal} based on {@link LocalDateTime}.
+ *
+ * <p>This interface is designed to be implemented by {@code io.spine.time.LocalDateTime}
+ * exclusively. The interface does not add any abstract methods to its message counterpart.
  */
-@SuppressWarnings("NumericCastThatLosesPrecision")
-final class Constants {
+interface LocalDateTimeTemporal extends TemporalMessage<LocalDateTime>, LocalDateTimeOrBuilder {
 
-    /** The count of nanoseconds in one second. */
-    static final int NANOS_PER_SECOND = (int) TimeUnit.SECONDS.toNanos(1);
-
-    /** The count of milliseconds in one second. */
-    static final int MILLIS_PER_SECOND = (int) TimeUnit.SECONDS.toMillis(1);
-
-    /** The count of seconds in one minute. */
-    static final int SECONDS_PER_MINUTE = (int) TimeUnit.MINUTES.toSeconds(1);
-
-    /** The count of minutes in one hour. */
-    static final int MINUTES_PER_HOUR = (int) TimeUnit.HOURS.toMinutes(1);
-
-    /** The count of hours per day. */
-    static final int HOURS_PER_DAY = (int) TimeUnit.DAYS.toHours(1);
-
-    /** Prevent instantiation of this utility class. */
-    private Constants() {
+    @Override
+    default Timestamp toTimestamp() {
+        Instant instant = java.time.LocalDateTime
+                .of(LocalDates.toJavaTime(getDate()), LocalTimes.toJavaTime(getTime()))
+                .toInstant(UTC);
+        Timestamp result = InstantConverter.instance()
+                                           .convert(instant);
+        return result;
     }
 }

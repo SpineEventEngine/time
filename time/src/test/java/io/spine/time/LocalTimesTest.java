@@ -26,14 +26,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static io.spine.time.Asserts.assertTimesEqual;
-import static io.spine.time.Constants.NANOS_PER_SECOND;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("LocalTimes should")
 class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.LocalTime> {
+
+    /** The count of nanoseconds in one second. */
+    @SuppressWarnings("NumericCastThatLosesPrecision") // Known to fit.
+    private static final int NANOS_PER_SECOND = (int) TimeUnit.SECONDS.toNanos(1);
 
     private java.time.LocalTime javaTimeNow;
 

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package spine.time.validate;
+
+import "spine/options.proto";
+import "spine/time_options.proto";
+
+option (type_url_prefix) = "type.spine.io";
+option java_package = "io.spine.time.validate";
+option java_outer_classname = "MessagesProto";
+option java_multiple_files = true;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+// Messages for "time" option tests.
+
+message TimeInFutureFieldValue {
+    google.protobuf.Timestamp value = 1 [(when).in = FUTURE];
+}
+
+message TimeInPastFieldValue {
+    google.protobuf.Timestamp value = 1 [(when).in = PAST];
+}
+
+message TimeWithoutOptsFieldValue {
+    google.protobuf.Timestamp value = 1;
+}
+
+message AlwaysValidTime {
+    google.protobuf.Timestamp value = 1 [(when).in = TIME_UNDEFINED];
+}
+
+message WhenMisuse {
+    google.protobuf.Duration duration = 1 [(when).in = FUTURE];
+}
