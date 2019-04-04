@@ -25,17 +25,17 @@ import com.google.errorprone.annotations.Immutable;
 import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
 import io.spine.validate.FieldValidatingOption;
-import io.spine.validate.ValidatingOptions;
+import io.spine.validate.ValidatingOptionFactory;
 
 import java.util.Set;
 
 /**
- * An implementation of {@link ValidatingOptions} which adds the {@link When} option for message
+ * An implementation of {@link ValidatingOptionFactory} which adds the {@link When} option for message
  * fields.
  */
 @Internal
 @Immutable
-public final class TimeValidatingOptions implements ValidatingOptions {
+public final class WhenFactory implements ValidatingOptionFactory {
 
     private static final ImmutableSet<FieldValidatingOption<?, Message>> TYPE_OPTIONS =
             ImmutableSet.of(When.create());

@@ -18,6 +18,6 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-# Defines a custom implementation of the `ValidatingOptions` service.
+# Defines a custom implementation of the `ValidatingOptionFactory` service.
 
-io.spine.time.validate.TimeValidatingOptions
+io.spine.time.validate.WhenFactory

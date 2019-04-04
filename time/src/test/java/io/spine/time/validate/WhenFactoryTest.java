@@ -23,7 +23,7 @@ package io.spine.time.validate;
 import com.google.common.collect.Iterables;
 import com.google.protobuf.Message;
 import io.spine.validate.FieldValidatingOption;
-import io.spine.validate.ValidatingOptions;
+import io.spine.validate.ValidatingOptionFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -36,18 +36,19 @@ import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
-@DisplayName("TimeValidatingOptions should")
-class TimeValidatingOptionsTest {
+@DisplayName("WhenFactory should")
+class WhenFactoryTest {
 
     @Test
     @DisplayName("be discoverable to ServiceLoader")
     void beLoaded() {
-        ServiceLoader<ValidatingOptions> loader = ServiceLoader.load(ValidatingOptions.class);
-        List<ValidatingOptions> optionFactories = newArrayList(loader);
+        ServiceLoader<ValidatingOptionFactory> loader =
+                ServiceLoader.load(ValidatingOptionFactory.class);
+        List<ValidatingOptionFactory> optionFactories = newArrayList(loader);
         assertThat(optionFactories.size()).isAtLeast(1);
-        Optional<ValidatingOptions> timeOptionFactory = optionFactories
+        Optional<ValidatingOptionFactory> timeOptionFactory = optionFactories
                 .stream()
-                .filter(TimeValidatingOptions.class::isInstance)
+                .filter(WhenFactory.class::isInstance)
                 .findAny();
         assertThat(timeOptionFactory).isPresent();
     }
@@ -55,7 +56,7 @@ class TimeValidatingOptionsTest {
     @Test
     @DisplayName("declare (when) option")
     void declareWhen() {
-        ValidatingOptions factory = new TimeValidatingOptions();
+        ValidatingOptionFactory factory = new WhenFactory();
         Set<FieldValidatingOption<?, Message>> messageOptions = factory.forMessage();
         assertThat(messageOptions).hasSize(1);
         FieldValidatingOption<?, Message> option = Iterables.getOnlyElement(messageOptions);
