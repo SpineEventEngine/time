@@ -71,30 +71,6 @@ class TemporalTest {
     }
 
     @Test
-    @DisplayName("give consistent replies on less/greater than requests")
-    void ltGtRelations() {
-        TimestampTemporal later = future();
-        TimestampTemporal earlier = past();
-
-        assertThat(later).isGreaterThan(earlier);
-
-        assertTrue(later.isLaterThan(earlier));
-        assertTrue(later.isLaterOrSameAs(earlier));
-        assertFalse(later.isEarlierThan(earlier));
-        assertFalse(later.isEarlierOrSameAs(earlier));
-
-        assertFalse(earlier.isLaterThan(later));
-        assertFalse(earlier.isLaterOrSameAs(later));
-        assertTrue(earlier.isEarlierThan(later));
-        assertTrue(earlier.isEarlierOrSameAs(later));
-
-        assertTrue(earlier.isEarlierOrSameAs(earlier));
-        assertTrue(earlier.isLaterOrSameAs(earlier));
-        assertTrue(earlier.isSameAs(earlier));
-        assertFalse(earlier.isSameAs(later));
-    }
-
-    @Test
     @DisplayName("compare to given bounds")
     void bounds() {
         TimestampTemporal past = past();
@@ -130,6 +106,49 @@ class TemporalTest {
 
         assertThrows(IllegalArgumentException.class,
                      () -> instantTemporal.compareTo(timestampTemporal));
+    }
+
+    @Nested
+    @DisplayName("compare two points in time")
+    class Compare {
+
+        private final TimestampTemporal later = future();
+        private final TimestampTemporal earlier = past();
+
+        @Test
+        @DisplayName("with compareTo")
+        void compareTo() {
+            assertThat(later).isGreaterThan(earlier);
+        }
+
+        @Test
+        @DisplayName("with isLaterThan")
+        void laterThan() {
+            assertTrue(later.isLaterThan(earlier));
+            assertTrue(later.isLaterOrSameAs(earlier));
+
+            assertFalse(earlier.isLaterThan(later));
+            assertFalse(earlier.isLaterOrSameAs(later));
+            assertTrue(earlier.isLaterOrSameAs(earlier));
+        }
+
+        @Test
+        @DisplayName("with isEarlierThan")
+        void earlierThan() {
+            assertFalse(later.isEarlierThan(earlier));
+            assertFalse(later.isEarlierOrSameAs(earlier));
+
+            assertTrue(earlier.isEarlierThan(later));
+            assertTrue(earlier.isEarlierOrSameAs(later));
+            assertTrue(earlier.isEarlierOrSameAs(earlier));
+        }
+
+        @Test
+        @DisplayName("with isSameAs")
+        void sameAs() {
+            assertTrue(earlier.isSameAs(earlier));
+            assertFalse(earlier.isSameAs(later));
+        }
     }
 
     @Nested
