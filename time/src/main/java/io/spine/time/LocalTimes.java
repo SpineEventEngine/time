@@ -22,14 +22,7 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
-import java.time.DateTimeException;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
-import static java.time.temporal.ChronoField.HOUR_OF_DAY;
-import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Routines for working with {@link LocalTime}.
