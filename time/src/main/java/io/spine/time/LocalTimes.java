@@ -54,7 +54,7 @@ public final class LocalTimes {
         checkClockTime(hours, minutes, seconds, nanos);
 
         LocalTime result = LocalTime
-                .newBuilder()
+                .vBuilder()
                 .setHour(hours)
                 .setMinute(minutes)
                 .setSecond(seconds)
@@ -64,7 +64,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains local time from time passed {@code java.time} value. 
+     * Obtains local time from time passed {@code java.time} value.
      */
     public static LocalTime of(java.time.LocalTime value) {
         checkNotNull(value);
@@ -160,7 +160,7 @@ public final class LocalTimes {
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
             LocalTime result = LocalTime
-                    .newBuilder()
+                    .vBuilder()
                     .setHour(value.getHour())
                     .setMinute(value.getMinute())
                     .setSecond(value.getSecond())

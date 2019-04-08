@@ -72,6 +72,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     @Nested
     @DisplayName("Create new instance by")
     class Create {
+
         @Test
         @DisplayName("Java Time value")
         void byJavaTime() {
@@ -91,7 +92,6 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
         }
 
-
         @Test
         @DisplayName("hours, minutes, and seconds")
         void createByHoursMinutesAndSeconds() {
@@ -102,6 +102,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             assertEquals(javaTimeNow.getMinute(), test.getMinute());
             assertEquals(javaTimeNow.getSecond(), test.getSecond());
         }
+
         @Test
         @DisplayName("hours, minutes, seconds, and nanos")
         void createWithNanoPrecision() {
@@ -221,8 +222,8 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     @Test
     @DisplayName("builds a midnight date")
     void buildMidnight() {
-        LocalTime time = LocalTimeVBuilder
-                .newBuilder()
+        LocalTime time = LocalTime
+                .vBuilder()
                 .setHour(0)
                 .setMinute(0)
                 .setSecond(0)

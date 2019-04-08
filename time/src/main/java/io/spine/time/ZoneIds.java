@@ -35,10 +35,11 @@ public final class ZoneIds {
     }
 
     private static ZoneId create(String id) {
-        ZoneId.Builder result = ZoneId
-                .newBuilder()
-                .setValue(id);
-        return result.build();
+        ZoneId result = ZoneId
+                .vBuilder()
+                .setValue(id)
+                .build();
+        return result;
     }
 
     /**

@@ -42,7 +42,7 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         LocalDateChange result = LocalDateChange
-                .newBuilder()
+                .vBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .build();
@@ -59,7 +59,7 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         LocalTimeChange result = LocalTimeChange
-                .newBuilder()
+                .vBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .build();
@@ -76,7 +76,7 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         OffsetTimeChange result = OffsetTimeChange
-                .newBuilder()
+                .vBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .build();
@@ -93,7 +93,7 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         OffsetDateTimeChange result = OffsetDateTimeChange
-                .newBuilder()
+                .vBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .build();
@@ -103,7 +103,8 @@ public final class TimeChanges {
     /**
      * Ensures that parameters are not equal.
      *
-     * @throws IllegalArgumentException in case if values are equal
+     * @throws IllegalArgumentException
+     *         in case if values are equal
      */
     private static <T> void checkNotEqual(T previousValue, T newValue) {
         checkNotNull(previousValue);

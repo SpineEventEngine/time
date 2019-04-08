@@ -45,11 +45,12 @@ public final class ZonedDateTimes {
     }
 
     private static ZonedDateTime create(LocalDateTime dateTime, ZoneId zone) {
-        ZonedDateTime.Builder result = ZonedDateTime
-                .newBuilder()
+        ZonedDateTime result = ZonedDateTime
+                .vBuilder()
                 .setDateTime(dateTime)
-                .setZone(zone);
-        return result.build();
+                .setZone(zone)
+                .build();
+        return result;
     }
 
     /**

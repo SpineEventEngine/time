@@ -61,11 +61,12 @@ public final class LocalDateTimes {
     }
 
     private static LocalDateTime create(LocalDate date, LocalTime time) {
-        LocalDateTime.Builder result = LocalDateTime
-                .newBuilder()
+        LocalDateTime result = LocalDateTime
+                .vBuilder()
                 .setDate(date)
-                .setTime(time);
-        return result.build();
+                .setTime(time)
+                .build();
+        return result;
     }
 
     /**

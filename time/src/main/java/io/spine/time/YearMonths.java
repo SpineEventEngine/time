@@ -51,11 +51,12 @@ public final class YearMonths {
 
     private static YearMonth create(int year, int month) {
         Months.checkMonth(month);
-        YearMonth.Builder result = YearMonth
-                .newBuilder()
+        YearMonth result = YearMonth
+                .vBuilder()
                 .setYear(year)
-                .setMonth(Months.of(month));
-        return result.build();
+                .setMonth(Months.of(month))
+                .build();
+        return result;
     }
 
     /**

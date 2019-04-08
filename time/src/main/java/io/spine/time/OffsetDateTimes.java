@@ -71,11 +71,12 @@ public final class OffsetDateTimes {
     }
 
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
-        OffsetDateTime.Builder result = OffsetDateTime
-                .newBuilder()
+        OffsetDateTime result = OffsetDateTime
+                .vBuilder()
                 .setDateTime(LocalDateTimes.of(date, time))
-                .setOffset(offset);
-        return result.build();
+                .setOffset(offset)
+                .build();
+        return result;
     }
 
     /**
@@ -130,7 +131,8 @@ public final class OffsetDateTimes {
         protected OffsetDateTime doForward(java.time.OffsetDateTime value) {
             java.time.LocalDate ld = value.toLocalDate();
             java.time.LocalTime lt = value.toLocalTime();
-            java.time.ZoneOffset zo = value.toZonedDateTime().getOffset();
+            java.time.ZoneOffset zo = value.toZonedDateTime()
+                                           .getOffset();
             return create(LocalDates.of(ld),
                           LocalTimes.of(lt),
                           ZoneOffsets.of(zo));
