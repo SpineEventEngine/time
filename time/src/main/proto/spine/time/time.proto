@@ -134,7 +134,7 @@ message OffsetTime {
     LocalTime time = 1 [(valid) = true];
 
     // The offset of the time-zone from UTC.
-    ZoneOffset offset = 2 [(required) = true];
+    ZoneOffset offset = 2;
 }
 
 // A date-time with an offset from UTC.
@@ -145,7 +145,7 @@ message OffsetDateTime {
     LocalDateTime date_time = 1 [(required) = true, (valid) = true];
 
     // The offset of the time-zone from UTC.
-    ZoneOffset offset = 2 [(required) = true];
+    ZoneOffset offset = 2;
 }
 
 // An ID of a time-zone, such as `Europe/Amsterdam`.
