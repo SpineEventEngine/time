@@ -51,8 +51,6 @@ public final class LocalTimes {
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
-        checkClockTime(hours, minutes, seconds, nanos);
-
         LocalTime result = LocalTime
                 .vBuilder()
                 .setHour(hours)
@@ -78,24 +76,6 @@ public final class LocalTimes {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
-    }
-
-    static void checkTime(LocalTime time) {
-        checkClockTime(time.getHour(),
-                       time.getMinute(),
-                       time.getSecond(),
-                       time.getNano());
-    }
-
-    private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
-        try {
-            HOUR_OF_DAY.checkValidValue(hours);
-            MINUTE_OF_HOUR.checkValidValue(minutes);
-            SECOND_OF_MINUTE.checkValidValue(seconds);
-            NANO_OF_SECOND.checkValidValue(nanos);
-        } catch (DateTimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
     }
 
     /**

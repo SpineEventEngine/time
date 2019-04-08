@@ -21,6 +21,7 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
+import io.spine.validate.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -127,7 +128,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @Test
             void negative() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(-2, 20)
                 );
             }
@@ -136,7 +137,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("out of 0..23 bounds")
             void outOfBounds() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(24, 0)
                 );
             }
@@ -150,7 +151,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("negative")
             void negative() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, -20)
                 );
             }
@@ -159,7 +160,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("out of 0..59 bounds")
             void outOfBounds() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, 60)
                 );
             }
@@ -173,7 +174,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("negative")
             void negative() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, 0, -50)
                 );
             }
@@ -182,7 +183,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("out of 0..59 bounds")
             void outOfBounds() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, 0, 60)
                 );
             }
@@ -196,7 +197,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("negative")
             void negative() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, 0, 0, -1)
                 );
             }
@@ -205,7 +206,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
             @DisplayName("out of bounds")
             void outOfBounds() {
                 assertThrows(
-                        IllegalArgumentException.class,
+                        ValidationException.class,
                         () -> LocalTimes.of(0, 0, 0, NANOS_PER_SECOND)
                 );
             }
