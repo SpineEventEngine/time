@@ -46,7 +46,8 @@ public final class OffsetTimes {
     public static OffsetTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
         java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
-        java.time.OffsetTime jt = java.time.LocalTime.now().atOffset(zo);
+        java.time.OffsetTime jt = java.time.LocalTime.now()
+                                                     .atOffset(zo);
         LocalTime localTime = LocalTimes.of(jt.toLocalTime());
         return create(localTime, zoneOffset);
     }
@@ -62,7 +63,7 @@ public final class OffsetTimes {
 
     private static OffsetTime create(LocalTime time, ZoneOffset zoneOffset) {
         OffsetTime result = OffsetTime
-                .newBuilder()
+                .vBuilder()
                 .setTime(time)
                 .setOffset(zoneOffset)
                 .build();

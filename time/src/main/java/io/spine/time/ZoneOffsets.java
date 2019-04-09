@@ -104,7 +104,8 @@ public final class ZoneOffsets {
      *
      * <p>If zero is passed {@link #utc()} instance is returned.
      *
-     * @param seconds a positive, zero,
+     * @param seconds
+     *         a positive, zero
      * @return the instance for the passed offset
      */
     public static ZoneOffset ofSeconds(int seconds) {
@@ -158,7 +159,7 @@ public final class ZoneOffsets {
         if (offsetInSeconds == 0 && zoneId == null) {
             return utc();
         }
-        return ZoneOffset.newBuilder()
+        return ZoneOffset.vBuilder()
                          .setAmountSeconds(offsetInSeconds)
                          .build();
     }
@@ -176,7 +177,6 @@ public final class ZoneOffsets {
     enum Parameter {
 
         HOURS(-18, 18) {
-
             @Override
             void check(int value) {
                 checkBounds(value);

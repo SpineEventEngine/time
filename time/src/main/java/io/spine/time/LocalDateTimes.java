@@ -25,7 +25,6 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.LocalDates.checkDate;
-import static io.spine.time.LocalTimes.checkTime;
 
 /**
  * Utilities for working with {@code LocalDateTime}.
@@ -56,16 +55,16 @@ public final class LocalDateTimes {
      */
     public static LocalDateTime of(LocalDate date, LocalTime time) {
         checkDate(date);
-        checkTime(time);
         return create(date, time);
     }
 
     private static LocalDateTime create(LocalDate date, LocalTime time) {
-        LocalDateTime.Builder result = LocalDateTime
-                .newBuilder()
+        LocalDateTime result = LocalDateTime
+                .vBuilder()
                 .setDate(date)
-                .setTime(time);
-        return result.build();
+                .setTime(time)
+                .build();
+        return result;
     }
 
     /**

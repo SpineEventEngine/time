@@ -77,7 +77,7 @@ public final class LocalDates {
         checkDate(year, month, day);
 
         LocalDate result = LocalDate
-                .newBuilder()
+                .vBuilder()
                 .setYear(year)
                 .setMonth(month)
                 .setDay(day)
@@ -111,8 +111,10 @@ public final class LocalDates {
     /**
      * Verified fields of the passed local date instance.
      *
-     * @param date the date to check
-     * @throws IllegalArgumentException if one of the date values has an invalid value
+     * @param date
+     *         the date to check
+     * @throws IllegalArgumentException
+     *         if one of the date values has an invalid value
      */
     static void checkDate(LocalDate date) {
         checkNotNull(date);
@@ -129,7 +131,9 @@ public final class LocalDates {
      *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
      *     <li>the day is less or equal zero or greater than can be in the month.
      * </ul>
-     * @throws IllegalArgumentException if one of the arguments is invalid
+     *
+     * @throws IllegalArgumentException
+     *         if one of the arguments is invalid
      */
     private static void checkDate(int year, Month month, int day) {
         try {
@@ -137,7 +141,7 @@ public final class LocalDates {
         } catch (DateTimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }
-        
+
         checkNotNull(month);
         checkMonth(month.getNumber());
         checkPositive(day);
@@ -174,12 +178,13 @@ public final class LocalDates {
 
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
-            LocalDate.Builder result = LocalDate
-                    .newBuilder()
+            LocalDate result = LocalDate
+                    .vBuilder()
                     .setYear(date.getYear())
                     .setMonth(Months.of(date))
-                    .setDay(date.getDayOfMonth());
-            return result.build();
+                    .setDay(date.getDayOfMonth())
+                    .build();
+            return result;
         }
 
         @Override

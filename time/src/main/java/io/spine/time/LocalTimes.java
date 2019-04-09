@@ -22,14 +22,7 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
-import java.time.DateTimeException;
-
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
-import static java.time.temporal.ChronoField.HOUR_OF_DAY;
-import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
-import static java.time.temporal.ChronoField.NANO_OF_SECOND;
-import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -51,10 +44,8 @@ public final class LocalTimes {
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
-        checkClockTime(hours, minutes, seconds, nanos);
-
         LocalTime result = LocalTime
-                .newBuilder()
+                .vBuilder()
                 .setHour(hours)
                 .setMinute(minutes)
                 .setSecond(seconds)
@@ -64,7 +55,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains local time from time passed {@code java.time} value. 
+     * Obtains local time from time passed {@code java.time} value.
      */
     public static LocalTime of(java.time.LocalTime value) {
         checkNotNull(value);
@@ -78,24 +69,6 @@ public final class LocalTimes {
         checkNotNull(value);
         return converter().reverse()
                           .convert(value);
-    }
-
-    static void checkTime(LocalTime time) {
-        checkClockTime(time.getHour(),
-                       time.getMinute(),
-                       time.getSecond(),
-                       time.getNano());
-    }
-
-    private static void checkClockTime(int hours, int minutes, int seconds, int nanos) {
-        try {
-            HOUR_OF_DAY.checkValidValue(hours);
-            MINUTE_OF_HOUR.checkValidValue(minutes);
-            SECOND_OF_MINUTE.checkValidValue(seconds);
-            NANO_OF_SECOND.checkValidValue(nanos);
-        } catch (DateTimeException e) {
-            throw illegalArgumentWithCauseOf(e);
-        }
     }
 
     /**
@@ -160,7 +133,7 @@ public final class LocalTimes {
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
             LocalTime result = LocalTime
-                    .newBuilder()
+                    .vBuilder()
                     .setHour(value.getHour())
                     .setMinute(value.getMinute())
                     .setSecond(value.getSecond())
