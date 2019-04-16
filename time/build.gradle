@@ -34,6 +34,7 @@ dependencies {
 
     testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
     testCompile project(path: ':testutil-time')
+    testRuntimeOnly deps.test.slf4j
 }
 
 modelCompiler {
