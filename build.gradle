@@ -99,6 +99,8 @@ subprojects {
     apply plugin: 'com.google.protobuf'
     apply plugin: 'maven-publish'
 
+    apply from: deps.scripts.projectLicenseReport
+
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
@@ -258,3 +260,5 @@ idea {
 apply from: deps.scripts.jacoco
 
 apply from: deps.scripts.publish
+
+apply from: deps.scripts.repoLicenseReport
