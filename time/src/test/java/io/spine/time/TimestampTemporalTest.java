@@ -36,9 +36,11 @@ class TimestampTemporalTest {
     @Test
     @DisplayName("not allow null arguments")
     void nullity() {
-        NullPointerTester tester = new NullPointerTester();
+        NullPointerTester tester = new NullPointerTester()
+                .setDefault(TimestampTemporal.class, now())
+                .setDefault(Temporal.class, now());
         tester.testAllPublicStaticMethods(TimestampTemporal.class);
-        tester.testAllPublicInstanceMethods(TimestampTemporal.from(currentTime()));
+        tester.testAllPublicInstanceMethods(now());
     }
 
     @Test
@@ -56,5 +58,9 @@ class TimestampTemporalTest {
         Timestamp timestamp = currentTime();
         Temporal<?> temporal = Temporals.from(timestamp);
         assertEquals(pack(timestamp), temporal.toAny());
+    }
+
+    private static TimestampTemporal now() {
+        return TimestampTemporal.from(currentTime());
     }
 }
