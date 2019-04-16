@@ -20,12 +20,13 @@
 
 package io.spine.time;
 
+import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Timestamp;
-import io.spine.base.Time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.AnyPacker.pack;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,9 +34,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TimestampTemporalTest {
 
     @Test
+    @DisplayName("not allow null arguments")
+    void nullity() {
+        NullPointerTester tester = new NullPointerTester()
+                .setDefault(TimestampTemporal.class, now())
+                .setDefault(Temporal.class, now());
+        tester.testAllPublicStaticMethods(TimestampTemporal.class);
+        tester.testAllPublicInstanceMethods(now());
+    }
+
+    @Test
     @DisplayName("be instantiable from a plain Timestamp")
     void fromTimestamp() {
-        Timestamp timestamp = Time.currentTime();
+        Timestamp timestamp = currentTime();
         Temporal<?> temporal = Temporals.from(timestamp);
         assertThat(temporal).isInstanceOf(TimestampTemporal.class);
         assertEquals(timestamp, temporal.toTimestamp());
@@ -44,8 +55,12 @@ class TimestampTemporalTest {
     @Test
     @DisplayName("convert the value to Any")
     void convertToAny() {
-        Timestamp timestamp = Time.currentTime();
+        Timestamp timestamp = currentTime();
         Temporal<?> temporal = Temporals.from(timestamp);
         assertEquals(pack(timestamp), temporal.toAny());
+    }
+
+    private static TimestampTemporal now() {
+        return TimestampTemporal.from(currentTime());
     }
 }

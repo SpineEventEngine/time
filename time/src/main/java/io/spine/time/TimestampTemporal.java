@@ -46,7 +46,7 @@ public final class TimestampTemporal implements Temporal<TimestampTemporal> {
      * <p>The given value must be valid in terms of {@code Timestamps.checkValid(..)}. Otherwise,
      * as {@code IllegalStateException} is thrown.
      */
-    static TimestampTemporal from(Timestamp value) {
+    public static TimestampTemporal from(Timestamp value) {
         checkNotNull(value);
         checkValid(value);
         return new TimestampTemporal(value);
