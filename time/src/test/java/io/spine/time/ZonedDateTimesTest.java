@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
+import static java.time.Clock.systemUTC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -61,7 +62,7 @@ class ZonedDateTimesTest
         void forCurrentDateTime() {
             avoidDayEdge();
             ZonedDateTime now = ZonedDateTimes.now();
-            java.time.ZonedDateTime jt = java.time.ZonedDateTime.now();
+            java.time.ZonedDateTime jt = java.time.ZonedDateTime.now(systemUTC());
 
             // Compare only dates as time would be different.
             LocalDateTime ldt = now.getDateTime();

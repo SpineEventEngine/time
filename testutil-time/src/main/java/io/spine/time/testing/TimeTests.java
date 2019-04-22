@@ -38,6 +38,7 @@ import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.validate.Validate.checkPositive;
+import static java.time.Clock.systemUTC;
 
 /**
  * Utility class for working with time-related tests.
@@ -70,7 +71,8 @@ public final class TimeTests {
         LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
         do {
             // Wait.
-        } while (LocalTime.now().isAfter(lastDaySecond));
+        } while (LocalTime.now(systemUTC())
+                          .isAfter(lastDaySecond));
     }
 
     /**

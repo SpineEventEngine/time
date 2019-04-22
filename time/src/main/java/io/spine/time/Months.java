@@ -27,6 +27,7 @@ import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.time.Clock.systemUTC;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 /**
@@ -42,7 +43,7 @@ public final class Months {
      * Obtains current month.
      */
     public static Month now() {
-        return of(java.time.LocalDate.now().getMonth());
+        return of(java.time.LocalDate.now(systemUTC()).getMonth());
     }
 
     static void checkMonth(int month) {

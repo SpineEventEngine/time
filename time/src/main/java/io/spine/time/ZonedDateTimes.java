@@ -25,6 +25,7 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
+import static java.time.Clock.systemUTC;
 
 /**
  * Utilities for working with {@code ZonedDateTime}.
@@ -57,7 +58,7 @@ public final class ZonedDateTimes {
      * Obtains current date-time in the system time-zone.
      */
     public static ZonedDateTime now() {
-        return converter().convert(java.time.ZonedDateTime.now());
+        return converter().convert(java.time.ZonedDateTime.now(systemUTC()));
     }
 
     /**

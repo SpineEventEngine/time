@@ -29,6 +29,7 @@ import io.spine.time.Temporals;
 import io.spine.time.validation.Time;
 import io.spine.time.validation.TimeOption;
 import io.spine.validate.ConstraintViolation;
+import io.spine.validate.ConstraintViolationVBuilder;
 import io.spine.validate.FieldValue;
 import io.spine.validate.FieldValueConstraint;
 
@@ -89,7 +90,7 @@ final class WhenConstraint extends FieldValueConstraint<Message, TimeOption> {
                                    .toLowerCase();
         FieldPath fieldPath = fieldValue.context()
                                         .fieldPath();
-        ConstraintViolation violation = ConstraintViolation
+        ConstraintViolation violation = ConstraintViolationVBuilder
                 .newBuilder()
                 .setMsgFormat(msg)
                 .addParam(when)

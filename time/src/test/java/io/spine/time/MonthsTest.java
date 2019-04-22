@@ -29,6 +29,7 @@ import java.time.LocalDate;
 
 import static io.spine.time.Months.checkMonth;
 import static io.spine.time.Months.toJavaTime;
+import static java.time.Clock.systemUTC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -55,7 +56,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
         @Test
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
-            LocalDate today = LocalDate.now();
+            LocalDate today = LocalDate.now(systemUTC());
             Month month = Months.of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());

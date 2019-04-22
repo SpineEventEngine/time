@@ -25,6 +25,7 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.LocalDates.checkDate;
+import static java.time.Clock.systemUTC;
 
 /**
  * Utilities for working with {@code LocalDateTime}.
@@ -39,7 +40,7 @@ public final class LocalDateTimes {
      * Obtains current date-time.
      */
     public static LocalDateTime now() {
-        return of(java.time.LocalDateTime.now());
+        return of(java.time.LocalDateTime.now(systemUTC()));
     }
 
     /**

@@ -23,6 +23,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.time.Clock.systemUTC;
 
 /**
  * Routines for working with {@link OffsetTime}.
@@ -37,7 +38,7 @@ public final class OffsetTimes {
      * Obtains offset time in the current time zone.
      */
     public static OffsetTime now() {
-        return of(java.time.OffsetTime.now());
+        return of(java.time.OffsetTime.now(systemUTC()));
     }
 
     /**
@@ -46,7 +47,7 @@ public final class OffsetTimes {
     public static OffsetTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
         java.time.ZoneOffset zo = ZoneOffsets.toJavaTime(zoneOffset);
-        java.time.OffsetTime jt = java.time.LocalTime.now()
+        java.time.OffsetTime jt = java.time.LocalTime.now(systemUTC())
                                                      .atOffset(zo);
         LocalTime localTime = LocalTimes.of(jt.toLocalTime());
         return create(localTime, zoneOffset);

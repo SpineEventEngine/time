@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
+import static java.time.Clock.systemUTC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("YearMonths should")
@@ -57,13 +58,13 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
         @DisplayName("for current month")
         void currentMonth() {
             avoidDayEdge();
-            assertMonthsEqual(java.time.YearMonth.now(), YearMonths.now());
+            assertMonthsEqual(java.time.YearMonth.now(systemUTC()), YearMonths.now());
         }
 
         @Test
         @DisplayName("by year and month")
         void yearMonth() {
-            java.time.YearMonth ym = java.time.YearMonth.now();
+            java.time.YearMonth ym = java.time.YearMonth.now(systemUTC());
             assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
         }
     }

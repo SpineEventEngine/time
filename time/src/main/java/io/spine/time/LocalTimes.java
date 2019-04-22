@@ -23,6 +23,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.time.Clock.systemUTC;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -37,7 +38,7 @@ public final class LocalTimes {
      * Obtains current local time.
      */
     public static LocalTime now() {
-        return of(java.time.LocalTime.now());
+        return of(java.time.LocalTime.now(systemUTC()));
     }
 
     /**

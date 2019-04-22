@@ -50,6 +50,7 @@ public final class InstantConverter extends Converter<Instant, Timestamp>
     @Override
     protected Timestamp doForward(Instant value) {
         checkNotNull(value);
+        @SuppressWarnings("UseValidatingBuilder") // A VBuilder for Timestamp does not exist.
         Timestamp result = Timestamp
                 .newBuilder()
                 .setSeconds(value.getEpochSecond())
