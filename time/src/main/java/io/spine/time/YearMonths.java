@@ -25,7 +25,6 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
-import static java.time.Clock.systemUTC;
 
 /**
  * Utilities for working with {@code YearMonth} values.
@@ -40,7 +39,8 @@ public final class YearMonths {
      * Obtains current month.
      */
     public static YearMonth now() {
-        return of(java.time.YearMonth.now(systemUTC()));
+        return Now.inCurrentTimeZone()
+                  .asYearMonth();
     }
 
     /**

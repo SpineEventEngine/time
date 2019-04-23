@@ -31,7 +31,6 @@ import static io.spine.time.DtPreconditions.checkPositive;
 import static io.spine.time.Months.checkMonth;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.lang.String.format;
-import static java.time.Clock.systemUTC;
 import static java.time.temporal.ChronoField.YEAR;
 
 /**
@@ -44,11 +43,11 @@ public final class LocalDates {
     }
 
     /**
-     * Obtains current local date.
+     * Obtains current local date in UTC.
      */
     public static LocalDate now() {
-        java.time.LocalDate now = java.time.LocalDate.now(systemUTC());
-        return of(now);
+        return Now.inCurrentTimeZone()
+                  .asLocalDate();
     }
 
     /**

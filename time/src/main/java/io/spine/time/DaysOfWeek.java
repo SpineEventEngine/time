@@ -27,7 +27,6 @@ import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
-import static java.time.Clock.systemUTC;
 import static java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
@@ -43,8 +42,8 @@ public final class DaysOfWeek {
      * Obtains today's day of week.
      */
     public static DayOfWeek now() {
-        return of(java.time.LocalDate.now(systemUTC())
-                                     .getDayOfWeek());
+        return Now.inCurrentTimeZone()
+                  .asDayOfWeek();
     }
 
     /**
