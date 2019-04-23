@@ -36,8 +36,3 @@ dependencies {
     testCompile project(path: ':testutil-time')
     testRuntimeOnly deps.test.slf4j
 }
-
-modelCompiler {
-    generateValidatingBuilders = true
-}
-
