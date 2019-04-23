@@ -25,10 +25,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDateTimes.now;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
-import static java.time.Clock.systemUTC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -73,7 +73,7 @@ class LocalDateTimesTest
             avoidDayEdge();
             LocalDateTime now = now();
             // Check that the date is the same. It's safe as we've not passed the end of the day.
-            assertDatesEqual(java.time.LocalDate.now(systemUTC()), now.getDate());
+            assertDatesEqual(java.time.LocalDate.now(currentTimeZone()), now.getDate());
             // We don't compare time here as it's surely changed.
         }
     }

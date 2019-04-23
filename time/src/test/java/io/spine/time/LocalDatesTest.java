@@ -27,11 +27,11 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Year;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
-import static java.time.Clock.systemUTC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -58,7 +58,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
     void obtainCurrentDate() {
         avoidDayEdge();
         LocalDate today = LocalDates.now();
-        java.time.LocalDate jt = java.time.LocalDate.now(systemUTC());
+        java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
         assertDatesEqual(jt, today);
     }
 
@@ -83,7 +83,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         @Test
         @DisplayName("Java Time value")
         void byJavaTime() {
-            java.time.LocalDate jt = java.time.LocalDate.now(systemUTC());
+            java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
             LocalDate value = LocalDates.of(jt);
             assertDatesEqual(jt, value);
         }

@@ -33,12 +33,12 @@ import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.base.Time.systemTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.validate.Validate.checkPositive;
-import static java.time.Clock.systemUTC;
 
 /**
  * Utility class for working with time-related tests.
@@ -71,7 +71,7 @@ public final class TimeTests {
         LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
         do {
             // Wait.
-        } while (LocalTime.now(systemUTC())
+        } while (LocalTime.now(currentTimeZone())
                           .isAfter(lastDaySecond));
     }
 
