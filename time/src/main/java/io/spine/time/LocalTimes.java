@@ -37,7 +37,7 @@ public final class LocalTimes {
      * Obtains current local time in UTC.
      */
     public static LocalTime now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asLocalTime();
     }
 

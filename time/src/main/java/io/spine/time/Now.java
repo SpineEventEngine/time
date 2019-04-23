@@ -50,9 +50,9 @@ final class Now {
      * <p>Note that the time zone of the resulting instance will never change, even if
      * the {@link Time#currentTimeZone()} changes.
      */
-    static Now inCurrentTimeZone() {
+    static Now get() {
         ZoneId timeZone = currentTimeZone();
-        return in(timeZone);
+        return get(timeZone);
     }
 
     /**
@@ -61,7 +61,7 @@ final class Now {
      * @param timeZone
      *         the time zone to obtain time in
      */
-    static Now in(ZoneId timeZone) {
+    static Now get(ZoneId timeZone) {
         checkNotNull(timeZone);
         return new Now(timeZone);
     }

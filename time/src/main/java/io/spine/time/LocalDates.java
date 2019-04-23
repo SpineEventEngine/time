@@ -46,7 +46,7 @@ public final class LocalDates {
      * Obtains current local date in UTC.
      */
     public static LocalDate now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asLocalDate();
     }
 

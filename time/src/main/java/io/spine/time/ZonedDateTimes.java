@@ -39,7 +39,7 @@ public final class ZonedDateTimes {
      * Obtains current date-time in the system time-zone.
      */
     public static ZonedDateTime now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asZonedDateTime();
     }
 

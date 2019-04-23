@@ -42,7 +42,7 @@ public final class Months {
      * Obtains current month in UTC.
      */
     public static Month now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asMonth();
     }
 

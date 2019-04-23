@@ -37,7 +37,7 @@ public final class OffsetTimes {
      * Obtains offset time in the current time zone.
      */
     public static OffsetTime now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asOffsetTime();
     }
 
@@ -46,7 +46,7 @@ public final class OffsetTimes {
      */
     public static OffsetTime now(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        return Now.in(ZoneOffsets.toJavaTime(zoneOffset))
+        return Now.get(ZoneOffsets.toJavaTime(zoneOffset))
                   .asOffsetTime();
     }
 

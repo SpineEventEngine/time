@@ -39,7 +39,7 @@ public final class LocalDateTimes {
      * Obtains current date-time in UTC.
      */
     public static LocalDateTime now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asLocalDateTime();
     }
 

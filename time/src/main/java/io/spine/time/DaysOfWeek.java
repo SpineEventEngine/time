@@ -42,7 +42,7 @@ public final class DaysOfWeek {
      * Obtains today's day of week.
      */
     public static DayOfWeek now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asDayOfWeek();
     }
 

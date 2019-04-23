@@ -39,7 +39,7 @@ public final class YearMonths {
      * Obtains current month.
      */
     public static YearMonth now() {
-        return Now.inCurrentTimeZone()
+        return Now.get()
                   .asYearMonth();
     }
 
