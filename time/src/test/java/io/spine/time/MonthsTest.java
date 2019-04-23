@@ -38,7 +38,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
     MonthsTest() {
         super(Months.class,
-              Months::now,
+              Now::asMonth,
               Months::toString,
               Months::parse,
               Months.converter());

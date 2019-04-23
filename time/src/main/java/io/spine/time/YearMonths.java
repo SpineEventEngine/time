@@ -36,14 +36,6 @@ public final class YearMonths {
     }
 
     /**
-     * Obtains current month.
-     */
-    public static YearMonth now() {
-        return Now.get()
-                  .asYearMonth();
-    }
-
-    /**
      * Creates an instance with the the passed year and month.
      */
     public static YearMonth of(int year, int month) {

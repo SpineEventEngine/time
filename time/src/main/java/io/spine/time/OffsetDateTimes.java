@@ -34,23 +34,6 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Obtains current date/time at the system time zone.
-     */
-    public static OffsetDateTime now() {
-        return Now.get()
-                  .asOffsetDateTime();
-    }
-
-    /**
-     * Obtains current date-time at the the passed time zone.
-     */
-    public static OffsetDateTime now(ZoneOffset offset) {
-        checkNotNull(offset);
-        return Now.get(ZoneOffsets.toJavaTime(offset))
-                  .asOffsetDateTime();
-    }
-
-    /**
      * Creates a new instance with the passed values.
      */
     public static OffsetDateTime of(LocalDate date, LocalTime time, ZoneOffset offset) {

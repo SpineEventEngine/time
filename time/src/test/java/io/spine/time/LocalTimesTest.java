@@ -46,7 +46,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
 
     LocalTimesTest() {
         super(LocalTimes.class,
-              LocalTimes::now,
+              Now::asLocalTime,
               LocalTimes::toString,
               LocalTimes::parse,
               LocalTimes.converter());
@@ -65,7 +65,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     @Test
     @DisplayName("convert to JavaTime value")
     void convertToJavaTime() {
-        LocalTime now = LocalTimes.now();
+        LocalTime now = LocalTimes.of(13, 15);
         java.time.LocalTime javaTime = toJavaTime(now);
 
         assertTimesEqual(javaTime, now);

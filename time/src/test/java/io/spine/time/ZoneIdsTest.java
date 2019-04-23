@@ -33,7 +33,7 @@ class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> 
 
     ZoneIdsTest() {
         super(ZoneIds.class,
-              ZoneIds::systemDefault,
+              now -> ZoneIds.systemDefault(),
               ZoneIds::toString,
               ZoneIds::parse,
               ZoneIds.converter());

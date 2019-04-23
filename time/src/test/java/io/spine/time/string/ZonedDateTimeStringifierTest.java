@@ -20,8 +20,8 @@
 
 package io.spine.time.string;
 
+import io.spine.time.Now;
 import io.spine.time.ZonedDateTime;
-import io.spine.time.ZonedDateTimes;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("ZonedDateTimeStringifier should")
@@ -33,6 +33,6 @@ class ZonedDateTimeStringifierTest extends AbstractStringifierTest<ZonedDateTime
 
     @Override
     protected ZonedDateTime createObject() {
-        return ZonedDateTimes.now();
+        return Now.get().asZonedDateTime();
     }
 }

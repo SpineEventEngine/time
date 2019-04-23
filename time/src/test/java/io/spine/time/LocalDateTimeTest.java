@@ -31,6 +31,6 @@ class LocalDateTimeTest extends TemporalMessageTest<LocalDateTime> {
 
     @Override
     LocalDateTime create() {
-        return LocalDateTimes.now();
+        return Now.get().asLocalDateTime();
     }
 }

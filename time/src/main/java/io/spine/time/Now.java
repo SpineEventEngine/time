@@ -24,7 +24,6 @@ import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,10 +37,21 @@ import static io.spine.base.Time.currentTimeZone;
  */
 public final class Now {
 
-    private final ZoneId timeZone;
+    private final java.time.ZoneId timeZone;
 
-    private Now(ZoneId timeZone) {
+    private Now(java.time.ZoneId timeZone) {
         this.timeZone = timeZone;
+    }
+
+    /**
+     * Obtains the {@code Now} in the given time zone.
+     *
+     * @param timeZone
+     *         the time zone to obtain time in
+     */
+    public static Now get(java.time.ZoneId timeZone) {
+        checkNotNull(timeZone);
+        return new Now(timeZone);
     }
 
     /**
@@ -51,7 +61,7 @@ public final class Now {
      * the {@link Time#currentTimeZone()} changes.
      */
     public static Now get() {
-        ZoneId timeZone = currentTimeZone();
+        java.time.ZoneId timeZone = currentTimeZone();
         return get(timeZone);
     }
 
@@ -63,7 +73,20 @@ public final class Now {
      */
     public static Now get(ZoneId timeZone) {
         checkNotNull(timeZone);
-        return new Now(timeZone);
+        java.time.ZoneId id = ZoneIds.toJavaTime(timeZone);
+        return get(id);
+    }
+
+    /**
+     * Obtains the {@code Now} with the given zone offset.
+     *
+     * @param offset
+     *         the time zone offset
+     */
+    public static Now get(ZoneOffset offset) {
+        checkNotNull(offset);
+        java.time.ZoneOffset jt = ZoneOffsets.toJavaTime(offset);
+        return get(jt);
     }
 
     /**

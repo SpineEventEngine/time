@@ -36,14 +36,6 @@ public final class ZonedDateTimes {
     }
 
     /**
-     * Obtains current date-time in the system time-zone.
-     */
-    public static ZonedDateTime now() {
-        return Now.get()
-                  .asZonedDateTime();
-    }
-
-    /**
      * Obtains the zoned time for the local date-time at the passed time zone.
      */
     public static ZonedDateTime of(LocalDateTime dateTime, ZoneId zone) {

@@ -33,6 +33,6 @@ class LocalTimeStringifierTest extends AbstractStringifierTest<LocalTime> {
 
     @Override
     protected LocalTime createObject() {
-        return LocalTimes.now();
+        return LocalTimes.of(12, 45);
     }
 }

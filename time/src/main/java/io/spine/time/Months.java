@@ -38,14 +38,6 @@ public final class Months {
     private Months() {
     }
 
-    /**
-     * Obtains current month in UTC.
-     */
-    public static Month now() {
-        return Now.get()
-                  .asMonth();
-    }
-
     static void checkMonth(int month) {
         try {
             MONTH_OF_YEAR.checkValidValue(month);

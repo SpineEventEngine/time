@@ -50,7 +50,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
 
     ZoneOffsetsTest() {
         super(ZoneOffsets.class,
-              ZoneOffsets::getDefault,
+              now -> ZoneOffsets.getDefault(),
               ZoneOffsets::toString,
               ZoneOffsets::parse,
               ZoneOffsets.converter());

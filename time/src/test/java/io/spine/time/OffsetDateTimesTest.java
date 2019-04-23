@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.Asserts.assertTimesEqual;
-import static io.spine.time.OffsetDateTimes.now;
 import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -41,7 +40,7 @@ public class OffsetDateTimesTest
 
     OffsetDateTimesTest() {
         super(OffsetDateTimes.class,
-              OffsetDateTimes::now,
+              Now::asOffsetDateTime,
               OffsetDateTimes::toString,
               OffsetDateTimes::parse,
               OffsetDateTimes.converter());
@@ -49,18 +48,19 @@ public class OffsetDateTimesTest
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetDateTime now = now(zoneOffset);
-        String str = OffsetDateTimes.toString(now);
+        Now now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
+        OffsetDateTime offsetDateTime = now.asOffsetDateTime();
+        String str = OffsetDateTimes.toString(offsetDateTime);
         OffsetDateTime parsed = OffsetDateTimes.parse(str);
 
-        assertEquals(now, parsed);
+        assertEquals(offsetDateTime, parsed);
     }
 
     @Override
     void addDefaults(NullPointerTester nullTester) {
-        nullTester.setDefault(LocalTime.class, LocalTimes.now())
+        nullTester.setDefault(LocalTime.class, LocalTime.getDefaultInstance())
                   .setDefault(ZoneOffset.class, ZoneOffsets.getDefault())
-                  .setDefault(LocalDate.class, LocalDates.now());
+                  .setDefault(LocalDate.class, LocalDate.getDefaultInstance());
 
     }
 
@@ -68,8 +68,9 @@ public class OffsetDateTimesTest
     @BeforeEach
     public void setUp() {
         super.setUp();
-        date = LocalDates.now();
-        time = LocalTimes.now();
+        Now now = Now.get();
+        date = now.asLocalDate();
+        time = now.asLocalTime();
     }
 
     @Nested
@@ -79,7 +80,7 @@ public class OffsetDateTimesTest
         @Test
         @DisplayName("current date/time")
         void currentDateTime() {
-            OffsetDateTime now = now();
+            OffsetDateTime now = current();
             java.time.OffsetDateTime jn = toJavaTime(now);
             assertEqualDateTime(jn, now);
         }

@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
-import static io.spine.time.LocalDateTimes.now;
+import static io.spine.time.Month.JULY;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,7 +38,7 @@ class LocalDateTimesTest
 
     LocalDateTimesTest() {
         super(LocalDateTimes.class,
-              LocalDateTimes::now,
+              Now::asLocalDateTime,
               LocalDateTimes::toString,
               LocalDateTimes::parse,
               LocalDateTimes.converter());
@@ -46,8 +46,8 @@ class LocalDateTimesTest
 
     @Override
     void addDefaults(NullPointerTester nullTester) {
-        nullTester.setDefault(LocalTime.class, LocalTimes.now())
-                  .setDefault(LocalDate.class, LocalDates.now());
+        nullTester.setDefault(LocalTime.class, LocalTime.getDefaultInstance())
+                  .setDefault(LocalDate.class, LocalDate.getDefaultInstance());
 
     }
 
@@ -58,8 +58,8 @@ class LocalDateTimesTest
         @Test
         @DisplayName("passed date and time")
         void dateTime() {
-            LocalDate date = LocalDates.now();
-            LocalTime time = LocalTimes.now();
+            LocalDate date = LocalDates.of(1969, JULY, 16);
+            LocalTime time = LocalTimes.of(20, 17);
 
             LocalDateTime dateTime = LocalDateTimes.of(date, time);
 
@@ -71,7 +71,7 @@ class LocalDateTimesTest
         @DisplayName("current date-time")
         void currentDateTime() {
             avoidDayEdge();
-            LocalDateTime now = now();
+            LocalDateTime now = current();
             // Check that the date is the same. It's safe as we've not passed the end of the day.
             assertDatesEqual(java.time.LocalDate.now(currentTimeZone()), now.getDate());
             // We don't compare time here as it's surely changed.
@@ -87,7 +87,7 @@ class LocalDateTimesTest
         void defaultDate() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> LocalDateTimes.of(LocalDate.getDefaultInstance(), LocalTimes.now())
+                    () -> LocalDateTimes.of(LocalDate.getDefaultInstance(), Now.get().asLocalTime())
             );
         }
     }
@@ -95,7 +95,7 @@ class LocalDateTimesTest
     @Test
     @DisplayName("accept midnight time")
     void midnight() {
-        LocalDate today = LocalDates.now();
+        LocalDate today = Now.get().asLocalDate();
         LocalTime midnight = LocalTimes.parse("00:00:00");
 
         LocalDateTime todayMidnight = LocalDateTimes.of(today, midnight);

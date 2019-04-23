@@ -20,8 +20,8 @@
 
 package io.spine.time.string;
 
+import io.spine.time.Now;
 import io.spine.time.OffsetTime;
-import io.spine.time.OffsetTimes;
 import org.junit.jupiter.api.DisplayName;
 
 @DisplayName("OffsetTimeStringifier should")
@@ -33,6 +33,6 @@ public class OffsetTimeStringifierTest extends AbstractStringifierTest<OffsetTim
 
     @Override
     protected OffsetTime createObject() {
-        return OffsetTimes.now();
+        return Now.get().asOffsetTime();
     }
 }

@@ -39,11 +39,10 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
     @Override
     protected void configure(NullPointerTester tester) {
         super.configure(tester);
-        ZoneOffset utc = ZoneOffsets.utc();
-        tester.setDefault(OffsetTime.class, OffsetTimes.now(utc))
-              .setDefault(OffsetDateTime.class, OffsetDateTimes.now(utc))
-              .setDefault(LocalDate.class, LocalDates.now())
-              .setDefault(LocalTime.class, LocalTimes.now());
+        tester.setDefault(OffsetTime.class, OffsetTime.getDefaultInstance())
+              .setDefault(OffsetDateTime.class, OffsetDateTime.getDefaultInstance())
+              .setDefault(LocalDate.class, LocalDate.getDefaultInstance())
+              .setDefault(LocalTime.class, LocalTime.getDefaultInstance());
     }
 
     @Nested
@@ -53,14 +52,14 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("LocalDate")
         void localDates() {
-            LocalDate today = LocalDates.now();
+            LocalDate today = Now.get().asLocalDate();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(today, today));
         }
 
         @Test
         @DisplayName("LocalTime")
         void localTimes() {
-            LocalTime now = LocalTimes.now();
+            LocalTime now = Now.get().asLocalTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
 
@@ -68,7 +67,7 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("OffsetTime")
         void offsetTimes() {
             ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
-            OffsetTime now = OffsetTimes.now(inLuxembourg);
+            OffsetTime now = Now.get(inLuxembourg).asOffsetTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
 
@@ -76,7 +75,7 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("OffsetDateTime")
         void offsetDateTimes() {
             ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
-            OffsetDateTime now = OffsetDateTimes.now(inLuxembourg);
+            OffsetDateTime now = Now.get(inLuxembourg).asOffsetDateTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
     }
@@ -86,21 +85,21 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
     class Create {
 
         private LocalTime now;
-        private ZoneOffset inKiev;
-        private ZoneOffset inLuxembourg;
+        private Now inKiev;
+        private Now inLuxembourg;
 
         @BeforeEach
         void setUp() {
-            now = LocalTimes.now();
+            now = Now.get().asLocalTime();
             // Assume it's Summer now.
-            inKiev = ZoneOffsets.ofHours(3);
-            inLuxembourg = ZoneOffsets.ofHours(2);
+            inKiev = Now.get(ZoneOffsets.ofHours(3));
+            inLuxembourg = Now.get(ZoneOffsets.ofHours(2));
         }
 
         @Test
         @DisplayName("LocalDate")
         void forLocalDates() {
-            LocalDate today = LocalDates.now();
+            LocalDate today = Now.get().asLocalDate();
             LocalDate tomorrow = LocalDates.of(LocalDates.toJavaTime(today)
                                                          .plusDays(1));
 
@@ -125,8 +124,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("OffsetTime")
         void forOffsetTimes() {
-            OffsetTime previousTime = OffsetTimes.now(inKiev);
-            OffsetTime newTime = OffsetTimes.now(inLuxembourg);
+            OffsetTime previousTime = inKiev.asOffsetTime();
+            OffsetTime newTime = inLuxembourg.asOffsetTime();
 
             OffsetTimeChange result = TimeChanges.of(previousTime, newTime);
 
@@ -137,8 +136,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("OffsetDateTime")
         void forOffsetDateTimes() {
-            OffsetDateTime previousDateTime = OffsetDateTimes.now(inKiev);
-            OffsetDateTime newDateTime = OffsetDateTimes.now(inLuxembourg);
+            OffsetDateTime previousDateTime = inKiev.asOffsetDateTime();
+            OffsetDateTime newDateTime = inLuxembourg.asOffsetDateTime();
 
             OffsetDateTimeChange result = TimeChanges.of(previousDateTime, newDateTime);
 

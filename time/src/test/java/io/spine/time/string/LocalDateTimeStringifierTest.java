@@ -21,7 +21,7 @@
 package io.spine.time.string;
 
 import io.spine.time.LocalDateTime;
-import io.spine.time.LocalDateTimes;
+import io.spine.time.Now;
 
 class LocalDateTimeStringifierTest extends AbstractStringifierTest<LocalDateTime> {
 
@@ -31,6 +31,6 @@ class LocalDateTimeStringifierTest extends AbstractStringifierTest<LocalDateTime
 
     @Override
     protected LocalDateTime createObject() {
-        return LocalDateTimes.now();
+        return Now.get().asLocalDateTime();
     }
 }

@@ -31,6 +31,6 @@ class ZonedDateTimeTest extends TemporalMessageTest<ZonedDateTime> {
 
     @Override
     ZonedDateTime create() {
-        return ZonedDateTimes.now();
+        return Now.get().asZonedDateTime();
     }
 }

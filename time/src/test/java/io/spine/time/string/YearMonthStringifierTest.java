@@ -33,6 +33,6 @@ class YearMonthStringifierTest extends AbstractStringifierTest<YearMonth> {
 
     @Override
     protected YearMonth createObject() {
-        return YearMonths.now();
+        return YearMonths.of(2019, 4);
     }
 }

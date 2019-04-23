@@ -24,6 +24,8 @@ import io.spine.time.LocalDate;
 import io.spine.time.LocalDates;
 import org.junit.jupiter.api.DisplayName;
 
+import static io.spine.time.Month.FEBRUARY;
+
 @DisplayName("LocalDateStringifier should")
 class LocalDateStringifierTest extends AbstractStringifierTest<LocalDate> {
 
@@ -33,6 +35,6 @@ class LocalDateStringifierTest extends AbstractStringifierTest<LocalDate> {
 
     @Override
     protected LocalDate createObject() {
-        return LocalDates.now();
+        return LocalDates.of(2018, FEBRUARY, 6);
     }
 }

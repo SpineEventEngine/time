@@ -34,23 +34,6 @@ public final class OffsetTimes {
     }
 
     /**
-     * Obtains offset time in the current time zone.
-     */
-    public static OffsetTime now() {
-        return Now.get()
-                  .asOffsetTime();
-    }
-
-    /**
-     * Obtains offset time using {@code ZoneOffset}.
-     */
-    public static OffsetTime now(ZoneOffset zoneOffset) {
-        checkNotNull(zoneOffset);
-        return Now.get(ZoneOffsets.toJavaTime(zoneOffset))
-                  .asOffsetTime();
-    }
-
-    /**
      * Obtains offset time using {@code LocalTime} and {@code ZoneOffset}.
      */
     public static OffsetTime of(LocalTime time, ZoneOffset zoneOffset) {

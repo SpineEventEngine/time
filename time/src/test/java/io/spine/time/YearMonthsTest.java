@@ -34,7 +34,7 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
 
     YearMonthsTest() {
         super(YearMonths.class,
-              YearMonths::now,
+              Now::asYearMonth,
               YearMonths::toString,
               YearMonths::parse,
               YearMonths.converter());
@@ -58,7 +58,7 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
         @DisplayName("for current month")
         void currentMonth() {
             avoidDayEdge();
-            assertMonthsEqual(java.time.YearMonth.now(currentTimeZone()), YearMonths.now());
+            assertMonthsEqual(java.time.YearMonth.now(currentTimeZone()), current());
         }
 
         @Test

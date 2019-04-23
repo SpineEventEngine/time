@@ -34,14 +34,6 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains current local time in UTC.
-     */
-    public static LocalTime now() {
-        return Now.get()
-                  .asLocalTime();
-    }
-
-    /**
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
