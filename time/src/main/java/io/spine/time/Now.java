@@ -32,6 +32,9 @@ import static io.spine.base.Time.currentTimeZone;
 
 /**
  * The current time.
+ *
+ * <p>An instance of {@code Now} always obtains the {@linkplain Time#currentTime() current time} in
+ * different formats. The time zone is fixed for a given instance.
  */
 final class Now {
 
@@ -41,21 +44,39 @@ final class Now {
         this.timeZone = timeZone;
     }
 
+    /**
+     * Obtains the {@code Now} in the current time zone provided by {@link Time#currentTimeZone()}.
+     *
+     * <p>Note that the time zone of the resulting instance will never change, even if
+     * the {@link Time#currentTimeZone()} changes.
+     */
     static Now inCurrentTimeZone() {
         ZoneId timeZone = currentTimeZone();
         return in(timeZone);
     }
 
+    /**
+     * Obtains the {@code Now} in the given time zone.
+     *
+     * @param timeZone
+     *         the time zone to obtain time in
+     */
     static Now in(ZoneId timeZone) {
         checkNotNull(timeZone);
         return new Now(timeZone);
     }
 
+    /**
+     * Obtains the current month.
+     */
     Month asMonth() {
         ZonedDateTime now = now();
         return Months.of(now.getMonth());
     }
 
+    /**
+     * Obtains the current year and month.
+     */
     YearMonth asYearMonth() {
         ZonedDateTime now = now();
         return YearMonth
@@ -65,26 +86,41 @@ final class Now {
                 .build();
     }
 
+    /**
+     * Obtains the current day of week.
+     */
     DayOfWeek asDayOfWeek() {
         ZonedDateTime now = now();
         return DaysOfWeek.of(now.getDayOfWeek());
     }
 
+    /**
+     * Obtains the current time as a {@code LocalDate}.
+     */
     LocalDate asLocalDate() {
         java.time.LocalDate jt = now().toLocalDate();
         return LocalDates.of(jt);
     }
 
+    /**
+     * Obtains the current time as a {@code LocalTime}.
+     */
     LocalTime asLocalTime() {
         java.time.LocalTime jt = now().toLocalTime();
         return LocalTimes.of(jt);
     }
 
+    /**
+     * Obtains the current time as a {@code LocalDateTime}.
+     */
     LocalDateTime asLocalDateTime() {
         java.time.LocalDateTime jt = now().toLocalDateTime();
         return LocalDateTimes.of(jt);
     }
 
+    /**
+     * Obtains the current time as an {@code OffsetTime}.
+     */
     OffsetTime asOffsetTime() {
         ZonedDateTime now = now();
         return OffsetTime
@@ -94,11 +130,17 @@ final class Now {
                 .build();
     }
 
+    /**
+     * Obtains the current time as an {@code OffsetDateTime}.
+     */
     OffsetDateTime asOffsetDateTime() {
         java.time.OffsetDateTime jt = now().toOffsetDateTime();
         return OffsetDateTimes.of(jt);
     }
 
+    /**
+     * Obtains the current time as an {@code ZonedDateTime}.
+     */
     io.spine.time.ZonedDateTime asZonedDateTime() {
         return ZonedDateTimes.of(now());
     }
