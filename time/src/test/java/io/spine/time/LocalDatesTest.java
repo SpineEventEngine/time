@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Year;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.toJavaTime;
@@ -39,7 +40,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
 
     LocalDatesTest() {
         super(LocalDates.class,
-              LocalDates::now,
+              Now::asLocalDate,
               LocalDates::toString,
               LocalDates::parse,
               LocalDates.converter());
@@ -47,7 +48,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
 
     @Override
     void addDefaults(NullPointerTester nullTester) {
-        nullTester.setDefault(LocalDate.class, LocalDates.now())
+        nullTester.setDefault(LocalDate.class, current())
                   .setDefault(int.class, 1);
 
     }
@@ -56,8 +57,8 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
     @DisplayName("obtain current date")
     void obtainCurrentDate() {
         avoidDayEdge();
-        LocalDate today = LocalDates.now();
-        java.time.LocalDate jt = java.time.LocalDate.now();
+        LocalDate today = current();
+        java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
         assertDatesEqual(jt, today);
     }
 
@@ -82,7 +83,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         @Test
         @DisplayName("Java Time value")
         void byJavaTime() {
-            java.time.LocalDate jt = java.time.LocalDate.now();
+            java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
             LocalDate value = LocalDates.of(jt);
             assertDatesEqual(jt, value);
         }

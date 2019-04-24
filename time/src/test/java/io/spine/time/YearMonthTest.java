@@ -34,13 +34,13 @@ class YearMonthTest extends TemporalMessageTest<YearMonth> {
 
     @Override
     YearMonth create() {
-        return YearMonths.now();
+        return Now.get().asYearMonth();
     }
 
     @Test
     @DisplayName("consider the current month to be in the past")
     void nowIsInPast() {
-        YearMonth now = YearMonths.now();
+        YearMonth now = Now.get().asYearMonth();
         assertTrue(now.isInPast());
     }
 }

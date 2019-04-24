@@ -33,6 +33,7 @@ import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.base.Time.systemTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
@@ -70,7 +71,8 @@ public final class TimeTests {
         LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
         do {
             // Wait.
-        } while (LocalTime.now().isAfter(lastDaySecond));
+        } while (LocalTime.now(currentTimeZone())
+                          .isAfter(lastDaySecond));
     }
 
     /**

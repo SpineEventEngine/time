@@ -36,13 +36,6 @@ public final class LocalDateTimes {
     }
 
     /**
-     * Obtains current date-time.
-     */
-    public static LocalDateTime now() {
-        return of(java.time.LocalDateTime.now());
-    }
-
-    /**
      * Creates an instance based on the passed Java Time value.
      */
     public static LocalDateTime of(java.time.LocalDateTime value) {
@@ -54,6 +47,8 @@ public final class LocalDateTimes {
      * Creates an instance with the passed date and time.
      */
     public static LocalDateTime of(LocalDate date, LocalTime time) {
+        checkNotNull(date);
+        checkNotNull(time);
         checkDate(date);
         return create(date, time);
     }

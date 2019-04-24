@@ -38,13 +38,6 @@ public final class Months {
     private Months() {
     }
 
-    /**
-     * Obtains current month.
-     */
-    public static Month now() {
-        return of(java.time.LocalDate.now().getMonth());
-    }
-
     static void checkMonth(int month) {
         try {
             MONTH_OF_YEAR.checkValidValue(month);

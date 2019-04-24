@@ -34,13 +34,6 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains current local time.
-     */
-    public static LocalTime now() {
-        return of(java.time.LocalTime.now());
-    }
-
-    /**
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {

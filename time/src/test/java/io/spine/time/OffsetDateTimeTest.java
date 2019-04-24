@@ -31,6 +31,6 @@ class OffsetDateTimeTest extends TemporalMessageTest<OffsetDateTime> {
 
     @Override
     OffsetDateTime create() {
-        return OffsetDateTimes.now();
+        return Now.get().asOffsetDateTime();
     }
 }

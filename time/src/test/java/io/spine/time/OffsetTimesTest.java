@@ -50,7 +50,7 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
 
     OffsetTimesTest() {
         super(OffsetTimes.class,
-              OffsetTimes::now,
+              Now::asOffsetTime,
               OffsetTimes::toString,
               OffsetTimes::parse,
               OffsetTimes.converter());
@@ -58,18 +58,19 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        OffsetTime now = OffsetTimes.now(zoneOffset);
-        String str = OffsetTimes.toString(now);
+        Now now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
+        OffsetTime offsetTime = now.asOffsetTime();
+        String str = OffsetTimes.toString(offsetTime);
         OffsetTime parsed = OffsetTimes.parse(str);
-        assertEquals(now, parsed);
+        assertEquals(offsetTime, parsed);
     }
 
     @Override
     void addDefaults(NullPointerTester nullTester) {
         nullTester.setDefault(Timestamp.class, currentTime())
-                  .setDefault(OffsetTime.class, OffsetTimes.now())
+                  .setDefault(OffsetTime.class, OffsetTime.getDefaultInstance())
                   .setDefault(ZoneOffset.class, zoneOffset())
-                  .setDefault(LocalTime.class, LocalTimes.now());
+                  .setDefault(LocalTime.class, LocalTime.getDefaultInstance());
     }
 
     @Nested
@@ -79,7 +80,8 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
         @Test
         @DisplayName("current time at offset")
         void nowAtOffset() {
-            OffsetTime now = OffsetTimes.now(zoneOffset());
+            java.time.ZoneOffset zone = ZoneOffsets.toJavaTime(zoneOffset());
+            OffsetTime now = Now.get(zone).asOffsetTime();
             assertEquals(zoneOffset(), now.getOffset());
         }
         @Test

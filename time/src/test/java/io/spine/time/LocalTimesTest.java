@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.TimeUnit;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertTimesEqual;
 import static io.spine.time.LocalTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,7 +46,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
 
     LocalTimesTest() {
         super(LocalTimes.class,
-              LocalTimes::now,
+              Now::asLocalTime,
               LocalTimes::toString,
               LocalTimes::parse,
               LocalTimes.converter());
@@ -58,13 +59,13 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
 
     @BeforeEach
     void initLocalTimeNow() {
-        javaTimeNow = java.time.LocalTime.now();
+        javaTimeNow = java.time.LocalTime.now(currentTimeZone());
     }
 
     @Test
     @DisplayName("convert to JavaTime value")
     void convertToJavaTime() {
-        LocalTime now = LocalTimes.now();
+        LocalTime now = LocalTimes.of(13, 15);
         java.time.LocalTime javaTime = toJavaTime(now);
 
         assertTimesEqual(javaTime, now);
@@ -77,7 +78,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
         @Test
         @DisplayName("Java Time value")
         void byJavaTime() {
-            java.time.LocalTime javaTime = java.time.LocalTime.now();
+            java.time.LocalTime javaTime = java.time.LocalTime.now(currentTimeZone());
             LocalTime now = LocalTimes.of(javaTime);
 
             assertTimesEqual(javaTime, now);

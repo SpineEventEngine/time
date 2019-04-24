@@ -26,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -39,7 +40,7 @@ class ZonedDateTimesTest
 
     ZonedDateTimesTest() {
         super(ZonedDateTimes.class,
-              ZonedDateTimes::now,
+              Now::asZonedDateTime,
               ZonedDateTimes::toString,
               ZonedDateTimes::parse,
               ZonedDateTimes.converter());
@@ -48,7 +49,7 @@ class ZonedDateTimesTest
     @Override
     void addDefaults(NullPointerTester nullTester) {
         nullTester.setDefault(ZoneId.class, ZoneIds.systemDefault())
-                  .setDefault(LocalDateTime.class, LocalDateTimes.now());
+                  .setDefault(LocalDateTime.class, Now.get().asLocalDateTime());
 
     }
 
@@ -60,8 +61,8 @@ class ZonedDateTimesTest
         @DisplayName("for the current date-time")
         void forCurrentDateTime() {
             avoidDayEdge();
-            ZonedDateTime now = ZonedDateTimes.now();
-            java.time.ZonedDateTime jt = java.time.ZonedDateTime.now();
+            ZonedDateTime now = current();
+            java.time.ZonedDateTime jt = java.time.ZonedDateTime.now(currentTimeZone());
 
             // Compare only dates as time would be different.
             LocalDateTime ldt = now.getDateTime();
@@ -73,14 +74,14 @@ class ZonedDateTimesTest
         @Test
         @DisplayName("by Java Time value")
         void byJavaTime() {
-            ZonedDateTime expected = ZonedDateTimes.now();
+            ZonedDateTime expected = current();
             assertEquals(expected, ZonedDateTimes.of(toJavaTime(expected)));
         }
 
         @Test
         @DisplayName("for local date/time and time-zone")
         void byDateTimeAndOffset() {
-            LocalDateTime expectedTime = LocalDateTimes.now();
+            LocalDateTime expectedTime = Now.get().asLocalDateTime();
             ZoneId expectedZone = ZoneIds.systemDefault();
 
             ZonedDateTime value = ZonedDateTimes.of(expectedTime, expectedZone);
@@ -104,7 +105,7 @@ class ZonedDateTimesTest
 
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ZonedDateTimes.of(LocalDateTimes.now(),
+                    () -> ZonedDateTimes.of(Now.get().asLocalDateTime(),
                                             ZoneId.getDefaultInstance())
             );
         }

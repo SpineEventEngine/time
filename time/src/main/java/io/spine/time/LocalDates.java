@@ -43,14 +43,6 @@ public final class LocalDates {
     }
 
     /**
-     * Obtains current local date.
-     */
-    public static LocalDate now() {
-        java.time.LocalDate now = java.time.LocalDate.now();
-        return of(now);
-    }
-
-    /**
      * Creates an instance by the passed Java Time value.
      */
     public static LocalDate of(java.time.LocalDate ld) {

@@ -54,13 +54,6 @@ public final class ZonedDateTimes {
     }
 
     /**
-     * Obtains current date-time in the system time-zone.
-     */
-    public static ZonedDateTime now() {
-        return converter().convert(java.time.ZonedDateTime.now());
-    }
-
-    /**
      * Creates the instance by the passed Java Time value.
      */
     public static ZonedDateTime of(java.time.ZonedDateTime value) {

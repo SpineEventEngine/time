@@ -44,7 +44,7 @@ import static io.spine.util.Exceptions.unsupported;
 public final class ZoneOffsets {
 
     private static final ZoneOffset UTC = ZoneOffset
-            .newBuilder()
+            .vBuilder()
             .setAmountSeconds(0)
             .build();
 
@@ -66,6 +66,7 @@ public final class ZoneOffsets {
      * @see TimeZone#getDefault()
      */
     public static ZoneOffset getDefault() {
+        @SuppressWarnings("JavaTimeDefaultTimeZone")
         java.time.ZoneOffset zo = java.time.OffsetTime.now()
                                                       .getOffset();
         return of(zo);

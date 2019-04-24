@@ -33,7 +33,7 @@ class DaysOfWeekTest extends AbstractDateTimeUtilityTest<DayOfWeek, java.time.Da
 
     DaysOfWeekTest() {
         super(DaysOfWeek.class,
-              DaysOfWeek::now,
+              Now::asDayOfWeek,
               DaysOfWeek::toString,
               DaysOfWeek::parse,
               DaysOfWeek.converter());

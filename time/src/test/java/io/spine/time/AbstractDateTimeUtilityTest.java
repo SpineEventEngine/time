@@ -26,7 +26,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static io.spine.testing.DisplayNames.NOT_ACCEPT_NULLS;
@@ -43,7 +42,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
 
     private final Class<?> utilityClass;
     private final Converter<J, T> converter;
-    private final Supplier<T> current;
+    private final Function<Now, T> current;
     private final Function<T, String> strOut;
     private final Function<String, T> parser;
 
@@ -60,7 +59,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
      * @param converter    a converter from/to Java Time
      */
     AbstractDateTimeUtilityTest(Class<?> utilityClass,
-                                Supplier<T> current,
+                                Function<Now, T> current,
                                 Function<T, String> strOut,
                                 Function<String, T> parser,
                                 Converter<J, T> converter) {
@@ -73,8 +72,8 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
 
     abstract void addDefaults(NullPointerTester nullTester);
 
-    T getCurrent() {
-        return current.get();
+    T current() {
+        return current.apply(Now.get());
     }
 
     @Test
@@ -94,7 +93,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     @Test
     @DisplayName("convert to String and parse back")
     void toFromString() {
-        T expected = getCurrent();
+        T expected = current();
         String str = strOut.apply(expected);
         T converted = parser.apply(str);
         assertEquals(expected, converted);
@@ -103,7 +102,7 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     @Test
     @DisplayName("convert to Java Time and back")
     void toFromJavaTime() {
-        T expected = getCurrent();
+        T expected = current();
         J converted = converter.reverse()
                                .convert(expected);
         T back = converter.convert(converted);

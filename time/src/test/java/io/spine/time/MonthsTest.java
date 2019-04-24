@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Months.checkMonth;
 import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +38,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
     MonthsTest() {
         super(Months.class,
-              Months::now,
+              Now::asMonth,
               Months::toString,
               Months::parse,
               Months.converter());
@@ -55,7 +56,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
         @Test
         @DisplayName("by java.time.LocalDate")
         void fromJavaTimeLocalDate() {
-            LocalDate today = LocalDate.now();
+            LocalDate today = LocalDate.now(currentTimeZone());
             Month month = Months.of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
