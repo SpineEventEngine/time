@@ -30,9 +30,12 @@ apply from: deps.scripts.modelCompiler
 
 dependencies {
     api deps.build.guava
-    api group: 'io.spine', name: 'spine-base', version: spineBaseVersion
+    api "io.spine:spine-base:$spineBaseVersion"
+    
+    annotationProcessor deps.build.autoService.processor
+    compileOnly deps.build.autoService.annotations
 
-    testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
-    testCompile project(path: ':testutil-time')
+    testImplementation "io.spine:spine-testlib:$spineBaseVersion"
+    testImplementation project(path: ':testutil-time')
     testRuntimeOnly deps.test.slf4j
 }
