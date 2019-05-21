@@ -30,7 +30,7 @@ import io.spine.time.validation.Time;
 import io.spine.time.validation.TimeOption;
 import io.spine.validate.ConstraintViolation;
 import io.spine.validate.FieldValue;
-import io.spine.validate.FieldValueConstraint;
+import io.spine.validate.option.FieldValueConstraint;
 
 import static io.spine.time.validation.Time.FUTURE;
 import static io.spine.time.validation.Time.TIME_UNDEFINED;

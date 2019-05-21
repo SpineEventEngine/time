@@ -24,8 +24,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.Immutable;
 import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
-import io.spine.validate.FieldValidatingOption;
-import io.spine.validate.ValidatingOptionFactory;
+import io.spine.validate.option.FieldValidatingOption;
+import io.spine.validate.option.ValidatingOptionFactory;
 
 import java.util.Set;
 
