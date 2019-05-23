@@ -20,12 +20,13 @@
 
 package io.spine.time.validate;
 
+import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.Immutable;
 import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
-import io.spine.validate.FieldValidatingOption;
-import io.spine.validate.ValidatingOptionFactory;
+import io.spine.validate.option.FieldValidatingOption;
+import io.spine.validate.option.ValidatingOptionFactory;
 
 import java.util.Set;
 
@@ -33,6 +34,7 @@ import java.util.Set;
  * An implementation of {@link ValidatingOptionFactory} which adds the {@link When} option for message
  * fields.
  */
+@AutoService(ValidatingOptionFactory.class)
 @Internal
 @Immutable
 public final class WhenFactory implements ValidatingOptionFactory {

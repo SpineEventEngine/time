@@ -116,8 +116,8 @@ message LocalTime {
 message LocalDateTime {
     option (is).java_type = "io.spine.time.LocalDateTimeTemporal";
 
-    LocalDate date = 1 [(required) = true, (valid) = true];
-    LocalTime time = 2 [(valid) = true];
+    LocalDate date = 1 [(required) = true, (validate) = true];
+    LocalTime time = 2 [(validate) = true];
 }
 
 // A time-zone offset from UTC, such as `+02:00`.
@@ -131,7 +131,7 @@ message ZoneOffset {
 message OffsetTime {
 
     // The local time.
-    LocalTime time = 1 [(valid) = true];
+    LocalTime time = 1 [(validate) = true];
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -142,7 +142,7 @@ message OffsetDateTime {
     option (is).java_type = "io.spine.time.OffsetDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (valid) = true];
+    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -159,7 +159,7 @@ message ZonedDateTime {
     option (is).java_type = "io.spine.time.ZonedDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (valid) = true];
+    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
 
     // The time-zone.
     ZoneId zone = 2 [(required) = true];

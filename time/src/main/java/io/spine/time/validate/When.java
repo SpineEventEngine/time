@@ -24,9 +24,9 @@ import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.time.validation.TimeOption;
 import io.spine.time.validation.TimeOptionsProto;
-import io.spine.validate.Constraint;
-import io.spine.validate.FieldValidatingOption;
 import io.spine.validate.FieldValue;
+import io.spine.validate.option.Constraint;
+import io.spine.validate.option.FieldValidatingOption;
 
 /**
  * A validating option that specified the point in time which a {@link Timestamp} field value
