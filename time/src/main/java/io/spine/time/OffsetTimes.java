@@ -44,10 +44,10 @@ public final class OffsetTimes {
 
     private static OffsetTime create(LocalTime time, ZoneOffset zoneOffset) {
         OffsetTime result = OffsetTime
-                .vBuilder()
+                .newBuilder()
                 .setTime(time)
                 .setOffset(zoneOffset)
-                .build();
+                .vBuild();
         return result;
     }
 

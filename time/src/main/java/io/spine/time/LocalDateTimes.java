@@ -55,10 +55,10 @@ public final class LocalDateTimes {
 
     private static LocalDateTime create(LocalDate date, LocalTime time) {
         LocalDateTime result = LocalDateTime
-                .vBuilder()
+                .newBuilder()
                 .setDate(date)
                 .setTime(time)
-                .build();
+                .vBuild();
         return result;
     }
 

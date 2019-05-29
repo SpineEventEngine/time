@@ -69,11 +69,11 @@ public final class LocalDates {
         checkDate(year, month, day);
 
         LocalDate result = LocalDate
-                .vBuilder()
+                .newBuilder()
                 .setYear(year)
                 .setMonth(month)
                 .setDay(day)
-                .build();
+                .vBuild();
         return result;
     }
 
@@ -171,11 +171,11 @@ public final class LocalDates {
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
             LocalDate result = LocalDate
-                    .vBuilder()
+                    .newBuilder()
                     .setYear(date.getYear())
                     .setMonth(Months.of(date))
                     .setDay(date.getDayOfMonth())
-                    .build();
+                    .vBuild();
             return result;
         }
 
