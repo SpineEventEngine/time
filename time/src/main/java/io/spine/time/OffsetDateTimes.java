@@ -53,10 +53,10 @@ public final class OffsetDateTimes {
 
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
         OffsetDateTime result = OffsetDateTime
-                .vBuilder()
+                .newBuilder()
                 .setDateTime(LocalDateTimes.of(date, time))
                 .setOffset(offset)
-                .build();
+                .vBuild();
         return result;
     }
 

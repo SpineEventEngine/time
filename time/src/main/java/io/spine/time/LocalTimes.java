@@ -38,12 +38,12 @@ public final class LocalTimes {
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
         LocalTime result = LocalTime
-                .vBuilder()
+                .newBuilder()
                 .setHour(hours)
                 .setMinute(minutes)
                 .setSecond(seconds)
                 .setNano(nanos)
-                .build();
+                .vBuild();
         return result;
     }
 
@@ -126,12 +126,12 @@ public final class LocalTimes {
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
             LocalTime result = LocalTime
-                    .vBuilder()
+                    .newBuilder()
                     .setHour(value.getHour())
                     .setMinute(value.getMinute())
                     .setSecond(value.getSecond())
                     .setNano(value.getNano())
-                    .build();
+                    .vBuild();
             return result;
         }
 

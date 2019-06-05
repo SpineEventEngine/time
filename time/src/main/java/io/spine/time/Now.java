@@ -103,10 +103,10 @@ public final class Now {
     public YearMonth asYearMonth() {
         ZonedDateTime now = now();
         return YearMonth
-                .vBuilder()
+                .newBuilder()
                 .setYear(now.getYear())
                 .setMonth(Months.of(now.getMonth()))
-                .build();
+                .vBuild();
     }
 
     /**
@@ -147,10 +147,10 @@ public final class Now {
     public OffsetTime asOffsetTime() {
         ZonedDateTime now = now();
         return OffsetTime
-                .vBuilder()
+                .newBuilder()
                 .setOffset(ZoneOffsets.of(now.getOffset()))
                 .setTime(LocalTimes.of(now.toLocalTime()))
-                .build();
+                .vBuild();
     }
 
     /**

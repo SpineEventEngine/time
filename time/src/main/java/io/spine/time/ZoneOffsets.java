@@ -44,9 +44,9 @@ import static io.spine.util.Exceptions.unsupported;
 public final class ZoneOffsets {
 
     private static final ZoneOffset UTC = ZoneOffset
-            .vBuilder()
+            .newBuilder()
             .setAmountSeconds(0)
-            .build();
+            .vBuild();
 
     /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
@@ -160,9 +160,10 @@ public final class ZoneOffsets {
         if (offsetInSeconds == 0 && zoneId == null) {
             return utc();
         }
-        return ZoneOffset.vBuilder()
+
+        return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
-                         .build();
+                         .vBuild();
     }
 
     /**

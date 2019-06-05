@@ -42,10 +42,10 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         LocalDateChange result = LocalDateChange
-                .vBuilder()
+                .newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .build();
+                .vBuild();
         return result;
     }
 
@@ -59,10 +59,10 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         LocalTimeChange result = LocalTimeChange
-                .vBuilder()
+                .newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .build();
+                .vBuild();
         return result;
     }
 
@@ -76,10 +76,10 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         OffsetTimeChange result = OffsetTimeChange
-                .vBuilder()
+                .newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .build();
+                .vBuild();
         return result;
     }
 
@@ -93,10 +93,10 @@ public final class TimeChanges {
         checkNotEqual(previousValue, newValue);
 
         OffsetDateTimeChange result = OffsetDateTimeChange
-                .vBuilder()
+                .newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .build();
+                .vBuild();
         return result;
     }
 

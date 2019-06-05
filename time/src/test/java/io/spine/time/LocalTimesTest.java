@@ -225,11 +225,11 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
     @DisplayName("builds a midnight date")
     void buildMidnight() {
         LocalTime time = LocalTime
-                .vBuilder()
+                .newBuilder()
                 .setHour(0)
                 .setMinute(0)
                 .setSecond(0)
-                .build();
+                .vBuild();
         assertEquals(0, time.getHour());
         assertEquals(0, time.getMinute());
         assertEquals(0, time.getSecond());

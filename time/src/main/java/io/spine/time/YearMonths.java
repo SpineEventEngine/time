@@ -45,10 +45,10 @@ public final class YearMonths {
     private static YearMonth create(int year, int month) {
         Months.checkMonth(month);
         YearMonth result = YearMonth
-                .vBuilder()
+                .newBuilder()
                 .setYear(year)
                 .setMonth(Months.of(month))
-                .build();
+                .vBuild();
         return result;
     }
 

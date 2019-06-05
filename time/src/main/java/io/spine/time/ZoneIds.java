@@ -36,9 +36,9 @@ public final class ZoneIds {
 
     private static ZoneId create(String id) {
         ZoneId result = ZoneId
-                .vBuilder()
+                .newBuilder()
                 .setValue(id)
-                .build();
+                .vBuild();
         return result;
     }
 

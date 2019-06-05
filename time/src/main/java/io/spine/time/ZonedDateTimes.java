@@ -46,10 +46,10 @@ public final class ZonedDateTimes {
 
     private static ZonedDateTime create(LocalDateTime dateTime, ZoneId zone) {
         ZonedDateTime result = ZonedDateTime
-                .vBuilder()
+                .newBuilder()
                 .setDateTime(dateTime)
                 .setZone(zone)
-                .build();
+                .vBuild();
         return result;
     }
 
