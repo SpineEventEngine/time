@@ -1,6 +1,6 @@
 # Spine Time: Protobuf-based Date/Time types
 
-[![Build Status](https://travis-ci.org/SpineEventEngine/time.svg?branch=master)](https://travis-ci.org/SpineEventEngine/time)
+[![Build Status](https://travis-ci.com/SpineEventEngine/time.svg?branch=master)](https://travis-ci.com/SpineEventEngine/time)
 [![codecov](https://codecov.io/gh/SpineEventEngine/time/branch/master/graph/badge.svg)](https://codecov.io/gh/SpineEventEngine/time)
 [![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
