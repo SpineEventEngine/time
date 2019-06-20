@@ -141,7 +141,8 @@ subprojects {
 
         testRuntime deps.test.junit5Runner
     }
-
+    forceConfiguration(project)
+    
     sourceSets {
         main {
             proto.srcDirs = ["$sourcesRootDir/main/proto"]
