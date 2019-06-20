@@ -101,8 +101,8 @@ subprojects {
 
     apply from: deps.scripts.projectLicenseReport
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     // Specific setup for a Travis build,
     // which prevents appearing of warning messages in build logs.
@@ -141,6 +141,7 @@ subprojects {
 
         testRuntime deps.test.junit5Runner
     }
+    forceConfiguration(project)
 
     sourceSets {
         main {
