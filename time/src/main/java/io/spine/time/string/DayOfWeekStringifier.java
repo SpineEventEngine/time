@@ -20,19 +20,35 @@
 
 package io.spine.time.string;
 
-import io.spine.string.EnumStringifier;
+import io.spine.string.SerializableStringifier;
+import io.spine.string.Stringifier;
 import io.spine.time.DayOfWeek;
+
+import static io.spine.string.Stringifiers.newForEnum;
 
 /**
  * The default stringifier for {@link io.spine.time.DayOfWeek DayOfWeek} instances.
  */
-final class DayOfWeekStringifier extends EnumStringifier<DayOfWeek> {
+final class DayOfWeekStringifier extends SerializableStringifier<DayOfWeek> {
 
     private static final long serialVersionUID = 0L;
     private static final DayOfWeekStringifier INSTANCE = new DayOfWeekStringifier();
 
+    private final Stringifier<DayOfWeek> delegate = newForEnum(DayOfWeek.class);
+
     private DayOfWeekStringifier() {
-        super("TimeStringifiers.forDayOfWeek()", DayOfWeek.class);
+        super("TimeStringifiers.forDayOfWeek()");
+    }
+
+    @Override
+    protected String toString(DayOfWeek dayOfWeek) {
+        return delegate.convert(dayOfWeek);
+    }
+
+    @Override
+    protected DayOfWeek fromString(String s) {
+        return delegate.reverse()
+                       .convert(s);
     }
 
     static DayOfWeekStringifier instance() {

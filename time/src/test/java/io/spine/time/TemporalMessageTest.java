@@ -64,7 +64,7 @@ abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
     void toTimestamp() {
         T temporal = create();
         Timestamp timestamp = temporal.toTimestamp();
-        ProtoSubject<?, Message> assertTimestamp = assertThat(timestamp);
+        ProtoSubject assertTimestamp = assertThat(timestamp);
         assertTimestamp.isNotNull();
         assertTimestamp.isNotEqualToDefaultInstance();
     }
@@ -74,7 +74,7 @@ abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
     void toAny() {
         T temporal = create();
         Any any = temporal.toAny();
-        ProtoSubject<?, Message> assertAny = assertThat(any);
+        ProtoSubject assertAny = assertThat(any);
         assertAny.isNotNull();
         assertAny.isNotEqualToDefaultInstance();
 
