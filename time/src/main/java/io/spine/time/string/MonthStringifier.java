@@ -20,20 +20,36 @@
 
 package io.spine.time.string;
 
-import io.spine.string.EnumStringifier;
+import io.spine.string.SerializableStringifier;
+import io.spine.string.Stringifier;
 import io.spine.time.Month;
+
+import static io.spine.string.Stringifiers.newForEnum;
 
 /**
  * The default stringifier for {@link io.spine.time.Month Month} instances.
  */
-final class MonthStringifier extends EnumStringifier<Month> {
+final class MonthStringifier extends SerializableStringifier<Month> {
 
     private static final long serialVersionUID = 0L;
 
     private static final MonthStringifier INSTANCE = new MonthStringifier();
 
+    private final Stringifier<Month> delegate = newForEnum(Month.class);
+
     private MonthStringifier() {
-        super("TimeStringifiers.forMonth()", Month.class);
+        super("TimeStringifiers.forMonth()");
+    }
+
+    @Override
+    protected String toString(Month month) {
+        return delegate.convert(month);
+    }
+
+    @Override
+    protected Month fromString(String s) {
+        return delegate.reverse()
+                       .convert(s);
     }
 
     static MonthStringifier instance() {
