@@ -55,7 +55,6 @@ allprojects {
     apply plugin: 'project-report'
 
     group = 'io.spine'
-    
     version = versionToPublish
 }
 
@@ -129,10 +128,6 @@ subprojects {
 
         implementation deps.build.guava
         implementation deps.build.jsr305Annotations
-
-        // As a Library, we provide logging facade API, not specific logger bindings.
-        // Target apps are free to use any binding they need.
-        implementation deps.build.slf4j
 
         testCompile deps.test.junit5Api
         testCompile deps.test.hamcrest
@@ -237,7 +232,6 @@ subprojects {
     }
 
     apply from: deps.scripts.pmd
-
     apply from: deps.scripts.checkstyle
 }
 
@@ -259,9 +253,6 @@ idea {
 
 // Aggregated coverage report across all subprojects.
 apply from: deps.scripts.jacoco
-
 apply from: deps.scripts.publish
-
 apply from: deps.scripts.repoLicenseReport
-
 apply from: deps.scripts.generatePom

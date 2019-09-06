@@ -60,10 +60,6 @@
      * **POM License: MIT license** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.slf4j **Name:** slf4j-api **Version:** 1.7.26
-     * **POM Project URL:** [http://www.slf4j.org](http://www.slf4j.org)
-     * **POM License: MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
-
 ## Compile, tests and tooling
 1. **Group:** antlr **Name:** antlr **Version:** 2.7.7
      * **POM Project URL:** [http://www.antlr.org/](http://www.antlr.org/)
@@ -399,16 +395,12 @@
      * **POM Project URL:** [http://pcollections.org](http://pcollections.org)
      * **POM License: The MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
-1. **Group:** org.slf4j **Name:** slf4j-api **Version:** 1.7.26
-     * **POM Project URL:** [http://www.slf4j.org](http://www.slf4j.org)
-     * **POM License: MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
-
     
         
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Sep 05 17:24:02 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Sep 06 21:29:31 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
@@ -472,10 +464,6 @@ This report was generated on **Thu Sep 05 17:24:02 EEST 2019** using [Gradle-Lic
 1. **Group:** org.codehaus.mojo **Name:** animal-sniffer-annotations **Version:** 1.18
      * **POM License: MIT license** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
-
-1. **Group:** org.slf4j **Name:** slf4j-api **Version:** 1.7.26
-     * **POM Project URL:** [http://www.slf4j.org](http://www.slf4j.org)
-     * **POM License: MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
 ## Compile, tests and tooling
 1. **Group:** antlr **Name:** antlr **Version:** 2.7.7
@@ -906,4 +894,4 @@ This report was generated on **Thu Sep 05 17:24:02 EEST 2019** using [Gradle-Lic
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Sep 05 17:24:03 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Sep 06 21:29:32 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
