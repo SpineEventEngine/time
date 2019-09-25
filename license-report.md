@@ -1,6 +1,6 @@
 
     
-# Dependencies of `io.spine:spine-testutil-time:1.1.0`
+# Dependencies of `io.spine:spine-testutil-time:1.1.2`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -400,12 +400,12 @@
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Tue Sep 10 12:57:44 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Wed Sep 25 14:33:07 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
     
-# Dependencies of `io.spine:spine-time:1.1.0`
+# Dependencies of `io.spine:spine-time:1.1.2`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -876,14 +876,6 @@ This report was generated on **Tue Sep 10 12:57:44 EEST 2019** using [Gradle-Lic
      * **POM Project URL:** [http://pcollections.org](http://pcollections.org)
      * **POM License: The MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
-1. **Group:** org.slf4j **Name:** slf4j-api **Version:** 1.7.26
-     * **POM Project URL:** [http://www.slf4j.org](http://www.slf4j.org)
-     * **POM License: MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
-
-1. **Group:** org.slf4j **Name:** slf4j-jdk14 **Version:** 1.7.26
-     * **POM Project URL:** [http://www.slf4j.org](http://www.slf4j.org)
-     * **POM License: MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
-
 1. **Group:** org.sonatype.sisu **Name:** sisu-guice **Version:** 3.1.0
      * **Manifest Project URL:** [http://code.google.com/p/google-guice/](http://code.google.com/p/google-guice/)
      * **Manifest license URL:** [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -894,4 +886,4 @@ This report was generated on **Tue Sep 10 12:57:44 EEST 2019** using [Gradle-Lic
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Tue Sep 10 12:57:46 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Wed Sep 25 14:33:17 EEST 2019** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).

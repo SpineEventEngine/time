@@ -37,5 +37,4 @@ dependencies {
 
     testImplementation "io.spine:spine-testlib:$spineBaseVersion"
     testImplementation project(path: ':testutil-time')
-    testRuntimeOnly deps.test.slf4j
 }
