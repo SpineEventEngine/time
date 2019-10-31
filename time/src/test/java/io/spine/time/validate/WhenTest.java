@@ -172,8 +172,7 @@ class WhenTest {
     }
 
     private void validate(Message msg) {
-        MessageValidator validator = MessageValidator.newInstance(msg);
-        violations = validator.validate();
+        violations = MessageValidator.validate(msg);
     }
 
     private ConstraintViolation firstViolation() {

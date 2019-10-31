@@ -38,7 +38,7 @@ import static io.spine.base.Time.systemTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.seconds;
-import static io.spine.validate.Validate.checkPositive;
+import static io.spine.util.Preconditions2.checkPositive;
 
 /**
  * Utility class for working with time-related tests.
