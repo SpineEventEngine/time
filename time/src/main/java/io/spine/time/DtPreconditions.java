@@ -21,11 +21,10 @@
 package io.spine.time;
 
 import com.google.protobuf.Message;
-import io.spine.validate.Validate;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
+import static io.spine.util.Preconditions2.checkNotDefaultArg;
 
 /**
  * Precondition routines specific to date/time.
@@ -64,10 +63,9 @@ final class DtPreconditions {
      * Ensures that the passed message is neither {@code null} nor default.
      */
     static void checkNotDefault(Message dateTimeValue) {
-        checkNotNull(dateTimeValue);
-        checkArgument(Validate.isNotDefault(dateTimeValue),
-                      "Date-time value of class %s cannot have a default value",
-                      dateTimeValue.getClass()
-                                   .getName());
+        checkNotDefaultArg(dateTimeValue,
+                           "Date-time value of class `%s` cannot have a default value.",
+                           dateTimeValue.getClass()
+                                        .getName());
     }
 }

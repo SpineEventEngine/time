@@ -21,12 +21,12 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
-import io.spine.validate.Validate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.currentTimeZone;
+import static io.spine.protobuf.Messages.isNotDefault;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
@@ -68,7 +68,7 @@ class ZonedDateTimesTest
             LocalDateTime ldt = now.getDateTime();
             assertDatesEqual(jt.toLocalDate(), ldt.getDate());
 
-            assertTrue(Validate.isNotDefault(ldt.getTime()));
+            assertTrue(isNotDefault(ldt.getTime()));
         }
 
         @Test
