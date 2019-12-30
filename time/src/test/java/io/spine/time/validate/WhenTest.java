@@ -21,11 +21,10 @@
 package io.spine.time.validate;
 
 import com.google.protobuf.Duration;
-import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
+import io.spine.protobuf.MessageWithConstraints;
 import io.spine.validate.ConstraintViolation;
-import io.spine.validate.MessageValidator;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +39,6 @@ import static io.spine.time.validate.given.WhenTestEnv.freezeTime;
 import static io.spine.time.validate.given.WhenTestEnv.future;
 import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -168,23 +166,23 @@ class WhenTest {
                 .newBuilder()
                 .setDuration(Duration.getDefaultInstance())
                 .build();
-        assertThrows(IllegalArgumentException.class, () -> validate(failingMessage));
+        assertThrows(IllegalArgumentException.class, () -> failingMessage.validate());
     }
 
-    private void validate(Message msg) {
-        violations = MessageValidator.validate(msg);
+    private void validate(MessageWithConstraints msg) {
+        violations = msg.validate();
     }
 
     private ConstraintViolation firstViolation() {
         return violations.get(0);
     }
 
-    private void assertValid(Message msg) {
+    private void assertValid(MessageWithConstraints msg) {
         validate(msg);
         assertIsValid(true);
     }
 
-    private void assertNotValid(Message msg) {
+    private void assertNotValid(MessageWithConstraints msg) {
         validate(msg);
         assertIsValid(false);
     }
@@ -218,7 +216,7 @@ class WhenTest {
         }
     }
 
-    private void assertSingleViolation(Message message, String expectedErrMsg) {
+    private void assertSingleViolation(MessageWithConstraints message, String expectedErrMsg) {
         assertNotValid(message);
         assertNotNull(violations);
         assertEquals(1, violations.size());

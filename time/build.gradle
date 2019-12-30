@@ -38,3 +38,7 @@ dependencies {
     testImplementation "io.spine:spine-testlib:$spineBaseVersion"
     testImplementation project(path: ':testutil-time')
 }
+
+modelCompiler {
+    generateValidation = true
+}
