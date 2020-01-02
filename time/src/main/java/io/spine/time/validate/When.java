@@ -20,19 +20,18 @@
 
 package io.spine.time.validate;
 
-import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
+import io.spine.code.proto.FieldContext;
 import io.spine.time.validation.TimeOption;
 import io.spine.time.validation.TimeOptionsProto;
-import io.spine.validate.FieldValue;
-import io.spine.validate.option.Constraint;
+import io.spine.validate.Constraint;
 import io.spine.validate.option.FieldValidatingOption;
 
 /**
  * A validating option that specified the point in time which a {@link Timestamp} field value
  * has.
  */
-final class When extends FieldValidatingOption<TimeOption, Message> {
+final class When extends FieldValidatingOption<TimeOption> {
 
     private When() {
         super(TimeOptionsProto.when);
@@ -44,7 +43,8 @@ final class When extends FieldValidatingOption<TimeOption, Message> {
     }
 
     @Override
-    public Constraint<FieldValue<Message>> constraintFor(FieldValue<Message> value) {
-        return new WhenConstraint(optionValue(value));
+    public Constraint constraintFor(FieldContext fieldValue) {
+        return new WhenConstraint(this.optionValue(fieldValue), fieldValue.targetDeclaration());
     }
+
 }

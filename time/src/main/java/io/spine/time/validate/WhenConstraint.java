@@ -24,44 +24,62 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.base.FieldPath;
+import io.spine.code.proto.FieldContext;
+import io.spine.code.proto.FieldDeclaration;
 import io.spine.time.Temporal;
 import io.spine.time.Temporals;
 import io.spine.time.validation.Time;
 import io.spine.time.validation.TimeOption;
+import io.spine.validate.ConstraintTranslator;
 import io.spine.validate.ConstraintViolation;
+import io.spine.validate.CustomConstraint;
 import io.spine.validate.FieldValue;
-import io.spine.validate.option.FieldValueConstraint;
+import io.spine.validate.MessageValue;
+import io.spine.validate.diags.ViolationText;
+import io.spine.validate.option.FieldConstraint;
 
 import static io.spine.time.validation.Time.FUTURE;
 import static io.spine.time.validation.Time.TIME_UNDEFINED;
-import static io.spine.validate.FieldValidator.errorMsgFormat;
 
 /**
  * A constraint that, when applied to a {@link Timestamp} field value, checks for whether the
  * actual value is in the future or in the past, defined by the value of the field option.
  */
-final class WhenConstraint extends FieldValueConstraint<Message, TimeOption> {
+final class WhenConstraint extends FieldConstraint<TimeOption> implements CustomConstraint {
 
-    WhenConstraint(TimeOption optionValue) {
-        super(optionValue);
+    WhenConstraint(TimeOption optionValue, FieldDeclaration field) {
+        super(optionValue, field);
     }
 
     @Override
-    public ImmutableList<ConstraintViolation> check(FieldValue<Message> fieldValue) {
+    public String errorMessage(FieldContext context) {
+        TimeOption option = optionValue();
+        return ViolationText.errorMessage(option, option.getMsgFormat());
+    }
+
+    @Override
+    public void accept(ConstraintTranslator<?> translator) {
+        translator.visitCustom(this);
+    }
+
+    @Override
+    public ImmutableList<ConstraintViolation> validate(MessageValue value) {
         Time when = optionValue().getIn();
         if (when == TIME_UNDEFINED) {
             return ImmutableList.of();
         }
+        FieldValue actualValue = value.valueOf(field());
+
         ImmutableList<ConstraintViolation> violations =
-                fieldValue.asList()
-                          .stream()
-                          .map(Temporals::from)
-                          .filter(temporalValue -> isTimeInvalid(temporalValue, when))
-                          .findFirst()
-                          .map(invalidValue -> ImmutableList.of(
-                                  newTimeViolation(fieldValue, invalidValue)
-                          ))
-                          .orElse(ImmutableList.of());
+                actualValue.values()
+                           .map(m -> (Message)m )
+                           .map(Temporals::from)
+                           .filter(temporalValue -> isTimeInvalid(temporalValue, when))
+                           .findFirst()
+                           .map(invalidValue -> ImmutableList.of(
+                                   newTimeViolation(actualValue, invalidValue)
+                           ))
+                           .orElse(ImmutableList.of());
         return violations;
     }
 
@@ -82,8 +100,8 @@ final class WhenConstraint extends FieldValueConstraint<Message, TimeOption> {
         return !valid;
     }
 
-    private ConstraintViolation newTimeViolation(FieldValue<?> fieldValue, Temporal<?> value) {
-        String msg = errorMsgFormat(optionValue(), optionValue().getMsgFormat());
+    private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
+        String msg = errorMessage(fieldValue.context());
         String when = optionValue().getIn()
                                    .toString()
                                    .toLowerCase();
