@@ -39,6 +39,7 @@ import static io.spine.time.validate.given.WhenTestEnv.freezeTime;
 import static io.spine.time.validate.given.WhenTestEnv.future;
 import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -166,7 +167,7 @@ class WhenTest {
                 .newBuilder()
                 .setDuration(Duration.getDefaultInstance())
                 .build();
-        assertThrows(IllegalArgumentException.class, () -> failingMessage.validate());
+        assertThrows(IllegalArgumentException.class, failingMessage::validate);
     }
 
     private void validate(MessageWithConstraints msg) {
