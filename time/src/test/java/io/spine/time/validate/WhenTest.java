@@ -25,7 +25,7 @@ import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 import io.spine.validate.ConstraintViolation;
-import io.spine.validate.Validate;
+import io.spine.validate.MessageValidator;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -172,7 +172,7 @@ class WhenTest {
     }
 
     private void validate(Message msg) {
-        violations = Validate.violationsOf(msg);
+        violations = MessageValidator.validate(msg);
     }
 
     private ConstraintViolation firstViolation() {

@@ -21,6 +21,7 @@
 package io.spine.time.validate;
 
 import com.google.common.collect.Iterables;
+import com.google.protobuf.Message;
 import io.spine.validate.option.FieldValidatingOption;
 import io.spine.validate.option.ValidatingOptionFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -56,9 +57,9 @@ class WhenFactoryTest {
     @DisplayName("declare (when) option")
     void declareWhen() {
         ValidatingOptionFactory factory = new WhenFactory();
-        Set<FieldValidatingOption<?>> messageOptions = factory.forMessage();
+        Set<FieldValidatingOption<?, Message>> messageOptions = factory.forMessage();
         assertThat(messageOptions).hasSize(1);
-        FieldValidatingOption<?> option = Iterables.getOnlyElement(messageOptions);
+        FieldValidatingOption<?, Message> option = Iterables.getOnlyElement(messageOptions);
         assertThat(option).isInstanceOf(When.class);
     }
 }

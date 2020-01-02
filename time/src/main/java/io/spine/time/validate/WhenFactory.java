@@ -23,6 +23,7 @@ package io.spine.time.validate;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.Immutable;
+import com.google.protobuf.Message;
 import io.spine.annotation.Internal;
 import io.spine.validate.option.FieldValidatingOption;
 import io.spine.validate.option.ValidatingOptionFactory;
@@ -38,11 +39,11 @@ import java.util.Set;
 @Immutable
 public final class WhenFactory implements ValidatingOptionFactory {
 
-    private static final ImmutableSet<FieldValidatingOption<?>> TYPE_OPTIONS =
+    private static final ImmutableSet<FieldValidatingOption<?, Message>> TYPE_OPTIONS =
             ImmutableSet.of(When.create());
 
     @Override
-    public Set<FieldValidatingOption<?>> forMessage() {
+    public Set<FieldValidatingOption<?, Message>> forMessage() {
         return TYPE_OPTIONS;
     }
 }
