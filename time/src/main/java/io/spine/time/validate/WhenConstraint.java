@@ -73,7 +73,7 @@ final class WhenConstraint
 
     @Override
     public String errorMessage(FieldContext context) {
-        return "";
+        return ViolationText.errorMessage(optionValue(), optionValue().getMsgFormat());
     }
 
     /**
@@ -94,7 +94,7 @@ final class WhenConstraint
     }
 
     private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
-        String msg = ViolationText.errorMessage(optionValue(), optionValue().getMsgFormat());
+        String msg = errorMessage(fieldValue.context());
         String when = optionValue().getIn()
                                    .toString()
                                    .toLowerCase();
