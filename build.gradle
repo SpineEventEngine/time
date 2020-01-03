@@ -49,7 +49,7 @@ ext {
 }
 
 allprojects {
-    apply plugin: 'maven'
+    apply plugin: 'base'
     apply plugin: 'jacoco'
     apply plugin: 'idea'
     apply plugin: 'project-report'
