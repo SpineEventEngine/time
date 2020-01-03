@@ -17,9 +17,8 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-dependencies {
-    // Depend on the `time` module which contains types and utility classes.
-    compile project(path: ':time')
 
-    testCompile group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
+dependencies {
+    api project(path: ':time')
+    testImplementation group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
 }
