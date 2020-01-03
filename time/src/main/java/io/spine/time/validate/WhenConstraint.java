@@ -44,9 +44,7 @@ import static io.spine.time.validation.Time.TIME_UNDEFINED;
  * A constraint that, when applied to a {@link Timestamp} field value, checks for whether the
  * actual value is in the future or in the past, defined by the value of the field option.
  */
-final class WhenConstraint
-        extends FieldConstraint<TimeOption>
-        implements CustomConstraint {
+final class WhenConstraint extends FieldConstraint<TimeOption> implements CustomConstraint {
 
     WhenConstraint(TimeOption optionValue, FieldDeclaration field) {
         super(optionValue, field);
