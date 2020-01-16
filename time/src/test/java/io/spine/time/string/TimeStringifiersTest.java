@@ -1,5 +1,5 @@
 /*
- * Copyright 2020, TeamDev. All rights reserved.
+ * Copyright 2019, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -39,6 +39,7 @@ import static io.spine.time.string.TimeStringifiers.forLocalTime;
 import static io.spine.time.string.TimeStringifiers.forOffsetDateTime;
 import static io.spine.time.string.TimeStringifiers.forOffsetTime;
 import static io.spine.time.string.TimeStringifiers.forZoneOffset;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("TimeStringifiers should")
 class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
