@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, TeamDev. All rights reserved.
+ * Copyright 2020, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -35,7 +35,6 @@ import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DisplayName("TimeTests should")

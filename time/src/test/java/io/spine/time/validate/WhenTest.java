@@ -1,5 +1,5 @@
 /*
- * Copyright 2019, TeamDev. All rights reserved.
+ * Copyright 2020, TeamDev. All rights reserved.
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -39,7 +39,6 @@ import static io.spine.time.validate.given.WhenTestEnv.freezeTime;
 import static io.spine.time.validate.given.WhenTestEnv.future;
 import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
