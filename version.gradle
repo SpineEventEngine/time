@@ -20,7 +20,7 @@
 
 ext {
     // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '1.4.1'
+    spineBaseVersion = '1.4.7'
 
     // Publish this library with the same version number as Base.
     versionToPublish = spineBaseVersion
