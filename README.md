@@ -11,7 +11,7 @@ The types provided by this library follow the conventions offered by [Java Time]
 
 ## Supported Languages
 
-Currently the library supports only Java, with JavaScript and C++ being on the priority list.
+Currently the library supports only Java, with JavaScript and Dart being on the priority list.
 
  
 ## Using Spine Time in a Java Project
