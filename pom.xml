@@ -12,7 +12,7 @@ all modules and does not describe the project structure per-subproject.
 
 <groupId>io.spine</groupId>
 <artifactId>spine-time</artifactId>
-<version>1.4.7</version>
+<version>1.5.0</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -52,7 +52,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -64,7 +64,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-testlib</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -131,7 +131,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>com.puppycrawl.tools</groupId>
     <artifactId>checkstyle</artifactId>
-    <version>8.28</version>
+    <version>8.29</version>
   </dependency>
   <dependency>
     <groupId>io.grpc</groupId>
@@ -141,17 +141,17 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-errorprone-checks</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-javadoc-filter</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-protoc-plugin</artifactId>
-    <version>1.4.7</version>
+    <version>1.5.0</version>
   </dependency>
   <dependency>
     <groupId>net.sourceforge.pmd</groupId>

@@ -1,6 +1,6 @@
 
     
-# Dependencies of `io.spine:spine-testutil-time:1.4.7`
+# Dependencies of `io.spine:spine-testutil-time:1.5.0`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -168,7 +168,7 @@
      * **POM Project URL:** [http://code.google.com/p/java-diff-utils/](http://code.google.com/p/java-diff-utils/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.28
+1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.29
      * **POM Project URL:** [https://checkstyle.org/](https://checkstyle.org/)
      * **POM License: LGPL-2.1+** - [http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt](http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
 
@@ -249,7 +249,7 @@
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
-1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7.2
+1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.8-1
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
@@ -393,12 +393,12 @@
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Fri Feb 21 17:44:21 EET 2020** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Sat Mar 07 22:17:34 EET 2020** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
     
-# Dependencies of `io.spine:spine-time:1.4.7`
+# Dependencies of `io.spine:spine-time:1.5.0`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -582,7 +582,7 @@ This report was generated on **Fri Feb 21 17:44:21 EET 2020** using [Gradle-Lice
      * **POM Project URL:** [http://code.google.com/p/java-diff-utils/](http://code.google.com/p/java-diff-utils/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.28
+1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.29
      * **POM Project URL:** [https://checkstyle.org/](https://checkstyle.org/)
      * **POM License: LGPL-2.1+** - [http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt](http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt)
 
@@ -679,7 +679,7 @@ This report was generated on **Fri Feb 21 17:44:21 EET 2020** using [Gradle-Lice
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
-1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7.2
+1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.8-1
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
@@ -823,4 +823,4 @@ This report was generated on **Fri Feb 21 17:44:21 EET 2020** using [Gradle-Lice
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Fri Feb 21 17:44:26 EET 2020** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Sat Mar 07 22:17:39 EET 2020** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
