@@ -28,6 +28,7 @@ import io.spine.type.TypeName;
 import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.util.Exceptions.newIllegalArgumentException;
 import static java.lang.String.format;
 
 /**
@@ -62,9 +63,10 @@ public final class Temporals {
             Timestamp timestampValue = (Timestamp) value;
             return TimestampTemporal.from(timestampValue);
         } else {
-            String msg = format("The type `%s` cannot represent a point in time.",
-                                TypeName.of(value));
-            throw new IllegalArgumentException(msg);
+            throw newIllegalArgumentException(
+                    "The type `%s` cannot represent a point in time.",
+                    TypeName.of(value)
+            );
         }
     }
 
