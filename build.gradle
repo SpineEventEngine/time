@@ -126,13 +126,15 @@ subprojects {
 
         api deps.build.protobuf
 
-        implementation deps.build.guava
-        implementation deps.build.jsr305Annotations
+        implementation(
+                deps.build.guava,
+                deps.build.jsr305Annotations
+        )
 
-        testImplementation deps.test.junit5Api
-        testImplementation deps.test.hamcrest
-        testImplementation deps.test.mockito
-        testImplementation deps.test.guavaTestlib
+        testImplementation(
+                deps.test.junit5Api,
+                deps.test.guavaTestlib
+        )
 
         testRuntimeOnly deps.test.junit5Runner
     }
@@ -141,19 +143,27 @@ subprojects {
     sourceSets {
         main {
             proto.srcDirs = ["$sourcesRootDir/main/proto"]
-            java.srcDirs = [generatedJavaDir,
-                            "$sourcesRootDir/main/java",
-                            generatedSpineDir]
-            resources.srcDirs = ["$sourcesRootDir/main/resources",
-                                 "$generatedRootDir/main/resources"]
+            java.srcDirs = [
+                    generatedJavaDir,
+                    generatedSpineDir,
+                    "$sourcesRootDir/main/java"
+            ]
+            resources.srcDirs = [
+                    "$generatedRootDir/main/resources",
+                    "$sourcesRootDir/main/resources"
+            ]
         }
         test {
             proto.srcDirs = ["$sourcesRootDir/test/proto"]
-            java.srcDirs = [generatedTestJavaDir,
-                            "$sourcesRootDir/test/java",
-                            generatedTestSpineDir]
-            resources.srcDirs = ["$sourcesRootDir/test/resources",
-                                 "$generatedRootDir/test/resources"]
+            java.srcDirs = [
+                    generatedTestJavaDir,
+                    generatedTestSpineDir,
+                    "$sourcesRootDir/test/java"
+            ]
+            resources.srcDirs = [
+                    "$generatedRootDir/test/resources",
+                    "$sourcesRootDir/test/resources"
+            ]
         }
     }
 

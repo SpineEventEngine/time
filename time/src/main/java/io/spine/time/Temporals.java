@@ -56,15 +56,15 @@ public final class Temporals {
     @SuppressWarnings("ChainOfInstanceofChecks") // Creating an abstraction over all the time types.
     public static Temporal<?> from(Message value) {
         checkNotNull(value);
-
         if (value instanceof Temporal) {
             return (Temporal<?>) value;
         } else if (value instanceof Timestamp) {
             Timestamp timestampValue = (Timestamp) value;
             return TimestampTemporal.from(timestampValue);
         } else {
-            throw new IllegalArgumentException(format("Type `%s` cannot represent a point in time.",
-                                                      TypeName.of(value)));
+            String msg = format("The type `%s` cannot represent a point in time.",
+                                TypeName.of(value));
+            throw new IllegalArgumentException(msg);
         }
     }
 
