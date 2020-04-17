@@ -29,7 +29,6 @@ import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
-import static java.lang.String.format;
 
 /**
  * A factory of {@link Temporal} instances.
