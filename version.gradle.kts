@@ -18,8 +18,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = 'spine-time'
+val spineBaseVersion: String by extra("1.5.12")
 
-include 'time'
-include 'testutil-time'
-
+extra["versionToPublish"] = "1.5.9"

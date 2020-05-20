@@ -18,10 +18,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-ext {
-    // The version of the Spine Base module to be used in this project.
-    spineBaseVersion = '1.5.8'
+rootProject.name = "spine-time"
 
-    // Publish this library with the same version number as Base.
-    versionToPublish = spineBaseVersion
-}
+include("time")
+include("testutil-time")
+
