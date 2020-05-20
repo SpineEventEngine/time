@@ -18,13 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import com.google.protobuf.gradle.ExecutableLocator
 import com.google.protobuf.gradle.ProtobufConfigurator.JavaGenerateProtoTaskCollection
 import com.google.protobuf.gradle.builtins
 import groovy.lang.Closure
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
-import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
@@ -34,16 +32,7 @@ buildscript {
     resolution.defaultRepositories(repositories)
 
     val spineBaseVersion: String by extra
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    val deps = io.spine.gradle.internal.Deps
     dependencies {
-        classpath(deps.build.guava)
-        classpath(deps.build.gradlePlugins.protobuf) {
-            exclude(group = "com.google.guava")
-        }
-        classpath(deps.build.gradlePlugins.errorProne) {
-            exclude(group = "com.google.guava")
-        }
         classpath("io.spine.tools:spine-model-compiler:$spineBaseVersion")
     }
 
@@ -74,18 +63,6 @@ allprojects {
 }
 
 subprojects {
-
-    buildscript {
-        DependencyResolution.defaultRepositories(repositories)
-        dependencies {
-            classpath(Deps.build.guava)
-            classpath(Deps.build.gradlePlugins.protobuf) {
-                exclude(group = "com.google.guava")
-            }
-        }
-
-        DependencyResolution.forceConfiguration(configurations)
-    }
 
     apply {
         plugin("java-library")
@@ -176,13 +153,6 @@ subprojects {
     }
 
     protobuf {
-        protobuf.generatedFilesBaseDir = generatedRootDir
-        protobuf.protoc(object : Closure<Any>(this) {
-            private fun doCall(protoc: ExecutableLocator) {
-                protoc.artifact = Deps.build.protoc
-            }
-        })
-
         protobuf.generateProtoTasks(object : Closure<Any>(this) {
             private fun doCall(tasks: JavaGenerateProtoTaskCollection) {
                 tasks.all().forEach { task ->
