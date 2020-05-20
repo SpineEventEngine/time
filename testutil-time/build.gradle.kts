@@ -18,7 +18,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+plugins {
+    `java-library`
+}
+
+val spineBaseVersion: String by extra
 dependencies {
-    api project(path: ':time')
-    testImplementation group: 'io.spine', name: 'spine-testlib', version: spineBaseVersion
+    api(project(":time"))
+    testImplementation("io.spine:spine-testlib:$spineBaseVersion")
 }

@@ -18,25 +18,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-configurations {
-    // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
-    runtime.exclude group: "com.google.protobuf", module: "protobuf-lite"
-    testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
+import io.spine.gradle.internal.DependencyResolution
+import io.spine.gradle.internal.Deps
+
+plugins {
+    `java-library`
+    id("io.spine.tools.spine-model-compiler")
 }
 
-apply plugin: "io.spine.tools.spine-model-compiler"
-apply from: deps.scripts.testArtifacts
-apply from: deps.scripts.modelCompiler
+DependencyResolution.excludeProtobufLite(configurations)
 
+apply {
+    from(Deps.scripts.testArtifacts(project))
+    from(Deps.scripts.modelCompiler(project))
+}
+
+val spineBaseVersion: String by extra
 dependencies {
-    api deps.build.guava
-    api "io.spine:spine-base:$spineBaseVersion"
-    
-    annotationProcessor deps.build.autoService.processor
-    compileOnly deps.build.autoService.annotations
-
-    testImplementation "io.spine:spine-testlib:$spineBaseVersion"
-    testImplementation project(path: ':testutil-time')
+    api(Deps.build.guava)
+    api("io.spine:spine-base:$spineBaseVersion")
+    annotationProcessor(Deps.build.autoService.processor)
+    compileOnly(Deps.build.autoService.annotations)
+    testImplementation("io.spine:spine-testlib:$spineBaseVersion")
+    testImplementation(project(":testutil-time"))
 }
 
 modelCompiler {
