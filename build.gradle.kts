@@ -206,5 +206,3 @@ subprojects {
         from(Deps.scripts.checkstyle(project))
     }
 }
-
-
