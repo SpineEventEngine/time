@@ -18,11 +18,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import com.google.protobuf.gradle.ProtobufConfigurator.JavaGenerateProtoTaskCollection
-import com.google.protobuf.gradle.builtins
-import groovy.lang.Closure
+import com.google.protobuf.gradle.*
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
+import io.spine.gradle.internal.PublishingRepos
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
@@ -54,12 +53,15 @@ extra["projectsToPublish"] = listOf(
         "time",
         "testutil-time"
 )
+extra["publishToRepository"] = PublishingRepos.cloudRepo
 
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
 
     group = "io.spine"
     version = extra["versionToPublish"]!!
+
+    apply(from = "$rootDir/config/gradle/dependencies.gradle")
 }
 
 subprojects {
@@ -72,7 +74,6 @@ subprojects {
         plugin("com.google.protobuf")
         plugin("maven-publish")
         plugin("idea")
-        from("$rootDir/config/gradle/dependencies.gradle")
         from(Deps.scripts.projectLicenseReport(project))
     }
 
@@ -153,15 +154,19 @@ subprojects {
     }
 
     protobuf {
-        protobuf.generateProtoTasks(object : Closure<Any>(this) {
-            private fun doCall(tasks: JavaGenerateProtoTaskCollection) {
-                tasks.all().forEach { task ->
-                    task.builtins {
-                        maybeCreate("js").option("library=spine-time-${project.version}")
+        generatedFilesBaseDir = generatedRootDir
+        protoc {
+            artifact = Deps.build.protoc
+        }
+        generateProtoTasks {
+            all().forEach { task ->
+                task.builtins {
+                    id("js") {
+                        option("library=spine-time-${project.version}")
                     }
                 }
             }
-        })
+        }
     }
 
     apply {
@@ -205,4 +210,11 @@ subprojects {
         from(Deps.scripts.pmd(project))
         from(Deps.scripts.checkstyle(project))
     }
+}
+
+apply {
+    from(Deps.scripts.jacoco(project))
+    from(Deps.scripts.publish(project))
+    from(Deps.scripts.repoLicenseReport(project))
+    from(Deps.scripts.generatePom(project))
 }
