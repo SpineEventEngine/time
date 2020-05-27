@@ -20,4 +20,4 @@
 
 val spineBaseVersion: String by extra("1.5.12")
 
-extra["versionToPublish"] = "1.5.9"
+extra["versionToPublish"] = spineBaseVersion
