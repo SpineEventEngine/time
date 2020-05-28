@@ -18,27 +18,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-configurations {
-    // Avoid collisions of Java classes defined both in `protobuf-lite` and `protobuf-java`
-    runtime.exclude group: "com.google.protobuf", module: "protobuf-lite"
-    testRuntime.exclude group: "com.google.protobuf", module: "protobuf-lite"
+plugins {
+    // Use Kotlin for `buildSrc`.
+    // https://kotlinlang.org/docs/reference/using-gradle.html#targeting-the-jvm
+    kotlin("jvm").version("1.3.72")
 }
 
-apply plugin: spineProtobufPluginId
-apply from: deps.scripts.testArtifacts
-apply from: deps.scripts.modelCompiler
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+val jacksonVersion = "2.11.0"
 
 dependencies {
-    api deps.build.guava
-    api "io.spine:spine-base:$spineBaseVersion"
-    
-    annotationProcessor deps.build.autoService.processor
-    compileOnly deps.build.autoService.annotations
-
-    testImplementation "io.spine:spine-testlib:$spineBaseVersion"
-    testImplementation project(path: ':testutil-time')
-}
-
-modelCompiler {
-    generateValidation = true
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
 }
