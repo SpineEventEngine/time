@@ -18,6 +18,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-val spineBaseVersion: String by extra("1.5.15")
+val spineBaseVersion: String by extra("1.5.18")
 
 extra["versionToPublish"] = spineBaseVersion
