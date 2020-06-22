@@ -30,7 +30,6 @@ option java_outer_classname = "TimeProto";
 option java_package = "io.spine.time";
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/duration.proto";
 
 // Enum representing the 12 months of the year.
 enum Month {
@@ -84,7 +83,7 @@ enum DayOfWeek {
 message LocalDate {
     option (is).java_type = "io.spine.time.LocalDateTemporal";
 
-    // A year with `1` being year 1 CE and `-1` being 1 BC. 
+    // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
 
     // One of 12 Gregorian calendar months specified by `Month`.
