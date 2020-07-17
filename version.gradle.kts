@@ -18,6 +18,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-val spineBaseVersion: String by extra("1.5.21")
+val versionToPublish = "1.5.22"
+val base = "1.5.22"
 
-extra["versionToPublish"] = spineBaseVersion
+project.extra.apply {
+    this["versionToPublish"] = versionToPublish
+    this["spineBaseVersion"] = base
+}
