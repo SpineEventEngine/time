@@ -21,24 +21,24 @@
 package io.spine.time.testing;
 
 import com.google.common.testing.NullPointerTester;
+import com.google.common.truth.Truth;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 import io.spine.testing.UtilityClassTest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.fromMinutes;
-import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@DisplayName("TimeTests should")
+@DisplayName("`TimeTests` should")
 class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
     private static final Duration TEN_SECONDS = fromSeconds(10L);
@@ -55,22 +55,14 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     }
 
     @Test
-    @DisplayName("have utility constructors in nested utility classes")
-    void haveUtilityCtors() {
-        assertHasPrivateParameterlessCtor(TimeTests.Future.class);
-        assertHasPrivateParameterlessCtor(TimeTests.Past.class);
-    }
-
-    @Test
     @DisplayName("have frozen time provider")
     void frozenTimeProvider() {
-        final Timestamp fiveMinutesAgo = subtract(currentTime(),
-                                                  fromMinutes(5));
+        Timestamp fiveMinutesAgo = subtract(currentTime(), fromMinutes(5));
 
-        final Time.Provider provider =
-                new TimeTests.FrozenMadHatterParty(fiveMinutesAgo);
+        Time.Provider provider = new TimeTests.FrozenMadHatterParty(fiveMinutesAgo);
 
-        assertEquals(fiveMinutesAgo, provider.currentTime());
+        assertThat(fiveMinutesAgo)
+                .isEqualTo(provider.currentTime());
     }
 
     @Test
@@ -79,36 +71,57 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
         assertNotEquals(0, TimeTests.currentTimeSeconds());
     }
 
-    @Test
-    @DisplayName("obtain time in the future")
-    void obtainFutureTime() {
-        Timestamp currentTime = currentTime();
-        Timestamp expected = add(currentTime, TEN_SECONDS);
+    @Nested
+    @DisplayName("test nested `Future` utility")
+    class FutureTest extends UtilityClassTest<TimeTests.Future> {
 
-        Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
+        FutureTest() {
+            super(TimeTests.Future.class);
+        }
 
-        assertEquals(expected.getSeconds(), actual.getSeconds());
+        @Test
+        @DisplayName("and obtain time in the future")
+        void obtainFutureTime() {
+            Timestamp currentTime = currentTime();
+            Timestamp expected = add(currentTime, TEN_SECONDS);
+
+            Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
+
+            Truth.assertThat(actual.getSeconds())
+                 .isEqualTo(expected.getSeconds());
+        }
     }
 
-    @Test
-    @DisplayName("obtain time in the past")
-    void obtainPastTime() {
-        Timestamp currentTime = currentTime();
-        Timestamp expected = subtract(currentTime, TEN_SECONDS);
+    @Nested
+    @DisplayName("test nested `Past` utility and")
+    class PastTest extends UtilityClassTest<TimeTests.Past> {
 
-        Timestamp actual = TimeTests.Past.secondsAgo(TEN_SECONDS.getSeconds());
+        PastTest() {
+            super(TimeTests.Past.class);
+        }
 
-        assertEquals(expected.getSeconds(), actual.getSeconds());
-    }
+        @Test
+        @DisplayName("obtain time in the past")
+        void obtainPastTime() {
+            Timestamp currentTime = currentTime();
+            Timestamp expected = subtract(currentTime, TEN_SECONDS);
 
-    @Test
-    @DisplayName("create instances for minutes ago")
-    void minutesAgo() {
-        Timestamp currentTime = currentTime();
-        Timestamp expected = subtract(currentTime, MINUTE);
+            Timestamp actual = TimeTests.Past.secondsAgo(TEN_SECONDS.getSeconds());
 
-        Timestamp actual = TimeTests.Past.minutesAgo(1);
+            Truth.assertThat(actual.getSeconds())
+                 .isEqualTo(expected.getSeconds());
+        }
 
-        Assertions.assertEquals(expected.getSeconds(), actual.getSeconds());
+        @Test
+        @DisplayName("create instances for minutes ago")
+        void minutesAgo() {
+            Timestamp currentTime = currentTime();
+            Timestamp expected = subtract(currentTime, MINUTE);
+
+            Timestamp actual = TimeTests.Past.minutesAgo(1);
+
+            Truth.assertThat(actual.getSeconds())
+                 .isEqualTo(expected.getSeconds());
+        }
     }
 }
