@@ -34,12 +34,12 @@
 /**
  * Version of this library.
  */
-val time = "2.0.0-jdk8.SNAPSHOT.6"
+val time = "2.0.0-jdk8.SNAPSHOT.8"
 
 /**
  * Versions of the Spine libraries that `time` depends on.
  */
-val base = "2.0.0-jdk8.SNAPSHOT.6"
+val base = "2.0.0-jdk8.SNAPSHOT.8"
 
 project.extra.apply {
     this["versionToPublish"] = time
