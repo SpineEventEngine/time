@@ -46,7 +46,9 @@ import static io.spine.util.Preconditions2.checkPositive;
 @VisibleForTesting
 public final class TimeTests {
 
-    /** Prevent instantiation of this utility class. */
+    /**
+     * Prevents instantiation of this utility class.
+     */
     private TimeTests() {
     }
 
@@ -151,7 +153,9 @@ public final class TimeTests {
      */
     public static final class Past {
 
-        /** Prevents instantiation of this utility class. */
+        /**
+         * Prevents instantiation of this utility class.
+         */
         private Past() {
         }
 
@@ -188,7 +192,9 @@ public final class TimeTests {
      */
     public static final class Future {
 
-        /** Prevents instantiation of this utility class. */        
+        /**
+         * Prevents instantiation of this utility class.
+         */
         private Future() {
         }
 
