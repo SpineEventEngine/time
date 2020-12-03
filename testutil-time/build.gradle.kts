@@ -18,10 +18,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-plugins {
-    `java-library`
-}
-
 val spineBaseVersion: String by extra
 dependencies {
     api(project(":time"))

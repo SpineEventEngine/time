@@ -18,7 +18,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import com.google.protobuf.gradle.*
+import com.google.protobuf.gradle.builtins
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
 import io.spine.gradle.internal.PublishingRepos
@@ -50,8 +54,8 @@ plugins {
 }
 
 extra["projectsToPublish"] = listOf(
-        "time",
-        "testutil-time"
+    "time",
+    "testutil-time"
 )
 extra["publishToRepository"] = PublishingRepos.cloudRepo
 
@@ -108,7 +112,9 @@ subprojects {
         Deps.build.protobuf.forEach { api(it) }
 
         implementation(Deps.build.guava)
-        implementation(Deps.build.jsr305Annotations)
+        compileOnlyApi(Deps.build.checkerAnnotations)
+        compileOnlyApi(Deps.build.jsr305Annotations)
+        Deps.build.errorProneAnnotations.forEach { compileOnlyApi(it) }
 
         Deps.test.junit5Api.forEach { testImplementation(it) }
         testImplementation(Deps.test.guavaTestlib)
@@ -124,25 +130,25 @@ subprojects {
         main {
             proto.srcDir("$sourcesRootDir/main/proto")
             java.srcDirs(
-                    "$generatedRootDir/main/java",
-                    "$generatedRootDir/main/spine",
-                    "$sourcesRootDir/main/java"
+                "$generatedRootDir/main/java",
+                "$generatedRootDir/main/spine",
+                "$sourcesRootDir/main/java"
             )
             resources.srcDirs(
-                    "$generatedRootDir/main/resources",
-                    "$sourcesRootDir/main/resources"
+                "$generatedRootDir/main/resources",
+                "$sourcesRootDir/main/resources"
             )
         }
         test {
             proto.srcDir("$sourcesRootDir/test/proto")
             java.srcDirs(
-                    "$generatedRootDir/test/java",
-                    "$generatedRootDir/test/spine",
-                    "$sourcesRootDir/test/java"
+                "$generatedRootDir/test/java",
+                "$generatedRootDir/test/spine",
+                "$sourcesRootDir/test/java"
             )
             resources.srcDirs(
-                    "$generatedRootDir/test/resources",
-                    "$sourcesRootDir/test/resources"
+                "$generatedRootDir/test/resources",
+                "$sourcesRootDir/test/resources"
             )
         }
     }
