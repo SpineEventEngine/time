@@ -112,7 +112,9 @@ subprojects {
         Deps.build.protobuf.forEach { api(it) }
 
         implementation(Deps.build.guava)
+        compileOnlyApi(Deps.build.checkerAnnotations)
         compileOnlyApi(Deps.build.jsr305Annotations)
+        Deps.build.errorProneAnnotations.forEach { compileOnlyApi(it) }
 
         Deps.test.junit5Api.forEach { testImplementation(it) }
         testImplementation(Deps.test.guavaTestlib)
