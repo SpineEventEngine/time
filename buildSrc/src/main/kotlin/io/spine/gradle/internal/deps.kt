@@ -1,6 +1,12 @@
 /*
  * Copyright 2020, TeamDev. All rights reserved.
  *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
  * disclaimer.
@@ -134,30 +140,29 @@ object Build {
     val errorProneCheckApi     = "com.google.errorprone:error_prone_check_api:${Versions.errorProne}"
     val errorProneCore         = "com.google.errorprone:error_prone_core:${Versions.errorProne}"
     val errorProneTestHelpers  = "com.google.errorprone:error_prone_test_helpers:${Versions.errorProne}"
-    val checkerAnnotations = "org.checkerframework:checker-qual:${Versions.checkerFramework}"
-    val checkerDataflow = listOf(
+    val checkerAnnotations     = "org.checkerframework:checker-qual:${Versions.checkerFramework}"
+    val checkerDataflow        = listOf(
         "org.checkerframework:dataflow:${Versions.checkerFramework}",
         "org.checkerframework:javacutil:${Versions.checkerFramework}"
     )
-    val autoCommon = "com.google.auto:auto-common:${Versions.autoCommon}"
-    val autoService = AutoService
-    val jsr305Annotations = "com.google.code.findbugs:jsr305:${Versions.findBugs}"
-    val guava = "com.google.guava:guava:${Versions.guava}"
-    val flogger = "com.google.flogger:flogger:${Versions.flogger}"
-    val protobuf = listOf(
+    val autoCommon             = "com.google.auto:auto-common:${Versions.autoCommon}"
+    val autoService            = AutoService
+    val jsr305Annotations      = "com.google.code.findbugs:jsr305:${Versions.findBugs}"
+    val guava                  = "com.google.guava:guava:${Versions.guava}"
+    val flogger                = "com.google.flogger:flogger:${Versions.flogger}"
+    val protobuf               = listOf(
         "com.google.protobuf:protobuf-java:${Versions.protobuf}",
         "com.google.protobuf:protobuf-java-util:${Versions.protobuf}"
     )
-    val protoc = "com.google.protobuf:protoc:${Versions.protobuf}"
-    val googleHttpClient = "com.google.http-client:google-http-client:${Versions.httpClient}"
-    val googleHttpClientApache =
-        "com.google.http-client:google-http-client-apache:${Versions.apacheHttpClient}"
-    val appengineApi = "com.google.appengine:appengine-api-1.0-sdk:${Versions.appengineApi}"
-    val firebaseAdmin = "com.google.firebase:firebase-admin:${Versions.firebaseAdmin}"
-    val jacksonDatabind = "com.fasterxml.jackson.core:jackson-databind:${Versions.jackson}"
-    val roasterApi = "org.jboss.forge.roaster:roaster-api:${Versions.roaster}"
-    val roasterJdt = "org.jboss.forge.roaster:roaster-jdt:${Versions.roaster}"
-    val animalSniffer = "org.codehaus.mojo:animal-sniffer-annotations:${Versions.animalSniffer}"
+    val protoc                 = "com.google.protobuf:protoc:${Versions.protobuf}"
+    val googleHttpClient       = "com.google.http-client:google-http-client:${Versions.httpClient}"
+    val googleHttpClientApache = "com.google.http-client:google-http-client-apache:${Versions.apacheHttpClient}"
+    val appengineApi           = "com.google.appengine:appengine-api-1.0-sdk:${Versions.appengineApi}"
+    val firebaseAdmin          = "com.google.firebase:firebase-admin:${Versions.firebaseAdmin}"
+    val jacksonDatabind        = "com.fasterxml.jackson.core:jackson-databind:${Versions.jackson}"
+    val roasterApi             = "org.jboss.forge.roaster:roaster-api:${Versions.roaster}"
+    val roasterJdt             = "org.jboss.forge.roaster:roaster-jdt:${Versions.roaster}"
+    val animalSniffer          = "org.codehaus.mojo:animal-sniffer-annotations:${Versions.animalSniffer}"
     val ci = "true".equals(System.getenv("CI"))
     val gradlePlugins = GradlePlugins
     @Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("flogger"))
@@ -226,29 +231,26 @@ object Runtime {
 }
 
 object Test {
-    val junit4 = "junit:junit:${Versions.junit4}"
-    val junit5Api = listOf(
+    val junit4        = "junit:junit:${Versions.junit4}"
+    val junit5Api     = listOf(
         "org.junit.jupiter:junit-jupiter-api:${Versions.junit5}",
         "org.junit.jupiter:junit-jupiter-params:${Versions.junit5}",
         "org.apiguardian:apiguardian-api:${Versions.apiguardian}"
     )
-    val junit5Runner = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
-    val junitPioneer = "org.junit-pioneer:junit-pioneer:${Versions.junitPioneer}"
-    val guavaTestlib = "com.google.guava:guava-testlib:${Versions.guava}"
-    val mockito = "org.mockito:mockito-core:2.12.0"
-    val hamcrest = "org.hamcrest:hamcrest-all:1.3"
-    val truth = listOf(
+    val junit5Runner  = "org.junit.jupiter:junit-jupiter-engine:${Versions.junit5}"
+    val junitPioneer  = "org.junit-pioneer:junit-pioneer:${Versions.junitPioneer}"
+    val guavaTestlib  = "com.google.guava:guava-testlib:${Versions.guava}"
+    val mockito       = "org.mockito:mockito-core:2.12.0"
+    val hamcrest      = "org.hamcrest:hamcrest-all:1.3"
+    val truth         = listOf(
         "com.google.truth:truth:${Versions.truth}",
         "com.google.truth.extensions:truth-java8-extension:${Versions.truth}",
         "com.google.truth.extensions:truth-proto-extension:${Versions.truth}"
     )
-
-    @Deprecated(
-        "Use Flogger over SLF4J.",
-        replaceWith = ReplaceWith("Deps.runtime.floggerSystemBackend")
-    )
+    @Deprecated("Use Flogger over SLF4J.",
+            replaceWith = ReplaceWith("Deps.runtime.floggerSystemBackend"))
     @Suppress("DEPRECATION") // Version of SLF4J.
-    val slf4j = "org.slf4j:slf4j-jdk14:${Versions.slf4j}"
+    val slf4j         = "org.slf4j:slf4j-jdk14:${Versions.slf4j}"
 }
 
 object Scripts {
