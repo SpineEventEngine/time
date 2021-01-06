@@ -1,5 +1,5 @@
 /*
- * Copyright 2020, TeamDev. All rights reserved.
+ * Copyright 2021, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,12 +40,12 @@
 /**
  * Version of this library.
  */
-val time = "1.7.0"
+val time = "1.7.1"
 
 /**
  * Versions of the Spine libraries that `time` depends on.
  */
-val base = "1.7.0"
+val base = "1.7.4"
 
 project.extra.apply {
     this["versionToPublish"] = time
