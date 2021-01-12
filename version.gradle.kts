@@ -40,12 +40,12 @@
 /**
  * Version of this library.
  */
-val time = "1.7.1"
+val time = "2.0.0-SNAPSHOT.0"
 
 /**
  * Versions of the Spine libraries that `time` depends on.
  */
-val base = "1.7.4"
+val base = "2.0.0-SNAPSHOT.0"
 
 project.extra.apply {
     this["versionToPublish"] = time
