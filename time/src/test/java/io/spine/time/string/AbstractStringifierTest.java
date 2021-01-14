@@ -35,7 +35,7 @@ import java.lang.reflect.Modifier;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth8.assertThat;
-import static io.spine.testing.Tests.assertHasPrivateParameterlessCtor;
+import static io.spine.testing.Assertions.assertHasPrivateParameterlessCtor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
