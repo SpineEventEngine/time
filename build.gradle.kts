@@ -54,9 +54,10 @@ plugins {
     idea
     `project-report`
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    id("com.google.protobuf").version(io.spine.gradle.internal.Deps.versions.protobufPlugin)
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    id("net.ltgt.errorprone").version(io.spine.gradle.internal.Deps.versions.errorPronePlugin)
+    io.spine.gradle.internal.Deps.build.apply {
+        id("com.google.protobuf") version protobuf.gradlePluginVersion
+        id("net.ltgt.errorprone") version errorProne.gradlePluginVersion
+    }
 }
 
 extra["projectsToPublish"] = listOf(
@@ -75,7 +76,6 @@ allprojects {
 }
 
 subprojects {
-
     apply {
         plugin("java-library")
         plugin("net.ltgt.errorprone")
@@ -111,21 +111,27 @@ subprojects {
 
     DependencyResolution.defaultRepositories(repositories)
 
+    val spineBaseVersion: String by extra
     dependencies {
-        errorprone(Deps.build.errorProneCore)
-        errorproneJavac(Deps.build.errorProneJavac)
+        Deps.build.apply {
+            errorprone(errorProne.core)
+            errorproneJavac(errorProne.javacPlugin)
 
-        Deps.build.protobuf.forEach { api(it) }
-
-        implementation(Deps.build.guava)
-        compileOnlyApi(Deps.build.checkerAnnotations)
-        compileOnlyApi(Deps.build.jsr305Annotations)
-        Deps.build.errorProneAnnotations.forEach { compileOnlyApi(it) }
-
-        Deps.test.junit5Api.forEach { testImplementation(it) }
-        testImplementation(Deps.test.guavaTestlib)
-
-        testRuntimeOnly(Deps.test.junit5Runner)
+            protobuf.libs.forEach { api(it) }
+            api(flogger.lib)
+            implementation(guava.lib)
+            implementation(checker.annotations)
+            implementation(jsr305Annotations)
+            errorProne.annotations.forEach { implementation(it) }
+        }
+        Deps.test.apply {
+            testImplementation(guavaTestlib)
+            testImplementation(junit.runner)
+            testImplementation(junit.pioneer)
+            junit.api.forEach { testImplementation(it) }
+        }
+        runtimeOnly(Deps.runtime.flogger.systemBackend)
+        testImplementation("io.spine.tools:spine-mute-logging:$spineBaseVersion")
     }
 
     DependencyResolution.forceConfiguration(configurations)
@@ -168,7 +174,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Deps.build.protoc
+            artifact = Deps.build.protobuf.compiler
         }
         generateProtoTasks {
             all().forEach { task ->
