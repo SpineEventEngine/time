@@ -32,6 +32,7 @@ import com.google.protobuf.gradle.protoc
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
 import io.spine.gradle.internal.PublishingRepos
+import io.spine.gradle.internal.spinePublishing
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
@@ -60,11 +61,22 @@ plugins {
     }
 }
 
-extra["projectsToPublish"] = listOf(
-    "time",
-    "testutil-time"
-)
-extra["publishToRepository"] = PublishingRepos.cloudRepo
+apply(from = "$rootDir/version.gradle.kts")
+
+extra.apply {
+    this["groupId"] = "io.spine"
+}
+
+spinePublishing {
+    projectsToPublish.addAll(
+        "time",
+        "testutil-time"
+    )
+    targetRepositories.addAll(
+        PublishingRepos.cloudRepo
+        // PublishingRepos.gitHub("LibraryName")
+    )
+}
 
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
@@ -116,22 +128,11 @@ subprojects {
         Deps.build.apply {
             errorprone(errorProne.core)
             errorproneJavac(errorProne.javacPlugin)
-
-            protobuf.libs.forEach { api(it) }
-            api(flogger.lib)
-            implementation(guava.lib)
-            implementation(checker.annotations)
-            implementation(jsr305Annotations)
-            errorProne.annotations.forEach { implementation(it) }
+            implementation("io.spine:spine-base:$spineBaseVersion")
         }
-        Deps.test.apply {
-            testImplementation(guavaTestlib)
-            testImplementation(junit.runner)
-            testImplementation(junit.pioneer)
-            junit.api.forEach { testImplementation(it) }
-        }
-        runtimeOnly(Deps.runtime.flogger.systemBackend)
+        testImplementation("io.spine:spine-testlib:$spineBaseVersion")
         testImplementation("io.spine.tools:spine-mute-logging:$spineBaseVersion")
+        runtimeOnly(Deps.runtime.flogger.systemBackend)
     }
 
     DependencyResolution.forceConfiguration(configurations)
@@ -188,9 +189,11 @@ subprojects {
     }
 
     apply {
-        from(Deps.scripts.testOutput(project))
-        from(Deps.scripts.javadocOptions(project))
-        from(Deps.scripts.javacArgs(project))
+        with(Deps.scripts) {
+            from(testOutput(project))
+            from(javadocOptions(project))
+            from(javacArgs(project))
+        }
     }
 
     tasks.register("sourceJar", Jar::class) {
@@ -215,9 +218,11 @@ subprojects {
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
-            generatedSourceDirs.add(file("$generatedRootDir/main/js"))
-            generatedSourceDirs.add(file("$generatedRootDir/main/java"))
-            generatedSourceDirs.add(file("$generatedRootDir/main/spine"))
+            with(generatedSourceDirs) {
+                add(file("$generatedRootDir/main/js"))
+                add(file("$generatedRootDir/main/java"))
+                add(file("$generatedRootDir/main/spine"))
+            }
             testSourceDirs.add(file("$generatedRootDir/test/java"))
             isDownloadJavadoc = true
             isDownloadSources = true
@@ -225,14 +230,21 @@ subprojects {
     }
 
     apply {
-        from(Deps.scripts.pmd(project))
-        from(Deps.scripts.checkstyle(project))
+        with(Deps.scripts) {
+            from(pmd(project))
+            from(checkstyle(project))
+        }
     }
 }
 
 apply {
-    from(Deps.scripts.jacoco(project))
-    from(Deps.scripts.publish(project))
-    from(Deps.scripts.repoLicenseReport(project))
-    from(Deps.scripts.generatePom(project))
+    with(Deps.scripts) {
+        // Aggregated coverage report across all subprojects.
+        from(jacoco(project))
+        // Generate a repository-wide report of 3rd-party dependencies and their licenses.
+        from(repoLicenseReport(project))
+        // Generate a `pom.xml` file containing first-level dependency of all projects
+        // in the repository.
+        from(generatePom(project))
+    }
 }
