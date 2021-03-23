@@ -130,7 +130,12 @@ subprojects {
             errorproneJavac(errorProne.javacPlugin)
             implementation("io.spine:spine-base:$spineBaseVersion")
         }
-        testImplementation("io.spine:spine-testlib:$spineBaseVersion")
+
+        Deps.test.apply {
+            testImplementation(junit.runner)
+            testImplementation(junit.pioneer)
+        }
+        testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
         testImplementation("io.spine.tools:spine-mute-logging:$spineBaseVersion")
         runtimeOnly(Deps.runtime.flogger.systemBackend)
     }
@@ -166,7 +171,7 @@ subprojects {
         }
     }
 
-    tasks.test {
+    tasks.test.configure {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
