@@ -27,59 +27,58 @@
 package io.spine.time.testing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 
-import java.time.LocalTime;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
-import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
-import static io.spine.base.Time.currentTimeZone;
 import static io.spine.base.Time.systemTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
-import static io.spine.protobuf.Durations2.hours;
-import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.util.Preconditions2.checkPositive;
 
 /**
- * Utility class for working with time-related tests.
+ * Utility class for working with timestamps of the the future.
  */
 @VisibleForTesting
-public final class TimeTests {
+public final class Future {
 
     /**
      * Prevents instantiation of this utility class.
      */
-    private TimeTests() {
+    private Future() {
     }
 
     /**
-     * Returns the {@linkplain Time#currentTime() current time} in seconds.
+     * Obtains timestamp in the future a number of seconds from current time.
      *
-     * @return a seconds value
+     * @param seconds
+     *         a positive number of seconds
+     * @return the moment which is {@code seconds} from now
      */
-    public static long currentTimeSeconds() {
-        long secs = currentTime().getSeconds();
-        return secs;
+    public static Timestamp secondsFromNow(long seconds) {
+        checkPositive(seconds);
+        Timestamp currentTime = currentTime();
+        Timestamp result = add(currentTime, fromSeconds(seconds));
+        return result;
     }
 
     /**
-     * Waits till new day to come, if it's the last day second.
-     *
-     * <p>This method is useful for tests that obtain current date/time values
-     * and need to avoid the day edge for correctness of the test values.
+     * Verifies if the passed timestamp is in the future comparing it
+     * with {@linkplain Time#systemTime() system time}.
      */
-    @SuppressWarnings("StatementWithEmptyBody")
-    public static void avoidDayEdge() {
-        LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
-        do {
-            // Wait.
-        } while (LocalTime.now(currentTimeZone())
-                          .isAfter(lastDaySecond));
+    public static boolean isFuture(Timestamp timestamp) {
+        checkNotNull(timestamp);
+        // Do not use `currentTime()` as we may use custom `TimestampProvider` already.
+        // Get time from metal.
+        Timestamp currentSystemTime = systemTime();
+
+        // NOTE: we have the risk of having these two timestamps too close to each other
+        // so that the passed timestamp becomes "the past" around the time of this call.
+        // To avoid this, select some time in the "distant" future.
+        boolean result = Timestamps.comparator()
+                                   .compare(currentSystemTime, timestamp) < 0;
+        return result;
     }
 }

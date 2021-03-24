@@ -65,7 +65,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     void frozenTimeProvider() {
         Timestamp fiveMinutesAgo = subtract(currentTime(), fromMinutes(5));
 
-        Time.Provider provider = new TimeTests.FrozenMadHatterParty(fiveMinutesAgo);
+        Time.Provider provider = new FrozenMadHatterParty(fiveMinutesAgo);
 
         assertThat(fiveMinutesAgo)
                 .isEqualTo(provider.currentTime());
@@ -79,10 +79,10 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
     @Nested
     @DisplayName("test nested `Future` utility")
-    class FutureTest extends UtilityClassTest<TimeTests.Future> {
+    class FutureTest extends UtilityClassTest<Future> {
 
         FutureTest() {
-            super(TimeTests.Future.class);
+            super(Future.class);
         }
 
         @Test
@@ -91,7 +91,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
             Timestamp currentTime = currentTime();
             Timestamp expected = add(currentTime, TEN_SECONDS);
 
-            Timestamp actual = TimeTests.Future.secondsFromNow(TEN_SECONDS.getSeconds());
+            Timestamp actual = Future.secondsFromNow(TEN_SECONDS.getSeconds());
 
             Truth.assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());
@@ -100,10 +100,10 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
     @Nested
     @DisplayName("test nested `Past` utility and")
-    class PastTest extends UtilityClassTest<TimeTests.Past> {
+    class PastTest extends UtilityClassTest<Past> {
 
         PastTest() {
-            super(TimeTests.Past.class);
+            super(Past.class);
         }
 
         @Test
@@ -112,7 +112,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
             Timestamp currentTime = currentTime();
             Timestamp expected = subtract(currentTime, TEN_SECONDS);
 
-            Timestamp actual = TimeTests.Past.secondsAgo(TEN_SECONDS.getSeconds());
+            Timestamp actual = Past.secondsAgo(TEN_SECONDS.getSeconds());
 
             Truth.assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());
@@ -124,7 +124,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
             Timestamp currentTime = currentTime();
             Timestamp expected = subtract(currentTime, MINUTE);
 
-            Timestamp actual = TimeTests.Past.minutesAgo(1);
+            Timestamp actual = Past.minutesAgo(1);
 
             Truth.assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());

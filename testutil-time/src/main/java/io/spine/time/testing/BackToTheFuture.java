@@ -29,57 +29,61 @@ package io.spine.time.testing;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 
-import java.time.LocalTime;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
-import static io.spine.base.Time.currentTime;
-import static io.spine.base.Time.currentTimeZone;
 import static io.spine.base.Time.systemTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.hours;
-import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.util.Preconditions2.checkPositive;
 
 /**
- * Utility class for working with time-related tests.
+ * The time provider that can rewind current time.
+ *
+ * <p>Created in the future, {@linkplain #THIRTY_YEARS_IN_HOURS 30 years} from
+ * the {@link Time#systemTime() current system time}.
  */
 @VisibleForTesting
-public final class TimeTests {
+public class BackToTheFuture implements Time.Provider {
 
-    /**
-     * Prevents instantiation of this utility class.
-     */
-    private TimeTests() {
+    public static final long THIRTY_YEARS_IN_HOURS = 262800L;
+
+    private Timestamp currentTime;
+
+    public BackToTheFuture() {
+        this.currentTime = add(systemTime(), hours(THIRTY_YEARS_IN_HOURS));
+    }
+
+    @Override
+    public synchronized Timestamp currentTime() {
+        return this.currentTime;
+    }
+
+    private synchronized void setCurrentTime(Timestamp currentTime) {
+        this.currentTime = currentTime;
     }
 
     /**
-     * Returns the {@linkplain Time#currentTime() current time} in seconds.
-     *
-     * @return a seconds value
+     * Rewinds the {@linkplain #currentTime() "current time"} forward
+     * by the passed amount of hours.
      */
-    public static long currentTimeSeconds() {
-        long secs = currentTime().getSeconds();
-        return secs;
+    @CanIgnoreReturnValue
+    public synchronized Timestamp forward(long hoursDelta) {
+        checkPositive(hoursDelta);
+        Timestamp newTime = add(this.currentTime, hours(hoursDelta));
+        setCurrentTime(newTime);
+        return newTime;
     }
 
     /**
-     * Waits till new day to come, if it's the last day second.
-     *
-     * <p>This method is useful for tests that obtain current date/time values
-     * and need to avoid the day edge for correctness of the test values.
+     * Rewinds the {@linkplain #currentTime() "current time"} backward
+     * by the passed amount of hours.
      */
-    @SuppressWarnings("StatementWithEmptyBody")
-    public static void avoidDayEdge() {
-        LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
-        do {
-            // Wait.
-        } while (LocalTime.now(currentTimeZone())
-                          .isAfter(lastDaySecond));
+    @CanIgnoreReturnValue
+    public synchronized Timestamp backward(long hoursDelta) {
+        checkPositive(hoursDelta);
+        Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));
+        setCurrentTime(newTime);
+        return newTime;
     }
 }
