@@ -59,7 +59,7 @@ enum Month {
 // The purpose of this type is to store values like "June 2018".
 //
 message YearMonth {
-    option (is).java_type = "io.spine.time.YearMonthTemporal";
+    option (is).java_type = "YearMonthTemporal";
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
@@ -87,7 +87,7 @@ enum DayOfWeek {
 //
 // Use this message for describing a date (e.g. a birthday).
 message LocalDate {
-    option (is).java_type = "io.spine.time.LocalDateTemporal";
+    option (is).java_type = "LocalDateTemporal";
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
@@ -119,7 +119,7 @@ message LocalTime {
 
 // A date-time without a time-zone.
 message LocalDateTime {
-    option (is).java_type = "io.spine.time.LocalDateTimeTemporal";
+    option (is).java_type = "LocalDateTimeTemporal";
 
     LocalDate date = 1 [(required) = true, (validate) = true];
     LocalTime time = 2 [(validate) = true];
@@ -144,7 +144,12 @@ message OffsetTime {
 
 // A date-time with an offset from UTC.
 message OffsetDateTime {
-    option (is).java_type = "io.spine.time.OffsetDateTimeTemporal";
+
+    // Usage history shown that this type cause much confusion.
+    // Please use [ZonedDateTime] instead.
+    option deprecated = true;
+
+    option (is).java_type = "OffsetDateTimeTemporal";
 
     // The local date-time.
     LocalDateTime date_time = 1 [(required) = true, (validate) = true];
@@ -161,7 +166,7 @@ message ZoneId {
 // A date-time with a time-zone in the ISO-8601 calendar system,
 // such as `2018-06-25T19:22:45+01:00 Europe/Amsterdam`.
 message ZonedDateTime {
-    option (is).java_type = "io.spine.time.ZonedDateTimeTemporal";
+    option (is).java_type = "ZonedDateTimeTemporal";
 
     // The local date-time.
     LocalDateTime date_time = 1 [(required) = true, (validate) = true];
