@@ -37,13 +37,13 @@ import org.junit.jupiter.api.Test;
 import java.time.ZoneId;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DisplayName("Now")
 class NowTest {
 
     private static final ZoneId JT_NEW_YORK = ZoneId.of("America/New_York");
     private static final io.spine.time.ZoneId NEW_YORK = ZoneIds.of(JT_NEW_YORK);
+    @SuppressWarnings("deprecation")
     private static final ZoneOffset NEW_YORK_OFFSET = ZoneOffsets.ofHours(-4);
 
     abstract static class NowTester {
@@ -59,16 +59,12 @@ class NowTest {
 
         abstract Now captureNow();
 
-        Now now() {
-            assertNotNull(now);
-            return now;
-        }
-
         @BeforeEach
         void setUp() {
             frozenTime = java.time.ZonedDateTime.now(timeZone);
-            Timestamp frozenTimestamp = ZonedDateTimes.of(frozenTime)
-                                                      .toTimestamp();
+            Timestamp frozenTimestamp =
+                    ZonedDateTimes.of(frozenTime)
+                                  .toTimestamp();
             Time.setProvider(() -> frozenTimestamp);
             now = captureNow();
         }
@@ -109,7 +105,8 @@ class NowTest {
         }
 
         @Test
-        @DisplayName("OffsetDateTime")
+        @DisplayName("`OffsetDateTime`")
+        @SuppressWarnings("deprecation")
         void offsetDateTime() {
             OffsetDateTime offsetDateTime = now.asOffsetDateTime();
             LocalDateTime dateTime = offsetDateTime.getDateTime();
@@ -120,7 +117,8 @@ class NowTest {
         }
 
         @Test
-        @DisplayName("OffsetTime")
+        @DisplayName("`OffsetTime`")
+        @SuppressWarnings("deprecation")
         void offsetTime() {
             OffsetTime offsetTime = now.asOffsetTime();
             LocalTime time = offsetTime.getTime();
@@ -132,7 +130,7 @@ class NowTest {
         }
 
         @Test
-        @DisplayName("YearMonth")
+        @DisplayName("`YearMonth`")
         void yearMonth() {
             YearMonth yearMonth = now.asYearMonth();
             assertThat(yearMonth.getYear()).isEqualTo(frozenTime.getYear());
@@ -158,10 +156,10 @@ class NowTest {
         }
 
         private void assertCorrectTime(LocalTime time) {
-            assertThat(time.getHour()).isEqualTo(frozenTime.getHour());
-            assertThat(time.getMinute()).isEqualTo(frozenTime.getMinute());
-            assertThat(time.getSecond()).isEqualTo(frozenTime.getSecond());
-            assertThat(time.getNano()).isEqualTo(frozenTime.getNano());
+            assertThat(time.hour()).isEqualTo(frozenTime.getHour());
+            assertThat(time.minute()).isEqualTo(frozenTime.getMinute());
+            assertThat(time.second()).isEqualTo(frozenTime.getSecond());
+            assertThat(time.nano()).isEqualTo(frozenTime.getNano());
         }
     }
 
@@ -194,11 +192,11 @@ class NowTest {
     }
 
     @Nested
-    @DisplayName("with the given ZoneId should obtain current")
+    @DisplayName("with the given `ZoneId` should obtain current")
     class Zoned extends NowTester {
 
         Zoned() {
-            super(ZoneIds.toJavaTime(NEW_YORK));
+            super(NEW_YORK.toJavaTime());
         }
 
         @Override
@@ -209,6 +207,7 @@ class NowTest {
 
     @Nested
     @DisplayName("with the given Offset should obtain current")
+    @SuppressWarnings("deprecation")
     class Offset extends NowTester {
 
         Offset() {

@@ -28,7 +28,8 @@ package io.spine.time;
 
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("OffsetDateTime should")
+@DisplayName("`OffsetDateTime` should")
+@SuppressWarnings("deprecation")
 class OffsetDateTimeTest extends TemporalMessageTest<OffsetDateTime> {
 
     OffsetDateTimeTest() {

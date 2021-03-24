@@ -58,11 +58,13 @@ public final class LocalDates {
 
     /**
      * Converts the passed value to Java Time instance.
+     *
+     * @deprecated please use {@link LocalDate#toJavaTime()}
      */
+    @Deprecated
     public static java.time.LocalDate toJavaTime(LocalDate date) {
         checkDate(date);
-        return converter().reverse()
-                          .convert(date);
+        return date.toJavaTime();
     }
 
     /**

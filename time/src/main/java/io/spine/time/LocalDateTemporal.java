@@ -26,28 +26,75 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
+import io.spine.annotation.GeneratedMixin;
 
 import java.time.Instant;
 
+import static io.spine.time.LocalDates.checkDate;
+import static io.spine.time.LocalDates.converter;
 import static java.time.ZoneOffset.UTC;
 
 /**
- * An implementation of {@link io.spine.time.Temporal} based on {@link LocalDate}.
- *
- * <p>This interface is designed to be implemented by {@code io.spine.time.LocalDate} exclusively.
- * The interface does not add any abstract methods to its message counterpart.
+ * An implementation of {@link io.spine.time.Temporal Temporal} based on {@link LocalDate}.
  */
+@GeneratedMixin
 interface LocalDateTemporal extends TemporalMessage<LocalDate>, LocalDateOrBuilder {
 
+    /**
+     * Obtains the year part of this date.
+     */
+    default int year() {
+        return getYear();
+    }
+
+    /**
+     * Obtains the month part of this date.
+     *
+     * @see #monthNumber()
+     */
+    default Month month() {
+        return getMonth();
+    }
+
+    /**
+     * Obtains a number of the month of this date.
+     *
+     * @see #month()
+     */
+    default int monthNumber() {
+        return getMonthValue();
+    }
+
     @Override
-    default Timestamp toTimestamp() {
+    default Instant toInstant() {
         Instant instant = java.time.LocalDate
-                .of(getYear(), getMonthValue(), getDay())
+                .of(year(), monthNumber(), day())
                 .atStartOfDay()
                 .toInstant(UTC);
-        Timestamp result = InstantConverter.instance()
-                                           .convert(instant);
-        return result;
+        return instant;
+    }
+
+    /**
+     * Obtains number of the day in month.
+     *
+     * <p>The returned value is from 1 to 31 and is valid for the year and month.
+     */
+    default int day() {
+        return getDay();
+    }
+
+    /**
+     * Converts this date to Java Time instance.
+     */
+    default java.time.LocalDate toJavaTime() {
+        @SuppressWarnings("ClassReferencesSubclass") // OK for mixins
+        LocalDate self = (LocalDate) this;
+        try {
+            checkDate(self);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException(e);
+        }
+        return converter().reverse()
+                          .convert(self);
     }
 }

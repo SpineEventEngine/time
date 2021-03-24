@@ -74,6 +74,9 @@ message LocalTimeChange {
 // Definition of a change of `OffsetTime` fields.
 message OffsetTimeChange {
 
+    // Please use [ZonedTime] with custom a change type instead.
+    option deprecated = true;
+
     // The value of the field that are changing.
     OffsetTime previous_value = 1;
 
@@ -83,6 +86,9 @@ message OffsetTimeChange {
 
 // Definition of a change of `OffsetDateTime` fields.
 message OffsetDateTimeChange {
+
+    // Please use [ZonedDateTime] with a custom change type instead.
+    option deprecated = true;
 
     // The value of the field that are changing.
     OffsetDateTime previous_value = 1;

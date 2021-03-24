@@ -32,7 +32,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Routines for working with {@link OffsetTime}.
+ *
+ * @deprecated please use {@link LocalTime} in combination with {@link ZoneId}.
  */
+@Deprecated
 public final class OffsetTimes {
 
     /** Prevent instantiation of this utility class. */
@@ -76,7 +79,10 @@ public final class OffsetTimes {
 
     /**
      * Returns a ISO-8601 time string corresponding to the passed value.
+     *
+     * @deprecated please use {@link java.time.OffsetTime#toString()} instead
      */
+    @Deprecated
     public static String toString(OffsetTime value) {
         checkNotNull(value);
         return TimeStringifiers.forOffsetTime()
@@ -85,7 +91,10 @@ public final class OffsetTimes {
 
     /**
      * Parse from ISO-8601 string to {@code OffsetTime}.
+     *
+     * @deprecated please use {@link java.time.OffsetTime#parse(CharSequence)} instead.
      */
+    @Deprecated
     public static OffsetTime parse(String str) {
         checkNotNull(str);
         return TimeStringifiers.forOffsetTime()

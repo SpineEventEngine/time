@@ -54,6 +54,13 @@ import static com.google.protobuf.util.Timestamps.compare;
 public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
 
     /**
+     * Converts this {@code Temporal} into a {@link java.time.Instant}.
+     *
+     * @return this as an {@code Instant}
+     */
+    Instant toInstant();
+
+    /**
      * Obtains this point in time as a Protobuf {@link Timestamp}.
      *
      * <p>The Protobuf {@code Timestamp} represents the UTC Epoch time. All the implementations
@@ -68,7 +75,13 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *
      * @return this is a {@code Timestamp}
      */
-    Timestamp toTimestamp();
+    default Timestamp toTimestamp() {
+        Instant instant = toInstant();
+        Timestamp result =
+                InstantConverter.instance()
+                                .convert(instant);
+        return result;
+    }
 
     /**
      * Packs this point in time into an {@link Any}.
@@ -76,19 +89,6 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * @return itself packed as {@code Any}
      */
     Any toAny();
-
-    /**
-     * Converts this {@code Temporal} into a {@link java.time.Instant}.
-     *
-     * @return this as an {@code Instant}
-     */
-    default Instant toInstant() {
-        Timestamp timestampValue = toTimestamp();
-        Instant instant = InstantConverter.reversed()
-                                          .convert(timestampValue);
-        checkNotNull(instant);
-        return instant;
-    }
 
     /**
      * Compares this point in time to the given one.
@@ -109,10 +109,10 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     @Override
     default int compareTo(T other) {
         checkNotNull(other);
-        Class<? extends Temporal> thisClass = getClass();
-        Class<? extends Temporal> otherClass = other.getClass();
+        Class<?> thisClass = getClass();
+        Class<?> otherClass = other.getClass();
         checkArgument(thisClass.equals(otherClass),
-                      "Expected an instance of %s but got %s.",
+                      "Expected an instance of `%s` but got `%s`.",
                       thisClass.getCanonicalName(),
                       otherClass.getCanonicalName());
         Timestamp thisTimestamp = toTimestamp();

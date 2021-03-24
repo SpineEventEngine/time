@@ -27,24 +27,12 @@
 package io.spine.time.testing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.protobuf.Timestamp;
-import com.google.protobuf.util.Timestamps;
 import io.spine.base.Time;
 
 import java.time.LocalTime;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.protobuf.util.Durations.fromSeconds;
-import static com.google.protobuf.util.Timestamps.add;
-import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
 import static io.spine.base.Time.currentTimeZone;
-import static io.spine.base.Time.systemTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
-import static io.spine.protobuf.Durations2.hours;
-import static io.spine.protobuf.Durations2.seconds;
-import static io.spine.util.Preconditions2.checkPositive;
 
 /**
  * Utility class for working with time-related tests.

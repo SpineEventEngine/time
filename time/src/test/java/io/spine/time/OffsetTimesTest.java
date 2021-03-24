@@ -38,7 +38,8 @@ import static io.spine.base.Time.currentTime;
 import static io.spine.testing.TestValues.random;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("OffsetTimes should")
+@DisplayName("`OffsetTimes` should")
+@SuppressWarnings("deprecation")
 class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.OffsetTime> {
 
     /** The count of nanoseconds in one second. */
@@ -99,7 +100,6 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
             assertEquals(localTime, distantTime.getTime());
             assertEquals(zoneOffset(), distantTime.getOffset());
         }
-
     }
 
     private static LocalTime generateLocalTime() {

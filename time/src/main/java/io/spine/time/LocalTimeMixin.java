@@ -26,26 +26,43 @@
 
 package io.spine.time;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.spine.annotation.GeneratedMixin;
 
-import static io.spine.testing.Assertions.assertIllegalState;
+import static io.spine.time.LocalTimes.converter;
 
-@DisplayName("`LocalDate` should")
-class LocalDateTest extends TemporalMessageTest<LocalDate> {
+/**
+ * A mixin for extending behaviour of {@link LocalTime}.
+ *
+ * @apiNote This interface does not extend {@link TemporalMessage} because local time cannot
+ * be converted to a point in time without additional information such as date and time-zone.
+ */
+@GeneratedMixin
+public interface LocalTimeMixin extends LocalTimeOrBuilder {
 
-    LocalDateTest() {
-        super(LocalDate.class);
+    /** Obtains an hour of this local time, from 0 to 23. */
+    default int hour() {
+        return getHour();
     }
 
-    @Override
-    LocalDate create() {
-        return Now.get().asLocalDate();
+    /** Obtains minutes of this local time, from 0 to 59. */
+    default int minute() {
+        return getMinute();
     }
 
-    @Test
-    @DisplayName("reject conversion of the default value to JavaTime")
-    void defaultInstanceConversion() {
-        assertIllegalState(() -> LocalDate.getDefaultInstance().toJavaTime());
+    /** Obtains seconds of a minute, from 0 to 59. */
+    default int second() {
+        return getSecond();
+    }
+
+    /** Obtains fractions of a second from 0 to 999,999,999. */
+    default int nano() {
+        return getNano();
+    }
+
+    default java.time.LocalTime toJavaTime() {
+        @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
+        LocalTime self = (LocalTime) this;
+        return converter().reverse()
+                          .convert(self);
     }
 }

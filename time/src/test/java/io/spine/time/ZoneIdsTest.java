@@ -31,7 +31,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static io.spine.time.ZoneIds.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("ZoneIds should")
@@ -75,7 +74,7 @@ class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> 
         @DisplayName("by Java Time value")
         void byJavaTime() {
             ZoneId expected = ZoneIds.systemDefault();
-            assertEquals(expected, ZoneIds.of(toJavaTime(expected)));
+            assertEquals(expected, ZoneIds.of(expected.toJavaTime()));
         }
     }
 }

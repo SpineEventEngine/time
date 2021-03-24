@@ -26,14 +26,14 @@
 
 package io.spine.time.string;
 
-import io.spine.time.OffsetDateTime;
-import io.spine.time.OffsetDateTimes;
-
 /**
- * Default stringifier for {@link OffsetDateTime}.
+ * Default stringifier for {@link io.spine.time.OffsetDateTime}.
+ *
+ * @deprecated please use {@link ZonedDateTimeStringifier}.
  */
+@Deprecated
 final class OffsetDateTimeStringifier
-        extends JtStringifier<OffsetDateTime, java.time.OffsetDateTime> {
+        extends JtStringifier<io.spine.time.OffsetDateTime, java.time.OffsetDateTime> {
 
     private static final long serialVersionUID = 0L;
     private static final OffsetDateTimeStringifier INSTANCE = new OffsetDateTimeStringifier();
@@ -41,7 +41,7 @@ final class OffsetDateTimeStringifier
     private OffsetDateTimeStringifier() {
         super("TimeStringifiers.forOffsetDateTime()",
               java.time.OffsetDateTime::parse,
-              OffsetDateTimes.converter());
+              io.spine.time.OffsetDateTimes.converter());
     }
 
     static OffsetDateTimeStringifier instance() {

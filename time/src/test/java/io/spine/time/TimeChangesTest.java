@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@DisplayName("`TimeChanges` should")
 class TimeChangesTest extends UtilityClassTest<TimeChanges> {
 
     TimeChangesTest() {
@@ -45,10 +46,15 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
     @Override
     protected void configure(NullPointerTester tester) {
         super.configure(tester);
-        tester.setDefault(OffsetTime.class, OffsetTime.getDefaultInstance())
-              .setDefault(OffsetDateTime.class, OffsetDateTime.getDefaultInstance())
-              .setDefault(LocalDate.class, LocalDate.getDefaultInstance())
+        tester.setDefault(LocalDate.class, LocalDate.getDefaultInstance())
               .setDefault(LocalTime.class, LocalTime.getDefaultInstance());
+        setDefaultsForDeprecatedToo(tester);
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void setDefaultsForDeprecatedToo(NullPointerTester tester) {
+        tester.setDefault(OffsetTime.class, OffsetTime.getDefaultInstance())
+              .setDefault(OffsetDateTime.class, OffsetDateTime.getDefaultInstance());
     }
 
     @Nested
@@ -56,21 +62,22 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
     class RejectEqual {
 
         @Test
-        @DisplayName("LocalDate")
+        @DisplayName("`LocalDate`")
         void localDates() {
             LocalDate today = Now.get().asLocalDate();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(today, today));
         }
 
         @Test
-        @DisplayName("LocalTime")
+        @DisplayName("`LocalTime`")
         void localTimes() {
             LocalTime now = Now.get().asLocalTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
 
         @Test
-        @DisplayName("OffsetTime")
+        @DisplayName("`OffsetTime`")
+        @SuppressWarnings("deprecation")
         void offsetTimes() {
             ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
             OffsetTime now = Now.get(inLuxembourg).asOffsetTime();
@@ -78,7 +85,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         }
 
         @Test
-        @DisplayName("OffsetDateTime")
+        @DisplayName("`OffsetDateTime`")
+        @SuppressWarnings("deprecation")
         void offsetDateTimes() {
             ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
             OffsetDateTime now = Now.get(inLuxembourg).asOffsetDateTime();
@@ -98,16 +106,15 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         void setUp() {
             now = Now.get().asLocalTime();
             // Assume it's Summer now.
-            inKiev = Now.get(ZoneOffsets.ofHours(3));
-            inLuxembourg = Now.get(ZoneOffsets.ofHours(2));
+            inKiev = Now.get(java.time.ZoneId.of("GMT+3"));
+            inLuxembourg = Now.get(java.time.ZoneId.of("GMT+2"));
         }
 
         @Test
-        @DisplayName("LocalDate")
+        @DisplayName("`LocalDate`")
         void forLocalDates() {
             LocalDate today = Now.get().asLocalDate();
-            LocalDate tomorrow = LocalDates.of(LocalDates.toJavaTime(today)
-                                                         .plusDays(1));
+            LocalDate tomorrow = LocalDates.of(today.toJavaTime().plusDays(1));
 
             LocalDateChange result = TimeChanges.of(today, tomorrow);
 
@@ -116,10 +123,9 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         }
 
         @Test
-        @DisplayName("LocalTime")
+        @DisplayName("`LocalTime`")
         void forLocalTimes() {
-            LocalTime inFiveHours = LocalTimes.of(LocalTimes.toJavaTime(now)
-                                                            .plusHours(5));
+            LocalTime inFiveHours = LocalTimes.of(now.toJavaTime().plusHours(5));
 
             LocalTimeChange result = TimeChanges.of(now, inFiveHours);
 
@@ -128,7 +134,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         }
 
         @Test
-        @DisplayName("OffsetTime")
+        @DisplayName("`OffsetTime`")
+        @SuppressWarnings("deprecation")
         void forOffsetTimes() {
             OffsetTime previousTime = inKiev.asOffsetTime();
             OffsetTime newTime = inLuxembourg.asOffsetTime();
@@ -140,7 +147,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         }
 
         @Test
-        @DisplayName("OffsetDateTime")
+        @DisplayName("`OffsetDateTime`")
+        @SuppressWarnings("deprecation")
         void forOffsetDateTimes() {
             OffsetDateTime previousDateTime = inKiev.asOffsetDateTime();
             OffsetDateTime newDateTime = inLuxembourg.asOffsetDateTime();

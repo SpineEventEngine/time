@@ -26,25 +26,31 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
+import io.spine.annotation.GeneratedMixin;
 
 import java.time.Instant;
 
 /**
  * An implementation of {@link io.spine.time.Temporal} based on {@link ZonedDateTime}.
- *
- * <p>This interface is designed to be implemented by {@code io.spine.time.ZonedDateTime}
- * exclusively. The interface does not add any abstract methods to its message counterpart.
  */
+@GeneratedMixin
 interface ZonedDateTimeTemporal extends TemporalMessage<ZonedDateTime>, ZonedDateTimeOrBuilder {
 
+    /** Obtains the local date and time. */
+    default LocalDateTime dateTime() {
+        return getDateTime();
+    }
+
+    /** Obtains the zone of this date/time. */
+    default ZoneId zone() {
+        return getZone();
+    }
+
     @Override
-    default Timestamp toTimestamp() {
+    default Instant toInstant() {
         Instant instant = java.time.ZonedDateTime
-                .of(LocalDateTimes.toJavaTime(getDateTime()), ZoneIds.toJavaTime(getZone()))
+                .of(dateTime().toJavaTime(), zone().toJavaTime())
                 .toInstant();
-        Timestamp result = InstantConverter.instance()
-                                           .convert(instant);
-        return result;
+        return instant;
     }
 }
