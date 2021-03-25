@@ -162,7 +162,7 @@ public final class TimeStringifiers {
      *      OffsetDateTimes.toString(OffsetDateTime)
      * @see io.spine.time.OffsetDateTimes#parse(String)
      *      OffsetDateTimes.parse(String)
-     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()}
+     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()} instead.
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
