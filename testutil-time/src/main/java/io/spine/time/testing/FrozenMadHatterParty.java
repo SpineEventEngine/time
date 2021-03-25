@@ -30,6 +30,8 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * The provider of current time, which is always the same.
  *
@@ -41,8 +43,11 @@ public class FrozenMadHatterParty implements Time.Provider {
 
     private final Timestamp frozenTime;
 
+    /**
+     * Creates a new party with the given time.
+     */
     public FrozenMadHatterParty(Timestamp frozenTime) {
-        this.frozenTime = frozenTime;
+        this.frozenTime = checkNotNull(frozenTime);
     }
 
     /** Returns the value passed to the constructor. */
