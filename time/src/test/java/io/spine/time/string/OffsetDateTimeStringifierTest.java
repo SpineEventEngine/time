@@ -29,8 +29,8 @@ package io.spine.time.string;
 import io.spine.time.Now;
 import org.junit.jupiter.api.DisplayName;
 
-@SuppressWarnings("deprecation")
 @DisplayName("`OffsetDateTimeStringifier` should")
+@SuppressWarnings("deprecation")
 class OffsetDateTimeStringifierTest extends AbstractStringifierTest<io.spine.time.OffsetDateTime> {
 
     OffsetDateTimeStringifierTest() {

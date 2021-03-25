@@ -80,7 +80,7 @@ public final class OffsetTimes {
     /**
      * Returns a ISO-8601 time string corresponding to the passed value.
      *
-     * @deprecated please use {@link java.time.OffsetTime#toString()} instead
+     * @deprecated please use {@link java.time.OffsetTime#toString()} instead.
      */
     @Deprecated
     public static String toString(OffsetTime value) {

@@ -162,10 +162,10 @@ public final class TimeStringifiers {
      *      OffsetDateTimes.toString(OffsetDateTime)
      * @see io.spine.time.OffsetDateTimes#parse(String)
      *      OffsetDateTimes.parse(String)
-     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()}
+     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()} instead.
      */
-    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed")
     public static Stringifier<io.spine.time.OffsetDateTime> forOffsetDateTime() {
         return OffsetDateTimeStringifier.instance();
     }
@@ -179,7 +179,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.OffsetTimes#toString(io.spine.time.OffsetTime)
      *  OffsetTimes.toString(OffsetTime)
      * @see io.spine.time.OffsetTimes#parse(String) OffsetTimes.parse(String)
-     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()}
+     * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()} instead.
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
@@ -238,7 +238,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.ZoneOffsets#toString(io.spine.time.ZoneOffset)
      *         ZoneOffsets.toString(ZoneOffset)
      * @see io.spine.time.ZoneOffsets#parse(String) ZoneOffsets.parse(String)
-     * @deprecated please use {@link ZoneId} with {@link #forZoneId()}.
+     * @deprecated please use {@link ZoneId} with {@link #forZoneId()} instead.
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
