@@ -159,7 +159,7 @@ public final class ZoneOffsets {
     /**
      * Converts the passed zone offset into a string with a signed amount of hours and minutes.
      *
-     * @deprecated please use {@link java.time.ZoneOffset#toString()} instead
+     * @deprecated please use {@link java.time.ZoneOffset#toString()} instead.
      */
     @Deprecated
     public static String toString(ZoneOffset zoneOffset) {
