@@ -38,7 +38,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Deprecated
 public final class OffsetDateTimes {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private OffsetDateTimes() {
     }
 
