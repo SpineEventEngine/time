@@ -238,7 +238,7 @@ public final class TimeStringifiers {
      * @see io.spine.time.ZoneOffsets#toString(io.spine.time.ZoneOffset)
      *         ZoneOffsets.toString(ZoneOffset)
      * @see io.spine.time.ZoneOffsets#parse(String) ZoneOffsets.parse(String)
-     * @deprecated please use {@link ZoneId} with {@link #forZoneId()}.
+     * @deprecated please use {@link ZoneId} with {@link #forZoneId()} instead.
      */
     @Deprecated
     @SuppressWarnings("DeprecatedIsStillUsed")
