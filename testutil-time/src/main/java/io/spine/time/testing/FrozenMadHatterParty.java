@@ -24,28 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
+package io.spine.time.testing;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.protobuf.Timestamp;
+import io.spine.base.Time;
 
-import static io.spine.testing.Assertions.assertIllegalState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-@DisplayName("`LocalDate` should")
-class LocalDateTest extends TemporalMessageTest<LocalDate> {
+/**
+ * The provider of current time, which is always the same.
+ *
+ * <p>Use this {@code Timestamps.Provider} in time-related tests that are
+ * sensitive to bounds of minutes, hours, days, etc.
+ */
+@VisibleForTesting
+public class FrozenMadHatterParty implements Time.Provider {
 
-    LocalDateTest() {
-        super(LocalDate.class);
+    private final Timestamp frozenTime;
+
+    /**
+     * Creates a new party with the given time.
+     */
+    public FrozenMadHatterParty(Timestamp frozenTime) {
+        this.frozenTime = checkNotNull(frozenTime);
     }
 
+    /** Returns the value passed to the constructor. */
     @Override
-    LocalDate create() {
-        return Now.get().asLocalDate();
-    }
-
-    @Test
-    @DisplayName("reject conversion of the default value to JavaTime")
-    void defaultInstanceConversion() {
-        assertIllegalState(() -> LocalDate.getDefaultInstance().toJavaTime());
+    public Timestamp currentTime() {
+        return frozenTime;
     }
 }

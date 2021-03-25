@@ -27,9 +27,7 @@
 package io.spine.time.given;
 
 import com.google.protobuf.Any;
-import com.google.protobuf.Timestamp;
 import io.spine.protobuf.AnyPacker;
-import io.spine.time.InstantConverter;
 import io.spine.time.Temporal;
 
 import java.time.Instant;
@@ -48,11 +46,8 @@ public final class InstantTemporal implements Temporal<InstantTemporal> {
     }
 
     @Override
-    public Timestamp toTimestamp() {
-        Timestamp result = InstantConverter.instance()
-                                           .convert(value);
-        checkNotNull(result);
-        return result;
+    public Instant toInstant() {
+        return value;
     }
 
     @Override

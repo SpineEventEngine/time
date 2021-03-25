@@ -27,18 +27,18 @@
 package io.spine.time.string;
 
 import io.spine.time.Now;
-import io.spine.time.OffsetDateTime;
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("OffsetDateTimeStringifier should")
-class OffsetDateTimeStringifierTest extends AbstractStringifierTest<OffsetDateTime> {
+@DisplayName("`OffsetDateTimeStringifier` should")
+@SuppressWarnings("deprecation")
+class OffsetDateTimeStringifierTest extends AbstractStringifierTest<io.spine.time.OffsetDateTime> {
 
     OffsetDateTimeStringifierTest() {
-        super(TimeStringifiers.forOffsetDateTime(), OffsetDateTime.class);
+        super(TimeStringifiers.forOffsetDateTime(), io.spine.time.OffsetDateTime.class);
     }
 
     @Override
-    protected OffsetDateTime createObject() {
+    protected io.spine.time.OffsetDateTime createObject() {
         return Now.get().asOffsetDateTime();
     }
 }

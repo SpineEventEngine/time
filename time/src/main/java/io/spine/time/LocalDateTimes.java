@@ -70,11 +70,13 @@ public final class LocalDateTimes {
 
     /**
      * Converts the passed value to Java Time.
+     *
+     * @deprecated please use {@link LocalDateTime#toJavaTime()}
      */
+    @Deprecated
     public static java.time.LocalDateTime toJavaTime(LocalDateTime value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        return value.toJavaTime();
     }
 
     /**
@@ -129,8 +131,8 @@ public final class LocalDateTimes {
 
         @Override
         protected java.time.LocalDateTime doBackward(LocalDateTime value) {
-            java.time.LocalDate date = LocalDates.toJavaTime(value.getDate());
-            java.time.LocalTime time = LocalTimes.toJavaTime(value.getTime());
+            java.time.LocalDate date = value.date().toJavaTime();
+            java.time.LocalTime time = value.time().toJavaTime();
             return java.time.LocalDateTime.of(date, time);
         }
 

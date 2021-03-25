@@ -45,6 +45,10 @@ import io.spine.protobuf.AnyPacker;
  *     <li>mark the target message with the {@code (is)} option.
  * </ol>
  *
+ * <p>Interfaces derived from this one are meant to be implemented only by corresponding
+ * message type defined by the generic parameter {@code <T>}. As such, they should not add any
+ * abstract methods because it would break the generated code.
+ *
  * @param <T>
  *         the type of itself
  */

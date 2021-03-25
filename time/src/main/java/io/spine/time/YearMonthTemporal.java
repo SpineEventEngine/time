@@ -26,8 +26,6 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-
 import java.time.Instant;
 
 import static java.time.ZoneOffset.UTC;
@@ -41,14 +39,12 @@ import static java.time.ZoneOffset.UTC;
 interface YearMonthTemporal extends TemporalMessage<YearMonth>, YearMonthOrBuilder {
 
     @Override
-    default Timestamp toTimestamp() {
-        Instant instant = java.time.YearMonth
+    default Instant toInstant() {
+        Instant result = java.time.YearMonth
                 .of(getYear(), getMonthValue())
                 .atDay(1)
                 .atStartOfDay()
                 .toInstant(UTC);
-        Timestamp result = InstantConverter.instance()
-                                           .convert(instant);
         return result;
     }
 }

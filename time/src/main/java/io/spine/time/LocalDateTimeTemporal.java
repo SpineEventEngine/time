@@ -26,27 +26,44 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
+import io.spine.annotation.GeneratedMixin;
 
 import java.time.Instant;
 
+import static io.spine.time.LocalDateTimes.converter;
 import static java.time.ZoneOffset.UTC;
 
 /**
  * An implementation of {@link Temporal} based on {@link LocalDateTime}.
- *
- * <p>This interface is designed to be implemented by {@code io.spine.time.LocalDateTime}
- * exclusively. The interface does not add any abstract methods to its message counterpart.
  */
+@GeneratedMixin
 interface LocalDateTimeTemporal extends TemporalMessage<LocalDateTime>, LocalDateTimeOrBuilder {
 
     @Override
-    default Timestamp toTimestamp() {
+    default Instant toInstant() {
         Instant instant = java.time.LocalDateTime
-                .of(LocalDates.toJavaTime(getDate()), LocalTimes.toJavaTime(getTime()))
+                .of(getDate().toJavaTime(), getTime().toJavaTime())
                 .toInstant(UTC);
-        Timestamp result = InstantConverter.instance()
-                                           .convert(instant);
-        return result;
+        return instant;
+    }
+
+    /** Obtains the date part of this date/time instance. */
+    default LocalDate date() {
+        return getDate();
+    }
+
+    /** Obtains the time part of this date/time instance. */
+    default LocalTime time() {
+        return getTime();
+    }
+
+    /**
+     * Converts this date/time object to Java Time instance.
+     */
+    default java.time.LocalDateTime toJavaTime() {
+        @SuppressWarnings("ClassReferencesSubclass") // OK for mixins
+        LocalDateTime self = (LocalDateTime) this;
+        return converter().reverse()
+                          .convert(self);
     }
 }

@@ -63,7 +63,10 @@ public final class LocalTimes {
 
     /**
      * Converts the passed value to corresponding Java Time instance.
+     *
+     * @deprecated please use {@link LocalTime#toJavaTime()}
      */
+    @Deprecated
     public static java.time.LocalTime toJavaTime(LocalTime value) {
         checkNotNull(value);
         return converter().reverse()

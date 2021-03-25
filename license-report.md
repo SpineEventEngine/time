@@ -1,6 +1,6 @@
 
     
-# Dependencies of `io.spine:spine-testutil-time:2.0.0-SNAPSHOT.2`
+# Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.5`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -56,6 +56,26 @@
      * **Manifest License:** MIT (Not packaged)
      * **POM Project URL:** [https://checkerframework.org](https://checkerframework.org)
      * **POM License: The MIT License** - [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
+
+1. **Group:** org.jetbrains **Name:** annotations **Version:** 13.0
+     * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ## Compile, tests and tooling
 1. **Group:** antlr **Name:** antlr **Version:** 2.7.7
@@ -279,6 +299,26 @@
 1. **Group:** org.hamcrest **Name:** hamcrest-core **Version:** 1.3
      * **POM License: New BSD License** - [http://www.opensource.org/licenses/bsd-license.php](http://www.opensource.org/licenses/bsd-license.php)
 
+1. **Group:** org.jetbrains **Name:** annotations **Version:** 13.0
+     * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1. **Group:** org.junit **Name:** junit-bom **Version:** 5.7.0 **No license information found**
 1. **Group:** org.junit-pioneer **Name:** junit-pioneer **Version:** 1.0.0
      * **POM Project URL:** [https://github.com/junit-pioneer/junit-pioneer](https://github.com/junit-pioneer/junit-pioneer)
@@ -332,12 +372,12 @@
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Mar 18 18:12:18 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Wed Mar 24 22:18:40 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
     
-# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.2`
+# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.5`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -393,6 +433,26 @@ This report was generated on **Thu Mar 18 18:12:18 EET 2021** using [Gradle-Lice
      * **Manifest License:** MIT (Not packaged)
      * **POM Project URL:** [https://checkerframework.org](https://checkerframework.org)
      * **POM License: The MIT License** - [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT)
+
+1. **Group:** org.jetbrains **Name:** annotations **Version:** 13.0
+     * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ## Compile, tests and tooling
 1. **Group:** antlr **Name:** antlr **Version:** 2.7.7
@@ -649,6 +709,26 @@ This report was generated on **Thu Mar 18 18:12:18 EET 2021** using [Gradle-Lice
 1. **Group:** org.hamcrest **Name:** hamcrest-core **Version:** 1.3
      * **POM License: New BSD License** - [http://www.opensource.org/licenses/bsd-license.php](http://www.opensource.org/licenses/bsd-license.php)
 
+1. **Group:** org.jetbrains **Name:** annotations **Version:** 13.0
+     * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.4.21
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1. **Group:** org.junit **Name:** junit-bom **Version:** 5.7.0 **No license information found**
 1. **Group:** org.junit-pioneer **Name:** junit-pioneer **Version:** 1.0.0
      * **POM Project URL:** [https://github.com/junit-pioneer/junit-pioneer](https://github.com/junit-pioneer/junit-pioneer)
@@ -702,4 +782,4 @@ This report was generated on **Thu Mar 18 18:12:18 EET 2021** using [Gradle-Lice
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Mar 18 18:12:24 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Wed Mar 24 22:18:46 EET 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).

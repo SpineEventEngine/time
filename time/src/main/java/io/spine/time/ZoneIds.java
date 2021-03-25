@@ -76,11 +76,13 @@ public final class ZoneIds {
 
     /**
      * Converts the passed value to Java Time.
+     *
+     * @deprecated please use {@link ZoneId#toJavaTime()} instead.
      */
+    @Deprecated
     public static java.time.ZoneId toJavaTime(ZoneId value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        return value.toJavaTime();
     }
 
     /**

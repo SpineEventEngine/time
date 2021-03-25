@@ -38,15 +38,15 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.protobuf.Durations2.fromHours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
-import static io.spine.time.ZoneOffsets.Parameter.HOURS;
-import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static io.spine.util.Exceptions.unsupported;
 
 /**
  * Utilities for working with {@code ZoneOffset}s.
  *
  * @see ZoneOffset
+ * @deprecated please use {@link ZoneIds} instead.
  */
+@Deprecated
 public final class ZoneOffsets {
 
     private static final ZoneOffset UTC = ZoneOffset
@@ -99,7 +99,7 @@ public final class ZoneOffsets {
      * Obtains the ZoneOffset instance using an offset in hours.
      */
     public static ZoneOffset ofHours(int hours) {
-        HOURS.check(hours);
+        Parameter.HOURS.check(hours);
 
         Duration hourDuration = fromHours(hours);
         int seconds = toSeconds(hourDuration);
@@ -125,8 +125,8 @@ public final class ZoneOffsets {
      * <p>If a negative zone offset is created both passed values must be negative.
      */
     public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
-        HOURS.checkReduced(hours);
-        MINUTES.check(minutes);
+        Parameter.HOURS.checkReduced(hours);
+        Parameter.MINUTES.check(minutes);
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
@@ -145,7 +145,10 @@ public final class ZoneOffsets {
      * Parses the time zone offset value formatted as a signed value of hours and minutes.
      *
      * <p>Examples of accepted values: {@code +0300}, {@code -04:30}.
+     *
+     * @deprecated please use {@link java.time.ZoneOffset#of(String)} instead
      */
+    @Deprecated
     public static ZoneOffset parse(String value) {
         checkNotNull(value);
         return TimeStringifiers.forZoneOffset()
@@ -155,7 +158,10 @@ public final class ZoneOffsets {
 
     /**
      * Converts the passed zone offset into a string with a signed amount of hours and minutes.
+     *
+     * @deprecated please use {@link java.time.ZoneOffset#toString()} instead.
      */
+    @Deprecated
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
         return TimeStringifiers.forZoneOffset()

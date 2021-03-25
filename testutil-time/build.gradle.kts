@@ -24,8 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+group = "io.spine.tools"
+
 val spineBaseVersion: String by extra
 dependencies {
     api(project(":time"))
-    testImplementation("io.spine:spine-testlib:$spineBaseVersion")
+    testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
 }

@@ -36,7 +36,6 @@ import java.time.Year;
 import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.LocalDates.checkDate;
-import static io.spine.time.LocalDates.toJavaTime;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -146,10 +145,11 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
 
         @Test
         @DisplayName("default value in Java Time conversion")
+        @SuppressWarnings("deprecation")
         void defaultForConversion() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> toJavaTime(LocalDate.getDefaultInstance())
+                    () -> LocalDates.toJavaTime(LocalDate.getDefaultInstance())
             );
         }
 

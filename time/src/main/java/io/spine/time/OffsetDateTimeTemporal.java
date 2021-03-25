@@ -26,8 +26,6 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
-
 import java.time.Instant;
 
 /**
@@ -35,17 +33,18 @@ import java.time.Instant;
  *
  * <p>This interface is designed to be implemented by {@code io.spine.time.OffsetDateTime}
  * exclusively. The interface does not add any abstract methods to its message counterpart.
+ *
+ * @deprecated please use {@link ZonedDateTimeTemporal} instead.
  */
+@Deprecated
 interface OffsetDateTimeTemporal extends TemporalMessage<OffsetDateTime>, OffsetDateTimeOrBuilder {
 
     @Override
-    default Timestamp toTimestamp() {
+    default Instant toInstant() {
         Instant instant = java.time.OffsetDateTime
-                .of(LocalDateTimes.toJavaTime(getDateTime()),
+                .of(getDateTime().toJavaTime(),
                     ZoneOffsets.toJavaTime(getOffset()))
                 .toInstant();
-        Timestamp result = InstantConverter.instance()
-                                           .convert(instant);
-        return result;
+        return instant;
     }
 }

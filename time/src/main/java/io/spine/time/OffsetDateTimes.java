@@ -31,11 +31,14 @@ import io.spine.util.SerializableConverter;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Routines for working with {@link OffsetDateTime}.
+ * Routines for working with {@link io.spine.time.OffsetDateTime}.
+ *
+ * @deprecated please use {@link ZonedDateTimes} instead.
  */
+@Deprecated
 public final class OffsetDateTimes {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private OffsetDateTimes() {
     }
 
@@ -77,7 +80,10 @@ public final class OffsetDateTimes {
 
     /**
      * Returns a ISO-8601 date/time string corresponding to the passed value.
+     *
+     * @deprecated please use {@link java.time.OffsetDateTime#toString()} instead.
      */
+    @Deprecated
     public static String toString(OffsetDateTime value) {
         checkNotNull(value);
         return TimeStringifiers.forOffsetDateTime()
@@ -86,7 +92,10 @@ public final class OffsetDateTimes {
 
     /**
      * Parses from ISO-8601 date/time string to {@code OffsetDateTime}.
+     *
+     * @deprecated please use {@link java.time.OffsetDateTime#parse(CharSequence)} instead.
      */
+    @Deprecated
     public static OffsetDateTime parse(String value) {
         checkNotNull(value);
         return TimeStringifiers.forOffsetDateTime()
