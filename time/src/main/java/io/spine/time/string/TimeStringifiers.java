@@ -164,8 +164,8 @@ public final class TimeStringifiers {
      *      OffsetDateTimes.parse(String)
      * @deprecated please use {@link ZonedDateTime} with {@link #forZonedDateTime()}
      */
-    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
+    @SuppressWarnings("DeprecatedIsStillUsed")
     public static Stringifier<io.spine.time.OffsetDateTime> forOffsetDateTime() {
         return OffsetDateTimeStringifier.instance();
     }
