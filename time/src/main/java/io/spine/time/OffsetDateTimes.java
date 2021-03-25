@@ -81,7 +81,7 @@ public final class OffsetDateTimes {
     /**
      * Returns a ISO-8601 date/time string corresponding to the passed value.
      *
-     * @deprecated please use {@link java.time.OffsetDateTime#toString()} instead
+     * @deprecated please use {@link java.time.OffsetDateTime#toString()} instead.
      */
     @Deprecated
     public static String toString(OffsetDateTime value) {
