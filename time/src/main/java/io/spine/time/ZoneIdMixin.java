@@ -34,7 +34,7 @@ import static io.spine.time.ZoneIds.converter;
  * Mixin interface for extending {@link ZoneId}.
  */
 @GeneratedMixin
-public interface ZoneIdMixin extends ZoneIdOrBuilder {
+interface ZoneIdMixin extends ZoneIdOrBuilder {
 
     /** Converts this zone ID object to a Java Time instance. */
     default java.time.ZoneId toJavaTime() {

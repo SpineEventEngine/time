@@ -37,7 +37,7 @@ import static io.spine.time.LocalTimes.converter;
  * be converted to a point in time without additional information such as date and time-zone.
  */
 @GeneratedMixin
-public interface LocalTimeMixin extends LocalTimeOrBuilder {
+interface LocalTimeMixin extends LocalTimeOrBuilder {
 
     /** Obtains an hour of this local time, from 0 to 23. */
     default int hour() {
