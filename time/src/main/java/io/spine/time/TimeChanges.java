@@ -78,7 +78,7 @@ public final class TimeChanges {
      *
      * <p>Passed values cannot be equal.
      *
-     * @deprecated please use {@link ZonedDateTime} with a custom change type.
+     * @deprecated please use {@link ZonedDateTime} with a custom change type instead.
      */
     @Deprecated
     public static OffsetTimeChange of(OffsetTime previousValue, OffsetTime newValue) {
