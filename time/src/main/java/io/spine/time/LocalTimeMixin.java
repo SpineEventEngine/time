@@ -59,6 +59,7 @@ public interface LocalTimeMixin extends LocalTimeOrBuilder {
         return getNano();
     }
 
+    /** Converts this time to a Java Time instance. */
     default java.time.LocalTime toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
         LocalTime self = (LocalTime) this;
