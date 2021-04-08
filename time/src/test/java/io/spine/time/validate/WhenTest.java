@@ -29,7 +29,7 @@ package io.spine.time.validate;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
-import io.spine.protobuf.MessageWithConstraints;
+import io.spine.validate.MessageWithConstraints;
 import io.spine.validate.ConstraintViolation;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.AfterEach;
