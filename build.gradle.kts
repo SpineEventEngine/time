@@ -144,10 +144,8 @@ subprojects {
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-
         Deps.test.apply {
             testImplementation(junit.runner)
-            testImplementation(junit.pioneer)
         }
         runtimeOnly(Deps.runtime.flogger.systemBackend)
     }
