@@ -45,10 +45,8 @@ dependencies {
     annotationProcessor(Deps.build.autoService.processor)
     compileOnly(Deps.build.autoService.annotations)
 
-    api(Deps.build.guava)
     api("io.spine:spine-base:$spineBaseVersion")
 
-    testImplementation("io.spine:spine-testlib:$spineBaseVersion")
     testImplementation(project(":testutil-time"))
 }
 

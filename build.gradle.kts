@@ -32,6 +32,8 @@ import com.google.protobuf.gradle.protoc
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
 import io.spine.gradle.internal.PublishingRepos
+import io.spine.gradle.internal.spinePublishing
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
@@ -50,20 +52,29 @@ buildscript {
 
 plugins {
     `java-library`
+    // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
+    kotlin("jvm") version io.spine.gradle.internal.Kotlin.version
     jacoco
     idea
     `project-report`
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    id("com.google.protobuf").version(io.spine.gradle.internal.Deps.versions.protobufPlugin)
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    id("net.ltgt.errorprone").version(io.spine.gradle.internal.Deps.versions.errorPronePlugin)
+    io.spine.gradle.internal.Deps.build.apply {
+        id("com.google.protobuf") version protobuf.gradlePluginVersion
+        id("net.ltgt.errorprone") version errorProne.gradlePluginVersion
+    }
 }
 
-extra["projectsToPublish"] = listOf(
-    "time",
-    "testutil-time"
-)
-extra["publishToRepository"] = PublishingRepos.cloudRepo
+apply(from = "$rootDir/version.gradle.kts")
+spinePublishing {
+    targetRepositories.addAll(setOf(
+        PublishingRepos.cloudRepo,
+        PublishingRepos.gitHub("time")
+    ))
+    projectsToPublish.addAll(
+        "time",
+        "testutil-time"
+    )
+}
 
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
@@ -78,6 +89,7 @@ subprojects {
 
     apply {
         plugin("java-library")
+        plugin("kotlin")
         plugin("net.ltgt.errorprone")
         plugin("pmd")
         plugin("checkstyle")
@@ -87,9 +99,21 @@ subprojects {
         from(Deps.scripts.projectLicenseReport(project))
     }
 
+    val javaVersion = JavaVersion.VERSION_1_8
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+    }
+
+    kotlin {
+        explicitApi()
+    }
+
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = javaVersion.toString()
+            useIR = true
+        }
     }
 
     // Specific setup for a Travis build,
@@ -111,21 +135,21 @@ subprojects {
 
     DependencyResolution.defaultRepositories(repositories)
 
+    val spineBaseVersion: String by extra
     dependencies {
-        errorprone(Deps.build.errorProneCore)
-        errorproneJavac(Deps.build.errorProneJavac)
+        Deps.build.apply {
+            errorprone(errorProne.core)
+            errorproneJavac(errorProne.javacPlugin)
+        }
+        api(kotlin("stdlib-jdk8"))
 
-        Deps.build.protobuf.forEach { api(it) }
+        testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
 
-        implementation(Deps.build.guava)
-        compileOnlyApi(Deps.build.checkerAnnotations)
-        compileOnlyApi(Deps.build.jsr305Annotations)
-        Deps.build.errorProneAnnotations.forEach { compileOnlyApi(it) }
-
-        Deps.test.junit5Api.forEach { testImplementation(it) }
-        testImplementation(Deps.test.guavaTestlib)
-
-        testRuntimeOnly(Deps.test.junit5Runner)
+        Deps.test.apply {
+            testImplementation(junit.runner)
+            testImplementation(junit.pioneer)
+        }
+        runtimeOnly(Deps.runtime.flogger.systemBackend)
     }
 
     DependencyResolution.forceConfiguration(configurations)
@@ -168,7 +192,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Deps.build.protoc
+            artifact = Deps.build.protobuf.compiler
         }
         generateProtoTasks {
             all().forEach { task ->
@@ -226,7 +250,6 @@ subprojects {
 
 apply {
     from(Deps.scripts.jacoco(project))
-    from(Deps.scripts.publish(project))
     from(Deps.scripts.repoLicenseReport(project))
     from(Deps.scripts.generatePom(project))
 }
