@@ -26,6 +26,7 @@
 
 package io.spine.time;
 
+import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
@@ -38,6 +39,7 @@ import static io.spine.time.Months.checkMonth;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.lang.String.format;
 import static java.time.temporal.ChronoField.YEAR;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@link LocalDate}.
@@ -53,7 +55,8 @@ public final class LocalDates {
      */
     public static LocalDate of(java.time.LocalDate ld) {
         checkNotNull(ld);
-        return converter().convert(ld);
+        LocalDate result = converter().convert(ld);
+        return requireNonNull(result);
     }
 
     /**
@@ -61,8 +64,10 @@ public final class LocalDates {
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
         checkDate(date);
-        return converter().reverse()
-                          .convert(date);
+        java.time.LocalDate result =
+                converter().reverse()
+                           .convert(date);
+        return requireNonNull(result);
     }
 
     /**
@@ -90,9 +95,14 @@ public final class LocalDates {
      */
     public static LocalDate parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forLocalDate()
-                               .reverse()
-                               .convert(str);
+        LocalDate result =
+                stringifier().reverse()
+                             .convert(str);
+        return requireNonNull(result);
+    }
+
+    private static Stringifier<LocalDate> stringifier() {
+        return TimeStringifiers.forLocalDate();
     }
 
     /**
@@ -102,8 +112,8 @@ public final class LocalDates {
      */
     public static String toString(LocalDate date) {
         checkDate(date);
-        return TimeStringifiers.forLocalDate()
-                               .convert(date);
+        String result = stringifier().convert(date);
+        return requireNonNull(result);
     }
 
     /**
