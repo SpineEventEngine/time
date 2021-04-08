@@ -34,9 +34,9 @@ import org.junit.jupiter.api.Test;
 
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.Asserts.assertTimesEqual;
-import static io.spine.time.OffsetDateTimes.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SuppressWarnings("deprecation")
 @DisplayName("OffsetDateTimes should")
 public class OffsetDateTimesTest
         extends AbstractOffsetTimeTest<OffsetDateTime, java.time.OffsetDateTime> {
@@ -87,7 +87,7 @@ public class OffsetDateTimesTest
         @DisplayName("current date/time")
         void currentDateTime() {
             OffsetDateTime now = current();
-            java.time.OffsetDateTime jn = toJavaTime(now);
+            java.time.OffsetDateTime jn = io.spine.time.OffsetDateTimes.toJavaTime(now);
             assertEqualDateTime(jn, now);
         }
 

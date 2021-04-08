@@ -35,8 +35,6 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Function;
 
 import static io.spine.testing.TestValues.random;
-import static io.spine.time.ZoneOffsets.Parameter.HOURS;
-import static io.spine.time.ZoneOffsets.Parameter.MINUTES;
 import static java.lang.Math.abs;
 
 /**
@@ -45,6 +43,7 @@ import static java.lang.Math.abs;
  * @param <T> the type with which the utility class work
  * @param <J> the Java Type which corresponds to the type {@code <T>}
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtilityTest<T, J> {
 
     private ZoneOffset zoneOffset;
@@ -61,13 +60,21 @@ public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtili
 
     private static ZoneOffset generateOffset() {
         // Reduce the hour range by one assuming minutes are also generated.
-        int hours = random(HOURS.min() + 1, HOURS.max() - 1);
-        int minutes = random(MINUTES.min(), MINUTES.max());
+        int hours = random(hours().min() + 1, hours().max() - 1);
+        int minutes = random(minutes().min(), minutes().max());
         // Make minutes of the same sign with hours.
         minutes = hours >= 0
                   ? abs(minutes)
                   : -abs(minutes);
         return ZoneOffsets.ofHoursMinutes(hours, minutes);
+    }
+
+    private static ZoneOffsets.Parameter hours() {
+        return ZoneOffsets.Parameter.HOURS;
+    }
+
+    private static ZoneOffsets.Parameter minutes() {
+        return ZoneOffsets.Parameter.MINUTES;
     }
 
     protected ZoneOffset zoneOffset() {

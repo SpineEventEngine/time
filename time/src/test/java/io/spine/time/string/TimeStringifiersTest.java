@@ -32,9 +32,6 @@ import io.spine.string.StringifierRegistry;
 import io.spine.testing.UtilityClassTest;
 import io.spine.time.LocalDate;
 import io.spine.time.LocalTime;
-import io.spine.time.OffsetDateTime;
-import io.spine.time.OffsetTime;
-import io.spine.time.ZoneOffset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -42,12 +39,9 @@ import java.util.Optional;
 
 import static io.spine.time.string.TimeStringifiers.forLocalDate;
 import static io.spine.time.string.TimeStringifiers.forLocalTime;
-import static io.spine.time.string.TimeStringifiers.forOffsetDateTime;
-import static io.spine.time.string.TimeStringifiers.forOffsetTime;
-import static io.spine.time.string.TimeStringifiers.forZoneOffset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("TimeStringifiers should")
+@DisplayName("`TimeStringifiers` should")
 class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
 
     TimeStringifiersTest() {
@@ -57,11 +51,20 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
     @Test
     @DisplayName("register stringifiers for standard types")
     void registerStringifiers() {
-        assertStringifier(ZoneOffset.class, forZoneOffset());
         assertStringifier(LocalDate.class, forLocalDate());
         assertStringifier(LocalTime.class, forLocalTime());
-        assertStringifier(OffsetDateTime.class, forOffsetDateTime());
-        assertStringifier(OffsetTime.class, forOffsetTime());
+
+        assertDeprecatedStringifiersToo();
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void assertDeprecatedStringifiersToo() {
+        assertStringifier(io.spine.time.ZoneOffset.class,
+                          TimeStringifiers.forZoneOffset());
+        assertStringifier(io.spine.time.OffsetDateTime.class,
+                          TimeStringifiers.forOffsetDateTime());
+        assertStringifier(io.spine.time.OffsetTime.class,
+                          TimeStringifiers.forOffsetTime());
     }
 
     private static <T> void assertStringifier(Class<T> dataClass, Stringifier<T> stringifier) {
@@ -73,7 +76,6 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
         Optional<Stringifier<Object>> stringifier = StringifierRegistry.instance()
                                                                        .get(cls);
         Truth8.assertThat(stringifier).isPresent();
-        //noinspection OptionalGetWithoutIsPresent
         return stringifier.get();
     }
 }

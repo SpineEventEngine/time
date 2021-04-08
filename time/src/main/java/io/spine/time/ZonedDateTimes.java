@@ -124,8 +124,8 @@ public final class ZonedDateTimes {
 
         @Override
         protected java.time.ZonedDateTime doBackward(ZonedDateTime value) {
-            java.time.LocalDateTime dateTime = LocalDateTimes.toJavaTime(value.getDateTime());
-            java.time.ZoneId zoneId = ZoneIds.toJavaTime(value.getZone());
+            java.time.LocalDateTime dateTime = value.dateTime().toJavaTime();
+            java.time.ZoneId zoneId = value.zone().toJavaTime();
             return java.time.ZonedDateTime.of(dateTime, zoneId);
         }
 

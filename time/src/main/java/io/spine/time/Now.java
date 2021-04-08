@@ -34,6 +34,7 @@ import java.time.ZonedDateTime;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.base.Time.currentTimeZone;
+import static java.util.Objects.requireNonNull;
 
 /**
  * The current time.
@@ -79,7 +80,7 @@ public final class Now {
      */
     public static Now get(ZoneId timeZone) {
         checkNotNull(timeZone);
-        java.time.ZoneId id = ZoneIds.toJavaTime(timeZone);
+        java.time.ZoneId id = timeZone.toJavaTime();
         return get(id);
     }
 
@@ -88,7 +89,9 @@ public final class Now {
      *
      * @param offset
      *         the time zone offset
+     * @deprecated please use {@link #get(java.time.ZoneId)} or {@link #get(ZoneId)}
      */
+    @Deprecated
     public static Now get(ZoneOffset offset) {
         checkNotNull(offset);
         java.time.ZoneOffset jt = ZoneOffsets.toJavaTime(offset);
@@ -149,7 +152,10 @@ public final class Now {
 
     /**
      * Obtains the current time as an {@code OffsetTime}.
+     *
+     * @deprecated please use {@link #asZonedDateTime()}
      */
+    @Deprecated
     public OffsetTime asOffsetTime() {
         ZonedDateTime now = now();
         return OffsetTime
@@ -161,7 +167,10 @@ public final class Now {
 
     /**
      * Obtains the current time as an {@code OffsetDateTime}.
+     *
+     * @deprecated please use {@link #asZonedDateTime()}
      */
+    @Deprecated
     public OffsetDateTime asOffsetDateTime() {
         java.time.OffsetDateTime jt = now().toOffsetDateTime();
         return OffsetDateTimes.of(jt);
@@ -178,7 +187,7 @@ public final class Now {
         Timestamp time = Time.currentTime();
         Instant instant = InstantConverter.reversed()
                                           .convert(time);
-        checkNotNull(instant);
+        requireNonNull(instant);
         return ZonedDateTime.ofInstant(instant, timeZone);
     }
 }

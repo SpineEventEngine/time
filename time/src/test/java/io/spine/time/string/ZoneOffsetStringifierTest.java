@@ -27,30 +27,29 @@
 package io.spine.time.string;
 
 import io.spine.string.Stringifier;
-import io.spine.time.ZoneOffset;
-import io.spine.time.ZoneOffsets;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("ZoneOffsetStringifier should")
-class ZoneOffsetStringifierTest extends AbstractStringifierTest<ZoneOffset> {
+@DisplayName("`ZoneOffsetStringifier` should")
+@SuppressWarnings("deprecation")
+class ZoneOffsetStringifierTest extends AbstractStringifierTest<io.spine.time.ZoneOffset> {
 
     ZoneOffsetStringifierTest() {
-        super(TimeStringifiers.forZoneOffset(), ZoneOffset.class);
+        super(TimeStringifiers.forZoneOffset(), io.spine.time.ZoneOffset.class);
     }
 
     @Override
-    protected ZoneOffset createObject() {
-        return ZoneOffsets.ofHoursMinutes(7, 40);
+    protected io.spine.time.ZoneOffset createObject() {
+        return io.spine.time.ZoneOffsets.ofHoursMinutes(7, 40);
     }
 
     @Test
     @DisplayName("Convert negative value")
     void convertNegative() {
-        Stringifier<ZoneOffset> stringifier = stringifier();
-        ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -45);
+        Stringifier<io.spine.time.ZoneOffset> stringifier = stringifier();
+        io.spine.time.ZoneOffset negative = io.spine.time.ZoneOffsets.ofHoursMinutes(-3, -45);
         assertEquals(negative, stringifier.reverse()
                                           .convert(stringifier.convert(negative)));
     }

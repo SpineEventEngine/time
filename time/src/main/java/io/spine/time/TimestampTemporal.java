@@ -31,6 +31,8 @@ import com.google.protobuf.Timestamp;
 import io.spine.annotation.Internal;
 import io.spine.protobuf.AnyPacker;
 
+import java.time.Instant;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Timestamps.checkValid;
 
@@ -56,6 +58,15 @@ public final class TimestampTemporal implements Temporal<TimestampTemporal> {
         checkNotNull(value);
         checkValid(value);
         return new TimestampTemporal(value);
+    }
+
+    @Override
+    public Instant toInstant() {
+        Instant result =
+                InstantConverter.instance()
+                                .reverse()
+                                .convert(value);
+        return result;
     }
 
     @Override

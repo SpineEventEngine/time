@@ -77,7 +77,10 @@ public final class TimeChanges {
      * offset time.
      *
      * <p>Passed values cannot be equal.
+     *
+     * @deprecated please use {@link ZonedDateTime} with a custom change type instead.
      */
+    @Deprecated
     public static OffsetTimeChange of(OffsetTime previousValue, OffsetTime newValue) {
         checkNotEqual(previousValue, newValue);
 
@@ -94,7 +97,10 @@ public final class TimeChanges {
      * offset time.
      *
      * <p>Passed values cannot be equal.
+     *
+     * @deprecated please use {@link ZonedDateTime} with a custom change type instead.
      */
+    @Deprecated
     public static OffsetDateTimeChange of(OffsetDateTime previousValue, OffsetDateTime newValue) {
         checkNotEqual(previousValue, newValue);
 

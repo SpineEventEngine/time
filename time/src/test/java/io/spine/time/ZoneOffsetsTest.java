@@ -40,14 +40,12 @@ import java.util.concurrent.TimeUnit;
 import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.Durations2.hours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
-import static io.spine.time.ZoneOffsets.ofHours;
-import static io.spine.time.ZoneOffsets.ofHoursMinutes;
-import static io.spine.time.ZoneOffsets.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("ZoneOffsets should")
+@SuppressWarnings("deprecation")
 class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
 
     /** The count of milliseconds in one second. */
@@ -88,21 +86,21 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         @DisplayName("by hour offset")
         void byHourOffset() {
             Duration twoHours = hours(2);
-            assertEquals(twoHours.getSeconds(), ofHours(2).getAmountSeconds());
+            assertEquals(twoHours.getSeconds(), ZoneOffsets.ofHours(2).getAmountSeconds());
         }
 
         @Test
         @DisplayName("by a positive offset of hours and minutes")
         void byHoursAndMinutes() {
             assertEquals(hoursAndMinutes(8, 45).getSeconds(),
-                         ofHoursMinutes(8, 45).getAmountSeconds());
+                         ZoneOffsets.ofHoursMinutes(8, 45).getAmountSeconds());
         }
 
         @Test
         @DisplayName("by a negative offset of hours and minutes")
         void byNegativeHoursAndMinutes() {
             assertEquals(hoursAndMinutes(-4, -50).getSeconds(),
-                         ofHoursMinutes(-4, -50).getAmountSeconds());
+                         ZoneOffsets.ofHoursMinutes(-4, -50).getAmountSeconds());
         }
     }
 
@@ -121,7 +119,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void negativeHourPositiveMinutes() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ofHoursMinutes(-1, 10)
+                    () -> ZoneOffsets.ofHoursMinutes(-1, 10)
             );
         }
 
@@ -130,7 +128,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void positiveHourNegativeMinutes() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ofHoursMinutes(1, -10)
+                    () -> ZoneOffsets.ofHoursMinutes(1, -10)
             );
         }
 
@@ -139,7 +137,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void over18Hours() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ofHours(18 + 1)
+                    () -> ZoneOffsets.ofHours(18 + 1)
             );
         }
 
@@ -148,7 +146,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void overMinus18Hours() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ofHours(-18 - 1)
+                    () -> ZoneOffsets.ofHours(-18 - 1)
             );
         }
 
@@ -157,7 +155,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void over60Minutes() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> ofHoursMinutes(10, 60 + 1)
+                    () -> ZoneOffsets.ofHoursMinutes(10, 60 + 1)
             );
         }
 
@@ -170,15 +168,15 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         @Test
         @DisplayName("positive offset")
         void positive() {
-            ZoneOffset positive = ofHoursMinutes(5, 48);
-            assertEquals(positive, parse(ZoneOffsets.toString(positive)));
+            ZoneOffset positive = ZoneOffsets.ofHoursMinutes(5, 48);
+            assertEquals(positive, ZoneOffsets.parse(ZoneOffsets.toString(positive)));
         }
 
         @Test
         @DisplayName("negative offset")
         void negative() {
-            ZoneOffset negative = ofHoursMinutes(-3, -36);
-            assertEquals(negative, parse(ZoneOffsets.toString(negative)));
+            ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -36);
+            assertEquals(negative, ZoneOffsets.parse(ZoneOffsets.toString(negative)));
         }
     }
 
@@ -189,25 +187,25 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         @Test
         @DisplayName("+hhmm")
         void noSeparator() {
-            assertEquals(ofHoursMinutes(4, 30), parse("+0430"));
+            assertEquals(ZoneOffsets.ofHoursMinutes(4, 30), ZoneOffsets.parse("+0430"));
         }
 
         @Test
         @DisplayName("+hh:mm")
         void withSeparator() {
-            assertEquals(ofHoursMinutes(4, 30), parse("+04:30"));
+            assertEquals(ZoneOffsets.ofHoursMinutes(4, 30), ZoneOffsets.parse("+04:30"));
         }
 
         @Test
         @DisplayName("-hhmm")
         void negativeNoSeparator() {
-            assertEquals(ofHoursMinutes(-2, -45), parse("-0245"));
+            assertEquals(ZoneOffsets.ofHoursMinutes(-2, -45), ZoneOffsets.parse("-0245"));
         }
 
         @Test
         @DisplayName("-hh:mm")
         void negativeWithSeparator() {
-            assertEquals(ofHoursMinutes(-2, -45), parse("-02:45"));
+            assertEquals(ZoneOffsets.ofHoursMinutes(-2, -45), ZoneOffsets.parse("-02:45"));
         }
 
         @Test
@@ -215,7 +213,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         void signCharMissing() {
             assertThrows(
                     IllegalArgumentException.class,
-                    () -> parse("x03:00")
+                    () -> ZoneOffsets.parse("x03:00")
             );
         }
     }

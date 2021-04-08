@@ -26,26 +26,21 @@
 
 package io.spine.time;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.spine.annotation.GeneratedMixin;
 
-import static io.spine.testing.Assertions.assertIllegalState;
+import static io.spine.time.ZoneIds.converter;
 
-@DisplayName("`LocalDate` should")
-class LocalDateTest extends TemporalMessageTest<LocalDate> {
+/**
+ * Mixin interface for extending {@link ZoneId}.
+ */
+@GeneratedMixin
+interface ZoneIdMixin extends ZoneIdOrBuilder {
 
-    LocalDateTest() {
-        super(LocalDate.class);
-    }
-
-    @Override
-    LocalDate create() {
-        return Now.get().asLocalDate();
-    }
-
-    @Test
-    @DisplayName("reject conversion of the default value to JavaTime")
-    void defaultInstanceConversion() {
-        assertIllegalState(() -> LocalDate.getDefaultInstance().toJavaTime());
+    /** Converts this zone ID object to a Java Time instance. */
+    default java.time.ZoneId toJavaTime() {
+        @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
+        ZoneId self = (ZoneId) this;
+        return converter().reverse()
+                          .convert(self);
     }
 }

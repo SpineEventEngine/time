@@ -26,7 +26,6 @@
 
 package io.spine.time.testing;
 
-import io.spine.time.testing.TimeTests.BackToTheFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,7 @@ class BackToTheFutureTest {
     @Test
     @DisplayName("provide time from the future")
     void futureTime() {
-        assertTrue(TimeTests.Future.isFuture(timeProvider.currentTime()));
+        assertTrue(Future.isFuture(timeProvider.currentTime()));
     }
 
     @Test
@@ -61,7 +60,7 @@ class BackToTheFutureTest {
         // ... and back to 30 years in the past.
         timeProvider.backward(BackToTheFuture.THIRTY_YEARS_IN_HOURS);
 
-        assertFalse(TimeTests.Future.isFuture(timeProvider.currentTime()));
+        assertFalse(Future.isFuture(timeProvider.currentTime()));
     }
 
     @SuppressWarnings("MagicNumber")
@@ -73,6 +72,6 @@ class BackToTheFutureTest {
 
         timeProvider.forward(BackToTheFuture.THIRTY_YEARS_IN_HOURS + 24L);
 
-        assertTrue(TimeTests.Future.isFuture(timeProvider.currentTime()));
+        assertTrue(Future.isFuture(timeProvider.currentTime()));
     }
 }

@@ -26,13 +26,14 @@
 
 package io.spine.time.string;
 
-import io.spine.time.ZoneOffset;
-import io.spine.time.ZoneOffsets;
-
 /**
- * The default stringifier for {@code ZoneOffset} values.
+ * The default stringifier for {@code io.spine.time.ZoneOffset} values.
+ *
+ * @deprecated please use {{@link ZoneIdStringifier}.
  */
-final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.ZoneOffset> {
+@Deprecated
+final class ZoneOffsetStringifier
+        extends JtStringifier<io.spine.time.ZoneOffset, java.time.ZoneOffset> {
 
     private static final long serialVersionUID = 0L;
     private static final ZoneOffsetStringifier INSTANCE = new ZoneOffsetStringifier();
@@ -40,7 +41,7 @@ final class ZoneOffsetStringifier extends JtStringifier<ZoneOffset, java.time.Zo
     private ZoneOffsetStringifier() {
         super("TimeStringifiers.forZoneOffset()",
               java.time.ZoneOffset::of,
-              ZoneOffsets.converter());
+              io.spine.time.ZoneOffsets.converter());
     }
 
     static ZoneOffsetStringifier instance() {
