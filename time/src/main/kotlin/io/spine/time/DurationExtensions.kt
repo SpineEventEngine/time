@@ -44,6 +44,7 @@ import io.spine.protobuf.Durations2
 import io.spine.protobuf.Durations2.add
 import io.spine.protobuf.Durations2.isPositive
 import io.spine.protobuf.Durations2.isPositiveOrZero
+import io.spine.protobuf.Durations2.isZero
 import io.spine.protobuf.Durations2.toJavaTime
 
 /**
@@ -86,6 +87,13 @@ public fun Duration.isPositive(): Boolean = isPositive(this)
  * @returns `true` of the passed value is greater or equal zero, `false` otherwise.
  */
 public fun Duration.isPositiveOrZero(): Boolean = isPositiveOrZero(this)
+
+/**
+ * Returns `true` if the passed value is zero, `false` otherwise.
+ *
+ * @see Durations2.ZERO
+ */
+public fun Duration.isZero(): Boolean = isZero(this)
 
 /**
  * Convert Duration to string format.
