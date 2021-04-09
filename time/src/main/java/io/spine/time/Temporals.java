@@ -34,6 +34,7 @@ import io.spine.type.TypeName;
 import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.JavaTimeExtensions.toTimestamp;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
 
 /**
@@ -86,9 +87,7 @@ public final class Temporals {
      */
     public static Temporal<?> from(Instant instant) {
         checkNotNull(instant);
-        Timestamp timestamp = InstantConverter.instance()
-                                              .convert(instant);
-        checkNotNull(timestamp);
+        Timestamp timestamp = toTimestamp(instant);
         return from(timestamp);
     }
 }

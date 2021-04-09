@@ -27,7 +27,12 @@
 package io.spine.time;
 
 import com.google.protobuf.Message;
+import com.google.protobuf.Timestamp;
 
+import java.util.Comparator;
+import java.util.function.Predicate;
+
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.newIllegalArgumentException;
 import static io.spine.util.Preconditions2.checkNotDefaultArg;
@@ -73,5 +78,25 @@ final class DtPreconditions {
                            "Date-time value of class `%s` cannot have a default value.",
                            dateTimeValue.getClass()
                                         .getName());
+    }
+
+    /**
+     * Ensures that {@code periodStart < periodEnd}.
+     */
+    static <T extends Comparable<T>> void checkPeriod(T periodStart, T periodEnd) {
+        boolean checkResult = periodStart.compareTo(periodEnd) < 0;
+        checkArgument(checkResult,
+                      "Period start `%s` must be earlier than period end `%s`.",
+                      periodStart,
+                      periodEnd);
+    }
+
+    /**
+     * Ensures that {@code periodStart < periodEnd}.
+     */
+    static void checkPeriod(Timestamp periodStart, Timestamp periodEnd) {
+        TimestampTemporal start = TimestampTemporal.from(periodStart);
+        TimestampTemporal end = TimestampTemporal.from(periodEnd);
+        checkPeriod(start, end);
     }
 }

@@ -35,6 +35,7 @@ import java.time.Instant;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Timestamps.checkValid;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An implementation of {@link Temporal} for the Protobuf {@link Timestamp}.
@@ -66,7 +67,7 @@ public final class TimestampTemporal implements Temporal<TimestampTemporal> {
                 InstantConverter.instance()
                                 .reverse()
                                 .convert(value);
-        return result;
+        return requireNonNull(result);
     }
 
     @Override
