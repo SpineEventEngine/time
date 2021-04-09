@@ -42,11 +42,11 @@ import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.Range.range;
 import static com.google.common.truth.Truth.assertThat;
+import static io.spine.testing.Assertions.assertIllegalArgument;
 import static io.spine.time.given.TemporalTestEnv.future;
 import static io.spine.time.given.TemporalTestEnv.inBetween;
 import static io.spine.time.given.TemporalTestEnv.past;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Temporal should")
@@ -96,10 +96,9 @@ class TemporalTest {
     @Test
     @DisplayName("ensure first bound is lower")
     void correctBounds() {
-        assertThrows(IllegalArgumentException.class,
-                     () -> inBetween().isBetween(future(), past()));
-        assertThrows(IllegalArgumentException.class,
-                     () -> inBetween().isBetween(future(), future()));
+        TimestampTemporal temporal = inBetween();
+        assertIllegalArgument(() -> temporal.isBetween(future(), past()));
+        assertIllegalArgument(() -> temporal.isBetween(future(), future()));
     }
 
     @Test
@@ -107,11 +106,12 @@ class TemporalTest {
     @SuppressWarnings("unchecked") // Supposed to fail.
     void failWithDifferentTypes() {
         Instant instant = Instant.now();
+        @SuppressWarnings("rawtypes")
         Temporal instantTemporal = new InstantTemporal(instant);
+        @SuppressWarnings("rawtypes")
         Temporal timestampTemporal = Temporals.from(instant);
 
-        assertThrows(IllegalArgumentException.class,
-                     () -> instantTemporal.compareTo(timestampTemporal));
+        assertIllegalArgument(() -> instantTemporal.compareTo(timestampTemporal));
     }
 
     @Nested
