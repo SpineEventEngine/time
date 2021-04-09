@@ -31,6 +31,8 @@ import com.google.protobuf.Timestamp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.Instant;
+
 import static com.google.common.truth.Truth.assertThat;
 import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.AnyPacker.pack;
@@ -44,7 +46,9 @@ class TimestampTemporalTest {
     void nullity() {
         NullPointerTester tester = new NullPointerTester()
                 .setDefault(TimestampTemporal.class, now())
-                .setDefault(Temporal.class, now());
+                .setDefault(Temporal.class, now())
+                .setDefault(Timestamp.class, now().toTimestamp())
+                .setDefault(Instant.class, now().toInstant());
         tester.testAllPublicStaticMethods(TimestampTemporal.class);
         tester.testAllPublicInstanceMethods(now());
     }
