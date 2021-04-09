@@ -32,6 +32,6 @@ import com.google.protobuf.Timestamp
 import java.time.Instant
 
 /**
- * Converts this [Instant] to [Timestamp].
+ * Converts this instant to [Timestamp].
  */
 public fun Instant.toTimestamp(): Timestamp = InstantConverter.instance().convert(this)!!
