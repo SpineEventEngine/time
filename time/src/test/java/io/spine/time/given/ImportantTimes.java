@@ -34,12 +34,10 @@ import io.spine.time.TimestampTemporal;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public final class TemporalTestEnv {
+public final class ImportantTimes {
 
-    /**
-     * Prevents the utility class instantiation.
-     */
-    private TemporalTestEnv() {
+    /** Prevents instantiation of this utility class. */
+    private ImportantTimes() {
     }
 
     public static TimestampTemporal past() {

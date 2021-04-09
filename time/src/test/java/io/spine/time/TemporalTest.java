@@ -43,9 +43,9 @@ import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.Range.range;
 import static com.google.common.truth.Truth.assertThat;
 import static io.spine.testing.Assertions.assertIllegalArgument;
-import static io.spine.time.given.TemporalTestEnv.future;
-import static io.spine.time.given.TemporalTestEnv.inBetween;
-import static io.spine.time.given.TemporalTestEnv.past;
+import static io.spine.time.given.ImportantTimes.future;
+import static io.spine.time.given.ImportantTimes.inBetween;
+import static io.spine.time.given.ImportantTimes.past;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
