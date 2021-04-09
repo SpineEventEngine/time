@@ -39,24 +39,14 @@ import io.spine.time.given.ImportantTimes.inBetween
 import io.spine.time.given.ImportantTimes.past
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("`TimestampExtensions` should")
-internal class TimestampExtensionsTest {
+internal class `Timestamp extensions should` {
 
     private val past: Timestamp = past().toTimestamp()
     private val inBetween: Timestamp = inBetween().toTimestamp()
     private val future: Timestamp = future().toTimestamp()
-
-    @Test
-    fun `compare timestamps`(){
-        assertTrue(past < future)
-        assertTrue(future > past)
-        assertFalse(past > future)
-        assertFalse(future < past)
-        assertTrue(future == future)
-    }
 
     @Test
     fun `check if the instance is valid`() {
@@ -66,50 +56,52 @@ internal class TimestampExtensionsTest {
     }
 
     @Test
-    fun `print to string`() {
-        assertThat(future.print())
-            .isEqualTo(Timestamps.toString(future))
+    fun `print to string`() = assertThat(future.print()).isEqualTo(Timestamps.toString(future))
+
+    @Nested
+    inner class `Convert to` {
+
+        @Test
+        fun toMillis() = assertThat(future.toMillis()).isEqualTo(toMillis(future))
+
+        @Test
+        fun toMicros() = assertThat(future.toMicros()).isEqualTo(toMicros(future))
+
+        @Test
+        fun toNanos() = assertThat(past.toNanos()).isEqualTo(toNanos(past))
     }
 
-    @Test
-    fun toMillis() {
-        assertThat(future.toMillis())
-            .isEqualTo(toMillis(future))
-    }
+    @Nested
+    inner class `Provide operators` {
 
-    @Test
-    fun toMicros() {
-        assertThat(future.toMicros())
-            .isEqualTo(toMicros(future))
-    }
+        @Test
+        fun compareTo() {
+            assertTrue(past < future)
+            assertTrue(future > past)
+            assertFalse(past > future)
+            assertFalse(future < past)
+            assertTrue(future == future)
+        }
 
-    @Test
-    fun toNanos() {
-        assertThat(past.toNanos())
-            .isEqualTo(toNanos(past))
-    }
+        @Test
+        fun `minus 'Timestamp' calculating distance`() {
+            val distance = inBetween - past
+            val expected = between(inBetween, past)
+            assertThat(distance).isEqualTo(expected)
+        }
 
-    @Test
-    fun `calculate a distance between to points in time`() {
-        val distance = inBetween - past
-        val expected = between(inBetween, past)
-        assertThat(distance)
-            .isEqualTo(expected)
-    }
+        @Test
+        fun `plus 'Duration'`() {
+            val distance = past - inBetween
+            val timestamp = past + distance
+            assertThat(timestamp).isEqualTo(inBetween)
+        }
 
-    @Test
-    fun `plus duration`() {
-        val distance = past - inBetween
-        val timestamp = past + distance
-        assertThat(timestamp)
-            .isEqualTo(inBetween)
-    }
-
-    @Test
-    fun `minus duration`() {
-        val distance = past - future
-        val timestamp = future - distance
-        assertThat(timestamp)
-            .isEqualTo(past)
+        @Test
+        fun `minus 'Duration'`() {
+            val distance = past - future
+            val timestamp = future - distance
+            assertThat(timestamp).isEqualTo(past)
+        }
     }
 }

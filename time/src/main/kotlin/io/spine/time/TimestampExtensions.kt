@@ -41,8 +41,10 @@ import com.google.protobuf.util.Timestamps.toString
 /**
  * Compares this timestamp with the passed one.
  *
- * @return the value `0` if `this == other`; a value less than `0` if `this < other`;
- *     and a value greater than `0` if `this > other`
+ * @return
+ * - the value `0` if `this == other`;
+ * - a value less than `0` if `this < other`;
+ * - a value greater than `0` if `this > other`.
  */
 public operator fun Timestamp.compareTo(other: Timestamp): Int = compare(this, other)
 
@@ -50,8 +52,8 @@ public operator fun Timestamp.compareTo(other: Timestamp): Int = compare(this, o
  * Returns true if this instance is valid.
  *
  * The [seconds][Timestamp.getSeconds] value must be in the range
- * `[-62,135,596,800, +253,402,300,799]` (i.e., between 0001-01-01T00:00:00Z and
- * 9999-12-31T23:59:59Z).
+ * `[-62,135,596,800, +253,402,300,799]` (i.e., between `0001-01-01T00:00:00Z` and
+ * `9999-12-31T23:59:59Z`).
  *
  * The [nanos][Timestamp.getNanos] value must be in the range `[0, +999,999,999]`.
  *
@@ -66,8 +68,8 @@ public fun Timestamp.isValid(): Boolean = isValid(this)
  * The output will always be Z-normalized and uses 3, 6 or 9 fractional digits as required to
  * represent the exact value.
  *
- * Note that Timestamp * can only represent time from 0001-01-01T00:00:00Z to
- * 9999-12-31T23:59:59.999999999Z. Please see [RFC3339](https://www.ietf.org/rfc/rfc3339.txt)
+ * Note that `Timestamp` can only represent time from `0001-01-01T00:00:00Z` to
+ * `9999-12-31T23:59:59.999999999Z`. Please see [RFC3339](https://www.ietf.org/rfc/rfc3339.txt)
  * for details.
  *
  * Example of generated format: `"1972-01-01T10:00:20.021Z"`.
@@ -107,12 +109,14 @@ public fun Timestamp.toNanos(): Long = toNanos(this)
 public operator fun Timestamp.plus(length: Duration): Timestamp = add(this, length)
 
 /**
- * Calculates the difference from this timestamp and the passed one.
+ * Calculates the distance between this timestamp and the passed one.
  *
- * @return positive duration if `this < to`, negative duration if `this > to`, and zero
- * if `this == to`.
+ * @return
+ * - positive duration if `this < other`,
+ * - negative duration if `this > other`, and
+ * - zero if `this == other`.
  */
-public operator fun Timestamp.minus(to: Timestamp): Duration = between(this, to)
+public operator fun Timestamp.minus(other: Timestamp): Duration = between(this, other)
 
 /**
  * Subtracts a duration from this timestamp.
