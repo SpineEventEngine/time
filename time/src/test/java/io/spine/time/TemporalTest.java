@@ -116,29 +116,29 @@ class TemporalTest {
         @Test
         @DisplayName("`isEarlierThan`")
         void earlierThan() {
-            assertFalse(later.isEarlierThan(earlier));
-            assertFalse(later.isEarlierThan(earlier.toInstant()));
-            assertFalse(later.isEarlierThan(earlier.toTimestamp()));
+            assertFalse(later.isBefore(earlier));
+            assertFalse(later.isBefore(earlier.toInstant()));
+            assertFalse(later.isBefore(earlier.toTimestamp()));
 
-            assertTrue(earlier.isEarlierThan(later));
-            assertTrue(earlier.isEarlierThan(later.toInstant()));
-            assertTrue(earlier.isEarlierThan(later.toTimestamp()));
+            assertTrue(earlier.isBefore(later));
+            assertTrue(earlier.isBefore(later.toInstant()));
+            assertTrue(earlier.isBefore(later.toTimestamp()));
         }
 
         @Test
         @DisplayName("`isEarlierOrSame`")
         void earlierOrSame() {
-            assertFalse(later.isEarlierOrSameAs(earlier));
-            assertFalse(later.isEarlierOrSameAs(earlier.toInstant()));
-            assertFalse(later.isEarlierOrSameAs(earlier.toTimestamp()));
+            assertFalse(later.isBeforeOrSameAs(earlier));
+            assertFalse(later.isBeforeOrSameAs(earlier.toInstant()));
+            assertFalse(later.isBeforeOrSameAs(earlier.toTimestamp()));
 
-            assertTrue(earlier.isEarlierOrSameAs(later));
-            assertTrue(earlier.isEarlierOrSameAs(later.toInstant()));
-            assertTrue(earlier.isEarlierOrSameAs(later.toTimestamp()));
+            assertTrue(earlier.isBeforeOrSameAs(later));
+            assertTrue(earlier.isBeforeOrSameAs(later.toInstant()));
+            assertTrue(earlier.isBeforeOrSameAs(later.toTimestamp()));
 
-            assertTrue(earlier.isEarlierOrSameAs(earlier));
-            assertTrue(earlier.isEarlierOrSameAs(earlier.toInstant()));
-            assertTrue(earlier.isEarlierOrSameAs(earlier.toTimestamp()));
+            assertTrue(earlier.isBeforeOrSameAs(earlier));
+            assertTrue(earlier.isBeforeOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isBeforeOrSameAs(earlier.toTimestamp()));
         }
 
         @Test
@@ -156,29 +156,29 @@ class TemporalTest {
         @Test
         @DisplayName("`isLaterThan`")
         void laterThan() {
-            assertTrue(later.isLaterThan(earlier));
-            assertTrue(later.isLaterThan(earlier.toInstant()));
-            assertTrue(later.isLaterThan(earlier.toTimestamp()));
+            assertTrue(later.isAfter(earlier));
+            assertTrue(later.isAfter(earlier.toInstant()));
+            assertTrue(later.isAfter(earlier.toTimestamp()));
 
-            assertTrue(later.isLaterOrSameAs(earlier));
-            assertTrue(later.isLaterOrSameAs(earlier.toInstant()));
-            assertTrue(later.isLaterOrSameAs(earlier.toTimestamp()));
+            assertTrue(later.isAfterOrSameAs(earlier));
+            assertTrue(later.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(later.isAfterOrSameAs(earlier.toTimestamp()));
 
-            assertFalse(earlier.isLaterThan(later));
-            assertFalse(earlier.isLaterThan(later.toInstant()));
-            assertFalse(earlier.isLaterThan(later.toTimestamp()));
+            assertFalse(earlier.isAfter(later));
+            assertFalse(earlier.isAfter(later.toInstant()));
+            assertFalse(earlier.isAfter(later.toTimestamp()));
 
-            assertFalse(earlier.isLaterOrSameAs(later));
-            assertFalse(earlier.isLaterOrSameAs(later.toInstant()));
-            assertFalse(earlier.isLaterOrSameAs(later.toTimestamp()));
+            assertFalse(earlier.isAfterOrSameAs(later));
+            assertFalse(earlier.isAfterOrSameAs(later.toInstant()));
+            assertFalse(earlier.isAfterOrSameAs(later.toTimestamp()));
 
-            assertTrue(earlier.isLaterOrSameAs(earlier));
-            assertTrue(earlier.isLaterOrSameAs(earlier.toInstant()));
-            assertTrue(earlier.isLaterOrSameAs(earlier.toTimestamp()));
+            assertTrue(earlier.isAfterOrSameAs(earlier));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toTimestamp()));
 
-            assertTrue(earlier.isLaterOrSameAs(earlier));
-            assertTrue(earlier.isLaterOrSameAs(earlier.toInstant()));
-            assertTrue(earlier.isLaterOrSameAs(earlier.toTimestamp()));
+            assertTrue(earlier.isAfterOrSameAs(earlier));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toTimestamp()));
         }
     }
 

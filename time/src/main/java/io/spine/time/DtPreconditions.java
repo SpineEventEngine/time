@@ -99,4 +99,13 @@ final class DtPreconditions {
         TimestampTemporal end = TimestampTemporal.from(periodEnd);
         checkPeriod(start, end);
     }
+
+    static <T extends Temporal<?>> void checkSameType(T first, T second) {
+        Class<?> firstClass = first.getClass();
+        Class<?> otherClass = second.getClass();
+        checkArgument(firstClass.equals(otherClass),
+                      "Expected an instance of `%s` but got `%s`.",
+                      firstClass.getCanonicalName(),
+                      otherClass.getCanonicalName());
+    }
 }
