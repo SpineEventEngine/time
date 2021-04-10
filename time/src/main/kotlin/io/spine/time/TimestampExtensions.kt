@@ -63,7 +63,7 @@ public operator fun Timestamp.compareTo(other: Timestamp): Int = compare(this, o
 public fun Timestamp.isValid(): Boolean = isValid(this)
 
 /**
- * Convert this timestamp to RFC 3339 date string format.
+ * Converts this timestamp to RFC 3339 date string format.
  *
  * The output will always be Z-normalized and uses 3, 6 or 9 fractional digits as required to
  * represent the exact value.
@@ -81,7 +81,7 @@ public fun Timestamp.isValid(): Boolean = isValid(this)
 public fun Timestamp.print(): String = toString(this)
 
 /**
- * Convert this timestamp to the number of milliseconds elapsed from the epoch.
+ * Converts this timestamp to the number of milliseconds elapsed from the epoch.
  *
  * The result will be rounded down to the nearest millisecond.
  * E.g., if the timestamp represents `"1969-12-31T23:59:59.999999999Z"`,
@@ -90,7 +90,7 @@ public fun Timestamp.print(): String = toString(this)
 public fun Timestamp.toMillis(): Long = toMillis(this)
 
 /**
- * Convert this timestamp to the number of microseconds elapsed from the epoch.
+ * Converts this timestamp to the number of microseconds elapsed from the epoch.
  *
  * The result will be rounded down to the nearest microsecond.
  * E.g., if the timestamp represents `"1969-12-31T23:59:59.999999999Z"`,
@@ -99,7 +99,7 @@ public fun Timestamp.toMillis(): Long = toMillis(this)
 public fun Timestamp.toMicros(): Long = toMicros(this)
 
 /**
- * Convert this timestamp to the number of nanoseconds elapsed from the epoch.
+ * Converts this timestamp to the number of nanoseconds elapsed from the epoch.
  */
 public fun Timestamp.toNanos(): Long = toNanos(this)
 
