@@ -98,7 +98,7 @@ public fun Duration.isZero(): Boolean = isZero(this)
 /**
  * Converts this duration to string format.
  *
- * The string format will contains 3, 6, or 9 fractional digits depending on the precision required
+ * The string format will contain 3, 6, or 9 fractional digits depending on the precision required
  * to represent the exact `Duration` value. For example: "1s", "1.010s", "1.000000100s", "-3.100s".
  * The range that can be represented by `Duration` is from -315,576,000,000 to +315,576,000,000
  * inclusive (in seconds).
