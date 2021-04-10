@@ -96,7 +96,7 @@ public fun Duration.isPositiveOrZero(): Boolean = isPositiveOrZero(this)
 public fun Duration.isZero(): Boolean = isZero(this)
 
 /**
- * Convert Duration to string format.
+ * Converts this duration to string format.
  *
  * The string format will contains 3, 6, or 9 fractional digits depending on the precision required
  * to represent the exact `Duration` value. For example: "1s", "1.010s", "1.000000100s", "-3.100s".
@@ -110,7 +110,7 @@ public fun Duration.isZero(): Boolean = isZero(this)
 public fun Duration.print(): String = toString(this)
 
 /**
- * Convert this duration to the number of days.
+ * Converts this duration to the number of days.
  *
  * @return the number of days rounded towards 0 to the nearest day.
  */
@@ -124,14 +124,14 @@ public fun Duration.toDays(): Long = toDays(this)
 public fun Duration.toHours(): Long = toHours(this)
 
 /**
- * Convert this duration to the number of minutes.
+ * Converts this duration to the number of minutes.
  *
  * @return the number of minutes rounded towards 0 to the nearest minute.
  */
 public fun Duration.toMinutes(): Long = toMinutes(this)
 
 /**
- * Convert this duration to the number of seconds.
+ * Converts this duration to the number of seconds.
  *
  * @return the number of seconds rounded towards 0 to the nearest second.
  *         E.g., if the duration represents -1 nanosecond, it will be rounded to 0.
@@ -147,7 +147,7 @@ public fun Duration.toSeconds(): Long = toSeconds(this);
 public fun Duration.toMillis(): Long = toMillis(this)
 
 /**
- * Convert this duration to the number of microseconds.
+ * Converts this duration to the number of microseconds.
  *
  * @return the number of microseconds rounded towards 0 to the nearest microseconds.
  *         E.g., if the duration represents -1 nanosecond, it will be rounded to 0.
