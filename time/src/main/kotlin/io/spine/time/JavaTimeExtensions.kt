@@ -24,42 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.given;
+@file:JvmName("JavaTimeExtensions")
 
-import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifiers;
-import io.spine.time.Temporal;
-import io.spine.time.Temporals;
-import io.spine.time.TimestampTemporal;
+package io.spine.time
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import com.google.protobuf.Timestamp
+import java.time.Instant
 
-public final class TemporalTestEnv {
-
-    /**
-     * Prevents the utility class instantiation.
-     */
-    private TemporalTestEnv() {
-    }
-
-    public static TimestampTemporal past() {
-        return parse("1879-03-14T00:00:00Z");
-    }
-
-    public static TimestampTemporal inBetween() {
-        return parse("2079-03-14T00:00:00Z");
-    }
-
-    public static TimestampTemporal future() {
-        return parse("2879-03-14T00:00:00Z");
-    }
-
-    private static TimestampTemporal parse(String rfcString) {
-        Timestamp timestamp = Stringifiers.forTimestamp()
-                                          .reverse()
-                                          .convert(rfcString);
-        assertNotNull(timestamp);
-        Temporal<?> temporal = Temporals.from(timestamp);
-        return (TimestampTemporal) temporal;
-    }
-}
+/**
+ * Converts this instant to [Timestamp].
+ */
+public fun Instant.toTimestamp(): Timestamp = InstantConverter.instance().convert(this)!!

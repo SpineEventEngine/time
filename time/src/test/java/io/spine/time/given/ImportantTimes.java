@@ -23,16 +23,41 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-pluginManagement {
-    repositories {
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
+
+package io.spine.time.given;
+
+import com.google.protobuf.Timestamp;
+import io.spine.string.Stringifiers;
+import io.spine.time.Temporal;
+import io.spine.time.Temporals;
+import io.spine.time.TimestampTemporal;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+public final class ImportantTimes {
+
+    /** Prevents instantiation of this utility class. */
+    private ImportantTimes() {
+    }
+
+    public static TimestampTemporal past() {
+        return parse("1879-03-14T00:00:00Z");
+    }
+
+    public static TimestampTemporal inBetween() {
+        return parse("2079-03-14T00:00:00Z");
+    }
+
+    public static TimestampTemporal future() {
+        return parse("2879-03-14T00:00:00Z");
+    }
+
+    private static TimestampTemporal parse(String rfcString) {
+        Timestamp timestamp = Stringifiers.forTimestamp()
+                                          .reverse()
+                                          .convert(rfcString);
+        assertNotNull(timestamp);
+        Temporal<?> temporal = Temporals.from(timestamp);
+        return (TimestampTemporal) temporal;
     }
 }
-
-rootProject.name = "spine-time"
-
-include("time")
-include("testutil-time")
-

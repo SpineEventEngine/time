@@ -42,118 +42,186 @@ import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.Range.range;
 import static com.google.common.truth.Truth.assertThat;
-import static io.spine.time.given.TemporalTestEnv.future;
-import static io.spine.time.given.TemporalTestEnv.inBetween;
-import static io.spine.time.given.TemporalTestEnv.past;
+import static io.spine.testing.Assertions.assertIllegalArgument;
+import static io.spine.time.given.ImportantTimes.future;
+import static io.spine.time.given.ImportantTimes.inBetween;
+import static io.spine.time.given.ImportantTimes.past;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("Temporal should")
+@DisplayName("`Temporal` should")
 class TemporalTest {
 
     @Test
-    @DisplayName("not accept nulls for comparison")
+    @DisplayName("not accept `null`s for comparison")
     void nullTest() {
         new NullPointerTester()
                 .setDefault(TimestampTemporal.class, future())
+                .setDefault(Instant.class, future().toInstant())
+                .setDefault(Timestamp.class, future().toTimestamp())
                 .testAllPublicInstanceMethods(future());
     }
 
-    @Test
-    @DisplayName("not accept nulls for instance creation")
-    void staticNullTest() {
-        new NullPointerTester()
-                .testAllPublicStaticMethods(Temporal.class);
-    }
+    @Nested
+    @DisplayName("compare to")
+    class CompareTo {
 
-    @Test
-    @DisplayName("compare to an instance of same type")
-    void compare() {
-        TimestampTemporal greater = future();
-        TimestampTemporal lesser = past();
-        int comparisonResult = greater.compareTo(lesser);
-        assertThat(comparisonResult).isGreaterThan(0);
-    }
+        @Test
+        @DisplayName("an instance of same type")
+        void sameType() {
+            TimestampTemporal greater = future();
+            TimestampTemporal lesser = past();
+            int comparisonResult = greater.compareTo(lesser);
+            assertThat(comparisonResult).isGreaterThan(0);
+        }
 
-    @Test
-    @DisplayName("compare to given bounds")
-    void bounds() {
-        TimestampTemporal past = past();
-        TimestampTemporal inBetween = inBetween();
-        TimestampTemporal future = future();
+        @Test
+        @DisplayName("failing to compare to a different type of `Temporal`")
+        @SuppressWarnings("unchecked") // Supposed to fail.
+        void failWithDifferentTypes() {
+            Instant instant = Instant.now();
+            @SuppressWarnings("rawtypes")
+            Temporal instantTemporal = new InstantTemporal(instant);
+            @SuppressWarnings("rawtypes")
+            Temporal timestampTemporal = Temporals.from(instant);
 
-        assertThat(inBetween).isIn(range(past, OPEN, future, CLOSED));
+            assertIllegalArgument(() -> instantTemporal.compareTo(timestampTemporal));
+        }
 
-        assertTrue(inBetween.isBetween(past, future));
-        assertFalse(past.isBetween(inBetween, future));
-        assertFalse(future.isBetween(past, inBetween));
+        @Test
+        @DisplayName("other point in time")
+        void anInstant() {
+            TimestampTemporal future = future();
+            TimestampTemporal past = past();
 
-        assertFalse(past.isBetween(past, future));
-        assertTrue(future.isBetween(past, future));
-    }
+            assertThat(future.compareTo(past.toInstant()))
+                    .isGreaterThan(0);
+            assertThat(future.compareTo(past.toTimestamp()))
+                    .isGreaterThan(0);
 
-    @Test
-    @DisplayName("ensure first bound is lower")
-    void correctBounds() {
-        assertThrows(IllegalArgumentException.class,
-                     () -> inBetween().isBetween(future(), past()));
-        assertThrows(IllegalArgumentException.class,
-                     () -> inBetween().isBetween(future(), future()));
-    }
-
-    @Test
-    @DisplayName("fail to compare to a different type of Temporal")
-    @SuppressWarnings("unchecked") // Supposed to fail.
-    void failWithDifferentTypes() {
-        Instant instant = Instant.now();
-        Temporal instantTemporal = new InstantTemporal(instant);
-        Temporal timestampTemporal = Temporals.from(instant);
-
-        assertThrows(IllegalArgumentException.class,
-                     () -> instantTemporal.compareTo(timestampTemporal));
+            assertThat(past.compareTo(future.toInstant()))
+                    .isLessThan(0);
+            assertThat(past.compareTo(future.toTimestamp()))
+                    .isLessThan(0);
+        }
     }
 
     @Nested
-    @DisplayName("compare two points in time")
-    class Compare {
+    @DisplayName("compare two points in time with")
+    class EarlierOrLater {
 
         private final TimestampTemporal later = future();
         private final TimestampTemporal earlier = past();
 
         @Test
-        @DisplayName("with compareTo")
-        void compareTo() {
-            assertThat(later).isGreaterThan(earlier);
-        }
-
-        @Test
-        @DisplayName("with isLaterThan")
-        void laterThan() {
-            assertTrue(later.isLaterThan(earlier));
-            assertTrue(later.isLaterOrSameAs(earlier));
-
-            assertFalse(earlier.isLaterThan(later));
-            assertFalse(earlier.isLaterOrSameAs(later));
-            assertTrue(earlier.isLaterOrSameAs(earlier));
-        }
-
-        @Test
-        @DisplayName("with isEarlierThan")
+        @DisplayName("`isEarlierThan`")
         void earlierThan() {
-            assertFalse(later.isEarlierThan(earlier));
-            assertFalse(later.isEarlierOrSameAs(earlier));
+            assertFalse(later.isBefore(earlier));
+            assertFalse(later.isBefore(earlier.toInstant()));
+            assertFalse(later.isBefore(earlier.toTimestamp()));
 
-            assertTrue(earlier.isEarlierThan(later));
-            assertTrue(earlier.isEarlierOrSameAs(later));
-            assertTrue(earlier.isEarlierOrSameAs(earlier));
+            assertTrue(earlier.isBefore(later));
+            assertTrue(earlier.isBefore(later.toInstant()));
+            assertTrue(earlier.isBefore(later.toTimestamp()));
         }
 
         @Test
-        @DisplayName("with isSameAs")
+        @DisplayName("`isEarlierOrSame`")
+        void earlierOrSame() {
+            assertFalse(later.isBeforeOrSameAs(earlier));
+            assertFalse(later.isBeforeOrSameAs(earlier.toInstant()));
+            assertFalse(later.isBeforeOrSameAs(earlier.toTimestamp()));
+
+            assertTrue(earlier.isBeforeOrSameAs(later));
+            assertTrue(earlier.isBeforeOrSameAs(later.toInstant()));
+            assertTrue(earlier.isBeforeOrSameAs(later.toTimestamp()));
+
+            assertTrue(earlier.isBeforeOrSameAs(earlier));
+            assertTrue(earlier.isBeforeOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isBeforeOrSameAs(earlier.toTimestamp()));
+        }
+
+        @Test
+        @DisplayName("`isSameAs`")
         void sameAs() {
             assertTrue(earlier.isSameAs(earlier));
+            assertTrue(earlier.isSameAs(earlier.toInstant()));
+            assertTrue(earlier.isSameAs(earlier.toTimestamp()));
+
             assertFalse(earlier.isSameAs(later));
+            assertFalse(earlier.isSameAs(later.toInstant()));
+            assertFalse(earlier.isSameAs(later.toTimestamp()));
+        }
+
+        @Test
+        @DisplayName("`isLaterThan`")
+        void laterThan() {
+            assertTrue(later.isAfter(earlier));
+            assertTrue(later.isAfter(earlier.toInstant()));
+            assertTrue(later.isAfter(earlier.toTimestamp()));
+
+            assertTrue(later.isAfterOrSameAs(earlier));
+            assertTrue(later.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(later.isAfterOrSameAs(earlier.toTimestamp()));
+
+            assertFalse(earlier.isAfter(later));
+            assertFalse(earlier.isAfter(later.toInstant()));
+            assertFalse(earlier.isAfter(later.toTimestamp()));
+
+            assertFalse(earlier.isAfterOrSameAs(later));
+            assertFalse(earlier.isAfterOrSameAs(later.toInstant()));
+            assertFalse(earlier.isAfterOrSameAs(later.toTimestamp()));
+
+            assertTrue(earlier.isAfterOrSameAs(earlier));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toTimestamp()));
+
+            assertTrue(earlier.isAfterOrSameAs(earlier));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toInstant()));
+            assertTrue(earlier.isAfterOrSameAs(earlier.toTimestamp()));
+        }
+    }
+
+    @Nested
+    @DisplayName("see if the point is in the range")
+    class InRange {
+
+        @Test
+        @DisplayName("of the given bounds")
+        void bounds() {
+            TimestampTemporal past = past();
+            TimestampTemporal inBetween = inBetween();
+            TimestampTemporal future = future();
+
+            assertThat(inBetween).isIn(range(past, OPEN, future, CLOSED));
+
+            assertTrue(inBetween.isBetween(past, future));
+            assertTrue(inBetween.isBetween(past.toInstant(), future.toInstant()));
+            assertTrue(inBetween.isBetween(past.toTimestamp(), future.toTimestamp()));
+
+            assertFalse(past.isBetween(inBetween, future));
+            assertFalse(past.isBetween(inBetween.toInstant(), future.toInstant()));
+            assertFalse(past.isBetween(inBetween.toTimestamp(), future.toTimestamp()));
+
+            assertFalse(future.isBetween(past, inBetween));
+            assertFalse(future.isBetween(past.toInstant(), inBetween.toInstant()));
+            assertFalse(future.isBetween(past.toTimestamp(), inBetween.toTimestamp()));
+
+            assertFalse(past.isBetween(past, future));
+            assertFalse(past.isBetween(past.toInstant(), future.toInstant()));
+            assertFalse(past.isBetween(past.toTimestamp(), future.toTimestamp()));
+
+            assertTrue(future.isBetween(past, future));
+            assertTrue(future.isBetween(past.toInstant(), future.toInstant()));
+            assertTrue(future.isBetween(past.toTimestamp(), future.toTimestamp()));
+        }
+
+        @Test
+        @DisplayName("checking that the first bound is lower")
+        void correctBounds() {
+            TimestampTemporal temporal = inBetween();
+            assertIllegalArgument(() -> temporal.isBetween(future(), past()));
+            assertIllegalArgument(() -> temporal.isBetween(future(), future()));
         }
     }
 

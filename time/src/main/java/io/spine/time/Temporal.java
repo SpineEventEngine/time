@@ -32,9 +32,10 @@ import io.spine.base.Time;
 
 import java.time.Instant;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.protobuf.util.Timestamps.compare;
+import static io.spine.time.DtPreconditions.checkPeriod;
+import static io.spine.time.DtPreconditions.checkSameType;
 
 /**
  * A point in time represented with a certain accuracy.
@@ -51,6 +52,7 @@ import static com.google.protobuf.util.Timestamps.compare;
  *         messages
  *         marked with the {@code (is)} option. See {@link TemporalMessage}.
  */
+@SuppressWarnings("ClassWithTooManyMethods") // because of convenience overloads.
 public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
 
     /**
@@ -77,10 +79,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      */
     default Timestamp toTimestamp() {
         Instant instant = toInstant();
-        Timestamp result =
-                InstantConverter.instance()
-                                .convert(instant);
-        return result;
+        return JavaTimeExtensions.toTimestamp(instant);
     }
 
     /**
@@ -95,7 +94,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *
      * <p>The {@code other} point should have <strong>the exact</strong> runtime type as this one.
      * Otherwise, an {@code IllegalArgumentException} is thrown. The same constraint is applicable
-     * to all the other comparison methods of {@code Temporal}.
+     * to other comparison methods that accept arguments with the type {@code <T>}.
      *
      * @param other
      *         the value to compare to
@@ -109,12 +108,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     @Override
     default int compareTo(T other) {
         checkNotNull(other);
-        Class<?> thisClass = getClass();
-        Class<?> otherClass = other.getClass();
-        checkArgument(thisClass.equals(otherClass),
-                      "Expected an instance of `%s` but got `%s`.",
-                      thisClass.getCanonicalName(),
-                      otherClass.getCanonicalName());
+        checkSameType(this, other);
         Timestamp thisTimestamp = toTimestamp();
         Timestamp otherTimestamp = other.toTimestamp();
         int result = compare(thisTimestamp, otherTimestamp);
@@ -122,31 +116,84 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
+     * Compares this point in time to the given one.
+     */
+    default int compareTo(Instant other) {
+        Timestamp thisTimestamp = toTimestamp();
+        Timestamp otherTimestamp = JavaTimeExtensions.toTimestamp(other);
+        int result = compare(thisTimestamp, otherTimestamp);
+        return result;
+    }
+
+    /**
+     * Compares this point in time to the given one.
+     */
+    default int compareTo(Timestamp other) {
+        Timestamp thisTimestamp = toTimestamp();
+        int result = compare(thisTimestamp, other);
+        return result;
+    }
+
+    /**
+     * Checks if this point is time occurs earlier than the other one.
+     *
+     * @deprecated please use {@link #isBefore(Temporal)}
+     */
+    @Deprecated
+    default boolean isEarlierThan(T other) {
+        return isBefore(other);
+    }
+
+    /**
      * Checks if this point is time occurs earlier than the other one.
      */
-    default boolean isEarlierThan(T other) {
+    default boolean isBefore(T other) {
+        return compareTo(other) < 0;
+    }
+
+    /**
+     * Checks if this point is time occurs earlier than the other one.
+     */
+    default boolean isBefore(Instant other) {
+        return compareTo(other) < 0;
+    }
+
+    /**
+     * Checks if this point is time occurs earlier than the other one.
+     */
+    default boolean isBefore(Timestamp other) {
         return compareTo(other) < 0;
     }
 
     /**
      * Checks if this point is time occurs earlier than the other one or they coincide.
+     *
+     * @deprecated please use {@link #isBeforeOrSameAs(Temporal)}.
      */
+    @Deprecated
     default boolean isEarlierOrSameAs(T other) {
+        return isBeforeOrSameAs(other);
+    }
+
+    /**
+     * Checks if this point is time occurs earlier than the other one or they coincide.
+     */
+    default boolean isBeforeOrSameAs(T other) {
         return compareTo(other) <= 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one.
+     * Checks if this point is time occurs earlier than the other one or they coincide.
      */
-    default boolean isLaterThan(T other) {
-        return compareTo(other) > 0;
+    default boolean isBeforeOrSameAs(Instant other) {
+        return compareTo(other) <= 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one or they coincide.
+     * Checks if this point is time occurs earlier than the other one or they coincide.
      */
-    default boolean isLaterOrSameAs(T other) {
-        return compareTo(other) >= 0;
+    default boolean isBeforeOrSameAs(Timestamp other) {
+        return compareTo(other) <= 0;
     }
 
     /**
@@ -154,6 +201,82 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      */
     default boolean isSameAs(T other) {
         return compareTo(other) == 0;
+    }
+
+    /**
+     * Checks if this point in time coincides with the given one.
+     */
+    default boolean isSameAs(Instant other) {
+        return compareTo(other) == 0;
+    }
+
+    /**
+     * Checks if this point in time coincides with the given one.
+     */
+    default boolean isSameAs(Timestamp other) {
+        return compareTo(other) == 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one.
+     *
+     * @deprecated please use {@link #isAfter(Temporal)}.
+     */
+    @Deprecated
+    default boolean isLaterThan(T other) {
+        return isAfter(other);
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one.
+     */
+    default boolean isAfter(T other) {
+        return compareTo(other) > 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one.
+     */
+    default boolean isAfter(Instant other) {
+        return compareTo(other) > 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one.
+     */
+    default boolean isAfter(Timestamp other) {
+        return compareTo(other) > 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one or they coincide.
+     *
+     * @deprecated please use {@link #isAfterOrSameAs(Temporal)}.
+     */
+    @Deprecated
+    default boolean isLaterOrSameAs(T other) {
+        return isAfterOrSameAs(other);
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one or they coincide.
+     */
+    default boolean isAfterOrSameAs(T other) {
+        return compareTo(other) >= 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one or they coincide.
+     */
+    default boolean isAfterOrSameAs(Instant other) {
+        return compareTo(other) >= 0;
+    }
+
+    /**
+     * Checks if this point is time occurs later than the other one or they coincide.
+     */
+    default boolean isAfterOrSameAs(Timestamp other) {
+        return compareTo(other) >= 0;
     }
 
     /**
@@ -169,12 +292,40 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * @return {@code true} if this point in time lies in between the given two
      */
     default boolean isBetween(T periodStart, T periodEnd) {
-        checkArgument(periodStart.isEarlierThan(periodEnd),
-                      "Period start `%s` must be earlier than period end `%s`.",
-                      periodStart,
-                      periodEnd);
-        return this.isLaterThan(periodStart)
-            && this.isEarlierOrSameAs(periodEnd);
+        checkPeriod(periodStart, periodEnd);
+        return isAfter(periodStart)
+                && isBeforeOrSameAs(periodEnd);
+    }
+
+
+    /**
+     * Checks if this point is time lies between the given.
+     *
+     * @param periodStart
+     *         lower bound, exclusive
+     * @param periodEnd
+     *         higher bound, inclusive
+     * @return {@code true} if this point in time lies in between the given two
+     */
+    default boolean isBetween(Instant periodStart, Instant periodEnd) {
+        checkPeriod(periodStart, periodEnd);
+        return isAfter(periodStart)
+                && isBeforeOrSameAs(periodEnd);
+    }
+
+    /**
+     * Checks if this point is time lies between the given.
+     *
+     * @param periodStart
+     *         lower bound, exclusive
+     * @param periodEnd
+     *         higher bound, inclusive
+     * @return {@code true} if this point in time lies in between the given two
+     */
+    default boolean isBetween(Timestamp periodStart, Timestamp periodEnd) {
+        checkPeriod(periodStart, periodEnd);
+        return isAfter(periodStart)
+                && isBeforeOrSameAs(periodEnd);
     }
 
     /**

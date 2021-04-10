@@ -33,6 +33,7 @@ import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
 import io.spine.gradle.internal.PublishingRepos
 import io.spine.gradle.internal.spinePublishing
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
@@ -51,6 +52,8 @@ buildscript {
 
 plugins {
     `java-library`
+    // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
+    kotlin("jvm") version io.spine.gradle.internal.Kotlin.version
     jacoco
     idea
     `project-report`
@@ -62,19 +65,14 @@ plugins {
 }
 
 apply(from = "$rootDir/version.gradle.kts")
-
-extra.apply {
-    this["groupId"] = "io.spine"
-}
-
 spinePublishing {
+    targetRepositories.addAll(setOf(
+        PublishingRepos.cloudRepo,
+        PublishingRepos.gitHub("time")
+    ))
     projectsToPublish.addAll(
         "time",
         "testutil-time"
-    )
-    targetRepositories.addAll(
-        PublishingRepos.cloudRepo
-        // PublishingRepos.gitHub("LibraryName")
     )
 }
 
@@ -88,8 +86,10 @@ allprojects {
 }
 
 subprojects {
+
     apply {
         plugin("java-library")
+        plugin("kotlin")
         plugin("net.ltgt.errorprone")
         plugin("pmd")
         plugin("checkstyle")
@@ -99,9 +99,21 @@ subprojects {
         from(Deps.scripts.projectLicenseReport(project))
     }
 
+    val javaVersion = JavaVersion.VERSION_1_8
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+    }
+
+    kotlin {
+        explicitApi()
+    }
+
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = javaVersion.toString()
+            useIR = true
+        }
     }
 
     // Specific setup for a Travis build,
@@ -128,15 +140,13 @@ subprojects {
         Deps.build.apply {
             errorprone(errorProne.core)
             errorproneJavac(errorProne.javacPlugin)
-            implementation("io.spine:spine-base:$spineBaseVersion")
         }
+        api(kotlin("stdlib-jdk8"))
 
+        testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
         Deps.test.apply {
             testImplementation(junit.runner)
-            testImplementation(junit.pioneer)
         }
-        testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-        testImplementation("io.spine.tools:spine-mute-logging:$spineBaseVersion")
         runtimeOnly(Deps.runtime.flogger.systemBackend)
     }
 
@@ -171,7 +181,7 @@ subprojects {
         }
     }
 
-    tasks.test.configure {
+    tasks.test {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
@@ -194,11 +204,9 @@ subprojects {
     }
 
     apply {
-        with(Deps.scripts) {
-            from(testOutput(project))
-            from(javadocOptions(project))
-            from(javacArgs(project))
-        }
+        from(Deps.scripts.testOutput(project))
+        from(Deps.scripts.javadocOptions(project))
+        from(Deps.scripts.javacArgs(project))
     }
 
     tasks.register("sourceJar", Jar::class) {
@@ -223,11 +231,9 @@ subprojects {
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
-            with(generatedSourceDirs) {
-                add(file("$generatedRootDir/main/js"))
-                add(file("$generatedRootDir/main/java"))
-                add(file("$generatedRootDir/main/spine"))
-            }
+            generatedSourceDirs.add(file("$generatedRootDir/main/js"))
+            generatedSourceDirs.add(file("$generatedRootDir/main/java"))
+            generatedSourceDirs.add(file("$generatedRootDir/main/spine"))
             testSourceDirs.add(file("$generatedRootDir/test/java"))
             isDownloadJavadoc = true
             isDownloadSources = true
@@ -235,21 +241,13 @@ subprojects {
     }
 
     apply {
-        with(Deps.scripts) {
-            from(pmd(project))
-            from(checkstyle(project))
-        }
+        from(Deps.scripts.pmd(project))
+        from(Deps.scripts.checkstyle(project))
     }
 }
 
 apply {
-    with(Deps.scripts) {
-        // Aggregated coverage report across all subprojects.
-        from(jacoco(project))
-        // Generate a repository-wide report of 3rd-party dependencies and their licenses.
-        from(repoLicenseReport(project))
-        // Generate a `pom.xml` file containing first-level dependency of all projects
-        // in the repository.
-        from(generatePom(project))
-    }
+    from(Deps.scripts.jacoco(project))
+    from(Deps.scripts.repoLicenseReport(project))
+    from(Deps.scripts.generatePom(project))
 }

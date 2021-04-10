@@ -25,10 +25,12 @@
  */
 package io.spine.time;
 
+import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Routines for working with {@link LocalTime}.
@@ -58,7 +60,8 @@ public final class LocalTimes {
      */
     public static LocalTime of(java.time.LocalTime value) {
         checkNotNull(value);
-        return converter().convert(value);
+        LocalTime result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -69,8 +72,10 @@ public final class LocalTimes {
     @Deprecated
     public static java.time.LocalTime toJavaTime(LocalTime value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        java.time.LocalTime result =
+                converter().reverse()
+                           .convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -96,8 +101,8 @@ public final class LocalTimes {
      */
     public static String toString(LocalTime time) {
         checkNotNull(time);
-        return TimeStringifiers.forLocalTime()
-                               .convert(time);
+        String result = stringifier().convert(time);
+        return requireNonNull(result);
     }
 
     /**
@@ -107,9 +112,14 @@ public final class LocalTimes {
      */
     public static LocalTime parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forLocalTime()
-                               .reverse()
-                               .convert(str);
+        LocalTime result =
+                stringifier().reverse()
+                             .convert(str);
+        return requireNonNull(result);
+    }
+
+    private static Stringifier<LocalTime> stringifier() {
+        return TimeStringifiers.forLocalTime();
     }
 
     /**
