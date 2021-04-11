@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.protobuf.util.Durations.fromMinutes;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DisplayName("`TimeTests` should")
