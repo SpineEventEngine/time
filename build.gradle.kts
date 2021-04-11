@@ -90,10 +90,10 @@ subprojects {
     apply {
         plugin("java-library")
         plugin("kotlin")
+        plugin("com.google.protobuf")
         plugin("net.ltgt.errorprone")
         plugin("pmd")
         plugin("checkstyle")
-        plugin("com.google.protobuf")
         plugin("maven-publish")
         plugin("idea")
         from(Deps.scripts.projectLicenseReport(project))
@@ -204,9 +204,11 @@ subprojects {
     }
 
     apply {
-        from(Deps.scripts.testOutput(project))
-        from(Deps.scripts.javadocOptions(project))
-        from(Deps.scripts.javacArgs(project))
+        with(Deps.scripts) {
+            from(testOutput(project))
+            from(javadocOptions(project))
+            from(javacArgs(project))
+        }
     }
 
     tasks.register("sourceJar", Jar::class) {
@@ -241,13 +243,17 @@ subprojects {
     }
 
     apply {
-        from(Deps.scripts.pmd(project))
-        from(Deps.scripts.checkstyle(project))
+        with(Deps.scripts) {
+            from(pmd(project))
+            from(checkstyle(project))
+        }
     }
 }
 
 apply {
-    from(Deps.scripts.jacoco(project))
-    from(Deps.scripts.repoLicenseReport(project))
-    from(Deps.scripts.generatePom(project))
+    with(Deps.scripts) {
+        from(jacoco(project))
+        from(repoLicenseReport(project))
+        from(generatePom(project))
+    }
 }
