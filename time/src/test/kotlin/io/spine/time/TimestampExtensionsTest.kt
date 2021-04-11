@@ -87,6 +87,12 @@ internal class `Timestamp extensions should` {
             assertFalse(past.isAfter(future))
             assertFalse(future.isAfter(future))
         }
+
+        @Test
+        fun `between two other`() {
+            assertTrue(inBetween.isBetween(past, future))
+            assertFalse(past.isBetween(inBetween, future))
+        }
     }
 
     @Nested

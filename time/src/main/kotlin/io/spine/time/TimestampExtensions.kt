@@ -61,6 +61,18 @@ public fun Timestamp.isBefore(other: Timestamp): Boolean = this < other
 public fun Timestamp.isAfter(other: Timestamp): Boolean = this > other
 
 /**
+ * Checks if this point is time lies between the given.
+ *
+ * @param periodStart
+ *         lower bound, exclusive
+ * @param periodEnd
+ *         higher bound, inclusive
+ * @return `true` if this point in time lies in between the given two, `false` otherwise
+ */
+public fun Timestamp.isBetween(periodStart: Timestamp, periodEnd: Timestamp): Boolean =
+    this > periodStart && this <= periodEnd
+
+/**
  * Returns true if this instance is valid.
  *
  * The [seconds][Timestamp.getSeconds] value must be in the range
