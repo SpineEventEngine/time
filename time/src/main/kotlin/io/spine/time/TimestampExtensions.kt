@@ -39,6 +39,7 @@ import com.google.protobuf.util.Timestamps.toMicros
 import com.google.protobuf.util.Timestamps.toMillis
 import com.google.protobuf.util.Timestamps.toNanos
 import com.google.protobuf.util.Timestamps.toString
+import java.time.Instant
 
 /**
  * Compares this timestamp with the passed one.
@@ -146,3 +147,8 @@ public operator fun Timestamp.minus(other: Timestamp): Duration = between(this, 
  * Subtracts a duration from this timestamp.
  */
 public operator fun Timestamp.minus(length: Duration): Timestamp = subtract(this, length)
+
+/**
+ * Converts this timestamp to `Instant`.
+ */
+public fun Timestamp.toInstant(): Instant = InstantConverter.reversed().convert(this)!!

@@ -69,6 +69,9 @@ internal class `Timestamp extensions should` {
 
         @Test
         fun toNanos() = assertThat(past.toNanos()).isEqualTo(toNanos(past))
+
+        @Test
+        fun instant() = assertThat(past.toInstant()).isEqualTo(past().toInstant())
     }
 
     @Nested
