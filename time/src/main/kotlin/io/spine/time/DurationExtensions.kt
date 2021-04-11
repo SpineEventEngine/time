@@ -136,7 +136,7 @@ public fun Duration.toMinutes(): Long = toMinutes(this)
  * @return the number of seconds rounded towards 0 to the nearest second.
  *         E.g., if the duration represents -1 nanosecond, it will be rounded to 0.
  */
-public fun Duration.toSeconds(): Long = toSeconds(this);
+public fun Duration.toSeconds(): Long = toSeconds(this)
 
 /**
  * Convert this duration to the number of milliseconds.
@@ -162,7 +162,7 @@ public fun Duration.toNanos(): Long = toNanos(this)
 /**
  * Converts this duration to Java Time instance.
  */
-public fun Duration.toJavaTime(): java.time.Duration = toJavaTime(this);
+public fun Duration.toJavaTime(): java.time.Duration = toJavaTime(this)
 
 /**
  * Adds the passed duration to this one.
