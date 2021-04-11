@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@file:JvmName("TimestampExtensions")
+
 package io.spine.time
 
 import com.google.protobuf.Duration
@@ -47,6 +49,16 @@ import com.google.protobuf.util.Timestamps.toString
  * - a value greater than `0` if `this > other`.
  */
 public operator fun Timestamp.compareTo(other: Timestamp): Int = compare(this, other)
+
+/**
+ * Verifies whether this point in time is before the passed one.
+ */
+public fun Timestamp.isBefore(other: Timestamp): Boolean = this < other
+
+/**
+ * Verifies whether this point in time is after the passed one.
+ */
+public fun Timestamp.isAfter(other: Timestamp): Boolean = this > other
 
 /**
  * Returns true if this instance is valid.

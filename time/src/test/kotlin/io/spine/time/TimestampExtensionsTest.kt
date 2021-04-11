@@ -72,6 +72,24 @@ internal class `Timestamp extensions should` {
     }
 
     @Nested
+    inner class `Tell if this time is` {
+
+        @Test
+        fun `before another`() {
+            assertTrue(past.isBefore(future))
+            assertFalse(future.isBefore(past))
+            assertFalse(past.isBefore(past))
+        }
+
+        @Test
+        fun `after another`() {
+            assertTrue(future.isAfter(past))
+            assertFalse(past.isAfter(future))
+            assertFalse(future.isAfter(future))
+        }
+    }
+
+    @Nested
     inner class `Provide operators` {
 
         @Test
