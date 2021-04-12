@@ -40,14 +40,15 @@ buildscript {
     apply(from = "$rootDir/version.gradle.kts")
 
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    val resolution = io.spine.gradle.internal.DependencyResolution
-    resolution.defaultRepositories(repositories)
+    io.spine.gradle.internal.applyStandard(repositories)
 
     val spineBaseVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-model-compiler:$spineBaseVersion")
     }
 
+    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
+    val resolution = io.spine.gradle.internal.DependencyResolution
     resolution.forceConfiguration(configurations)
 }
 
