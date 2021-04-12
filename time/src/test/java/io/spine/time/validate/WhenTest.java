@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.google.common.truth.Truth.assertThat;
 import static io.spine.time.validate.given.WhenTestEnv.FIFTY_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.ZERO_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.currentTimeWithNanos;
@@ -66,8 +67,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is in future")
     void findOutThatTimeIsInFuture() {
-        TimeInFutureFieldValue validMsg = TimeInFutureFieldValue
-                .newBuilder()
+        TimeInFutureFieldValue validMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(future())
                 .build();
         assertValid(validMsg);
@@ -76,8 +76,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is NOT in future")
     void findOutThatTimeIsNotInFuture() {
-        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue
-                .newBuilder()
+        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertNotValid(invalidMsg);
@@ -86,8 +85,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is in past")
     void findOutThatTimeIsInPast() {
-        TimeInPastFieldValue validMsg = TimeInPastFieldValue
-                .newBuilder()
+        TimeInPastFieldValue validMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertValid(validMsg);
@@ -96,8 +94,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is NOT in past")
     void findOutThatTimeIsNotInPast() {
-        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue
-                .newBuilder()
+        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(future())
                 .build();
         assertNotValid(invalidMsg);
@@ -109,10 +106,9 @@ class WhenTest {
         Timestamp currentTime = currentTimeWithNanos(ZERO_NANOSECONDS);
         Timestamp timeInFuture = timeWithNanos(currentTime, FIFTY_NANOSECONDS);
         freezeTime(currentTime);
-        TimeInPastFieldValue invalidMsg =
-                TimeInPastFieldValue.newBuilder()
-                                    .setValue(timeInFuture)
-                                    .build();
+        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
+                .setValue(timeInFuture)
+                .build();
         assertNotValid(invalidMsg);
     }
 
@@ -122,10 +118,9 @@ class WhenTest {
         Timestamp currentTime = currentTimeWithNanos(FIFTY_NANOSECONDS);
         Timestamp timeInPast = timeWithNanos(currentTime, ZERO_NANOSECONDS);
         freezeTime(currentTime);
-        TimeInPastFieldValue invalidMsg =
-                TimeInPastFieldValue.newBuilder()
-                                    .setValue(timeInPast)
-                                    .build();
+        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
+                .setValue(timeInPast)
+                .build();
         assertValid(invalidMsg);
     }
 
@@ -139,8 +134,7 @@ class WhenTest {
     @Test
     @DisplayName("provide one valid violation if time is invalid")
     void provideOneValidViolationIfTimeIsInvalid() {
-        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue
-                .newBuilder()
+        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertSingleViolation(invalidMsg, "Point in time must be in the future.");
@@ -149,8 +143,7 @@ class WhenTest {
     @Test
     @DisplayName("ignore (when).in = TIME_UNDEFINED if in the past")
     void ignoreTimeUndefinedInFuture() {
-        AlwaysValidTime validTimeInPast = AlwaysValidTime
-                .newBuilder()
+        AlwaysValidTime validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(past())
                 .build();
         assertValid(validTimeInPast);
@@ -159,8 +152,7 @@ class WhenTest {
     @Test
     @DisplayName("ignore (when).in = TIME_UNDEFINED if in the future")
     void ignoreTimeUndefinedInPast() {
-        AlwaysValidTime validTimeInPast = AlwaysValidTime
-                .newBuilder()
+        AlwaysValidTime validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(future())
                 .build();
         assertValid(validTimeInPast);
@@ -233,10 +225,12 @@ class WhenTest {
     /** Checks that a message is not valid and has a single violation. */
     private void assertSingleViolation(String expectedErrMsg) {
         ConstraintViolation violation = firstViolation();
-        String actualErrorMessage = format(violation.getMsgFormat(), violation.getParamList()
-                                                                              .toArray());
-        assertEquals(expectedErrMsg, actualErrorMessage);
-        assertTrue(violation.getViolationList()
-                            .isEmpty());
+        String actualErrorMessage =
+                format(violation.getMsgFormat(), violation.getParamList().toArray());
+
+        assertThat(actualErrorMessage)
+                .isEqualTo(expectedErrMsg);
+        assertThat(violation.getViolationList())
+                .isEmpty();
     }
 }
