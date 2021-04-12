@@ -69,6 +69,33 @@ internal class `Timestamp extensions should` {
 
         @Test
         fun toNanos() = assertThat(past.toNanos()).isEqualTo(toNanos(past))
+
+        @Test
+        fun instant() = assertThat(past.toInstant()).isEqualTo(past().toInstant())
+    }
+
+    @Nested
+    inner class `Tell if this time is` {
+
+        @Test
+        fun `before another`() {
+            assertTrue(past.isBefore(future))
+            assertFalse(future.isBefore(past))
+            assertFalse(past.isBefore(past))
+        }
+
+        @Test
+        fun `after another`() {
+            assertTrue(future.isAfter(past))
+            assertFalse(past.isAfter(future))
+            assertFalse(future.isAfter(future))
+        }
+
+        @Test
+        fun `between two other`() {
+            assertTrue(inBetween.isBetween(past, future))
+            assertFalse(past.isBetween(inBetween, future))
+        }
     }
 
     @Nested

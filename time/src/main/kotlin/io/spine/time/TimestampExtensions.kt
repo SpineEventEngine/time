@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@file:JvmName("TimestampExtensions")
+
 package io.spine.time
 
 import com.google.protobuf.Duration
@@ -37,6 +39,7 @@ import com.google.protobuf.util.Timestamps.toMicros
 import com.google.protobuf.util.Timestamps.toMillis
 import com.google.protobuf.util.Timestamps.toNanos
 import com.google.protobuf.util.Timestamps.toString
+import java.time.Instant
 
 /**
  * Compares this timestamp with the passed one.
@@ -47,6 +50,28 @@ import com.google.protobuf.util.Timestamps.toString
  * - a value greater than `0` if `this > other`.
  */
 public operator fun Timestamp.compareTo(other: Timestamp): Int = compare(this, other)
+
+/**
+ * Verifies whether this point in time is before the passed one.
+ */
+public fun Timestamp.isBefore(other: Timestamp): Boolean = this < other
+
+/**
+ * Verifies whether this point in time is after the passed one.
+ */
+public fun Timestamp.isAfter(other: Timestamp): Boolean = this > other
+
+/**
+ * Checks if this point is time lies between the given.
+ *
+ * @param periodStart
+ *         lower bound, exclusive
+ * @param periodEnd
+ *         higher bound, inclusive
+ * @return `true` if this point in time lies in between the given two, `false` otherwise
+ */
+public fun Timestamp.isBetween(periodStart: Timestamp, periodEnd: Timestamp): Boolean =
+    this > periodStart && this <= periodEnd
 
 /**
  * Returns true if this instance is valid.
@@ -122,3 +147,8 @@ public operator fun Timestamp.minus(other: Timestamp): Duration = between(this, 
  * Subtracts a duration from this timestamp.
  */
 public operator fun Timestamp.minus(length: Duration): Timestamp = subtract(this, length)
+
+/**
+ * Converts this timestamp to `Instant`.
+ */
+public fun Timestamp.toInstant(): Instant = InstantConverter.reversed().convert(this)!!
