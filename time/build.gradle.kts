@@ -33,8 +33,10 @@ plugins {
 }
 
 apply {
-    from(Deps.scripts.testArtifacts(project))
-    from(Deps.scripts.modelCompiler(project))
+    with(io.spine.gradle.internal.Scripts) {
+        from(testArtifacts(project))
+        from(modelCompiler(project))
+    }
 }
 apply<IncrementGuard>()
 
