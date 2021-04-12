@@ -1,6 +1,6 @@
 
     
-# Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.16`
+# Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.17`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -82,9 +82,9 @@
      * **POM Project URL:** [http://www.antlr.org/](http://www.antlr.org/)
      * **POM License: BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
-1. **Group:** com.beust **Name:** jcommander **Version:** 1.72
-     * **POM Project URL:** [http://jcommander.org](http://jcommander.org)
-     * **POM License: Apache 2.0** - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+1. **Group:** com.beust **Name:** jcommander **Version:** 1.48
+     * **POM Project URL:** [http://beust.com/jcommander](http://beust.com/jcommander)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1. **Group:** com.github.ben-manes.caffeine **Name:** caffeine **Version:** 2.8.8
      * **POM Project URL:** [https://github.com/ben-manes/caffeine](https://github.com/ben-manes/caffeine)
@@ -240,25 +240,21 @@
      * **POM Project URL:** [http://junit.org](http://junit.org)
      * **POM License: Eclipse Public License 1.0** - [http://www.eclipse.org/legal/epl-v10.html](http://www.eclipse.org/legal/epl-v10.html)
 
-1. **Group:** net.java.dev.javacc **Name:** javacc **Version:** 5.0
-     * **POM Project URL:** [https://javacc.dev.java.net/](https://javacc.dev.java.net/)
-     * **POM License: Berkeley Software Distribution (BSD) License** - [http://www.opensource.org/licenses/bsd-license.html](http://www.opensource.org/licenses/bsd-license.html)
-
 1. **Group:** net.sf.saxon **Name:** Saxon-HE **Version:** 9.9.1-6
      * **POM Project URL:** [http://www.saxonica.com/](http://www.saxonica.com/)
      * **POM License: Mozilla Public License Version 2.0** - [http://www.mozilla.org/MPL/2.0/](http://www.mozilla.org/MPL/2.0/)
 
-1. **Group:** net.sourceforge.pmd **Name:** pmd-core **Version:** 6.24.0
+1. **Group:** net.sourceforge.pmd **Name:** pmd-core **Version:** 6.33.0
      * **POM License: BSD-style** - [http://pmd.sourceforge.net/license.html](http://pmd.sourceforge.net/license.html)
 
-1. **Group:** net.sourceforge.pmd **Name:** pmd-java **Version:** 6.24.0
+1. **Group:** net.sourceforge.pmd **Name:** pmd-java **Version:** 6.33.0
      * **POM License: BSD-style** - [http://pmd.sourceforge.net/license.html](http://pmd.sourceforge.net/license.html)
 
 1. **Group:** net.sourceforge.saxon **Name:** saxon **Version:** 9.1.0.8
      * **POM Project URL:** [http://saxon.sourceforge.net/](http://saxon.sourceforge.net/)
      * **POM License: Mozilla Public License Version 1.0** - [http://www.mozilla.org/MPL/MPL-1.0.txt](http://www.mozilla.org/MPL/MPL-1.0.txt)
 
-1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7
+1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7.2
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
@@ -389,14 +385,14 @@
      * **POM Project URL:** [https://github.com/ota4j-team/opentest4j](https://github.com/ota4j-team/opentest4j)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 7.3.1
+1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
      * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
      * **POM License: BSD-3-Clause** - [https://asm.ow2.io/license.html](https://asm.ow2.io/license.html)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
+1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.1
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
      * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
@@ -412,12 +408,12 @@
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Mon Apr 12 12:34:58 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Mon Apr 12 15:08:48 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
     
-# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.16`
+# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.17`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -499,9 +495,9 @@ This report was generated on **Mon Apr 12 12:34:58 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [http://www.antlr.org/](http://www.antlr.org/)
      * **POM License: BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
-1. **Group:** com.beust **Name:** jcommander **Version:** 1.72
-     * **POM Project URL:** [http://jcommander.org](http://jcommander.org)
-     * **POM License: Apache 2.0** - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+1. **Group:** com.beust **Name:** jcommander **Version:** 1.48
+     * **POM Project URL:** [http://beust.com/jcommander](http://beust.com/jcommander)
+     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1. **Group:** com.github.ben-manes.caffeine **Name:** caffeine **Version:** 2.8.8
      * **POM Project URL:** [https://github.com/ben-manes/caffeine](https://github.com/ben-manes/caffeine)
@@ -690,25 +686,21 @@ This report was generated on **Mon Apr 12 12:34:58 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/trustin/os-maven-plugin/](https://github.com/trustin/os-maven-plugin/)
      * **POM License: Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-1. **Group:** net.java.dev.javacc **Name:** javacc **Version:** 5.0
-     * **POM Project URL:** [https://javacc.dev.java.net/](https://javacc.dev.java.net/)
-     * **POM License: Berkeley Software Distribution (BSD) License** - [http://www.opensource.org/licenses/bsd-license.html](http://www.opensource.org/licenses/bsd-license.html)
-
 1. **Group:** net.sf.saxon **Name:** Saxon-HE **Version:** 9.9.1-6
      * **POM Project URL:** [http://www.saxonica.com/](http://www.saxonica.com/)
      * **POM License: Mozilla Public License Version 2.0** - [http://www.mozilla.org/MPL/2.0/](http://www.mozilla.org/MPL/2.0/)
 
-1. **Group:** net.sourceforge.pmd **Name:** pmd-core **Version:** 6.24.0
+1. **Group:** net.sourceforge.pmd **Name:** pmd-core **Version:** 6.33.0
      * **POM License: BSD-style** - [http://pmd.sourceforge.net/license.html](http://pmd.sourceforge.net/license.html)
 
-1. **Group:** net.sourceforge.pmd **Name:** pmd-java **Version:** 6.24.0
+1. **Group:** net.sourceforge.pmd **Name:** pmd-java **Version:** 6.33.0
      * **POM License: BSD-style** - [http://pmd.sourceforge.net/license.html](http://pmd.sourceforge.net/license.html)
 
 1. **Group:** net.sourceforge.saxon **Name:** saxon **Version:** 9.1.0.8
      * **POM Project URL:** [http://saxon.sourceforge.net/](http://saxon.sourceforge.net/)
      * **POM License: Mozilla Public License Version 1.0** - [http://www.mozilla.org/MPL/MPL-1.0.txt](http://www.mozilla.org/MPL/MPL-1.0.txt)
 
-1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7
+1. **Group:** org.antlr **Name:** antlr4-runtime **Version:** 4.7.2
      * **Manifest Project URL:** [http://www.antlr.org](http://www.antlr.org)
      * **POM License: The BSD License** - [http://www.antlr.org/license.html](http://www.antlr.org/license.html)
 
@@ -839,14 +831,14 @@ This report was generated on **Mon Apr 12 12:34:58 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/ota4j-team/opentest4j](https://github.com/ota4j-team/opentest4j)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 7.3.1
+1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
      * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
      * **POM License: BSD-3-Clause** - [https://asm.ow2.io/license.html](https://asm.ow2.io/license.html)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
+1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.1
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
      * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
@@ -862,4 +854,4 @@ This report was generated on **Mon Apr 12 12:34:58 EEST 2021** using [Gradle-Lic
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Mon Apr 12 12:35:07 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Mon Apr 12 15:08:55 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
