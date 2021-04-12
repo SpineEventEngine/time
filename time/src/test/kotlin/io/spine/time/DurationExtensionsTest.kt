@@ -28,7 +28,6 @@ package io.spine.time
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Duration
-import com.google.protobuf.util.Durations
 import com.google.protobuf.util.Durations.toDays
 import com.google.protobuf.util.Durations.toHours
 import com.google.protobuf.util.Durations.toMicros
@@ -37,7 +36,6 @@ import com.google.protobuf.util.Durations.toMinutes
 import com.google.protobuf.util.Durations.toNanos
 import com.google.protobuf.util.Durations.toSeconds
 import com.google.protobuf.util.Durations.toString
-import io.spine.protobuf.Durations2
 import io.spine.protobuf.Durations2.ZERO
 import io.spine.protobuf.Durations2.add
 import io.spine.protobuf.Durations2.hours
@@ -46,8 +44,8 @@ import io.spine.protobuf.Durations2.nanos
 import io.spine.protobuf.Durations2.seconds
 import io.spine.protobuf.Durations2.toJavaTime
 import io.spine.testing.TestValues.random
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

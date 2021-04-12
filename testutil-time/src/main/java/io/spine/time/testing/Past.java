@@ -29,9 +29,9 @@ package io.spine.time.testing;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.Timestamp;
 
+import static com.google.protobuf.util.Durations.fromMinutes;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
 import static io.spine.protobuf.Durations2.seconds;
 import static io.spine.util.Preconditions2.checkPositive;
 

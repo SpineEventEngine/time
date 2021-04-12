@@ -32,6 +32,7 @@ import com.google.protobuf.gradle.protoc
 import io.spine.gradle.internal.DependencyResolution
 import io.spine.gradle.internal.Deps
 import io.spine.gradle.internal.PublishingRepos
+import io.spine.gradle.internal.Scripts
 import io.spine.gradle.internal.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -96,7 +97,7 @@ subprojects {
         plugin("checkstyle")
         plugin("maven-publish")
         plugin("idea")
-        from(Deps.scripts.projectLicenseReport(project))
+        from(Scripts.projectLicenseReport(project))
     }
 
     val javaVersion = JavaVersion.VERSION_1_8
@@ -204,7 +205,7 @@ subprojects {
     }
 
     apply {
-        with(Deps.scripts) {
+        with(Scripts) {
             from(testOutput(project))
             from(javadocOptions(project))
             from(javacArgs(project))
@@ -228,7 +229,7 @@ subprojects {
         dependsOn("javadoc")
     }
 
-    apply(from = Deps.scripts.filterInternalJavadocs(project))
+    apply(from = Scripts.filterInternalJavadocs(project))
 
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
@@ -243,7 +244,7 @@ subprojects {
     }
 
     apply {
-        with(Deps.scripts) {
+        with(Scripts) {
             from(pmd(project))
             from(checkstyle(project))
         }
@@ -251,7 +252,7 @@ subprojects {
 }
 
 apply {
-    with(Deps.scripts) {
+    with(Scripts) {
         from(jacoco(project))
         from(repoLicenseReport(project))
         from(generatePom(project))
