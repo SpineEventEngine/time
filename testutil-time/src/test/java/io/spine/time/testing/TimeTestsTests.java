@@ -27,7 +27,6 @@
 package io.spine.time.testing;
 
 import com.google.common.testing.NullPointerTester;
-import com.google.common.truth.Truth;
 import com.google.protobuf.Duration;
 import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
@@ -36,13 +35,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.protobuf.util.Durations.fromMinutes;
 import static com.google.protobuf.util.Durations.fromSeconds;
 import static com.google.protobuf.util.Timestamps.add;
 import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
-import static io.spine.protobuf.Durations2.fromMinutes;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @DisplayName("`TimeTests` should")
 class TimeTestsTests extends UtilityClassTest<TimeTests> {
@@ -74,7 +72,8 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("obtain current time in seconds")
     void currentTimeSeconds() {
-        assertNotEquals(0, TimeTests.currentTimeSeconds());
+        assertThat(TimeTests.currentTimeSeconds())
+                .isNotEqualTo(0);
     }
 
     @Nested
@@ -93,7 +92,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
             Timestamp actual = Future.secondsFromNow(TEN_SECONDS.getSeconds());
 
-            Truth.assertThat(actual.getSeconds())
+            assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());
         }
     }
@@ -114,7 +113,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
             Timestamp actual = Past.secondsAgo(TEN_SECONDS.getSeconds());
 
-            Truth.assertThat(actual.getSeconds())
+            assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());
         }
 
@@ -126,7 +125,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
 
             Timestamp actual = Past.minutesAgo(1);
 
-            Truth.assertThat(actual.getSeconds())
+            assertThat(actual.getSeconds())
                  .isEqualTo(expected.getSeconds());
         }
     }
