@@ -24,31 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
 /**
- * Version of this library.
+ * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up, we recommend to
+ * use the latter.
+ *
+ * Some third-party libraries may clash with different versions of the library. Thus, we specify
+ * this version and force it via [forceConfiguration(..)][DependencyResolution.forceConfiguration].
  */
-val time = "2.0.0-SNAPSHOT.21"
-
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
-
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("flogger"))
+object Slf4J {
+    private const val version = "1.7.30"
+    const val lib = "org.slf4j:slf4j-api:${version}"
+    const val jdk14 = "org.slf4j:slf4j-jdk14:${version}"
 }
-

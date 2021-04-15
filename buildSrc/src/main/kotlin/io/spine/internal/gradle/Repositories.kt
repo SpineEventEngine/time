@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.gradle.internal
+package io.spine.internal.gradle
 
 import java.io.File
 import java.net.URI
@@ -125,7 +125,7 @@ object PublishingRepos {
 }
 
 /**
- * Defines names of the commonly used repositories.
+ * Defines names of additional repositories commonly used in the framework projects.
  *
  * @see [applyStandard]
  */
@@ -137,36 +137,54 @@ object Repos {
     val spine: String = PublishingRepos.cloudRepo.releases
     val spineSnapshots: String = PublishingRepos.cloudRepo.snapshots
 
+    const val sonatypeReleases: String = "https://oss.sonatype.org/content/repositories/snapshots"
     const val sonatypeSnapshots: String = "https://oss.sonatype.org/content/repositories/snapshots"
+}
 
-    @Deprecated("Please use `gradlePluginPortal()` call instead of the hard-coded URL.")
-    const val gradlePlugins = "https://plugins.gradle.org/m2/"
+/**
+ * The function to be used in `buildscript` clauses when fully-qualified call must be made.
+ */
+@Suppress("unused")
+fun doApplyStandard(repositories: RepositoryHandler) {
+    repositories.applyStandard()
 }
 
 /**
  * Applies repositories commonly used by Spine Event Engine projects.
  */
 @Suppress("unused")
-fun applyStandard(repositories: RepositoryHandler) {
-    repositories.apply {
+fun RepositoryHandler.applyStandard() {
+
+    apply {
         gradlePluginPortal()
         mavenLocal()
+
+        val libraryGroup = "io.spine"
+        val toolsGroup = "io.spine.tools"
+        val gcloudGroup = "io.spine.gcloud"
+
         maven {
             url = URI(Repos.spine)
             content {
-                includeGroup("io.spine")
-                includeGroup("io.spine.tools")
-                includeGroup("io.spine.gcloud")
+                includeGroup(libraryGroup)
+                includeGroup(toolsGroup)
+                includeGroup(gcloudGroup)
             }
         }
         maven {
             url = URI(Repos.spineSnapshots)
             content {
-                includeGroup("io.spine")
-                includeGroup("io.spine.tools")
-                includeGroup("io.spine.gcloud")
+                includeGroup(libraryGroup)
+                includeGroup(toolsGroup)
+                includeGroup(gcloudGroup)
             }
         }
         mavenCentral()
+        maven {
+            url = URI(Repos.sonatypeReleases)
+        }
+        maven {
+            url = URI(Repos.sonatypeSnapshots)
+        }
     }
 }

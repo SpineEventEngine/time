@@ -24,31 +24,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
-/**
- * Version of this library.
- */
-val time = "2.0.0-SNAPSHOT.21"
+// https://errorprone.info/
+@Suppress("unused")
+object ErrorProne {
+    private const val version = "2.6.0"
+    // https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts
+    private const val javacPluginVersion = "9+181-r4173-1"
 
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
+    val annotations = listOf(
+        "com.google.errorprone:error_prone_annotations:${version}",
+        "com.google.errorprone:error_prone_type_annotations:${version}"
+    )
+    const val core = "com.google.errorprone:error_prone_core:${version}"
+    const val checkApi = "com.google.errorprone:error_prone_check_api:${version}"
+    const val testHelpers = "com.google.errorprone:error_prone_test_helpers:${version}"
+    const val javacPlugin  = "com.google.errorprone:javac:${javacPluginVersion}"
 
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+    object GradlePlugin {
+        const val id = "net.ltgt.errorprone"
+        const val version = "1.3.0"
+        const val lib = "net.ltgt.gradle:gradle-errorprone-plugin:${version}"
+    }
 }
-

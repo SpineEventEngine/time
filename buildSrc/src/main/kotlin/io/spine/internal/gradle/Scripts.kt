@@ -24,13 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.gradle.internal
+package io.spine.internal.gradle
 
 import org.gradle.api.Project
 
 @Suppress("unused")
 object Scripts {
-    private const val commonPath = "/config/gradle/"
+    @Suppress("MemberVisibilityCanBePrivate") // is used from Groovy-based scripts.
+    const val commonPath = "/buildSrc/src/main/groovy/"
 
     fun testArtifacts(p: Project)          = p.script("test-artifacts.gradle")
     fun testOutput(p: Project)             = p.script("test-output.gradle")
@@ -58,5 +59,5 @@ object Scripts {
     fun generatePom(p: Project)            = p.script("generate-pom.gradle")
     fun updateGitHubPages(p: Project)      = p.script("update-gh-pages.gradle")
 
-    private fun Project.script(name: String) = "${rootDir}${commonPath}${name}"
+    private fun Project.script(name: String) = "${rootDir}$commonPath${name}"
 }

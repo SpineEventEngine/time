@@ -24,31 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
 /**
- * Version of this library.
+ * Versions of one-line dependencies.
+ *
+ * For versions of other dependencies please see `version` properties of objects declared below.
+ *
+ * See also: https://github.com/SpineEventEngine/config/issues/171
  */
-val time = "2.0.0-SNAPSHOT.21"
 
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
-
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+// https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
+object AnimalSniffer {
+    private const val version = "1.19"
+    const val lib = "org.codehaus.mojo:animal-sniffer-annotations:${version}"
 }
-

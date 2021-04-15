@@ -24,31 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
-/**
- * Version of this library.
- */
-val time = "2.0.0-SNAPSHOT.21"
+// https://junit.org/junit5/
+object JUnit {
+    private const val version            = "5.7.1"
+    private const val platformVersion    = "1.7.1"
+    private const val legacyVersion      = "4.13.1"
 
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
+    // https://github.com/apiguardian-team/apiguardian
+    private const val apiGuardianVersion = "1.1.1"
+    // https://github.com/junit-pioneer/junit-pioneer
+    private const val pioneerVersion     = "1.3.8"
 
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+    const val legacy = "junit:junit:${legacyVersion}"
+    val api = listOf(
+        "org.apiguardian:apiguardian-api:${apiGuardianVersion}",
+        "org.junit.jupiter:junit-jupiter-api:${version}",
+        "org.junit.jupiter:junit-jupiter-params:${version}"
+    )
+    const val runner  = "org.junit.jupiter:junit-jupiter-engine:${version}"
+    @Suppress("unused")
+    const val pioneer = "org.junit-pioneer:junit-pioneer:${pioneerVersion}"
+    const val platformCommons = "org.junit.platform:junit-platform-commons:${platformVersion}"
+    const val platformLauncher = "org.junit.platform:junit-platform-launcher:${platformVersion}"
 }
-

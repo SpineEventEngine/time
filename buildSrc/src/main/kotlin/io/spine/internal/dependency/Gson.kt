@@ -24,31 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
 /**
- * Version of this library.
+ * Gson is a transitive dependency which we don't use directly.
+ * We `force` it in [DependencyResolution.forceConfiguration()].
+ *
+ * [Gson](https://github.com/google/gson)
  */
-val time = "2.0.0-SNAPSHOT.21"
-
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
-
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+object Gson {
+    private const val version = "2.8.6"
+    const val lib = "com.google.code.gson:gson:${version}"
 }
-

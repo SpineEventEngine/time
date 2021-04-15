@@ -24,31 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * The versions of the libraries used.
- *
- * This file is used in both module `build.gradle.kts` scripts and in the integration tests,
- * as we want to manage the versions in a single source.
- *
- * This version file adheres to the contract of the
- * [publishing application](https://github.com/SpineEventEngine/publishing).
- *
- * When changing the version declarations or adding new ones, make sure to change
- * the publishing application accordingly.
- */
+package io.spine.internal.dependency
 
-/**
- * Version of this library.
- */
-val time = "2.0.0-SNAPSHOT.21"
-
-/**
- * Versions of the Spine libraries that `time` depends on.
- */
-val base = "2.0.0-SNAPSHOT.21"
-
-project.extra.apply {
-    this["versionToPublish"] = time
-    this["spineBaseVersion"] = base
+// https://checkerframework.org/
+object CheckerFramework {
+    private const val version = "3.12.0"
+    const val annotations = "org.checkerframework:checker-qual:${version}"
+    @Suppress("unused")
+    val dataflow = listOf(
+        "org.checkerframework:dataflow:${version}",
+        "org.checkerframework:javacutil:${version}"
+    )
+    /**
+     * This is discontinued artifact, which we do not use directly.
+     * This is a transitive dependency for us, which we force in
+     * [DependencyResolution.forceConfiguration]
+     */
+    const val compatQual = "org.checkerframework:checker-compat-qual:2.5.5"
 }
-
