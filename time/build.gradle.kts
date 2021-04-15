@@ -24,28 +24,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.gradle.internal.DependencyResolution
-import io.spine.gradle.internal.Deps
-import io.spine.gradle.internal.IncrementGuard
+import io.spine.internal.dependency.AutoService
+import io.spine.internal.gradle.IncrementGuard
+import io.spine.internal.gradle.Scripts
+import io.spine.internal.gradle.excludeProtobufLite
 
 plugins {
     id("io.spine.tools.spine-model-compiler")
 }
 
 apply {
-    with(io.spine.gradle.internal.Scripts) {
+    with(Scripts) {
         from(testArtifacts(project))
         from(modelCompiler(project))
     }
 }
 apply<IncrementGuard>()
 
-DependencyResolution.excludeProtobufLite(configurations)
+configurations.excludeProtobufLite()
 
 val spineBaseVersion: String by extra
 dependencies {
-    annotationProcessor(Deps.build.autoService.processor)
-    compileOnly(Deps.build.autoService.annotations)
+    annotationProcessor(AutoService.processor)
+    compileOnly(AutoService.annotations)
 
     api("io.spine:spine-base:$spineBaseVersion")
 

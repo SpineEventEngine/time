@@ -29,40 +29,45 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.gradle.internal.DependencyResolution
-import io.spine.gradle.internal.Deps
-import io.spine.gradle.internal.PublishingRepos
-import io.spine.gradle.internal.Scripts
-import io.spine.gradle.internal.spinePublishing
+import io.spine.internal.dependency.ErrorProne
+import io.spine.internal.dependency.Flogger
+import io.spine.internal.dependency.JUnit
+import io.spine.internal.dependency.Protobuf
+import io.spine.internal.gradle.PublishingRepos
+import io.spine.internal.gradle.Scripts
+import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
 
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.gradle.internal.applyStandard(repositories)
+    io.spine.internal.gradle.doApplyStandard(repositories)
+    io.spine.internal.gradle.doForceVersions(configurations)
 
     val spineBaseVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-model-compiler:$spineBaseVersion")
     }
-
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    val resolution = io.spine.gradle.internal.DependencyResolution
-    resolution.forceConfiguration(configurations)
 }
 
 plugins {
     `java-library`
     // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
-    kotlin("jvm") version io.spine.gradle.internal.Kotlin.version
+    kotlin("jvm") version io.spine.internal.dependency.Kotlin.version
     jacoco
     idea
     `project-report`
+
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.gradle.internal.Deps.build.apply {
-        id("com.google.protobuf") version protobuf.gradlePluginVersion
-        id("net.ltgt.errorprone") version errorProne.gradlePluginVersion
+    io.spine.internal.dependency.Protobuf.GradlePlugin.apply {
+        id(id).version(version)
+    }
+    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
+    io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
+        id(id).version(version)
     }
 }
 
@@ -83,8 +88,6 @@ allprojects {
 
     group = "io.spine"
     version = extra["versionToPublish"]!!
-
-    apply(from = "$rootDir/config/gradle/dependencies.gradle")
 }
 
 subprojects {
@@ -135,24 +138,20 @@ subprojects {
         }
     }
 
-    DependencyResolution.defaultRepositories(repositories)
+    repositories.applyStandard()
 
     val spineBaseVersion: String by extra
     dependencies {
-        Deps.build.apply {
-            errorprone(errorProne.core)
-            errorproneJavac(errorProne.javacPlugin)
-        }
+        errorprone(ErrorProne.core)
+        errorproneJavac(ErrorProne.javacPlugin)
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-        Deps.test.apply {
-            testImplementation(junit.runner)
-        }
-        runtimeOnly(Deps.runtime.flogger.systemBackend)
+        testImplementation(JUnit.runner)
+        runtimeOnly(Flogger.Runtime.systemBackend)
     }
 
-    DependencyResolution.forceConfiguration(configurations)
+    configurations.forceVersions()
 
     val sourcesRootDir = "$projectDir/src"
     val generatedRootDir = "$projectDir/generated"
@@ -192,7 +191,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Deps.build.protobuf.compiler
+            artifact = Protobuf.compiler
         }
         generateProtoTasks {
             all().forEach { task ->
@@ -235,9 +234,11 @@ subprojects {
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
-            generatedSourceDirs.add(file("$generatedRootDir/main/js"))
-            generatedSourceDirs.add(file("$generatedRootDir/main/java"))
-            generatedSourceDirs.add(file("$generatedRootDir/main/spine"))
+            with(generatedSourceDirs) {
+                add(file("$generatedRootDir/main/js"))
+                add(file("$generatedRootDir/main/java"))
+                add(file("$generatedRootDir/main/spine"))
+            }
             testSourceDirs.add(file("$generatedRootDir/test/java"))
             isDownloadJavadoc = true
             isDownloadSources = true
