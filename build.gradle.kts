@@ -49,7 +49,7 @@ buildscript {
 
     val spineBaseVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-model-compiler:$spineBaseVersion")
+        classpath("io.spine.tools:spine-mc-java:$spineBaseVersion")
     }
 }
 

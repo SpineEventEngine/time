@@ -73,8 +73,9 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
     }
 
     private static Stringifier<Object> stringifierOf(Class<?> cls) {
-        Optional<Stringifier<Object>> stringifier = StringifierRegistry.instance()
-                                                                       .get(cls);
+        Optional<Stringifier<Object>> stringifier =
+                StringifierRegistry.instance()
+                                   .find(cls);
         Truth8.assertThat(stringifier).isPresent();
         return stringifier.get();
     }
