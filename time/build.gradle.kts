@@ -30,7 +30,7 @@ import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.excludeProtobufLite
 
 plugins {
-    id("io.spine.tools.spine-model-compiler")
+    id("io.spine.mc-java")
 }
 
 apply {

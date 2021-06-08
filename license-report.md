@@ -1,6 +1,6 @@
 
     
-# Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.21`
+# Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.34`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -39,11 +39,11 @@
      * **POM Project URL:** [https://github.com/google/j2objc/](https://github.com/google/j2objc/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
@@ -66,19 +66,23 @@
      * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -171,29 +175,29 @@
      * **POM Project URL:** [https://github.com/google/j2objc/](https://github.com/google/j2objc/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protoc **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protoc **Version:** 3.17.0
      * **POM Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth **Name:** truth **Version:** 1.1.2
+1. **Group:** com.google.truth **Name:** truth **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-java8-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-java8-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-liteproto-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-liteproto-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-proto-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-proto-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.29
@@ -220,15 +224,15 @@
      * **POM Project URL:** [https://github.com/java-diff-utils/java-diff-utils](https://github.com/java-diff-utils/java-diff-utils)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** io.grpc **Name:** grpc-api **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-api **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-1. **Group:** io.grpc **Name:** grpc-context **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-context **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-1. **Group:** io.grpc **Name:** grpc-core **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-core **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
@@ -308,55 +312,55 @@
      * **POM Project URL:** [https://github.com/JetBrains/intellij-deps-trove4j](https://github.com/JetBrains/intellij-deps-trove4j)
      * **POM License: GNU LESSER GENERAL PUBLIC LICENSE 2.1** - [https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-compiler-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-compiler-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-daemon-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-daemon-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-klib-commonizer-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-klib-commonizer-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-script-runtime **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-script-runtime **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-impl-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-impl-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-jvm **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-jvm **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -390,13 +394,6 @@
      * **POM Project URL:** [https://github.com/ota4j-team/opentest4j](https://github.com/ota4j-team/opentest4j)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
-     * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
-     * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
-     * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
-     * **POM License: BSD-3-Clause** - [https://asm.ow2.io/license.html](https://asm.ow2.io/license.html)
-     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
-
 1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.1
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
@@ -413,12 +410,12 @@
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Tue Jun 08 17:50:02 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
     
-# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.21`
+# Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.34`
 
 ## Runtime
 1. **Group:** com.google.code.findbugs **Name:** jsr305 **Version:** 3.0.2
@@ -457,11 +454,11 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/google/j2objc/](https://github.com/google/j2objc/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
@@ -484,19 +481,23 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [http://www.jetbrains.org](http://www.jetbrains.org)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0
+     * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -575,7 +576,7 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/google/flogger](https://github.com/google/flogger)
      * **POM License: Apache 2.0** - [https://www.apache.org/licenses/LICENSE-2.0.txt](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.gradle **Name:** osdetector-gradle-plugin **Version:** 1.6.2
+1. **Group:** com.google.gradle **Name:** osdetector-gradle-plugin **Version:** 1.7.0
      * **POM Project URL:** [https://github.com/google/osdetector-gradle-plugin](https://github.com/google/osdetector-gradle-plugin)
      * **POM License: Apache License 2.0** - [http://opensource.org/licenses/Apache-2.0](http://opensource.org/licenses/Apache-2.0)
 
@@ -597,33 +598,33 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/google/j2objc/](https://github.com/google/j2objc/)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-gradle-plugin **Version:** 0.8.13
+1. **Group:** com.google.protobuf **Name:** protobuf-gradle-plugin **Version:** 0.8.16
      * **POM Project URL:** [https://github.com/google/protobuf-gradle-plugin](https://github.com/google/protobuf-gradle-plugin)
      * **POM License: BSD 3-Clause** - [http://opensource.org/licenses/BSD-3-Clause](http://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protobuf-java-util **Version:** 3.17.0
      * **Manifest Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1. **Group:** com.google.protobuf **Name:** protoc **Version:** 3.15.7
+1. **Group:** com.google.protobuf **Name:** protoc **Version:** 3.17.0
      * **POM Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **POM License: 3-Clause BSD License** - [https://opensource.org/licenses/BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth **Name:** truth **Version:** 1.1.2
+1. **Group:** com.google.truth **Name:** truth **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-java8-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-java8-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-liteproto-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-liteproto-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** com.google.truth.extensions **Name:** truth-proto-extension **Version:** 1.1.2
+1. **Group:** com.google.truth.extensions **Name:** truth-proto-extension **Version:** 1.1.3
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1. **Group:** com.puppycrawl.tools **Name:** checkstyle **Version:** 8.29
@@ -658,19 +659,19 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/java-diff-utils/java-diff-utils](https://github.com/java-diff-utils/java-diff-utils)
      * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** io.grpc **Name:** grpc-api **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-api **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-1. **Group:** io.grpc **Name:** grpc-context **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-context **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-1. **Group:** io.grpc **Name:** grpc-core **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** grpc-core **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
-1. **Group:** io.grpc **Name:** protoc-gen-grpc-java **Version:** 1.35.1
+1. **Group:** io.grpc **Name:** protoc-gen-grpc-java **Version:** 1.38.0
      * **POM Project URL:** [https://github.com/grpc/grpc-java](https://github.com/grpc/grpc-java)
      * **POM License: Apache 2.0** - [https://opensource.org/licenses/Apache-2.0](https://opensource.org/licenses/Apache-2.0)
 
@@ -687,7 +688,7 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [http://junit.org](http://junit.org)
      * **POM License: Eclipse Public License 1.0** - [http://www.eclipse.org/legal/epl-v10.html](http://www.eclipse.org/legal/epl-v10.html)
 
-1. **Group:** kr.motd.maven **Name:** os-maven-plugin **Version:** 1.6.2
+1. **Group:** kr.motd.maven **Name:** os-maven-plugin **Version:** 1.7.0
      * **POM Project URL:** [https://github.com/trustin/os-maven-plugin/](https://github.com/trustin/os-maven-plugin/)
      * **POM License: Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
@@ -754,55 +755,55 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/JetBrains/intellij-deps-trove4j](https://github.com/JetBrains/intellij-deps-trove4j)
      * **POM License: GNU LESSER GENERAL PUBLIC LICENSE 2.1** - [https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-compiler-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-compiler-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-daemon-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-daemon-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-klib-commonizer-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-klib-commonizer-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-reflect **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-script-runtime **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-script-runtime **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-impl-embeddable **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-compiler-impl-embeddable **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-jvm **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-scripting-jvm **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-common **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk7 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0-RC
+1. **Group:** org.jetbrains.kotlin **Name:** kotlin-stdlib-jdk8 **Version:** 1.5.0
      * **POM Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -836,13 +837,6 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [https://github.com/ota4j-team/opentest4j](https://github.com/ota4j-team/opentest4j)
      * **POM License: The Apache License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
-1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.0
-     * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
-     * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
-     * **POM Project URL:** [http://asm.ow2.io/](http://asm.ow2.io/)
-     * **POM License: BSD-3-Clause** - [https://asm.ow2.io/license.html](https://asm.ow2.io/license.html)
-     * **POM License: The Apache Software License, Version 2.0** - [http://www.apache.org/licenses/LICENSE-2.0.txt](http://www.apache.org/licenses/LICENSE-2.0.txt)
-
 1. **Group:** org.ow2.asm **Name:** asm **Version:** 9.1
      * **Manifest Project URL:** [http://asm.ow2.org](http://asm.ow2.org)
      * **Manifest License:** BSD-3-Clause;link=https://asm.ow2.io/LICENSE.txt (Not packaged)
@@ -859,4 +853,4 @@ This report was generated on **Thu Apr 15 18:28:31 EEST 2021** using [Gradle-Lic
  The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
 
-This report was generated on **Thu Apr 15 18:28:43 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Tue Jun 08 17:50:13 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
