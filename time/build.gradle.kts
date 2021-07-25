@@ -36,10 +36,21 @@ plugins {
 apply {
     with(Scripts) {
         from(testArtifacts(project))
-        from(modelCompiler(project))
     }
 }
 apply<IncrementGuard>()
+
+modelCompiler {
+    java {
+        forCommands() { markAs("io.spine.base.CommandMessage") }
+        forEvents() { markAs("io.spine.base.EventMessage") }
+        forRejections() { markAs("io.spine.base.RejectionMessage") }
+        forUuids() {
+            markAs("io.spine.base.UuidValue")
+            generateMethodsWith("io.spine.tools.java.code.UuidMethodFactory")
+        }
+    }
+}
 
 configurations.excludeProtobufLite()
 
@@ -52,3 +63,10 @@ dependencies {
 
     testImplementation(project(":testutil-time"))
 }
+
+//TODO:2021-07-22:alexander.yevsyukov: Turn to WARN and investigate duplicates.
+// see https://github.com/SpineEventEngine/base/issues/657
+val dupStrategy = DuplicatesStrategy.INCLUDE
+tasks.sourceJar.get().duplicatesStrategy = dupStrategy
+tasks.processResources.get().duplicatesStrategy = dupStrategy
+tasks.processTestResources.get().duplicatesStrategy = dupStrategy
