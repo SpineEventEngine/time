@@ -52,7 +52,3 @@ dependencies {
 
     testImplementation(project(":testutil-time"))
 }
-
-modelCompiler {
-    generateValidation = true
-}

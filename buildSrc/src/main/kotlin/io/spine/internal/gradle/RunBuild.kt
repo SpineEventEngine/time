@@ -27,6 +27,7 @@
 package io.spine.internal.gradle
 
 import java.io.File
+import java.util.concurrent.TimeUnit
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Internal
@@ -51,12 +52,19 @@ open class RunBuild : DefaultTask() {
     @Internal
     lateinit var directory: String
 
+    /**
+     * Names of Gradle properties to copy into the launched build.
+     *
+     * The properties are looked up in the root project. If a property is not found, it is ignored.
+     *
+     * See [Gradle doc](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
+     * for more info about Gradle properties.
+     */
+    @Internal
+    var includeGradleProperties: MutableSet<String> = mutableSetOf()
+
     @TaskAction
     private fun execute() {
-        val runsOnWindows = OperatingSystem.current().isWindows()
-        val script = if (runsOnWindows) "gradlew.bat" else "gradlew"
-        val command = buildCommand(script)
-
         // Ensure build error output log.
         // Since we're executing this task in another process, we redirect error output to
         // the file under the `build` directory.
@@ -67,18 +75,35 @@ open class RunBuild : DefaultTask() {
         val errorOut = File(buildDir, "error-out.txt")
         val debugOut = File(buildDir, "debug-out.txt")
 
-        val process = buildProcess(command, errorOut, debugOut)
-        if (process.waitFor() != 0) {
-            throw GradleException("Build FAILED. See $errorOut for details.")
+        val command = buildCommand()
+        val process = startProcess(command, errorOut, debugOut)
+
+        /*  The timeout is set because of Gradle process execution under Windows.
+            See the following locations for details:
+              https://github.com/gradle/gradle/pull/8467#issuecomment-498374289
+              https://github.com/gradle/gradle/issues/3987
+              https://discuss.gradle.org/t/weirdness-in-gradle-exec-on-windows/13660/6
+         */
+        val completed = process.waitFor(10, TimeUnit.MINUTES)
+        if (!completed || process.exitValue() != 0) {
+            val errorOutExists = errorOut.exists()
+            if (errorOutExists) {
+                logger.error(errorOut.readText())
+            }
+            throw GradleException("Build FAILED." +
+                    if (errorOutExists) " See $errorOut for details."
+                    else " ${errorOut} file was not created."
+            )
         }
     }
 
-    private fun buildCommand(script: String): List<String> {
+    private fun buildCommand(): List<String> {
+        val script = buildScript()
         val command = mutableListOf<String>()
         command.add("${project.rootDir}/$script")
         val shouldClean = project.gradle
-                                 .taskGraph
-                                 .hasTask(":clean")
+            .taskGraph
+            .hasTask(":clean")
         if (shouldClean) {
             command.add("clean")
         }
@@ -86,10 +111,21 @@ open class RunBuild : DefaultTask() {
         command.add("--console=plain")
         command.add("--debug")
         command.add("--stacktrace")
+        command.add("--no-daemon")
+        val rootProject = project.rootProject
+        includeGradleProperties
+            .filter { rootProject.hasProperty(it) }
+            .map { name -> name to rootProject.property(name).toString() }
+            .forEach { (name, value) -> command.add("-P$name=$value") }
         return command
     }
 
-    private fun buildProcess(command: List<String>, errorOut: File, debugOut: File) =
+    private fun buildScript(): String {
+        val runsOnWindows = OperatingSystem.current().isWindows()
+        return if (runsOnWindows) "gradlew.bat" else "gradlew"
+    }
+
+    private fun startProcess(command: List<String>, errorOut: File, debugOut: File) =
         ProcessBuilder()
             .command(command)
             .directory(project.file(directory))
