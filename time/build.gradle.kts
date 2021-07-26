@@ -40,18 +40,6 @@ apply {
 }
 apply<IncrementGuard>()
 
-modelCompiler {
-    java {
-        forCommands() { markAs("io.spine.base.CommandMessage") }
-        forEvents() { markAs("io.spine.base.EventMessage") }
-        forRejections() { markAs("io.spine.base.RejectionMessage") }
-        forUuids() {
-            markAs("io.spine.base.UuidValue")
-            generateMethodsWith("io.spine.tools.java.code.UuidMethodFactory")
-        }
-    }
-}
-
 configurations.excludeProtobufLite()
 
 val spineBaseVersion: String by extra
