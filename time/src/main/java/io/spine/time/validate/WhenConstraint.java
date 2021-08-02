@@ -99,18 +99,19 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
 
     private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
         String msg = errorMessage(fieldValue.context());
-        String when = optionValue().getIn()
-                                   .toString()
-                                   .toLowerCase();
-        FieldPath fieldPath = fieldValue.context()
-                                        .fieldPath();
-        ConstraintViolation violation = ConstraintViolation
-                .newBuilder()
+        String when =
+                optionValue().getIn()
+                             .toString()
+                             .toLowerCase();
+        FieldPath fieldPath =
+                fieldValue.context()
+                          .fieldPath();
+        ConstraintViolation violation = ConstraintViolation.newBuilder()
                 .setMsgFormat(msg)
                 .addParam(when)
                 .setFieldPath(fieldPath)
                 .setFieldValue(value.toAny())
-                .vBuild();
+                .build();
         return violation;
     }
 }

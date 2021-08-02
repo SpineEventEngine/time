@@ -27,7 +27,7 @@
 package io.spine.time;
 
 import com.google.protobuf.Duration;
-import io.spine.protobuf.Durations2;
+import com.google.protobuf.util.Durations;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
@@ -36,9 +36,10 @@ import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static io.spine.protobuf.Durations2.fromHours;
+import static com.google.protobuf.util.Durations.fromHours;
 import static io.spine.protobuf.Durations2.hoursAndMinutes;
 import static io.spine.util.Exceptions.unsupported;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@code ZoneOffset}s.
@@ -83,8 +84,10 @@ public final class ZoneOffsets {
      */
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        java.time.ZoneOffset result =
+                converter().reverse()
+                           .convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -92,7 +95,8 @@ public final class ZoneOffsets {
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
         checkNotNull(zo);
-        return converter().convert(zo);
+        ZoneOffset result = converter().convert(zo);
+        return requireNonNull(result);
     }
 
     /**
@@ -138,7 +142,7 @@ public final class ZoneOffsets {
     @SuppressWarnings("NumericCastThatLosesPrecision")
     // It is safe, as we check bounds of the arguments when creating Durations.
     private static int toSeconds(Duration duration) {
-        return (int) Durations2.toSeconds(duration);
+        return (int) Durations.toSeconds(duration);
     }
 
     /**
@@ -151,9 +155,11 @@ public final class ZoneOffsets {
     @Deprecated
     public static ZoneOffset parse(String value) {
         checkNotNull(value);
-        return TimeStringifiers.forZoneOffset()
-                               .reverse()
-                               .convert(value);
+        ZoneOffset result =
+                TimeStringifiers.forZoneOffset()
+                                .reverse()
+                                .convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -164,8 +170,9 @@ public final class ZoneOffsets {
     @Deprecated
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        return TimeStringifiers.forZoneOffset()
-                               .convert(zoneOffset);
+        String result = TimeStringifiers.forZoneOffset()
+                                        .convert(zoneOffset);
+        return requireNonNull(result);
     }
 
     private static ZoneOffset create(int offsetInSeconds, @Nullable String zoneId) {
