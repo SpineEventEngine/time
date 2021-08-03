@@ -24,37 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.gradle.IncrementGuard
-import io.spine.internal.gradle.Scripts
-import io.spine.internal.gradle.excludeProtobufLite
+// TODO:2021-07-05:dmytro.dashenkov: https://github.com/SpineEventEngine/config/issues/214.
 
-plugins {
-    id("io.spine.mc-java")
-}
-
-apply {
-    with(Scripts) {
-        from(testArtifacts(project))
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            eachDependency {
+                if (requested.group == "org.jacoco") {
+                    useVersion("0.8.7")
+                }
+            }
+        }
     }
 }
-apply<IncrementGuard>()
-
-configurations.excludeProtobufLite()
-
-val spineBaseVersion: String by extra
-dependencies {
-    annotationProcessor(AutoService.processor)
-    compileOnly(AutoService.annotations)
-
-    api("io.spine:spine-base:$spineBaseVersion")
-
-    testImplementation(project(":testutil-time"))
-}
-
-//TODO:2021-07-22:alexander.yevsyukov: Turn to WARN and investigate duplicates.
-// see https://github.com/SpineEventEngine/base/issues/657
-val dupStrategy = DuplicatesStrategy.INCLUDE
-tasks.sourceJar.get().duplicatesStrategy = dupStrategy
-tasks.processResources.get().duplicatesStrategy = dupStrategy
-tasks.processTestResources.get().duplicatesStrategy = dupStrategy

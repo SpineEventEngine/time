@@ -24,37 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.gradle.IncrementGuard
-import io.spine.internal.gradle.Scripts
-import io.spine.internal.gradle.excludeProtobufLite
+import io.spine.internal.dependency.Pmd
 
 plugins {
-    id("io.spine.mc-java")
+    pmd
 }
 
-apply {
-    with(Scripts) {
-        from(testArtifacts(project))
-    }
+pmd {
+    toolVersion = Pmd.version
+    isConsoleOutput = true
+    incrementalAnalysis.set(true)
+
+    // The build is going to fail in case of violations.
+    isIgnoreFailures = false
+
+    // Disable the default rule set to use the custom rules (see below).
+    ruleSets = listOf()
+
+    // Load PMD settings from a file in `buildSrc/resources/`.
+    val classLoader = Pmd.javaClass.classLoader
+    val settingsResource = classLoader.getResource("pmd.xml")!!
+    val pmdSettings: String = settingsResource.readText()
+    val textResource: TextResource = resources.text.fromString(pmdSettings)
+    ruleSetConfig = textResource
+
+    reportsDir = file("build/reports/pmd")
+
+    // Just analyze the main sources; do not analyze tests.
+    val javaExtension: JavaPluginExtension =
+        project.extensions.getByType(JavaPluginExtension::class.java)
+    val mainSourceSet = javaExtension.sourceSets.getByName("main")
+    sourceSets = listOf(mainSourceSet)
 }
-apply<IncrementGuard>()
-
-configurations.excludeProtobufLite()
-
-val spineBaseVersion: String by extra
-dependencies {
-    annotationProcessor(AutoService.processor)
-    compileOnly(AutoService.annotations)
-
-    api("io.spine:spine-base:$spineBaseVersion")
-
-    testImplementation(project(":testutil-time"))
-}
-
-//TODO:2021-07-22:alexander.yevsyukov: Turn to WARN and investigate duplicates.
-// see https://github.com/SpineEventEngine/base/issues/657
-val dupStrategy = DuplicatesStrategy.INCLUDE
-tasks.sourceJar.get().duplicatesStrategy = dupStrategy
-tasks.processResources.get().duplicatesStrategy = dupStrategy
-tasks.processTestResources.get().duplicatesStrategy = dupStrategy
