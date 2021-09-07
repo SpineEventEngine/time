@@ -58,8 +58,14 @@ enum Month {
 //
 // The purpose of this type is to store values like "June 2018".
 //
+// Instances of `YearMonth` can be ordered chronologically.
+//
 message YearMonth {
     option (is).java_type = "YearMonthTemporal";
+    option (compare_by) = {
+        field: "year"
+        field: "month"
+    };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
@@ -87,8 +93,15 @@ enum DayOfWeek {
 //
 // Use this message for describing a date (e.g. a birthday).
 //
+// Instances of `LocalDate` can be ordered chronologically.
+//
 message LocalDate {
     option (is).java_type = "LocalDateTemporal";
+    option (compare_by) = {
+        field: "year"
+        field: "month"
+        field: "day"
+    };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
     int32 year = 1;
@@ -104,8 +117,16 @@ message LocalDate {
 //
 // It is a description of a time, not an instant on a time-line.
 //
+// Instances of `LocalTime` can be ordered chronologically.
+//
 message LocalTime {
     option (is).java_type = "LocalTimeMixin";
+    option (compare_by) = {
+        field: "hour"
+        field: "minute"
+        field: "second"
+        field: "nano"
+    };
 
     // An hour from 0 to 23.
     int32 hour = 1 [(min).value = "0", (max).value = "23"];
@@ -121,8 +142,15 @@ message LocalTime {
 }
 
 // A date-time without a time-zone.
+//
+// Instances of `LocalDateTime` can be ordered chronologically.
+//
 message LocalDateTime {
     option (is).java_type = "LocalDateTimeTemporal";
+    option (compare_by) = {
+        field: "date"
+        field: "time"
+    };
 
     LocalDate date = 1 [(required) = true, (validate) = true];
     LocalTime time = 2 [(validate) = true];
@@ -176,6 +204,10 @@ message ZoneId {
 
 // A date-time with a time-zone in the ISO-8601 calendar system,
 // such as `2018-06-25T19:22:45+01:00 Europe/Amsterdam`.
+//
+// Instances of `ZonedDateTime` cannot be ordered by field values, since the chronological order
+// depends on interpretation of time in different time zones.
+//
 message ZonedDateTime {
     option (is).java_type = "ZonedDateTimeTemporal";
 
