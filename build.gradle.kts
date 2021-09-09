@@ -75,7 +75,8 @@ apply(from = "$rootDir/version.gradle.kts")
 spinePublishing {
     targetRepositories.addAll(setOf(
         PublishingRepos.cloudRepo,
-        PublishingRepos.gitHub("time")
+        PublishingRepos.gitHub("time"),
+        PublishingRepos.cloudArtifactRegistry
     ))
     projectsToPublish.addAll(
         "time",
