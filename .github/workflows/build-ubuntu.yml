@@ -19,7 +19,7 @@ jobs:
 
       - name: Build with Gradle
         shell: bash
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
 
       - name: Upload coverage info to Codecov
         uses: codecov/codecov-action@v2
