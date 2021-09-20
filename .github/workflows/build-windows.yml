@@ -19,4 +19,4 @@ jobs:
 
       - name: Run tests with Gradle
         shell: cmd
-        run: gradlew.bat build
+        run: gradlew.bat build --stacktrace
