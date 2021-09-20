@@ -5,7 +5,8 @@ name: Check version increment
 
 on:
   push:
-    branches: '**'
+    branches:
+      - '**'
 
 jobs:
   build:
