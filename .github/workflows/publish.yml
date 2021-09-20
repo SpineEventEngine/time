@@ -1,4 +1,4 @@
-name: Build
+name: Publish
 
 on:
   push:
@@ -47,5 +47,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           FORMAL_GIT_HUB_PAGES_AUTHOR: developers@spine.io
-          REPO_SLUG: SpineEventEngine/base
+          REPO_SLUG: SpineEventEngine/time
           GOOGLE_APPLICATION_CREDENTIALS: ./maven-publisher.json
