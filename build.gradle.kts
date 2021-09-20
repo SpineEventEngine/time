@@ -102,6 +102,7 @@ subprojects {
         plugin("checkstyle")
         plugin("maven-publish")
         plugin("idea")
+        plugin("pmd-settings")
         from(Scripts.projectLicenseReport(project))
     }
 
@@ -118,7 +119,6 @@ subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = javaVersion.toString()
-            useIR = true
         }
     }
 
@@ -248,7 +248,6 @@ subprojects {
 
     apply {
         with(Scripts) {
-            from(pmd(project))
             from(checkstyle(project))
         }
     }
