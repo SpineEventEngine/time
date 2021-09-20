@@ -40,7 +40,7 @@
 /**
  * Version of this library.
  */
-val time = "2.0.0-SNAPSHOT.57"
+val time = "2.0.0-SNAPSHOT.58"
 
 /**
  * Versions of the Spine libraries that `time` depends on.
