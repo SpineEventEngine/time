@@ -24,22 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.gradle
 
-// https://github.com/protocolbuffers/protobuf
-@Suppress("MemberVisibilityCanBePrivate") // used directly from outside
-object Protobuf {
-    const val version    = "3.18.0"
-    val libs = listOf(
-        "com.google.protobuf:protobuf-java:${version}",
-        "com.google.protobuf:protobuf-java-util:${version}"
-    )
-    const val compiler = "com.google.protobuf:protoc:${version}"
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 
-    // https://github.com/google/protobuf-gradle-plugin/releases
-    object GradlePlugin {
-        const val version = "0.8.17"
-        const val id = "com.google.protobuf"
-        const val lib = "com.google.protobuf:protobuf-gradle-plugin:${version}"
+/**
+ * Cleans the folder and all of its content.
+ */
+fun cleanFolder(folder: File) {
+    if(!folder.exists()) {
+        return
     }
+    if(!folder.isDirectory) {
+        throw IllegalArgumentException("A folder to clean " +
+                "must be supplied: `${folder.absolutePath}`.")
+    }
+    Files.walk(folder.toPath())
+        .sorted(Comparator.reverseOrder())
+        .map(Path::toFile)
+        .forEach(File::delete)
 }
