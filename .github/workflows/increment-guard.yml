@@ -26,4 +26,4 @@ jobs:
 
       - name: Check version is not yet published
         shell: bash
-        run: ./gradlew checkVersionIncrement
+        run: ./gradlew checkVersionIncrement --stacktrace
