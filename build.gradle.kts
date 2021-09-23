@@ -35,6 +35,7 @@ import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.PublishingRepos
 import io.spine.internal.gradle.Scripts
+import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.spinePublishing
@@ -73,11 +74,13 @@ plugins {
 
 apply(from = "$rootDir/version.gradle.kts")
 spinePublishing {
-    targetRepositories.addAll(setOf(
-        PublishingRepos.cloudRepo,
-        PublishingRepos.gitHub("time"),
-        PublishingRepos.cloudArtifactRegistry
-    ))
+    with(PublishingRepos) {
+        targetRepositories.addAll(
+            cloudRepo,
+            gitHub("time"),
+            cloudArtifactRegistry
+        )
+    }
     projectsToPublish.addAll(
         "time",
         "testutil-time"
@@ -122,24 +125,10 @@ subprojects {
         }
     }
 
-    // Specific setup for a Travis build,
-    // which prevents appearing of warning messages in build logs.
-    //
-    // It is expected that warnings are viewed and analyzed in the local build logs.
-    val isTravis = System.getenv("TRAVIS") == "true"
-    if (isTravis) {
-        // Set the maximum number of Javadoc warnings to print.
-        //
-        // If the parameter value is zero, all warnings will be printed.
-        tasks.javadoc {
-            val opt = options
-            if (opt is CoreJavadocOptions) {
-                opt.addStringOption("Xmaxwarns", "1")
-            }
-        }
+    with(repositories) {
+        applyGitHubPackages("base", project)
+        applyStandard()
     }
-
-    repositories.applyStandard()
 
     val spineBaseVersion: String by extra
     dependencies {
