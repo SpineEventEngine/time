@@ -24,8 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.63")
+package io.spine.internal.dependency
 
-/** Versions of the Spine libraries that `time` depends on. */
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.63")
+// https://github.com/Kotlin/dokka
+@Suppress("unused")
+object Dokka {
+    const val version = "1.5.0"
+    const val pluginId = "org.jetbrains.dokka"
+}

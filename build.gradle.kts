@@ -33,12 +33,13 @@ import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
-import io.spine.internal.gradle.PublishingRepos
+import io.spine.internal.gradle.JavadocConfig
+import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.forceVersions
-import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.publish.spinePublishing
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -197,10 +198,11 @@ subprojects {
     apply {
         with(Scripts) {
             from(testOutput(project))
-            from(javadocOptions(project))
             from(javacArgs(project))
         }
     }
+
+    JavadocConfig.applyTo(project)
 
     tasks.register("sourceJar", Jar::class) {
         from(sourceSets.main.get().allJava)
@@ -218,8 +220,6 @@ subprojects {
 
         dependsOn("javadoc")
     }
-
-    apply(from = Scripts.filterInternalJavadocs(project))
 
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {

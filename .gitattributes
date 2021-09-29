@@ -55,7 +55,5 @@ pull text eol=lf
 *.scpt binary
 *.scssc binary
 
-# Encrypted files
+# Encoded files
 *.enc binary
-*.gpg binary
-*.weis binary

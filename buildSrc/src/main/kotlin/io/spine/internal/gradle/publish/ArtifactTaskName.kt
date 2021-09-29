@@ -24,8 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.63")
+package io.spine.internal.gradle.publish
 
-/** Versions of the Spine libraries that `time` depends on. */
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.63")
+/**
+ * Default artifact task names.
+ *
+ * These tasks, if not present on a project already, are created by the [Publish] plugin.
+ * Their output is published as project's artifacts.
+ */
+internal enum class ArtifactTaskName {
+    sourceJar,
+    testOutputJar,
+    javadocJar;
+}
