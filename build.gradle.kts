@@ -33,12 +33,14 @@ import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
-import io.spine.internal.gradle.PublishingRepos
+import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
-import io.spine.internal.gradle.spinePublishing
+import io.spine.internal.gradle.publish.spinePublishing
+import io.spine.internal.gradle.report.pom.PomGenerator
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -197,10 +199,11 @@ subprojects {
     apply {
         with(Scripts) {
             from(testOutput(project))
-            from(javadocOptions(project))
             from(javacArgs(project))
         }
     }
+
+    io.spine.internal.gradle.javadoc.JavadocConfig.applyTo(project)
 
     tasks.register("sourceJar", Jar::class) {
         from(sourceSets.main.get().allJava)
@@ -219,8 +222,6 @@ subprojects {
         dependsOn("javadoc")
     }
 
-    apply(from = Scripts.filterInternalJavadocs(project))
-
     // Apply the same IDEA module configuration for each of sub-projects.
     idea {
         module {
@@ -235,17 +236,14 @@ subprojects {
         }
     }
 
-    apply {
-        with(Scripts) {
-            from(checkstyle(project))
-        }
-    }
+    CheckStyleConfig.applyTo(project)
 }
 
 apply {
     with(Scripts) {
         from(jacoco(project))
         from(repoLicenseReport(project))
-        from(generatePom(project))
     }
 }
+
+PomGenerator.applyTo(project)
