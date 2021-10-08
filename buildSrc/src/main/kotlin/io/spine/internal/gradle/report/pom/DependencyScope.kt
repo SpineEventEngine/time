@@ -24,19 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.gradle.report.pom
 
-@Suppress("unused")
-object Jackson {
-    private const val version = "2.12.4"
-    // https://github.com/FasterXML/jackson-core
-    const val core = "com.fasterxml.jackson.core:jackson-core:${version}"
-    // https://github.com/FasterXML/jackson-databind
-    const val databind = "com.fasterxml.jackson.core:jackson-databind:${version}"
-    // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val dataformatXml = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${version}"
-    // https://github.com/FasterXML/jackson-dataformats-text/releases
-    const val dataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${version}"
-    // https://github.com/FasterXML/jackson-module-kotlin/releases
-    const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${version}"
+/**
+ * A Maven dependency scope.
+ */
+@Suppress("EnumEntryName", "EnumNaming") /* Dubbing the actual values in Gradle. */
+enum class DependencyScope {
+    undefined,
+    compile,
+    provided,
+    runtime,
+    test,
+    system
+
+    /**
+    `import` is also a scope, however, it can't be used outside the `<dependencyManagement>`
+    section, which is outside of the scope of this script
+     **/
 }

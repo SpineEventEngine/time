@@ -24,19 +24,48 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.gradle.checkstyle
 
+import io.spine.internal.dependency.CheckStyle
+import org.gradle.api.Project
+import org.gradle.api.plugins.quality.Checkstyle
+import org.gradle.api.plugins.quality.CheckstyleExtension
+import org.gradle.api.plugins.quality.CheckstylePlugin
+import org.gradle.kotlin.dsl.the
+
+/**
+ * Configures the Checkstyle plugin.
+ *
+ * Usage:
+ * ```
+ *      CheckStyleConfig.applyTo(project)
+ * ```
+ *
+ * Please note, the checks of the `test` sources are disabled.
+ *
+ * Also, this type is named in double-camel-case to avoid re-declaration due to a clash
+ * with some Gradle-provided types.
+ */
 @Suppress("unused")
-object Jackson {
-    private const val version = "2.12.4"
-    // https://github.com/FasterXML/jackson-core
-    const val core = "com.fasterxml.jackson.core:jackson-core:${version}"
-    // https://github.com/FasterXML/jackson-databind
-    const val databind = "com.fasterxml.jackson.core:jackson-databind:${version}"
-    // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val dataformatXml = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${version}"
-    // https://github.com/FasterXML/jackson-dataformats-text/releases
-    const val dataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${version}"
-    // https://github.com/FasterXML/jackson-module-kotlin/releases
-    const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${version}"
+object CheckStyleConfig {
+
+    /**
+     * Applies the configuration to the passed [project].
+     */
+    fun applyTo(project: Project) {
+        project.apply {
+            plugin(CheckstylePlugin::class.java)
+        }
+
+        with(project.the<CheckstyleExtension>()) {
+            toolVersion = CheckStyle.version
+            configFile = project.rootDir.resolve("config/quality/checkstyle.xml")
+        }
+
+        project.afterEvaluate {
+            // Disables checking the test sources.
+            val checkstyleTest = project.tasks.findByName("checkstyleTest") as Checkstyle
+            checkstyleTest.enabled = false
+        }
+    }
 }

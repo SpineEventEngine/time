@@ -24,19 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.gradle.report.pom
 
-@Suppress("unused")
-object Jackson {
-    private const val version = "2.12.4"
-    // https://github.com/FasterXML/jackson-core
-    const val core = "com.fasterxml.jackson.core:jackson-core:${version}"
-    // https://github.com/FasterXML/jackson-databind
-    const val databind = "com.fasterxml.jackson.core:jackson-databind:${version}"
-    // https://github.com/FasterXML/jackson-dataformat-xml/releases
-    const val dataformatXml = "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${version}"
-    // https://github.com/FasterXML/jackson-dataformats-text/releases
-    const val dataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${version}"
-    // https://github.com/FasterXML/jackson-module-kotlin/releases
-    const val moduleKotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:${version}"
+import groovy.xml.MarkupBuilder
+import java.io.StringWriter
+import org.gradle.kotlin.dsl.withGroovyBuilder
+
+/**
+ * Information about the Spine's inception year.
+ */
+internal object InceptionYear {
+
+    private const val SPINE_INCEPTION_YEAR = "2015"
+
+    /**
+     * Returns a string containing the inception year of Spine in a `pom.xml` format.
+     */
+    override fun toString(): String {
+        val writer = StringWriter()
+        val xml = MarkupBuilder(writer)
+        xml.withGroovyBuilder {
+            "inceptionYear" { xml.text(SPINE_INCEPTION_YEAR) }
+        }
+        return writer.toString()
+    }
 }
