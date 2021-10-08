@@ -24,29 +24,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.internal.gradle.report.pom
 
-/*
- * This script configures Gradle PMD plugin.
+import groovy.xml.MarkupBuilder
+import java.io.StringWriter
+import org.gradle.kotlin.dsl.withGroovyBuilder
+
+/**
+ * The licensing information of Spine.
  */
-pmd {
-    toolVersion = "${io.spine.internal.dependency.Pmd.version}"
-    consoleOutput = true
-    incrementalAnalysis = true
+internal object SpineLicense {
 
-    // The build is going to fail in case of violations.
-    ignoreFailures = false
+    private const val NAME = "Apache License, Version 2.0"
+    private const val URL = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+    private const val DISTRIBUTION = "repo"
 
-    // Disable the default rule set to use the custom rules (see below).
-    ruleSets = []
-
-    // A set of custom rules.
-    ruleSetFiles = files("$rootDir/config/quality/pmd.xml")
-
-    reportsDir = file("build/reports/pmd")
-
-    // Just analyze the main sources; do not analyze tests.
-    sourceSets = [sourceSets.main]
+    /**
+     * Returns the licensing information as an XML fragment compatible with `pom.xml` format.
+     */
+    override fun toString(): String {
+        val result = StringWriter()
+        val xml = MarkupBuilder(result)
+        xml.withGroovyBuilder {
+            "licenses" {
+                "license" {
+                    "name" { xml.text(NAME) }
+                    "url" { xml.text(URL) }
+                    "distribution" { xml.text(DISTRIBUTION) }
+                }
+            }
+        }
+        return result.toString()
+    }
 }
-
-// Workaround for https://github.com/pmd/pmd/issues/1705.
-pmdMain.classpath += sourceSets.main.runtimeClasspath

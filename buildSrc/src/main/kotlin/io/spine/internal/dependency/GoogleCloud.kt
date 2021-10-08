@@ -24,33 +24,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-configurations {
-    excludeInternalDoclet
-}
+package io.spine.internal.dependency
 
-dependencies {
-    /*
-       The variable spineBaseVersion must be defined in the `ext` section of the `version.gradle`
-       file of the project which imports `config` as a sub-module.
-      */
-    excludeInternalDoclet "io.spine.tools:spine-javadoc-filter:$spineBaseVersion"
-}
+@Suppress("unused")
+object GoogleCloud {
 
-// This task uses constants defined in `javadoc-options.gradle`.
-task noInternalJavadoc(type: Javadoc) {
-    source = sourceSets.main.allJava.filter {
-        !it.absolutePath.contains('generated')
-    }
-    classpath = javadoc.getClasspath()
+    // https://github.com/googleapis/java-core
+    const val core = "com.google.cloud:google-cloud-core:2.1.7"
 
-    options {
-        tags = javadocOptions.tags
-        encoding = javadocOptions.encoding
+    // https://github.com/googleapis/java-pubsub
+    const val pubSubGrpcApi = "com.google.api.grpc:proto-google-cloud-pubsub-v1:1.95.1"
 
-        // Doclet fully qualified name.
-        doclet = 'io.spine.tools.javadoc.ExcludeInternalDoclet'
+    // https://github.com/googleapis/java-trace
+    const val trace = "com.google.cloud:google-cloud-trace:1.4.1"
 
-        // Path to the JAR containing the doclet.
-        docletpath = configurations.excludeInternalDoclet.files.asType(List)
-    }
+    // https://github.com/googleapis/java-datastore
+    const val datastore = "com.google.cloud:google-cloud-datastore:1.106.5"
 }
