@@ -26,41 +26,23 @@
 
 package io.spine.internal.gradle.report.coverage
 
-import io.spine.internal.gradle.applyPlugin
-import io.spine.internal.gradle.findTask
-import io.spine.internal.gradle.report.coverage.TaskName.check
-import io.spine.internal.gradle.report.coverage.TaskName.copyReports
-import io.spine.internal.gradle.report.coverage.TaskName.jacocoRootReport
-import io.spine.internal.gradle.report.coverage.TaskName.jacocoTestReport
-import io.spine.internal.gradle.sourceSets
 import java.io.File
-import java.lang.IllegalStateException
 import java.util.*
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.api.file.ConfigurableFileCollection
+import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.tasks.Copy
-import org.gradle.api.tasks.SourceSetContainer
-import org.gradle.api.tasks.SourceSetOutput
-import org.gradle.api.tasks.TaskContainer
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.get
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.tasks.JacocoReport
+import io.spine.internal.gradle.sourceSets
+import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.SourceSetOutput
+import org.gradle.kotlin.dsl.get
 
 /**
  * Configures JaCoCo plugin to produce `jacocoRootReport` task which accumulates
- * the test coverage results from all subprojects in a multi-project Gradle build.
- *
- * Users must apply `jacoco` plugin to all the subprojects, for which the report aggregation
- * is required.
- *
- * In a single-module Gradle project, this utility is NOT needed. Just a plain `jacoco` plugin
- * applied to the project is sufficient.
- *
- * Therefore, tn case this utility is applied to a single-module Gradle project,
- * an `IllegalStateException` is thrown.
+ * the test coverage results from all projects in a multi-project Gradle build.
  */
 class JacocoConfig(
     private val rootProject: Project,
@@ -69,81 +51,72 @@ class JacocoConfig(
 ) {
 
     companion object {
-
-        /**
-         * A folder under the `buildDir` of the [rootProject] to which the reports will
-         * be copied when aggregating the coverage reports.
-         *
-         * If it does not exist, it will be created.
-         */
-        private const val reportsDirSuffix = "subreports/jacoco/"
-
-        /**
-         * Applies the JaCoCo plugin to the Gradle project.
-         *
-         * If the passed project has no subprojects, an `IllegalStateException` is thrown,
-         * telling that this utility should NOT be used.
-         *
-         * Registers `jacocoRootReport` task which aggregates all coverage reports
-         * from the subprojects.
-         */
         fun applyTo(project: Project) {
-            project.applyPlugin(BasePlugin::class.java)
-            project.afterEvaluate {
-                val javaProjects: Iterable<Project> = eligibleProjects(project)
-                val reportsDir = project.rootProject.buildDir.resolve(reportsDirSuffix)
-                JacocoConfig(project.rootProject, reportsDir, javaProjects)
-                    .configure()
-            }
-        }
 
-        /**
-         * For a multi-module Gradle project, returns those subprojects of the passed [project]
-         * which have JaCoCo plugin applied.
-         *
-         * Throws an exception in case this project has no subprojects.
-         */
-        private fun eligibleProjects(project: Project): Iterable<Project> {
-            val projects: Iterable<Project> =
+            project.apply {
+                plugin(BasePlugin::class.java)
+            }
+
+            val javaProjects: Iterable<Project> =
                 if (project.subprojects.isNotEmpty()) {
-                    project.subprojects.filter {
-                        it.pluginManager.hasPlugin(JacocoPlugin.PLUGIN_EXTENSION_NAME)
+
+                    //todo: think of applying the plugin right here, but for `java` projects only.
+                    project.subprojects.forEach {
+                        it.apply {
+                            plugin(JacocoPlugin::class.java)
+                        }
                     }
+                    project.subprojects
                 } else {
-                    throw IllegalStateException(
-                        "In a single-module Gradle project, `JacocoConfig` is NOT needed." +
-                                "Please apply `jacoco` plugin instead."
-                    )
+                    project.apply {
+                        plugin(JacocoPlugin::class.java)
+                    }
+                    listOf(project)
                 }
-            return projects
+            val reportsDir = project.rootDir.resolve("/subreports/jacoco/")
+
+            JacocoConfig(project.rootProject, reportsDir, javaProjects)
         }
     }
 
     private fun configure() {
+
+        // ---- `CopyReports` task.
         val tasks = rootProject.tasks
-        val copyReports = registerCopy(tasks)
-        val rootReport = registerRootReport(tasks, copyReports)
-        rootProject
-            .findTask<Task>(check.name)
-            .dependsOn(rootReport)
-    }
 
-    private fun registerRootReport(
-        tasks: TaskContainer,
-        copyReports: TaskProvider<Copy>?
-    ): TaskProvider<JacocoReport> {
+        val everyExecData = mutableListOf<ConfigurableFileCollection>()
+        projects.forEach { project ->
+            val jacocoTestReport =
+                project.tasks.findByName("jacocoTestReport")!! as JacocoReport
+            val executionData = jacocoTestReport.executionData
+            everyExecData.add(executionData)
+        }
+
+        val originalLocation = rootProject.files(everyExecData);
+
+        val copyReports = tasks.register("copyReports", Copy::class.java) {
+            from(originalLocation)
+            into(reportsDir)
+            rename {
+                "${UUID.randomUUID()}.exec"
+            }
+        }
+
+        // ----  End of `CopyReports` task.
+
         val allSourceSets = Projects(projects).sourceSets()
-        val mainJavaSrcDirs = allSourceSets.mainJavaSrcDirs()
-        val humanProducedSourceFolders = FileFilter.producedByHuman(mainJavaSrcDirs)
+        val mainJavaSrcDirs = allSourceSets.mainJavaSrcDirs(rootProject)
+        val humanProducedSources: FileCollection = mainJavaSrcDirs.producedByHuman()
+        val filter =
+            CodebaseFilter(rootProject, mainJavaSrcDirs, allSourceSets.mainOutputs())
 
-        val filter = CodebaseFilter(rootProject, mainJavaSrcDirs, allSourceSets.mainOutputs())
         val humanProducedCompiledFiles = filter.humanProducedCompiledFiles()
 
-        val rootReport = tasks.register(jacocoRootReport.name, JacocoReport::class.java) {
+        val rootReport = tasks.register("jacocoRootReport", JacocoReport::class.java) {
             dependsOn(copyReports)
 
-            additionalSourceDirs.from(humanProducedSourceFolders)
-            sourceDirectories.from(humanProducedSourceFolders)
+            additionalSourceDirs.from(humanProducedSources)
+            sourceDirectories.from(humanProducedSources)
             executionData.from(rootProject.fileTree(reportsDir))
 
             classDirectories.from(humanProducedCompiledFiles)
@@ -156,71 +129,32 @@ class JacocoConfig(
             }
             onlyIf { true }
         }
-        return rootReport
-    }
 
-    private fun registerCopy(tasks: TaskContainer): TaskProvider<Copy> {
-        val everyExecData = mutableListOf<ConfigurableFileCollection>()
-        projects.forEach { project ->
-            val jacocoTestReport = project.findTask<JacocoReport>(jacocoTestReport.name)
-            val executionData = jacocoTestReport.executionData
-            everyExecData.add(executionData)
-        }
-
-        val originalLocation = rootProject.files(everyExecData)
-
-        val copyReports = tasks.register(copyReports.name, Copy::class.java) {
-            from(originalLocation)
-            into(reportsDir)
-            rename {
-                "${UUID.randomUUID()}.exec"
-            }
-            dependsOn(projects.map { it.findTask<JacocoReport>(jacocoTestReport.name) })
-        }
-        return copyReports
+        tasks.findByName("check")!!
+            .dependsOn(rootReport)
     }
 }
 
-/**
- * Extensions for working with groups of Gradle `Project`s.
- */
-private class Projects(
+internal class Projects(
     private val projects: Iterable<Project>
-) {
+    ) {
 
-    /**
-     * Returns all source sets for this group of projects.
-     */
     fun sourceSets(): SourceSets {
         val sets = projects.asSequence().map { it.sourceSets }.toList()
         return SourceSets(sets)
     }
 }
 
-/**
- * Extensions for working with several of Gradle `SourceSetContainer`s.
- */
-private class SourceSets(
+internal class SourceSets(
     private val sourceSets: Iterable<SourceSetContainer>
-) {
+    ) {
 
-    /**
-     * Returns all Java source folders corresponding to the `main` source set type.
-     */
-    fun mainJavaSrcDirs(): Set<File> {
-        return sourceSets
-            .asSequence()
-            .flatMap { it["main"].allJava.srcDirs }
-            .toSet()
+    fun mainJavaSrcDirs(project: Project): FileCollection {
+        val files = sourceSets.asSequence().map { it["main"].allJava.srcDirs }.flatMap { it }
+        return project.files(files)
     }
 
-    /**
-     * Returns all source set outputs corresponding to the `main` source set type.
-     */
     fun mainOutputs(): Set<SourceSetOutput> {
-        return sourceSets
-            .asSequence()
-            .map { it["main"].output }
-            .toSet()
+        return sourceSets.asSequence().map { it["main"].output }.toSet()
     }
 }

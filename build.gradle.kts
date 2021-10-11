@@ -108,6 +108,7 @@ subprojects {
         plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
+        plugin("jacoco")
         from(Scripts.projectLicenseReport(project))
     }
 
