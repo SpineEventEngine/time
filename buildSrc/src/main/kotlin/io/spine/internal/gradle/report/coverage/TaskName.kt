@@ -34,5 +34,6 @@ internal enum class TaskName {
     jacocoRootReport,
     copyReports,
 
+    check,
     jacocoTestReport
 }

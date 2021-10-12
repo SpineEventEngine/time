@@ -62,7 +62,6 @@ internal class CodebaseFilter(
         }
 
         val generatedClassNames = generatedClassNames()
-        log(generatedClassNames.joinToString(System.lineSeparator()))
         val humanProducedTree = outputDirs
             .stream()
             .flatMap { it.classesDirs.files.stream() }
@@ -94,8 +93,7 @@ internal class CodebaseFilter(
     }
 
     private fun log(message: String) {
-        println(message)
-//        project.logger.info(message)
+        project.logger.info(message)
     }
 }
 

@@ -27,8 +27,8 @@
 package io.spine.internal.gradle.report.coverage
 
 import io.spine.internal.gradle.applyPlugin
-import io.spine.internal.gradle.children
 import io.spine.internal.gradle.findTask
+import io.spine.internal.gradle.report.coverage.TaskName.check
 import io.spine.internal.gradle.report.coverage.TaskName.copyReports
 import io.spine.internal.gradle.report.coverage.TaskName.jacocoRootReport
 import io.spine.internal.gradle.report.coverage.TaskName.jacocoTestReport
@@ -71,20 +71,38 @@ class JacocoConfig(
          */
         fun applyTo(project: Project) {
             project.applyPlugin(BasePlugin::class.java)
+            project.afterEvaluate {
+                val javaProjects: Iterable<Project> = eligibleProjects(project)
+                val reportsDir = project.rootProject.buildDir.resolve("subreports/jacoco/")
+                JacocoConfig(project.rootProject, reportsDir, javaProjects)
+                    .configure()
+            }
+        }
 
+        private fun eligibleProjects(project: Project): Iterable<Project> {
             val javaProjects: Iterable<Project> =
                 if (project.subprojects.isNotEmpty()) {
-                    //todo: think of applying the plugin right here, but for `java` projects only.
-                    project.children.applyPlugin(JacocoPlugin::class.java)
-                    project.subprojects
+                    project.subprojects.filter {
+                        it.pluginManager.hasPlugin(JacocoPlugin.PLUGIN_EXTENSION_NAME)
+                    }
                 } else {
-                    project.applyPlugin(JacocoPlugin::class.java)
+                    checkHasJacoco(project)
                     listOf(project)
                 }
-            val reportsDir = project.rootDir.resolve("/subreports/jacoco/")
+            return javaProjects
+        }
 
-            JacocoConfig(project.rootProject, reportsDir, javaProjects)
-                .configure()
+        private fun checkHasJacoco(project: Project) {
+            if (!project
+                    .pluginManager
+                    .hasPlugin(JacocoPlugin.PLUGIN_EXTENSION_NAME)
+            ) {
+                throw IllegalStateException(
+                    "In a single-module Gradle project, " +
+                            "`JacocoConfig` requires `jacoco` plugin to be applied " +
+                            "to the root project."
+                )
+            }
         }
     }
 
@@ -93,7 +111,7 @@ class JacocoConfig(
         val copyReports = registerCopy(tasks)
         val rootReport = registerRootReport(tasks, copyReports)
         rootProject
-            .findTask<Task>("check")
+            .findTask<Task>(check.name)
             .dependsOn(rootReport)
     }
 
@@ -144,6 +162,7 @@ class JacocoConfig(
             rename {
                 "${UUID.randomUUID()}.exec"
             }
+            dependsOn(projects.map { it.findTask<JacocoReport>(jacocoTestReport.name) })
         }
         return copyReports
     }
