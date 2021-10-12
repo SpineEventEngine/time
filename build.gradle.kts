@@ -57,6 +57,11 @@ buildscript {
     }
 }
 
+// Required to grab the dependencies for `JacocoConfig`.
+repositories {
+    mavenCentral()
+}
+
 plugins {
     `java-library`
     // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
@@ -109,6 +114,7 @@ subprojects {
         plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
+        plugin("jacoco")
         from(Scripts.projectLicenseReport(project))
     }
 

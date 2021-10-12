@@ -50,12 +50,6 @@ val Project.sourceSets: SourceSetContainer
     get() = javaPluginExtension.sourceSets
 
 /**
- * Obtains the subprojects of the Gradle project.
- */
-val Project.children: Subprojects
-    get() = Subprojects(subprojects)
-
-/**
  * Applies the specified Gradle plugin to this project by the plugin [class][cls].
  */
 fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
@@ -69,25 +63,3 @@ fun <T : Task> Project.findTask(name: String): T {
     val task = this.tasks.findByName(name)
     return task!! as T
 }
-
-/**
- * Subprojects of a Gradle project.
- *
- * Serves to provide some convenience API to configure all subprojects at once.
- */
-class Subprojects(
-    private val projects: Set<Project>
-) {
-
-    /**
-     * Applies the Gradle plugin to each of the subprojects by the passed plugin [class][cls].
-     */
-    fun applyPlugin(cls: Class<out Plugin<*>>) {
-        projects.forEach {
-            it.apply {
-                plugin(cls)
-            }
-        }
-    }
-}
-
