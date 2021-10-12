@@ -28,10 +28,12 @@ package io.spine.internal.gradle.report.coverage
 
 import io.spine.internal.gradle.applyPlugin
 import io.spine.internal.gradle.children
+import io.spine.internal.gradle.findTask
 import io.spine.internal.gradle.sourceSets
 import java.io.File
 import java.util.*
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.BasePlugin
@@ -79,8 +81,7 @@ class JacocoConfig(
 
         val everyExecData = mutableListOf<ConfigurableFileCollection>()
         projects.forEach { project ->
-            val jacocoTestReport =
-                project.tasks.findByName("jacocoTestReport")!! as JacocoReport
+            val jacocoTestReport = project.findTask<JacocoReport>("jacocoTestReport")
             val executionData = jacocoTestReport.executionData
             everyExecData.add(executionData)
         }
@@ -123,7 +124,8 @@ class JacocoConfig(
             onlyIf { true }
         }
 
-        tasks.findByName("check")!!
+        rootProject
+            .findTask<Task>("check")
             .dependsOn(rootReport)
     }
 }
