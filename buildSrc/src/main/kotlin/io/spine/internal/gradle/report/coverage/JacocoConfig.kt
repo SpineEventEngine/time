@@ -29,17 +29,21 @@ package io.spine.internal.gradle.report.coverage
 import io.spine.internal.gradle.applyPlugin
 import io.spine.internal.gradle.children
 import io.spine.internal.gradle.findTask
+import io.spine.internal.gradle.report.coverage.TaskName.copyReports
+import io.spine.internal.gradle.report.coverage.TaskName.jacocoRootReport
+import io.spine.internal.gradle.report.coverage.TaskName.jacocoTestReport
 import io.spine.internal.gradle.sourceSets
 import java.io.File
 import java.util.*
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.file.ConfigurableFileCollection
-import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.SourceSetOutput
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.kotlin.dsl.get
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.tasks.JacocoReport
@@ -55,8 +59,17 @@ class JacocoConfig(
 ) {
 
     companion object {
-        fun applyTo(project: Project) {
 
+        /**
+         * Applies the JaCoCo plugin to the Gradle project.
+         *
+         * If the passed project has no subprojects, the plugin is only applied to it alone.
+         * Otherwise, the plugin is applied to each of the subprojects.
+         *
+         * Registers `jacocoRootReport` task which aggregates all coverage reports
+         * from the processed Gradle projects, be it a single project, or multiple subprojects.
+         */
+        fun applyTo(project: Project) {
             project.applyPlugin(BasePlugin::class.java)
 
             val javaProjects: Iterable<Project> =
@@ -71,46 +84,35 @@ class JacocoConfig(
             val reportsDir = project.rootDir.resolve("/subreports/jacoco/")
 
             JacocoConfig(project.rootProject, reportsDir, javaProjects)
+                .configure()
         }
     }
 
     private fun configure() {
-
-        // ---- `CopyReports` task.
         val tasks = rootProject.tasks
+        val copyReports = registerCopy(tasks)
+        val rootReport = registerRootReport(tasks, copyReports)
+        rootProject
+            .findTask<Task>("check")
+            .dependsOn(rootReport)
+    }
 
-        val everyExecData = mutableListOf<ConfigurableFileCollection>()
-        projects.forEach { project ->
-            val jacocoTestReport = project.findTask<JacocoReport>("jacocoTestReport")
-            val executionData = jacocoTestReport.executionData
-            everyExecData.add(executionData)
-        }
-
-        val originalLocation = rootProject.files(everyExecData);
-
-        val copyReports = tasks.register("copyReports", Copy::class.java) {
-            from(originalLocation)
-            into(reportsDir)
-            rename {
-                "${UUID.randomUUID()}.exec"
-            }
-        }
-
-        // ----  End of `CopyReports` task.
-
+    private fun registerRootReport(
+        tasks: TaskContainer,
+        copyReports: TaskProvider<Copy>?
+    ): TaskProvider<JacocoReport>? {
         val allSourceSets = Projects(projects).sourceSets()
-        val mainJavaSrcDirs = allSourceSets.mainJavaSrcDirs(rootProject)
-        val humanProducedSources: FileCollection = mainJavaSrcDirs.producedByHuman()
-        val filter =
-            CodebaseFilter(rootProject, mainJavaSrcDirs, allSourceSets.mainOutputs())
+        val mainJavaSrcDirs = allSourceSets.mainJavaSrcDirs()
+        val humanProducedSourceFolders = FileFilter.producedByHuman(mainJavaSrcDirs)
 
+        val filter = CodebaseFilter(rootProject, mainJavaSrcDirs, allSourceSets.mainOutputs())
         val humanProducedCompiledFiles = filter.humanProducedCompiledFiles()
 
-        val rootReport = tasks.register("jacocoRootReport", JacocoReport::class.java) {
+        val rootReport = tasks.register(jacocoRootReport.name, JacocoReport::class.java) {
             dependsOn(copyReports)
 
-            additionalSourceDirs.from(humanProducedSources)
-            sourceDirectories.from(humanProducedSources)
+            additionalSourceDirs.from(humanProducedSourceFolders)
+            sourceDirectories.from(humanProducedSourceFolders)
             executionData.from(rootProject.fileTree(reportsDir))
 
             classDirectories.from(humanProducedCompiledFiles)
@@ -123,33 +125,70 @@ class JacocoConfig(
             }
             onlyIf { true }
         }
+        return rootReport
+    }
 
-        rootProject
-            .findTask<Task>("check")
-            .dependsOn(rootReport)
+    private fun registerCopy(tasks: TaskContainer): TaskProvider<Copy>? {
+        val everyExecData = mutableListOf<ConfigurableFileCollection>()
+        projects.forEach { project ->
+            val jacocoTestReport = project.findTask<JacocoReport>(jacocoTestReport.name)
+            val executionData = jacocoTestReport.executionData
+            everyExecData.add(executionData)
+        }
+
+        val originalLocation = rootProject.files(everyExecData);
+
+        val copyReports = tasks.register(copyReports.name, Copy::class.java) {
+            from(originalLocation)
+            into(reportsDir)
+            rename {
+                "${UUID.randomUUID()}.exec"
+            }
+        }
+        return copyReports
     }
 }
 
-internal class Projects(
+/**
+ * Extensions for working with groups of Gradle `Project`s.
+ */
+private class Projects(
     private val projects: Iterable<Project>
 ) {
 
+    /**
+     * Returns all source sets for this group of projects.
+     */
     fun sourceSets(): SourceSets {
         val sets = projects.asSequence().map { it.sourceSets }.toList()
         return SourceSets(sets)
     }
 }
 
-internal class SourceSets(
+/**
+ * Extensions for working with several of Gradle `SourceSetContainer`s.
+ */
+private class SourceSets(
     private val sourceSets: Iterable<SourceSetContainer>
 ) {
 
-    fun mainJavaSrcDirs(project: Project): FileCollection {
-        val files = sourceSets.asSequence().map { it["main"].allJava.srcDirs }.flatMap { it }
-        return project.files(files)
+    /**
+     * Returns all Java source folders corresponding to the `main` source set type.
+     */
+    fun mainJavaSrcDirs(): Set<File> {
+        return sourceSets
+            .asSequence()
+            .flatMap { it["main"].allJava.srcDirs }
+            .toSet()
     }
 
+    /**
+     * Returns all source set outputs corresponding to the `main` source set type.
+     */
     fun mainOutputs(): Set<SourceSetOutput> {
-        return sourceSets.asSequence().map { it["main"].output }.toSet()
+        return sourceSets
+            .asSequence()
+            .map { it["main"].output }
+            .toSet()
     }
 }

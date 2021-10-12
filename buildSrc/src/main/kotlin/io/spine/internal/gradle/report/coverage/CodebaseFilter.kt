@@ -27,6 +27,7 @@
 package io.spine.internal.gradle.report.coverage
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue
+import io.spine.internal.gradle.report.coverage.FileFilter.generatedOnly
 import java.io.File
 import kotlin.streams.toList
 import org.gradle.api.Project
@@ -44,7 +45,7 @@ import org.gradle.api.tasks.SourceSetOutput
  */
 internal class CodebaseFilter(
     private val project: Project,
-    private val srcDirs: FileCollection,
+    private val srcDirs: Set<File>,
     private val outputDirs: Set<SourceSetOutput>
 ) {
 
@@ -56,8 +57,7 @@ internal class CodebaseFilter(
      */
     internal fun humanProducedCompiledFiles(): List<FileTree> {
         log("Source dirs for the code coverage calculation:")
-        val srcDirs = project.files(this.srcDirs)
-        srcDirs.forEach {
+        this.srcDirs.forEach {
             log(" - $it")
         }
 
@@ -74,7 +74,7 @@ internal class CodebaseFilter(
     }
 
     private fun generatedClassNames(): List<String> {
-        val generatedSourceFiles = srcDirs.generatedOnly()
+        val generatedSourceFiles = generatedOnly(srcDirs)
         val generatedNames = mutableListOf<String>()
         generatedSourceFiles
             .filter { it.exists() && it.isDirectory }
@@ -94,7 +94,8 @@ internal class CodebaseFilter(
     }
 
     private fun log(message: String) {
-        project.logger.debug(message)
+        println(message)
+//        project.logger.info(message)
     }
 }
 

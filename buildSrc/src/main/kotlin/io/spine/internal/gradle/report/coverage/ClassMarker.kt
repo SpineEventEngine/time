@@ -29,14 +29,14 @@ package io.spine.internal.gradle.report.coverage
 /**
  * Markers helping to distinguish Java class types between one another by their class names.
  */
-internal enum class ClassMarker(val value: String) {
+internal enum class ClassMarker(val infix: String) {
 
     /**
      * Anonymous class.
      */
     ANONYMOUS("$") {
         override fun pattern(): String {
-            return "\\$value"
+            return "\\$infix"
         }
     };
 
