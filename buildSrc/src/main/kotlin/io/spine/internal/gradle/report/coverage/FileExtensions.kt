@@ -38,6 +38,8 @@ import org.gradle.api.file.FileCollection
  * Parses the name of a class from the absolute path of this file.
  *
  * Treats the fragment between the [precedingMarker] and [extension] as the value to look for.
+ * In case the fragment is located and it contains `/` symbols, they are treated
+ * as Java package delimiters and are replaced by `.` symbols before returning the value.
  *
  * If the absolute path of this file has either no [precedingMarker] or no [extension],
  * returns `null`.
@@ -72,7 +74,7 @@ internal fun File.appendTo(
         val className = parser.invoke(this)
         if (className != null) {
             destination.add(className)
-            break;
+            break
         }
     }
 }
