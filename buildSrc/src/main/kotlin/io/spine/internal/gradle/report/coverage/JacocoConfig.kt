@@ -26,6 +26,9 @@
 
 package io.spine.internal.gradle.report.coverage
 
+import io.spine.internal.gradle.applyPlugin
+import io.spine.internal.gradle.children
+import io.spine.internal.gradle.sourceSets
 import java.io.File
 import java.util.*
 import org.gradle.api.Project
@@ -33,12 +36,11 @@ import org.gradle.api.file.ConfigurableFileCollection
 import org.gradle.api.file.FileCollection
 import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.tasks.Copy
-import org.gradle.testing.jacoco.plugins.JacocoPlugin
-import org.gradle.testing.jacoco.tasks.JacocoReport
-import io.spine.internal.gradle.sourceSets
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.SourceSetOutput
 import org.gradle.kotlin.dsl.get
+import org.gradle.testing.jacoco.plugins.JacocoPlugin
+import org.gradle.testing.jacoco.tasks.JacocoReport
 
 /**
  * Configures JaCoCo plugin to produce `jacocoRootReport` task which accumulates
@@ -53,24 +55,15 @@ class JacocoConfig(
     companion object {
         fun applyTo(project: Project) {
 
-            project.apply {
-                plugin(BasePlugin::class.java)
-            }
+            project.applyPlugin(BasePlugin::class.java)
 
             val javaProjects: Iterable<Project> =
                 if (project.subprojects.isNotEmpty()) {
-
                     //todo: think of applying the plugin right here, but for `java` projects only.
-                    project.subprojects.forEach {
-                        it.apply {
-                            plugin(JacocoPlugin::class.java)
-                        }
-                    }
+                    project.children.applyPlugin(JacocoPlugin::class.java)
                     project.subprojects
                 } else {
-                    project.apply {
-                        plugin(JacocoPlugin::class.java)
-                    }
+                    project.applyPlugin(JacocoPlugin::class.java)
                     listOf(project)
                 }
             val reportsDir = project.rootDir.resolve("/subreports/jacoco/")
@@ -137,7 +130,7 @@ class JacocoConfig(
 
 internal class Projects(
     private val projects: Iterable<Project>
-    ) {
+) {
 
     fun sourceSets(): SourceSets {
         val sets = projects.asSequence().map { it.sourceSets }.toList()
@@ -147,7 +140,7 @@ internal class Projects(
 
 internal class SourceSets(
     private val sourceSets: Iterable<SourceSetContainer>
-    ) {
+) {
 
     fun mainJavaSrcDirs(project: Project): FileCollection {
         val files = sourceSets.asSequence().map { it["main"].allJava.srcDirs }.flatMap { it }
