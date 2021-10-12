@@ -84,9 +84,9 @@ internal class CodebaseFilter(
                     .forEach { file ->
                         file.appendTo(
                             generatedNames,
-                            File::asJavaSourceFileName,
-                            File::asGrpcSourceFileName,
-                            File::asSpineSourceFileName
+                            File::asJavaClassName,
+                            File::asGrpcClassName,
+                            File::asSpineClassName
                         )
                     }
             }
@@ -99,7 +99,7 @@ internal class CodebaseFilter(
 }
 
 /**
- * Excludes the elements which [Java compiled file names][File.asJavaCompiledFileName]
+ * Excludes the elements which [Java compiled file names][File.asJavaCompiledClassName]
  * are present among the passed [names].
  *
  * Returns the same instance of `ConfigurableFileTree`, for call chaining.
@@ -107,7 +107,7 @@ internal class CodebaseFilter(
 @CanIgnoreReturnValue
 private fun ConfigurableFileTree.without(names: List<String>): ConfigurableFileTree {
     this.exclude { element ->
-        val className = element.file.asJavaCompiledFileName()
+        val className = element.file.asJavaCompiledClassName()
         names.contains(className)
     }
     return this

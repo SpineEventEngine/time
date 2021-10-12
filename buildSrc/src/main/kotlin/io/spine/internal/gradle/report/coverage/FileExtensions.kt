@@ -80,15 +80,20 @@ internal fun File.appendTo(
 }
 
 /**
- * Attempts to parse the name of Java source file from the absolute path of this file.
+ * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
+ * treating it as a path to a human-produced `.java` file.
  */
-internal fun File.asJavaSourceFileName(): String? =
+internal fun File.asJavaClassName(): String? =
     this.parseClassName(PathMarker.JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
- * Attempts to parse the name of Java compiled file from the absolute path of this file.
+ * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
+ * treating it as a path to a compiled `.class` file.
+ *
+ * If the `.class` file corresponds to the anonymous class, only the name of the parent
+ * class is returned.
  */
-internal fun File.asJavaCompiledFileName(): String? {
+internal fun File.asJavaCompiledClassName(): String? {
     var className = this.parseClassName(PathMarker.JAVA_OUTPUT_FOLDER, FileExtension.COMPILED_CLASS)
     if (className != null && className.contains(ClassMarker.ANONYMOUS.value)) {
         className = className.split(ClassMarker.ANONYMOUS.pattern())[0]
@@ -97,16 +102,17 @@ internal fun File.asJavaCompiledFileName(): String? {
 }
 
 /**
- * Attempts to parse the name of gRPC Java source file from the absolute path of this file.
+ * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
+ * treating it as a path to a gRPC-generated `.java` file.
  */
-internal fun File.asGrpcSourceFileName(): String? =
+internal fun File.asGrpcClassName(): String? =
     this.parseClassName(PathMarker.GRPC_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
- * Attempts to parse the name of Spine-produced Java source file
- * from the absolute path of this file.
+ * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
+ * treating it as a path to a Spine-generated `.java` file.
  */
-internal fun File.asSpineSourceFileName(): String? =
+internal fun File.asSpineClassName(): String? =
     this.parseClassName(PathMarker.SPINE_JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
