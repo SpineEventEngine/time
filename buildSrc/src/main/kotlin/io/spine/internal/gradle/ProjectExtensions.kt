@@ -28,7 +28,6 @@ package io.spine.internal.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.getByType
@@ -50,6 +49,12 @@ val Project.sourceSets: SourceSetContainer
     get() = javaPluginExtension.sourceSets
 
 /**
+ * Obtains the subprojects of the Gradle project.
+ */
+val Project.children: Subprojects
+    get() = Subprojects(subprojects)
+
+/**
  * Applies the specified Gradle plugin to this project by the plugin [class][cls].
  */
 fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
@@ -59,13 +64,23 @@ fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
 }
 
 /**
- * Finds the task of type `T` in this project by the task name.
+ * Subprojects of a Gradle project.
  *
- * The task must be present. Also, a caller is responsible for using the proper value of
- * the generic parameter `T`.
+ * Serves to provide some convenience API to configure all subprojects at once.
  */
-@Suppress("UNCHECKED_CAST")     /* See the method docs. */
-fun <T : Task> Project.findTask(name: String): T {
-    val task = this.tasks.findByName(name)
-    return task!! as T
+class Subprojects(
+    private val projects: Set<Project>
+) {
+
+    /**
+     * Applies the Gradle plugin to each of the subprojects by the passed plugin [class][cls].
+     */
+    fun applyPlugin(cls: Class<out Plugin<*>>) {
+        projects.forEach {
+            it.apply {
+                plugin(cls)
+            }
+        }
+    }
 }
+
