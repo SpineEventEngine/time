@@ -40,6 +40,7 @@ import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.publish.spinePublishing
+import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.pom.PomGenerator
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -108,7 +109,6 @@ subprojects {
         plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
-        plugin("jacoco")
         from(Scripts.projectLicenseReport(project))
     }
 
@@ -242,9 +242,9 @@ subprojects {
 
 apply {
     with(Scripts) {
-        from(jacoco(project))
         from(repoLicenseReport(project))
     }
 }
 
+JacocoConfig.applyTo(project)
 PomGenerator.applyTo(project)
