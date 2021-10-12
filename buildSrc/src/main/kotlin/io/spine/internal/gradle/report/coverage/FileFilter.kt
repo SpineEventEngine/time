@@ -26,22 +26,25 @@
 
 package io.spine.internal.gradle.report.coverage
 
+import java.io.File
+
 /**
- * Markers helping to distinguish Java class types between one another by their class names.
+ * Utilities for filtering the groups of `File`s.
  */
-internal enum class ClassMarker(val infix: String) {
+internal object FileFilter {
 
     /**
-     * Anonymous class.
+     * Excludes the generated files from this file collection, leaving only those which were
+     * created by human beings.
      */
-    ANONYMOUS("$") {
-        override fun pattern(): String {
-            return "\\$infix"
-        }
-    };
+    fun producedByHuman(files: Iterable<File>): Iterable<File> {
+        return files.filter { ! it.isGenerated }
+    }
 
     /**
-     * Returns a regex pattern from the marker value.
+     * Filters this file collection so that only generated files are present.
      */
-    internal abstract fun pattern(): String
+    fun generatedOnly(files: Iterable<File>) : Iterable<File> {
+        return files.filter { it.isGenerated }
+    }
 }

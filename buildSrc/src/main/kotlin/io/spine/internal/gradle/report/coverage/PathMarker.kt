@@ -29,7 +29,7 @@ package io.spine.internal.gradle.report.coverage
 /**
  * Fragments of file path which allow to detect the type of the file.
  */
-internal enum class PathMarker(val value: String) {
+internal enum class PathMarker(val infix: String) {
 
     /**
      * Generated files.
@@ -61,6 +61,6 @@ internal enum class PathMarker(val value: String) {
      * The number of symbols in the marker.
      */
     val length: Int
-        get() = this.value.length
+        get() = this.infix.length
 
 }

@@ -26,12 +26,18 @@
 
 package io.spine.internal.gradle.report.coverage
 
+import io.spine.internal.gradle.report.coverage.ClassMarker.ANONYMOUS
+import io.spine.internal.gradle.report.coverage.FileExtension.COMPILED_CLASS
+import io.spine.internal.gradle.report.coverage.FileExtension.JAVA_SOURCE
+import io.spine.internal.gradle.report.coverage.PathMarker.GENERATED
+import io.spine.internal.gradle.report.coverage.PathMarker.GRPC_SRC_FOLDER
+import io.spine.internal.gradle.report.coverage.PathMarker.JAVA_OUTPUT_FOLDER
+import io.spine.internal.gradle.report.coverage.PathMarker.JAVA_SRC_FOLDER
+import io.spine.internal.gradle.report.coverage.PathMarker.SPINE_JAVA_SRC_FOLDER
 import java.io.File
-import org.gradle.api.file.FileCollection
 
 /**
- * This file contains extension methods and properties for `java.io.File`
- * and for related Gradle objects, such as `FileCollection`.
+ * This file contains extension methods and properties for `java.io.File`.
  */
 
 /**
@@ -48,7 +54,7 @@ internal fun File.parseClassName(
     precedingMarker: PathMarker,
     extension: FileExtension
 ): String? {
-    val index = this.absolutePath.lastIndexOf(precedingMarker.value)
+    val index = this.absolutePath.lastIndexOf(precedingMarker.infix)
     return if (index > 0) {
         var inFolder = this.absolutePath.substring(index + precedingMarker.length)
         if (inFolder.endsWith(extension.value)) {
@@ -84,7 +90,7 @@ internal fun File.appendTo(
  * treating it as a path to a human-produced `.java` file.
  */
 internal fun File.asJavaClassName(): String? =
-    this.parseClassName(PathMarker.JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
+    this.parseClassName(JAVA_SRC_FOLDER, JAVA_SOURCE)
 
 /**
  * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
@@ -94,9 +100,9 @@ internal fun File.asJavaClassName(): String? =
  * class is returned.
  */
 internal fun File.asJavaCompiledClassName(): String? {
-    var className = this.parseClassName(PathMarker.JAVA_OUTPUT_FOLDER, FileExtension.COMPILED_CLASS)
-    if (className != null && className.contains(ClassMarker.ANONYMOUS.value)) {
-        className = className.split(ClassMarker.ANONYMOUS.pattern())[0]
+    var className = this.parseClassName(JAVA_OUTPUT_FOLDER, COMPILED_CLASS)
+    if (className != null && className.contains(ANONYMOUS.infix)) {
+        className = className.split(ANONYMOUS.pattern())[0]
     }
     return className
 }
@@ -106,30 +112,17 @@ internal fun File.asJavaCompiledClassName(): String? {
  * treating it as a path to a gRPC-generated `.java` file.
  */
 internal fun File.asGrpcClassName(): String? =
-    this.parseClassName(PathMarker.GRPC_SRC_FOLDER, FileExtension.JAVA_SOURCE)
+    this.parseClassName(GRPC_SRC_FOLDER, JAVA_SOURCE)
 
 /**
  * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
  * treating it as a path to a Spine-generated `.java` file.
  */
 internal fun File.asSpineClassName(): String? =
-    this.parseClassName(PathMarker.SPINE_JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
+    this.parseClassName(SPINE_JAVA_SRC_FOLDER, JAVA_SOURCE)
 
 /**
- * Excludes the generated files from this file collection, leaving only those which were
- * created by human beings.
+ * Tells whether this file is a part of the generated sources, and not produced by a human.
  */
-internal fun FileCollection.producedByHuman(): FileCollection {
-    return this.filter {
-        !it.absolutePath.contains(PathMarker.GENERATED.value)
-    }
-}
-
-/**
- * Filters this file collection so that only generated files are present.
- */
-internal fun FileCollection.generatedOnly(): FileCollection {
-    return this.filter {
-        it.absolutePath.contains(PathMarker.GENERATED.value)
-    }
-}
+internal val File.isGenerated
+    get() = this.absolutePath.contains(GENERATED.infix)

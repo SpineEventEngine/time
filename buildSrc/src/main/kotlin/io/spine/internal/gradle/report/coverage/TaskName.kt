@@ -27,21 +27,12 @@
 package io.spine.internal.gradle.report.coverage
 
 /**
- * Markers helping to distinguish Java class types between one another by their class names.
+ * The names of Gradle tasks involved into the JaCoCo reporting.
  */
-internal enum class ClassMarker(val infix: String) {
+@Suppress("EnumEntryName", "EnumNaming") /* Dubbing the actual values in Gradle. */
+internal enum class TaskName {
+    jacocoRootReport,
+    copyReports,
 
-    /**
-     * Anonymous class.
-     */
-    ANONYMOUS("$") {
-        override fun pattern(): String {
-            return "\\$infix"
-        }
-    };
-
-    /**
-     * Returns a regex pattern from the marker value.
-     */
-    internal abstract fun pattern(): String
+    jacocoTestReport
 }
