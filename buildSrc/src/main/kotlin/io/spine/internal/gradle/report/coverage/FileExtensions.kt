@@ -26,26 +26,18 @@
 
 package io.spine.internal.gradle.report.coverage
 
-import io.spine.internal.gradle.report.coverage.FileExtension.COMPILED_CLASS
-import io.spine.internal.gradle.report.coverage.FileExtension.JAVA_SOURCE
-import io.spine.internal.gradle.report.coverage.PathMarker.ANONYMOUS_CLASS
-import io.spine.internal.gradle.report.coverage.PathMarker.GENERATED
-import io.spine.internal.gradle.report.coverage.PathMarker.GRPC_SRC_FOLDER
-import io.spine.internal.gradle.report.coverage.PathMarker.JAVA_OUTPUT_FOLDER
-import io.spine.internal.gradle.report.coverage.PathMarker.JAVA_SRC_FOLDER
-import io.spine.internal.gradle.report.coverage.PathMarker.SPINE_JAVA_SRC_FOLDER
 import java.io.File
+import org.gradle.api.file.FileCollection
 
 /**
- * This file contains extension methods and properties for `java.io.File`.
+ * This file contains extension methods and properties for `java.io.File`
+ * and for related Gradle objects, such as `FileCollection`.
  */
 
 /**
  * Parses the name of a class from the absolute path of this file.
  *
  * Treats the fragment between the [precedingMarker] and [extension] as the value to look for.
- * In case the fragment is located and it contains `/` symbols, they are treated
- * as Java package delimiters and are replaced by `.` symbols before returning the value.
  *
  * If the absolute path of this file has either no [precedingMarker] or no [extension],
  * returns `null`.
@@ -54,7 +46,7 @@ internal fun File.parseClassName(
     precedingMarker: PathMarker,
     extension: FileExtension
 ): String? {
-    val index = this.absolutePath.lastIndexOf(precedingMarker.infix)
+    val index = this.absolutePath.lastIndexOf(precedingMarker.value)
     return if (index > 0) {
         var inFolder = this.absolutePath.substring(index + precedingMarker.length)
         if (inFolder.endsWith(extension.value)) {
@@ -69,61 +61,67 @@ internal fun File.parseClassName(
 }
 
 /**
- * Attempts to parse the file name with either of the specified [parsers],
- * in their respective order.
- *
- * Returns the first non-`null` parsed value.
- *
- * If none of the parsers returns non-`null` value, returns `null`.
+ * If this file contains the name of a class — according to the passed [classNameParser]s —
+ * appends the specified [destination] with it.
  */
-internal fun File.parseName(vararg parsers: (file: File) -> String?): String? {
-    for (parser in parsers) {
+internal fun File.appendTo(
+    destination: MutableList<String>,
+    vararg classNameParser: (file: File) -> String?
+) {
+    for (parser in classNameParser) {
         val className = parser.invoke(this)
         if (className != null) {
-            return className
+            destination.add(className)
+            break;
         }
     }
-    return null
 }
 
 /**
- * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
- * treating it as a path to a human-produced `.java` file.
+ * Attempts to parse the name of Java source file from the absolute path of this file.
  */
-internal fun File.asJavaClassName(): String? =
-    this.parseClassName(JAVA_SRC_FOLDER, JAVA_SOURCE)
+internal fun File.asJavaSourceFileName(): String? =
+    this.parseClassName(PathMarker.JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
- * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
- * treating it as a path to a compiled `.class` file.
- *
- * If the `.class` file corresponds to the anonymous class, only the name of the parent
- * class is returned.
+ * Attempts to parse the name of Java compiled file from the absolute path of this file.
  */
-internal fun File.asJavaCompiledClassName(): String? {
-    var className = this.parseClassName(JAVA_OUTPUT_FOLDER, COMPILED_CLASS)
-    if (className != null && className.contains(ANONYMOUS_CLASS.infix)) {
-        className = className.split(ANONYMOUS_CLASS.infix)[0]
+internal fun File.asJavaCompiledFileName(): String? {
+    var className = this.parseClassName(PathMarker.JAVA_OUTPUT_FOLDER, FileExtension.COMPILED_CLASS)
+    if (className != null && className.contains(ClassMarker.ANONYMOUS.value)) {
+        className = className.split(ClassMarker.ANONYMOUS.pattern())[0]
     }
     return className
 }
 
 /**
- * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
- * treating it as a path to a gRPC-generated `.java` file.
+ * Attempts to parse the name of gRPC Java source file from the absolute path of this file.
  */
-internal fun File.asGrpcClassName(): String? =
-    this.parseClassName(GRPC_SRC_FOLDER, JAVA_SOURCE)
+internal fun File.asGrpcSourceFileName(): String? =
+    this.parseClassName(PathMarker.GRPC_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
- * Attempts to parse the Java fully-qualified class name from the absolute path of this file,
- * treating it as a path to a Spine-generated `.java` file.
+ * Attempts to parse the name of Spine-produced Java source file
+ * from the absolute path of this file.
  */
-internal fun File.asSpineClassName(): String? =
-    this.parseClassName(SPINE_JAVA_SRC_FOLDER, JAVA_SOURCE)
+internal fun File.asSpineSourceFileName(): String? =
+    this.parseClassName(PathMarker.SPINE_JAVA_SRC_FOLDER, FileExtension.JAVA_SOURCE)
 
 /**
- * Tells whether this file is a part of the generated sources, and not produced by a human.
+ * Excludes the generated files from this file collection, leaving only those which were
+ * created by human beings.
  */
-internal val File.isGenerated
-    get() = this.absolutePath.contains(GENERATED.infix)
+internal fun FileCollection.producedByHuman(): FileCollection {
+    return this.filter {
+        !it.absolutePath.contains(PathMarker.GENERATED.value)
+    }
+}
+
+/**
+ * Filters this file collection so that only generated files are present.
+ */
+internal fun FileCollection.generatedOnly(): FileCollection {
+    return this.filter {
+        it.absolutePath.contains(PathMarker.GENERATED.value)
+    }
+}

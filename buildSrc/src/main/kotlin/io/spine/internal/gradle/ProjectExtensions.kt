@@ -28,6 +28,7 @@ package io.spine.internal.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.getByType
@@ -61,6 +62,12 @@ fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
     this.apply {
         plugin(cls)
     }
+}
+
+@Suppress("UNCHECKED_CAST")
+fun <T : Task> Project.findTask(name: String): T {
+    val task = this.tasks.findByName(name)
+    return task!! as T
 }
 
 /**
