@@ -39,6 +39,7 @@ import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.pom.PomGenerator
@@ -210,7 +211,7 @@ subprojects {
         }
     }
 
-    io.spine.internal.gradle.javadoc.JavadocConfig.applyTo(project)
+    JavadocConfig.applyTo(project)
 
     tasks.register("sourceJar", Jar::class) {
         from(sourceSets.main.get().allJava)
