@@ -58,7 +58,13 @@ fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
     }
 }
 
-@Suppress("UNCHECKED_CAST")
+/**
+ * Finds the task of type `T` in this project by the task name.
+ *
+ * The task must be present. Also, a caller is responsible for using the proper value of
+ * the generic parameter `T`.
+ */
+@Suppress("UNCHECKED_CAST")     /* See the method docs. */
 fun <T : Task> Project.findTask(name: String): T {
     val task = this.tasks.findByName(name)
     return task!! as T

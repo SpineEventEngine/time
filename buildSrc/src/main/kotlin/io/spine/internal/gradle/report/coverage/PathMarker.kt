@@ -55,7 +55,12 @@ internal enum class PathMarker(val infix: String) {
      * Among compiler output folders, highlights those containing the compilation result
      * of human-produced Java files.
      */
-    JAVA_OUTPUT_FOLDER("/main/");
+    JAVA_OUTPUT_FOLDER("/main/"),
+
+    /**
+     * Anonymous class.
+     */
+    ANONYMOUS_CLASS("$");
 
     /**
      * The number of symbols in the marker.

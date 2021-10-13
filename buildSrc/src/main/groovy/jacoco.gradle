@@ -40,20 +40,13 @@ repositories {
     mavenCentral()
 }
 
+println("`jacoco.gradle` script is deprecated. Please use the `JacocoConfig` instead.")
+
 // Adds the `:check` task.
 apply plugin: 'base'
 
 final def javaProjects = subprojects.findAll { it.pluginManager.hasPlugin('jacoco') }
 final def jacocoReports = file("${rootProject.buildDir}/subreports/jacoco/")
-
-task backupCopy(dependsOn: javaProjects.jacocoTestReport, type: Copy) {
-    description = "Backs up the JaCoCo reports for the analysis."
-
-    from files(javaProjects.jacocoTestReport.executionData)
-    into rootProject.projectDir
-
-    rename {"${UUID.randomUUID().toString()}.exec" }
-}
 
 task copyReports(dependsOn: javaProjects.jacocoTestReport, type: Copy) {
     description = "Copies JaCoCo reports from subprojects into a single directory in the root project."
@@ -61,8 +54,7 @@ task copyReports(dependsOn: javaProjects.jacocoTestReport, type: Copy) {
     from files(javaProjects.jacocoTestReport.executionData)
     into jacocoReports
 
-    rename {"${UUID.randomUUID().toString()}.exec" }
-    finalizedBy backupCopy
+    rename { "${UUID.randomUUID().toString()}.exec" }
 }
 
 // Create an combined coverage report across Java modules,

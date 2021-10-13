@@ -32,7 +32,6 @@ import java.io.File
 import kotlin.streams.toList
 import org.gradle.api.Project
 import org.gradle.api.file.ConfigurableFileTree
-import org.gradle.api.file.FileCollection
 import org.gradle.api.file.FileTree
 import org.gradle.api.tasks.SourceSetOutput
 
@@ -41,7 +40,7 @@ import org.gradle.api.tasks.SourceSetOutput
  * from the human-created production code.
  *
  * Works on top of the passed [source][srcDirs] and [output][outputDirs] directories, by analyzing
- * the source file names and finding the corresponding compile output.
+ * the source file names and finding the corresponding compiler output.
  */
 internal class CodebaseFilter(
     private val project: Project,
@@ -81,12 +80,13 @@ internal class CodebaseFilter(
                 folder.walk()
                     .filter { !it.isDirectory }
                     .forEach { file ->
-                        file.appendTo(
-                            generatedNames,
+                        file.parseName(
                             File::asJavaClassName,
                             File::asGrpcClassName,
                             File::asSpineClassName
-                        )
+                        )?.let { clsName ->
+                            generatedNames.add(clsName)
+                        }
                     }
             }
         return generatedNames
