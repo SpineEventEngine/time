@@ -26,9 +26,9 @@
 
 package io.spine.internal.gradle.report.coverage
 
-import io.spine.internal.gradle.report.coverage.ClassMarker.ANONYMOUS
 import io.spine.internal.gradle.report.coverage.FileExtension.COMPILED_CLASS
 import io.spine.internal.gradle.report.coverage.FileExtension.JAVA_SOURCE
+import io.spine.internal.gradle.report.coverage.PathMarker.ANONYMOUS_CLASS
 import io.spine.internal.gradle.report.coverage.PathMarker.GENERATED
 import io.spine.internal.gradle.report.coverage.PathMarker.GRPC_SRC_FOLDER
 import io.spine.internal.gradle.report.coverage.PathMarker.JAVA_OUTPUT_FOLDER
@@ -69,20 +69,21 @@ internal fun File.parseClassName(
 }
 
 /**
- * If this file contains the name of a class — according to the passed [classNameParser]s —
- * appends the specified [destination] with it.
+ * Attempts to parse the file name with either of the specified [parsers],
+ * in their respective order.
+ *
+ * Returns the first non-`null` parsed value.
+ *
+ * If none of the parsers returns non-`null` value, returns `null`.
  */
-internal fun File.appendTo(
-    destination: MutableList<String>,
-    vararg classNameParser: (file: File) -> String?
-) {
-    for (parser in classNameParser) {
+internal fun File.parseName(vararg parsers: (file: File) -> String?): String? {
+    for (parser in parsers) {
         val className = parser.invoke(this)
         if (className != null) {
-            destination.add(className)
-            break
+            return className
         }
     }
+    return null
 }
 
 /**
@@ -101,8 +102,8 @@ internal fun File.asJavaClassName(): String? =
  */
 internal fun File.asJavaCompiledClassName(): String? {
     var className = this.parseClassName(JAVA_OUTPUT_FOLDER, COMPILED_CLASS)
-    if (className != null && className.contains(ANONYMOUS.infix)) {
-        className = className.split(ANONYMOUS.pattern())[0]
+    if (className != null && className.contains(ANONYMOUS_CLASS.infix)) {
+        className = className.split(ANONYMOUS_CLASS.infix)[0]
     }
     return className
 }
