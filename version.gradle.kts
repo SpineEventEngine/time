@@ -25,7 +25,7 @@
  */
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.64")
+val versionToPublish by extra("2.0.0-SNAPSHOT.68")
 
 /** Versions of the Spine libraries that `time` depends on. */
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.64")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.67")

@@ -33,13 +33,16 @@ import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
-import io.spine.internal.gradle.JavadocConfig
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.spinePublishing
+import io.spine.internal.gradle.report.coverage.JacocoConfig
+import io.spine.internal.gradle.report.pom.PomGenerator
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -53,6 +56,11 @@ buildscript {
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$spineBaseVersion")
     }
+}
+
+// Required to grab the dependencies for `JacocoConfig`.
+repositories {
+    mavenCentral()
 }
 
 plugins {
@@ -107,6 +115,7 @@ subprojects {
         plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
+        plugin("jacoco")
         from(Scripts.projectLicenseReport(project))
     }
 
@@ -235,17 +244,14 @@ subprojects {
         }
     }
 
-    apply {
-        with(Scripts) {
-            from(checkstyle(project))
-        }
-    }
+    CheckStyleConfig.applyTo(project)
 }
 
 apply {
     with(Scripts) {
-        from(jacoco(project))
         from(repoLicenseReport(project))
-        from(generatePom(project))
     }
 }
+
+JacocoConfig.applyTo(project)
+PomGenerator.applyTo(project)
