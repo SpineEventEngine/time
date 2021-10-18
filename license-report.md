@@ -1,5 +1,5 @@
 
-    
+
 # Dependencies of `io.spine.tools:spine-testutil-time:2.0.0-SNAPSHOT.68`
 
 ## Runtime
@@ -415,16 +415,14 @@
      * **POM Project URL:** [http://pcollections.org](http://pcollections.org)
      * **POM License: The MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
-    
-        
- The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
+
+The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
+
+This report was generated on **Fri Oct 15 18:27:58 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
-This report was generated on **Wed Oct 13 19:07:32 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
-
-    
 # Dependencies of `io.spine:spine-time:2.0.0-SNAPSHOT.68`
 
 ## Runtime
@@ -868,9 +866,7 @@ This report was generated on **Wed Oct 13 19:07:32 EEST 2021** using [Gradle-Lic
      * **POM Project URL:** [http://pcollections.org](http://pcollections.org)
      * **POM License: The MIT License** - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
 
-    
-        
- The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
+The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Wed Oct 13 19:07:36 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Oct 15 18:27:59 EEST 2021** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
