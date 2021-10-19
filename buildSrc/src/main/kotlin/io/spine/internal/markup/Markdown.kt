@@ -32,44 +32,90 @@ import java.io.File
  * Shortcuts for the Markdown syntax.
  */
 
+/**
+ * A virtual document written in Markdown.
+ *
+ * After it's finished, end-users would typically write it to a [real file][appendToFile].
+ */
 class MarkdownDocument {
 
     private val builder: StringBuilder = StringBuilder()
 
-    fun add(value: String): MarkdownDocument {
-        builder.append(value);
+    /**
+     * Appends the document with some plain text.
+     */
+    fun text(value: String): MarkdownDocument {
+        builder.append(value)
         return this
     }
 
-    fun nl(): MarkdownDocument = add(System.lineSeparator())
+    /**
+     * Appends the document with a new line symbol.
+     */
+    fun nl(): MarkdownDocument = text(System.lineSeparator())
 
-    fun space(): MarkdownDocument = add(" ")
+    /**
+     * Appends the document with a single space.
+     */
+    fun space(): MarkdownDocument = text(" ")
 
-    fun space(count: Int): MarkdownDocument {
+    /**
+     * Appends the document with a number of space symbols.
+     */
+    private fun space(count: Int): MarkdownDocument {
         repeat(count) {
             space()
         }
         return this
     }
 
+    /**
+     * Appends the document with a space symbol.
+     *
+     * A DSL-style shortcut for [space].
+     */
     fun and(): MarkdownDocument = space()
 
-    fun bold(text: String): MarkdownDocument = add("**$text**")
+    /**
+     * Adds some text rendered in bold.
+     */
+    fun bold(text: String): MarkdownDocument = text("**$text**")
 
-    fun h1(text: String): MarkdownDocument = nl().add("# $text")
+    /**
+     * Adds a heading of level 1.
+     */
+    fun h1(text: String): MarkdownDocument = nl().text("# $text")
 
-    fun h2(text: String): MarkdownDocument = nl().add("## $text")
+    /**
+     * Adds a heading of level 2.
+     */
+    fun h2(text: String): MarkdownDocument = nl().text("## $text")
 
-    fun link(text: String, url: String): MarkdownDocument = add("[$text](${url})")
+    /**
+     * Adds a link.
+     */
+    fun link(text: String, url: String): MarkdownDocument = text("[$text](${url})")
 
+    /**
+     * Adds a link and uses the passed [url] value as both text and a navigation destination.
+     */
     fun link(url: String): MarkdownDocument = link(url, url)
 
-    fun ul(): MarkdownDocument = nl().add("* ")
+    /**
+     * Renders the item of an unordered list, also indenting it by the specified number of spaces.
+     */
+    fun ul(indent: Int): MarkdownDocument = nl().space(indent).text("* ")
 
-    fun ul(indent: Int): MarkdownDocument = nl().space(indent).add("* ")
+    /**
+     * Renders the item of an ordered list.
+     */
+    fun ol(): MarkdownDocument = nl().text("1. ")
 
-    fun ol(): MarkdownDocument = nl().add("1. ")
-
+    /**
+     * Appends the passed [file] with the contents of this document.
+     *
+     * The previous contents of the file are NOT overwritten.
+     */
     fun appendToFile(file: File) {
         file.appendText(builder.toString())
     }
