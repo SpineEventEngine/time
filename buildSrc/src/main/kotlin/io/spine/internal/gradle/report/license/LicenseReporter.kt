@@ -41,6 +41,23 @@ import org.gradle.kotlin.dsl.the
  * and in a repository.
  *
  * Transitive dependencies are included.
+ *
+ * The output file is placed to the root folder of the root Gradle project.
+ *
+ * Usage:
+ *
+ * ```
+ * // ...
+ * subprojects {
+ *
+ *      LicenseReporter.generateReportIn(project)
+ * }
+ *
+ * // ...
+ *
+ * LicenseReporter.mergeAllReports(project)
+ *
+ * ```
  */
 object LicenseReporter {
 
@@ -57,17 +74,20 @@ object LicenseReporter {
 
     /**
      * Enables the generation of the license report for a single Gradle project.
+     *
+     * Registers `generateLicenseReport` task, which is later picked up
+     * by the [merge task][mergeAllReports].
      */
     fun generateReportIn(project: Project) {
         project.applyPlugin(LicenseReportPlugin::class.java)
-        val reportOutputDir = project.buildDir.resolve(Config.relativePath)
+        val reportOutputDir = project.buildDir.resolve(Paths.relativePath)
 
         with(project.the<LicenseReportExtension>()) {
             outputDir = reportOutputDir.absolutePath
             excludeGroups = arrayOf("io.spine", "io.spine.tools", "io.spine.gcloud")
             configurations = ALL
 
-            renderers = arrayOf(MarkdownReportRenderer(Config.outputFilename))
+            renderers = arrayOf(MarkdownReportRenderer(Paths.outputFilename))
         }
     }
 
@@ -75,25 +95,24 @@ object LicenseReporter {
      * Tells to merge all per-project reports which were previously [generated][generateReportIn]
      * for each of the subprojects of the root Gradle project.
      *
-     * The merge result is placed according to the [Config].
+     * The merge result is placed according to [Paths].
+     *
+     * Registers a `mergeAllLicenseReports` which is specified to be executed after `build`.
      */
     fun mergeAllReports(project: Project) {
         val rootProject = project.rootProject
         val mergeTask = rootProject.tasks.register(mergeTaskName) {
             val consolidationTask = this
             val assembleTask = project.findTask<Task>("assemble")
-
             val sourceProjects: Iterable<Project> = sourceProjects(rootProject)
             sourceProjects.forEach {
                 val perProjectTask = it.findTask<Task>(projectTaskName)
                 consolidationTask.dependsOn(perProjectTask)
                 perProjectTask.dependsOn(assembleTask)
             }
-
             doLast {
                 mergeReports(sourceProjects, rootProject)
             }
-
             dependsOn(assembleTask)
         }
         project.findTask<Task>("build")
@@ -105,10 +124,14 @@ object LicenseReporter {
      */
     private fun Task.sourceProjects(rootProject: Project): Iterable<Project> {
         val targetProjects: Iterable<Project> = if (rootProject.subprojects.isEmpty()) {
-            println("The license report will be produced for a single root project.")
+            rootProject.logger.debug(
+                "The license report will be produced for a single root project."
+            )
             listOf(this.project)
         } else {
-            println("The license report will be produced for all subprojects of a root project.")
+            rootProject.logger.debug(
+                "The license report will be produced for all subprojects of a root project."
+            )
             rootProject.subprojects
         }
         return targetProjects
@@ -123,15 +146,11 @@ object LicenseReporter {
         rootProject: Project
     ) {
         val paths = sourceProjects.map {
-            "${it.buildDir}/${Config.relativePath}/${Config.outputFilename}"
+            "${it.buildDir}/${Paths.relativePath}/${Paths.outputFilename}"
         }
-
         println("Merging the license reports from the all projects.")
         val mergedContent = paths.joinToString("\n\n\n") { (File(it)).readText() }
-
-        val output = File("${rootProject.rootDir}/${Config.outputFilename}")
-        output.writeText(
-            mergedContent
-        )
+        val output = File("${rootProject.rootDir}/${Paths.outputFilename}")
+        output.writeText(mergedContent)
     }
 }
