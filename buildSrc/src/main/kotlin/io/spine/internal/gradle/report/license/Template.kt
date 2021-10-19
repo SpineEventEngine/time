@@ -40,23 +40,23 @@ internal class Template(
 ) {
 
     private companion object {
-        private const val sectionBreak = "\n\n"
+        private const val longBreak = "\n\n"
     }
 
     internal fun writeHeader() {
-        out.add(sectionBreak)
+        out.nl()
             .h1(
-                "# Dependencies of " +
+                "Dependencies of " +
                         "`${project.group}:${project.prefix()}${project.name}:${project.version}`\n"
             )
     }
 
     internal fun writeFooter() {
-        out.add(sectionBreak)
+        out.add(longBreak)
             .add("The dependencies distributed under several licenses, ")
             .add("are used according their commercial-use-friendly license.")
-            .add(sectionBreak)
-            .add("This report was generated on")
+            .add(longBreak)
+            .add("This report was generated on ")
             .bold(" ${Date()} ")
             .add(" using ")
             .link(

@@ -41,15 +41,34 @@ class MarkdownDocument {
         return this
     }
 
+    fun nl(): MarkdownDocument = add(System.lineSeparator())
+
+    fun space(): MarkdownDocument = add(" ")
+
+    fun space(count: Int): MarkdownDocument {
+        repeat(count) {
+            space()
+        }
+        return this
+    }
+
+    fun and(): MarkdownDocument = space()
+
     fun bold(text: String): MarkdownDocument = add("**$text**")
 
-    fun h1(text: String): MarkdownDocument = add("# $text")
+    fun h1(text: String): MarkdownDocument = nl().add("# $text")
+
+    fun h2(text: String): MarkdownDocument = nl().add("## $text")
 
     fun link(text: String, url: String): MarkdownDocument = add("[$text](${url})")
 
-    fun ul(text: String): MarkdownDocument = add("* $text")
+    fun link(url: String): MarkdownDocument = link(url, url)
 
-    fun ol(text: String): MarkdownDocument = add("1. $text")
+    fun ul(): MarkdownDocument = nl().add("* ")
+
+    fun ul(indent: Int): MarkdownDocument = nl().space(indent).add("* ")
+
+    fun ol(): MarkdownDocument = nl().add("1. ")
 
     fun appendToFile(file: File) {
         file.appendText(builder.toString())

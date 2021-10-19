@@ -92,95 +92,44 @@ private class Dependencies(
 }
 
 private fun ModuleData.print(out: MarkdownDocument) {
-    out.ol("")
+    out.ol()
 
     this.print(ModuleData::getGroup, out, "Group")
         .print(ModuleData::getName, out, "Name")
         .print(ModuleData::getVersion, out, "Version")
 
-    if (this.poms.isEmpty() && this.manifests.isEmpty()) {
+    val projectUrl = this.projectUrl()
+    val licenses = this.licenses()
+
+    if (projectUrl.isNullOrEmpty() && licenses.isEmpty()) {
         out.bold("No license information found")
         return
     }
 
-    var projectUrlDone = false
-    if (this.manifests.isNotEmpty() && this.poms.isNotEmpty()) {
-        val manifest = this.manifests.first()
-        val pomData = this.poms.first()
-        if (manifest.url != null && pomData.projectUrl != null && manifest.url == pomData.projectUrl) {
-            out.add("\n     * **Project URL:** [${manifest.url}](${manifest.url})")
-            projectUrlDone = true
+    if (!projectUrl.isNullOrEmpty()) {
+        out.ul(5)
+            .bold("Project URL:")
+            .and()
+            .link(projectUrl)
+    }
+
+    for (license in licenses) {
+        out.ul(5)
+            .bold("License:")
+            .and()
+        if (!license.url.isNullOrEmpty()) {
+            out.add(license.text)
+        } else {
+            out.link(license.text, license.url!!)
         }
     }
 
-    if (this.manifests.isNotEmpty()) {
-        val manifest = this.manifests.first()
-        if (!manifest.url.isNullOrEmpty() && !projectUrlDone) {
-            out.add("\n     * **Manifest Project URL:** [${manifest.url}](${manifest.url})")
-        }
-        if (!manifest.license.isNullOrEmpty()) {
-            when {
-                manifest.license.startsWith("http") -> {
-                    out.add("\n     * **Manifest license URL:** [${manifest.license}](${manifest.license})")
-                }
-                manifest.hasPackagedLicense -> {
-                    out.add("\n     * **Packaged License File:** [${manifest.license}](${manifest.url})")
-                }
-                else -> {
-                    out.add("\n     * **Manifest License:** ${manifest.license} (Not packaged)")
-                }
-            }
-        }
-    }
-
-    if (this.poms.isNotEmpty()) {
-        val pomData = this.poms.first()
-        if (!pomData.projectUrl.isNullOrEmpty() && !projectUrlDone) {
-            out.add("\n     * **POM Project URL:** [${pomData.projectUrl}](${pomData.projectUrl})")
-
-        }
-        if (pomData.licenses != null) {
-            pomData.licenses.forEach { license ->
-                out.add("\n     * **POM License: ${license.name}**")
-
-                if (!license.url.isNullOrEmpty()) {
-                    when {
-                        license.url.startsWith("http") -> {
-                            out.add(" - [${license.url}](${license.url})")
-                        }
-                        else -> {
-                            out.add(" **License:** ${license.url}")
-                        }
-                    }
-                }
-            }
-        }
-    }
-    out.add("\n")
-}
-
-internal class References(
-    private val projectUrl: String?,
-    private val licenseLinks: Set<Link>
-){
-
-    internal companion object {
-
-        fun of(module: ModuleData): References {
-            if(module.poms.isEmpty() && module.manifests.isEmpty()) {
-                return References(null, setOf())
-            }
-
-            val projectUrl: String? = module.projectUrl()
-            val licenses: Set<Link> = module.licenses()
-            return References(projectUrl, licenses)
-        }
-    }
+    out.nl()
 }
 
 internal fun ModuleData.projectUrl(): String? {
     val pomUrl = this.poms.firstOrNull()?.projectUrl
-    if(!pomUrl.isNullOrBlank()) {
+    if (!pomUrl.isNullOrBlank()) {
         return pomUrl
     }
     return this.manifests.firstOrNull()?.url
@@ -220,7 +169,8 @@ private fun ModuleData.print(
 ): ModuleData {
     val value = getter.call(this)
     if (value != null) {
-        out.add(" **${title}:** ${value}")
+        out.space()
+        out.add("**${title}:** ${value}")
     }
     return this
 }
@@ -229,7 +179,7 @@ private fun MarkdownDocument.printSection(
     title: String,
     modules: Iterable<ModuleData>
 ): MarkdownDocument {
-    this.add("\n## $title")
+    this.h2(title)
     modules.forEach {
         it.print(this)
     }
