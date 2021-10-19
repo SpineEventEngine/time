@@ -27,18 +27,14 @@
 package io.spine.internal.gradle.report.license
 
 import com.github.jk1.license.LicenseReportExtension
-import com.github.jk1.license.ModuleData
 import com.github.jk1.license.ProjectData
 import com.github.jk1.license.render.ReportRenderer
-import io.spine.internal.gradle.report.license.Configuration.runtime
-import io.spine.internal.gradle.report.license.Configuration.runtimeClasspath
 import io.spine.internal.markup.MarkdownDocument
 import java.io.File
-import kotlin.reflect.KCallable
 import org.gradle.api.Project
 
 /**
- * Renders the dependency report in markdown.
+ * Renders the dependency report for a single [project][ProjectData] in Markdown.
  */
 internal class MarkdownReportRenderer(
     private val filename: String
@@ -51,7 +47,7 @@ internal class MarkdownReportRenderer(
         val template = Template(project, document)
 
         template.writeHeader()
-        Dependencies.of(data).printTo(document)
+        ProjectDependencies.of(data).printTo(document)
         template.writeFooter()
 
         document.appendToFile(outputFile)
@@ -64,124 +60,3 @@ internal class MarkdownReportRenderer(
     }
 }
 
-private class Dependencies(
-    private val runtime: Iterable<ModuleData>,
-    private val compileTooling: Iterable<ModuleData>
-
-) {
-
-    companion object {
-        fun of(data: ProjectData): Dependencies {
-            val runtimeDeps = mutableListOf<ModuleData>()
-            val compileToolingDeps = mutableListOf<ModuleData>()
-            data.configurations.forEach { config ->
-                if (config.isOneOf(runtime, runtimeClasspath)) {
-                    runtimeDeps.addAll(config.dependencies)
-                } else {
-                    compileToolingDeps.addAll(config.dependencies)
-                }
-            }
-            return Dependencies(runtimeDeps.toSortedSet(), compileToolingDeps.toSortedSet())
-        }
-    }
-
-    fun printTo(out: MarkdownDocument) {
-        out.printSection("Runtime", runtime)
-            .printSection("Compile, tests and tooling", compileTooling)
-    }
-}
-
-private fun ModuleData.print(out: MarkdownDocument) {
-    out.ol()
-
-    this.print(ModuleData::getGroup, out, "Group")
-        .print(ModuleData::getName, out, "Name")
-        .print(ModuleData::getVersion, out, "Version")
-
-    val projectUrl = this.projectUrl()
-    val licenses = this.licenses()
-
-    if (projectUrl.isNullOrEmpty() && licenses.isEmpty()) {
-        out.bold("No license information found")
-        return
-    }
-
-    if (!projectUrl.isNullOrEmpty()) {
-        out.ul(5)
-            .bold("Project URL:")
-            .and()
-            .link(projectUrl)
-    }
-
-    for (license in licenses) {
-        out.ul(5)
-            .bold("License:")
-            .and()
-        if (!license.url.isNullOrEmpty()) {
-            out.add(license.text)
-        } else {
-            out.link(license.text, license.url!!)
-        }
-    }
-
-    out.nl()
-}
-
-internal fun ModuleData.projectUrl(): String? {
-    val pomUrl = this.poms.firstOrNull()?.projectUrl
-    if (!pomUrl.isNullOrBlank()) {
-        return pomUrl
-    }
-    return this.manifests.firstOrNull()?.url
-}
-
-internal fun ModuleData.licenses(): Set<Link> {
-    val result = mutableSetOf<Link>()
-
-    val manifestLink: Link? = manifests.firstOrNull()?.let { manifest ->
-        val license = manifest.license
-        if (!license.isNullOrBlank()) {
-            if (license.startsWith("http")) {
-                Link(license, license)
-            } else {
-                Link(license, manifest.url)
-            }
-        }
-        null
-    }
-    manifestLink?.let { result.add(it) }
-
-    val pomLinks = poms.firstOrNull()?.licenses?.map { license ->
-        Link(license.name, license.url)
-    }
-    pomLinks?.let {
-        result.addAll(it)
-    }
-    return result.toSet()
-}
-
-data class Link(val text: String, val url: String?)
-
-private fun ModuleData.print(
-    getter: KCallable<*>,
-    out: MarkdownDocument,
-    title: String
-): ModuleData {
-    val value = getter.call(this)
-    if (value != null) {
-        out.space()
-        out.add("**${title}:** ${value}")
-    }
-    return this
-}
-
-private fun MarkdownDocument.printSection(
-    title: String,
-    modules: Iterable<ModuleData>
-): MarkdownDocument {
-    this.h2(title)
-    modules.forEach {
-        it.print(this)
-    }
-    return this
-}
