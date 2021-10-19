@@ -47,27 +47,29 @@ internal class Template(
         out.nl()
             .h1(
                 "Dependencies of " +
-                        "`${project.group}:${project.prefix()}${project.name}:${project.version}`\n"
+                        "`${project.group}:${project.prefix()}${project.name}:${project.version}`"
             )
+            .nl()
     }
 
     internal fun writeFooter() {
-        out.add(longBreak)
-            .add("The dependencies distributed under several licenses, ")
-            .add("are used according their commercial-use-friendly license.")
-            .add(longBreak)
-            .add("This report was generated on ")
-            .bold(" ${Date()} ")
-            .add(" using ")
+        out.text(longBreak)
+            .text("The dependencies distributed under several licenses, ")
+            .text("are used according their commercial-use-friendly license.")
+            .text(longBreak)
+            .text("This report was generated on ")
+            .bold("${Date()}")
+            .text(" using ")
             .link(
                 "Gradle-License-Report plugin",
                 "https://github.com/jk1/Gradle-License-Report"
             )
-            .add(" by Evgeny Naumenko, ")
-            .add("licensed under ")
+            .text(" by Evgeny Naumenko, ")
+            .text("licensed under ")
             .link(
                 "Apache 2.0 License",
                 "https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE"
             )
+            .text(".")
     }
 }
