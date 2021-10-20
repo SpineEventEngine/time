@@ -42,6 +42,7 @@ import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
+import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -116,8 +117,9 @@ subprojects {
         plugin("idea")
         plugin("pmd-settings")
         plugin("jacoco")
-        from(Scripts.projectLicenseReport(project))
     }
+
+    LicenseReporter.generateReportIn(project)
 
     val javaVersion = JavaVersion.VERSION_1_8
     java {
@@ -247,11 +249,6 @@ subprojects {
     CheckStyleConfig.applyTo(project)
 }
 
-apply {
-    with(Scripts) {
-        from(repoLicenseReport(project))
-    }
-}
-
+LicenseReporter.mergeAllReports(project)
 JacocoConfig.applyTo(project)
 PomGenerator.applyTo(project)

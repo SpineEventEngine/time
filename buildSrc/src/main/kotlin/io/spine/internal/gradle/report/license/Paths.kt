@@ -24,32 +24,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import org.gradle.api.Project
-import org.gradle.api.tasks.javadoc.Javadoc
-import org.gradle.external.javadoc.CoreJavadocOptions
-import org.gradle.kotlin.dsl.named
+package io.spine.internal.gradle.report.license
 
-@Suppress("unused")
-object TravisLogs {
+/**
+ * Filesystem paths used by [LicenseReporter].
+ */
+internal object Paths {
 
     /**
-     * Specific setup for a Travis build, which prevents warning messages related to
-     * `javadoc` tasks in build logs.
+     * The output filename of the license report.
      *
-     * It is expected that warnings are viewed and analyzed during local builds.
+     * The file with this name is placed to the root folder of the root Gradle project —
+     * as the result of the [LicenseReporter] work.
+     *
+     * Its contents describe the licensing information for each of the Java dependencies
+     * which are referenced by Gradle projects in the repository.
      */
-    fun hideJavadocWarnings(p: Project) {
-        //
-        val isTravis = System.getenv("TRAVIS") == "true"
-        if (isTravis) {
-            // Set the maximum number of Javadoc warnings to print.
-            // If the parameter value is zero, all warnings will be printed.
-            p.tasks.named<Javadoc>("javadoc") {
-                val opt = options
-                if (opt is CoreJavadocOptions) {
-                    opt.addStringOption("Xmaxwarns", "1")
-                }
-            }
-        }
-    }
+    internal const val outputFilename = "license-report.md"
+
+    /**
+     * The path to a directory, to which a per-project report is generated.
+     */
+    internal const val relativePath = "reports/dependency-license/dependency"
 }
