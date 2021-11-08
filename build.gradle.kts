@@ -38,6 +38,7 @@ import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
 import io.spine.internal.gradle.javadoc.JavadocConfig
@@ -192,6 +193,12 @@ subprojects {
                 }
             }
         }
+    }
+
+    val javadocToolsVersion: String by extra
+    updateGitHubPages(javadocToolsVersion) {
+        allowInternalJavadoc.set(true)
+        rootFolder.set(rootDir)
     }
 
     // Apply the same IDEA module configuration for each of sub-projects.
