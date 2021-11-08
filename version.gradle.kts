@@ -24,8 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.69")
-
 /** Versions of the Spine libraries that `time` depends on. */
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.67")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.74")
+val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
+
+/** The version of this library. */
+val versionToPublish by extra("2.0.0-SNAPSHOT.74")

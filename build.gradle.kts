@@ -34,16 +34,20 @@ import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
+import io.spine.internal.gradle.github.pages.updateGitHubPages
+import io.spine.internal.gradle.javac.configureErrorProne
+import io.spine.internal.gradle.javac.configureJavac
 import io.spine.internal.gradle.javadoc.JavadocConfig
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
+import io.spine.internal.gradle.test.configureLogging
+import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -61,7 +65,7 @@ buildscript {
 
 // Required to grab the dependencies for `JacocoConfig`.
 repositories {
-    mavenCentral()
+    applyStandard()
 }
 
 plugins {
@@ -78,7 +82,7 @@ plugins {
     }
     @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
     io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
-        id(id).version(version)
+        id(id)
     }
 }
 
@@ -86,8 +90,8 @@ apply(from = "$rootDir/version.gradle.kts")
 spinePublishing {
     with(PublishingRepos) {
         targetRepositories.addAll(
-            cloudRepo,
             gitHub("time"),
+            cloudRepo,
             cloudArtifactRegistry
         )
     }
@@ -127,6 +131,14 @@ subprojects {
         targetCompatibility = javaVersion
     }
 
+    tasks.withType<JavaCompile> {
+        configureJavac()
+        configureErrorProne()
+    }
+
+    JavadocConfig.applyTo(project)
+    CheckStyleConfig.applyTo(project)
+
     kotlin {
         explicitApi()
     }
@@ -155,40 +167,17 @@ subprojects {
 
     configurations.forceVersions()
 
-    val sourcesRootDir = "$projectDir/src"
-    val generatedRootDir = "$projectDir/generated"
-    sourceSets {
-        main {
-            proto.srcDir("$sourcesRootDir/main/proto")
-            java.srcDirs(
-                "$generatedRootDir/main/java",
-                "$generatedRootDir/main/spine",
-                "$sourcesRootDir/main/java"
-            )
-            resources.srcDirs(
-                "$generatedRootDir/main/resources",
-                "$sourcesRootDir/main/resources"
-            )
-        }
+    tasks {
+        registerTestTasks()
         test {
-            proto.srcDir("$sourcesRootDir/test/proto")
-            java.srcDirs(
-                "$generatedRootDir/test/java",
-                "$generatedRootDir/test/spine",
-                "$sourcesRootDir/test/java"
-            )
-            resources.srcDirs(
-                "$generatedRootDir/test/resources",
-                "$sourcesRootDir/test/resources"
-            )
+            useJUnitPlatform {
+                includeEngines("junit-jupiter")
+            }
+            configureLogging()
         }
     }
 
-    tasks.test {
-        useJUnitPlatform {
-            includeEngines("junit-jupiter")
-        }
-    }
+    val generatedRootDir = "$projectDir/generated"
 
     protobuf {
         generatedFilesBaseDir = generatedRootDir
@@ -206,30 +195,10 @@ subprojects {
         }
     }
 
-    apply {
-        with(Scripts) {
-            from(testOutput(project))
-            from(javacArgs(project))
-        }
-    }
-
-    JavadocConfig.applyTo(project)
-
-    tasks.register("sourceJar", Jar::class) {
-        from(sourceSets.main.get().allJava)
-        archiveClassifier.set("sources")
-    }
-
-    tasks.register("testOutputJar", Jar::class) {
-        from(sourceSets.test.get().output)
-        archiveClassifier.set("test")
-    }
-
-    tasks.register("javadocJar", Jar::class) {
-        from("$projectDir/build/docs/javadoc")
-        archiveClassifier.set("javadoc")
-
-        dependsOn("javadoc")
+    val javadocToolsVersion: String by extra
+    updateGitHubPages(javadocToolsVersion) {
+        allowInternalJavadoc.set(true)
+        rootFolder.set(rootDir)
     }
 
     // Apply the same IDEA module configuration for each of sub-projects.
@@ -245,8 +214,6 @@ subprojects {
             isDownloadSources = true
         }
     }
-
-    CheckStyleConfig.applyTo(project)
 }
 
 LicenseReporter.mergeAllReports(project)

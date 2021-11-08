@@ -24,39 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * This plugin configured the test output as follows:
+package io.spine.internal.gradle.publish.proto
+
+import org.gradle.api.Project
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.api.tasks.bundling.Jar
+
+/**
+ * Registers an `assembleProto` Gradle task which locates and assembles all `.proto` files
+ * in a Gradle project.
  *
- *  - the standard streams of the tests execution are logged;
- *  - exceptions thrown in tests are logged;
- *  - after all the tests are executed, a short test summary is logged; the summary shown the number
- *    of tests and their results.
+ * The result of assembly is a [Jar] task with an archive output classified as "proto".
  */
+object AssembleProto {
 
-println("`test-output.gradle` script is deprecated. Please use `Test.configureLogging()` instead.")
+    private const val taskName = "assembleProto"
 
-tasks.withType(Test).each {
-    it.testLogging {
-        showStandardStreams = true
-        showExceptions = true
-        showStackTraces = true
-        showCauses = true
-        exceptionFormat = 'full'
-    }
-
-    it.afterSuite { final testDescriptor, final result ->
-        // If the descriptor has no parent, then it is the root test suite, i.e. it includes the
-        // info about all the run tests.
-        if (!testDescriptor.parent) {
-            logger.lifecycle(
-                    """
-                    Test summary:
-                    >> ${result.testCount} tests
-                    >> ${result.successfulTestCount} succeeded
-                    >> ${result.failedTestCount} failed
-                    >> ${result.skippedTestCount} skipped
-                    """
-            )
+    /**
+     * Performs the task registration for the passed [project].
+     */
+    fun registerIn(project: Project): TaskProvider<Jar> {
+        val task = project.tasks.register(taskName, Jar::class.java) {
+            description =
+                "Assembles a JAR artifact with all Proto definitions from the classpath."
+            from(project.protoFiles())
+            include {
+                it.file.isProtoFileOrDir()
+            }
+            archiveClassifier.set("proto")
         }
+        return task
     }
 }
