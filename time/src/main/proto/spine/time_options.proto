@@ -84,7 +84,7 @@ message TimeOption {
     // A user-defined validation error format message.
     //
     // May include tokens `{value}`—for the actual value of the field, and `{other}`—for
-    // the threshold value. The tokens will be replaced at runtime when the error is constructed.
+    // the expected value. The tokens will be replaced at runtime when the error is constructed.
     //
     string error_msg = 3;
 }
