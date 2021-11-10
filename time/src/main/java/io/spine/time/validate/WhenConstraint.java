@@ -76,6 +76,8 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
     }
 
     @Override
+    @SuppressWarnings("deprecation")
+        // Old error message format. Discontinued along with the old validation library.
     public String errorMessage(FieldContext context) {
         return ViolationText.errorMessage(optionValue(), optionValue().getMsgFormat());
     }
