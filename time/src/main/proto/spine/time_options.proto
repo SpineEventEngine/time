@@ -76,7 +76,17 @@ message TimeOption {
     Time in = 1;
 
     // A user-defined validation error format message.
-    string msg_format = 2;
+    //
+    // Deprecated. Use `error_msg` instead.
+    //
+    string msg_format = 2 [deprecated = true];
+
+    // A user-defined validation error format message.
+    //
+    // May include tokens `{value}`—for the actual value of the field, and `{other}`—for
+    // the expected value. The tokens will be replaced at runtime when the error is constructed.
+    //
+    string error_msg = 3;
 }
 
 // This enumeration defines restriction for date/time values.
