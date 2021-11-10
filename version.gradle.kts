@@ -25,7 +25,7 @@
  */
 
 /** Versions of the Spine libraries that `time` depends on. */
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.74")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.75")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.74")
 
 /** The version of this library. */
