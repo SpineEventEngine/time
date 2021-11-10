@@ -76,6 +76,9 @@ message TimeOption {
     Time in = 1;
 
     // A user-defined validation error format message.
+    //
+    // Deprecated. Use `error_msg` instead.
+    //
     string msg_format = 2 [deprecated = true];
 
     // A user-defined validation error format message.
