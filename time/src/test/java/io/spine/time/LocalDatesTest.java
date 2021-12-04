@@ -40,7 +40,7 @@ import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("LocalDates should")
+@DisplayName("`LocalDates` should")
 class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.LocalDate> {
 
     LocalDatesTest() {
@@ -62,23 +62,23 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
     @DisplayName("obtain current date")
     void obtainCurrentDate() {
         avoidDayEdge();
-        LocalDate today = current();
-        java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
+        var today = current();
+        var jt = java.time.LocalDate.now(currentTimeZone());
         assertDatesEqual(jt, today);
     }
 
     @Nested
-    @DisplayName("Create new instance by")
+    @DisplayName("create new instance by")
     class Create {
 
         @Test
         @DisplayName("year, month, and day")
         void byYearMonthDay() {
-            int year = 2014;
-            Month month = Month.JULY;
-            int day = 20;
+            var year = 2014;
+            var month = Month.JULY;
+            var day = 20;
 
-            LocalDate localDate = LocalDates.of(year, month, day);
+            var localDate = LocalDates.of(year, month, day);
 
             assertEquals(year, localDate.getYear());
             assertEquals(month, localDate.getMonth());
@@ -88,14 +88,14 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         @Test
         @DisplayName("Java Time value")
         void byJavaTime() {
-            java.time.LocalDate jt = java.time.LocalDate.now(currentTimeZone());
-            LocalDate value = LocalDates.of(jt);
+            var jt = java.time.LocalDate.now(currentTimeZone());
+            var value = LocalDates.of(jt);
             assertDatesEqual(jt, value);
         }
     }
 
     @Nested
-    @DisplayName("Check")
+    @DisplayName("check")
     class Check {
 
         @Test
@@ -122,7 +122,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
     }
 
     @Nested
-    @DisplayName("Reject")
+    @DisplayName("reject")
     class Arguments {
 
         @Test
@@ -145,7 +145,6 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
 
         @Test
         @DisplayName("default value in Java Time conversion")
-        @SuppressWarnings("deprecation")
         void defaultForConversion() {
             assertThrows(
                     IllegalArgumentException.class,
@@ -154,7 +153,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         }
 
         @Test
-        @DisplayName("default value in String conversion")
+        @DisplayName("default value in `String` conversion")
         void defaultForString() {
             assertThrows(
                     IllegalArgumentException.class,

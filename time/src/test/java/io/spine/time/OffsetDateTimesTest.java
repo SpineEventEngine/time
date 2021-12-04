@@ -37,7 +37,7 @@ import static io.spine.time.Asserts.assertTimesEqual;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("deprecation")
-@DisplayName("OffsetDateTimes should")
+@DisplayName("`OffsetDateTimes` should")
 public class OffsetDateTimesTest
         extends AbstractOffsetTimeTest<OffsetDateTime, java.time.OffsetDateTime> {
 
@@ -54,10 +54,10 @@ public class OffsetDateTimesTest
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        Now now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
-        OffsetDateTime offsetDateTime = now.asOffsetDateTime();
-        String str = OffsetDateTimes.toString(offsetDateTime);
-        OffsetDateTime parsed = OffsetDateTimes.parse(str);
+        var now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
+        var offsetDateTime = now.asOffsetDateTime();
+        var str = OffsetDateTimes.toString(offsetDateTime);
+        var parsed = OffsetDateTimes.parse(str);
 
         assertEquals(offsetDateTime, parsed);
     }
@@ -74,7 +74,7 @@ public class OffsetDateTimesTest
     @BeforeEach
     public void setUp() {
         super.setUp();
-        Now now = Now.get();
+        var now = Now.get();
         date = now.asLocalDate();
         time = now.asLocalTime();
     }
@@ -86,21 +86,19 @@ public class OffsetDateTimesTest
         @Test
         @DisplayName("current date/time")
         void currentDateTime() {
-            OffsetDateTime now = current();
-            java.time.OffsetDateTime jn = io.spine.time.OffsetDateTimes.toJavaTime(now);
+            var now = current();
+            var jn = io.spine.time.OffsetDateTimes.toJavaTime(now);
             assertEqualDateTime(jn, now);
         }
 
         @Test
         @DisplayName("date/time at offset")
         void dateTimeAtOffset() {
-            OffsetDateTime offsetDateTime = OffsetDateTimes.of(date, time, zoneOffset());
+            var offsetDateTime = OffsetDateTimes.of(date, time, zoneOffset());
 
-            LocalDate date = offsetDateTime.getDateTime()
-                                           .getDate();
+            var date = offsetDateTime.getDateTime().getDate();
             LocalDates.checkDate(date);
-            LocalTime time = offsetDateTime.getDateTime()
-                                           .getTime();
+            var time = offsetDateTime.getDateTime().getTime();
             assertEquals(OffsetDateTimesTest.this.date, date);
             assertEquals(OffsetDateTimesTest.this.time, time);
             assertEquals(zoneOffset(), offsetDateTime.getOffset());
@@ -108,7 +106,7 @@ public class OffsetDateTimesTest
     }
 
     private static void assertEqualDateTime(java.time.OffsetDateTime jt, OffsetDateTime ot) {
-        LocalDateTime dateTime = ot.getDateTime();
+        var dateTime = ot.getDateTime();
         assertDatesEqual(jt.toLocalDate(), dateTime.getDate());
         assertTimesEqual(jt.toLocalTime(), dateTime.getTime());
     }

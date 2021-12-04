@@ -27,10 +27,9 @@
 package io.spine.time.validate;
 
 import com.google.protobuf.Duration;
-import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
-import io.spine.validate.MessageWithConstraints;
 import io.spine.validate.ConstraintViolation;
+import io.spine.validate.MessageWithConstraints;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("(when) option should")
+@DisplayName("`(when)` option should")
 class WhenTest {
 
     private @Nullable List<ConstraintViolation> violations;
@@ -67,7 +66,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is in future")
     void findOutThatTimeIsInFuture() {
-        TimeInFutureFieldValue validMsg = TimeInFutureFieldValue.newBuilder()
+        var validMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(future())
                 .build();
         assertValid(validMsg);
@@ -76,7 +75,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is NOT in future")
     void findOutThatTimeIsNotInFuture() {
-        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue.newBuilder()
+        var invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertNotValid(invalidMsg);
@@ -85,7 +84,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is in past")
     void findOutThatTimeIsInPast() {
-        TimeInPastFieldValue validMsg = TimeInPastFieldValue.newBuilder()
+        var validMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertValid(validMsg);
@@ -94,7 +93,7 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is NOT in past")
     void findOutThatTimeIsNotInPast() {
-        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
+        var invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(future())
                 .build();
         assertNotValid(invalidMsg);
@@ -103,10 +102,10 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is NOT in the past by nanoseconds")
     void findOutThatTimeIsNotInThePastByNanos() {
-        Timestamp currentTime = currentTimeWithNanos(ZERO_NANOSECONDS);
-        Timestamp timeInFuture = timeWithNanos(currentTime, FIFTY_NANOSECONDS);
+        var currentTime = currentTimeWithNanos(ZERO_NANOSECONDS);
+        var timeInFuture = timeWithNanos(currentTime, FIFTY_NANOSECONDS);
         freezeTime(currentTime);
-        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
+        var invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(timeInFuture)
                 .build();
         assertNotValid(invalidMsg);
@@ -115,54 +114,53 @@ class WhenTest {
     @Test
     @DisplayName("find out that time is in the past by nanoseconds")
     void findOutThatTimeIsInThePastByNanos() {
-        Timestamp currentTime = currentTimeWithNanos(FIFTY_NANOSECONDS);
-        Timestamp timeInPast = timeWithNanos(currentTime, ZERO_NANOSECONDS);
+        var currentTime = currentTimeWithNanos(FIFTY_NANOSECONDS);
+        var timeInPast = timeWithNanos(currentTime, ZERO_NANOSECONDS);
         freezeTime(currentTime);
-        TimeInPastFieldValue invalidMsg = TimeInPastFieldValue.newBuilder()
+        var invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(timeInPast)
                 .build();
         assertValid(invalidMsg);
     }
 
     @Test
-    @DisplayName("consider Timestamp field valid if no TimeOption set")
+    @DisplayName("consider `Timestamp` field valid if no `TimeOption` set")
     void considerTimestampFieldIsValidIfNoTimeOptionSet() {
-        TimeWithoutOptsFieldValue msg = TimeWithoutOptsFieldValue.getDefaultInstance();
+        var msg = TimeWithoutOptsFieldValue.getDefaultInstance();
         assertValid(msg);
     }
 
     @Test
     @DisplayName("provide one valid violation if time is invalid")
     void provideOneValidViolationIfTimeIsInvalid() {
-        TimeInFutureFieldValue invalidMsg = TimeInFutureFieldValue.newBuilder()
+        var invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
                 .build();
         assertSingleViolation(invalidMsg, "Point in time must be in the future.");
     }
 
     @Test
-    @DisplayName("ignore (when).in = TIME_UNDEFINED if in the past")
+    @DisplayName("ignore `(when).in = TIME_UNDEFINED` if in the past")
     void ignoreTimeUndefinedInFuture() {
-        AlwaysValidTime validTimeInPast = AlwaysValidTime.newBuilder()
+        var validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(past())
                 .build();
         assertValid(validTimeInPast);
     }
 
     @Test
-    @DisplayName("ignore (when).in = TIME_UNDEFINED if in the future")
+    @DisplayName("ignore `(when).in = TIME_UNDEFINED` if in the future")
     void ignoreTimeUndefinedInPast() {
-        AlwaysValidTime validTimeInPast = AlwaysValidTime.newBuilder()
+        var validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(future())
                 .build();
         assertValid(validTimeInPast);
     }
 
     @Test
-    @DisplayName("throw an IllegalArgumentException if applied on a non-temporal type")
+    @DisplayName("throw an `IllegalArgumentException` if applied on a non-temporal type")
     void throwIaeOnWrongType() {
-        WhenMisuse failingMessage = WhenMisuse
-                .newBuilder()
+        var failingMessage = WhenMisuse.newBuilder()
                 .setDuration(Duration.getDefaultInstance())
                 .build();
         assertThrows(IllegalArgumentException.class, failingMessage::validate);
@@ -198,16 +196,15 @@ class WhenTest {
     private void assertViolations() {
         assertNotNull(violations);
         assertFalse(violations.isEmpty());
-        for (ConstraintViolation violation : violations) {
+        for (var violation : violations) {
             assertHasCorrectFormat(violation);
         }
     }
 
     private static void assertHasCorrectFormat(ConstraintViolation violation) {
-        String format = violation.getMsgFormat();
+        var format = violation.getMsgFormat();
         assertFalse(format.isEmpty());
-        boolean noParams = violation.getParamList()
-                                    .isEmpty();
+        var noParams = violation.getParamList().isEmpty();
         if (format.contains("%s")) {
             assertFalse(noParams);
         } else {
@@ -224,9 +221,9 @@ class WhenTest {
 
     /** Checks that a message is not valid and has a single violation. */
     private void assertSingleViolation(String expectedErrMsg) {
-        ConstraintViolation violation = firstViolation();
-        String actualErrorMessage =
-                format(violation.getMsgFormat(), violation.getParamList().toArray());
+        var violation = firstViolation();
+        var actualErrorMessage = format(violation.getMsgFormat(),
+                                        violation.getParamList().toArray());
 
         assertThat(actualErrorMessage)
                 .isEqualTo(expectedErrMsg);

@@ -44,7 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * The abstract base for stringifier tests.
  *
- * @param <T> the type of stringifier objects
+ * @param <T>
+ *         the type of stringifier objects
  */
 abstract class AbstractStringifierTest<T> {
 
@@ -71,11 +72,10 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("convert forward and backward")
     void convert() {
-        T obj = createObject();
+        var obj = createObject();
 
-        final String str = stringifier.convert(obj);
-        final T convertedBack = stringifier.reverse()
-                                           .convert(str);
+        final var str = stringifier.convert(obj);
+        final var convertedBack = stringifier.reverse().convert(str);
 
         assertEquals(obj, convertedBack);
     }
@@ -93,21 +93,21 @@ abstract class AbstractStringifierTest<T> {
     @Test
     @DisplayName("serialize")
     void serialize() {
-        Stringifier<T> expected = stringifier();
-        Stringifier<T> stringifier = reserializeAndAssert(expected);
+        var expected = stringifier();
+        var stringifier = reserializeAndAssert(expected);
         assertSame(expected, stringifier);
     }
 
     @Test
     @DisplayName("be registered")
     void isRegistered() {
-        StringifierRegistry registry = StringifierRegistry.instance();
+        var registry = StringifierRegistry.instance();
         assertThat(registry.find(dataClass))
                 .isPresent();
     }
 
     @Test
-    @DisplayName("have final class")
+    @DisplayName("be a `final` class")
     void isFinalClass() {
         assertTrue(Modifier.isFinal(stringifier.getClass().getModifiers()));
     }

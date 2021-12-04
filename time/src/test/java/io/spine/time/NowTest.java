@@ -26,7 +26,6 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +37,7 @@ import java.time.ZoneId;
 
 import static com.google.common.truth.Truth.assertThat;
 
-@DisplayName("Now")
+@DisplayName("`Now` should")
 class NowTest {
 
     private static final ZoneId JT_NEW_YORK = ZoneId.of("America/New_York");
@@ -62,9 +61,7 @@ class NowTest {
         @BeforeEach
         void setUp() {
             frozenTime = java.time.ZonedDateTime.now(timeZone);
-            Timestamp frozenTimestamp =
-                    ZonedDateTimes.of(frozenTime)
-                                  .toTimestamp();
+            var frozenTimestamp = ZonedDateTimes.of(frozenTime).toTimestamp();
             Time.setProvider(() -> frozenTimestamp);
             now = captureNow();
         }
@@ -75,32 +72,32 @@ class NowTest {
         }
 
         @Test
-        @DisplayName("DayOfWeek")
+        @DisplayName("`DayOfWeek`")
         void dayOfWeek() {
-            DayOfWeek day = now.asDayOfWeek();
+            var day = now.asDayOfWeek();
             assertThat(day.getNumber()).isEqualTo(frozenTime.getDayOfWeek()
                                                             .getValue());
         }
 
         @Test
-        @DisplayName("LocalDate")
+        @DisplayName("`LocalDate`")
         void localDate() {
-            LocalDate date = now.asLocalDate();
+            var date = now.asLocalDate();
             assertCorrectDate(date);
         }
 
         @Test
-        @DisplayName("LocalDateTime")
+        @DisplayName("`LocalDateTime`")
         void localDateTime() {
-            LocalDateTime dateTime = now.asLocalDateTime();
+            var dateTime = now.asLocalDateTime();
             assertCorrectDate(dateTime.getDate());
             assertCorrectTime(dateTime.getTime());
         }
 
         @Test
-        @DisplayName("LocalTime")
+        @DisplayName("`LocalTime`")
         void localTime() {
-            LocalTime time = now.asLocalTime();
+            var time = now.asLocalTime();
             assertCorrectTime(time);
         }
 
@@ -108,8 +105,8 @@ class NowTest {
         @DisplayName("`OffsetDateTime`")
         @SuppressWarnings("deprecation")
         void offsetDateTime() {
-            OffsetDateTime offsetDateTime = now.asOffsetDateTime();
-            LocalDateTime dateTime = offsetDateTime.getDateTime();
+            var offsetDateTime = now.asOffsetDateTime();
+            var dateTime = offsetDateTime.getDateTime();
             assertCorrectDate(dateTime.getDate());
             assertCorrectTime(dateTime.getTime());
             assertThat(offsetDateTime.getOffset().getAmountSeconds())
@@ -120,8 +117,8 @@ class NowTest {
         @DisplayName("`OffsetTime`")
         @SuppressWarnings("deprecation")
         void offsetTime() {
-            OffsetTime offsetTime = now.asOffsetTime();
-            LocalTime time = offsetTime.getTime();
+            var offsetTime = now.asOffsetTime();
+            var time = offsetTime.getTime();
             assertCorrectTime(time);
             assertThat(offsetTime.getOffset()
                                  .getAmountSeconds())
@@ -132,7 +129,7 @@ class NowTest {
         @Test
         @DisplayName("`YearMonth`")
         void yearMonth() {
-            YearMonth yearMonth = now.asYearMonth();
+            var yearMonth = now.asYearMonth();
             assertThat(yearMonth.getYear()).isEqualTo(frozenTime.getYear());
             assertThat(yearMonth.getMonthValue()).isEqualTo(frozenTime.getMonthValue());
         }
@@ -140,8 +137,8 @@ class NowTest {
         @Test
         @DisplayName("ZonedDateTime")
         void zonedDateTime() {
-            ZonedDateTime zonedDateTime = now.asZonedDateTime();
-            LocalDateTime dateTime = zonedDateTime.getDateTime();
+            var zonedDateTime = now.asZonedDateTime();
+            var dateTime = zonedDateTime.getDateTime();
             assertCorrectDate(dateTime.getDate());
             assertCorrectTime(dateTime.getTime());
             assertThat(zonedDateTime.getZone().getValue())
@@ -164,7 +161,7 @@ class NowTest {
     }
 
     @Nested
-    @DisplayName("with the system ZoneId should obtain current")
+    @DisplayName("with the system `ZoneId` should obtain current")
     class Current extends NowTester {
 
         Current() {
@@ -178,7 +175,7 @@ class NowTest {
     }
 
     @Nested
-    @DisplayName("with the given java.time.ZoneId should obtain current")
+    @DisplayName("with the given `java.time.ZoneId` should obtain current")
     class JtZoned extends NowTester {
 
         JtZoned() {
@@ -206,7 +203,7 @@ class NowTest {
     }
 
     @Nested
-    @DisplayName("with the given Offset should obtain current")
+    @DisplayName("with the given `ZoneOffset` should obtain current")
     @SuppressWarnings("deprecation")
     class Offset extends NowTester {
 
