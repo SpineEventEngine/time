@@ -29,6 +29,7 @@ package io.spine.time;
 import io.spine.annotation.GeneratedMixin;
 
 import static io.spine.time.LocalTimes.converter;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A mixin for extending behaviour of {@link LocalTime}.
@@ -62,8 +63,8 @@ interface LocalTimeMixin extends LocalTimeOrBuilder {
     /** Converts this time to a Java Time instance. */
     default java.time.LocalTime toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
-        LocalTime self = (LocalTime) this;
-        return converter().reverse()
-                          .convert(self);
+        var self = (LocalTime) this;
+        var result = converter().reverse().convert(self);
+        return requireNonNull(result);
     }
 }

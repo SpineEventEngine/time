@@ -78,7 +78,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * @return this is a {@code Timestamp}
      */
     default Timestamp toTimestamp() {
-        Instant instant = toInstant();
+        var instant = toInstant();
         return JavaTimeExtensions.toTimestamp(instant);
     }
 
@@ -109,9 +109,9 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     default int compareTo(T other) {
         checkNotNull(other);
         checkSameType(this, other);
-        Timestamp thisTimestamp = toTimestamp();
-        Timestamp otherTimestamp = other.toTimestamp();
-        int result = compare(thisTimestamp, otherTimestamp);
+        var thisTimestamp = toTimestamp();
+        var otherTimestamp = other.toTimestamp();
+        var result = compare(thisTimestamp, otherTimestamp);
         return result;
     }
 
@@ -119,9 +119,9 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * Compares this point in time to the given one.
      */
     default int compareTo(Instant other) {
-        Timestamp thisTimestamp = toTimestamp();
-        Timestamp otherTimestamp = JavaTimeExtensions.toTimestamp(other);
-        int result = compare(thisTimestamp, otherTimestamp);
+        var thisTimestamp = toTimestamp();
+        var otherTimestamp = JavaTimeExtensions.toTimestamp(other);
+        var result = compare(thisTimestamp, otherTimestamp);
         return result;
     }
 
@@ -129,8 +129,8 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * Compares this point in time to the given one.
      */
     default int compareTo(Timestamp other) {
-        Timestamp thisTimestamp = toTimestamp();
-        int result = compare(thisTimestamp, other);
+        var thisTimestamp = toTimestamp();
+        var result = compare(thisTimestamp, other);
         return result;
     }
 
@@ -339,8 +339,8 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *         {@linkplain #toTimestamp() timestamp representation} is in the future.
      */
     default boolean isInFuture() {
-        Timestamp now = Time.currentTime();
-        Timestamp thisTime = toTimestamp();
+        var now = Time.currentTime();
+        var thisTime = toTimestamp();
         return compare(thisTime, now) > 0;
     }
 
@@ -357,8 +357,8 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *         considered to be in the past, as the year has already started.
      */
     default boolean isInPast() {
-        Timestamp now = Time.currentTime();
-        Timestamp thisTime = toTimestamp();
+        var now = Time.currentTime();
+        var thisTime = toTimestamp();
         return compare(thisTime, now) < 0;
     }
 }

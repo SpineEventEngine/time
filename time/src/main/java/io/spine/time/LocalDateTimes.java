@@ -31,6 +31,7 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.LocalDates.checkDate;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@code LocalDateTime}.
@@ -46,7 +47,8 @@ public final class LocalDateTimes {
      */
     public static LocalDateTime of(java.time.LocalDateTime value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -60,8 +62,7 @@ public final class LocalDateTimes {
     }
 
     private static LocalDateTime create(LocalDate date, LocalTime time) {
-        LocalDateTime result = LocalDateTime
-                .newBuilder()
+        var result = LocalDateTime.newBuilder()
                 .setDate(date)
                 .setTime(time)
                 .vBuild();
@@ -93,9 +94,8 @@ public final class LocalDateTimes {
      */
     public static LocalDateTime parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forLocalDateTime()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forLocalDateTime().reverse();
+        return requireNonNull(converter.convert(str));
     }
 
     /**
@@ -105,8 +105,8 @@ public final class LocalDateTimes {
      */
     public static String toString(LocalDateTime value) {
         checkNotNull(value);
-        return TimeStringifiers.forLocalDateTime()
-                               .convert(value);
+        var result = TimeStringifiers.forLocalDateTime().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -124,15 +124,15 @@ public final class LocalDateTimes {
 
         @Override
         protected LocalDateTime doForward(java.time.LocalDateTime value) {
-            LocalDate date = LocalDates.of(value.toLocalDate());
-            LocalTime time = LocalTimes.of(value.toLocalTime());
+            var date = LocalDates.of(value.toLocalDate());
+            var time = LocalTimes.of(value.toLocalTime());
             return create(date, time);
         }
 
         @Override
         protected java.time.LocalDateTime doBackward(LocalDateTime value) {
-            java.time.LocalDate date = value.date().toJavaTime();
-            java.time.LocalTime time = value.time().toJavaTime();
+            var date = value.date().toJavaTime();
+            var time = value.time().toJavaTime();
             return java.time.LocalDateTime.of(date, time);
         }
 

@@ -29,6 +29,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Routines for working with {@link OffsetTime}.
@@ -52,7 +53,7 @@ public final class OffsetTimes {
     }
 
     private static OffsetTime create(LocalTime time, ZoneOffset zoneOffset) {
-        OffsetTime result = OffsetTime
+        var result = OffsetTime
                 .newBuilder()
                 .setTime(time)
                 .setOffset(zoneOffset)
@@ -65,7 +66,8 @@ public final class OffsetTimes {
      */
     public static OffsetTime of(java.time.OffsetTime value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -73,8 +75,9 @@ public final class OffsetTimes {
      */
     public static java.time.OffsetTime toJavaTime(OffsetTime value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        var result = converter().reverse()
+                                .convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -85,8 +88,8 @@ public final class OffsetTimes {
     @Deprecated
     public static String toString(OffsetTime value) {
         checkNotNull(value);
-        return TimeStringifiers.forOffsetTime()
-                               .convert(value);
+        var result = TimeStringifiers.forOffsetTime().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -97,9 +100,9 @@ public final class OffsetTimes {
     @Deprecated
     public static OffsetTime parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forOffsetTime()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forOffsetTime().reverse();
+        var result = converter.convert(str);
+        return requireNonNull(result);
     }
 
     /**
@@ -124,14 +127,14 @@ public final class OffsetTimes {
 
         @Override
         protected OffsetTime doForward(java.time.OffsetTime value) {
-            java.time.LocalTime lt = value.toLocalTime();
-            java.time.ZoneOffset zo = value.getOffset();
+            var lt = value.toLocalTime();
+            var zo = value.getOffset();
             return of(LocalTimes.of(lt), ZoneOffsets.of(zo));
         }
 
         @Override
         protected java.time.OffsetTime doBackward(OffsetTime value) {
-            java.time.OffsetTime result = java.time.OffsetTime.of(
+            var result = java.time.OffsetTime.of(
                     LocalTimes.toJavaTime(value.getTime()),
                     ZoneOffsets.toJavaTime(value.getOffset())
             );

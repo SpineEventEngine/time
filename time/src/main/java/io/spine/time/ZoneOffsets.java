@@ -74,8 +74,7 @@ public final class ZoneOffsets {
      */
     public static ZoneOffset getDefault() {
         @SuppressWarnings("JavaTimeDefaultTimeZone")
-        java.time.ZoneOffset zo = java.time.OffsetTime.now()
-                                                      .getOffset();
+        var zo = java.time.OffsetTime.now().getOffset();
         return of(zo);
     }
 
@@ -84,9 +83,7 @@ public final class ZoneOffsets {
      */
     public static java.time.ZoneOffset toJavaTime(ZoneOffset value) {
         checkNotNull(value);
-        java.time.ZoneOffset result =
-                converter().reverse()
-                           .convert(value);
+        var result = converter().reverse().convert(value);
         return requireNonNull(result);
     }
 
@@ -95,7 +92,7 @@ public final class ZoneOffsets {
      */
     public static ZoneOffset of(java.time.ZoneOffset zo) {
         checkNotNull(zo);
-        ZoneOffset result = converter().convert(zo);
+        var result = converter().convert(zo);
         return requireNonNull(result);
     }
 
@@ -105,8 +102,8 @@ public final class ZoneOffsets {
     public static ZoneOffset ofHours(int hours) {
         Parameter.HOURS.check(hours);
 
-        Duration hourDuration = fromHours(hours);
-        int seconds = toSeconds(hourDuration);
+        var hourDuration = fromHours(hours);
+        var seconds = toSeconds(hourDuration);
         return ofSeconds(seconds);
     }
 
@@ -134,8 +131,8 @@ public final class ZoneOffsets {
         checkArgument(((hours < 0) == (minutes < 0)) || (minutes == 0),
                       "Hours (%s) and minutes (%s) must have the same sign.", hours, minutes);
 
-        Duration duration = hoursAndMinutes(hours, minutes);
-        int seconds = toSeconds(duration);
+        var duration = hoursAndMinutes(hours, minutes);
+        var seconds = toSeconds(duration);
         return ofSeconds(seconds);
     }
 
@@ -155,10 +152,8 @@ public final class ZoneOffsets {
     @Deprecated
     public static ZoneOffset parse(String value) {
         checkNotNull(value);
-        ZoneOffset result =
-                TimeStringifiers.forZoneOffset()
-                                .reverse()
-                                .convert(value);
+        var converter = TimeStringifiers.forZoneOffset().reverse();
+        var result = converter.convert(value);
         return requireNonNull(result);
     }
 
@@ -170,8 +165,7 @@ public final class ZoneOffsets {
     @Deprecated
     public static String toString(ZoneOffset zoneOffset) {
         checkNotNull(zoneOffset);
-        String result = TimeStringifiers.forZoneOffset()
-                                        .convert(zoneOffset);
+        var result = TimeStringifiers.forZoneOffset().convert(zoneOffset);
         return requireNonNull(result);
     }
 
@@ -276,7 +270,7 @@ public final class ZoneOffsets {
 
         @Override
         protected java.time.ZoneOffset doBackward(ZoneOffset value) {
-            java.time.ZoneOffset result = java.time.ZoneOffset
+            var result = java.time.ZoneOffset
                     .ofTotalSeconds(value.getAmountSeconds());
             return result;
         }

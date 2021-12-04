@@ -47,7 +47,7 @@ public final class TimeStringifiers {
 
     static {
         @SuppressWarnings({"deprecation", "RedundantSuppression"})
-        Registrar registrar = new Registrar(ImmutableList.of(
+        var registrar = new Registrar(ImmutableList.of(
                 forDayOfWeek(),
                 forLocalDate(),
                 forLocalDateTime(),

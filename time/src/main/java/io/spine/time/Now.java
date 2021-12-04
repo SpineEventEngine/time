@@ -26,10 +26,8 @@
 
 package io.spine.time;
 
-import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 
-import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -68,7 +66,7 @@ public final class Now {
      * the {@link Time#currentTimeZone()} changes.
      */
     public static Now get() {
-        java.time.ZoneId timeZone = currentTimeZone();
+        var timeZone = currentTimeZone();
         return get(timeZone);
     }
 
@@ -80,7 +78,7 @@ public final class Now {
      */
     public static Now get(ZoneId timeZone) {
         checkNotNull(timeZone);
-        java.time.ZoneId id = timeZone.toJavaTime();
+        var id = timeZone.toJavaTime();
         return get(id);
     }
 
@@ -94,7 +92,7 @@ public final class Now {
     @Deprecated
     public static Now get(ZoneOffset offset) {
         checkNotNull(offset);
-        java.time.ZoneOffset jt = ZoneOffsets.toJavaTime(offset);
+        var jt = ZoneOffsets.toJavaTime(offset);
         return get(jt);
     }
 
@@ -102,7 +100,7 @@ public final class Now {
      * Obtains the current month.
      */
     public Month asMonth() {
-        ZonedDateTime now = now();
+        var now = now();
         return Months.of(now.getMonth());
     }
 
@@ -110,9 +108,8 @@ public final class Now {
      * Obtains the current year and month.
      */
     public YearMonth asYearMonth() {
-        ZonedDateTime now = now();
-        return YearMonth
-                .newBuilder()
+        var now = now();
+        return YearMonth.newBuilder()
                 .setYear(now.getYear())
                 .setMonth(Months.of(now.getMonth()))
                 .vBuild();
@@ -122,7 +119,7 @@ public final class Now {
      * Obtains the current day of week.
      */
     public DayOfWeek asDayOfWeek() {
-        ZonedDateTime now = now();
+        var now = now();
         return DaysOfWeek.of(now.getDayOfWeek());
     }
 
@@ -130,7 +127,7 @@ public final class Now {
      * Obtains the current time as a {@code LocalDate}.
      */
     public LocalDate asLocalDate() {
-        java.time.LocalDate jt = now().toLocalDate();
+        var jt = now().toLocalDate();
         return LocalDates.of(jt);
     }
 
@@ -138,7 +135,7 @@ public final class Now {
      * Obtains the current time as a {@code LocalTime}.
      */
     public LocalTime asLocalTime() {
-        java.time.LocalTime jt = now().toLocalTime();
+        var jt = now().toLocalTime();
         return LocalTimes.of(jt);
     }
 
@@ -146,7 +143,7 @@ public final class Now {
      * Obtains the current time as a {@code LocalDateTime}.
      */
     public LocalDateTime asLocalDateTime() {
-        java.time.LocalDateTime jt = now().toLocalDateTime();
+        var jt = now().toLocalDateTime();
         return LocalDateTimes.of(jt);
     }
 
@@ -157,9 +154,8 @@ public final class Now {
      */
     @Deprecated
     public OffsetTime asOffsetTime() {
-        ZonedDateTime now = now();
-        return OffsetTime
-                .newBuilder()
+        var now = now();
+        return OffsetTime.newBuilder()
                 .setOffset(ZoneOffsets.of(now.getOffset()))
                 .setTime(LocalTimes.of(now.toLocalTime()))
                 .vBuild();
@@ -172,7 +168,7 @@ public final class Now {
      */
     @Deprecated
     public OffsetDateTime asOffsetDateTime() {
-        java.time.OffsetDateTime jt = now().toOffsetDateTime();
+        var jt = now().toOffsetDateTime();
         return OffsetDateTimes.of(jt);
     }
 
@@ -184,9 +180,8 @@ public final class Now {
     }
 
     private ZonedDateTime now() {
-        Timestamp time = Time.currentTime();
-        Instant instant = InstantConverter.reversed()
-                                          .convert(time);
+        var time = Time.currentTime();
+        var instant = InstantConverter.reversed().convert(time);
         requireNonNull(instant);
         return ZonedDateTime.ofInstant(instant, timeZone);
     }

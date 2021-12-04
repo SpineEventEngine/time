@@ -30,6 +30,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@code ZoneId}.
@@ -41,8 +42,7 @@ public final class ZoneIds {
     }
 
     private static ZoneId create(String id) {
-        ZoneId result = ZoneId
-                .newBuilder()
+        var result = ZoneId.newBuilder()
                 .setValue(id)
                 .vBuild();
         return result;
@@ -52,8 +52,7 @@ public final class ZoneIds {
      * Obtains the system default time-zone.
      */
     public static ZoneId systemDefault() {
-        String id = java.time.ZoneId.systemDefault()
-                                    .getId();
+        var id = java.time.ZoneId.systemDefault().getId();
         return create(id);
     }
 
@@ -62,8 +61,9 @@ public final class ZoneIds {
      */
     public static ZoneId of(String id) {
         checkNotNull(id);
-        java.time.ZoneId zi = java.time.ZoneId.of(id);
-        return converter().convert(zi);
+        var zi = java.time.ZoneId.of(id);
+        var result = converter().convert(zi);
+        return requireNonNull(result);
     }
 
     /**
@@ -71,7 +71,8 @@ public final class ZoneIds {
      */
     public static ZoneId of(java.time.ZoneId value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -94,9 +95,9 @@ public final class ZoneIds {
      */
     public static ZoneId parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forZoneId()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forZoneId().reverse();
+        var result = converter.convert(str);
+        return requireNonNull(result);
     }
 
     /**
@@ -106,8 +107,8 @@ public final class ZoneIds {
      */
     public static String toString(ZoneId value) {
         checkNotNull(value);
-        return TimeStringifiers.forZoneId()
-                               .convert(value);
+        var result = TimeStringifiers.forZoneId().convert(value);
+        return requireNonNull(result);
     }
 
     /**

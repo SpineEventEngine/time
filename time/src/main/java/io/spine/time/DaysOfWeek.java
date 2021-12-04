@@ -34,6 +34,7 @@ import java.time.DateTimeException;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.time.temporal.ChronoField.DAY_OF_WEEK;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@link io.spine.time.DayOfWeek DayOfWeek} instances.
@@ -49,8 +50,8 @@ public final class DaysOfWeek {
      */
     public static DayOfWeek of(java.time.DayOfWeek day) {
         checkNotNull(day);
-        DayOfWeek result = converter().convert(day);
-        return result;
+        var result = converter().convert(day);
+        return requireNonNull(result);
     }
 
     private static void checkDay(int day) {
@@ -67,9 +68,8 @@ public final class DaysOfWeek {
     public static java.time.DayOfWeek toJavaTime(DayOfWeek day) {
         checkNotNull(day);
         checkDay(day.getNumber());
-        java.time.DayOfWeek result = converter().reverse()
-                                                .convert(day);
-        return result;
+        var result = converter().reverse().convert(day);
+        return requireNonNull(result);
     }
 
     /**
@@ -86,8 +86,8 @@ public final class DaysOfWeek {
      */
     public static String toString(DayOfWeek value) {
         checkNotNull(value);
-        return TimeStringifiers.forDayOfWeek()
-                               .convert(value);
+        var result = TimeStringifiers.forDayOfWeek().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -97,9 +97,8 @@ public final class DaysOfWeek {
      */
     public static DayOfWeek parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forDayOfWeek()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forDayOfWeek().reverse();
+        return requireNonNull(converter.convert(str));
     }
 
     /**
@@ -124,13 +123,13 @@ public final class DaysOfWeek {
 
         @Override
         protected DayOfWeek doForward(java.time.DayOfWeek day) {
-            DayOfWeek result = DayOfWeek.forNumber(day.getValue());
-            return result;
+            var result = DayOfWeek.forNumber(day.getValue());
+            return requireNonNull(result);
         }
 
         @Override
         protected java.time.DayOfWeek doBackward(DayOfWeek day) {
-            java.time.DayOfWeek result = java.time.DayOfWeek.of(day.getNumber());
+            var result = java.time.DayOfWeek.of(day.getNumber());
             return result;
         }
 

@@ -63,10 +63,8 @@ public final class TimestampTemporal implements Temporal<TimestampTemporal> {
 
     @Override
     public Instant toInstant() {
-        Instant result =
-                InstantConverter.instance()
-                                .reverse()
-                                .convert(value);
+        var converter = InstantConverter.instance().reverse();
+        var result = converter.convert(value);
         return requireNonNull(result);
     }
 
