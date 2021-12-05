@@ -24,27 +24,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time;
+package io.spine.internal.gradle.kotlin
 
-import java.time.Instant;
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainSpec
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
- * An implementation of {@link io.spine.time.Temporal} based on {@link OffsetDateTime}.
- *
- * <p>This interface is designed to be implemented by {@code io.spine.time.OffsetDateTime}
- * exclusively. The interface does not add any abstract methods to its message counterpart.
- *
- * @deprecated please use {@link ZonedDateTimeTemporal} instead.
+ * Sets [Java toolchain](https://kotlinlang.org/docs/gradle.html#gradle-java-toolchains-support)
+ * to the specified version (e.g. "11" or "8").
  */
-@Deprecated
-interface OffsetDateTimeTemporal extends TemporalMessage<OffsetDateTime>, OffsetDateTimeOrBuilder {
+fun KotlinJvmProjectExtension.applyJvmToolchain(version: Int) {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(version))
+    }
+}
 
-    @Override
-    default Instant toInstant() {
-        var instant = java.time.OffsetDateTime
-                .of(getDateTime().toJavaTime(),
-                    ZoneOffsets.toJavaTime(getOffset()))
-                .toInstant();
-        return instant;
+/**
+ * Opts-in to experimental features that we use in our codebase.
+ */
+fun KotlinCompile.setFreeCompilerArgs() {
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-Xskip-prerelease-check",
+            "-Xjvm-default=all",
+            "-Xopt-in=kotlin.contracts.ExperimentalContracts",
+            "-Xopt-in=kotlin.ExperimentalStdlibApi"
+        )
     }
 }

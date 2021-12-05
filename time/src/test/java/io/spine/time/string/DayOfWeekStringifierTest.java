@@ -30,7 +30,7 @@ import io.spine.testing.TestValues;
 import io.spine.time.DayOfWeek;
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("DayOfWeekStringifier should")
+@DisplayName("`DayOfWeekStringifier` should")
 class DayOfWeekStringifierTest extends AbstractStringifierTest<DayOfWeek> {
 
     DayOfWeekStringifierTest() {
@@ -39,7 +39,7 @@ class DayOfWeekStringifierTest extends AbstractStringifierTest<DayOfWeek> {
 
     @Override
     protected DayOfWeek createObject() {
-        int randomDay = TestValues.random(DayOfWeek.SUNDAY.getNumber() - 1) + 1;
+        var randomDay = TestValues.random(DayOfWeek.SUNDAY.getNumber() - 1) + 1;
         return DayOfWeek.forNumber(randomDay);
     }
 }

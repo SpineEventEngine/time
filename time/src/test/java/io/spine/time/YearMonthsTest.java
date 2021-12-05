@@ -35,7 +35,7 @@ import static io.spine.base.Time.currentTimeZone;
 import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("YearMonths should")
+@DisplayName("`YearMonths` should")
 class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.YearMonth> {
 
     YearMonthsTest() {
@@ -57,7 +57,7 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
     }
 
     @Nested
-    @DisplayName("Create new instances")
+    @DisplayName("create new instances")
     class Create {
 
         @Test
@@ -70,7 +70,7 @@ class YearMonthsTest extends AbstractDateTimeUtilityTest<YearMonth, java.time.Ye
         @Test
         @DisplayName("by year and month")
         void yearMonth() {
-            java.time.YearMonth ym = java.time.YearMonth.now(currentTimeZone());
+            var ym = java.time.YearMonth.now(currentTimeZone());
             assertMonthsEqual(ym, YearMonths.of(ym.getYear(), ym.getMonthValue()));
         }
     }

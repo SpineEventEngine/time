@@ -65,10 +65,10 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
 
     @Override
     protected void assertConversionAt(ZoneOffset zoneOffset) {
-        Now now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
-        OffsetTime offsetTime = now.asOffsetTime();
-        String str = OffsetTimes.toString(offsetTime);
-        OffsetTime parsed = OffsetTimes.parse(str);
+        var now = Now.get(ZoneOffsets.toJavaTime(zoneOffset));
+        var offsetTime = now.asOffsetTime();
+        var str = OffsetTimes.toString(offsetTime);
+        var parsed = OffsetTimes.parse(str);
         assertEquals(offsetTime, parsed);
     }
 
@@ -81,21 +81,21 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
     }
 
     @Nested
-    @DisplayName("Create values with")
+    @DisplayName("create values with")
     class Create {
 
         @Test
         @DisplayName("current time at offset")
         void nowAtOffset() {
-            java.time.ZoneOffset zone = ZoneOffsets.toJavaTime(zoneOffset());
-            OffsetTime now = Now.get(zone).asOffsetTime();
+            var zone = ZoneOffsets.toJavaTime(zoneOffset());
+            var now = Now.get(zone).asOffsetTime();
             assertEquals(zoneOffset(), now.getOffset());
         }
         @Test
         @DisplayName("local time at offset")
         void localTimeAtOffset() {
-            LocalTime localTime = generateLocalTime();
-            OffsetTime distantTime = OffsetTimes.of(localTime, zoneOffset());
+            var localTime = generateLocalTime();
+            var distantTime = OffsetTimes.of(localTime, zoneOffset());
 
             assertEquals(localTime, distantTime.getTime());
             assertEquals(zoneOffset(), distantTime.getOffset());
@@ -103,10 +103,10 @@ class OffsetTimesTest extends AbstractOffsetTimeTest<OffsetTime, java.time.Offse
     }
 
     private static LocalTime generateLocalTime() {
-        int hours = random(HOURS_PER_DAY);
-        int minutes = random(MINUTES_PER_HOUR);
-        int seconds = random(SECONDS_PER_MINUTE);
-        int nanos = random(NANOS_PER_SECOND);
+        var hours = random(HOURS_PER_DAY);
+        var minutes = random(MINUTES_PER_HOUR);
+        var seconds = random(SECONDS_PER_MINUTE);
+        var nanos = random(NANOS_PER_SECOND);
         return LocalTimes.of(hours, minutes, seconds, nanos);
     }
 }

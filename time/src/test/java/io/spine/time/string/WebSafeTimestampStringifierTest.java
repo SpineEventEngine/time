@@ -26,9 +26,7 @@
 
 package io.spine.time.string;
 
-import com.google.common.truth.StringSubject;
 import com.google.protobuf.Timestamp;
-import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +35,7 @@ import static io.spine.base.Time.currentTime;
 import static io.spine.time.string.TimeStringifiers.forTimestampWebSafe;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("WebSafeTimestampStringifier should")
+@DisplayName("`WebSafeTimestampStringifier` should")
 class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp> {
 
     WebSafeTimestampStringifierTest() {
@@ -60,9 +58,9 @@ class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp>
     @Test
     @DisplayName("Throw IllegalArgumentException when parsing unsupported format")
     void parsingError() {
-        Stringifier<Timestamp> webSafeStringifier = stringifier();
-        String webSafe = webSafeStringifier.convert(currentTime());
-        String corrupt = "XX" + webSafe.substring(2);
+        var webSafeStringifier = stringifier();
+        var webSafe = webSafeStringifier.convert(currentTime());
+        var corrupt = "XX" + webSafe.substring(2);
         assertThrows(
                 IllegalArgumentException.class,
                 () -> webSafeStringifier.reverse()
@@ -73,9 +71,9 @@ class WebSafeTimestampStringifierTest extends AbstractStringifierTest<Timestamp>
     @Test
     @DisplayName("replaces colons with dashes")
     void webSafety() {
-        Stringifier<Timestamp> webSafeStringifier = stringifier();
-        String webSafe = webSafeStringifier.convert(currentTime());
-        StringSubject assertOutput = assertThat(webSafe);
+        var webSafeStringifier = stringifier();
+        var webSafe = webSafeStringifier.convert(currentTime());
+        var assertOutput = assertThat(webSafe);
         assertOutput.doesNotContain(":");
         assertOutput.contains("-");
     }

@@ -26,9 +26,7 @@
 
 package io.spine.time.given;
 
-import com.google.protobuf.Timestamp;
 import io.spine.string.Stringifiers;
-import io.spine.time.Temporal;
 import io.spine.time.Temporals;
 import io.spine.time.TimestampTemporal;
 
@@ -53,11 +51,11 @@ public final class ImportantTimes {
     }
 
     private static TimestampTemporal parse(String rfcString) {
-        Timestamp timestamp = Stringifiers.forTimestamp()
-                                          .reverse()
-                                          .convert(rfcString);
+        var timestamp = Stringifiers.forTimestamp()
+                                    .reverse()
+                                    .convert(rfcString);
         assertNotNull(timestamp);
-        Temporal<?> temporal = Temporals.from(timestamp);
+        var temporal = Temporals.from(timestamp);
         return (TimestampTemporal) temporal;
     }
 }

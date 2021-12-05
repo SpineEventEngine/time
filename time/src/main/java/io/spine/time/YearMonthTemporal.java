@@ -40,7 +40,7 @@ interface YearMonthTemporal extends TemporalMessage<YearMonth>, YearMonthOrBuild
 
     @Override
     default Instant toInstant() {
-        Instant result = java.time.YearMonth
+        var result = java.time.YearMonth
                 .of(getYear(), getMonthValue())
                 .atDay(1)
                 .atStartOfDay()

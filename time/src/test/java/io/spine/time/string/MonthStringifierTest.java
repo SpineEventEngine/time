@@ -30,7 +30,7 @@ import io.spine.testing.TestValues;
 import io.spine.time.Month;
 import org.junit.jupiter.api.DisplayName;
 
-@DisplayName("MonthStringifier should")
+@DisplayName("`MonthStringifier` should")
 class MonthStringifierTest extends AbstractStringifierTest<Month> {
 
     MonthStringifierTest() {
@@ -39,7 +39,7 @@ class MonthStringifierTest extends AbstractStringifierTest<Month> {
 
     @Override
     protected Month createObject() {
-        int randomMonth = TestValues.random(Month.DECEMBER.getNumber() - 1) + 1;
+        var randomMonth = TestValues.random(Month.DECEMBER.getNumber() - 1) + 1;
         return Month.forNumber(randomMonth);
     }
 }

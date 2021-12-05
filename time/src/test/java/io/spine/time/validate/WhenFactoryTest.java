@@ -27,32 +27,27 @@
 package io.spine.time.validate;
 
 import com.google.common.collect.Iterables;
-import io.spine.validate.option.FieldValidatingOption;
 import io.spine.validate.option.ValidatingOptionFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.ServiceLoader;
-import java.util.Set;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
-@DisplayName("WhenFactory should")
+@DisplayName("`WhenFactory` should")
 class WhenFactoryTest {
 
     @Test
-    @DisplayName("be discoverable to ServiceLoader")
+    @DisplayName("be discoverable to `ServiceLoader`")
     void beLoaded() {
-        ServiceLoader<ValidatingOptionFactory> loader =
-                ServiceLoader.load(ValidatingOptionFactory.class);
+        var loader = ServiceLoader.load(ValidatingOptionFactory.class);
         List<ValidatingOptionFactory> optionFactories = newArrayList(loader);
         assertThat(optionFactories.size()).isAtLeast(1);
-        Optional<ValidatingOptionFactory> timeOptionFactory = optionFactories
-                .stream()
+        var timeOptionFactory = optionFactories.stream()
                 .filter(WhenFactory.class::isInstance)
                 .findAny();
         assertThat(timeOptionFactory).isPresent();
@@ -62,9 +57,9 @@ class WhenFactoryTest {
     @DisplayName("declare (when) option")
     void declareWhen() {
         ValidatingOptionFactory factory = new WhenFactory();
-        Set<FieldValidatingOption<?>> messageOptions = factory.forMessage();
+        var messageOptions = factory.forMessage();
         assertThat(messageOptions).hasSize(1);
-        FieldValidatingOption<?> option = Iterables.getOnlyElement(messageOptions);
+        var option = Iterables.getOnlyElement(messageOptions);
         assertThat(option).isInstanceOf(When.class);
     }
 }

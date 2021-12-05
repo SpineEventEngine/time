@@ -32,12 +32,15 @@ import io.spine.util.SerializableFunction;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An abstract base for stringifier that use Java Time types for conversion to string and parsing.
  *
- * @param <T> the type to stringify
- * @param <J> the Java Time type which corresponds to type {@code T}
+ * @param <T>
+ *         the type to stringify
+ * @param <J>
+ *         the Java Time type which corresponds to type {@code T}
  */
 abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
@@ -56,10 +59,10 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
     @Override
     protected String toString(T value) {
-        J javaTime = converter.reverse()
-                              .convert(value);
-        checkNotNull(javaTime);
-        String result = javaTime.toString();
+        var javaTime = converter.reverse().convert(value);
+        requireNonNull(javaTime);
+
+        var result = javaTime.toString();
         return result;
     }
 
@@ -67,11 +70,11 @@ abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
     protected T fromString(String str) {
         T value;
         try {
-            J parsed = parser.apply(str);
+            var parsed = parser.apply(str);
             value = converter.convert(parsed);
         } catch (RuntimeException e) {
             throw illegalArgumentWithCauseOf(e);
         }
-        return value;
+        return requireNonNull(value);
     }
 }

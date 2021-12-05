@@ -29,6 +29,7 @@ package io.spine.time;
 import io.spine.annotation.GeneratedMixin;
 
 import static io.spine.time.ZoneIds.converter;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Mixin interface for extending {@link ZoneId}.
@@ -39,8 +40,8 @@ interface ZoneIdMixin extends ZoneIdOrBuilder {
     /** Converts this zone ID object to a Java Time instance. */
     default java.time.ZoneId toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
-        ZoneId self = (ZoneId) this;
-        return converter().reverse()
-                          .convert(self);
+        var self = (ZoneId) this;
+        var result = converter().reverse().convert(self);
+        return requireNonNull(result);
     }
 }

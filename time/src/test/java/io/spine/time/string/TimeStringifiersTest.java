@@ -35,8 +35,6 @@ import io.spine.time.LocalTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
-
 import static io.spine.time.string.TimeStringifiers.forLocalDate;
 import static io.spine.time.string.TimeStringifiers.forLocalTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -73,9 +71,7 @@ class TimeStringifiersTest extends UtilityClassTest<TimeStringifiers> {
     }
 
     private static Stringifier<Object> stringifierOf(Class<?> cls) {
-        Optional<Stringifier<Object>> stringifier =
-                StringifierRegistry.instance()
-                                   .find(cls);
+        var stringifier = StringifierRegistry.instance().find(cls);
         Truth8.assertThat(stringifier).isPresent();
         return stringifier.get();
     }

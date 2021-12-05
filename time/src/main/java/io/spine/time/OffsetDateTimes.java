@@ -29,6 +29,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Routines for working with {@link io.spine.time.OffsetDateTime}.
@@ -57,12 +58,12 @@ public final class OffsetDateTimes {
      */
     public static OffsetDateTime of(java.time.OffsetDateTime value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     private static OffsetDateTime create(LocalDate date, LocalTime time, ZoneOffset offset) {
-        OffsetDateTime result = OffsetDateTime
-                .newBuilder()
+        var result = OffsetDateTime.newBuilder()
                 .setDateTime(LocalDateTimes.of(date, time))
                 .setOffset(offset)
                 .vBuild();
@@ -74,8 +75,8 @@ public final class OffsetDateTimes {
      */
     public static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        var result = converter().reverse().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -86,8 +87,8 @@ public final class OffsetDateTimes {
     @Deprecated
     public static String toString(OffsetDateTime value) {
         checkNotNull(value);
-        return TimeStringifiers.forOffsetDateTime()
-                               .convert(value);
+        var result = TimeStringifiers.forOffsetDateTime().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -98,9 +99,9 @@ public final class OffsetDateTimes {
     @Deprecated
     public static OffsetDateTime parse(String value) {
         checkNotNull(value);
-        return TimeStringifiers.forOffsetDateTime()
-                               .reverse()
-                               .convert(value);
+        var converter = TimeStringifiers.forOffsetDateTime().reverse();
+        var result = converter.convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -125,10 +126,9 @@ public final class OffsetDateTimes {
 
         @Override
         protected OffsetDateTime doForward(java.time.OffsetDateTime value) {
-            java.time.LocalDate ld = value.toLocalDate();
-            java.time.LocalTime lt = value.toLocalTime();
-            java.time.ZoneOffset zo = value.toZonedDateTime()
-                                           .getOffset();
+            var ld = value.toLocalDate();
+            var lt = value.toLocalTime();
+            var zo = value.toZonedDateTime().getOffset();
             return create(LocalDates.of(ld),
                           LocalTimes.of(lt),
                           ZoneOffsets.of(zo));
@@ -136,7 +136,7 @@ public final class OffsetDateTimes {
 
         @Override
         protected java.time.OffsetDateTime doBackward(OffsetDateTime value) {
-            java.time.OffsetDateTime result = java.time.OffsetDateTime.of(
+            var result = java.time.OffsetDateTime.of(
                     LocalDateTimes.toJavaTime(value.getDateTime()),
                     ZoneOffsets.toJavaTime(value.getOffset())
             );

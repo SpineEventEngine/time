@@ -66,7 +66,7 @@ public final class Temporals {
         if (value instanceof Temporal) {
             return (Temporal<?>) value;
         } else if (value instanceof Timestamp) {
-            Timestamp timestampValue = (Timestamp) value;
+            var timestampValue = (Timestamp) value;
             return TimestampTemporal.from(timestampValue);
         } else {
             throw newIllegalArgumentException(
@@ -87,7 +87,7 @@ public final class Temporals {
      */
     public static Temporal<?> from(Instant instant) {
         checkNotNull(instant);
-        Timestamp timestamp = toTimestamp(instant);
+        var timestamp = toTimestamp(instant);
         return from(timestamp);
     }
 }

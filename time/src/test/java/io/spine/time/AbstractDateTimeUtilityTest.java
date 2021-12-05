@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 import java.util.function.Function;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static io.spine.testing.DisplayNames.NOT_ACCEPT_NULLS;
 import static io.spine.testing.Assertions.assertHasPrivateParameterlessCtor;
+import static io.spine.testing.DisplayNames.NOT_ACCEPT_NULLS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -55,14 +55,19 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     /**
      * Creates new test suite.
      *
-     * @param utilityClass the utility class to test
-     * @param current      the supplier value of the data type at the current time or location
-     *                     (e.g. for {@code ZoneOffset} or {@code ZoneId}).
-     *                     It could be method reference of the utility class, or another supplier
-     *                     for such values if they are available elsewhere.
-     * @param strOut       a reference to a string output method
-     * @param parser       a reference to a parsing method
-     * @param converter    a converter from/to Java Time
+     * @param utilityClass
+     *         the utility class to test
+     * @param current
+     *         the supplier value of the data type at the current time or location
+     *         (e.g. for {@code ZoneOffset} or {@code ZoneId}).
+     *         It could be method reference of the utility class, or another supplier
+     *         for such values if they are available elsewhere.
+     * @param strOut
+     *         a reference to a string output method
+     * @param parser
+     *         a reference to a parsing method
+     * @param converter
+     *         a converter from/to Java Time
      */
     AbstractDateTimeUtilityTest(Class<?> utilityClass,
                                 Function<Now, T> current,
@@ -91,32 +96,31 @@ abstract class AbstractDateTimeUtilityTest<T, J> {
     @Test
     @DisplayName(NOT_ACCEPT_NULLS)
     void rejectNulls() {
-        NullPointerTester tester = new NullPointerTester();
+        var tester = new NullPointerTester();
         addDefaults(tester);
         tester.testAllPublicStaticMethods(utilityClass);
     }
 
     @Test
-    @DisplayName("convert to String and parse back")
+    @DisplayName("convert to `String` and parse back")
     void toFromString() {
-        T expected = current();
-        String str = strOut.apply(expected);
-        T converted = parser.apply(str);
+        var expected = current();
+        var str = strOut.apply(expected);
+        var converted = parser.apply(str);
         assertEquals(expected, converted);
     }
 
     @Test
     @DisplayName("convert to Java Time and back")
     void toFromJavaTime() {
-        T expected = current();
-        J converted = converter.reverse()
-                               .convert(expected);
-        T back = converter.convert(converted);
+        var expected = current();
+        var converted = converter.reverse().convert(expected);
+        var back = converter.convert(converted);
         assertEquals(expected, back);
     }
 
     @Test
-    @DisplayName("provide serializable Converter from/to Java Time")
+    @DisplayName("provide serializable `Converter` from/to Java Time")
     void converter() {
         reserializeAndAssert(converter);
     }

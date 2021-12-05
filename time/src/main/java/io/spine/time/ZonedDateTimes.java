@@ -31,6 +31,7 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@code ZonedDateTime}.
@@ -51,8 +52,7 @@ public final class ZonedDateTimes {
     }
 
     private static ZonedDateTime create(LocalDateTime dateTime, ZoneId zone) {
-        ZonedDateTime result = ZonedDateTime
-                .newBuilder()
+        var result = ZonedDateTime.newBuilder()
                 .setDateTime(dateTime)
                 .setZone(zone)
                 .vBuild();
@@ -64,7 +64,8 @@ public final class ZonedDateTimes {
      */
     public static ZonedDateTime of(java.time.ZonedDateTime value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -72,8 +73,8 @@ public final class ZonedDateTimes {
      */
     public static java.time.ZonedDateTime toJavaTime(ZonedDateTime value) {
         checkNotDefault(value);
-        return converter().reverse()
-                          .convert(value);
+        var result = converter().reverse().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -81,8 +82,8 @@ public final class ZonedDateTimes {
      */
     public static String toString(ZonedDateTime value) {
         checkNotNull(value);
-        return TimeStringifiers.forZonedDateTime()
-                               .convert(value);
+        var result = TimeStringifiers.forZonedDateTime().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -90,9 +91,9 @@ public final class ZonedDateTimes {
      */
     public static ZonedDateTime parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forZonedDateTime()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forZonedDateTime().reverse();
+        var result = converter.convert(str);
+        return requireNonNull(result);
     }
 
     /**
@@ -117,15 +118,15 @@ public final class ZonedDateTimes {
 
         @Override
         protected ZonedDateTime doForward(java.time.ZonedDateTime value) {
-            LocalDateTime dateTime = LocalDateTimes.of(value.toLocalDateTime());
-            ZoneId zoneId = ZoneIds.of(value.getZone());
+            var dateTime = LocalDateTimes.of(value.toLocalDateTime());
+            var zoneId = ZoneIds.of(value.getZone());
             return create(dateTime, zoneId);
         }
 
         @Override
         protected java.time.ZonedDateTime doBackward(ZonedDateTime value) {
-            java.time.LocalDateTime dateTime = value.dateTime().toJavaTime();
-            java.time.ZoneId zoneId = value.zone().toJavaTime();
+            var dateTime = value.dateTime().toJavaTime();
+            var zoneId = value.zone().toJavaTime();
             return java.time.ZonedDateTime.of(dateTime, zoneId);
         }
 

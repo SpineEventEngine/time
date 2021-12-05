@@ -38,7 +38,7 @@ import static io.spine.time.testing.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("LocalDateTimes should")
+@DisplayName("`LocalDateTimes` should")
 class LocalDateTimesTest
         extends AbstractDateTimeUtilityTest<LocalDateTime, java.time.LocalDateTime> {
 
@@ -58,16 +58,16 @@ class LocalDateTimesTest
     }
 
     @Nested
-    @DisplayName("Create new instance by")
+    @DisplayName("create new instance by")
     class Create {
 
         @Test
         @DisplayName("passed date and time")
         void dateTime() {
-            LocalDate date = LocalDates.of(1969, JULY, 16);
-            LocalTime time = LocalTimes.of(20, 17);
+            var date = LocalDates.of(1969, JULY, 16);
+            var time = LocalTimes.of(20, 17);
 
-            LocalDateTime dateTime = LocalDateTimes.of(date, time);
+            var dateTime = LocalDateTimes.of(date, time);
 
             assertEquals(date, dateTime.getDate());
             assertEquals(time, dateTime.getTime());
@@ -77,7 +77,7 @@ class LocalDateTimesTest
         @DisplayName("current date-time")
         void currentDateTime() {
             avoidDayEdge();
-            LocalDateTime now = current();
+            var now = current();
             // Check that the date is the same. It's safe as we've not passed the end of the day.
             assertDatesEqual(java.time.LocalDate.now(currentTimeZone()), now.getDate());
             // We don't compare time here as it's surely changed.
@@ -85,7 +85,7 @@ class LocalDateTimesTest
     }
 
     @Nested
-    @DisplayName("Reject")
+    @DisplayName("reject")
     class Arguments {
 
         @Test
@@ -101,10 +101,10 @@ class LocalDateTimesTest
     @Test
     @DisplayName("accept midnight time")
     void midnight() {
-        LocalDate today = Now.get().asLocalDate();
-        LocalTime midnight = LocalTimes.parse("00:00:00");
+        var today = Now.get().asLocalDate();
+        var midnight = LocalTimes.parse("00:00:00");
 
-        LocalDateTime todayMidnight = LocalDateTimes.of(today, midnight);
+        var todayMidnight = LocalDateTimes.of(today, midnight);
 
         assertEquals(today, todayMidnight.getDate());
         assertEquals(midnight, todayMidnight.getTime());

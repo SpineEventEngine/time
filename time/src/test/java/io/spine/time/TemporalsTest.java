@@ -27,7 +27,6 @@
 package io.spine.time;
 
 import com.google.protobuf.Empty;
-import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,8 +44,8 @@ class TemporalsTest {
     @Test
     @DisplayName("create a `Temporal` from a `Timestamp`")
     void timestamp() {
-        Timestamp timestamp = Time.currentTime();
-        Temporal<?> temporal = Temporals.from(timestamp);
+        var timestamp = Time.currentTime();
+        var temporal = Temporals.from(timestamp);
         assertEquals(timestamp, temporal.toTimestamp());
     }
 
@@ -54,7 +53,7 @@ class TemporalsTest {
     @DisplayName("create a `Temporal` from a temporal message")
     void message() {
         TemporalMessage<?> msg = LocalDates.of(1961, Month.APRIL, 12);
-        Temporal<?> temporal = Temporals.from(msg);
+        var temporal = Temporals.from(msg);
         assertSame(msg, temporal);
     }
 
@@ -68,8 +67,8 @@ class TemporalsTest {
     @Test
     @DisplayName("create a `Temporal` from an `Instant`")
     void createFromInstant() {
-        Instant instant = Instant.now();
-        Temporal<?> timestamp = Temporals.from(instant);
+        var instant = Instant.now();
+        var timestamp = Temporals.from(instant);
 
         assertEqual(timestamp, instant);
     }
