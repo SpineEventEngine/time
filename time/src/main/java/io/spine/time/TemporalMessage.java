@@ -62,7 +62,7 @@ public interface TemporalMessage<T extends TemporalMessage<T>> extends Temporal<
      */
     @Override
     default Any toAny() {
-        Any any = AnyPacker.pack(this);
+        var any = AnyPacker.pack(this);
         return any;
     }
 }

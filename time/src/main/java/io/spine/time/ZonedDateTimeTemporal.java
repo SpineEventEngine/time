@@ -48,7 +48,7 @@ interface ZonedDateTimeTemporal extends TemporalMessage<ZonedDateTime>, ZonedDat
 
     @Override
     default Instant toInstant() {
-        Instant instant = java.time.ZonedDateTime
+        var instant = java.time.ZonedDateTime
                 .of(dateTime().toJavaTime(), zone().toJavaTime())
                 .toInstant();
         return instant;

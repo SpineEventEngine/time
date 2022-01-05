@@ -52,7 +52,7 @@ public final class TimeTests {
      * @return a seconds value
      */
     public static long currentTimeSeconds() {
-        long secs = currentTime().getSeconds();
+        var secs = currentTime().getSeconds();
         return secs;
     }
 
@@ -64,7 +64,7 @@ public final class TimeTests {
      */
     @SuppressWarnings("StatementWithEmptyBody")
     public static void avoidDayEdge() {
-        LocalTime lastDaySecond = LocalTime.MAX.withNano(0);
+        var lastDaySecond = LocalTime.MAX.withNano(0);
         do {
             // Wait.
         } while (LocalTime.now(currentTimeZone())

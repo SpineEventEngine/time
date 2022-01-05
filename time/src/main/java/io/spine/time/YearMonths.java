@@ -31,6 +31,7 @@ import io.spine.util.SerializableConverter;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with {@code YearMonth} values.
@@ -50,8 +51,7 @@ public final class YearMonths {
 
     private static YearMonth create(int year, int month) {
         Months.checkMonth(month);
-        YearMonth result = YearMonth
-                .newBuilder()
+        var result = YearMonth.newBuilder()
                 .setYear(year)
                 .setMonth(Months.of(month))
                 .vBuild();
@@ -63,7 +63,8 @@ public final class YearMonths {
      */
     public static YearMonth of(java.time.YearMonth value) {
         checkNotNull(value);
-        return converter().convert(value);
+        var result = converter().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -71,8 +72,8 @@ public final class YearMonths {
      */
     public static java.time.YearMonth toJavaTime(YearMonth value) {
         checkNotNull(value);
-        return converter().reverse()
-                          .convert(value);
+        var result = converter().reverse().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -89,9 +90,9 @@ public final class YearMonths {
      */
     public static YearMonth parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forYearMonth()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forYearMonth().reverse();
+        var result = converter.convert(str);
+        return requireNonNull(result);
     }
 
     /**
@@ -102,8 +103,8 @@ public final class YearMonths {
     public static String toString(YearMonth value) {
         checkNotNull(value);
         checkNotDefault(value);
-        return TimeStringifiers.forYearMonth()
-                               .convert(value);
+        var result = TimeStringifiers.forYearMonth().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -121,13 +122,13 @@ public final class YearMonths {
 
         @Override
         protected YearMonth doForward(java.time.YearMonth value) {
-            YearMonth result = create(value.getYear(), value.getMonthValue());
+            var result = create(value.getYear(), value.getMonthValue());
             return result;
         }
 
         @Override
         protected java.time.YearMonth doBackward(YearMonth value) {
-            java.time.YearMonth result = java.time.YearMonth
+            var result = java.time.YearMonth
                     .of(value.getYear(), value.getMonthValue());
             return result;
         }

@@ -34,6 +34,7 @@ import java.time.DateTimeException;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Utilities for working with calendar months.
@@ -57,7 +58,8 @@ public final class Months {
      */
     public static Month of(int month) {
         checkMonth(month);
-        return Month.forNumber(month);
+        var result = Month.forNumber(month);
+        return requireNonNull(result);
     }
 
     /**
@@ -65,7 +67,8 @@ public final class Months {
      */
     public static Month of(java.time.LocalDate date) {
         checkNotNull(date);
-        return converter().convert(date.getMonth());
+        var result = converter().convert(date.getMonth());
+        return requireNonNull(result);
     }
 
     /**
@@ -73,7 +76,8 @@ public final class Months {
      */
     public static Month of(java.time.Month month) {
         checkNotNull(month);
-        return converter().convert(month);
+        var result = converter().convert(month);
+        return requireNonNull(result);
     }
 
     /**
@@ -82,8 +86,8 @@ public final class Months {
     public static java.time.Month toJavaTime(Month value) {
         checkNotNull(value);
         checkMonth(value.getNumber());
-        return converter().reverse()
-                          .convert(value);
+        var result = converter().reverse().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -107,8 +111,8 @@ public final class Months {
      */
     public static String toString(Month value) {
         checkNotNull(value);
-        return TimeStringifiers.forMonth()
-                               .convert(value);
+        var result = TimeStringifiers.forMonth().convert(value);
+        return requireNonNull(result);
     }
 
     /**
@@ -118,9 +122,9 @@ public final class Months {
      */
     public static Month parse(String str) {
         checkNotNull(str);
-        return TimeStringifiers.forMonth()
-                               .reverse()
-                               .convert(str);
+        var converter = TimeStringifiers.forMonth().reverse();
+        var result = converter.convert(str);
+        return requireNonNull(result);
     }
 
     /**
@@ -137,8 +141,8 @@ public final class Months {
 
         @Override
         protected Month doForward(java.time.Month month) {
-            Month result = Month.forNumber(month.getValue());
-            return result;
+            var result = Month.forNumber(month.getValue());
+            return requireNonNull(result);
         }
 
         @Override

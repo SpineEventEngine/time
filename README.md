@@ -1,8 +1,12 @@
 # Spine Time: Protobuf-based Date/Time types
 
-[![Build Status][travis-badge]][travis] &nbsp; 
+[![Ubuntu build][ubuntu-build-badge]][gh-actions]
 [![codecov][codecov-badge]][codecov] &nbsp;
 [![license][license-badge]][license]
+
+[gh-actions]: https://github.com/SpineEventEngine/time/actions
+[ubuntu-build-badge]: https://github.com/SpineEventEngine/time/actions/workflows/build-on-ubuntu.yml/badge.svg
+
 
 In addition to `Timestamp` and `Duration` natively available from Protobuf, the Spine Time library 
 provides a set of data types for describing date and time in a business model. 
@@ -12,6 +16,11 @@ The types provided by this library follow the conventions offered by [Java Time]
 ## Supported Languages
 
 Currently, the library supports only Java, with JavaScript and Dart being on the priority list.
+
+The versions `1.x` and early `2.x` snapshots are built using Java 8. 
+
+Starting `2.0.0-SNAPSHOT.76`, all modules are built with Java 11. Therefore, consumer projects
+should aim for Java 11+ to use them.
  
 ## Using Spine Time in a Java Project
 

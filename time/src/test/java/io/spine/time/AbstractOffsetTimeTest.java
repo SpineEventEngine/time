@@ -40,8 +40,10 @@ import static java.lang.Math.abs;
 /**
  * Abstract base for test of time with offset.
  *
- * @param <T> the type with which the utility class work
- * @param <J> the Java Type which corresponds to the type {@code <T>}
+ * @param <T>
+ *         the type with which the utility class work
+ * @param <J>
+ *         the Java Type which corresponds to the type {@code <T>}
  */
 @SuppressWarnings("deprecation")
 public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtilityTest<T, J> {
@@ -60,8 +62,8 @@ public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtili
 
     private static ZoneOffset generateOffset() {
         // Reduce the hour range by one assuming minutes are also generated.
-        int hours = random(hours().min() + 1, hours().max() - 1);
-        int minutes = random(minutes().min(), minutes().max());
+        var hours = random(hours().min() + 1, hours().max() - 1);
+        var minutes = random(minutes().min(), minutes().max());
         // Make minutes of the same sign with hours.
         minutes = hours >= 0
                   ? abs(minutes)
@@ -88,7 +90,7 @@ public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtili
 
     @SuppressWarnings("unused") // is used when running descending test suites
     @Nested
-    @DisplayName("Convert values at")
+    @DisplayName("convert values at")
     class Convert {
 
         @Test
@@ -100,7 +102,7 @@ public abstract class AbstractOffsetTimeTest<T, J> extends AbstractDateTimeUtili
         @Test
         @DisplayName("current time zone")
         void currentTimeZone() {
-            ZoneOffset zoneOffset = ZoneOffsets.getDefault();
+            var zoneOffset = ZoneOffsets.getDefault();
             assertConversionAt(zoneOffset);
         }
 

@@ -41,7 +41,7 @@ interface OffsetDateTimeTemporal extends TemporalMessage<OffsetDateTime>, Offset
 
     @Override
     default Instant toInstant() {
-        Instant instant = java.time.OffsetDateTime
+        var instant = java.time.OffsetDateTime
                 .of(getDateTime().toJavaTime(),
                     ZoneOffsets.toJavaTime(getOffset()))
                 .toInstant();

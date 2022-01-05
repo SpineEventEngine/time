@@ -26,10 +26,6 @@
 
 package io.spine.time;
 
-import com.google.common.truth.extensions.proto.ProtoSubject;
-import com.google.protobuf.Any;
-import com.google.protobuf.Message;
-import com.google.protobuf.Timestamp;
 import io.spine.protobuf.AnyPacker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,11 +62,11 @@ abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
     abstract T create();
 
     @Test
-    @DisplayName("convert self to a Timestamp")
+    @DisplayName("convert self to a `Timestamp`")
     void toTimestamp() {
-        T temporal = create();
-        Timestamp timestamp = temporal.toTimestamp();
-        ProtoSubject assertTimestamp = assertThat(timestamp);
+        var temporal = create();
+        var timestamp = temporal.toTimestamp();
+        var assertTimestamp = assertThat(timestamp);
         assertTimestamp.isNotNull();
         assertTimestamp.isNotEqualToDefaultInstance();
     }
@@ -78,13 +74,13 @@ abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
     @Test
     @DisplayName("pack self to Any")
     void toAny() {
-        T temporal = create();
-        Any any = temporal.toAny();
-        ProtoSubject assertAny = assertThat(any);
+        var temporal = create();
+        var any = temporal.toAny();
+        var assertAny = assertThat(any);
         assertAny.isNotNull();
         assertAny.isNotEqualToDefaultInstance();
 
-        Message unpacked = AnyPacker.unpack(any);
+        var unpacked = AnyPacker.unpack(any);
         assertThat(unpacked).isInstanceOf(type);
     }
 }

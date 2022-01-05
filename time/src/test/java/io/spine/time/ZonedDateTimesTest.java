@@ -40,7 +40,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("ZonedDateTimes should")
+@DisplayName("`ZonedDateTimes` should")
 class ZonedDateTimesTest
         extends AbstractDateTimeUtilityTest<ZonedDateTime, java.time.ZonedDateTime> {
 
@@ -60,18 +60,18 @@ class ZonedDateTimesTest
     }
 
     @Nested
-    @DisplayName("Create new instance")
+    @DisplayName("create new instance")
     class Create {
 
         @Test
         @DisplayName("for the current date-time")
         void forCurrentDateTime() {
             avoidDayEdge();
-            ZonedDateTime now = current();
-            java.time.ZonedDateTime jt = java.time.ZonedDateTime.now(currentTimeZone());
+            var now = current();
+            var jt = java.time.ZonedDateTime.now(currentTimeZone());
 
             // Compare only dates as time would be different.
-            LocalDateTime ldt = now.getDateTime();
+            var ldt = now.getDateTime();
             assertDatesEqual(jt.toLocalDate(), ldt.getDate());
 
             assertTrue(isNotDefault(ldt.getTime()));
@@ -80,24 +80,24 @@ class ZonedDateTimesTest
         @Test
         @DisplayName("by Java Time value")
         void byJavaTime() {
-            ZonedDateTime expected = current();
+            var expected = current();
             assertEquals(expected, ZonedDateTimes.of(toJavaTime(expected)));
         }
 
         @Test
         @DisplayName("for local date/time and time-zone")
         void byDateTimeAndOffset() {
-            LocalDateTime expectedTime = Now.get().asLocalDateTime();
-            ZoneId expectedZone = ZoneIds.systemDefault();
+            var expectedTime = Now.get().asLocalDateTime();
+            var expectedZone = ZoneIds.systemDefault();
 
-            ZonedDateTime value = ZonedDateTimes.of(expectedTime, expectedZone);
+            var value = ZonedDateTimes.of(expectedTime, expectedZone);
             assertEquals(expectedTime, value.getDateTime());
             assertEquals(expectedZone, value.getZone());
         }
     }
 
     @Nested
-    @DisplayName("Reject")
+    @DisplayName("reject")
     class Arguments {
 
         @Test

@@ -69,9 +69,9 @@ class TemporalTest {
         @Test
         @DisplayName("an instance of same type")
         void sameType() {
-            TimestampTemporal greater = future();
-            TimestampTemporal lesser = past();
-            int comparisonResult = greater.compareTo(lesser);
+            var greater = future();
+            var lesser = past();
+            var comparisonResult = greater.compareTo(lesser);
             assertThat(comparisonResult).isGreaterThan(0);
         }
 
@@ -79,7 +79,7 @@ class TemporalTest {
         @DisplayName("failing to compare to a different type of `Temporal`")
         @SuppressWarnings("unchecked") // Supposed to fail.
         void failWithDifferentTypes() {
-            Instant instant = Instant.now();
+            var instant = Instant.now();
             @SuppressWarnings("rawtypes")
             Temporal instantTemporal = new InstantTemporal(instant);
             @SuppressWarnings("rawtypes")
@@ -91,8 +91,8 @@ class TemporalTest {
         @Test
         @DisplayName("other point in time")
         void anInstant() {
-            TimestampTemporal future = future();
-            TimestampTemporal past = past();
+            var future = future();
+            var past = past();
 
             assertThat(future.compareTo(past.toInstant()))
                     .isGreaterThan(0);
@@ -189,9 +189,9 @@ class TemporalTest {
         @Test
         @DisplayName("of the given bounds")
         void bounds() {
-            TimestampTemporal past = past();
-            TimestampTemporal inBetween = inBetween();
-            TimestampTemporal future = future();
+            var past = past();
+            var inBetween = inBetween();
+            var future = future();
 
             assertThat(inBetween).isIn(range(past, OPEN, future, CLOSED));
 
@@ -219,7 +219,7 @@ class TemporalTest {
         @Test
         @DisplayName("checking that the first bound is lower")
         void correctBounds() {
-            TimestampTemporal temporal = inBetween();
+            var temporal = inBetween();
             assertIllegalArgument(() -> temporal.isBetween(future(), past()));
             assertIllegalArgument(() -> temporal.isBetween(future(), future()));
         }
@@ -231,7 +231,7 @@ class TemporalTest {
 
         @BeforeEach
         void setUp() {
-            Timestamp frozenTime = inBetween().toTimestamp();
+            var frozenTime = inBetween().toTimestamp();
             Time.setProvider(() -> frozenTime);
         }
 

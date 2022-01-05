@@ -70,7 +70,7 @@ public class BackToTheFuture implements Time.Provider {
     @CanIgnoreReturnValue
     public synchronized Timestamp forward(long hoursDelta) {
         checkPositive(hoursDelta);
-        Timestamp newTime = add(this.currentTime, hours(hoursDelta));
+        var newTime = add(this.currentTime, hours(hoursDelta));
         setCurrentTime(newTime);
         return newTime;
     }
@@ -82,7 +82,7 @@ public class BackToTheFuture implements Time.Provider {
     @CanIgnoreReturnValue
     public synchronized Timestamp backward(long hoursDelta) {
         checkPositive(hoursDelta);
-        Timestamp newTime = subtract(this.currentTime, hours(hoursDelta));
+        var newTime = subtract(this.currentTime, hours(hoursDelta));
         setCurrentTime(newTime);
         return newTime;
     }

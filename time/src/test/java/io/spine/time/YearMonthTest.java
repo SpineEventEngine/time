@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DisplayName("YearMonth should")
+@DisplayName("`YearMonth` should")
 class YearMonthTest extends TemporalMessageTest<YearMonth> {
 
     YearMonthTest() {
@@ -46,7 +46,7 @@ class YearMonthTest extends TemporalMessageTest<YearMonth> {
     @Test
     @DisplayName("consider the current month to be in the past")
     void nowIsInPast() {
-        YearMonth now = Now.get().asYearMonth();
+        var now = Now.get().asYearMonth();
         assertTrue(now.isInPast());
     }
 }

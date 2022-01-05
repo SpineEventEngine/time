@@ -33,6 +33,7 @@ import java.time.Instant;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.converter;
 import static java.time.ZoneOffset.UTC;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An implementation of {@link io.spine.time.Temporal Temporal} based on {@link LocalDate}.
@@ -67,10 +68,8 @@ interface LocalDateTemporal extends TemporalMessage<LocalDate>, LocalDateOrBuild
 
     @Override
     default Instant toInstant() {
-        Instant instant = java.time.LocalDate
-                .of(year(), monthNumber(), day())
-                .atStartOfDay()
-                .toInstant(UTC);
+        var localDate = java.time.LocalDate.of(year(), monthNumber(), day());
+        var instant = localDate.atStartOfDay().toInstant(UTC);
         return instant;
     }
 
@@ -88,13 +87,13 @@ interface LocalDateTemporal extends TemporalMessage<LocalDate>, LocalDateOrBuild
      */
     default java.time.LocalDate toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixins
-        LocalDate self = (LocalDate) this;
+        var self = (LocalDate) this;
         try {
             checkDate(self);
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException(e);
         }
-        return converter().reverse()
-                          .convert(self);
+        var result = converter().reverse().convert(self);
+        return requireNonNull(result);
     }
 }

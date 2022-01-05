@@ -39,7 +39,7 @@ import static io.spine.time.Months.toJavaTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("Months should")
+@DisplayName("`Months` should")
 class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
 
     MonthsTest() {
@@ -56,14 +56,14 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
     }
 
     @Nested
-    @DisplayName("Create an instance")
+    @DisplayName("create an instance")
     class Create {
 
         @Test
-        @DisplayName("by java.time.LocalDate")
+        @DisplayName("by `java.time.LocalDate`")
         void fromJavaTimeLocalDate() {
-            LocalDate today = LocalDate.now(currentTimeZone());
-            Month month = Months.of(today);
+            var today = LocalDate.now(currentTimeZone());
+            var month = Months.of(today);
 
             assertEquals(today.getMonthValue(), month.getNumber());
         }
@@ -71,7 +71,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
         @Test
         @DisplayName("by month number")
         void fromNumber() {
-            for (int month = java.time.Month.JANUARY.getValue();
+            for (var month = java.time.Month.JANUARY.getValue();
                  month <= java.time.Month.DECEMBER.getValue();
                  month++) {
                  assertEquals(month, Months.of(month).getNumber());
@@ -80,7 +80,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
     }
 
     @Nested
-    @DisplayName("Reject")
+    @DisplayName("reject")
     class Arguments {
 
         @Test
@@ -98,7 +98,7 @@ class MonthsTest extends AbstractDateTimeUtilityTest<Month, java.time.Month> {
         }
 
         @Test
-        @DisplayName("invalid Month instance")
+        @DisplayName("invalid `Month` instance")
         void invalidMonth() {
             assertThrows(
                     IllegalArgumentException.class,

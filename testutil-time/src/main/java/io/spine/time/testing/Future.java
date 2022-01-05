@@ -59,8 +59,8 @@ public final class Future {
      */
     public static Timestamp secondsFromNow(long seconds) {
         checkPositive(seconds);
-        Timestamp currentTime = currentTime();
-        Timestamp result = add(currentTime, fromSeconds(seconds));
+        var currentTime = currentTime();
+        var result = add(currentTime, fromSeconds(seconds));
         return result;
     }
 
@@ -72,13 +72,13 @@ public final class Future {
         checkNotNull(timestamp);
         // Do not use `currentTime()` as we may use custom `TimestampProvider` already.
         // Get time from metal.
-        Timestamp currentSystemTime = systemTime();
+        var currentSystemTime = systemTime();
 
         // NOTE: we have the risk of having these two timestamps too close to each other
         // so that the passed timestamp becomes "the past" around the time of this call.
         // To avoid this, select some time in the "distant" future.
-        boolean result = Timestamps.comparator()
-                                   .compare(currentSystemTime, timestamp) < 0;
+        var result = Timestamps.comparator()
+                               .compare(currentSystemTime, timestamp) < 0;
         return result;
     }
 }

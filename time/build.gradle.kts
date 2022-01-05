@@ -26,18 +26,17 @@
 
 import io.spine.internal.dependency.AutoService
 import io.spine.internal.gradle.IncrementGuard
-import io.spine.internal.gradle.Scripts
 import io.spine.internal.gradle.excludeProtobufLite
+import io.spine.internal.gradle.testing.exposeTestArtifacts
 
 plugins {
     id("io.spine.mc-java")
 }
 
-apply {
-    with(Scripts) {
-        from(testArtifacts(project))
-    }
+java {
+    exposeTestArtifacts()
 }
+
 apply<IncrementGuard>()
 
 configurations.excludeProtobufLite()

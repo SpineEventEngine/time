@@ -57,8 +57,8 @@ public final class Past {
      */
     public static Timestamp minutesAgo(int value) {
         checkPositive(value);
-        Timestamp currentTime = currentTime();
-        Timestamp result = subtract(currentTime, fromMinutes(value));
+        var currentTime = currentTime();
+        var result = subtract(currentTime, fromMinutes(value));
         return result;
     }
 
@@ -71,8 +71,8 @@ public final class Past {
      */
     public static Timestamp secondsAgo(long value) {
         checkPositive(value);
-        Timestamp currentTime = currentTime();
-        Timestamp result = subtract(currentTime, seconds(value));
+        var currentTime = currentTime();
+        var result = subtract(currentTime, seconds(value));
         return result;
     }
 }

@@ -38,13 +38,13 @@ import static io.spine.base.Time.currentTime;
 import static io.spine.protobuf.AnyPacker.pack;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("TimestampTemporal should")
+@DisplayName("`TimestampTemporal` should")
 class TimestampTemporalTest {
 
     @Test
-    @DisplayName("not allow null arguments")
+    @DisplayName("not allow `null` arguments")
     void nullity() {
-        NullPointerTester tester = new NullPointerTester()
+        var tester = new NullPointerTester()
                 .setDefault(TimestampTemporal.class, now())
                 .setDefault(Temporal.class, now())
                 .setDefault(Timestamp.class, now().toTimestamp())
@@ -54,19 +54,19 @@ class TimestampTemporalTest {
     }
 
     @Test
-    @DisplayName("be instantiable from a plain Timestamp")
+    @DisplayName("be instantiable from a plain `Timestamp`")
     void fromTimestamp() {
-        Timestamp timestamp = currentTime();
-        Temporal<?> temporal = Temporals.from(timestamp);
+        var timestamp = currentTime();
+        var temporal = Temporals.from(timestamp);
         assertThat(temporal).isInstanceOf(TimestampTemporal.class);
         assertEquals(timestamp, temporal.toTimestamp());
     }
 
     @Test
-    @DisplayName("convert the value to Any")
+    @DisplayName("convert the value to `Any`")
     void convertToAny() {
-        Timestamp timestamp = currentTime();
-        Temporal<?> temporal = Temporals.from(timestamp);
+        var timestamp = currentTime();
+        var temporal = Temporals.from(timestamp);
         assertEquals(pack(timestamp), temporal.toAny());
     }
 

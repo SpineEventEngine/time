@@ -45,8 +45,7 @@ public final class LocalTimes {
      * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
-        LocalTime result = LocalTime
-                .newBuilder()
+        var result = LocalTime.newBuilder()
                 .setHour(hours)
                 .setMinute(minutes)
                 .setSecond(seconds)
@@ -60,7 +59,7 @@ public final class LocalTimes {
      */
     public static LocalTime of(java.time.LocalTime value) {
         checkNotNull(value);
-        LocalTime result = converter().convert(value);
+        var result = converter().convert(value);
         return requireNonNull(result);
     }
 
@@ -72,9 +71,7 @@ public final class LocalTimes {
     @Deprecated
     public static java.time.LocalTime toJavaTime(LocalTime value) {
         checkNotNull(value);
-        java.time.LocalTime result =
-                converter().reverse()
-                           .convert(value);
+        var result = converter().reverse().convert(value);
         return requireNonNull(result);
     }
 
@@ -101,7 +98,7 @@ public final class LocalTimes {
      */
     public static String toString(LocalTime time) {
         checkNotNull(time);
-        String result = stringifier().convert(time);
+        var result = stringifier().convert(time);
         return requireNonNull(result);
     }
 
@@ -112,9 +109,7 @@ public final class LocalTimes {
      */
     public static LocalTime parse(String str) {
         checkNotNull(str);
-        LocalTime result =
-                stringifier().reverse()
-                             .convert(str);
+        var result = stringifier().reverse().convert(str);
         return requireNonNull(result);
     }
 
@@ -144,8 +139,7 @@ public final class LocalTimes {
 
         @Override
         protected LocalTime doForward(java.time.LocalTime value) {
-            LocalTime result = LocalTime
-                    .newBuilder()
+            var result = LocalTime.newBuilder()
                     .setHour(value.getHour())
                     .setMinute(value.getMinute())
                     .setSecond(value.getSecond())
@@ -156,7 +150,7 @@ public final class LocalTimes {
 
         @Override
         protected java.time.LocalTime doBackward(LocalTime value) {
-            java.time.LocalTime result = java.time.LocalTime
+            var result = java.time.LocalTime
                     .of(value.getHour(),
                         value.getMinute(),
                         value.getSecond(),

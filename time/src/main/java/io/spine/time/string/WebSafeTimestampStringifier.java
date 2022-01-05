@@ -73,8 +73,8 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
      * Converts the passed timestamp string into a web-safe string, replacing colons to dashes.
      */
     private static String toWebSafe(String str) {
-        final String result = PATTERN_COLON.matcher(str)
-                                           .replaceAll(DASH);
+        final var result = PATTERN_COLON.matcher(str)
+                                        .replaceAll(DASH);
         return result;
     }
 
@@ -85,7 +85,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
         checkArgument(webSafe.length() > MINUTE_SEPARATOR_INDEX + 2,
                       "The passed string (%) is not in web-safe date/time format",
                       webSafe);
-        char[] chars = webSafe.toCharArray();
+        var chars = webSafe.toCharArray();
         chars[HOUR_SEPARATOR_INDEX] = COLON;
         chars[MINUTE_SEPARATOR_INDEX] = COLON;
         return String.valueOf(chars);
@@ -93,7 +93,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
 
     @Override
     protected String toString(Timestamp value) {
-        String result = Timestamps.toString(value);
+        var result = Timestamps.toString(value);
         result = toWebSafe(result);
         return result;
     }
@@ -101,7 +101,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
     @Override
     protected Timestamp fromString(String webSafe) {
         try {
-            String rfcStr = fromWebSafe(webSafe);
+            var rfcStr = fromWebSafe(webSafe);
             return Timestamps.parse(rfcStr);
         } catch (ParseException e) {
             throw newIllegalArgumentException(e.getMessage(), e);

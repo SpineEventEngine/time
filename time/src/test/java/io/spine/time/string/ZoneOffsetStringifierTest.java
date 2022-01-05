@@ -26,7 +26,6 @@
 
 package io.spine.time.string;
 
-import io.spine.string.Stringifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +47,8 @@ class ZoneOffsetStringifierTest extends AbstractStringifierTest<io.spine.time.Zo
     @Test
     @DisplayName("Convert negative value")
     void convertNegative() {
-        Stringifier<io.spine.time.ZoneOffset> stringifier = stringifier();
-        io.spine.time.ZoneOffset negative = io.spine.time.ZoneOffsets.ofHoursMinutes(-3, -45);
+        var stringifier = stringifier();
+        var negative = io.spine.time.ZoneOffsets.ofHoursMinutes(-3, -45);
         assertEquals(negative, stringifier.reverse()
                                           .convert(stringifier.convert(negative)));
     }

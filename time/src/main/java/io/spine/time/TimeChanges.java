@@ -47,8 +47,7 @@ public final class TimeChanges {
     public static LocalDateChange of(LocalDate previousValue, LocalDate newValue) {
         checkNotEqual(previousValue, newValue);
 
-        LocalDateChange result = LocalDateChange
-                .newBuilder()
+        var result = LocalDateChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .vBuild();
@@ -64,8 +63,7 @@ public final class TimeChanges {
     public static LocalTimeChange of(LocalTime previousValue, LocalTime newValue) {
         checkNotEqual(previousValue, newValue);
 
-        LocalTimeChange result = LocalTimeChange
-                .newBuilder()
+        var result = LocalTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .vBuild();
@@ -84,8 +82,7 @@ public final class TimeChanges {
     public static OffsetTimeChange of(OffsetTime previousValue, OffsetTime newValue) {
         checkNotEqual(previousValue, newValue);
 
-        OffsetTimeChange result = OffsetTimeChange
-                .newBuilder()
+        var result = OffsetTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .vBuild();
@@ -104,8 +101,7 @@ public final class TimeChanges {
     public static OffsetDateTimeChange of(OffsetDateTime previousValue, OffsetDateTime newValue) {
         checkNotEqual(previousValue, newValue);
 
-        OffsetDateTimeChange result = OffsetDateTimeChange
-                .newBuilder()
+        var result = OffsetDateTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
                 .vBuild();

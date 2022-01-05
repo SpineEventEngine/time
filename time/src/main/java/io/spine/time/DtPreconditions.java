@@ -81,7 +81,7 @@ final class DtPreconditions {
      * Ensures that {@code periodStart < periodEnd}.
      */
     static <T extends Comparable<T>> void checkPeriod(T periodStart, T periodEnd) {
-        boolean checkResult = periodStart.compareTo(periodEnd) < 0;
+        var checkResult = periodStart.compareTo(periodEnd) < 0;
         checkArgument(checkResult,
                       "Period start `%s` must be earlier than period end `%s`.",
                       periodStart,
@@ -92,8 +92,8 @@ final class DtPreconditions {
      * Ensures that {@code periodStart < periodEnd}.
      */
     static void checkPeriod(Timestamp periodStart, Timestamp periodEnd) {
-        TimestampTemporal start = TimestampTemporal.from(periodStart);
-        TimestampTemporal end = TimestampTemporal.from(periodEnd);
+        var start = TimestampTemporal.from(periodStart);
+        var end = TimestampTemporal.from(periodEnd);
         checkPeriod(start, end);
     }
 

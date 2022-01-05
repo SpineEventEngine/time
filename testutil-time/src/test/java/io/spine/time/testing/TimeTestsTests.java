@@ -61,7 +61,7 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
     @Test
     @DisplayName("have frozen time provider")
     void frozenTimeProvider() {
-        Timestamp fiveMinutesAgo = subtract(currentTime(), fromMinutes(5));
+        var fiveMinutesAgo = subtract(currentTime(), fromMinutes(5));
 
         Time.Provider provider = new FrozenMadHatterParty(fiveMinutesAgo);
 
@@ -87,13 +87,13 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
         @Test
         @DisplayName("and obtain time in the future")
         void obtainFutureTime() {
-            Timestamp currentTime = currentTime();
-            Timestamp expected = add(currentTime, TEN_SECONDS);
+            var currentTime = currentTime();
+            var expected = add(currentTime, TEN_SECONDS);
 
-            Timestamp actual = Future.secondsFromNow(TEN_SECONDS.getSeconds());
+            var actual = Future.secondsFromNow(TEN_SECONDS.getSeconds());
 
             assertThat(actual.getSeconds())
-                 .isEqualTo(expected.getSeconds());
+                    .isEqualTo(expected.getSeconds());
         }
     }
 
@@ -108,25 +108,25 @@ class TimeTestsTests extends UtilityClassTest<TimeTests> {
         @Test
         @DisplayName("obtain time in the past")
         void obtainPastTime() {
-            Timestamp currentTime = currentTime();
-            Timestamp expected = subtract(currentTime, TEN_SECONDS);
+            var currentTime = currentTime();
+            var expected = subtract(currentTime, TEN_SECONDS);
 
-            Timestamp actual = Past.secondsAgo(TEN_SECONDS.getSeconds());
+            var actual = Past.secondsAgo(TEN_SECONDS.getSeconds());
 
             assertThat(actual.getSeconds())
-                 .isEqualTo(expected.getSeconds());
+                    .isEqualTo(expected.getSeconds());
         }
 
         @Test
         @DisplayName("create instances for minutes ago")
         void minutesAgo() {
-            Timestamp currentTime = currentTime();
-            Timestamp expected = subtract(currentTime, MINUTE);
+            var currentTime = currentTime();
+            var expected = subtract(currentTime, MINUTE);
 
-            Timestamp actual = Past.minutesAgo(1);
+            var actual = Past.minutesAgo(1);
 
             assertThat(actual.getSeconds())
-                 .isEqualTo(expected.getSeconds());
+                    .isEqualTo(expected.getSeconds());
         }
     }
 }

@@ -64,14 +64,14 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("`LocalDate`")
         void localDates() {
-            LocalDate today = Now.get().asLocalDate();
+            var today = Now.get().asLocalDate();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(today, today));
         }
 
         @Test
         @DisplayName("`LocalTime`")
         void localTimes() {
-            LocalTime now = Now.get().asLocalTime();
+            var now = Now.get().asLocalTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
 
@@ -79,8 +79,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("`OffsetTime`")
         @SuppressWarnings("deprecation")
         void offsetTimes() {
-            ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
-            OffsetTime now = Now.get(inLuxembourg).asOffsetTime();
+            var inLuxembourg = ZoneOffsets.ofHours(1);
+            var now = Now.get(inLuxembourg).asOffsetTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
 
@@ -88,8 +88,8 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("`OffsetDateTime`")
         @SuppressWarnings("deprecation")
         void offsetDateTimes() {
-            ZoneOffset inLuxembourg = ZoneOffsets.ofHours(1);
-            OffsetDateTime now = Now.get(inLuxembourg).asOffsetDateTime();
+            var inLuxembourg = ZoneOffsets.ofHours(1);
+            var now = Now.get(inLuxembourg).asOffsetDateTime();
             assertThrows(IllegalArgumentException.class, () -> TimeChanges.of(now, now));
         }
     }
@@ -113,10 +113,10 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("`LocalDate`")
         void forLocalDates() {
-            LocalDate today = Now.get().asLocalDate();
-            LocalDate tomorrow = LocalDates.of(today.toJavaTime().plusDays(1));
+            var today = Now.get().asLocalDate();
+            var tomorrow = LocalDates.of(today.toJavaTime().plusDays(1));
 
-            LocalDateChange result = TimeChanges.of(today, tomorrow);
+            var result = TimeChanges.of(today, tomorrow);
 
             assertEquals(today, result.getPreviousValue());
             assertEquals(tomorrow, result.getNewValue());
@@ -125,9 +125,9 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @Test
         @DisplayName("`LocalTime`")
         void forLocalTimes() {
-            LocalTime inFiveHours = LocalTimes.of(now.toJavaTime().plusHours(5));
+            var inFiveHours = LocalTimes.of(now.toJavaTime().plusHours(5));
 
-            LocalTimeChange result = TimeChanges.of(now, inFiveHours);
+            var result = TimeChanges.of(now, inFiveHours);
 
             assertEquals(now, result.getPreviousValue());
             assertEquals(inFiveHours, result.getNewValue());
@@ -137,10 +137,10 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("`OffsetTime`")
         @SuppressWarnings("deprecation")
         void forOffsetTimes() {
-            OffsetTime previousTime = inKiev.asOffsetTime();
-            OffsetTime newTime = inLuxembourg.asOffsetTime();
+            var previousTime = inKiev.asOffsetTime();
+            var newTime = inLuxembourg.asOffsetTime();
 
-            OffsetTimeChange result = TimeChanges.of(previousTime, newTime);
+            var result = TimeChanges.of(previousTime, newTime);
 
             assertEquals(previousTime, result.getPreviousValue());
             assertEquals(newTime, result.getNewValue());
@@ -150,10 +150,10 @@ class TimeChangesTest extends UtilityClassTest<TimeChanges> {
         @DisplayName("`OffsetDateTime`")
         @SuppressWarnings("deprecation")
         void forOffsetDateTimes() {
-            OffsetDateTime previousDateTime = inKiev.asOffsetDateTime();
-            OffsetDateTime newDateTime = inLuxembourg.asOffsetDateTime();
+            var previousDateTime = inKiev.asOffsetDateTime();
+            var newDateTime = inLuxembourg.asOffsetDateTime();
 
-            OffsetDateTimeChange result = TimeChanges.of(previousDateTime, newDateTime);
+            var result = TimeChanges.of(previousDateTime, newDateTime);
 
             assertEquals(previousDateTime, result.getPreviousValue());
             assertEquals(newDateTime, result.getNewValue());

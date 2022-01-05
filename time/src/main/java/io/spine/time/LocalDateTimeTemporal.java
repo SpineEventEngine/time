@@ -32,6 +32,7 @@ import java.time.Instant;
 
 import static io.spine.time.LocalDateTimes.converter;
 import static java.time.ZoneOffset.UTC;
+import static java.util.Objects.requireNonNull;
 
 /**
  * An implementation of {@link Temporal} based on {@link LocalDateTime}.
@@ -41,7 +42,7 @@ interface LocalDateTimeTemporal extends TemporalMessage<LocalDateTime>, LocalDat
 
     @Override
     default Instant toInstant() {
-        Instant instant = java.time.LocalDateTime
+        var instant = java.time.LocalDateTime
                 .of(getDate().toJavaTime(), getTime().toJavaTime())
                 .toInstant(UTC);
         return instant;
@@ -62,8 +63,8 @@ interface LocalDateTimeTemporal extends TemporalMessage<LocalDateTime>, LocalDat
      */
     default java.time.LocalDateTime toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixins
-        LocalDateTime self = (LocalDateTime) this;
-        return converter().reverse()
-                          .convert(self);
+        var self = (LocalDateTime) this;
+        var result = converter().reverse().convert(self);
+        return requireNonNull(result);
     }
 }

@@ -71,7 +71,7 @@ repositories {
 plugins {
     `java-library`
     // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
-    kotlin("jvm") version io.spine.internal.dependency.Kotlin.version
+    kotlin("jvm")
     jacoco
     idea
     `project-report`
@@ -125,7 +125,7 @@ subprojects {
 
     LicenseReporter.generateReportIn(project)
 
-    val javaVersion = JavaVersion.VERSION_1_8
+    val javaVersion = JavaVersion.VERSION_11
     java {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
@@ -157,7 +157,6 @@ subprojects {
     val spineBaseVersion: String by extra
     dependencies {
         errorprone(ErrorProne.core)
-        errorproneJavac(ErrorProne.javacPlugin)
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")

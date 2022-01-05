@@ -55,7 +55,7 @@ public final class LocalDates {
      */
     public static LocalDate of(java.time.LocalDate ld) {
         checkNotNull(ld);
-        LocalDate result = converter().convert(ld);
+        var result = converter().convert(ld);
         return requireNonNull(result);
     }
 
@@ -64,9 +64,7 @@ public final class LocalDates {
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
         checkDate(date);
-        java.time.LocalDate result =
-                converter().reverse()
-                           .convert(date);
+        var result = converter().reverse().convert(date);
         return requireNonNull(result);
     }
 
@@ -79,8 +77,7 @@ public final class LocalDates {
         checkPositive(day);
         checkDate(year, month, day);
 
-        LocalDate result = LocalDate
-                .newBuilder()
+        var result = LocalDate.newBuilder()
                 .setYear(year)
                 .setMonth(month)
                 .setDay(day)
@@ -95,9 +92,7 @@ public final class LocalDates {
      */
     public static LocalDate parse(String str) {
         checkNotNull(str);
-        LocalDate result =
-                stringifier().reverse()
-                             .convert(str);
+        var result = stringifier().reverse().convert(str);
         return requireNonNull(result);
     }
 
@@ -112,7 +107,7 @@ public final class LocalDates {
      */
     public static String toString(LocalDate date) {
         checkDate(date);
-        String result = stringifier().convert(date);
+        var result = stringifier().convert(date);
         return requireNonNull(result);
     }
 
@@ -154,10 +149,10 @@ public final class LocalDates {
         checkMonth(month.getNumber());
         checkPositive(day);
 
-        final int daysInMonth = YearMonth.of(year, month.getNumber())
+        final var daysInMonth = YearMonth.of(year, month.getNumber())
                                          .lengthOfMonth();
         if (day > daysInMonth) {
-            final String errMsg = format(
+            final var errMsg = format(
                     "A number of days cannot be more than %d, for this month and year.",
                     daysInMonth);
             throw new IllegalArgumentException(errMsg);
@@ -186,8 +181,7 @@ public final class LocalDates {
 
         @Override
         protected LocalDate doForward(java.time.LocalDate date) {
-            LocalDate result = LocalDate
-                    .newBuilder()
+            var result = LocalDate.newBuilder()
                     .setYear(date.getYear())
                     .setMonth(Months.of(date))
                     .setDay(date.getDayOfMonth())
@@ -197,7 +191,7 @@ public final class LocalDates {
 
         @Override
         protected java.time.LocalDate doBackward(LocalDate date) {
-            java.time.LocalDate result = java.time.LocalDate.of(
+            var result = java.time.LocalDate.of(
                     date.getYear(),
                     date.getMonthValue(),
                     date.getDay()

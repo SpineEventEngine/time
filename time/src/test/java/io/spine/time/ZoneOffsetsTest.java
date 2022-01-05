@@ -27,8 +27,6 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
-import com.google.protobuf.Duration;
-import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("ZoneOffsets should")
+@DisplayName("`ZoneOffsets` should")
 @SuppressWarnings("deprecation")
 class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.ZoneOffset> {
 
@@ -66,18 +64,18 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
     }
 
     @Nested
-    @DisplayName("Create an instance")
+    @DisplayName("create an instance")
     class Create {
 
         @Test
         @DisplayName("for the current time zone")
         void currentTimeZone() {
-            TimeZone timeZone = TimeZone.getDefault();
-            ZoneOffset zoneOffset = ZoneOffsets.getDefault();
+            var timeZone = TimeZone.getDefault();
+            var zoneOffset = ZoneOffsets.getDefault();
 
-            Timestamp now = currentTime();
-            long date = Timestamps.toMillis(now);
-            int offsetSeconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
+            var now = currentTime();
+            var date = Timestamps.toMillis(now);
+            var offsetSeconds = timeZone.getOffset(date) / MILLIS_PER_SECOND;
 
             assertEquals(offsetSeconds, zoneOffset.getAmountSeconds());
         }
@@ -85,7 +83,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
         @Test
         @DisplayName("by hour offset")
         void byHourOffset() {
-            Duration twoHours = hours(2);
+            var twoHours = hours(2);
             assertEquals(twoHours.getSeconds(), ZoneOffsets.ofHours(2).getAmountSeconds());
         }
 
@@ -111,7 +109,7 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
     }
 
     @Nested
-    @DisplayName("Do not accept")
+    @DisplayName("do not accept")
     class Arguments {
 
         @Test
@@ -162,26 +160,26 @@ class ZoneOffsetsTest extends AbstractDateTimeUtilityTest<ZoneOffset, java.time.
     }
 
     @Nested
-    @DisplayName("Convert to String")
+    @DisplayName("convert to `String`")
     class Stringify {
 
         @Test
         @DisplayName("positive offset")
         void positive() {
-            ZoneOffset positive = ZoneOffsets.ofHoursMinutes(5, 48);
+            var positive = ZoneOffsets.ofHoursMinutes(5, 48);
             assertEquals(positive, ZoneOffsets.parse(ZoneOffsets.toString(positive)));
         }
 
         @Test
         @DisplayName("negative offset")
         void negative() {
-            ZoneOffset negative = ZoneOffsets.ofHoursMinutes(-3, -36);
+            var negative = ZoneOffsets.ofHoursMinutes(-3, -36);
             assertEquals(negative, ZoneOffsets.parse(ZoneOffsets.toString(negative)));
         }
     }
 
     @Nested
-    @DisplayName("Parse offset formats")
+    @DisplayName("parse offset formats")
     class Parse {
 
         @Test

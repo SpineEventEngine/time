@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("ZoneIds should")
+@DisplayName("`ZoneIds` should")
 class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> {
 
     ZoneIdsTest() {
@@ -65,7 +65,7 @@ class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> 
         @Test
         @DisplayName("by an ID value")
         void byValue() {
-            for (String id : java.time.ZoneId.getAvailableZoneIds()) {
+            for (var id : java.time.ZoneId.getAvailableZoneIds()) {
                 assertEquals(id, ZoneIds.of(id).getValue());
             }
         }
@@ -73,7 +73,7 @@ class ZoneIdsTest extends AbstractDateTimeUtilityTest<ZoneId, java.time.ZoneId> 
         @Test
         @DisplayName("by Java Time value")
         void byJavaTime() {
-            ZoneId expected = ZoneIds.systemDefault();
+            var expected = ZoneIds.systemDefault();
             assertEquals(expected, ZoneIds.of(expected.toJavaTime()));
         }
     }

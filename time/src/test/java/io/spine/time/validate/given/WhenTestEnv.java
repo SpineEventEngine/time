@@ -42,11 +42,11 @@ public final class WhenTestEnv {
     private WhenTestEnv() {
     }
 
-    public static final int SECONDS_IN_MINUTE = 60;
-
-    public static final int SECONDS_IN_5_MINUTES = 5 * SECONDS_IN_MINUTE;
     public static final int FIFTY_NANOSECONDS = 50;
     public static final int ZERO_NANOSECONDS = 0;
+
+    private static final int SECONDS_IN_MINUTE = 60;
+    private static final int SECONDS_IN_5_MINUTES = 5 * SECONDS_IN_MINUTE;
 
     /**
      * Freezes time for current thread by setting the time provider to a
@@ -60,31 +60,29 @@ public final class WhenTestEnv {
     }
 
     public static Timestamp future() {
-        Timestamp future = add(currentTime(), newDuration(SECONDS_IN_5_MINUTES));
+        var future = add(currentTime(), newDuration(SECONDS_IN_5_MINUTES));
         return future;
     }
 
     public static Timestamp past() {
-        Timestamp past = subtract(currentTime(), newDuration(SECONDS_IN_5_MINUTES));
+        var past = subtract(currentTime(), newDuration(SECONDS_IN_5_MINUTES));
         return past;
     }
 
     public static Timestamp currentTimeWithNanos(int nanos) {
-        Timestamp result = timeWithNanos(currentTime(), nanos);
+        var result = timeWithNanos(currentTime(), nanos);
         return result;
     }
 
     public static Timestamp timeWithNanos(Timestamp time, int nanos) {
-        Timestamp result = time
-                .toBuilder()
+        var result = time.toBuilder()
                 .setNanos(nanos)
                 .build();
         return result;
     }
 
     public static Duration newDuration(int seconds) {
-        Duration result = Duration
-                .newBuilder()
+        var result = Duration.newBuilder()
                 .setSeconds(seconds)
                 .build();
         return result;

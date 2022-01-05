@@ -56,8 +56,7 @@ public final class InstantConverter extends Converter<Instant, Timestamp>
     @Override
     protected Timestamp doForward(Instant value) {
         checkNotNull(value);
-        Timestamp result = Timestamp
-                .newBuilder()
+        var result = Timestamp.newBuilder()
                 .setSeconds(value.getEpochSecond())
                 .setNanos(value.getNano())
                 .build();
@@ -67,7 +66,7 @@ public final class InstantConverter extends Converter<Instant, Timestamp>
     @Override
     protected Instant doBackward(Timestamp value) {
         checkNotNull(value);
-        Instant result = Instant.ofEpochSecond(value.getSeconds(), value.getNanos());
+        var result = Instant.ofEpochSecond(value.getSeconds(), value.getNanos());
         return result;
     }
 

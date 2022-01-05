@@ -29,7 +29,6 @@ package io.spine.time.validate;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
-import io.spine.base.FieldPath;
 import io.spine.code.proto.FieldContext;
 import io.spine.code.proto.FieldDeclaration;
 import io.spine.time.Temporal;
@@ -58,12 +57,12 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
 
     @Override
     public ImmutableList<ConstraintViolation> validate(MessageValue message) {
-        FieldValue fieldValue = message.valueOf(field());
-        Time when = optionValue().getIn();
+        var fieldValue = message.valueOf(field());
+        var when = optionValue().getIn();
         if (when == TIME_UNDEFINED) {
             return ImmutableList.of();
         }
-        ImmutableList<ConstraintViolation> violations =
+        var violations =
                 fieldValue.values()
                           .map(msg -> Temporals.from((Message) msg))
                           .filter(temporalValue -> isTimeInvalid(temporalValue, when))
@@ -92,22 +91,18 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
      *         {@code false} otherwise
      */
     private static boolean isTimeInvalid(Temporal<?> temporalValue, Time whenExpected) {
-        boolean valid = (whenExpected == FUTURE)
-                          ? temporalValue.isInFuture()
-                          : temporalValue.isInPast();
+        var valid = (whenExpected == FUTURE)
+                    ? temporalValue.isInFuture()
+                    : temporalValue.isInPast();
         return !valid;
     }
 
     private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
-        String msg = errorMessage(fieldValue.context());
-        String when =
-                optionValue().getIn()
-                             .toString()
-                             .toLowerCase();
-        FieldPath fieldPath =
-                fieldValue.context()
-                          .fieldPath();
-        ConstraintViolation violation = ConstraintViolation.newBuilder()
+        var msg = errorMessage(fieldValue.context());
+        var inTime = optionValue().getIn();
+        var when = inTime.toString().toLowerCase();
+        var fieldPath = fieldValue.context().fieldPath();
+        var violation = ConstraintViolation.newBuilder()
                 .setMsgFormat(msg)
                 .addParam(when)
                 .setFieldPath(fieldPath)
