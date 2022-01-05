@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@file:Suppress("RemoveRedundantQualifierName")
+
 import com.google.protobuf.gradle.builtins
 import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
@@ -50,7 +52,6 @@ import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-
 buildscript {
     apply(from = "$rootDir/version.gradle.kts")
 
@@ -76,14 +77,8 @@ plugins {
     idea
     `project-report`
 
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.internal.dependency.Protobuf.GradlePlugin.apply {
-        id(id).version(version)
-    }
-    @Suppress("RemoveRedundantQualifierName") // Cannot use imports here.
-    io.spine.internal.dependency.ErrorProne.GradlePlugin.apply {
-        id(id)
-    }
+    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
+    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
 }
 
 apply(from = "$rootDir/version.gradle.kts")
@@ -161,7 +156,6 @@ subprojects {
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
         testImplementation(JUnit.runner)
-        runtimeOnly(Flogger.Runtime.systemBackend)
     }
 
     configurations.forceVersions()
