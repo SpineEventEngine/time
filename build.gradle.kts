@@ -39,6 +39,7 @@ import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
+import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
@@ -58,9 +59,9 @@ buildscript {
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations)
 
-    val spineBaseVersion: String by extra
+    val mcJavaVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$spineBaseVersion")
+        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
 }
 
@@ -82,18 +83,19 @@ plugins {
 }
 
 apply(from = "$rootDir/version.gradle.kts")
+
 spinePublishing {
-    with(PublishingRepos) {
-        targetRepositories.addAll(
+    modules = setOf(
+        "time",
+        "testutil-time"
+    )
+    destinations = with(PublishingRepos) {
+        setOf(
             gitHub("time"),
             cloudRepo,
             cloudArtifactRegistry
         )
     }
-    projectsToPublish.addAll(
-        "time",
-        "testutil-time"
-    )
 }
 
 allprojects {
@@ -158,7 +160,16 @@ subprojects {
         testImplementation(JUnit.runner)
     }
 
-    configurations.forceVersions()
+    configurations {
+        forceVersions()
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$spineBaseVersion",
+                )
+            }
+        }
+    }
 
     tasks {
         registerTestTasks()
