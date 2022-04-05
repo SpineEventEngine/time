@@ -32,14 +32,12 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
-import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
@@ -65,14 +63,13 @@ buildscript {
     }
 }
 
-// Required to grab the dependencies for `JacocoConfig`.
 repositories {
+    // Required to grab the dependencies for `JacocoConfig`.
     applyStandard()
 }
 
 plugins {
     `java-library`
-    // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
     kotlin("jvm")
     jacoco
     idea
@@ -81,8 +78,6 @@ plugins {
     id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
     id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
 }
-
-apply(from = "$rootDir/version.gradle.kts")
 
 spinePublishing {
     modules = setOf(
@@ -114,39 +109,12 @@ subprojects {
         plugin("net.ltgt.errorprone")
         plugin("pmd")
         plugin("checkstyle")
-        plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
         plugin("jacoco")
     }
 
-    LicenseReporter.generateReportIn(project)
-
-    val javaVersion = JavaVersion.VERSION_11
-    java {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-
-    tasks.withType<JavaCompile> {
-        configureJavac()
-        configureErrorProne()
-    }
-
-    JavadocConfig.applyTo(project)
-    CheckStyleConfig.applyTo(project)
-
-    kotlin {
-        explicitApi()
-    }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-        }
-    }
-
-    with(repositories) {
+    repositories {
         applyGitHubPackages("base", project)
         applyStandard()
     }
@@ -170,6 +138,36 @@ subprojects {
             }
         }
     }
+
+    val javaVersion = JavaVersion.VERSION_11
+
+    java {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+
+        tasks {
+            withType<JavaCompile>().configureEach {
+                configureJavac()
+                configureErrorProne()
+            }
+        }
+    }
+
+    kotlin {
+        explicitApi()
+
+        tasks {
+            withType<KotlinCompile>().configureEach {
+                kotlinOptions {
+                    jvmTarget = javaVersion.toString()
+                }
+            }
+        }
+    }
+
+    LicenseReporter.generateReportIn(project)
+    JavadocConfig.applyTo(project)
+    CheckStyleConfig.applyTo(project)
 
     tasks {
         registerTestTasks()
