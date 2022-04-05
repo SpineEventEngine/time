@@ -47,3 +47,9 @@ dependencies {
 configurations {
     excludeProtobufLite()
 }
+
+sourceSets {
+    val generatedDir = "$projectDir/generated"
+    main { java.srcDir("$generatedDir/main/java") }
+    test { java.srcDir("$generatedDir/test/java") }
+}
