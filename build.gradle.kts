@@ -32,7 +32,6 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
@@ -58,20 +57,19 @@ buildscript {
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations)
 
-    val spineBaseVersion: String by extra
+    val mcJavaVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$spineBaseVersion")
+        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
 }
 
-// Required to grab the dependencies for `JacocoConfig`.
 repositories {
+    // Required to grab the dependencies for `JacocoConfig`.
     applyStandard()
 }
 
 plugins {
     `java-library`
-    // For newer Kotlin version please visit [https://kotlinlang.org/docs/eap.html#build-details].
     kotlin("jvm")
     jacoco
     idea
@@ -81,19 +79,18 @@ plugins {
     id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
 }
 
-apply(from = "$rootDir/version.gradle.kts")
 spinePublishing {
-    with(PublishingRepos) {
-        targetRepositories.addAll(
+    modules = setOf(
+        "time",
+        "testutil-time"
+    )
+    destinations = with(PublishingRepos) {
+        setOf(
             gitHub("time"),
             cloudRepo,
             cloudArtifactRegistry
         )
     }
-    projectsToPublish.addAll(
-        "time",
-        "testutil-time"
-    )
 }
 
 allprojects {
@@ -112,39 +109,12 @@ subprojects {
         plugin("net.ltgt.errorprone")
         plugin("pmd")
         plugin("checkstyle")
-        plugin("maven-publish")
         plugin("idea")
         plugin("pmd-settings")
         plugin("jacoco")
     }
 
-    LicenseReporter.generateReportIn(project)
-
-    val javaVersion = JavaVersion.VERSION_11
-    java {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-    }
-
-    tasks.withType<JavaCompile> {
-        configureJavac()
-        configureErrorProne()
-    }
-
-    JavadocConfig.applyTo(project)
-    CheckStyleConfig.applyTo(project)
-
-    kotlin {
-        explicitApi()
-    }
-
-    tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = javaVersion.toString()
-        }
-    }
-
-    with(repositories) {
+    repositories {
         applyGitHubPackages("base", project)
         applyStandard()
     }
@@ -158,7 +128,46 @@ subprojects {
         testImplementation(JUnit.runner)
     }
 
-    configurations.forceVersions()
+    configurations {
+        forceVersions()
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$spineBaseVersion",
+                )
+            }
+        }
+    }
+
+    val javaVersion = JavaVersion.VERSION_11
+
+    java {
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+
+        tasks {
+            withType<JavaCompile>().configureEach {
+                configureJavac()
+                configureErrorProne()
+            }
+        }
+    }
+
+    kotlin {
+        explicitApi()
+
+        tasks {
+            withType<KotlinCompile>().configureEach {
+                kotlinOptions {
+                    jvmTarget = javaVersion.toString()
+                }
+            }
+        }
+    }
+
+    LicenseReporter.generateReportIn(project)
+    JavadocConfig.applyTo(project)
+    CheckStyleConfig.applyTo(project)
 
     tasks {
         registerTestTasks()

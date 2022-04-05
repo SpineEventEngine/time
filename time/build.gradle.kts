@@ -25,21 +25,14 @@
  */
 
 import io.spine.internal.dependency.AutoService
-import io.spine.internal.gradle.IncrementGuard
+import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.excludeProtobufLite
-import io.spine.internal.gradle.testing.exposeTestArtifacts
 
 plugins {
     id("io.spine.mc-java")
 }
 
-java {
-    exposeTestArtifacts()
-}
-
 apply<IncrementGuard>()
-
-configurations.excludeProtobufLite()
 
 val spineBaseVersion: String by extra
 dependencies {
@@ -49,4 +42,14 @@ dependencies {
     api("io.spine:spine-base:$spineBaseVersion")
 
     testImplementation(project(":testutil-time"))
+}
+
+configurations {
+    excludeProtobufLite()
+}
+
+sourceSets {
+    val generatedDir = "$projectDir/generated"
+    main { java.srcDir("$generatedDir/main/java") }
+    test { java.srcDir("$generatedDir/test/java") }
 }

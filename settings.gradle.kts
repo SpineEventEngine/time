@@ -23,6 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -32,6 +33,7 @@ pluginManagement {
 
 rootProject.name = "spine-time"
 
-include("time")
-include("testutil-time")
-
+include(
+    "time",
+    "testutil-time",
+)
