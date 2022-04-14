@@ -91,6 +91,10 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
+
+    dokkaJar {
+        enabled = true
+    }
 }
 
 allprojects {
@@ -98,6 +102,10 @@ allprojects {
 
     group = "io.spine"
     version = extra["versionToPublish"]!!
+
+    apply {
+        plugin("dokka-for-java")
+    }
 }
 
 subprojects {
