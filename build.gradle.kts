@@ -91,6 +91,10 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
+
+    dokkaJar {
+        enabled = true
+    }
 }
 
 allprojects {
@@ -112,6 +116,7 @@ subprojects {
         plugin("idea")
         plugin("pmd-settings")
         plugin("jacoco")
+        plugin("dokka-for-java")
     }
 
     repositories {
