@@ -148,7 +148,6 @@ subprojects {
                     "io.spine:spine-base:$spineBaseVersion",
                     "com.google.errorprone:error_prone_core:2.10.0",
                     "com.google.errorprone:error_prone_annotations:2.10.0",
-                    "com.google.errorprone:javac:2.10.0",
                     "com.google.errorprone:error_prone_annotation:2.10.0",
                     "com.google.errorprone:error_prone_check_api:2.10.0",
                     "com.google.errorprone:error_prone_test_helpers:2.10.0",
