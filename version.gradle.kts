@@ -26,8 +26,8 @@
 
 /** Versions of the Spine libraries that `time` depends on. */
 val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.83")
-val spineBaseVersion by extra("2.0.0-SNAPSHOT.88")
+val spineBaseVersion by extra("2.0.0-SNAPSHOT.89")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.88")
+val versionToPublish by extra("2.0.0-SNAPSHOT.89")
