@@ -24,25 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This script uses two declarations of the constant [licenseReportVersion] because
- * currently there is no way to define a constant _before_ a build script of `buildSrc`.
- * We cannot use imports or do something else before the `buildscript` or `plugin` clauses.
- */
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
     groovy
     `kotlin-dsl`
     pmd
-    val licenseReportVersion = "2.1"
-    id("com.github.jk1.dependency-license-report").version(licenseReportVersion)
 }
 
 repositories {
+    mavenCentral()
     mavenLocal()
     gradlePluginPortal()
-    mavenCentral()
 }
 
 /**
@@ -74,16 +68,6 @@ val kotlinVersion = "1.6.21"
 val guavaVersion = "31.1-jre"
 
 /**
- * The version of ErrorProne Gradle plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.ErrorProne.GradlePlugin.version].
- *
- * @see <a href="https://github.com/tbroyer/gradle-errorprone-plugin/releases">
- *     Error Prone Gradle Plugin Releases</a>
- */
-val errorProneVersion = "2.0.2"
-
-/**
  * The version of Protobuf Gradle Plugin.
  *
  * Please keep in sync. with [io.spine.internal.dependency.Protobuf.GradlePlugin.version].
@@ -92,16 +76,6 @@ val errorProneVersion = "2.0.2"
  *     Protobuf Gradle Plugins Releases</a>
  */
 val protobufPluginVersion = "0.8.18"
-
-/**
- * The version of Dokka Gradle Plugins.
- *
- * Please keep in sync with [io.spine.internal.dependency.Dokka.version].
- *
- * @see <a href="https://github.com/Kotlin/dokka/releases">
- *     Dokka Releases</a>
- */
-val dokkaVersion = "1.6.20"
 
 configurations.all {
     resolutionStrategy {
@@ -122,7 +96,7 @@ java {
     toolchain.languageVersion.set(jvmVersion)
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         jvmTarget = jvmVersion.toString()
     }
@@ -130,6 +104,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {
@@ -138,13 +113,13 @@ dependencies {
     implementation("com.google.guava:guava:$guavaVersion")
     api("com.github.jk1:gradle-license-report:$licenseReportVersion")
     implementation("org.ajoberstar.grgit:grgit-core:${grGitVersion}")
-    implementation("net.ltgt.gradle:gradle-errorprone-plugin:${errorProneVersion}")
+    implementation(libs.errorProne.gradlePlugin)
 
     // Add explicit dependency to avoid warning on different Kotlin runtime versions.
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 
     implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
-    implementation("org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}")
-    implementation("org.jetbrains.dokka:dokka-base:${dokkaVersion}")
+    implementation(libs.dokka.gradlePlugin)
+    implementation(libs.dokka.basePlugin)
 }

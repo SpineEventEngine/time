@@ -31,7 +31,6 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
@@ -76,7 +75,7 @@ plugins {
     `project-report`
 
     id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+    id(libs.plugins.errorProne.get().pluginId)
 }
 
 spinePublishing {
@@ -134,7 +133,7 @@ subprojects {
 
     val spineBaseVersion: String by extra
     dependencies {
-        errorprone(ErrorProne.core)
+        errorprone(rootProject.libs.errorProne.core)
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")

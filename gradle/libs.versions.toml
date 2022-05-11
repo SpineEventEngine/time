@@ -1,32 +1,56 @@
 [versions]
 animalSniffer = "1.21" #https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
+apacheHttp = "4.4.14" #https://hc.apache.org/downloads.cgi
+appEngine = "1.9.82" #https://cloud.google.com/java/docs/reference
+appEngineGradlePlugin = "2.2.0" #https://cloud.google.com/java/docs/reference
 autoCommon = "1.2.1" #https://github.com/google/auto
 autoService = "1.0.1" #https://github.com/google/auto
 autoValue = "1.9" #https://github.com/google/auto
+assertK = "0.25" #https://github.com/willowtreeapps/assertk
+bouncyCastle = "1.68" #https://www.bouncycastle.org/java.html
 checkerFramework = "3.21.3" #https://checkerframework.org/
 commonsCli = "1.5.0" #https://commons.apache.org/proper/commons-cli/
+commonsCodec = "1.15" #https://commons.apache.org/proper/commons-codec/changes-report.html
 commonsLogging = "1.2" #https://commons.apache.org/proper/commons-logging/
 dokka = "1.6.20" #https://github.com/Kotlin/dokka
+errorProne = "2.13.1" #https://github.com/google/error-prone
+errorProneJavac = "9+181-r4173-1" #https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts
+errorProneGradlePlugin = "2.0.2" #https://github.com/tbroyer/gradle-errorprone-plugin/releases
 
 [libraries]
 animalSniffer = { module = "org.codehaus.mojo:animal-sniffer-annotations", version.ref = "animalSniffer" }
+apacheHttp-core = { module = "org.apache.httpcomponents:httpcore", version.ref = "apacheHttp" }
+appEngine-sdk = { module = "com.google.appengine:appengine-api-1.0-sdk", version.ref = "appEngine" }
+appEngine-gradlePlugin = { module = "com.google.cloud.tools:appengine-gradle-plugin", version.ref = "appEngineGradlePlugin" }
 autoCommon = { module = "com.google.auto:auto-common", version.ref = "autoCommon" }
 autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
 autoService-processor = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoValue-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
+assertK-libJvm = { module = "com.willowtreeapps.assertk:assertk-jvm", version.ref = "assertK" }
+bouncyCastle-libPkcsJdk15 = { module = "org.bouncycastle:bcpkix-jdk15on", version.ref = "bouncyCastle" }
 checkerFramework-annotations = { module = "org.checkerframework:checker-qual", version.ref = "checkerFramework" }
 checkerFramework-dataflow = { module = "org.checkerframework:dataflow", version.ref = "checkerFramework" }
 checkerFramework-javacUtil = { module = "org.checkerframework:javacutil", version.ref = "checkerFramework" }
 checkerFramework-compatQual = { module = "org.checkerframework:checker-compat-qual", version = "2.5.5" }
 commons-cli = { module = "commons-cli:commons-cli", version.ref = "commonsCli" }
+commons-codec = { module = "commons-codec:commons-codec", version.ref = "commonsCodec" }
 commons-logging = { module = "commons-logging:commons-logging", version.ref = "commonsLogging" }
 dokka-gradlePlugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 dokka-basePlugin = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-kotlinAsJava = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
 dokka-spineExtensions = { module = "io.spine.tools:spine-dokka-extensions", version = "2.0.0-SNAPSHOT.3" }
+errorProne-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "errorProne" }
+errorProne-typeAnnotations = { module = "com.google.errorprone:error_prone_type_annotations", version.ref = "errorProne" }
+errorProne-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorProne" }
+errorProne-checkApi = { module = "com.google.errorprone:error_prone_check_api", version.ref = "errorProne" }
+errorProne-testHelpers = { module = "com.google.errorprone:error_prone_test_helpers", version.ref = "errorProne" }
+errorProne-javacPlugin = { module = "com.google.errorprone:javac", version.ref = "errorProneJavac" }
+errorProne-gradlePlugin = { module = "net.ltgt.gradle:gradle-errorprone-plugin", version.ref = "errorProneGradlePlugin" }
 
 [bundles]
 checkerFramework-dataflow = ["checkerFramework-dataflow", "checkerFramework-javacUtil"]
+errorProne-annotations = ["errorProne-annotations", "errorProne-typeAnnotations"]
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+errorProne = { id = "net.ltgt.errorprone" }
