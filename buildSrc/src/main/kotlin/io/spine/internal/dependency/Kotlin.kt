@@ -26,12 +26,16 @@
 
 package io.spine.internal.dependency
 
-/**
- * [Commons Logging](https://commons.apache.org/proper/commons-logging/) is a transitive
- * dependency which we don't use directly. This object is used for forcing the version.
- */
-object CommonsLogging {
-    // https://commons.apache.org/proper/commons-logging/
-    private const val version = "1.2"
-    const val lib = "commons-logging:commons-logging:${version}"
+// https://github.com/JetBrains/kotlin
+// https://github.com/Kotlin
+object Kotlin {
+    /**
+    * When changing the version, also change the version used in the `buildSrc/build.gradle.kts`.
+    */
+    @Suppress("MemberVisibilityCanBePrivate") // used directly from outside
+    const val version      = "1.6.21"
+    const val reflect      = "org.jetbrains.kotlin:kotlin-reflect:${version}"
+    const val stdLib       = "org.jetbrains.kotlin:kotlin-stdlib:${version}"
+    const val stdLibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common:${version}"
+    const val stdLibJdk8   = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${version}"
 }

@@ -26,9 +26,12 @@
 
 package io.spine.internal.dependency
 
-// https://firebase.google.com/docs/admin/setup#java
-@Suppress("unused")
-object Firebase {
-    private const val adminVersion = "8.1.0"
-    const val admin = "com.google.firebase:firebase-admin:${adminVersion}"
+// https://github.com/google/truth
+object Truth {
+    private const val version = "1.1.3"
+    val libs = listOf(
+        "com.google.truth:truth:${version}",
+        "com.google.truth.extensions:truth-java8-extension:${version}",
+        "com.google.truth.extensions:truth-proto-extension:${version}"
+    )
 }

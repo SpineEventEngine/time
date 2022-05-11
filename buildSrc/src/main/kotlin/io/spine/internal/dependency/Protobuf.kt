@@ -26,14 +26,28 @@
 
 package io.spine.internal.dependency
 
-/**
- * The FindBugs project is dead since 2017. It has a successor called SpotBugs, but we don't use it.
- * We use ErrorProne for static analysis instead. The only reason for having this dependency is
- * the annotations for null-checking introduced by JSR-305. These annotations are troublesome,
- * but no alternatives are known for some of them so far.  Please see
- * [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
- */
-object FindBugs {
-    private const val version = "3.0.2"
-    const val annotations = "com.google.code.findbugs:jsr305:${version}"
+// https://github.com/protocolbuffers/protobuf
+@Suppress("MemberVisibilityCanBePrivate") // used directly from outside
+object Protobuf {
+    private const val group = "com.google.protobuf"
+    const val version       = "3.20.1"
+    val libs = listOf(
+        "${group}:protobuf-java:${version}",
+        "${group}:protobuf-java-util:${version}",
+        "${group}:protobuf-kotlin:${version}"
+    )
+    const val compiler = "${group}:protoc:${version}"
+
+    // https://github.com/google/protobuf-gradle-plugin/releases
+    object GradlePlugin {
+        /**
+         * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
+         * Thus, when applying the plugin in projects build files, only the [id] should be used.
+         *
+         * When changing the version, also change the version used in the `build.gradle.kts`.
+         */
+        const val version = "0.8.18"
+        const val id = "com.google.protobuf"
+        const val lib = "${group}:protobuf-gradle-plugin:${version}"
+    }
 }

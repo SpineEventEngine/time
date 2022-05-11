@@ -26,14 +26,12 @@
 
 package io.spine.internal.dependency
 
-// https://cloud.google.com/java/docs/reference
-@Suppress("unused")
-object AppEngine {
-    private const val version = "1.9.82"
-    const val sdk          = "com.google.appengine:appengine-api-1.0-sdk:${version}"
-
-    object GradlePlugin {
-        private const val version = "2.2.0"
-        const val lib = "com.google.cloud.tools:appengine-gradle-plugin:${version}"
-    }
+/**
+ * A JSON parser in Kotlin
+ *
+ * [Klaxon](https://github.com/cbeust/klaxon)
+ */
+object Klaxon {
+    private const val version = "5.6"
+    const val lib = "com.beust:klaxon:${version}"
 }

@@ -26,13 +26,9 @@
 
 package io.spine.internal.dependency
 
-/**
- * Gson is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration()].
- *
- * [Gson](https://github.com/google/gson)
- */
-object Gson {
-    private const val version = "2.9.0"
-    const val lib = "com.google.code.gson:gson:${version}"
+// https://github.com/square/javapoet
+@Suppress("unused")
+object JavaPoet {
+    private const val version = "1.13.0"
+    const val lib = "com.squareup:javapoet:${version}"
 }

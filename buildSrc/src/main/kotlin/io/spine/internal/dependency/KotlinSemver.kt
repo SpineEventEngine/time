@@ -26,8 +26,9 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/google/auto
-object AutoValue {
-    private const val version = "1.9"
-    const val annotations = "com.google.auto.value:auto-value-annotations:${version}"
+// https://github.com/z4kn4fein/kotlin-semver
+@Suppress("unused")
+object KotlinSemver {
+    private const val version = "1.2.1"
+    const val lib     = "io.github.z4kn4fein:semver:$version"
 }
