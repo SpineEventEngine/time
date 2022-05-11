@@ -48,7 +48,7 @@ repositories {
 /**
  * The version of Jackson used by `buildSrc`.
  *
- * Please keep this value in sync. with `io.spine.internal.dependency.Jackson.version`.
+ * Please keep this value in sync. with `Jackson.version`.
  * It's not a requirement, but would be good in terms of consistency.
  */
 val jacksonVersion = "2.13.0"
@@ -129,6 +129,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {

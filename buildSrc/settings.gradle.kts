@@ -24,31 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.internal.gradle.excludeProtobufLite
-
-plugins {
-    id("io.spine.mc-java")
-}
-
-apply<IncrementGuard>()
-
-val spineBaseVersion: String by extra
-dependencies {
-    annotationProcessor(libs.autoService.processor)
-    compileOnly(libs.autoService.annotations)
-
-    api("io.spine:spine-base:$spineBaseVersion")
-
-    testImplementation(project(":testutil-time"))
-}
-
-configurations {
-    excludeProtobufLite()
-}
-
-sourceSets {
-    val generatedDir = "$projectDir/generated"
-    main { java.srcDir("$generatedDir/main/java") }
-    test { java.srcDir("$generatedDir/test/java") }
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
 }

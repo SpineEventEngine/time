@@ -26,7 +26,6 @@
 
 package io.spine.internal.gradle.checkstyle
 
-import io.spine.internal.dependency.CheckStyle
 import org.gradle.api.Project
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
@@ -49,6 +48,10 @@ import org.gradle.kotlin.dsl.the
 @Suppress("unused")
 object CheckStyleConfig {
 
+    // We can't migrate this to the plain TOML file.
+    // https://checkstyle.sourceforge.io/
+    private const val version = "10.1"
+
     /**
      * Applies the configuration to the passed [project].
      */
@@ -60,7 +63,7 @@ object CheckStyleConfig {
         val configDir = project.rootDir.resolve("config/quality/")
 
         with(project.the<CheckstyleExtension>()) {
-            toolVersion = CheckStyle.version
+            toolVersion = version
             configDirectory.set(configDir)
         }
 

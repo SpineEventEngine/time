@@ -1,0 +1,32 @@
+[versions]
+animalSniffer = "1.21" #https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
+autoCommon = "1.2.1" #https://github.com/google/auto
+autoService = "1.0.1" #https://github.com/google/auto
+autoValue = "1.9" #https://github.com/google/auto
+checkerFramework = "3.21.3" #https://checkerframework.org/
+commonsCli = "1.5.0" #https://commons.apache.org/proper/commons-cli/
+commonsLogging = "1.2" #https://commons.apache.org/proper/commons-logging/
+dokka = "1.6.20" #https://github.com/Kotlin/dokka
+
+[libraries]
+animalSniffer = { module = "org.codehaus.mojo:animal-sniffer-annotations", version.ref = "animalSniffer" }
+autoCommon = { module = "com.google.auto:auto-common", version.ref = "autoCommon" }
+autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
+autoService-processor = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+autoValue-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
+checkerFramework-annotations = { module = "org.checkerframework:checker-qual", version.ref = "checkerFramework" }
+checkerFramework-dataflow = { module = "org.checkerframework:dataflow", version.ref = "checkerFramework" }
+checkerFramework-javacUtil = { module = "org.checkerframework:javacutil", version.ref = "checkerFramework" }
+checkerFramework-compatQual = { module = "org.checkerframework:checker-compat-qual", version = "2.5.5" }
+commons-cli = { module = "commons-cli:commons-cli", version.ref = "commonsCli" }
+commons-logging = { module = "commons-logging:commons-logging", version.ref = "commonsLogging" }
+dokka-gradlePlugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+dokka-basePlugin = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+dokka-kotlinAsJava = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
+dokka-spineExtensions = { module = "io.spine.tools:spine-dokka-extensions", version = "2.0.0-SNAPSHOT.3" }
+
+[bundles]
+checkerFramework-dataflow = ["checkerFramework-dataflow", "checkerFramework-javacUtil"]
+
+[plugins]
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }

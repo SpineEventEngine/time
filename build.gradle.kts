@@ -55,7 +55,7 @@ buildscript {
     apply(from = "$rootDir/version.gradle.kts")
 
     io.spine.internal.gradle.doApplyStandard(repositories)
-    io.spine.internal.gradle.doForceVersions(configurations)
+    io.spine.internal.gradle.doForceVersions(configurations, libs)
 
     val mcJavaVersion: String by extra
     dependencies {
@@ -91,7 +91,6 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
-
     dokkaJar {
         enabled = true
     }
@@ -103,19 +102,18 @@ allprojects {
     // See: https://github.com/gradle/gradle/issues/20717
 
     /** Versions of the Spine libraries that `time` depends on. */
-    val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.83")
-    val spineBaseVersion by extra("2.0.0-SNAPSHOT.91")
-    val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
+    extra["mcJavaVersion"] = "2.0.0-SNAPSHOT.83"
+    extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
+    extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
 
     /** The version of this library. */
     val versionToPublish by extra("2.0.0-SNAPSHOT.92")
 
     group = "io.spine"
-    version = extra["versionToPublish"]!!
+    version = versionToPublish
 }
 
 subprojects {
-
     apply {
         plugin("java-library")
         plugin("kotlin")
@@ -148,7 +146,7 @@ subprojects {
      * [com.google.errorprone.bugpatterns.CheckReturnValue] was removed leading to breaking the API.
      */
     configurations {
-        forceVersions()
+        forceVersions(rootProject.libs)
         all {
             resolutionStrategy {
                 force(
