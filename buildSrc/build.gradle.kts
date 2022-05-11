@@ -47,9 +47,7 @@ repositories {
  */
 val jacksonVersion = "2.13.0"
 
-val googleAuthToolVersion = "2.1.2"
 val licenseReportVersion = "2.1"
-val grGitVersion = "3.1.1"
 
 /**
  * The version of the Kotlin Gradle plugin.
@@ -58,14 +56,6 @@ val grGitVersion = "3.1.1"
  *  [io.spine.internal.dependency.Kotlin.version].
  */
 val kotlinVersion = "1.6.21"
-
-/**
- * The version of Guava used in `buildSrc`.
- *
- * Always use the same version as the one specified in [io.spine.internal.dependency.Guava].
- * Otherwise, when testing Gradle plugins, clashes may occur.
- */
-val guavaVersion = "31.1-jre"
 
 /**
  * The version of Protobuf Gradle Plugin.
@@ -107,12 +97,11 @@ dependencies {
 
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {
-        exclude(group = "com.google.guava")
-    }
-    implementation("com.google.guava:guava:$guavaVersion")
+
+    implementation(libs.google.artifactRegistry.authCommon)
+    implementation(libs.guava)
     api("com.github.jk1:gradle-license-report:$licenseReportVersion")
-    implementation("org.ajoberstar.grgit:grgit-core:${grGitVersion}")
+    implementation(libs.grgit)
     implementation(libs.errorProne.gradlePlugin)
 
     // Add explicit dependency to avoid warning on different Kotlin runtime versions.

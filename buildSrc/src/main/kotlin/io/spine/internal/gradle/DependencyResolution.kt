@@ -26,10 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.FindBugs
-import io.spine.internal.dependency.Flogger
-import io.spine.internal.dependency.Gson
-import io.spine.internal.dependency.Guava
 import io.spine.internal.dependency.J2ObjC
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Kotlin
@@ -77,10 +73,10 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.errorProne.annotations,
         libs.errorProne.typeAnnotations,
         libs.errorProne.core,
-        Guava.lib,
-        FindBugs.annotations,
-        Flogger.lib,
-        Flogger.Runtime.systemBackend,
+        libs.findBugs.annotations,
+        libs.flogger,
+        libs.flogger.runtime.systemBackend,
+        libs.guava,
         Kotlin.reflect,
         Kotlin.stdLib,
         Kotlin.stdLibCommon,
@@ -93,7 +89,7 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
 
 private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
     force(
-        Guava.testLib,
+        libs.guava.testLib,
         JUnit.api,
         JUnit.platformCommons,
         JUnit.platformLauncher,
@@ -108,7 +104,7 @@ private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
 private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) {
     force(
         libs.autoValue.annotations,
-        Gson.lib,
+        libs.gson,
         J2ObjC.annotations,
         Plexus.utils,
         Okio.lib,
