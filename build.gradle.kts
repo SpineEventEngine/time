@@ -75,8 +75,11 @@ plugins {
     idea
     `project-report`
 
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+//    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
+//    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+
+    id("com.google.protobuf")
+    id("net.ltgt.errorprone")
 }
 
 spinePublishing {
@@ -91,17 +94,26 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
-
     dokkaJar {
         enabled = true
     }
 }
 
 allprojects {
-    apply(from = "$rootDir/version.gradle.kts")
+
+    // Due to a bug, we can't apply scripts.
+    // See: https://github.com/gradle/gradle/issues/20717
+
+    /** Versions of the Spine libraries that `time` depends on. */
+    extra["mcJavaVersion"] = "2.0.0-SNAPSHOT.83"
+    extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
+    extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
+
+    /** The version of this library. */
+    val versionToPublish by extra("2.0.0-SNAPSHOT.93")
 
     group = "io.spine"
-    version = extra["versionToPublish"]!!
+    version = versionToPublish
 }
 
 subprojects {
