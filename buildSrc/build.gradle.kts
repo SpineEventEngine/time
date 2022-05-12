@@ -39,16 +39,6 @@ repositories {
     gradlePluginPortal()
 }
 
-val licenseReportVersion = "2.1"
-
-/**
- * The version of the Kotlin Gradle plugin.
- *
- * Please check that this value matches one defined in
- *  [io.spine.internal.dependency.Kotlin.version].
- */
-val kotlinVersion = "1.6.21"
-
 /**
  * The version of Protobuf Gradle Plugin.
  *
@@ -58,19 +48,6 @@ val kotlinVersion = "1.6.21"
  *     Protobuf Gradle Plugins Releases</a>
  */
 val protobufPluginVersion = "0.8.18"
-
-configurations.all {
-    resolutionStrategy {
-        // Force Kotlin lib versions avoiding using those bundled with Gradle.
-        force(
-            "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-        )
-    }
-}
 
 kotlin {
     val jvmVersion = JavaLanguageVersion.of(11)
@@ -87,21 +64,15 @@ kotlin {
 }
 
 dependencies {
+    api(libs.licenseReport)
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
-
     implementation(libs.jackson.databind)
     implementation(libs.jackson.dataformatXml)
-
     implementation(libs.google.artifactRegistry.authCommon)
     implementation(libs.guava)
-    api("com.github.jk1:gradle-license-report:$licenseReportVersion")
     implementation(libs.grgit)
     implementation(libs.errorProne.gradlePlugin)
-
-    // Add explicit dependency to avoid warning on different Kotlin runtime versions.
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-
+    implementation(libs.kotlin.gradlePlugin)
     implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin)

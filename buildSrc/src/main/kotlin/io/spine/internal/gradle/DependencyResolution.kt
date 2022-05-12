@@ -26,8 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.Kotlin
-import io.spine.internal.dependency.Okio
 import io.spine.internal.dependency.Plexus
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Truth
@@ -75,10 +73,10 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.flogger,
         libs.flogger.runtime.systemBackend,
         libs.guava,
-        Kotlin.reflect,
-        Kotlin.stdLib,
-        Kotlin.stdLibCommon,
-        Kotlin.stdLibJdk8,
+        libs.kotlin.reflect,
+        libs.kotlin.stdLib,
+        libs.kotlin.stdLib.common,
+        libs.kotlin.stdLib.jdk8,
         Protobuf.libs,
         Protobuf.GradlePlugin.lib,
         io.spine.internal.dependency.Slf4J.lib
@@ -104,8 +102,8 @@ private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLib
         libs.autoValue.annotations,
         libs.gson,
         libs.j2objc.annotations,
+        libs.okio,
         Plexus.utils,
-        Okio.lib,
         libs.commons.cli,
         libs.commons.logging,
         libs.checkerFramework.compatQual,

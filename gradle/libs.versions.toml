@@ -26,6 +26,10 @@ httpClient = "1.41.5" # https://github.com/googleapis/google-http-java-client
 jackson = "2.13.2" # https://github.com/FasterXML
 junit = "5.8.2" # https://junit.org/junit5/
 junitPlatform = "1.8.2" # https://junit.org/junit5/
+kotlin = "1.6.21" # https://github.com/JetBrains/kotlin
+licenseReport = "1.16" # https://github.com/jk1/Gradle-License-Report
+netty = "4.1.72.Final" # https://github.com/netty/netty/releases
+osDetector = "1.7.0" # https://github.com/google/osdetector-gradle-plugin
 
 [libraries]
 animalSniffer = { module = "org.codehaus.mojo:animal-sniffer-annotations", version.ref = "animalSniffer" }
@@ -136,6 +140,24 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 junit-platform-commons = { module = "org.junit.platform:junit-platform-commons", version.ref = "junitPlatform" }
 # https://github.com/junit-pioneer/junit-pioneer
 junit-pioneer = "org.junit-pioneer:junit-pioneer:1.5.0"
+# https://github.com/cbeust/klaxon
+klaxon = "com.beust:klaxon:5.6"
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+kotlin-stdLib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-stdLib-common = { module = "org.jetbrains.kotlin:kotlin-stdlib-common", version.ref = "kotlin" }
+kotlin-stdLib-jdk7 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+kotlin-stdLib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+# https://github.com/z4kn4fein/kotlin-semver
+kotlinSemver = "io.github.z4kn4fein:semver:1.2.1"
+licenseReport = { module = "com.github.jk1:gradle-license-report", version.ref = "licenseReport" }
+netty-common = { module = "io.netty:netty-common", version.ref = "netty" }
+netty-buffer = { module = "io.netty:netty-buffer", version.ref = "netty" }
+netty-transport = { module = "io.netty:netty-transport", version.ref = "netty" }
+netty-handler = { module = "io.netty:netty-handler", version.ref = "netty" }
+netty-codecHttp = { module = "io.netty:netty-codec-http", version.ref = "netty" }
+okio = "com.squareup.okio:okio:1.17.5"
+osDetector-gradlePlugin = { module = "com.google.gradle:osdetector-gradle-plugin", version.ref = "osDetector" }
 
 [bundles]
 checkerFramework-dataflow = ["checkerFramework-dataflow", "checkerFramework-javacUtil"]
@@ -144,4 +166,6 @@ junit-api = ["junit-apiGuardian-api", "junit-api", "junit-params"]
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-errorProne = { id = "net.ltgt.errorprone" }
+errorProne = { id = "net.ltgt.errorprone", version.ref = "errorProneGradlePlugin" }
+licenseReport = { id = "com.github.jk1.dependency-license-report", version.ref = "licenseReport" }
+osDetector = { id = "com.google.osdetector", version.ref = "osDetector" }
