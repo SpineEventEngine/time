@@ -56,56 +56,56 @@ fun NamedDomainObjectContainer<Configuration>.forceVersions(libs: LibrariesForLi
     }
 }
 
-private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) = with(libs) {
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
-        libs.animalSniffer,
-        libs.autoCommon,
-        libs.autoService.annotations,
-        libs.checkerFramework.annotations,
-        libs.errorProne.annotations,
-        libs.errorProne.typeAnnotations,
-        libs.errorProne.core,
-        libs.findBugs.annotations,
-        libs.flogger,
-        libs.flogger.runtime.systemBackend,
-        libs.guava,
-        libs.kotlin.reflect,
-        libs.kotlin.stdLib,
-        libs.kotlin.stdLib.common,
-        libs.kotlin.stdLib.jdk8,
-        libs.protobuf.java,
-        libs.protobuf.java.util,
-        libs.protobuf.kotlin,
-        libs.protobuf.gradlePlugin,
-        libs.slf4j.api
+        animalSniffer,
+        autoCommon,
+        autoService.annotations,
+        checkerFramework.annotations,
+        errorProne.annotations,
+        errorProne.typeAnnotations,
+        errorProne.core,
+        findBugs.annotations,
+        flogger,
+        flogger.runtime.systemBackend,
+        guava,
+        kotlin.reflect,
+        kotlin.stdLib,
+        kotlin.stdLib.common,
+        kotlin.stdLib.jdk8,
+        protobuf.java,
+        protobuf.java.util,
+        protobuf.kotlin,
+        protobuf.gradlePlugin,
+        slf4j.api
     )
 }
 
-private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        libs.guava.testLib,
-        libs.junit.api,
-        libs.junit.platform.commons,
-        libs.junit.platform.launcher,
-        libs.junit.legacy,
-        libs.truth
+        guava.testLib,
+        junit.api,
+        junit.platform.commons,
+        junit.platform.launcher,
+        junit.legacy,
+        truth
     )
 }
 
 /**
  * Forces transitive dependencies of 3rd party components that we don't use directly.
  */
-private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        libs.autoValue.annotations,
-        libs.gson,
-        libs.j2objc.annotations,
-        libs.okio,
-        libs.plexus,
-        libs.commons.cli,
-        libs.commons.logging,
-        libs.checkerFramework.compatQual,
+        autoValue.annotations,
+        gson,
+        j2objc.annotations,
+        okio,
+        plexus,
+        commons.cli,
+        commons.logging,
+        checkerFramework.compatQual,
     )
 }
 
