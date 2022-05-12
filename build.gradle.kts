@@ -72,6 +72,11 @@ plugins {
     idea
     `project-report`
 
+    // As for now, Gradle doesn't provide API for applying plugins without version.
+    // This is why we resolve a provider by `get()`.
+    //
+    // See a feature request: https://github.com/gradle/gradle/issues/17968
+
     id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.errorProne.get().pluginId)
 }
@@ -130,6 +135,13 @@ subprojects {
 
     val spineBaseVersion: String by extra
     dependencies {
+
+        // Gradle discourages cross-configuration of projects.
+        // Thus, the direct access to `libs` in `allprojects` and `subprojects`
+        // blocks is unavailable. But we still can use it from `rootProject`.
+        //
+        // See the closed issue: https://github.com/gradle/gradle/issues/16634
+
         errorprone(rootProject.libs.errorProne.core)
         api(rootProject.libs.kotlin.stdLib.jdk8)
 

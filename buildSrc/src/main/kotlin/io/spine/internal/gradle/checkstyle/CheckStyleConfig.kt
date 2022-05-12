@@ -48,10 +48,6 @@ import org.gradle.kotlin.dsl.the
 @Suppress("unused")
 object CheckStyleConfig {
 
-    // We can't migrate this to the plain TOML file.
-    // https://checkstyle.sourceforge.io/
-    private const val version = "10.1"
-
     /**
      * Applies the configuration to the passed [project].
      */
@@ -63,7 +59,9 @@ object CheckStyleConfig {
         val configDir = project.rootDir.resolve("config/quality/")
 
         with(project.the<CheckstyleExtension>()) {
-            toolVersion = version
+            // `CheckStyle.kt` is not migrated.
+            // A TOML file can't contain just a version.
+            toolVersion = "10.1"
             configDirectory.set(configDir)
         }
 

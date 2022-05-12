@@ -29,6 +29,8 @@ plugins {
 }
 
 pmd {
+    // `Pmd.kt` is not migrated.
+    // A TOML file can't contain just a version.
     toolVersion = "6.44.0"
     isConsoleOutput = true
     incrementalAnalysis.set(true)

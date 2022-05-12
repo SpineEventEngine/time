@@ -33,13 +33,14 @@ import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.gradle.accessors.dm.LibrariesForLibs
 
-val libs = rootProject.extensions.getByType<LibrariesForLibs>()
-
 plugins {
     id("org.jetbrains.dokka")
 }
 
 dependencies {
+
+    val libs = rootProject.extensions.getByType<LibrariesForLibs>()
+
     /**
      * To generate the documentation as seen from Java perspective, the kotlin-as-java plugin was
      * added to the Dokka's classpath.

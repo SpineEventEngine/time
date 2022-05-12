@@ -42,7 +42,8 @@ import org.gradle.kotlin.dsl.getByType
  *
  *  1. [plugins].
  *  2. [extensions].
- *  3. [tasks].
+ *  3. [libs].
+ *  4. [tasks].
  *
  * Let's imagine one wants to apply and configure `FooBar` plugin. To do that, several steps
  * should be completed:
