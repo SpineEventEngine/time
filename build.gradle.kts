@@ -104,7 +104,7 @@ allprojects {
     extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
 
     /** The version of this library. */
-    val versionToPublish by extra("2.0.0-SNAPSHOT.92")
+    val versionToPublish by extra("2.0.0-SNAPSHOT.93")
 
     group = "io.spine"
     version = versionToPublish
