@@ -39,14 +39,6 @@ repositories {
     gradlePluginPortal()
 }
 
-/**
- * The version of Jackson used by `buildSrc`.
- *
- * Please keep this value in sync. with `Jackson.version`.
- * It's not a requirement, but would be good in terms of consistency.
- */
-val jacksonVersion = "2.13.0"
-
 val licenseReportVersion = "2.1"
 
 /**
@@ -80,23 +72,25 @@ configurations.all {
     }
 }
 
-val jvmVersion = JavaLanguageVersion.of(11)
+kotlin {
+    val jvmVersion = JavaLanguageVersion.of(11)
 
-java {
-    toolchain.languageVersion.set(jvmVersion)
-}
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(jvmVersion)
+    }
 
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = jvmVersion.toString()
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = jvmVersion.toString()
+        }
     }
 }
 
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.dataformatXml)
 
     implementation(libs.google.artifactRegistry.authCommon)
     implementation(libs.guava)

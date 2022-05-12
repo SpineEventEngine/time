@@ -26,8 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.J2ObjC
-import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Kotlin
 import io.spine.internal.dependency.Okio
 import io.spine.internal.dependency.Plexus
@@ -90,10 +88,10 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
 private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
     force(
         libs.guava.testLib,
-        JUnit.api,
-        JUnit.platformCommons,
-        JUnit.platformLauncher,
-        JUnit.legacy,
+        libs.junit.api,
+        libs.junit.platform.commons,
+        libs.junit.platform.launcher,
+        libs.junit.legacy,
         Truth.libs
     )
 }
@@ -105,7 +103,7 @@ private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLib
     force(
         libs.autoValue.annotations,
         libs.gson,
-        J2ObjC.annotations,
+        libs.j2objc.annotations,
         Plexus.utils,
         Okio.lib,
         libs.commons.cli,
