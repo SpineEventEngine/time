@@ -31,7 +31,6 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
@@ -73,7 +72,7 @@ plugins {
     idea
     `project-report`
 
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
+    id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.errorProne.get().pluginId)
 }
 
@@ -117,7 +116,6 @@ subprojects {
         plugin("kotlin")
         plugin("com.google.protobuf")
         plugin("net.ltgt.errorprone")
-        plugin("pmd")
         plugin("checkstyle")
         plugin("idea")
         plugin("pmd-settings")
@@ -133,7 +131,7 @@ subprojects {
     val spineBaseVersion: String by extra
     dependencies {
         errorprone(rootProject.libs.errorProne.core)
-        api(kotlin("stdlib-jdk8"))
+        api(rootProject.libs.kotlin.stdLib.jdk8)
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
         testImplementation(rootProject.libs.junit.runner)
@@ -205,7 +203,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Protobuf.compiler
+            artifact = rootProject.libs.protobuf.compiler.get().toString()
         }
         generateProtoTasks {
             all().forEach { task ->

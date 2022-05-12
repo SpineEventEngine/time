@@ -39,16 +39,6 @@ repositories {
     gradlePluginPortal()
 }
 
-/**
- * The version of Protobuf Gradle Plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.Protobuf.GradlePlugin.version].
- *
- * @see <a href="https://github.com/google/protobuf-gradle-plugin/releases">
- *     Protobuf Gradle Plugins Releases</a>
- */
-val protobufPluginVersion = "0.8.18"
-
 kotlin {
     val jvmVersion = JavaLanguageVersion.of(11)
 
@@ -73,7 +63,7 @@ dependencies {
     implementation(libs.grgit)
     implementation(libs.errorProne.gradlePlugin)
     implementation(libs.kotlin.gradlePlugin)
-    implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
+    implementation(libs.protobuf.gradlePlugin)
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin)
 }

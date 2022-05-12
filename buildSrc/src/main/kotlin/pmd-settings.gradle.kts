@@ -24,14 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.Pmd
-
 plugins {
     pmd
 }
 
 pmd {
-    toolVersion = Pmd.version
+    toolVersion = "6.44.0"
     isConsoleOutput = true
     incrementalAnalysis.set(true)
 
