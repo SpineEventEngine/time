@@ -26,17 +26,18 @@
 
 package io.spine.internal.dependency
 
-/**
- * Gradle TestKit extension for Google Truth.
- *
- * Source code:
- * https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth
- *
- * Usage description:
- * https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc
- */
 @Suppress("unused")
-object TestKitTruth {
-    private const val version = "1.1"
-    const val lib = "com.autonomousapps:testkit-truth:$version"
+object GoogleCloud {
+
+    // https://github.com/googleapis/java-core
+    const val core = "com.google.cloud:google-cloud-core:2.3.3"
+
+    // https://github.com/googleapis/java-pubsub/tree/main/proto-google-cloud-pubsub-v1
+    const val pubSubGrpcApi = "com.google.api.grpc:proto-google-cloud-pubsub-v1:1.97.0"
+
+    // https://github.com/googleapis/java-trace
+    const val trace = "com.google.cloud:google-cloud-trace:2.1.0"
+
+    // https://github.com/googleapis/java-datastore
+    const val datastore = "com.google.cloud:google-cloud-datastore:2.2.1"
 }

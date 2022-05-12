@@ -27,15 +27,12 @@
 package io.spine.internal.dependency
 
 /**
- * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up, we recommend to
- * use the latter.
+ * Commons CLI is a transitive dependency which we don't use directly.
+ * We `force` it in [DependencyResolution.forceConfiguration].
  *
- * Some third-party libraries may clash with different versions of the library. Thus, we specify
- * this version and force it via [forceConfiguration(..)][DependencyResolution.forceConfiguration].
+ * [Commons CLI](https://commons.apache.org/proper/commons-cli/)
  */
-@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("flogger"))
-object Slf4J {
-    private const val version = "1.7.30"
-    const val lib = "org.slf4j:slf4j-api:${version}"
-    const val jdk14 = "org.slf4j:slf4j-jdk14:${version}"
+object CommonsCli {
+    private const val version = "1.5.0"
+    const val lib = "commons-cli:commons-cli:${version}"
 }

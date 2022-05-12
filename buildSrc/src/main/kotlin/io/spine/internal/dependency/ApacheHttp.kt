@@ -27,12 +27,8 @@
 package io.spine.internal.dependency
 
 @Suppress("unused")
-object Netty {
-    // https://github.com/netty/netty/releases
-    private const val version = "4.1.72.Final"
-    const val common = "io.netty:netty-common:${version}"
-    const val buffer = "io.netty:netty-buffer:${version}"
-    const val transport = "io.netty:netty-transport:${version}"
-    const val handler = "io.netty:netty-handler:${version}"
-    const val codecHttp = "io.netty:netty-codec-http:${version}"
+object ApacheHttp {
+
+    // https://hc.apache.org/downloads.cgi
+    const val core = "org.apache.httpcomponents:httpcore:4.4.14"
 }

@@ -26,15 +26,9 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/jk1/Gradle-License-Report
+// https://commons.apache.org/proper/commons-codec/changes-report.html
 @Suppress("unused")
-object LicenseReport {
-    private const val version = "1.16"
-    const val lib = "com.github.jk1:gradle-license-report:${version}"
-
-    object GradlePlugin {
-        const val version = LicenseReport.version
-        const val id = "com.github.jk1.dependency-license-report"
-        const val lib = LicenseReport.lib
-    }
+object CommonsCodec {
+    private const val version = "1.15"
+    const val lib = "commons-codec:commons-codec:$version"
 }

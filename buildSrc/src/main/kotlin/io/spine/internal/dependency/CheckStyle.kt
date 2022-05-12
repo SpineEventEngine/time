@@ -26,13 +26,9 @@
 
 package io.spine.internal.dependency
 
-/**
- * Plexus Utils is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
- *
- * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
- */
-object Plexus {
-    private const val version = "3.4.0"
-    const val utils = "org.codehaus.plexus:plexus-utils:${version}"
+// https://checkstyle.sourceforge.io/
+// See `io.spine.internal.gradle.checkstyle.CheckStyleConfig`.
+@Suppress("unused")
+object CheckStyle {
+    const val version = "10.1"
 }

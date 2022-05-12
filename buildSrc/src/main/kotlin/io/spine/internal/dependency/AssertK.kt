@@ -26,10 +26,13 @@
 
 package io.spine.internal.dependency
 
-object OsDetector {
-    // https://github.com/google/osdetector-gradle-plugin
-    const val version = "1.7.0"
-    const val id = "com.google.osdetector"
-    const val lib = "com.google.gradle:osdetector-gradle-plugin:${version}"
-    const val classpath = lib
+/**
+ * Assertion library for tests in Kotlin
+ *
+ * [AssertK](https://github.com/willowtreeapps/assertk)
+ */
+@Suppress("unused")
+object AssertK {
+    private const val version = "0.25"
+    const val libJvm = "com.willowtreeapps.assertk:assertk-jvm:${version}"
 }

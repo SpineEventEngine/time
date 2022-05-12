@@ -26,12 +26,19 @@
 
 package io.spine.internal.dependency
 
-/**
- * Okio is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
- */
-object Okio {
-    // This is the last version before next major.
-    private const val version = "1.17.5"
-    const val lib = "com.squareup.okio:okio:${version}"
+// https://checkerframework.org/
+object CheckerFramework {
+    private const val version = "3.21.3"
+    const val annotations = "org.checkerframework:checker-qual:${version}"
+    @Suppress("unused")
+    val dataflow = listOf(
+        "org.checkerframework:dataflow:${version}",
+        "org.checkerframework:javacutil:${version}"
+    )
+    /**
+     * This is discontinued artifact, which we do not use directly.
+     * This is a transitive dependency for us, which we force in
+     * [DependencyResolution.forceConfiguration]
+     */
+    const val compatQual = "org.checkerframework:checker-compat-qual:2.5.5"
 }
