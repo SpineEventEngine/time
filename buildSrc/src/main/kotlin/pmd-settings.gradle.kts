@@ -1,3 +1,5 @@
+import org.gradle.accessors.dm.LibrariesForLibs
+
 /*
  * Copyright 2022, TeamDev. All rights reserved.
  *
@@ -24,14 +26,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.Pmd
-
 plugins {
     pmd
 }
 
 pmd {
-    toolVersion = Pmd.version
+    val libs = rootProject.extensions.getByType<LibrariesForLibs>()
+
+    toolVersion = libs.versions.pmd.get()
     isConsoleOutput = true
     incrementalAnalysis.set(true)
 
