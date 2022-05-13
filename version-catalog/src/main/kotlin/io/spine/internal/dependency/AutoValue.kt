@@ -26,10 +26,15 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
 // https://github.com/google/auto
-object AutoService {
-    private const val version = "1.0.1"
-    const val annotations = "com.google.auto.service:auto-service-annotations:${version}"
-    @Suppress("unused")
-    const val processor   = "com.google.auto.service:auto-service:${version}"
+internal object AutoValue : VersionCatalogContributor {
+
+    private const val version = "1.9"
+
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("autoValue-annotations", "com.google.auto.value:auto-value-annotations:${version}")
+    }
 }

@@ -24,10 +24,39 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.version.catalog
 
-// https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
-object AnimalSniffer {
-    private const val version = "1.21"
-    const val lib = "org.codehaus.mojo:animal-sniffer-annotations:${version}"
+import io.spine.internal.dependency.AnimalSniffer
+import io.spine.internal.dependency.ApacheHttp
+import io.spine.internal.dependency.AppEngine
+import io.spine.internal.dependency.AssertK
+import io.spine.internal.dependency.AutoCommon
+import io.spine.internal.dependency.AutoService
+import io.spine.internal.dependency.AutoValue
+import org.gradle.api.Plugin
+import org.gradle.api.initialization.Settings
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+@Suppress("UnstableApiUsage", "unused")
+class SpineVersionCatalog : Plugin<Settings> {
+
+    override fun apply(settings: Settings) {
+        val catalog = settings.newCatalog()
+        contributors.forEach { it.contribute(catalog) }
+    }
+
+    private fun Settings.newCatalog(): VersionCatalogBuilder {
+        val result = dependencyResolutionManagement.versionCatalogs.create("libs")
+        return result
+    }
 }
+
+private val contributors = setOf(
+    AnimalSniffer,
+    ApacheHttp,
+    AppEngine,
+    AssertK,
+    AutoCommon,
+    AutoService,
+    AutoValue
+)

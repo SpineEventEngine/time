@@ -24,27 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-group = "io.spine.internal"
-version = "0.0.1-SNAPSHOT.1"
+package io.spine.internal.dependency
 
-plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
-    `java-gradle-plugin`
-    `maven-publish`
-}
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-repositories {
-    mavenCentral()
-}
+/**
+ * Assertion library for tests in Kotlin.
+ *
+ * [AssertK](https://github.com/willowtreeapps/assertk)
+ */
+internal object AssertK : VersionCatalogContributor {
 
-dependencies {
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-}
+    private const val version = "0.25"
 
-gradlePlugin {
-    plugins.create("spine-version-catalog") {
-        id = "io.spine.internal.version-catalog"
-        implementationClass = "io.spine.internal.version.catalog.SpineVersionCatalog"
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("assertK-jvm", "com.willowtreeapps.assertk:assertk-jvm:${version}")
     }
 }

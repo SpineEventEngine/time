@@ -55,7 +55,7 @@ buildscript {
     apply(from = "$rootDir/version.gradle.kts")
 
     io.spine.internal.gradle.doApplyStandard(repositories)
-    io.spine.internal.gradle.doForceVersions(configurations)
+    io.spine.internal.gradle.doForceVersions(configurations, libs)
 
     val mcJavaVersion: String by extra
     dependencies {
@@ -150,7 +150,7 @@ subprojects {
      * [com.google.errorprone.bugpatterns.CheckReturnValue] was removed leading to breaking the API.
      */
     configurations {
-        forceVersions()
+        forceVersions(rootProject.libs)
         all {
             resolutionStrategy {
                 force(

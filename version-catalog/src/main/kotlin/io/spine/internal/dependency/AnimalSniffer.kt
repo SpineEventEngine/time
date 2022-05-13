@@ -24,23 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.version.catalog
+package io.spine.internal.dependency
 
-import org.gradle.api.Plugin
+import io.spine.internal.version.catalog.VersionCatalogContributor
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
-import org.gradle.initialization.DefaultSettings
 
-@Suppress("UnstableApiUsage", "unused")
-class SpineVersionCatalog: Plugin<DefaultSettings> {
+// https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
+internal object AnimalSniffer : VersionCatalogContributor {
 
-    override fun apply(target: DefaultSettings) {
-        val builder = target.dependencyResolutionManagement.versionCatalogs.create("libs")
-        declareDependencies(builder)
-    }
+    private const val version = "1.21"
 
-    private fun declareDependencies(builder: VersionCatalogBuilder) = with(builder) {
-        val guava = "31.1-jre"
-        library("guava", "com.google.guava:guava:${guava}")
-        library("guava-testlib", "com.google.guava:guava-testlib:${guava}")
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("animalSniffer", "org.codehaus.mojo:animal-sniffer-annotations:${version}")
     }
 }

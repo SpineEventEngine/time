@@ -26,13 +26,15 @@
 
 package io.spine.internal.dependency
 
-/**
- * Assertion library for tests in Kotlin
- *
- * [AssertK](https://github.com/willowtreeapps/assertk)
- */
-@Suppress("unused")
-object AssertK {
-    private const val version = "0.25"
-    const val libJvm = "com.willowtreeapps.assertk:assertk-jvm:${version}"
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+// https://hc.apache.org/downloads.cgi
+internal object ApacheHttp : VersionCatalogContributor {
+
+    private const val version = "4.4.14"
+
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("apacheHttp-core", "org.apache.httpcomponents:httpcore:${version}")
+    }
 }

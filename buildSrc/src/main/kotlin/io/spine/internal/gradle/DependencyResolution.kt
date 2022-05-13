@@ -26,10 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.AnimalSniffer
-import io.spine.internal.dependency.AutoCommon
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.dependency.AutoValue
 import io.spine.internal.dependency.CheckerFramework
 import io.spine.internal.dependency.CommonsCli
 import io.spine.internal.dependency.CommonsLogging
@@ -45,6 +41,7 @@ import io.spine.internal.dependency.Okio
 import io.spine.internal.dependency.Plexus
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.dependency.Truth
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
@@ -55,31 +52,31 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
  * The function to be used in `buildscript` when a fully-qualified call must be made.
  */
 @Suppress("unused")
-fun doForceVersions(configurations: ConfigurationContainer) {
-    configurations.forceVersions()
+fun doForceVersions(configurations: ConfigurationContainer, libs: LibrariesForLibs) {
+    configurations.forceVersions(libs)
 }
 
 /**
  * Forces dependencies used in the project.
  */
-fun NamedDomainObjectContainer<Configuration>.forceVersions() {
+fun NamedDomainObjectContainer<Configuration>.forceVersions(libs: LibrariesForLibs) {
     all {
         resolutionStrategy {
             failOnVersionConflict()
             cacheChangingModulesFor(0, "seconds")
-            forceProductionDependencies()
-            forceTestDependencies()
-            forceTransitiveDependencies()
+            forceProductionDependencies(libs)
+            forceTestDependencies(libs)
+            forceTransitiveDependencies(libs)
         }
     }
 }
 
-private fun ResolutionStrategy.forceProductionDependencies() {
+private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) {
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
-        AnimalSniffer.lib,
-        AutoCommon.lib,
-        AutoService.annotations,
+        libs.animalSniffer,
+        libs.autoCommon,
+        libs.autoService.annotations,
         CheckerFramework.annotations,
         ErrorProne.annotations,
         ErrorProne.core,
@@ -97,7 +94,7 @@ private fun ResolutionStrategy.forceProductionDependencies() {
     )
 }
 
-private fun ResolutionStrategy.forceTestDependencies() {
+private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
     force(
         Guava.testLib,
         JUnit.api,
@@ -111,9 +108,9 @@ private fun ResolutionStrategy.forceTestDependencies() {
 /**
  * Forces transitive dependencies of 3rd party components that we don't use directly.
  */
-private fun ResolutionStrategy.forceTransitiveDependencies() {
+private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) {
     force(
-        AutoValue.annotations,
+        libs.autoValue.annotations,
         Gson.lib,
         J2ObjC.annotations,
         Plexus.utils,
@@ -145,8 +142,8 @@ object DependencyResolution {
         "Please use `configurations.forceVersions()`.",
         ReplaceWith("configurations.forceVersions()")
     )
-    fun forceConfiguration(configurations: ConfigurationContainer) {
-        configurations.forceVersions()
+    fun forceConfiguration(configurations: ConfigurationContainer, libs: LibrariesForLibs) {
+        configurations.forceVersions(libs)
     }
 
     @Deprecated(

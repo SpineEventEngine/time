@@ -24,25 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This script uses two declarations of the constant [licenseReportVersion] because
- * currently there is no way to define a constant _before_ a build script of `buildSrc`.
- * We cannot use imports or do something else before the `buildscript` or `plugin` clauses.
- */
-
 plugins {
     java
     groovy
     `kotlin-dsl`
     pmd
-    val licenseReportVersion = "2.1"
-    id("com.github.jk1.dependency-license-report").version(licenseReportVersion)
 }
 
 repositories {
+    mavenCentral()
     mavenLocal()
     gradlePluginPortal()
-    mavenCentral()
+}
+
+kotlin {
+    val jvmVersion = JavaLanguageVersion.of(11)
+
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(jvmVersion)
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            jvmTarget = jvmVersion.toString()
+        }
+    }
 }
 
 /**
@@ -103,32 +109,9 @@ val protobufPluginVersion = "0.8.18"
  */
 val dokkaVersion = "1.6.20"
 
-configurations.all {
-    resolutionStrategy {
-        // Force Kotlin lib versions avoiding using those bundled with Gradle.
-        force(
-            "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-        )
-    }
-}
-
-val jvmVersion = JavaLanguageVersion.of(11)
-
-java {
-    toolchain.languageVersion.set(jvmVersion)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = jvmVersion.toString()
-    }
-}
-
 dependencies {
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
     implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {

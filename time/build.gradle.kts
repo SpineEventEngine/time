@@ -24,7 +24,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.AutoService
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.excludeProtobufLite
 
@@ -36,8 +35,8 @@ apply<IncrementGuard>()
 
 val spineBaseVersion: String by extra
 dependencies {
-    annotationProcessor(AutoService.processor)
-    compileOnly(AutoService.annotations)
+    annotationProcessor(libs.autoService.processor)
+    compileOnly(libs.autoService.annotations)
 
     api("io.spine:spine-base:$spineBaseVersion")
 

@@ -24,11 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.version.catalog
 
-@Suppress("unused")
-object ApacheHttp {
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-    // https://hc.apache.org/downloads.cgi
-    const val core = "org.apache.httpcomponents:httpcore:4.4.14"
+/**
+ * A contributor to [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html).
+ */
+fun interface VersionCatalogContributor {
+
+    /**
+     * Contributes new dependencies, versions, plugins or bundles
+     * to this version catalog.
+     */
+    fun contribute(catalog: VersionCatalogBuilder)
 }
