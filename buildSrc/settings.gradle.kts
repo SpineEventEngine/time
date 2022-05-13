@@ -24,20 +24,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
 buildscript {
     repositories {
         mavenLocal()
