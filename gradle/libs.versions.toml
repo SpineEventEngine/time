@@ -116,7 +116,7 @@ guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-testLib = { module = "com.google.guava:guava-testlib", version.ref = "guava" }
 # https://github.com/ajoberstar/grgit
 grgit = "org.ajoberstar.grgit:grgit-core:3.1.1"
-httpClient-googe = { module = "com.google.http-client:google-http-client", version.ref = "httpClient" }
+httpClient-google = { module = "com.google.http-client:google-http-client", version.ref = "httpClient" }
 httpClient-jackson2 = { module = "com.google.http-client:google-http-client-jackson2", version.ref = "httpClient" }
 httpClient-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "httpClient" }
 httpClient-apache2 = { module = "com.google.http-client:google-http-client-apache-v2", version.ref = "httpClient" }
