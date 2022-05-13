@@ -1,3 +1,5 @@
+import org.gradle.accessors.dm.LibrariesForLibs
+
 /*
  * Copyright 2022, TeamDev. All rights reserved.
  *
@@ -29,9 +31,9 @@ plugins {
 }
 
 pmd {
-    // `Pmd.kt` is not migrated.
-    // A TOML file can't contain just a version.
-    toolVersion = "6.44.0"
+    val libs = rootProject.extensions.getByType<LibrariesForLibs>()
+
+    toolVersion = libs.versions.pmd.get()
     isConsoleOutput = true
     incrementalAnalysis.set(true)
 

@@ -30,6 +30,5 @@ package io.spine.internal.dependency
 // See `io.spine.internal.gradle.checkstyle.CheckStyleConfig`.
 @Suppress("unused")
 object CheckStyle {
-    // We can't migrate just a version to a TOML file.
     const val version = "10.1"
 }
