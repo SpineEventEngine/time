@@ -49,12 +49,10 @@ import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    apply(from = "$rootDir/version.gradle.kts")
-
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations, libs)
 
-    val mcJavaVersion: String by extra
+    val mcJavaVersion = "2.0.0-SNAPSHOT.83"
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
@@ -104,7 +102,6 @@ allprojects {
     // See: https://github.com/gradle/gradle/issues/20717
 
     /** Versions of the Spine libraries that `time` depends on. */
-    extra["mcJavaVersion"] = "2.0.0-SNAPSHOT.83"
     extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
     extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
 
