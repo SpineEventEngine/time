@@ -26,20 +26,23 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
  * Commons CLI is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
  *
- * [Commons CLI](https://commons.apache.org/proper/commons-cli/)
+ * This object is used for forcing the version.
  */
-object CommonsCli : VersionCatalogContributor {
+@Suppress("unused")
+internal object CommonsCli : VersionCatalogContributor() {
 
+    /**
+     * [CommonsCli](https://commons.apache.org/proper/commons-cli/)
+     */
     private const val version = "1.5.0"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("commonsCli", "commons-cli:commons-cli:${version}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("commons-cli:commons-cli:${version}")
     }
 }

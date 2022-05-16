@@ -26,17 +26,20 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://cloud.google.com/java/docs/reference
-internal object AppEngine : VersionCatalogContributor {
+/**
+ * [AppEngine](https://cloud.google.com/java/docs/reference)
+ */
+@Suppress("unused")
+internal object AppEngine : VersionCatalogContributor() {
 
     private const val version = "1.9.82"
     private const val gradleVersion = "2.2.0"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("appEngine-sdk", "com.google.appengine:appengine-api-1.0-sdk:${version}")
-        library("appEngine-gradlePlugin", "com.google.cloud.tools:appengine-gradle-plugin:${gradleVersion}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("sdk", "com.google.appengine:appengine-api-1.0-sdk:${version}")
+        library("gradlePlugin", "com.google.cloud.tools:appengine-gradle-plugin:${gradleVersion}")
     }
 }

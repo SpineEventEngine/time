@@ -31,11 +31,22 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 /**
  * A contributor to [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html).
  */
-fun interface VersionCatalogContributor {
+internal abstract class VersionCatalogContributor() {
+
+    private var baseAlias = this.javaClass.simpleName.replaceFirstChar { it.lowercase() }
+
+    constructor(baseAlias: String) : this() {
+        this.baseAlias = baseAlias
+    }
 
     /**
      * Contributes new dependencies, versions, plugins or bundles
      * to this version catalog.
      */
-    fun contribute(catalog: VersionCatalogBuilder)
+    protected abstract fun doContribute(builder: SpineVersionCatalogBuilder)
+
+    fun contribute(catalog: VersionCatalogBuilder) {
+        val spineBuilder = SpineVersionCatalogBuilder.wrap(catalog, baseAlias)
+        doContribute(spineBuilder)
+    }
 }

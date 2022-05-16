@@ -26,33 +26,28 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://checkerframework.org/
-object CheckerFramework : VersionCatalogContributor {
-
-    private const val version = "3.21.3"
-    const val annotations = "org.checkerframework:checker-qual:${version}"
-
-    @Suppress("unused")
-    val dataflow = listOf(
-        "org.checkerframework:dataflow:${version}",
-        "org.checkerframework:javacutil:${version}"
-    )
+@Suppress("unused")
+internal object CheckerFramework : VersionCatalogContributor() {
 
     /**
-     * This is discontinued artifact, which we do not use directly.
-     * This is a transitive dependency for us, which we force in
-     * [DependencyResolution.forceConfiguration]
+     * [CheckerFramework](https://checkerframework.org/)
      */
-    const val compatQual = "org.checkerframework:checker-compat-qual:2.5.5"
+    private const val version = "3.21.3"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("checkerFramework-compatQual", "org.checkerframework:checker-compat-qual:2.5.5")
-        library("checkerFramework-annotations", "org.checkerframework:checker-qual:${version}")
-        library("checkerFramework-dataflow", "org.checkerframework:dataflow:${version}")
-        library("checkerFramework-javac-util", "org.checkerframework:javacutil:${version}")
-        bundle("checkerFramework-dataflow", listOf("checkerFramework-dataflow", "checkerFramework-javac-util"))
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+
+        /**
+         * This is a discontinued artifact, which we do not use directly.
+         * We force it in `DependencyResolution.force()`.
+         */
+        library("compatQual", "org.checkerframework:checker-compat-qual:2.5.5")
+
+        library("annotations", "org.checkerframework:checker-qual:${version}")
+        library("dataflow", "org.checkerframework:dataflow:${version}")
+        library("javac-util", "org.checkerframework:javacutil:${version}")
+        bundle("dataflow", listOf("dataflow", "javac-util"))
     }
 }

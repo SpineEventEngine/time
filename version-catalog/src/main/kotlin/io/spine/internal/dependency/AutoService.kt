@@ -26,16 +26,18 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://github.com/google/auto
-internal object AutoService : VersionCatalogContributor {
+internal object AutoService : VersionCatalogContributor() {
 
+    /**
+     * [AutoService](https://github.com/google/auto)
+     */
     private const val version = "1.0.1"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("autoService-annotations", "com.google.auto.service:auto-service-annotations:${version}")
-        library("autoService-processor",  "com.google.auto.service:auto-service:${version}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("annotations", "com.google.auto.service:auto-service-annotations:${version}")
+        library("processor",  "com.google.auto.service:auto-service:${version}")
     }
 }

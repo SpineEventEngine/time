@@ -26,15 +26,18 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://commons.apache.org/proper/commons-codec/changes-report.html
 @Suppress("unused")
-object CommonsCodec : VersionCatalogContributor {
+internal object CommonsCodec : VersionCatalogContributor() {
+
+    /**
+     * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html)
+     */
     private const val version = "1.15"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("commonsCodec", "commons-codec:commons-codec:$version")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("commons-codec:commons-codec:$version")
     }
 }

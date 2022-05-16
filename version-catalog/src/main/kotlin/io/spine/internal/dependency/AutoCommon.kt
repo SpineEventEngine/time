@@ -26,15 +26,18 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://github.com/google/auto
-internal object AutoCommon : VersionCatalogContributor {
+@Suppress("unused")
+internal object AutoCommon : VersionCatalogContributor() {
 
+    /**
+     * [AutoCommon](https://github.com/google/auto)
+     */
     private const val version = "1.2.1"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("autoCommon", "com.google.auto:auto-common:${version}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("com.google.auto:auto-common:${version}")
     }
 }

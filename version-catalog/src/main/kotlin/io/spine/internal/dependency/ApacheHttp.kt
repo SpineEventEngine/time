@@ -26,15 +26,18 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://hc.apache.org/downloads.cgi
-internal object ApacheHttp : VersionCatalogContributor {
+@Suppress("unused")
+internal object ApacheHttp : VersionCatalogContributor() {
 
+    /**
+     * [ApacheHttp](https://hc.apache.org/downloads.cgi)
+     */
     private const val version = "4.4.14"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("apacheHttp-core", "org.apache.httpcomponents:httpcore:${version}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("core", "org.apache.httpcomponents:httpcore:${version}")
     }
 }

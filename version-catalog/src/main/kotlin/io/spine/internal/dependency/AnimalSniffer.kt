@@ -26,15 +26,18 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
-import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-// https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/
-internal object AnimalSniffer : VersionCatalogContributor {
+@Suppress("unused")
+internal object AnimalSniffer : VersionCatalogContributor() {
 
+    /**
+     * [AnimalSniffer](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/)
+     */
     private const val version = "1.21"
 
-    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
-        library("animalSniffer", "org.codehaus.mojo:animal-sniffer-annotations:${version}")
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("org.codehaus.mojo:animal-sniffer-annotations:${version}")
     }
 }
