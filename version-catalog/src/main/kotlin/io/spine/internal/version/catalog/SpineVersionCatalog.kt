@@ -37,7 +37,7 @@ class SpineVersionCatalog : Plugin<Settings> {
 
     override fun apply(settings: Settings) {
         val catalog = settings.newCatalog()
-        val contributors = fetchContributors()
+        val contributors = findContributors()
         contributors.forEach { it.contribute(catalog) }
     }
 
@@ -46,7 +46,7 @@ class SpineVersionCatalog : Plugin<Settings> {
         return result
     }
 
-    private fun fetchContributors(): Set<VersionCatalogContributor> {
+    private fun findContributors(): Set<VersionCatalogContributor> {
         val builder = ConfigurationBuilder().forPackage("io.spine.internal.dependency")
         val reflections = Reflections(builder)
         val contributors = reflections.getSubTypesOf(VersionCatalogContributor::class.java)
