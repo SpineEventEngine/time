@@ -58,7 +58,7 @@ internal object ErrorProne : VersionCatalogContributor() {
     override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
         library("annotations", "com.google.errorprone:error_prone_annotations:${version}")
         library("typeAnnotations", "com.google.errorprone:error_prone_type_annotations:${version}")
-        bundle("annotations", listOf("annotations", "type-annotations"))
+        bundle("annotations", listOf("annotations", "typeAnnotations"))
 
         library("core", "com.google.errorprone:error_prone_core:${version}")
         library("checkApi", "com.google.errorprone:error_prone_check_api:${version}")

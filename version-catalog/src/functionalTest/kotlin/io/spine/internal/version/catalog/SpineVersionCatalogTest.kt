@@ -26,32 +26,41 @@
 
 package io.spine.internal.version.catalog
 
-import org.gradle.internal.impldep.org.junit.Rule
 import org.gradle.internal.impldep.org.junit.rules.TemporaryFolder
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 
 @DisplayName("`SpineVersionCatalog` should")
 class SpineVersionCatalogTest {
 
-    val tempFolder = TemporaryFolder()
-
-    private fun projectDir() = tempFolder.root
-    private fun buildFile() = projectDir().resolve("build.gradle")
-    private fun settingsFile() = projectDir().resolve("settings.gradle")
+    private val projectDir = TemporaryFolder().also { it.create() }.root
 
     @Test
-    @DisplayName("register a new version catalog when applied")
+    @DisplayName("register a new version catalog")
     fun apply() {
-        println("I'm running......")
+
+        preparePluginInMavenLocal()
+        applyPluginInSettings()
+
+        val runner = GradleRunner.create()
+            .withArguments("help")
+            .withProjectDir(projectDir)
+
+        assertDoesNotThrow {
+            runner.build()
+        }
+    }
+
+    private fun preparePluginInMavenLocal() {
         val process = Runtime.getRuntime().exec("./gradlew publishToMavenLocal")
         process.waitFor()
+    }
 
-        tempFolder.create()
-
-        buildFile().writeText("")
-        settingsFile().writeText("""
+    private fun applyPluginInSettings() {
+        projectDir.resolve("build.gradle").writeText("")
+        projectDir.resolve("settings.gradle").writeText("""
         buildscript {
             repositories {
                 mavenLocal()
@@ -65,14 +74,5 @@ class SpineVersionCatalogTest {
             plugin("io.spine.internal.version-catalog")
         }
         """.trimIndent())
-
-        val runner = GradleRunner.create()
-        runner.forwardOutput()
-        runner.withPluginClasspath()
-        runner.withArguments("help")
-        runner.withProjectDir(projectDir())
-
-        val result = runner.build()
-        assert(result.output.contains("Welcome to Gradle"))
     }
 }
