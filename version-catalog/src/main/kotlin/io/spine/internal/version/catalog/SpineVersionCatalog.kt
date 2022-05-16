@@ -26,28 +26,18 @@
 
 package io.spine.internal.version.catalog
 
-import io.spine.internal.dependency.AnimalSniffer
-import io.spine.internal.dependency.ApacheHttp
-import io.spine.internal.dependency.AppEngine
-import io.spine.internal.dependency.AssertK
-import io.spine.internal.dependency.AutoCommon
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.dependency.AutoValue
-import io.spine.internal.dependency.BouncyCastle
-import io.spine.internal.dependency.CheckStyle
-import io.spine.internal.dependency.CheckerFramework
-import io.spine.internal.dependency.CommonsCli
-import io.spine.internal.dependency.CommonsCodec
-import io.spine.internal.dependency.CommonsLogging
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+import org.reflections.Reflections
+import org.reflections.util.ConfigurationBuilder
 
 @Suppress("UnstableApiUsage", "unused")
 class SpineVersionCatalog : Plugin<Settings> {
 
     override fun apply(settings: Settings) {
         val catalog = settings.newCatalog()
+        val contributors = fetchContributors()
         contributors.forEach { it.contribute(catalog) }
     }
 
@@ -55,21 +45,14 @@ class SpineVersionCatalog : Plugin<Settings> {
         val result = dependencyResolutionManagement.versionCatalogs.create("libs")
         return result
     }
+
+    private fun fetchContributors(): Set<VersionCatalogContributor> {
+        val builder = ConfigurationBuilder().forPackage("io.spine.internal.dependency")
+        val reflections = Reflections(builder)
+        val contributors = reflections.getSubTypesOf(VersionCatalogContributor::class.java)
+            .map { it.kotlin }
+            .mapNotNull { it.objectInstance }
+            .toSet()
+        return contributors
+    }
 }
-
-private val contributors = setOf(
-    AnimalSniffer,
-    ApacheHttp,
-    AppEngine,
-    AssertK,
-    AutoCommon,
-    AutoService,
-    AutoValue,
-
-    BouncyCastle,
-    CheckerFramework,
-    CheckStyle,
-    CommonsCli,
-    CommonsCodec,
-    CommonsLogging,
-)
