@@ -26,64 +26,28 @@
 
 package io.spine.internal.version.catalog
 
-import org.gradle.api.Action
-import org.gradle.api.artifacts.MutableVersionConstraint
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
-import org.gradle.api.provider.Property
 
 internal class SpineVersionCatalogBuilder
-private constructor(private val builder: VersionCatalogBuilder, private val baseAlias: String) :
-    VersionCatalogBuilder {
+private constructor(private val builder: VersionCatalogBuilder, private val baseAlias: String) {
 
     companion object {
         fun wrap(builder: VersionCatalogBuilder, baseAlias: String) =
             SpineVersionCatalogBuilder(builder, baseAlias)
     }
 
-    override fun getName(): String = builder.name
-
-    override fun getDescription(): Property<String> = builder.description
-
-    override fun from(dependencyNotation: Any) = builder.from(dependencyNotation)
-
-    override fun version(alias: String, versionSpec: Action<in MutableVersionConstraint>): String =
-        builder.version("$baseAlias-$alias", versionSpec)
-
-    override fun version(alias: String, version: String): String =
+    fun version(alias: String, version: String): String =
         builder.version("$baseAlias-$alias", version)
 
-    fun version(version: String): String =
-        builder.version(baseAlias, version)
+    fun version(version: String): String = builder.version(baseAlias, version)
 
-    @Suppress(
-        "DEPRECATION", // This method also returns a deprecated `AliasBuilder`.
-        "UnstableApiUsage" // `AliasBuilder` is also incubating.
-    )
-    @Deprecated(
-        "Deprecated in `VersionCatalogBuilder`",
-        ReplaceWith("Use pure Kotlin to create sub-aliases.")
-    )
-    override fun alias(alias: String): VersionCatalogBuilder.AliasBuilder =
-        throw IllegalStateException("Not supported")
+    fun library(alias: String, gav: String) = builder.library("$baseAlias-$alias", gav)
 
-    override fun library(
-        alias: String,
-        group: String,
-        artifact: String
-    ): VersionCatalogBuilder.LibraryAliasBuilder =
-        builder.library("$baseAlias-$alias", group, artifact)
+    fun library(gav: String) = builder.library(baseAlias, gav)
 
-    override fun library(alias: String, gav: String) =
-        builder.library("$baseAlias-$alias", gav)
-
-    fun library(gav: String) =
-        builder.library(baseAlias, gav)
-
-    override fun plugin(alias: String, id: String): VersionCatalogBuilder.PluginAliasBuilder =
+    fun plugin(alias: String, id: String): VersionCatalogBuilder.PluginAliasBuilder =
         builder.plugin("$baseAlias-$alias", id)
 
-    override fun bundle(alias: String, aliases: List<String>) =
+    fun bundle(alias: String, aliases: List<String>) =
         builder.bundle("$baseAlias-$alias", aliases.map { "$baseAlias-$it" })
-
-    override fun getLibrariesExtensionName(): String = builder.librariesExtensionName
 }
