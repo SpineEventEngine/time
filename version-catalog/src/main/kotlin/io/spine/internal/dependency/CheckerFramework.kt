@@ -48,6 +48,7 @@ internal object CheckerFramework : VersionCatalogContributor() {
         library("annotations", "org.checkerframework:checker-qual:${version}")
         library("dataflow", "org.checkerframework:dataflow:${version}")
         library("javac-util", "org.checkerframework:javacutil:${version}")
+
         bundle("dataflow", listOf("dataflow", "javac-util"))
     }
 }

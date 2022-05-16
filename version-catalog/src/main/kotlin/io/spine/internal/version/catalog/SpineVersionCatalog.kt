@@ -35,19 +35,23 @@ import org.reflections.util.ConfigurationBuilder
 @Suppress("UnstableApiUsage", "unused")
 class SpineVersionCatalog : Plugin<Settings> {
 
+    companion object {
+        private const val DEPENDENCIES_PKG = "io.spine.internal.dependency"
+    }
+
     override fun apply(settings: Settings) {
-        val catalog = settings.newCatalog()
+        val catalog = settings.createCatalog()
         val contributors = findContributors()
         contributors.forEach { it.contribute(catalog) }
     }
 
-    private fun Settings.newCatalog(): VersionCatalogBuilder {
+    private fun Settings.createCatalog(): VersionCatalogBuilder {
         val result = dependencyResolutionManagement.versionCatalogs.create("libs")
         return result
     }
 
     private fun findContributors(): Set<VersionCatalogContributor> {
-        val builder = ConfigurationBuilder().forPackage("io.spine.internal.dependency")
+        val builder = ConfigurationBuilder().forPackage(DEPENDENCIES_PKG)
         val reflections = Reflections(builder)
         val contributors = reflections.getSubTypesOf(VersionCatalogContributor::class.java)
             .map { it.kotlin }

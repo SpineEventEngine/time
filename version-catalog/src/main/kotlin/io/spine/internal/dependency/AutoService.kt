@@ -29,6 +29,7 @@ package io.spine.internal.dependency
 import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
 import io.spine.internal.version.catalog.VersionCatalogContributor
 
+@Suppress("unused")
 internal object AutoService : VersionCatalogContributor() {
 
     /**
