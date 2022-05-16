@@ -26,9 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.FindBugs
-import io.spine.internal.dependency.Flogger
 import io.spine.internal.dependency.Gson
 import io.spine.internal.dependency.Guava
 import io.spine.internal.dependency.J2ObjC
@@ -75,12 +72,13 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.autoCommon,
         libs.autoService.annotations,
         libs.checkerFramework.annotations,
-        ErrorProne.annotations,
-        ErrorProne.core,
+        libs.errorProne.annotations,
+        libs.errorProne.typeAnnotations,
+        libs.errorProne.core,
+        libs.findBugs.annotations,
+        libs.flogger,
+        libs.flogger.runtime.systemBackend,
         Guava.lib,
-        FindBugs.annotations,
-        Flogger.lib,
-        Flogger.Runtime.systemBackend,
         Kotlin.reflect,
         Kotlin.stdLib,
         Kotlin.stdLibCommon,

@@ -26,14 +26,24 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/google/flogger
-object Flogger {
-    internal const val version = "0.7.4"
-    const val lib     = "com.google.flogger:flogger:${version}"
-    @Suppress("unused")
-    object Runtime {
-        const val systemBackend = "com.google.flogger:flogger-system-backend:${version}"
-        const val log4J         = "com.google.flogger:flogger-log4j:${version}"
-        const val slf4J         = "com.google.flogger:slf4j-backend-factory:${version}"
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
+import io.spine.internal.version.catalog.VersionCatalogContributor
+
+/**
+ * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
+ * but we don't use it. We use ErrorProne for static analysis instead. The only
+ * reason for having this dependency is the annotations for null-checking introduced
+ * by JSR-305. These annotations are troublesome, but no alternatives are known for
+ * some of them so far.
+ *
+ * See [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
+ */
+@Suppress("unused")
+internal object FindBugs : VersionCatalogContributor() {
+
+    private const val version = "3.0.2"
+
+    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+        library("annotations", "com.google.code.findbugs:jsr305:${version}")
     }
 }

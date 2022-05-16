@@ -48,6 +48,9 @@ private constructor(private val builder: VersionCatalogBuilder, private val base
     fun plugin(alias: String, id: String): VersionCatalogBuilder.PluginAliasBuilder =
         builder.plugin("$baseAlias-$alias", id)
 
+    fun plugin(id: String): VersionCatalogBuilder.PluginAliasBuilder =
+        builder.plugin(baseAlias, id)
+
     fun bundle(alias: String, aliases: List<String>) =
         builder.bundle("$baseAlias-$alias", aliases.map { "$baseAlias-$it" })
 }

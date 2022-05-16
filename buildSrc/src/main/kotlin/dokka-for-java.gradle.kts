@@ -24,11 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.Dokka
 import io.spine.internal.gradle.dokka.onlyJavaSources
 import io.spine.internal.gradle.dokka.onlyNonGeneratedSources
 
 import java.time.LocalDate
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
@@ -38,6 +38,9 @@ plugins {
 }
 
 dependencies {
+
+    val libs = rootProject.extensions.getByType<LibrariesForLibs>()
+
     /**
      * To generate the documentation as seen from Java perspective, the kotlin-as-java plugin was
      * added to the Dokka's classpath.
@@ -45,7 +48,7 @@ dependencies {
      * @see <a href="https://github.com/Kotlin/dokka#output-formats">
      *     Dokka output formats</a>
      */
-    dokkaPlugin(Dokka.KotlinAsJavaPlugin.lib)
+    dokkaPlugin(libs.dokka.kotlinAsJavaPlugin)
 
     /**
      * To exclude pieces of code annotated with `@Internal` from the documentation a custom plugin
@@ -54,7 +57,7 @@ dependencies {
      * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
      *     Custom Dokka Plugins</a>
      */
-    dokkaPlugin(Dokka.SpineExtensions.lib)
+    dokkaPlugin(libs.dokka.spineExtensions)
 }
 
 tasks.withType<DokkaTask>().configureEach {
