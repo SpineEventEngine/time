@@ -24,6 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+
 group = "io.spine.internal"
 version = "0.0.1-SNAPSHOT.1"
 
@@ -41,11 +44,76 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
 gradlePlugin {
     plugins.create("spine-version-catalog") {
         id = "io.spine.internal.version-catalog"
         implementationClass = "io.spine.internal.version.catalog.SpineVersionCatalog"
+    }
+}
+
+//// Create source set and configuration for functional tests.
+//val functionalTestSourceSet = sourceSets.create("functionalTest").also {
+//    gradlePlugin.testSourceSets(it)
+//}
+//
+//val testImplementation = configurations.testImplementation.get()
+//configurations["functionalTestImplementation"].apply {
+//    extendsFrom(testImplementation)
+//}
+//
+//tasks {
+//    val functionalTest by registering(Test::class) {
+//        testClassesDirs = functionalTestSourceSet.output.classesDirs
+//        classpath = functionalTestSourceSet.runtimeClasspath
+//    }
+//
+//    check {
+//        dependsOn(functionalTest)
+//    }
+//
+//    withType<Test>().configureEach {
+//        testLogging {
+//            showStandardStreams = true
+//            showExceptions = true
+//            exceptionFormat = TestExceptionFormat.FULL
+//            showStackTraces = true
+//            showCauses = true
+//        }
+//    }
+//}
+
+// Add a source set for the functional test suite
+val functionalTestSourceSet = sourceSets.create("functionalTest") {
+}
+
+configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
+
+// Add a task to run the functional tests
+val functionalTest by tasks.registering(Test::class) {
+    testClassesDirs = functionalTestSourceSet.output.classesDirs
+    classpath = functionalTestSourceSet.runtimeClasspath
+
+    testLogging {
+        showStandardStreams = true
+        showExceptions = true
+        exceptionFormat = FULL
+        showStackTraces = true
+        showCauses = true
+    }
+}
+
+gradlePlugin.testSourceSets(functionalTestSourceSet)
+
+tasks.named<Task>("check") {
+    // Run the functional tests as part of `check`
+    dependsOn(functionalTest)
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform {
+        includeEngines("junit-jupiter")
     }
 }
