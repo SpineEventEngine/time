@@ -33,6 +33,12 @@ import io.spine.internal.dependency.AssertK
 import io.spine.internal.dependency.AutoCommon
 import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.AutoValue
+import io.spine.internal.dependency.BouncyCastle
+import io.spine.internal.dependency.CheckStyle
+import io.spine.internal.dependency.CheckerFramework
+import io.spine.internal.dependency.CommonsCli
+import io.spine.internal.dependency.CommonsCodec
+import io.spine.internal.dependency.CommonsLogging
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
@@ -58,5 +64,12 @@ private val contributors = setOf(
     AssertK,
     AutoCommon,
     AutoService,
-    AutoValue
+    AutoValue,
+
+    BouncyCastle,
+    CheckerFramework,
+    CheckStyle,
+    CommonsCli,
+    CommonsCodec,
+    CommonsLogging,
 )

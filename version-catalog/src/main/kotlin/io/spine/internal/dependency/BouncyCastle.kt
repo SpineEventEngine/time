@@ -26,8 +26,13 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
 // https://www.bouncycastle.org/java.html
 @Suppress("unused")
-object BouncyCastle {
-    const val libPkcsJdk15 = "org.bouncycastle:bcpkix-jdk15on:1.68"
+object BouncyCastle : VersionCatalogContributor {
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("bouncyCastle-libPkcsJdk15", "org.bouncycastle:bcpkix-jdk15on:1.68")
+    }
 }

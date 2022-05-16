@@ -26,9 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.CheckerFramework
-import io.spine.internal.dependency.CommonsCli
-import io.spine.internal.dependency.CommonsLogging
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.FindBugs
 import io.spine.internal.dependency.Flogger
@@ -77,7 +74,7 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.animalSniffer,
         libs.autoCommon,
         libs.autoService.annotations,
-        CheckerFramework.annotations,
+        libs.checkerFramework.annotations,
         ErrorProne.annotations,
         ErrorProne.core,
         Guava.lib,
@@ -115,9 +112,9 @@ private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLib
         J2ObjC.annotations,
         Plexus.utils,
         Okio.lib,
-        CommonsCli.lib,
-        CheckerFramework.compatQual,
-        CommonsLogging.lib
+        libs.commonsCli,
+        libs.checkerFramework.compatQual,
+        libs.commonsLogging,
     )
 }
 

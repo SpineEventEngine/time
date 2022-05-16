@@ -26,13 +26,17 @@
 
 package io.spine.internal.dependency
 
-/**
- * Commons CLI is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
- *
- * [Commons CLI](https://commons.apache.org/proper/commons-cli/)
- */
-object CommonsCli {
-    private const val version = "1.5.0"
-    const val lib = "commons-cli:commons-cli:${version}"
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+// https://checkstyle.sourceforge.io/
+// See `io.spine.internal.gradle.checkstyle.CheckStyleConfig`.
+@Suppress("unused")
+object CheckStyle : VersionCatalogContributor {
+
+    const val version = "10.1"
+
+    override fun contribute(catalog: VersionCatalogBuilder): Unit = with(catalog) {
+        version("checkStyle", "10.1")
+    }
 }

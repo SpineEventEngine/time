@@ -26,9 +26,19 @@
 
 package io.spine.internal.dependency
 
-// https://commons.apache.org/proper/commons-codec/changes-report.html
-@Suppress("unused")
-object CommonsCodec {
-    private const val version = "1.15"
-    const val lib = "commons-codec:commons-codec:$version"
+import io.spine.internal.version.catalog.VersionCatalogContributor
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+/**
+ * [Commons Logging](https://commons.apache.org/proper/commons-logging/) is a transitive
+ * dependency which we don't use directly. This object is used for forcing the version.
+ */
+object CommonsLogging : VersionCatalogContributor {
+
+    // https://commons.apache.org/proper/commons-logging/
+    private const val version = "1.2"
+
+    override fun contribute(catalog: VersionCatalogBuilder) = with(catalog) {
+        library("commonsLogging", "commons-logging:commons-logging:${version}")
+    }
 }
