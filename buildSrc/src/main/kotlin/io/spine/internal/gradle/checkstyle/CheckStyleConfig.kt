@@ -62,7 +62,7 @@ object CheckStyleConfig {
         val libs = project.rootProject.extensions.getByType<LibrariesForLibs>()
 
         with(project.the<CheckstyleExtension>()) {
-            toolVersion = libs.versions.checkStyle.toString()
+            toolVersion = libs.versions.checkStyle.get().toString()
             configDirectory.set(configDir)
         }
 
