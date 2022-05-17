@@ -69,7 +69,7 @@ val grGitVersion = "3.1.1"
  * Please check that this value matches one defined in
  *  [io.spine.internal.dependency.Kotlin.version].
  */
-val kotlinVersion = "1.6.21"
+val kotlinVersion = "1.5.31"
 
 /**
  * The version of Guava used in `buildSrc`.
@@ -109,6 +109,26 @@ val protobufPluginVersion = "0.8.18"
  */
 val dokkaVersion = "1.6.20"
 
+configurations.all {
+    resolutionStrategy {
+        failOnVersionConflict()
+        force(
+            "com.google.guava:guava:31.1-jre",
+            "com.fasterxml.jackson.core:jackson-core:2.13.0",
+            "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0",
+            "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0",
+            "com.google.http-client:google-http-client:1.30.2",
+            "org.slf4j:slf4j-api:1.7.30",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0",
+            "org.jetbrains.kotlin:kotlin-reflect:1.5.31",
+            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31",
+            "org.jetbrains.kotlin:kotlin-stdlib:1.5.31",
+            "org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31"
+        )
+    }
+}
+
 dependencies {
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
@@ -122,11 +142,12 @@ dependencies {
     implementation("org.ajoberstar.grgit:grgit-core:${grGitVersion}")
     implementation("net.ltgt.gradle:gradle-errorprone-plugin:${errorProneVersion}")
 
-    // Add explicit dependency to avoid warning on different Kotlin runtime versions.
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
     implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
+
+
+    // These guys use a fat jat with Kotlin runtime in it.
+    // This is a reason for two warnings.
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}")
     implementation("org.jetbrains.dokka:dokka-base:${dokkaVersion}")
 }
