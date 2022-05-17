@@ -43,10 +43,10 @@ internal abstract class VersionCatalogContributor() {
      * Contributes new dependencies, versions, plugins or bundles
      * to this version catalog.
      */
-    protected abstract fun doContribute(builder: SpineVersionCatalogBuilder)
+    protected abstract fun SpineVersionCatalogBuilder.doContribute()
 
     fun contribute(catalog: VersionCatalogBuilder) {
         val spineBuilder = SpineVersionCatalogBuilder.wrap(catalog, baseAlias)
-        doContribute(spineBuilder)
+        spineBuilder.run { doContribute() }
     }
 }

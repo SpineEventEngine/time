@@ -37,7 +37,7 @@ internal object AutoValue : VersionCatalogContributor() {
      */
     private const val version = "1.9"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("annotations", "com.google.auto.value:auto-value-annotations:${version}")
     }
 }

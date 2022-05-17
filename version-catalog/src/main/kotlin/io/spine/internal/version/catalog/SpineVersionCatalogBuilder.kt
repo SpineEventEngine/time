@@ -26,7 +26,21 @@
 
 package io.spine.internal.version.catalog
 
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+typealias Alias = String
+typealias RelativeAlias = String
+typealias AbsoluteAlias = String
+
+interface CatalogReference {
+    val value: Alias
+}
+
+@JvmInline value class VersionReference(override val value: AbsoluteAlias) : CatalogReference
+@JvmInline value class LibraryReference(override val value: AbsoluteAlias) : CatalogReference
 
 internal class SpineVersionCatalogBuilder
 private constructor(private val builder: VersionCatalogBuilder, private val baseAlias: String) {
@@ -36,21 +50,48 @@ private constructor(private val builder: VersionCatalogBuilder, private val base
             SpineVersionCatalogBuilder(builder, baseAlias)
     }
 
-    fun version(alias: String, version: String): String =
-        builder.version("$baseAlias-$alias", version)
+    private val RelativeAlias.absolute: AbsoluteAlias
+        get() = "$baseAlias-$this"
 
-    fun version(version: String): String = builder.version(baseAlias, version)
+    fun version(relativeAlias: RelativeAlias, version: String): VersionReference {
+        val absoluteAlias = builder.version(relativeAlias.absolute, version)
+        return VersionReference(absoluteAlias)
+    }
 
-    fun library(alias: String, gav: String) = builder.library("$baseAlias-$alias", gav)
+    fun version(version: String): VersionReference {
+        val absoluteAlias = builder.version(baseAlias, version)
+        return VersionReference(absoluteAlias)
+    }
 
-    fun library(gav: String) = builder.library(baseAlias, gav)
+    fun library(relativeAlias: RelativeAlias, gav: String): LibraryReference {
+        val absoluteAlias = relativeAlias.absolute
+        builder.library(absoluteAlias, gav)
+        return LibraryReference(absoluteAlias)
+    }
 
-    fun plugin(alias: String, id: String): VersionCatalogBuilder.PluginAliasBuilder =
-        builder.plugin("$baseAlias-$alias", id)
+    fun library(gav: String): LibraryReference {
+        builder.library(baseAlias, gav)
+        return LibraryReference(baseAlias)
+    }
 
-    fun plugin(id: String): VersionCatalogBuilder.PluginAliasBuilder =
-        builder.plugin(baseAlias, id)
+    fun gav(value: String) = PropertyDelegateProvider<Any?, ReferenceDelegate<LibraryReference>> { _, property ->
+            val ref = library(property.name, value)
+            ReferenceDelegate(ref)
+        }
 
-    fun bundle(alias: String, aliases: List<String>) =
-        builder.bundle("$baseAlias-$alias", aliases.map { "$baseAlias-$it" })
+    fun plugin(relativeAlias: RelativeAlias, id: String, version: String) =
+        builder.plugin(relativeAlias.absolute, id).version(version)
+
+    fun plugin(id: String, version: String) = builder.plugin(baseAlias, id).version(version)
+
+    fun bundle(relativeAlias: RelativeAlias, aliases: List<LibraryReference>) =
+        builder.bundle(relativeAlias.absolute, aliases.map { it.value })
 }
+
+internal class ReferenceDelegate<T : CatalogReference>(private val ref: T)
+    : ReadOnlyProperty<Any?, T> {
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T = ref
+}
+
+

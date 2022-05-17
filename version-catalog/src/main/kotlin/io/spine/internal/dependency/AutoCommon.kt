@@ -37,7 +37,7 @@ internal object AutoCommon : VersionCatalogContributor() {
      */
     private const val version = "1.2.1"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("com.google.auto:auto-common:${version}")
     }
 }

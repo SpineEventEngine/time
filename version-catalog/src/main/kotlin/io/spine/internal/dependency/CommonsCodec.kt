@@ -37,7 +37,7 @@ internal object CommonsCodec : VersionCatalogContributor() {
      */
     private const val version = "1.15"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("commons-codec:commons-codec:$version")
     }
 }

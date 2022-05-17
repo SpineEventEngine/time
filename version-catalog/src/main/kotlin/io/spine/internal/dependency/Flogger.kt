@@ -38,7 +38,7 @@ internal object Flogger : VersionCatalogContributor() {
     private const val version = "0.7.4"
     private const val group = "com.google.flogger"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("com.google.flogger:flogger:$version")
 
         library("runtime-systemBackend", "$group:flogger-system-backend:$version")

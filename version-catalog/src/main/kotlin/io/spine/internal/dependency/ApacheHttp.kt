@@ -37,7 +37,7 @@ internal object ApacheHttp : VersionCatalogContributor() {
      */
     private const val version = "4.4.14"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("core", "org.apache.httpcomponents:httpcore:${version}")
     }
 }

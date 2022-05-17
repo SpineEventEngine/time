@@ -37,7 +37,7 @@ internal object Firebase : VersionCatalogContributor() {
      */
     private const val adminVersion = "8.1.0"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("admin", "com.google.firebase:firebase-admin:${adminVersion}")
     }
 }

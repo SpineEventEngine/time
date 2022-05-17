@@ -42,7 +42,7 @@ internal object CommonsLogging : VersionCatalogContributor() {
      */
     private const val version = "1.2"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("commons-logging:commons-logging:${version}")
     }
 }

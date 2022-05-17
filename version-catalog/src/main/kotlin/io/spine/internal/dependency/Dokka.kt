@@ -39,13 +39,13 @@ internal object Dokka : VersionCatalogContributor() {
     private const val spineExtVersion = "2.0.0-SNAPSHOT.3"
     private const val group = "org.jetbrains.dokka"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
 
         /**
          * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
          * Thus, when applying the plugin in project's build files, only id should be used.
          */
-        plugin("org.jetbrains.dokka").version(version)
+        plugin("org.jetbrains.dokka", version)
 
         library("gradlePlugin", "${group}:dokka-gradle-plugin:${version}")
         library("basePlugin", "${group}:dokka-base:${version}")

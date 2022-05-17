@@ -37,7 +37,7 @@ internal object AutoService : VersionCatalogContributor() {
      */
     private const val version = "1.0.1"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         library("annotations", "com.google.auto.service:auto-service-annotations:${version}")
         library("processor",  "com.google.auto.service:auto-service:${version}")
     }

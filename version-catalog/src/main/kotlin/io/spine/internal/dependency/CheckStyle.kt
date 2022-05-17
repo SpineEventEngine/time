@@ -42,7 +42,7 @@ internal object CheckStyle : VersionCatalogContributor() {
      */
     private const val version = "10.1"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder): Unit = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
         version("10.1")
     }
 }

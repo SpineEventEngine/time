@@ -37,7 +37,7 @@ internal object CheckerFramework : VersionCatalogContributor() {
      */
     private const val version = "3.21.3"
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
+    override fun SpineVersionCatalogBuilder.doContribute() {
 
         /**
          * This is a discontinued artifact, which we do not use directly.
@@ -46,9 +46,10 @@ internal object CheckerFramework : VersionCatalogContributor() {
         library("compatQual", "org.checkerframework:checker-compat-qual:2.5.5")
 
         library("annotations", "org.checkerframework:checker-qual:${version}")
-        library("dataflow", "org.checkerframework:dataflow:${version}")
-        library("javac-util", "org.checkerframework:javacutil:${version}")
 
-        bundle("dataflow", listOf("dataflow", "javac-util"))
+        val dataflow by gav("org.checkerframework:dataflow:${version}")
+        val javacUtil by gav("org.checkerframework:javacutil:${version}")
+
+        bundle("dataflow", listOf(dataflow, javacUtil))
     }
 }

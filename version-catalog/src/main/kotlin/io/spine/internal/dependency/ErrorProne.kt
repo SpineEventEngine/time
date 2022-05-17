@@ -55,10 +55,10 @@ internal object ErrorProne : VersionCatalogContributor() {
         const val lib = "net.ltgt.gradle:gradle-errorprone-plugin:${version}"
     }
 
-    override fun doContribute(builder: SpineVersionCatalogBuilder) = with(builder) {
-        library("annotations", "com.google.errorprone:error_prone_annotations:${version}")
-        library("typeAnnotations", "com.google.errorprone:error_prone_type_annotations:${version}")
-        bundle("annotations", listOf("annotations", "typeAnnotations"))
+    override fun SpineVersionCatalogBuilder.doContribute() {
+        val annotations by gav("com.google.errorprone:error_prone_annotations:${version}")
+        val typeAnnotations by gav("com.google.errorprone:error_prone_type_annotations:${version}")
+        bundle("annotations", listOf(annotations, typeAnnotations))
 
         library("core", "com.google.errorprone:error_prone_core:${version}")
         library("checkApi", "com.google.errorprone:error_prone_check_api:${version}")
@@ -73,7 +73,7 @@ internal object ErrorProne : VersionCatalogContributor() {
          * artifacts are of importance.
          */
         version("gradlePlugin", GradlePlugin.version)
-        plugin("net.ltgt.errorprone").version(GradlePlugin.version)
+        plugin("net.ltgt.errorprone", GradlePlugin.version)
         library("gradlePlugin", "net.ltgt.gradle:gradle-errorprone-plugin:${GradlePlugin.version}")
     }
 }
