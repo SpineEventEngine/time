@@ -47,8 +47,8 @@ internal object Dokka : VersionCatalogContributor() {
          */
         plugin("org.jetbrains.dokka", version)
 
-        library("gradlePlugin", "${group}:dokka-gradle-plugin:${version}")
-        library("basePlugin", "${group}:dokka-base:${version}")
+        lib("gradlePlugin", "${group}:dokka-gradle-plugin:${version}")
+        lib("basePlugin", "${group}:dokka-base:${version}")
 
         /**
          * To generate the documentation as seen from Java perspective use this plugin.
@@ -56,7 +56,7 @@ internal object Dokka : VersionCatalogContributor() {
          * @see <a href="https://github.com/Kotlin/dokka#output-formats">
          *     Dokka output formats</a>
          */
-        library("kotlinAsJavaPlugin", "${group}:kotlin-as-java-plugin:${version}")
+        lib("kotlinAsJavaPlugin", "${group}:kotlin-as-java-plugin:${version}")
 
         /**
          * Custom Dokka plugins developed for Spine-specific needs like excluding by `@Internal`
@@ -65,6 +65,6 @@ internal object Dokka : VersionCatalogContributor() {
          * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
          *     Custom Dokka Plugins</a>
          */
-        library("spineExtensions", "io.spine.tools:spine-dokka-extensions:${spineExtVersion}")
+        lib("spineExtensions", "io.spine.tools:spine-dokka-extensions:${spineExtVersion}")
     }
 }

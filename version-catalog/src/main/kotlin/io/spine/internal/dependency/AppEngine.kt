@@ -39,7 +39,7 @@ internal object AppEngine : VersionCatalogContributor() {
     private const val gradleVersion = "2.2.0"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("sdk", "com.google.appengine:appengine-api-1.0-sdk:${version}")
-        library("gradlePlugin", "com.google.cloud.tools:appengine-gradle-plugin:${gradleVersion}")
+        lib("sdk", "com.google.appengine:appengine-api-1.0-sdk:${version}")
+        lib("gradlePlugin", "com.google.cloud.tools:appengine-gradle-plugin:${gradleVersion}")
     }
 }

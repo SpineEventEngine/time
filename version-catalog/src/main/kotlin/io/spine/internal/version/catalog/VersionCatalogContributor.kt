@@ -26,17 +26,27 @@
 
 package io.spine.internal.version.catalog
 
+import java.util.Objects.nonNull
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
  * A contributor to [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html).
  */
-internal abstract class VersionCatalogContributor() {
+internal abstract class VersionCatalogContributor {
 
-    private var baseAlias = this.javaClass.simpleName.replaceFirstChar { it.lowercase() }
+    private var baseAlias = baseAlias()
 
-    constructor(baseAlias: String) : this() {
-        this.baseAlias = baseAlias
+    internal fun baseAlias(): String {
+
+        val clazz = this::class.java
+        var name = clazz.simpleName.replaceFirstChar { it.lowercase() }
+
+        if(clazz.isNested()) {
+            val nestedName = clazz.enclosingClass.simpleName.replaceFirstChar { it.lowercase() }
+            name = "$nestedName-$name"
+        }
+
+        return name
     }
 
     /**
@@ -50,3 +60,5 @@ internal abstract class VersionCatalogContributor() {
         spineBuilder.run { doContribute() }
     }
 }
+
+private fun Class<*>.isNested() = nonNull(enclosingClass)

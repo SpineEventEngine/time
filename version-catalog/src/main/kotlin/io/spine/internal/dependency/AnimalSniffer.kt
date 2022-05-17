@@ -38,6 +38,6 @@ internal object AnimalSniffer : VersionCatalogContributor() {
     private const val version = "1.21"
 
     override fun SpineVersionCatalogBuilder.doContribute()  {
-        library("org.codehaus.mojo:animal-sniffer-annotations:${version}")
+        lib("org.codehaus.mojo:animal-sniffer-annotations:${version}")
     }
 }

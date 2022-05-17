@@ -38,6 +38,6 @@ internal object AutoValue : VersionCatalogContributor() {
     private const val version = "1.9"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("annotations", "com.google.auto.value:auto-value-annotations:${version}")
+        lib("annotations", "com.google.auto.value:auto-value-annotations:${version}")
     }
 }

@@ -43,6 +43,6 @@ internal object CommonsCli : VersionCatalogContributor() {
     private const val version = "1.5.0"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("commons-cli:commons-cli:${version}")
+        lib("commons-cli:commons-cli:${version}")
     }
 }

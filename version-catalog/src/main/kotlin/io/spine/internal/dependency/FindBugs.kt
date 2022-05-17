@@ -44,6 +44,6 @@ internal object FindBugs : VersionCatalogContributor() {
     private const val version = "3.0.2"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("annotations", "com.google.code.findbugs:jsr305:${version}")
+        lib("annotations", "com.google.code.findbugs:jsr305:${version}")
     }
 }

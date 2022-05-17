@@ -63,19 +63,19 @@ private constructor(private val builder: VersionCatalogBuilder, private val base
         return VersionReference(absoluteAlias)
     }
 
-    fun library(relativeAlias: RelativeAlias, gav: String): LibraryReference {
+    fun lib(relativeAlias: RelativeAlias, gav: String): LibraryReference {
         val absoluteAlias = relativeAlias.absolute
         builder.library(absoluteAlias, gav)
         return LibraryReference(absoluteAlias)
     }
 
-    fun library(gav: String): LibraryReference {
+    fun lib(gav: String): LibraryReference {
         builder.library(baseAlias, gav)
         return LibraryReference(baseAlias)
     }
 
     fun gav(value: String) = PropertyDelegateProvider<Any?, ReferenceDelegate<LibraryReference>> { _, property ->
-            val ref = library(property.name, value)
+            val ref = lib(property.name, value)
             ReferenceDelegate(ref)
         }
 

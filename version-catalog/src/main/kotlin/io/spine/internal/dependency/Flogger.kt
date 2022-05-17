@@ -39,10 +39,10 @@ internal object Flogger : VersionCatalogContributor() {
     private const val group = "com.google.flogger"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("com.google.flogger:flogger:$version")
+        lib("com.google.flogger:flogger:$version")
 
-        library("runtime-systemBackend", "$group:flogger-system-backend:$version")
-        library("runtime-log4J", "$group:flogger-log4j:$version")
-        library("runtime-slf4J", "$group:slf4j-backend-factory:$version")
+        lib("runtime-systemBackend", "$group:flogger-system-backend:$version")
+        lib("runtime-log4J", "$group:flogger-log4j:$version")
+        lib("runtime-slf4J", "$group:slf4j-backend-factory:$version")
     }
 }

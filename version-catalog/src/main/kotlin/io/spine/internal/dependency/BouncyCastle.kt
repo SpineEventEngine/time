@@ -38,6 +38,6 @@ internal object BouncyCastle : VersionCatalogContributor() {
     private const val version = "1.68"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("libPkcsJdk15", "org.bouncycastle:bcpkix-jdk15on:${version}")
+        lib("libPkcsJdk15", "org.bouncycastle:bcpkix-jdk15on:${version}")
     }
 }

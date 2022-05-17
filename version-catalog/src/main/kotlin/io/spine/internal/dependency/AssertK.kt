@@ -38,6 +38,6 @@ internal object AssertK : VersionCatalogContributor() {
     private const val version = "0.25"
 
     override fun SpineVersionCatalogBuilder.doContribute() {
-        library("jvm", "com.willowtreeapps.assertk:assertk-jvm:${version}")
+        lib("jvm", "com.willowtreeapps.assertk:assertk-jvm:${version}")
     }
 }

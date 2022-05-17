@@ -24,32 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.version.catalog
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.dependency.GoogleApis
+import org.junit.jupiter.api.Test
 
-@Suppress("unused")
-internal object CheckerFramework : VersionCatalogContributor() {
+import org.junit.jupiter.api.Assertions.*
 
-    /**
-     * [CheckerFramework](https://checkerframework.org/)
-     */
-    private const val version = "3.21.3"
+internal class VersionCatalogContributorTest {
 
-    override fun SpineVersionCatalogBuilder.doContribute() {
-
-        /**
-         * This is a discontinued artifact, which we do not use directly.
-         * We force it in `DependencyResolution.force()`.
-         */
-        lib("compatQual", "org.checkerframework:checker-compat-qual:2.5.5")
-
-        lib("annotations", "org.checkerframework:checker-qual:${version}")
-
-        val dataflow by gav("org.checkerframework:dataflow:${version}")
-        val javacUtil by gav("org.checkerframework:javacutil:${version}")
-
-        bundle("dataflow", listOf(dataflow, javacUtil))
+    @Test
+    fun baseAlias() {
+        println(GoogleApis.AuthLibrary.baseAlias())
     }
 }

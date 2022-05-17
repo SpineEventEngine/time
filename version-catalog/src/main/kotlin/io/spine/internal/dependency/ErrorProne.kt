@@ -60,10 +60,10 @@ internal object ErrorProne : VersionCatalogContributor() {
         val typeAnnotations by gav("com.google.errorprone:error_prone_type_annotations:${version}")
         bundle("annotations", listOf(annotations, typeAnnotations))
 
-        library("core", "com.google.errorprone:error_prone_core:${version}")
-        library("checkApi", "com.google.errorprone:error_prone_check_api:${version}")
-        library("testHelpers", "com.google.errorprone:error_prone_test_helpers:${version}")
-        library("javacPlugin", "com.google.errorprone:javac:${javacPluginVersion}")
+        lib("core", "com.google.errorprone:error_prone_core:${version}")
+        lib("checkApi", "com.google.errorprone:error_prone_check_api:${version}")
+        lib("testHelpers", "com.google.errorprone:error_prone_test_helpers:${version}")
+        lib("javacPlugin", "com.google.errorprone:javac:${javacPluginVersion}")
 
         /**
          * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
@@ -74,6 +74,6 @@ internal object ErrorProne : VersionCatalogContributor() {
          */
         version("gradlePlugin", GradlePlugin.version)
         plugin("net.ltgt.errorprone", GradlePlugin.version)
-        library("gradlePlugin", "net.ltgt.gradle:gradle-errorprone-plugin:${GradlePlugin.version}")
+        lib("gradlePlugin", "net.ltgt.gradle:gradle-errorprone-plugin:${GradlePlugin.version}")
     }
 }
