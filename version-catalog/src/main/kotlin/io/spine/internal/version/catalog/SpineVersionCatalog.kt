@@ -41,8 +41,12 @@ class SpineVersionCatalog : Plugin<Settings> {
 
     override fun apply(settings: Settings) {
         val catalog = settings.createCatalog()
+
         val contributors = findContributors()
         contributors.forEach { it.contribute(catalog) }
+
+        val entries = fetchEntries()
+        entries.forEach { it.addTo(catalog) }
     }
 
     private fun Settings.createCatalog(): VersionCatalogBuilder {
@@ -58,5 +62,15 @@ class SpineVersionCatalog : Plugin<Settings> {
             .mapNotNull { it.objectInstance }
             .toSet()
         return contributors
+    }
+
+    private fun fetchEntries(): Set<VersionCatalogEntry> {
+        val builder = ConfigurationBuilder().forPackage(DEPENDENCIES_PKG)
+        val reflections = Reflections(builder)
+        val entries = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
+            .map { it.kotlin }
+            .mapNotNull { it.objectInstance }
+            .toSet()
+        return entries
     }
 }

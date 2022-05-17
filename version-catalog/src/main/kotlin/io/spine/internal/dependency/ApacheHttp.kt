@@ -26,18 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [ApacheHttp](https://hc.apache.org/downloads.cgi).
+ */
 @Suppress("unused")
-internal object ApacheHttp : VersionCatalogContributor() {
-
-    /**
-     * [ApacheHttp](https://hc.apache.org/downloads.cgi)
-     */
+internal object ApacheHttp : VersionCatalogEntry() {
     private const val version = "4.4.14"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("core", "org.apache.httpcomponents:httpcore:${version}")
-    }
+    val core by gav("org.apache.httpcomponents:httpcore:$version")
 }

@@ -26,18 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [AssertK](https://github.com/willowtreeapps/assertk).
+ */
 @Suppress("unused")
-internal object AssertK : VersionCatalogContributor() {
-
-    /**
-     * [AssertK](https://github.com/willowtreeapps/assertk)
-     */
+internal object AssertK : VersionCatalogEntry() {
     private const val version = "0.25"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("jvm", "com.willowtreeapps.assertk:assertk-jvm:${version}")
-    }
+    val jvm by gav("com.willowtreeapps.assertk:assertk-jvm:$version")
 }

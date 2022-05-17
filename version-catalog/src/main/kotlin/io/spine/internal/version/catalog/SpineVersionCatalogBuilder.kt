@@ -93,5 +93,3 @@ internal class ReferenceDelegate<T : CatalogReference>(private val ref: T)
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T = ref
 }
-
-
