@@ -26,20 +26,21 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/grpc/grpc-java
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
+import io.spine.internal.version.catalog.VersionCatalogContributor
+
+/**
+ * Gson is a transitive dependency which we don't use directly.
+ *
+ * This object is used for forcing the version.
+ *
+ * [Gson](https://github.com/google/gson)
+ */
 @Suppress("unused")
-object Grpc {
-    @Suppress("MemberVisibilityCanBePrivate")
-    const val version        = "1.45.1"
-    const val api            = "io.grpc:grpc-api:${version}"
-    const val auth           = "io.grpc:grpc-auth:${version}"
-    const val core           = "io.grpc:grpc-core:${version}"
-    const val context        = "io.grpc:grpc-context:${version}"
-    const val stub           = "io.grpc:grpc-stub:${version}"
-    const val okHttp         = "io.grpc:grpc-okhttp:${version}"
-    const val protobuf       = "io.grpc:grpc-protobuf:${version}"
-    const val protobufLite   = "io.grpc:grpc-protobuf-lite:${version}"
-    const val protobufPlugin = "io.grpc:protoc-gen-grpc-java:${version}"
-    const val netty          = "io.grpc:grpc-netty:${version}"
-    const val nettyShaded    = "io.grpc:grpc-netty-shaded:${version}"
+internal object Gson : VersionCatalogContributor() {
+    private const val version = "2.9.0"
+
+    override fun SpineVersionCatalogBuilder.doContribute() {
+        lib("com.google.code.gson:gson:${version}")
+    }
 }

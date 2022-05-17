@@ -26,13 +26,24 @@
 
 package io.spine.internal.dependency
 
-/**
- * Gson is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration()].
- *
- * [Gson](https://github.com/google/gson)
- */
-object Gson {
-    private const val version = "2.9.0"
-    const val lib = "com.google.code.gson:gson:${version}"
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
+import io.spine.internal.version.catalog.VersionCatalogContributor
+
+@Suppress("unused")
+internal object GoogleCloud : VersionCatalogContributor() {
+
+    override fun SpineVersionCatalogBuilder.doContribute() {
+
+        // https://github.com/googleapis/java-core
+        lib("core", "com.google.cloud:google-cloud-core:2.3.3")
+
+        // https://github.com/googleapis/java-pubsub/tree/main/proto-google-cloud-pubsub-v1
+        lib("pubSubGrpcApi", "com.google.api.grpc:proto-google-cloud-pubsub-v1:1.97.0")
+
+        // https://github.com/googleapis/java-trace
+        lib("trace", "com.google.cloud:google-cloud-trace:2.1.0")
+
+        // https://github.com/googleapis/java-datastore
+        lib("datastore", "com.google.cloud:google-cloud-datastore:2.2.1")
+    }
 }

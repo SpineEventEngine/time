@@ -26,18 +26,24 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
+import io.spine.internal.version.catalog.VersionCatalogContributor
+
+/**
+ * The dependencies for Guava.
+ *
+ * When changing the version, also change the version used in the `build.gradle.kts`. We need
+ * to synchronize the version used in `buildSrc` and in Spine modules. Otherwise, when testing
+ * Gradle plugins, errors may occur due to version clashes.
+ *
+ * [Guava](https://github.com/google/guava)
+ */
 @Suppress("unused")
-object GoogleCloud {
+internal object Guava : VersionCatalogContributor() {
+    private const val version = "31.1-jre"
 
-    // https://github.com/googleapis/java-core
-    const val core = "com.google.cloud:google-cloud-core:2.3.3"
-
-    // https://github.com/googleapis/java-pubsub/tree/main/proto-google-cloud-pubsub-v1
-    const val pubSubGrpcApi = "com.google.api.grpc:proto-google-cloud-pubsub-v1:1.97.0"
-
-    // https://github.com/googleapis/java-trace
-    const val trace = "com.google.cloud:google-cloud-trace:2.1.0"
-
-    // https://github.com/googleapis/java-datastore
-    const val datastore = "com.google.cloud:google-cloud-datastore:2.2.1"
+    override fun SpineVersionCatalogBuilder.doContribute() {
+        lib("com.google.guava:guava:${version}")
+        lib("testLib", "com.google.guava:guava-testlib:${version}")
+    }
 }
