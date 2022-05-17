@@ -26,23 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
- * Used to propagate the version to `CheckStyleConfig`.
- *
- * See: `io.spine.internal.gradle.checkstyle.CheckStyleConfig`.
+ * [CheckStyle](https://checkstyle.sourceforge.io/).
  */
 @Suppress("unused")
-internal object CheckStyle : VersionCatalogContributor() {
-
-    /**
-     * [CheckStyle](https://checkstyle.sourceforge.io/)
-     */
+internal object CheckStyle : VersionCatalogEntry() {
     private const val version = "10.1"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        version("10.1")
-    }
+    val checkStyle by versioning(version)
 }

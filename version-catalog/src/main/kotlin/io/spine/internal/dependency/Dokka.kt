@@ -26,45 +26,41 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [Dokka](https://github.com/Kotlin/dokka).
+ */
 @Suppress("unused")
-internal object Dokka : VersionCatalogContributor() {
+internal object Dokka : VersionCatalogEntry() {
 
-    /**
-     * [Dokka](https://github.com/Kotlin/dokka)
-     */
     private const val version = "1.6.20"
-    private const val spineExtVersion = "2.0.0-SNAPSHOT.3"
     private const val group = "org.jetbrains.dokka"
 
-    override fun SpineVersionCatalogBuilder.doContribute() {
+    /**
+     * To generate the documentation as seen from Java perspective use this plugin.
+     *
+     * @see <a href="https://github.com/Kotlin/dokka#output-formats">
+     *     Dokka output formats</a>
+     */
+    val kotlinAsJavaPlugin by gav("${group}:kotlin-as-java-plugin:${version}")
+    val basePlugin by gav("${group}:dokka-base:${version}")
 
-        /**
-         * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
-         * Thus, when applying the plugin in project's build files, only id should be used.
-         */
-        plugin("org.jetbrains.dokka", version)
+    /**
+     * Custom Dokka plugins developed for Spine-specific needs like excluding by `@Internal`
+     * annotation.
+     *
+     * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
+     *     Custom Dokka Plugins</a>
+     */
+    object SpineExtensions : VersionCatalogEntry() {
+        private const val group = "io.spine.tools"
+        private const val version = "2.0.0-SNAPSHOT.3"
+        val lib by gav("${group}:spine-dokka-extensions:${version}")
+    }
 
-        lib("gradlePlugin", "${group}:dokka-gradle-plugin:${version}")
-        lib("basePlugin", "${group}:dokka-base:${version}")
-
-        /**
-         * To generate the documentation as seen from Java perspective use this plugin.
-         *
-         * @see <a href="https://github.com/Kotlin/dokka#output-formats">
-         *     Dokka output formats</a>
-         */
-        lib("kotlinAsJavaPlugin", "${group}:kotlin-as-java-plugin:${version}")
-
-        /**
-         * Custom Dokka plugins developed for Spine-specific needs like excluding by `@Internal`
-         * annotation.
-         *
-         * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
-         *     Custom Dokka Plugins</a>
-         */
-        lib("spineExtensions", "io.spine.tools:spine-dokka-extensions:${spineExtVersion}")
+    object GradlePlugin : VersionCatalogEntry() {
+        val plugin by id("org.jetbrains.dokka", version)
+        val lib by gav("${group}:dokka-gradle-plugin:$version")
     }
 }

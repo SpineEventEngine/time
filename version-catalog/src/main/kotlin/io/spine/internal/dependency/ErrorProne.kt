@@ -26,54 +26,38 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.dependency.ErrorProne.GradlePlugin.id
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
- * [ErrorProne Info](https://errorprone.info/)
+ * [ErrorProne](https://github.com/google/error-prone)
  */
 @Suppress("unused")
-internal object ErrorProne : VersionCatalogContributor() {
+internal object ErrorProne : VersionCatalogEntry() {
 
-    /**
-     * [ErrorProne](https://github.com/google/error-prone)
-     */
     private const val version = "2.13.1"
+    val core by gav("com.google.errorprone:error_prone_core:$version")
+    val checkApi by gav("com.google.errorprone:error_prone_check_api:$version")
+    val testHelpers by gav("com.google.errorprone:error_prone_test_helpers:$version")
+
+    val annotations by libs(
+        lib("annotations", "com.google.errorprone:error_prone_annotations:$version"),
+        lib("typeAnnotations", "com.google.errorprone:error_prone_type_annotations:$version")
+    )
 
     /**
      * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
      */
-    private const val javacPluginVersion = "9+181-r4173-1"
+    object JavacPlugin : VersionCatalogEntry() {
+        private const val version = "9+181-r4173-1"
+        val lib by gav("com.google.errorprone:javac:$version")
+    }
 
     /**
      * [GradlePlugin](https://github.com/tbroyer/gradle-errorprone-plugin/releases)
      */
-    private object GradlePlugin {
-        const val id = "net.ltgt.errorprone"
-        const val version = "2.0.2"
-        const val lib = "net.ltgt.gradle:gradle-errorprone-plugin:${version}"
-    }
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        val annotations by gav("com.google.errorprone:error_prone_annotations:${version}")
-        val typeAnnotations by gav("com.google.errorprone:error_prone_type_annotations:${version}")
-        bundle("annotations", listOf(annotations, typeAnnotations))
-
-        lib("core", "com.google.errorprone:error_prone_core:${version}")
-        lib("checkApi", "com.google.errorprone:error_prone_check_api:${version}")
-        lib("testHelpers", "com.google.errorprone:error_prone_test_helpers:${version}")
-        lib("javacPlugin", "com.google.errorprone:javac:${javacPluginVersion}")
-
-        /**
-         * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
-         * Thus, when applying the plugin in projects build files, only the [id] should be used.
-         *
-         * When the plugin is used as a library (e.g. in tools), its version and the library
-         * artifacts are of importance.
-         */
-        version("gradlePlugin", GradlePlugin.version)
-        plugin("net.ltgt.errorprone", GradlePlugin.version)
-        lib("gradlePlugin", "net.ltgt.gradle:gradle-errorprone-plugin:${GradlePlugin.version}")
+    object GradlePlugin : VersionCatalogEntry() {
+        private const val version = "2.0.2"
+        val plugin by id("net.ltgt.errorprone", version)
+        val lib by gav("net.ltgt.gradle:gradle-errorprone-plugin:$version")
     }
 }

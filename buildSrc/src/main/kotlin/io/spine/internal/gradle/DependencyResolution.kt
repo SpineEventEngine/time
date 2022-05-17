@@ -108,9 +108,9 @@ private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLib
         J2ObjC.annotations,
         Plexus.utils,
         Okio.lib,
-        libs.commonsCli,
+        libs.apacheCommons.cli,
+        libs.apacheCommons.logging,
         libs.checkerFramework.compatQual,
-        libs.commonsLogging,
     )
 }
 

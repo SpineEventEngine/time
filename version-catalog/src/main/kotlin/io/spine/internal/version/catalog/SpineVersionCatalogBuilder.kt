@@ -39,8 +39,10 @@ interface CatalogReference {
     val value: Alias
 }
 
-@JvmInline value class VersionReference(override val value: AbsoluteAlias) : CatalogReference
-@JvmInline value class LibraryReference(override val value: AbsoluteAlias) : CatalogReference
+class VersionReference(override val value: AbsoluteAlias) : CatalogReference
+class LibraryReference(override val value: AbsoluteAlias) : CatalogReference
+class BundleReference(override val value: AbsoluteAlias) : CatalogReference
+class PluginReference(override val value: AbsoluteAlias) : CatalogReference
 
 internal class SpineVersionCatalogBuilder
 private constructor(private val builder: VersionCatalogBuilder, private val baseAlias: String) {

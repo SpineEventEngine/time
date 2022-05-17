@@ -26,23 +26,32 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
-/**
- * Commons Logging is a transitive dependency which we don't use directly.
- *
- * This object is used for forcing the version.
- */
 @Suppress("unused")
-internal object CommonsLogging : VersionCatalogContributor() {
+internal object ApacheCommons : VersionCatalogEntry() {
 
     /**
-     * [CommonsLogging](https://commons.apache.org/proper/commons-logging/)
+     * [CommonsCli](https://commons.apache.org/proper/commons-cli/).
      */
-    private const val version = "1.2"
+    object Cli : VersionCatalogEntry() {
+        private const val version = "1.5.0"
+        val lib by gav("commons-cli:commons-cli:${version}")
+    }
 
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("commons-logging:commons-logging:${version}")
+    /**
+     * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html).
+     */
+    object Codec : VersionCatalogEntry() {
+        private const val version = "1.15"
+        val lib by gav("commons-codec:commons-codec:$version")
+    }
+
+    /**
+     * [CommonsLogging](https://commons.apache.org/proper/commons-logging/).
+     */
+    object Logging : VersionCatalogEntry() {
+        private const val version = "1.2"
+        val lib by gav("commons-logging:commons-logging:$version")
     }
 }

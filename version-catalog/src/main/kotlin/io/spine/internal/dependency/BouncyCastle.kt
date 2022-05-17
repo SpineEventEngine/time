@@ -26,18 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [BouncyCastle](https://www.bouncycastle.org/java.html).
+ */
 @Suppress("unused")
-internal object BouncyCastle : VersionCatalogContributor() {
-
-    /**
-     * [BouncyCastle](https://www.bouncycastle.org/java.html)
-     */
+internal object BouncyCastle : VersionCatalogEntry() {
     private const val version = "1.68"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("libPkcsJdk15", "org.bouncycastle:bcpkix-jdk15on:${version}")
-    }
+    val libPkcsJdk15 by gav("org.bouncycastle:bcpkix-jdk15on:$version")
 }
