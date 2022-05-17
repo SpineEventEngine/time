@@ -35,8 +35,8 @@ apply<IncrementGuard>()
 
 val spineBaseVersion: String by extra
 dependencies {
-    annotationProcessor(libs.autoService.processor)
-    compileOnly(libs.autoService.annotations)
+    annotationProcessor(libs.googleAuto.service.processor)
+    compileOnly(libs.googleAuto.service.annotations)
 
     api("io.spine:spine-base:$spineBaseVersion")
 

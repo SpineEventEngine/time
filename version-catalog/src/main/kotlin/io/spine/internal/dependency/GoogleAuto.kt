@@ -26,18 +26,27 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [GoogleAuto](https://github.com/google/auto).
+ */
 @Suppress("unused")
-internal object AutoCommon : VersionCatalogContributor() {
+internal object GoogleAuto : VersionCatalogEntry() {
 
-    /**
-     * [AutoCommon](https://github.com/google/auto)
-     */
-    private const val version = "1.2.1"
+    object Common : VersionCatalogEntry() {
+        private const val version = "1.2.1"
+        val lib by gav("com.google.auto:auto-common:$version")
+    }
 
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("com.google.auto:auto-common:${version}")
+    object Service : VersionCatalogEntry() {
+        private const val version = "1.0.1"
+        val annotations by gav("com.google.auto.service:auto-service-annotations:$version")
+        val processor by gav("com.google.auto.service:auto-service:$version")
+    }
+
+    object Value : VersionCatalogEntry() {
+        private const val version = "1.9"
+        val annotations by gav("com.google.auto.value:auto-value-annotations:$version")
     }
 }

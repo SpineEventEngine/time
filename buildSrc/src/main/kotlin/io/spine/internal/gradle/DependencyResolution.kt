@@ -67,8 +67,8 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
         libs.animalSniffer,
-        libs.autoCommon,
-        libs.autoService.annotations,
+        libs.googleAuto.common,
+        libs.googleAuto.service.annotations,
         libs.checkerFramework.annotations,
         libs.errorProne.annotations,
         libs.errorProne.typeAnnotations,
@@ -103,7 +103,7 @@ private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
  */
 private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) {
     force(
-        libs.autoValue.annotations,
+        libs.googleAuto.value.annotations,
         libs.gson,
         J2ObjC.annotations,
         Plexus.utils,
