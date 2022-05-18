@@ -29,7 +29,6 @@ package io.spine.internal.version.catalog
 import io.spine.internal.Actions
 import java.util.*
 import kotlin.properties.PropertyDelegateProvider
-import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
@@ -42,71 +41,58 @@ internal open class VersionCatalogEntry {
         builderActions.play(builder)
     }
 
-    fun lib(gav: String) = PropertyDelegateProvider<Any?, LibraryReference> { _, property ->
-        val alias = alias(property.name)
-        builderActions.add { library(alias, gav) }
-        val reference = LibraryReference(alias)
-        reference
-    }
+    fun lib(gav: String) = provideDelegate { property -> lib(property.name, gav) }
 
     fun lib(relativeAlias: String, gav: String): LibraryReference {
-        val alias = alias(relativeAlias)
+        val alias = resolveAlias(relativeAlias)
         builderActions.add { library(alias, gav) }
         val reference = LibraryReference(alias)
         return reference
     }
 
-    fun bundle(vararg libs: LibraryReference) = PropertyDelegateProvider<Any?, BundleReference> { _, property ->
-        val alias = alias(property.name)
+    fun bundle(vararg libs: LibraryReference) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         val aliases = libs.map { it.alias }
         builderActions.add { bundle(alias, aliases) }
         val reference = BundleReference(alias)
         reference
     }
 
-    fun version(value: String) = PropertyDelegateProvider<Any?, VersionReference> { _, property ->
-        val alias = alias(property.name)
+    fun version(value: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { version(alias, value) }
         val reference = VersionReference(alias)
         reference
     }
 
-    fun plugin(id: String, version: String) = PropertyDelegateProvider<Any?, PluginReference> { _, property ->
-        val alias = alias(property.name)
+    fun plugin(id: String, version: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { plugin(alias, id).version(version) }
         val reference = PluginReference(alias)
         reference
     }
 
     private fun baseAlias(): String {
-
         val clazz = this::class.java
-        var name = clazz.simpleName.replaceFirstChar { it.lowercase() }
+        var name = clazz.simpleName.decapitalized()
 
         if (Objects.nonNull(clazz.enclosingClass)) {
             val nested = clazz.enclosingClass
-            val nestedName = nested.simpleName.replaceFirstChar { it.lowercase() }
+            val nestedName = nested.simpleName.decapitalized()
             name = "$nestedName-$name"
         }
 
         return name
     }
 
-    private fun alias(relativeAlias: String): String {
+    private fun resolveAlias(relativeAlias: String): String {
         val result = if (baseAlias.endsWith(relativeAlias)) baseAlias
                      else "$baseAlias-$relativeAlias"
         return result
     }
 }
 
-sealed class VersionCatalogItemReference<T : VersionCatalogItemReference<T>>(val alias: String)
-    : ReadOnlyProperty<Any?, T> {
+private fun <T : VersionCatalogItemReference> provideDelegate(action: (KProperty<*>) -> T) =
+    PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T = this as T
-}
-
-class LibraryReference(alias: String) : VersionCatalogItemReference<LibraryReference>(alias)
-class BundleReference(alias: String) : VersionCatalogItemReference<BundleReference>(alias)
-class VersionReference(alias: String) : VersionCatalogItemReference<VersionReference>(alias)
-class PluginReference(alias: String) : VersionCatalogItemReference<PluginReference>(alias)
+private fun String.decapitalized() = replaceFirstChar { it.lowercase() }
