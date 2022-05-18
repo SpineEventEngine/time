@@ -26,11 +26,21 @@
 
 package io.spine.internal.dependency
 
-@Suppress("unused")
-object JavaX {
-    // This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
-    // https://github.com/eclipse-ee4j/common-annotations-api
-    const val annotations = "javax.annotation:javax.annotation-api:1.3.2"
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
-    const val servletApi = "javax.servlet:javax.servlet-api:3.1.0"
+/**
+ * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
+ * which we don't use directly. This object is used for forcing the version.
+ */
+@Suppress("unused")
+internal object J2ObjC : VersionCatalogEntry() {
+
+    /**
+     * [Releases](https://github.com/google/j2objc/releases).
+     * [MavenCentral](https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations).
+     *
+     * `1.3.` is the latest version available from Maven Central.
+     */
+    private const val version = "1.3"
+    val annotations by lib("com.google.j2objc:j2objc-annotations:$version")
 }

@@ -26,28 +26,17 @@
 
 package io.spine.internal.dependency
 
-// https://junit.org/junit5/
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 @Suppress("unused")
-object JUnit {
-    const val version                    = "5.8.2"
-    private const val platformVersion    = "1.8.2"
-    private const val legacyVersion      = "4.13.1"
+internal object JavaX : VersionCatalogEntry() {
 
-    // https://github.com/apiguardian-team/apiguardian
-    private const val apiGuardianVersion = "1.1.2"
-    // https://github.com/junit-pioneer/junit-pioneer
-    private const val pioneerVersion     = "1.5.0"
+    /**
+     * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
+     *
+     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api).
+     */
+    val annotations by lib("javax.annotation:javax.annotation-api:1.3.2")
 
-    const val legacy = "junit:junit:${legacyVersion}"
-    val api = listOf(
-        "org.apiguardian:apiguardian-api:${apiGuardianVersion}",
-        "org.junit.jupiter:junit-jupiter-api:${version}",
-        "org.junit.jupiter:junit-jupiter-params:${version}"
-    )
-    const val bom     = "org.junit:junit-bom:${version}"
-    const val runner  = "org.junit.jupiter:junit-jupiter-engine:${version}"
-    const val pioneer = "org.junit-pioneer:junit-pioneer:${pioneerVersion}"
-    const val platformCommons = "org.junit.platform:junit-platform-commons:${platformVersion}"
-    const val platformLauncher = "org.junit.platform:junit-platform-launcher:${platformVersion}"
-    const val params = "org.junit.jupiter:junit-jupiter-params:${version}"
+    val servletApi by lib("javax.servlet:javax.servlet-api:3.1.0")
 }

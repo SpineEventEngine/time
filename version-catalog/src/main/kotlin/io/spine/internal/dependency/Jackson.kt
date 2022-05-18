@@ -26,13 +26,41 @@
 
 package io.spine.internal.dependency
 
-/**
- * A Java implementation of JSON Web Token (JWT) - RFC 7519.
- *
- * [Java JWT](https://github.com/auth0/java-jwt)
- */
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 @Suppress("unused")
-object JavaJwt {
-    private const val version = "3.19.1"
-    const val lib = "com.auth0:java-jwt:${version}"
+internal object Jackson : VersionCatalogEntry() {
+
+    private const val version = "2.13.2"
+    private const val databindVersion = "2.13.2.2"
+
+    object Versions {
+        val jackson by version(version)
+        val databind by version(databindVersion)
+    }
+
+    /**
+     * [Core](https://github.com/FasterXML/jackson-core).
+     */
+    val core by lib("com.fasterxml.jackson.core:jackson-core:$version")
+
+    /**
+     * [Databind](https://github.com/FasterXML/jackson-databind).
+     */
+    val databind by lib("com.fasterxml.jackson.core:jackson-databind:$databindVersion")
+
+    /**
+     * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases).
+     */
+    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$$version")
+
+    /**
+     * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases).
+     */
+    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$$version")
+
+    /**
+     * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases).
+     */
+    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin:$$version")
 }

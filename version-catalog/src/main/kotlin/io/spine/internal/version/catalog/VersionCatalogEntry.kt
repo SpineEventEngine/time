@@ -92,7 +92,7 @@ internal open class VersionCatalogEntry {
     }
 }
 
-private fun <T : VersionCatalogItemReference> provideDelegate(action: (KProperty<*>) -> T) =
+private fun <T : VersionCatalogItemReference<T>> provideDelegate(action: (KProperty<*>) -> T) =
     PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
 
 private fun String.decapitalized() = replaceFirstChar { it.lowercase() }

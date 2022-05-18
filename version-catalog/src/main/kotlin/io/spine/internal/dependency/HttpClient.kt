@@ -26,16 +26,21 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
- * which we don't use directly. This object is used for forcing the version.
+ * [Google HTTP client](https://github.com/googleapis/google-http-java-client).
  */
-object J2ObjC {
-    // https://github.com/google/j2objc/releases
-    // `1.3.` is the latest version available from Maven Central.
-    // https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations
-    private const val version = "1.3"
-    const val annotations = "com.google.j2objc:j2objc-annotations:${version}"
-    @Deprecated("Please use `annotations` instead.", ReplaceWith("annotations"))
-    const val lib = annotations
+@Suppress("unused")
+internal object HttpClient : VersionCatalogEntry() {
+    /**
+     * [Releases](https://github.com/googleapis/google-http-java-client).
+     */
+    private const val version = "1.41.5"
+    val google by lib("com.google.http-client:google-http-client:$version")
+    val jackson2 by lib("com.google.http-client:google-http-client-jackson2:$version")
+    val gson by lib("com.google.http-client:google-http-client-gson:$version")
+    val apache2 by lib("com.google.http-client:google-http-client-apache-v2:$version")
+
+    val apache by lib("com.google.http-client:google-http-client-apache:2.1.2")
 }

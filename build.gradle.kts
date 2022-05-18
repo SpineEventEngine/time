@@ -31,7 +31,6 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
@@ -116,13 +115,11 @@ allprojects {
 }
 
 subprojects {
-
     apply {
         plugin("java-library")
         plugin("kotlin")
         plugin("com.google.protobuf")
         plugin("net.ltgt.errorprone")
-        plugin("pmd")
         plugin("checkstyle")
         plugin("idea")
         plugin("pmd-settings")
@@ -141,7 +138,7 @@ subprojects {
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-        testImplementation(JUnit.runner)
+        testImplementation(rootProject.libs.jUnit.runner)
     }
 
     /**

@@ -29,14 +29,15 @@ package io.spine.internal.version.catalog
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-internal sealed class VersionCatalogItemReference(val alias: String) :
-    ReadOnlyProperty<Any?, VersionCatalogItemReference> {
+internal sealed class VersionCatalogItemReference<T : VersionCatalogItemReference<T>>(val alias: String) :
+    ReadOnlyProperty<Any?, T> {
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): VersionCatalogItemReference =
-        this
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
+        this as T
 }
 
-internal class LibraryReference(alias: String) : VersionCatalogItemReference(alias)
-internal class BundleReference(alias: String) : VersionCatalogItemReference(alias)
-internal class VersionReference(alias: String) : VersionCatalogItemReference(alias)
-internal class PluginReference(alias: String) : VersionCatalogItemReference(alias)
+internal class LibraryReference(alias: String) : VersionCatalogItemReference<LibraryReference>(alias)
+internal class BundleReference(alias: String) : VersionCatalogItemReference<BundleReference>(alias)
+internal class VersionReference(alias: String) : VersionCatalogItemReference<VersionReference>(alias)
+internal class PluginReference(alias: String) : VersionCatalogItemReference<PluginReference>(alias)

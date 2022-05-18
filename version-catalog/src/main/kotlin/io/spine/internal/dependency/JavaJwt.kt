@@ -26,17 +26,15 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * Google implementations of [HTTP client](https://github.com/googleapis/google-http-java-client).
+ * A Java implementation of JSON Web Token (JWT) - RFC 7519.
+ *
+ * [Java JWT](https://github.com/auth0/java-jwt).
  */
 @Suppress("unused")
-object HttpClient {
-    // https://github.com/googleapis/google-http-java-client
-    const val version  = "1.41.5"
-    const val google   = "com.google.http-client:google-http-client:${version}"
-    const val jackson2 = "com.google.http-client:google-http-client-jackson2:${version}"
-    const val gson     = "com.google.http-client:google-http-client-gson:${version}"
-    const val apache2  = "com.google.http-client:google-http-client-apache-v2:${version}"
-
-    const val apache   = "com.google.http-client:google-http-client-apache:2.1.2"
+internal object JavaJwt : VersionCatalogEntry() {
+    private const val version = "3.19.1"
+    val javaJwt by lib("com.auth0:java-jwt:$version")
 }
