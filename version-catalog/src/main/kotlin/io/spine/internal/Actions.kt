@@ -24,37 +24,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal
 
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
+internal class Actions<T> {
 
-typealias RelativeAlias = String
-typealias AbsoluteAlias = String
+    private val actions = mutableListOf<T.() -> Unit>()
 
-internal interface CatalogReference<T : CatalogReference<T>> :
-    ReadOnlyProperty<VersionCatalogEntry, T> {
+    fun add(action: T.() -> Unit) = actions.add(action)
 
-    val absoluteAlias: AbsoluteAlias
-
-    @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: VersionCatalogEntry, property: KProperty<*>): T = this as T
-
+    fun play(obj: T) = actions.forEach { it.invoke(obj) }
 }
-
-internal class LibraryReference(
-    override val absoluteAlias: AbsoluteAlias
-) : CatalogReference<LibraryReference>
-
-internal class BundleReference(
-    override val absoluteAlias: AbsoluteAlias
-) : CatalogReference<BundleReference>
-
-
-internal class VersionReference(
-    override val absoluteAlias: AbsoluteAlias
-) : CatalogReference<VersionReference>
-
-internal class PluginReference(
-    override val absoluteAlias: AbsoluteAlias
-) : CatalogReference<PluginReference>

@@ -26,67 +26,56 @@
 
 package io.spine.internal.version.catalog
 
-import java.util.Objects.nonNull
+import io.spine.internal.Actions
+import java.util.*
 import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 internal open class VersionCatalogEntry {
 
-    private val actions = mutableListOf<VersionCatalogBuilder.() -> Unit>()
+    private val builderActions = Actions<VersionCatalogBuilder>()
     private val baseAlias = baseAlias()
-    private val RelativeAlias.absolute: AbsoluteAlias
-        get() = if (baseAlias.endsWith(this)) baseAlias else "$baseAlias-$this"
 
-    fun addTo(catalog: VersionCatalogBuilder) {
-        actions.forEach { it(catalog) }
-    }
-
-    fun lib(relativeAlias: RelativeAlias, gav: String): LibraryReference {
-        val absoluteAlias = relativeAlias.absolute
-        catalog { library(absoluteAlias, gav) }
-        return LibraryReference(absoluteAlias)
+    fun addTo(builder: VersionCatalogBuilder) {
+        builderActions.play(builder)
     }
 
     fun lib(gav: String) = PropertyDelegateProvider<Any?, LibraryReference> { _, property ->
-        val reference = lib(property.name, gav)
+        val alias = alias(property.name)
+        builderActions.add { library(alias, gav) }
+        val reference = LibraryReference(alias)
         reference
     }
 
-    fun bundle(relativeAlias: RelativeAlias, vararg libs: LibraryReference): BundleReference {
-        val absoluteAlias = relativeAlias.absolute
-        catalog { bundle(absoluteAlias, libs.map { it.absoluteAlias }) }
-        return BundleReference(absoluteAlias)
+    fun lib(relativeAlias: String, gav: String): LibraryReference {
+        val alias = alias(relativeAlias)
+        builderActions.add { library(alias, gav) }
+        val reference = LibraryReference(alias)
+        return reference
     }
 
     fun bundle(vararg libs: LibraryReference) = PropertyDelegateProvider<Any?, BundleReference> { _, property ->
-        val reference = bundle(property.name, *libs)
+        val alias = alias(property.name)
+        val aliases = libs.map { it.alias }
+        builderActions.add { bundle(alias, aliases) }
+        val reference = BundleReference(alias)
         reference
-    }
-
-    fun version(relativeAlias: RelativeAlias, version: String): VersionReference {
-        val absoluteAlias = relativeAlias.absolute
-        catalog { version(absoluteAlias, version) }
-        return VersionReference(absoluteAlias)
     }
 
     fun version(value: String) = PropertyDelegateProvider<Any?, VersionReference> { _, property ->
-        val reference = version(property.name, value)
+        val alias = alias(property.name)
+        builderActions.add { version(alias, value) }
+        val reference = VersionReference(alias)
         reference
-    }
-
-    fun plugin(relativeAlias: RelativeAlias, id: String, version: String): PluginReference {
-        val absoluteAlias = relativeAlias.absolute
-        catalog { plugin(absoluteAlias, id).version(version) }
-        return PluginReference(absoluteAlias)
     }
 
     fun plugin(id: String, version: String) = PropertyDelegateProvider<Any?, PluginReference> { _, property ->
-        val reference = plugin(property.name, id, version)
+        val alias = alias(property.name)
+        builderActions.add { plugin(alias, id).version(version) }
+        val reference = PluginReference(alias)
         reference
-    }
-
-    private fun catalog(action: VersionCatalogBuilder.() -> Unit) {
-        actions.add(action)
     }
 
     private fun baseAlias(): String {
@@ -94,7 +83,7 @@ internal open class VersionCatalogEntry {
         val clazz = this::class.java
         var name = clazz.simpleName.replaceFirstChar { it.lowercase() }
 
-        if (nonNull(clazz.enclosingClass)) {
+        if (Objects.nonNull(clazz.enclosingClass)) {
             val nested = clazz.enclosingClass
             val nestedName = nested.simpleName.replaceFirstChar { it.lowercase() }
             name = "$nestedName-$name"
@@ -102,4 +91,22 @@ internal open class VersionCatalogEntry {
 
         return name
     }
+
+    private fun alias(relativeAlias: String): String {
+        val result = if (baseAlias.endsWith(relativeAlias)) baseAlias
+                     else "$baseAlias-$relativeAlias"
+        return result
+    }
 }
+
+sealed class VersionCatalogItemReference<T : VersionCatalogItemReference<T>>(val alias: String)
+    : ReadOnlyProperty<Any?, T> {
+
+    @Suppress("UNCHECKED_CAST")
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T = this as T
+}
+
+class LibraryReference(alias: String) : VersionCatalogItemReference<LibraryReference>(alias)
+class BundleReference(alias: String) : VersionCatalogItemReference<BundleReference>(alias)
+class VersionReference(alias: String) : VersionCatalogItemReference<VersionReference>(alias)
+class PluginReference(alias: String) : VersionCatalogItemReference<PluginReference>(alias)
