@@ -28,8 +28,6 @@ package io.spine.internal.version.catalog
 
 import io.spine.internal.Actions
 import java.util.*
-import kotlin.properties.PropertyDelegateProvider
-import kotlin.reflect.KProperty
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 internal open class VersionCatalogEntry {
@@ -73,6 +71,9 @@ internal open class VersionCatalogEntry {
     }
 
     private fun baseAlias(): String {
+
+        fun String.decapitalized() = replaceFirstChar { it.lowercase() }
+
         val clazz = this::class.java
         var name = clazz.simpleName.decapitalized()
 
@@ -91,8 +92,3 @@ internal open class VersionCatalogEntry {
         return result
     }
 }
-
-private fun <T : VersionCatalogItemReference<T>> provideDelegate(action: (KProperty<*>) -> T) =
-    PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
-
-private fun String.decapitalized() = replaceFirstChar { it.lowercase() }

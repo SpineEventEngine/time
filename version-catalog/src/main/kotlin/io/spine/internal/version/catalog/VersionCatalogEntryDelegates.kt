@@ -26,18 +26,19 @@
 
 package io.spine.internal.version.catalog
 
+import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-internal sealed class VersionCatalogItemReference<T : VersionCatalogItemReference<T>>(val alias: String) :
-    ReadOnlyProperty<Any?, T> {
-
+internal sealed class Reference<T : Reference<T>>(val alias: String) : ReadOnlyProperty<Any?, T> {
     @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
-        this as T
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T = this as T
 }
 
-internal class LibraryReference(alias: String) : VersionCatalogItemReference<LibraryReference>(alias)
-internal class BundleReference(alias: String) : VersionCatalogItemReference<BundleReference>(alias)
-internal class VersionReference(alias: String) : VersionCatalogItemReference<VersionReference>(alias)
-internal class PluginReference(alias: String) : VersionCatalogItemReference<PluginReference>(alias)
+internal class LibraryReference(alias: String) : Reference<LibraryReference>(alias)
+internal class BundleReference(alias: String) : Reference<BundleReference>(alias)
+internal class VersionReference(alias: String) : Reference<VersionReference>(alias)
+internal class PluginReference(alias: String) : Reference<PluginReference>(alias)
+
+internal fun <T : Reference<T>> provideDelegate(action: (KProperty<*>) -> T) =
+    PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
