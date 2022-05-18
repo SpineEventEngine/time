@@ -26,8 +26,16 @@
 
 package io.spine.internal.dependency
 
-// https://pmd.github.io/
-@Suppress("unused") // Will be used when `config/gradle/pmd.gradle` migrates to Kotlin.
-object Pmd {
-    const val version = "6.44.0"
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
+/**
+ * Plexus Utils is a transitive dependency which we don't use directly.
+ * This object is used to force the version.
+ *
+ * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/).
+ */
+@Suppress("unused")
+internal object Plexus : VersionCatalogEntry() {
+    private const val version = "3.4.0"
+    val utils by lib("org.codehaus.plexus:plexus-utils:$version")
 }

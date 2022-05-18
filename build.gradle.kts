@@ -31,7 +31,6 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
@@ -73,11 +72,8 @@ plugins {
     idea
     `project-report`
 
-//    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-//    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
-
-    id("com.google.protobuf")
-    id("net.ltgt.errorprone")
+    id(libs.plugins.protobuf.get().pluginId)
+    id(libs.plugins.errorProne.get().pluginId)
 }
 
 spinePublishing {
@@ -207,7 +203,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Protobuf.compiler
+            artifact = rootProject.libs.protobuf.compiler.get().toString()
         }
         generateProtoTasks {
             all().forEach { task ->

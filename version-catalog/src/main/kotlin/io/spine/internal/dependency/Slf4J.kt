@@ -26,13 +26,19 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * Plexus Utils is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
+ * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
+ * we recommend to use the latter.
  *
- * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
+ * Some third-party libraries may clash with different versions of the library.
+ * Thus, we have to force the version.
  */
-object Plexus {
-    private const val version = "3.4.0"
-    const val utils = "org.codehaus.plexus:plexus-utils:${version}"
+@Suppress("unused")
+@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
+internal object Slf4J : VersionCatalogEntry() {
+    private const val version = "1.7.30"
+    val slf4J by lib("org.slf4j:slf4j-api:$version")
+    val jdk14 by lib("org.slf4j:slf4j-jdk14:$version")
 }

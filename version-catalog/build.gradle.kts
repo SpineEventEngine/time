@@ -70,6 +70,9 @@ tasks {
         useJUnitPlatform {
             includeEngines("junit-jupiter")
         }
+        testLogging {
+            showStandardStreams = true
+        }
     }
 }
 

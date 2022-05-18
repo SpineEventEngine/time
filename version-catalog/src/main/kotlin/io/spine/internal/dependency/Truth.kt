@@ -26,19 +26,17 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/forge/roaster
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
+/**
+ * [Truth](https://github.com/google/truth).
+ */
 @Suppress("unused")
-object Roaster {
-
-    /**
-     * Do not advance this version further because it would break compatibility with Java 8
-     * projects. Starting from the following version Roaster has a shaded version of Eclipse JFace
-     * built with Java 11.
-     *
-     * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
-     */
-    private const val version = "2.24.0.Final"
-
-    const val api = "org.jboss.forge.roaster:roaster-api:${version}"
-    const val jdt = "org.jboss.forge.roaster:roaster-jdt:${version}"
+internal object Truth : VersionCatalogEntry() {
+    private const val version = "1.1.3"
+    val truth by bundle(
+        lib("truth", "com.google.truth:truth:$version"),
+        lib("java8Extension", "com.google.truth.extensions:truth-java8-extension:$version"),
+        lib("protoExtension", "com.google.truth.extensions:truth-proto-extension:$version")
+    )
 }

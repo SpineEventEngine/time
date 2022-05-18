@@ -61,18 +61,18 @@ class SpineVersionCatalogTest {
     private fun applyPluginInSettings() {
         projectDir.resolve("build.gradle").writeText("")
         projectDir.resolve("settings.gradle").writeText("""
-        buildscript {
-            repositories {
-                mavenLocal()
-                mavenCentral()
+            buildscript {
+                repositories {
+                    mavenLocal()
+                    mavenCentral()
+                }
+                dependencies {
+                    classpath("io.spine.internal:spine-version-catalog:+")
+                }
             }
-            dependencies {
-                classpath("io.spine.internal:spine-version-catalog:+")
+            apply {
+                plugin("io.spine.internal.version-catalog")
             }
-        }
-        apply {
-            plugin("io.spine.internal.version-catalog")
-        }
         """.trimIndent())
     }
 }

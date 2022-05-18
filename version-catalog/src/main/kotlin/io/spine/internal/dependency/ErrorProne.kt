@@ -55,7 +55,7 @@ internal object ErrorProne : VersionCatalogEntry() {
     /**
      * [GradlePlugin](https://github.com/tbroyer/gradle-errorprone-plugin/releases)
      */
-    object GradlePlugin : VersionCatalogEntry() {
+    object GradlePlugin {
         private const val version = "2.0.2"
         val errorProne by plugin("net.ltgt.errorprone", version)
         val gradlePlugin by lib("net.ltgt.gradle:gradle-errorprone-plugin:$version")

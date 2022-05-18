@@ -26,17 +26,31 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * Gradle TestKit extension for Google Truth.
- *
- * Source code:
- * https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth
- *
- * Usage description:
- * https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc
+ * [Protobuf](https://github.com/protocolbuffers/protobuf).
  */
 @Suppress("unused")
-object TestKitTruth {
-    private const val version = "1.1"
-    const val lib = "com.autonomousapps:testkit-truth:$version"
+internal object Protobuf : VersionCatalogEntry() {
+
+    private const val group = "com.google.protobuf"
+    private const val version = "3.20.1"
+
+    val protobuf by bundle(
+        lib("java", "$group:protobuf-java:$version"),
+        lib("javaUtil", "$group:protobuf-java-util:$version"),
+        lib("kotlin", "$group:protobuf-kotlin:$version")
+    )
+
+    val compiler by lib("$group:protoc:$version")
+
+    /**
+     * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases).
+     */
+    object GradlePlugin {
+        private const val version = "0.8.18"
+        val protobuf by plugin("com.google.protobuf", version)
+        val gradlePlugin by lib("$group:protobuf-gradle-plugin:$version")
+    }
 }

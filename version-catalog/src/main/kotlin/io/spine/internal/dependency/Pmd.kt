@@ -26,12 +26,13 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/google/truth
-object Truth {
-    private const val version = "1.1.3"
-    val libs = listOf(
-        "com.google.truth:truth:${version}",
-        "com.google.truth.extensions:truth-java8-extension:${version}",
-        "com.google.truth.extensions:truth-proto-extension:${version}"
-    )
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
+/**
+ * [Pmd](https://pmd.github.io/).
+ */
+@Suppress("unused")
+internal object Pmd : VersionCatalogEntry() {
+    private const val version = "6.44.0"
+    val pmd by version(version)
 }

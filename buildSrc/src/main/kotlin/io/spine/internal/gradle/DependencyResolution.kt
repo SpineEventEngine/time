@@ -26,9 +26,6 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.Plexus
-import io.spine.internal.dependency.Protobuf
-import io.spine.internal.dependency.Truth
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.artifacts.Configuration
@@ -77,9 +74,11 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.kotlin.stdLib,
         libs.kotlin.stdLibCommon,
         libs.kotlin.stdLibJdk8,
-        Protobuf.libs,
-        Protobuf.GradlePlugin.lib,
-        io.spine.internal.dependency.Slf4J.lib
+        libs.protobuf.java,
+        libs.protobuf.javaUtil,
+        libs.protobuf.kotlin,
+//        libs.protobuf.gradlePlugin,
+        libs.slf4J,
     )
 }
 
@@ -92,7 +91,8 @@ private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
         libs.jUnit.legacy,
         libs.jUnit.platformCommons,
         libs.jUnit.platformLauncher,
-        Truth.libs
+        libs.truth.protoExtension,
+        libs.truth.java8Extension,
     )
 }
 
@@ -108,7 +108,7 @@ private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLib
         libs.gson,
         libs.j2ObjC.annotations,
         libs.okio,
-        Plexus.utils,
+        libs.plexus.utils,
     )
 }
 

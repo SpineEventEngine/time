@@ -26,16 +26,16 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up, we recommend to
- * use the latter.
+ * Gradle TestKit extension for Google Truth.
  *
- * Some third-party libraries may clash with different versions of the library. Thus, we specify
- * this version and force it via [forceConfiguration(..)][DependencyResolution.forceConfiguration].
+ * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
+ * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
  */
-@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("flogger"))
-object Slf4J {
-    private const val version = "1.7.30"
-    const val lib = "org.slf4j:slf4j-api:${version}"
-    const val jdk14 = "org.slf4j:slf4j-jdk14:${version}"
+@Suppress("unused")
+internal object TestKitTruth : VersionCatalogEntry() {
+    private const val version = "1.1"
+    val testKitTruth by lib("com.autonomousapps:testkit-truth:$version")
 }

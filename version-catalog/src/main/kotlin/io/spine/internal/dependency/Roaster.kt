@@ -26,28 +26,23 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/protocolbuffers/protobuf
-@Suppress("MemberVisibilityCanBePrivate") // used directly from outside
-object Protobuf {
-    private const val group = "com.google.protobuf"
-    const val version       = "3.20.1"
-    val libs = listOf(
-        "${group}:protobuf-java:${version}",
-        "${group}:protobuf-java-util:${version}",
-        "${group}:protobuf-kotlin:${version}"
-    )
-    const val compiler = "${group}:protoc:${version}"
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
-    // https://github.com/google/protobuf-gradle-plugin/releases
-    object GradlePlugin {
-        /**
-         * The version of this plugin is already specified in `buildSrc/build.gradle.kts` file.
-         * Thus, when applying the plugin in projects build files, only the [id] should be used.
-         *
-         * When changing the version, also change the version used in the `build.gradle.kts`.
-         */
-        const val version = "0.8.18"
-        const val id = "com.google.protobuf"
-        const val lib = "${group}:protobuf-gradle-plugin:${version}"
-    }
+/**
+ * [Roaster](https://github.com/forge/roaster).
+ */
+@Suppress("unused")
+internal object Roaster : VersionCatalogEntry() {
+
+    /**
+     * Do not advance this version further because it would break compatibility with Java 8
+     * projects. Starting from the following version Roaster has a shaded version of Eclipse
+     * JFace built with Java 11.
+     *
+     * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
+     */
+    private const val version = "2.24.0.Final"
+
+    val api by lib("org.jboss.forge.roaster:roaster-api:$version")
+    val jdt by lib("org.jboss.forge.roaster:roaster-jdt:$version")
 }
