@@ -55,7 +55,11 @@ class SpineVersionCatalog : Plugin<Settings> {
         val reflections = Reflections(builder)
         val entries = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
             .map { it.kotlin }
-            .mapNotNull { it.objectInstance }
+            .mapNotNull { kClass ->
+                val instance = kClass.objectInstance
+                kClass.nestedClasses.forEach { it.objectInstance }
+                instance
+            }
             .toSet()
         return entries
     }
