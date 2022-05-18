@@ -26,18 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
+/**
+ * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java).
+ */
 @Suppress("unused")
-internal object Firebase : VersionCatalogContributor() {
-
-    /**
-     * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java)
-     */
+internal object Firebase : VersionCatalogEntry() {
     private const val adminVersion = "8.1.0"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("admin", "com.google.firebase:firebase-admin:${adminVersion}")
-    }
+    val admin by lib("com.google.firebase:firebase-admin:${adminVersion}")
 }

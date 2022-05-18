@@ -43,8 +43,8 @@ internal object Dokka : VersionCatalogEntry() {
      * @see <a href="https://github.com/Kotlin/dokka#output-formats">
      *     Dokka output formats</a>
      */
-    val kotlinAsJavaPlugin by gav("${group}:kotlin-as-java-plugin:${version}")
-    val basePlugin by gav("${group}:dokka-base:${version}")
+    val kotlinAsJavaPlugin by lib("${group}:kotlin-as-java-plugin:${version}")
+    val basePlugin by lib("${group}:dokka-base:${version}")
 
     /**
      * Custom Dokka plugins developed for Spine-specific needs like excluding by `@Internal`
@@ -56,11 +56,11 @@ internal object Dokka : VersionCatalogEntry() {
     object SpineExtensions : VersionCatalogEntry() {
         private const val group = "io.spine.tools"
         private const val version = "2.0.0-SNAPSHOT.3"
-        val lib by gav("${group}:spine-dokka-extensions:${version}")
+        val spineExtensions by lib("${group}:spine-dokka-extensions:${version}")
     }
 
     object GradlePlugin : VersionCatalogEntry() {
-        val plugin by id("org.jetbrains.dokka", version)
-        val lib by gav("${group}:dokka-gradle-plugin:$version")
+        val dokka by plugin("org.jetbrains.dokka", version)
+        val gradlePlugin by lib("${group}:dokka-gradle-plugin:$version")
     }
 }

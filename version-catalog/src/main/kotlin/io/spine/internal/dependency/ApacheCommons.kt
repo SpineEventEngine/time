@@ -34,24 +34,15 @@ internal object ApacheCommons : VersionCatalogEntry() {
     /**
      * [CommonsCli](https://commons.apache.org/proper/commons-cli/).
      */
-    object Cli : VersionCatalogEntry() {
-        private const val version = "1.5.0"
-        val lib by gav("commons-cli:commons-cli:${version}")
-    }
+    val cli by lib("commons-cli:commons-cli:1.5.0")
 
     /**
      * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html).
      */
-    object Codec : VersionCatalogEntry() {
-        private const val version = "1.15"
-        val lib by gav("commons-codec:commons-codec:$version")
-    }
+    val codec by lib("commons-codec:commons-codec:1.15")
 
     /**
      * [CommonsLogging](https://commons.apache.org/proper/commons-logging/).
      */
-    object Logging : VersionCatalogEntry() {
-        private const val version = "1.2"
-        val lib by gav("commons-logging:commons-logging:$version")
-    }
+    val logging by lib("commons-logging:commons-logging:1.2")
 }

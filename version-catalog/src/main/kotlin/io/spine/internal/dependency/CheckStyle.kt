@@ -34,5 +34,5 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object CheckStyle : VersionCatalogEntry() {
     private const val version = "10.1"
-    val checkStyle by versioning(version)
+    val checkStyle by version(version)
 }

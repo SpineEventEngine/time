@@ -26,7 +26,7 @@
 
 package io.spine.internal.version.catalog
 
-import io.spine.internal.dependency.GoogleApis
+//import io.spine.internal.dependency.GoogleApis
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -35,6 +35,6 @@ internal class VersionCatalogContributorTest {
 
     @Test
     fun baseAlias() {
-        println(GoogleApis.AuthLibrary.baseAlias())
+//        println(GoogleApis.AuthLibrary.baseAlias())
     }
 }

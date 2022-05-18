@@ -26,21 +26,17 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
  * Gson is a transitive dependency which we don't use directly.
  *
  * This object is used for forcing the version.
  *
- * [Gson](https://github.com/google/gson)
+ * [Gson](https://github.com/google/gson).
  */
 @Suppress("unused")
-internal object Gson : VersionCatalogContributor() {
+internal object Gson : VersionCatalogEntry() {
     private const val version = "2.9.0"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("com.google.code.gson:gson:${version}")
-    }
+    val gson by lib("com.google.code.gson:gson:$version")
 }

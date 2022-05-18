@@ -26,104 +26,80 @@
 
 package io.spine.internal.version.catalog
 
-import java.util.*
+import java.util.Objects.nonNull
 import kotlin.properties.PropertyDelegateProvider
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 internal open class VersionCatalogEntry {
 
     private val actions = mutableListOf<VersionCatalogBuilder.() -> Unit>()
+    private val baseAlias = baseAlias()
+    private val RelativeAlias.absolute: AbsoluteAlias
+        get() = if (baseAlias.endsWith(this)) baseAlias else "$baseAlias-$this"
 
-    private var baseAlias = baseAlias()
+    fun addTo(catalog: VersionCatalogBuilder) {
+        actions.forEach { it(catalog) }
+    }
+
+    fun lib(relativeAlias: RelativeAlias, gav: String): LibraryReference {
+        val absoluteAlias = relativeAlias.absolute
+        catalog { library(absoluteAlias, gav) }
+        return LibraryReference(absoluteAlias)
+    }
+
+    fun lib(gav: String) = PropertyDelegateProvider<Any?, LibraryReference> { _, property ->
+        val reference = lib(property.name, gav)
+        reference
+    }
+
+    fun bundle(relativeAlias: RelativeAlias, vararg libs: LibraryReference): BundleReference {
+        val absoluteAlias = relativeAlias.absolute
+        catalog { bundle(absoluteAlias, libs.map { it.absoluteAlias }) }
+        return BundleReference(absoluteAlias)
+    }
+
+    fun bundle(vararg libs: LibraryReference) = PropertyDelegateProvider<Any?, BundleReference> { _, property ->
+        val reference = bundle(property.name, *libs)
+        reference
+    }
+
+    fun version(relativeAlias: RelativeAlias, version: String): VersionReference {
+        val absoluteAlias = relativeAlias.absolute
+        catalog { version(absoluteAlias, version) }
+        return VersionReference(absoluteAlias)
+    }
+
+    fun version(value: String) = PropertyDelegateProvider<Any?, VersionReference> { _, property ->
+        val reference = version(property.name, value)
+        reference
+    }
+
+    fun plugin(relativeAlias: RelativeAlias, id: String, version: String): PluginReference {
+        val absoluteAlias = relativeAlias.absolute
+        catalog { plugin(absoluteAlias, id).version(version) }
+        return PluginReference(absoluteAlias)
+    }
+
+    fun plugin(id: String, version: String) = PropertyDelegateProvider<Any?, PluginReference> { _, property ->
+        val reference = plugin(property.name, id, version)
+        reference
+    }
+
+    private fun catalog(action: VersionCatalogBuilder.() -> Unit) {
+        actions.add(action)
+    }
 
     private fun baseAlias(): String {
 
         val clazz = this::class.java
         var name = clazz.simpleName.replaceFirstChar { it.lowercase() }
 
-        if (clazz.isNested()) {
-            val nestedName = clazz.enclosingClass.simpleName.replaceFirstChar { it.lowercase() }
+        if (nonNull(clazz.enclosingClass)) {
+            val nested = clazz.enclosingClass
+            val nestedName = nested.simpleName.replaceFirstChar { it.lowercase() }
             name = "$nestedName-$name"
         }
 
         return name
     }
-
-    private fun builder(action: VersionCatalogBuilder.() -> Unit) {
-        actions.add(action)
-    }
-
-    private val RelativeAlias.absolute: AbsoluteAlias
-        get() = "$baseAlias-$this"
-
-    fun lib(relativeAlias: RelativeAlias, gav: String): LibraryReference {
-        val absoluteAlias = relativeAlias.absolute
-        builder { library(absoluteAlias, gav) }
-        return LibraryReference(absoluteAlias)
-    }
-
-    fun lib(gav: String): LibraryReference {
-        builder { library(baseAlias, gav) }
-        return LibraryReference(baseAlias)
-    }
-
-    fun gav(value: String) =
-        PropertyDelegateProvider<Any?, ReferenceDelegate<LibraryReference>> { _, property ->
-            val ref = if (property.name == "lib") lib(value) else lib(property.name, value)
-            ReferenceDelegate(ref)
-        }
-
-    fun libs(vararg value: LibraryReference) =
-        PropertyDelegateProvider<Any?, ReferenceDelegate<BundleReference>> { _, property ->
-            val list = value.toList()
-            val ref = if (property.name == "bundle") bundle(list) else bundle(property.name, list)
-            ReferenceDelegate(ref)
-        }
-
-    fun bundle(relativeAlias: RelativeAlias, aliases: List<LibraryReference>): BundleReference {
-        val absoluteAlias = relativeAlias.absolute
-        builder { bundle(absoluteAlias, aliases.map { it.value }) }
-        return BundleReference(absoluteAlias)
-    }
-
-    fun bundle(aliases: List<LibraryReference>): BundleReference  {
-        val absoluteAlias = baseAlias
-        builder { bundle(absoluteAlias, aliases.map { it.value }) }
-        return BundleReference(absoluteAlias)
-    }
-
-    fun versioning(value: String) =
-        PropertyDelegateProvider<Any?, ReferenceDelegate<VersionReference>> { _, property ->
-            val ref = version(property.name, value)
-            ReferenceDelegate(ref)
-        }
-
-    fun version(absoluteAlias: AbsoluteAlias, version: String): VersionReference {
-        builder { version(absoluteAlias, version) }
-        return VersionReference(absoluteAlias)
-    }
-
-    fun version(version: String): VersionReference {
-        val absoluteAlias = baseAlias
-        builder { version(absoluteAlias, version) }
-        return VersionReference(absoluteAlias)
-    }
-
-    fun id(value: String, version: String) =
-        PropertyDelegateProvider<Any?, ReferenceDelegate<PluginReference>> { _, property ->
-            val ref = if (property.name == "plugin") plugin(baseAlias, value, version) else plugin(property.name, value, version)
-            ReferenceDelegate(ref)
-        }
-
-    fun plugin(absoluteAlias: AbsoluteAlias, id: String, version: String): PluginReference {
-        builder { plugin(absoluteAlias, id).version(version) }
-        return PluginReference(absoluteAlias)
-    }
-
-    fun addTo(catalog: VersionCatalogBuilder) {
-        actions.forEach { it(catalog) }
-    }
 }
-
-private fun Class<*>.isNested() = Objects.nonNull(enclosingClass)
-

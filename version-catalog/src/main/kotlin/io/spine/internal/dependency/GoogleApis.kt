@@ -26,46 +26,51 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
- * [GoogleApis projects](https://github.com/googleapis/)
+ * [GoogleApis](https://github.com/googleapis/).
  */
 @Suppress("unused")
-internal object GoogleApis : VersionCatalogContributor() {
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-
-        // https://github.com/googleapis/google-api-java-client
-        lib("client", "com.google.api-client:google-api-client:1.32.2")
-
-        // https://github.com/googleapis/api-common-java
-        lib("common", "com.google.api:api-common:2.1.1")
-
-        // https://github.com/googleapis/java-common-protos
-        lib("commonProtos", "com.google.api.grpc:proto-google-common-protos:2.7.0")
-
-        // https://github.com/googleapis/gax-java
-        lib("gax", "com.google.api:gax:2.7.1")
-
-        // https://github.com/googleapis/java-iam
-        lib("protoAim", "com.google.api.grpc:proto-google-iam-v1:1.2.0")
-
-        // https://github.com/googleapis/google-oauth-java-client
-        lib("oAuthClient", "com.google.oauth-client:google-oauth-client:1.32.1")
-    }
+internal object GoogleApis : VersionCatalogEntry() {
 
     /**
-     * [AuthLibrary](https://github.com/googleapis/google-auth-library-java)
+     * [Client](https://github.com/googleapis/google-api-java-client).
      */
-    object AuthLibrary : VersionCatalogContributor() {
+    val client by lib("com.google.api-client:google-api-client:1.32.2")
 
+    /**
+     * [Common](https://github.com/googleapis/api-common-java).
+     */
+    val common by lib("com.google.api:api-common:2.1.1")
+
+    /**
+     * [CommonProtos](https://github.com/googleapis/java-common-protos).
+     */
+    val commonProtos by lib("com.google.api.grpc:proto-google-common-protos:2.7.0")
+
+    /**
+     * [GAX](https://github.com/googleapis/gax-java).
+     */
+    val gax by lib("com.google.api:gax:2.7.1")
+
+    /**
+     * [ProtoAim](https://github.com/googleapis/java-iam).
+     */
+    val protoAim by lib("com.google.api.grpc:proto-google-iam-v1:1.2.0")
+
+    /**
+     * [OAuthClient](https://github.com/googleapis/google-oauth-java-client).
+     */
+    val oAuthClient by lib("com.google.oauth-client:google-oauth-client:1.32.1")
+
+    /**
+     * [AuthLibrary](https://github.com/googleapis/google-auth-library-java).
+     */
+    object AuthLibrary : VersionCatalogEntry() {
         private const val version = "1.3.0"
-
-        override fun SpineVersionCatalogBuilder.doContribute() {
-            lib("credentials", "com.google.auth:google-auth-library-credentials:${version}")
-            lib("oAuth2Http", "com.google.auth:google-auth-library-oauth2-http:${version}")
-        }
+        val authLibrary by version(version)
+        val credentials by lib("com.google.auth:google-auth-library-credentials:$version")
+        val oAuth2Http by lib("com.google.auth:google-auth-library-oauth2-http:$version")
     }
 }

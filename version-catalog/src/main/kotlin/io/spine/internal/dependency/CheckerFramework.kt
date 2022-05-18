@@ -38,12 +38,12 @@ internal object CheckerFramework : VersionCatalogEntry() {
      * This is a discontinued artifact, which we do not use directly.
      * It is a transitive dependency which we use for forcing the version.
      */
-    val compatQual by gav("org.checkerframework:checker-compat-qual:2.5.5")
+    val compatQual by lib("org.checkerframework:checker-compat-qual:2.5.5")
 
     private const val version = "3.21.3"
-    val annotations by gav("org.checkerframework:checker-qual:$version")
+    val annotations by lib("org.checkerframework:checker-qual:$version")
 
-    val dataflow by libs(
+    val dataflow by bundle(
         lib("dataflow", "org.checkerframework:dataflow:${version}"),
         lib("javacUtil", "org.checkerframework:javacutil:${version}")
     )

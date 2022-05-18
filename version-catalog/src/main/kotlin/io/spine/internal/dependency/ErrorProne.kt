@@ -35,11 +35,11 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 internal object ErrorProne : VersionCatalogEntry() {
 
     private const val version = "2.13.1"
-    val core by gav("com.google.errorprone:error_prone_core:$version")
-    val checkApi by gav("com.google.errorprone:error_prone_check_api:$version")
-    val testHelpers by gav("com.google.errorprone:error_prone_test_helpers:$version")
+    val core by lib("com.google.errorprone:error_prone_core:$version")
+    val checkApi by lib("com.google.errorprone:error_prone_check_api:$version")
+    val testHelpers by lib("com.google.errorprone:error_prone_test_helpers:$version")
 
-    val annotations by libs(
+    val annotations by bundle(
         lib("annotations", "com.google.errorprone:error_prone_annotations:$version"),
         lib("typeAnnotations", "com.google.errorprone:error_prone_type_annotations:$version")
     )
@@ -49,7 +49,7 @@ internal object ErrorProne : VersionCatalogEntry() {
      */
     object JavacPlugin : VersionCatalogEntry() {
         private const val version = "9+181-r4173-1"
-        val lib by gav("com.google.errorprone:javac:$version")
+        val javacPlugin by lib("com.google.errorprone:javac:$version")
     }
 
     /**
@@ -57,7 +57,7 @@ internal object ErrorProne : VersionCatalogEntry() {
      */
     object GradlePlugin : VersionCatalogEntry() {
         private const val version = "2.0.2"
-        val plugin by id("net.ltgt.errorprone", version)
-        val lib by gav("net.ltgt.gradle:gradle-errorprone-plugin:$version")
+        val errorProne by plugin("net.ltgt.errorprone", version)
+        val gradlePlugin by lib("net.ltgt.gradle:gradle-errorprone-plugin:$version")
     }
 }

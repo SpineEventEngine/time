@@ -36,17 +36,17 @@ internal object GoogleAuto : VersionCatalogEntry() {
 
     object Common : VersionCatalogEntry() {
         private const val version = "1.2.1"
-        val lib by gav("com.google.auto:auto-common:$version")
+        val common by lib("com.google.auto:auto-common:$version")
     }
 
     object Service : VersionCatalogEntry() {
         private const val version = "1.0.1"
-        val annotations by gav("com.google.auto.service:auto-service-annotations:$version")
-        val processor by gav("com.google.auto.service:auto-service:$version")
+        val annotations by lib("com.google.auto.service:auto-service-annotations:$version")
+        val processor by lib("com.google.auto.service:auto-service:$version")
     }
 
     object Value : VersionCatalogEntry() {
         private const val version = "1.9"
-        val annotations by gav("com.google.auto.value:auto-value-annotations:$version")
+        val annotations by lib("com.google.auto.value:auto-value-annotations:$version")
     }
 }

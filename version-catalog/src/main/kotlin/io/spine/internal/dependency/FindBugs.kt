@@ -26,8 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
  * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
@@ -39,11 +38,7 @@ import io.spine.internal.version.catalog.VersionCatalogContributor
  * See [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
  */
 @Suppress("unused")
-internal object FindBugs : VersionCatalogContributor() {
-
+internal object FindBugs : VersionCatalogEntry() {
     private const val version = "3.0.2"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("annotations", "com.google.code.findbugs:jsr305:${version}")
-    }
+    val annotations by lib("com.google.code.findbugs:jsr305:$version")
 }

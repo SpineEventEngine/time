@@ -26,28 +26,23 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
- * [Grpc Java](https://github.com/grpc/grpc-java)
+ * [Grpc Java](https://github.com/grpc/grpc-java).
  */
 @Suppress("unused")
-internal object Grpc : VersionCatalogContributor() {
-
+internal object Grpc : VersionCatalogEntry() {
     private const val version = "1.45.1"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("api", "io.grpc:grpc-api:${version}")
-        lib("auth", "io.grpc:grpc-auth:${version}")
-        lib("core", "io.grpc:grpc-core:${version}")
-        lib("context", "io.grpc:grpc-context:${version}")
-        lib("stub", "io.grpc:grpc-stub:${version}")
-        lib("okHttp", "io.grpc:grpc-okhttp:${version}")
-        lib("protobuf", "io.grpc:grpc-protobuf:${version}")
-        lib("protobufLite", "io.grpc:grpc-protobuf-lite:${version}")
-        lib("protobufPlugin", "io.grpc:protoc-gen-grpc-java:${version}")
-        lib("netty", "io.grpc:grpc-netty:${version}")
-        lib("nettyShaded", "io.grpc:grpc-netty-shaded:${version}")
-    }
+    val api by lib("io.grpc:grpc-api:$version")
+    val auth by lib("io.grpc:grpc-auth:$version")
+    val core by lib("io.grpc:grpc-core:$version")
+    val context by lib("io.grpc:grpc-context:$version")
+    val stub by lib("io.grpc:grpc-stub:$version")
+    val okHttp by lib("io.grpc:grpc-okhttp:$version")
+    val protobuf by lib("io.grpc:grpc-protobuf:$version")
+    val protobufLite by lib("io.grpc:grpc-protobuf-lite:$version")
+    val protobufPlugin by lib("io.grpc:protoc-gen-grpc-java:$version")
+    val netty by lib("io.grpc:grpc-netty:$version")
+    val nettyShaded by lib("io.grpc:grpc-netty-shaded:$version")
 }

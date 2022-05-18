@@ -34,5 +34,5 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object AnimalSniffer : VersionCatalogEntry() {
     private const val version = "1.21"
-    val lib by gav("org.codehaus.mojo:animal-sniffer-annotations:$version")
+    val animalSniffer by lib("org.codehaus.mojo:animal-sniffer-annotations:$version")
 }

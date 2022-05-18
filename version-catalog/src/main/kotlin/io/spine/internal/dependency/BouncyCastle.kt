@@ -34,5 +34,5 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object BouncyCastle : VersionCatalogEntry() {
     private const val version = "1.68"
-    val libPkcsJdk15 by gav("org.bouncycastle:bcpkix-jdk15on:$version")
+    val libPkcsJdk15 by lib("org.bouncycastle:bcpkix-jdk15on:$version")
 }

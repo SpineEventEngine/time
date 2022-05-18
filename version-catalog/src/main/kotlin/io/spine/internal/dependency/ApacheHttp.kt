@@ -34,5 +34,5 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object ApacheHttp : VersionCatalogEntry() {
     private const val version = "4.4.14"
-    val core by gav("org.apache.httpcomponents:httpcore:$version")
+    val core by lib("org.apache.httpcomponents:httpcore:$version")
 }

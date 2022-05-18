@@ -26,8 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.SpineVersionCatalogBuilder
-import io.spine.internal.version.catalog.VersionCatalogContributor
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
 /**
  * The dependencies for Guava.
@@ -36,14 +35,11 @@ import io.spine.internal.version.catalog.VersionCatalogContributor
  * to synchronize the version used in `buildSrc` and in Spine modules. Otherwise, when testing
  * Gradle plugins, errors may occur due to version clashes.
  *
- * [Guava](https://github.com/google/guava)
+ * [Guava](https://github.com/google/guava).
  */
 @Suppress("unused")
-internal object Guava : VersionCatalogContributor() {
+internal object Guava : VersionCatalogEntry() {
     private const val version = "31.1-jre"
-
-    override fun SpineVersionCatalogBuilder.doContribute() {
-        lib("com.google.guava:guava:${version}")
-        lib("testLib", "com.google.guava:guava-testlib:${version}")
-    }
+    val guava by lib("com.google.guava:guava:$version")
+    val testLib by lib("com.google.guava:guava-testlib:${version}")
 }

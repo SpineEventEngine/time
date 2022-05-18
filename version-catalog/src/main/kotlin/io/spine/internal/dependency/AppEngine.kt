@@ -35,10 +35,10 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 internal object AppEngine : VersionCatalogEntry() {
 
     private const val version = "1.9.82"
-    val sdk by gav("com.google.appengine:appengine-api-1.0-sdk:$version")
+    val sdk by lib("com.google.appengine:appengine-api-1.0-sdk:$version")
 
     object GradlePlugin : VersionCatalogEntry() {
         private const val version = "2.2.0"
-        val lib by gav("com.google.cloud.tools:appengine-gradle-plugin:$version")
+        val gradlePlugin by lib("com.google.cloud.tools:appengine-gradle-plugin:$version")
     }
 }

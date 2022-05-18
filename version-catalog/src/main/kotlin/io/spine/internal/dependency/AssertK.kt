@@ -34,5 +34,5 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object AssertK : VersionCatalogEntry() {
     private const val version = "0.25"
-    val jvm by gav("com.willowtreeapps.assertk:assertk-jvm:$version")
+    val jvm by lib("com.willowtreeapps.assertk:assertk-jvm:$version")
 }
