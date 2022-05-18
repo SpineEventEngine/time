@@ -26,13 +26,19 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 @Suppress("unused")
-object Netty {
-    // https://github.com/netty/netty/releases
+internal object Netty : VersionCatalogEntry() {
+
+    /**
+     * [Releases](https://github.com/netty/netty/releases).
+     */
     private const val version = "4.1.72.Final"
-    const val common = "io.netty:netty-common:${version}"
-    const val buffer = "io.netty:netty-buffer:${version}"
-    const val transport = "io.netty:netty-transport:${version}"
-    const val handler = "io.netty:netty-handler:${version}"
-    const val codecHttp = "io.netty:netty-codec-http:${version}"
+
+    val common by lib("io.netty:netty-common:$version")
+    val buffer by lib("io.netty:netty-buffer:$version")
+    val transport by lib("io.netty:netty-transport:$version")
+    val handler by lib("io.netty:netty-handler:$version")
+    val codecHttp by lib("io.netty:netty-codec-http:$version")
 }

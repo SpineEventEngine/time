@@ -26,12 +26,19 @@
 
 package io.spine.internal.dependency
 
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
 /**
- * Okio is a transitive dependency which we don't use directly.
- * We `force` it in [DependencyResolution.forceConfiguration].
+ * [LicenseReport](https://github.com/jk1/Gradle-License-Report).
  */
-object Okio {
-    // This is the last version before next major.
-    private const val version = "1.17.5"
-    const val lib = "com.squareup.okio:okio:${version}"
+@Suppress("unused")
+internal object LicenseReport : VersionCatalogEntry() {
+
+    private const val version = "1.16"
+    val licenseReport by lib("com.github.jk1:gradle-license-report:$version")
+
+    object GradlePlugin {
+        val licenseReport by plugin("com.github.jk1.dependency-license-report", version)
+        val gradlePlugin by lib("com.github.jk1:gradle-license-report:$version")
+    }
 }

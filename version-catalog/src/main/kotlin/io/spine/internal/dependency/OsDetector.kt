@@ -26,16 +26,14 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/JetBrains/kotlin
-// https://github.com/Kotlin
-object Kotlin {
-    /**
-    * When changing the version, also change the version used in the `buildSrc/build.gradle.kts`.
-    */
-    @Suppress("MemberVisibilityCanBePrivate") // used directly from outside
-    const val version      = "1.6.21"
-    const val reflect      = "org.jetbrains.kotlin:kotlin-reflect:${version}"
-    const val stdLib       = "org.jetbrains.kotlin:kotlin-stdlib:${version}"
-    const val stdLibCommon = "org.jetbrains.kotlin:kotlin-stdlib-common:${version}"
-    const val stdLibJdk8   = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${version}"
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
+/**
+ * [OsDetector](https://github.com/google/osdetector-gradle-plugin).
+ */
+@Suppress("unused")
+internal object OsDetector : VersionCatalogEntry() {
+    private const val version = "1.7.0"
+    val gradlePlugin by lib("com.google.gradle:osdetector-gradle-plugin:$version")
+    val osDetector by plugin("com.google.osdetector", version)
 }

@@ -26,9 +26,22 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/z4kn4fein/kotlin-semver
+import io.spine.internal.version.catalog.VersionCatalogEntry
+
+/**
+ * [Kotlin](https://github.com/Kotlin).
+ */
 @Suppress("unused")
-object KotlinSemver {
-    private const val version = "1.2.1"
-    const val lib     = "io.github.z4kn4fein:semver:$version"
+internal object Kotlin : VersionCatalogEntry() {
+
+    /**
+     * [Releases](https://github.com/JetBrains/kotlin).
+     */
+    private const val version = "1.6.21"
+    val kotlin by version(version)
+
+    val reflect by lib("org.jetbrains.kotlin:kotlin-reflect:$version")
+    val stdLib by lib("org.jetbrains.kotlin:kotlin-stdlib:$version")
+    val stdLibCommon by lib("org.jetbrains.kotlin:kotlin-stdlib-common:$version")
+    val stdLibJdk8 by lib("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version")
 }

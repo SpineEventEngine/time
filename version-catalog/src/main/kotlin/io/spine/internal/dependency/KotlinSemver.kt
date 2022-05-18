@@ -26,15 +26,13 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/jk1/Gradle-License-Report
-@Suppress("unused")
-object LicenseReport {
-    private const val version = "1.16"
-    const val lib = "com.github.jk1:gradle-license-report:${version}"
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
-    object GradlePlugin {
-        const val version = LicenseReport.version
-        const val id = "com.github.jk1.dependency-license-report"
-        const val lib = LicenseReport.lib
-    }
+/**
+ * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver).
+ */
+@Suppress("unused")
+internal object KotlinSemver : VersionCatalogEntry() {
+    private const val version = "1.2.1"
+    val kotlinSemver by lib("io.github.z4kn4fein:semver:$version")
 }
