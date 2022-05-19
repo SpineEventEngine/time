@@ -51,7 +51,9 @@ gradlePlugin {
     }
 }
 
-// Add a source set for the functional test suite
+// Why we need a functional test is described in the test itself.
+// See: `SpineVersionCatalogFunctionalTest`.
+
 val functionalTestSourceSet = sourceSets.create("functionalTest")
 configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
 gradlePlugin.testSourceSets(functionalTestSourceSet)
@@ -60,6 +62,7 @@ tasks {
     val functionalTest by registering(Test::class) {
         testClassesDirs = functionalTestSourceSet.output.classesDirs
         classpath = functionalTestSourceSet.runtimeClasspath
+        dependsOn(named("publishToMavenLocal"))
     }
 
     check {
@@ -75,5 +78,3 @@ tasks {
         }
     }
 }
-
-

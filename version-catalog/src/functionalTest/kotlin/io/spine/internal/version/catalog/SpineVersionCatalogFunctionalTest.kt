@@ -32,16 +32,35 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
+// Actually, our plugin operates only upon a builder for `VersionCatalog`.
+//
+// Thus, before publishing the plugin, it is better to check if the
+// resulted builder can assemble a catalog instance. Sometimes, it can't.
+// Due to aliases mismatch or incorrect alias name. The catalog builder
+// doesn't check this.
+//
+// And as for now, there is no legitimate way to check this out without
+// a true functional test.
+//
+// See issue in Gradle: https://github.com/gradle/gradle/issues/20807
+
+/**
+ * Checks out that a builder for `VersionCatalog`, produced by the plugin,
+ * can assemble an instance of the catalog.
+ */
 @DisplayName("`SpineVersionCatalog` should")
-class SpineVersionCatalogTest {
+class SpineVersionCatalogFunctionalTest {
 
     private val projectDir = TemporaryFolder().also { it.create() }.root
 
+    /**
+     * The test verifies that a build doesn't fail when the plugin is applied.
+     *
+     * The build fails if a version catalog can't be assembled.
+     */
     @Test
     @DisplayName("register a new version catalog")
     fun apply() {
-
-        preparePluginInMavenLocal()
         applyPluginInSettings()
 
         val runner = GradleRunner.create()
@@ -53,11 +72,21 @@ class SpineVersionCatalogTest {
         }
     }
 
-    private fun preparePluginInMavenLocal() {
-        val process = Runtime.getRuntime().exec("./gradlew publishToMavenLocal")
-        process.waitFor()
-    }
-
+    /**
+     * Applies the plugin to a dummy project.
+     *
+     * The plugin is fetched from MavenLocal.
+     *
+     * This, it should be published to MavenLocal in advance:
+     *
+     * ```
+     * tasks {
+     *     named("functionalTest") {
+     *         dependsOn(named("publishToMavenLocal")
+     *     }
+     * }
+     * ```
+     */
     private fun applyPluginInSettings() {
         projectDir.resolve("build.gradle").writeText("")
         projectDir.resolve("settings.gradle").writeText("""
