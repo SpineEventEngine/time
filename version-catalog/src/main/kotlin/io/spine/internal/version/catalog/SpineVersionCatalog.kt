@@ -32,35 +32,66 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
+/**
+ * A Gradle plugin for [Settings] which registers a Version Catalog with
+ * dependencies used within Spine-related projects.
+ *
+ * Please take a look on [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html).
+ */
 @Suppress("UnstableApiUsage", "unused")
 class SpineVersionCatalog : Plugin<Settings> {
 
     companion object {
-        private const val DEPENDENCIES_PKG = "io.spine.internal.dependency"
+        private const val ENTRIES_PKG = "io.spine.internal.dependency"
     }
 
+    /**
+     * Applies this plugin to the given [Settings].
+     *
+     * In particular, this method does the following:
+     *
+     *  1. Creates a new `libs` catalog.
+     *  2. Finds all declared [entries][VersionCatalogEntry].
+     *  3. Add them all to the created catalog.
+     */
     override fun apply(settings: Settings) {
-        val catalog = settings.createCatalog()
-        val entries = fetchEntries()
+        val catalog = settings.createCatalog("libs")
+        val entries = findDeclaredEntries(ENTRIES_PKG)
         entries.forEach { it.addTo(catalog) }
     }
 
-    private fun Settings.createCatalog(): VersionCatalogBuilder {
-        val result = dependencyResolutionManagement.versionCatalogs.create("libs")
+    /**
+     * Creates a new catalog with the given name in this [Settings].
+     */
+    private fun Settings.createCatalog(name: String): VersionCatalogBuilder {
+        val result = dependencyResolutionManagement.versionCatalogs.create(name)
         return result
     }
 
-    private fun fetchEntries(): Set<VersionCatalogEntry> {
-        val builder = ConfigurationBuilder().forPackage(DEPENDENCIES_PKG)
+    /**
+     * Finds all declared entries within the given package.
+     *
+     * The method utilizes reflection.
+     *
+     * @param pkg a package to scan.
+     */
+    private fun findDeclaredEntries(pkg: String): Set<VersionCatalogEntry> {
+        val builder = ConfigurationBuilder().forPackage(pkg)
         val reflections = Reflections(builder)
         val entries = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
             .map { it.kotlin }
-            .mapNotNull { kClass ->
-                val instance = kClass.objectInstance
-                kClass.nestedClasses.forEach { it.objectInstance }
-                instance
-            }
+            .mapNotNull { it.objectInstance }
+            .onEach { it.resolveNestedObjects() }
             .toSet()
         return entries
     }
+
+    /**
+     * Triggers initializing of the nested objects.
+     *
+     * It forces the code they contain to execute. And, in particular, the code
+     * which declares the delegated properties using [VersionCatalogEntry].
+     */
+    private fun VersionCatalogEntry.resolveNestedObjects() =
+        this::class.nestedClasses.forEach { it.objectInstance }
 }

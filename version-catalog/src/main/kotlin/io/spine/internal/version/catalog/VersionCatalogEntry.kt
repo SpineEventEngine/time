@@ -34,11 +34,13 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
  * An atomic unit which contributes to Version Catalog.
  *
  * Usually, it's an object which represents one of the following:
+ *
  *  1. A single library itself.
  *  2. Group of relates libraries.
  *  3. One or more libraries provided by the same vendor.
  *
  * Such a unit can add one or more of the following items to the catalog:
+ *
  *  1. [version].
  *  2. [lib].
  *  3. [bundle].
