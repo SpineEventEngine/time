@@ -26,7 +26,7 @@ jobs:
 
       - name: Prepare a version catalog in MavenLocal
         shell: bash
-        run: cd version-catalog && ./gradlew publishToMavenLocal
+        run: cd version-catalog && ./gradlew build
 
       - name: Check version is not yet published
         shell: bash
