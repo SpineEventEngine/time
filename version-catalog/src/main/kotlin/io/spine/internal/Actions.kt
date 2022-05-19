@@ -26,11 +26,22 @@
 
 package io.spine.internal
 
+/**
+ * Accumulates actions upon the given type and plays them on the given instance.
+ */
 internal class Actions<T> {
 
     private val actions = mutableListOf<T.() -> Unit>()
 
+    /**
+     * Adds the given action to this container.
+     */
     fun add(action: T.() -> Unit) = actions.add(action)
 
+    /**
+     * Plays all previously added actions upon the given object.
+     *
+     * Actions are played in the order they were added.
+     */
     fun play(obj: T) = actions.forEach { it.invoke(obj) }
 }
