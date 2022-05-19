@@ -37,117 +37,58 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlin {
-    val jvmVersion = JavaLanguageVersion.of(11)
-
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(jvmVersion)
-    }
-
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = jvmVersion.toString()
-        }
-    }
-}
-
-/**
- * The version of Jackson used by `buildSrc`.
- *
- * Please keep this value in sync. with `io.spine.internal.dependency.Jackson.version`.
- * It's not a requirement, but would be good in terms of consistency.
- */
-val jacksonVersion = "2.13.0"
-
-val googleAuthToolVersion = "2.1.2"
-val licenseReportVersion = "2.1"
-val grGitVersion = "3.1.1"
-
-/**
- * The version of the Kotlin Gradle plugin.
- *
- * Please check that this value matches one defined in
- *  [io.spine.internal.dependency.Kotlin.version].
- */
-val kotlinVersion = "1.5.31"
-
-/**
- * The version of Guava used in `buildSrc`.
- *
- * Always use the same version as the one specified in [io.spine.internal.dependency.Guava].
- * Otherwise, when testing Gradle plugins, clashes may occur.
- */
-val guavaVersion = "31.1-jre"
-
-/**
- * The version of ErrorProne Gradle plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.ErrorProne.GradlePlugin.version].
- *
- * @see <a href="https://github.com/tbroyer/gradle-errorprone-plugin/releases">
- *     Error Prone Gradle Plugin Releases</a>
- */
-val errorProneVersion = "2.0.2"
-
-/**
- * The version of Protobuf Gradle Plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.Protobuf.GradlePlugin.version].
- *
- * @see <a href="https://github.com/google/protobuf-gradle-plugin/releases">
- *     Protobuf Gradle Plugins Releases</a>
- */
-val protobufPluginVersion = "0.8.18"
-
-/**
- * The version of Dokka Gradle Plugins.
- *
- * Please keep in sync with [io.spine.internal.dependency.Dokka.version].
- *
- * @see <a href="https://github.com/Kotlin/dokka/releases">
- *     Dokka Releases</a>
- */
-val dokkaVersion = "1.6.20"
-
 configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
         force(
-            "com.google.guava:guava:31.1-jre",
-            "com.fasterxml.jackson.core:jackson-core:2.13.0",
-            "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0",
-            "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0",
-            "com.google.http-client:google-http-client:1.30.2",
-            "org.slf4j:slf4j-api:1.7.30",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.0",
-            "org.jetbrains.kotlin:kotlin-reflect:1.5.31",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.31",
-            "org.jetbrains.kotlin:kotlin-stdlib:1.5.31",
-            "org.jetbrains.kotlin:kotlin-stdlib-common:1.5.31"
+            libs.guava,
+            libs.jackson.databind,
+            libs.httpClient.google,
+            libs.slf4J.api,
+            libs.jackson.core,
+            libs.kotlin.stdLibJdk8,
+            libs.kotlin.stdLib,
+            libs.kotlin.stdLibCommon,
+            libs.apacheHttp.core,
+            libs.jackson.dataformatXml,
+            libs.kotlin.reflect,
+            libs.jackson.moduleKotlin,
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1",
         )
     }
 }
 
 dependencies {
+
+    // A line below makes the generated `LibrariesForLibs` extension class
+    // available in `main` source set.
+
+    // It does not mean our dependencies are available in `main` sources.
+    // It means we can fetch them in a type-safe manner from a `Project`
+    // instance, in which this extension is registered.
+
+    // ==> `val libs = project.extensions.getByType<LibrariesForLibs>()`
+
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {
-        exclude(group = "com.google.guava")
+    implementation(libs.errorProne.gradlePlugin)
+    implementation(libs.googleCloud.artifactRegistry.authCommon)
+    implementation(libs.grGit.core)
+    implementation(libs.guava)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.dataformatXml)
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.licenseReport.gradlePlugin)
+    implementation(libs.protobuf.gradlePlugin)
+
+    // These guys below use a fat jar with Kotlin runtime inside. This is a
+    // reason for two warnings. I'm not sure if we can just exclude those jars.
+    // But it eliminates warnings.
+
+    implementation(libs.dokka.gradlePlugin)
+    implementation(libs.dokka.basePlugin) {
+        exclude("org.jetbrains.dokka", "kotlin-analysis-compiler")
+        exclude("org.jetbrains.dokka", "kotlin-analysis-intellij")
     }
-    implementation("com.google.guava:guava:$guavaVersion")
-    api("com.github.jk1:gradle-license-report:$licenseReportVersion")
-    implementation("org.ajoberstar.grgit:grgit-core:${grGitVersion}")
-    implementation("net.ltgt.gradle:gradle-errorprone-plugin:${errorProneVersion}")
-
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin")
-    implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
-
-
-    // These guys use a fat jat with Kotlin runtime in it.
-    // This is a reason for two warnings.
-    implementation("org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}")
-    implementation("org.jetbrains.dokka:dokka-base:${dokkaVersion}")
 }

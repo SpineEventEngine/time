@@ -50,4 +50,9 @@ internal object GoogleCloud : VersionCatalogEntry() {
      * [Datastore](https://github.com/googleapis/java-datastore).
      */
     val datastore by lib("com.google.cloud:google-cloud-datastore:2.2.1")
+
+    object ArtifactRegistry : VersionCatalogEntry() {
+        private const val version = "2.1.2"
+        val authCommon by lib("com.google.cloud.artifactregistry:artifactregistry-auth-common:$version")
+    }
 }

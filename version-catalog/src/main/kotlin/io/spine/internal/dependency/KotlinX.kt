@@ -28,24 +28,19 @@ package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
 
-/**
- * [Kotlin](https://github.com/Kotlin).
- */
 @Suppress("unused")
-internal object Kotlin : VersionCatalogEntry() {
+internal object KotlinX : VersionCatalogEntry() {
 
-    /**
-     * [Releases](https://github.com/JetBrains/kotlin).
-     */
-    private const val version = "1.6.21"
-    val kotlin by version(version)
+    object Coroutines : VersionCatalogEntry() {
 
-    val gradlePlugin by lib("org.jetbrains.kotlin:kotlin-gradle-plugin:$version")
-    val reflect by lib("org.jetbrains.kotlin:kotlin-reflect:$version")
+        /**
+         * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines).
+         */
+        private const val version = "1.6.1"
 
-    object StdLib : VersionCatalogEntry() {
-        val stdLib by lib("org.jetbrains.kotlin:kotlin-stdlib:$version")
-        val common by lib("org.jetbrains.kotlin:kotlin-stdlib-common:$version")
-        val jdk8 by lib("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version")
+        object Core : VersionCatalogEntry() {
+            val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$version")
+            val core by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
+        }
     }
 }

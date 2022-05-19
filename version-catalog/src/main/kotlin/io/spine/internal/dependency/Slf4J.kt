@@ -41,4 +41,5 @@ internal object Slf4J : VersionCatalogEntry() {
     private const val version = "1.7.30"
     val slf4J by lib("org.slf4j:slf4j-api:$version")
     val jdk14 by lib("org.slf4j:slf4j-jdk14:$version")
+    val api by lib("org.slf4j:slf4j-api:$version")
 }

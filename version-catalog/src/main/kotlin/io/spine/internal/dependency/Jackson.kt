@@ -52,15 +52,15 @@ internal object Jackson : VersionCatalogEntry() {
     /**
      * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases).
      */
-    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$$version")
+    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$version")
 
     /**
      * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases).
      */
-    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$$version")
+    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$version")
 
     /**
      * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases).
      */
-    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin:$$version")
+    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin:$version")
 }
