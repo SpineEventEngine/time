@@ -30,6 +30,14 @@ import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
+/**
+ * This file contains classes and declarations which mostly serve property
+ * delegation mechanism.
+ */
+
+/**
+ * A value class which wraps an alias for a Version Catalog item.
+ */
 internal sealed class Reference<T : Reference<T>>(val alias: String) : ReadOnlyProperty<Any?, T> {
     @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Any?, property: KProperty<*>): T = this as T
@@ -40,5 +48,11 @@ internal class BundleReference(alias: String) : Reference<BundleReference>(alias
 internal class VersionReference(alias: String) : Reference<VersionReference>(alias)
 internal class PluginReference(alias: String) : Reference<PluginReference>(alias)
 
+/**
+ * Locates a delegate for the property.
+ *
+ * This method is just a shortcut for more verbose call. It performs no action
+ * on its own.
+ */
 internal fun <T : Reference<T>> provideDelegate(action: (KProperty<*>) -> T) =
     PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
