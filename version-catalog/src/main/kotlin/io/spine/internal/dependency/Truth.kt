@@ -34,9 +34,11 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
 @Suppress("unused")
 internal object Truth : VersionCatalogEntry() {
     private const val version = "1.1.3"
-    val truth by bundle(
-        lib("truth", "com.google.truth:truth:$version"),
-        lib("java8Extension", "com.google.truth.extensions:truth-java8-extension:$version"),
-        lib("protoExtension", "com.google.truth.extensions:truth-proto-extension:$version")
-    )
+    val truth by lib("com.google.truth:truth:$version")
+    val java8Extension by lib("com.google.truth.extensions:truth-java8-extension:$version")
+    val protoExtension by lib("com.google.truth.extensions:truth-proto-extension:$version")
+
+    object Bundle {
+        val truth by bundle(Truth.truth, java8Extension, protoExtension)
+    }
 }

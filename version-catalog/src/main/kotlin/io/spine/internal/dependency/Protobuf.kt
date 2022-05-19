@@ -37,13 +37,14 @@ internal object Protobuf : VersionCatalogEntry() {
     private const val group = "com.google.protobuf"
     private const val version = "3.20.1"
 
-    val protobuf by bundle(
-        lib("java", "$group:protobuf-java:$version"),
-        lib("javaUtil", "$group:protobuf-java-util:$version"),
-        lib("kotlin", "$group:protobuf-kotlin:$version")
-    )
-
     val compiler by lib("$group:protoc:$version")
+    val java by lib("$group:protobuf-java:$version")
+    val javaUtil by lib("$group:protobuf-java-util:$version")
+    val kotlin by lib("$group:protobuf-kotlin:$version")
+
+    object Bundle {
+        val protobuf by bundle(java, javaUtil, kotlin)
+    }
 
     /**
      * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases).

@@ -42,9 +42,10 @@ internal object CheckerFramework : VersionCatalogEntry() {
 
     private const val version = "3.21.3"
     val annotations by lib("org.checkerframework:checker-qual:$version")
+    val dataflow by lib("org.checkerframework:dataflow:$version")
+    val javacUtil by lib("org.checkerframework:javacutil:$version")
 
-    val dataflow by bundle(
-        lib("dataflow", "org.checkerframework:dataflow:${version}"),
-        lib("javacUtil", "org.checkerframework:javacutil:${version}")
-    )
+    object Bundle {
+        val dataflow by bundle(CheckerFramework.dataflow, javacUtil)
+    }
 }

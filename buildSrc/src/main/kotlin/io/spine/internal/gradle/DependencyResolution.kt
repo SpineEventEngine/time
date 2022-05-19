@@ -77,7 +77,7 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         libs.protobuf.java,
         libs.protobuf.javaUtil,
         libs.protobuf.kotlin,
-//        libs.protobuf.gradlePlugin,
+        libs.protobuf.gradlePlugin,
         libs.slf4J,
     )
 }

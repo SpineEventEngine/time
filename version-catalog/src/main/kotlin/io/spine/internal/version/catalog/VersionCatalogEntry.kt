@@ -30,6 +30,7 @@ import io.spine.internal.Actions
 import java.util.*
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
+@Suppress("LeakingThis")
 internal open class VersionCatalogEntry {
 
     private val builderActions = Actions<VersionCatalogBuilder>()
@@ -39,13 +40,11 @@ internal open class VersionCatalogEntry {
         builderActions.play(builder)
     }
 
-    fun lib(gav: String) = provideDelegate { property -> lib(property.name, gav) }
-
-    fun lib(relativeAlias: String, gav: String): LibraryReference {
-        val alias = resolveAlias(relativeAlias)
+    fun lib(gav: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { library(alias, gav) }
         val reference = LibraryReference(alias)
-        return reference
+        reference
     }
 
     fun bundle(vararg libs: LibraryReference) = provideDelegate { property ->

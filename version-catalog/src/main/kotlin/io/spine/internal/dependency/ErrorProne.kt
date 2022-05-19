@@ -38,11 +38,12 @@ internal object ErrorProne : VersionCatalogEntry() {
     val core by lib("com.google.errorprone:error_prone_core:$version")
     val checkApi by lib("com.google.errorprone:error_prone_check_api:$version")
     val testHelpers by lib("com.google.errorprone:error_prone_test_helpers:$version")
+    val annotations by lib("com.google.errorprone:error_prone_annotations:$version")
+    val typeAnnotations by lib("com.google.errorprone:error_prone_type_annotations:$version")
 
-    val annotations by bundle(
-        lib("annotations", "com.google.errorprone:error_prone_annotations:$version"),
-        lib("typeAnnotations", "com.google.errorprone:error_prone_type_annotations:$version")
-    )
+    object Bundle {
+        val annotations by bundle(ErrorProne.annotations, typeAnnotations)
+    }
 
     /**
      * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
