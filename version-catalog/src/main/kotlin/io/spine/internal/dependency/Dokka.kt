@@ -27,8 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.lib
-import io.spine.internal.version.catalog.plugin
 
 /**
  * [Dokka](https://github.com/Kotlin/dokka).

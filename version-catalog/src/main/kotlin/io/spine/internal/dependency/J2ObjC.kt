@@ -27,7 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.lib
 
 /**
  * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency

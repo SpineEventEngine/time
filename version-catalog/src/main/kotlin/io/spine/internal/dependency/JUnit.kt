@@ -27,9 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.bundle
-import io.spine.internal.version.catalog.lib
-import io.spine.internal.version.catalog.version
 
 /**
  * [JUnit5](https://junit.org/junit5/).

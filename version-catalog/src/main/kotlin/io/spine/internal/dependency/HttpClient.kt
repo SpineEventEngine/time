@@ -27,7 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.lib
 
 /**
  * [Google HTTP client](https://github.com/googleapis/google-http-java-client).

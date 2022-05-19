@@ -27,7 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.lib
 
 /**
  * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,

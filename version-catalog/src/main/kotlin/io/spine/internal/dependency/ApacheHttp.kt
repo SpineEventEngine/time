@@ -27,7 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.lib
 
 /**
  * [ApacheHttp](https://hc.apache.org/downloads.cgi).
