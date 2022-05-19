@@ -30,45 +30,175 @@ import io.spine.internal.Actions
 import java.util.*
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-@Suppress("LeakingThis")
+/**
+ * An atomic unit which contributes to Version Catalog.
+ *
+ * Usually, it's an object which represents one of the following:
+ *  1. A single library itself.
+ *  2. Group of relates libraries.
+ *  3. One or more libraries provided by the same vendor.
+ *
+ * Such a unit can add one or more of the following items to the catalog:
+ *  1. [version].
+ *  2. [lib].
+ *  3. [bundle].
+ *  4. [plugin].
+ *
+ *  Then, a resulted entry can be [added][addTo] to Version Catalog using
+ *  the given [VersionCatalogBuilder].
+ *
+ *  This class relies on an assumption that all its subclasses are indeed object
+ *  declarations (singletons). And in order to avoid imperative code, the class
+ *  utilizes property delegation to declare items. Property name together with
+ *  object's name form a resulting alias for an item in the catalog. Consider
+ *  the following example.
+ *
+ *  The entry below:
+ *
+ *  ```
+ *  internal object Kotlin : VersionCatalogEntry() {
+ *      private const val version = "1.6.21"
+ *      val kotlin by version(version)
+ *
+ *      val reflect by lib("org.jetbrains.kotlin:kotlin-reflect:$version")
+ *      val stdLib by lib("org.jetbrains.kotlin:kotlin-stdlib:$version")
+ *      val stdLibCommon by lib("org.jetbrains.kotlin:kotlin-stdlib-common:$version")
+ *      val stdLibJdk8 by lib("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version")
+ *  }
+ *  ```
+ *
+ *  Results in the next accessors:
+ *
+ *  ```
+ *  // When property and object's names are the same, entry will not
+ *  // duplicate it. It allows avoiding `libs.version.kotlin.kotlin`.
+ *
+ *  libs.versions.kotlin
+ *
+ *  libs.kotlin.reflect
+ *  libs.kotlin.stdLib
+ *  libs.kotlin.stdLibCommon
+ *  libs.kotlin.stdLibJdk8
+ *  ```
+ *
+ *  Kotlin, as expected, doesn't allow two properties have the same name within
+ *  a single scope. Out of this stems a restriction. In order to declare the
+ *  same alias for library, version, bundle or plugin, one should you nested
+ *  classes to demarcate scopes. By convention, libraries are still better to
+ *  declare on the top scope. It would mirror the way, they are available from
+ *  the generated accessors. Consider the next example.
+ *
+ *  The entry below:
+ *
+ *  ```
+ *  internal object Kotlin : VersionCatalogEntry() {
+ *
+ *      private const val version = "1.6.21"
+ *      val kotlin by lib("org.jetbrains.kotlin:kotlin:$version")
+
+ *      object Version {
+ *          val kotlin by version(version)
+ *      }
+ *
+ *      object Plugin {
+ *          val kotlin by plugin("org.jetbrains.kotlin", version)
+ *      }
+ *  }
+ *  ```
+ *
+ * Results in the next accessors:
+ *
+ * ```
+ * libs.kotlin
+ * libs.versions.kotlin
+ * libs.plugins.kotlin
+ * ```
+ *
+ * It is also allowed to have nested entries. Which are taken into account when
+ * a final alias is resolved. Consider the next example.
+ *
+ * The entry below:
+ *
+ * ```
+ * internal object Kotlin : VersionCatalogEntry() {
+ *
+ *     private const val version = "1.6.21"
+ *     val reflect by lib("org.jetbrains.kotlin:kotlin-reflect:$version")
+ *     val runtime by lib("org.jetbrains.kotlin:kotlin-runtime:$version")
+ *
+ *     object StdLib : VersionCatalogEntry() {
+ *         val stdLib by lib("org.jetbrains.kotlin:kotlin-stdlib:$version")
+ *         val common by lib("org.jetbrains.kotlin:kotlin-stdlib-common:$version")
+ *         val jdk8 by lib("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version")
+ *     }
+ * }
+ * ```
+ *
+ * Results in the next accessors:
+ *
+ * ```
+ * libs.kotlin.reflect
+ * libs.kotlin.runtime
+ *
+ * libs.kotlin.stdLib
+ * libs.kotlin.stdLib.common
+ * libs.kotlin.stdLib.jdk8
+ * ```
+ */
 internal open class VersionCatalogEntry {
 
     private val builderActions = Actions<VersionCatalogBuilder>()
     private val baseAlias = baseAlias()
 
+    /**
+     * Adds this entry to the given version catalog builder.
+     */
     fun addTo(builder: VersionCatalogBuilder) {
         builderActions.play(builder)
     }
 
-    fun version(relativeAlias: String, value: String): VersionReference {
-        val alias = resolveAlias(relativeAlias)
+    /**
+     * Registers a version in this entry.
+     */
+    fun version(value: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { version(alias, value) }
-        val reference = VersionReference(alias)
-        return reference
+        VersionReference(alias)
     }
 
-    fun lib(relativeAlias: String, gav: String): LibraryReference {
-        val alias = resolveAlias(relativeAlias)
+    /**
+     * Registers a library in this entry.
+     */
+    fun lib(gav: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { library(alias, gav) }
-        val reference = LibraryReference(alias)
-        return reference
+        LibraryReference(alias)
     }
 
-    fun bundle(relativeAlias: String, vararg libs: LibraryReference): BundleReference {
-        val alias = resolveAlias(relativeAlias)
+    /**
+     * Registers a bundle in this entry.
+     */
+    fun bundle(vararg libs: LibraryReference) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         val aliases = libs.map { it.alias }
         builderActions.add { bundle(alias, aliases) }
-        val reference = BundleReference(alias)
-        return reference
+        BundleReference(alias)
     }
 
-    fun plugin(relativeAlias: String, id: String, version: String): PluginReference {
-        val alias = resolveAlias(relativeAlias)
+    /**
+     * Registers a plugin in this entry.
+     */
+    fun plugin(id: String, version: String) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
         builderActions.add { plugin(alias, id).version(version) }
-        val reference = PluginReference(alias)
-        return reference
+        PluginReference(alias)
     }
 
+    /**
+     * Calculates a base alias for this entry.
+     *
+     * Usually, it is a class name with respect to its nesting.
+     */
     private fun baseAlias(): String {
 
         fun String.decapitalized() = replaceFirstChar { it.lowercase() }
@@ -85,6 +215,11 @@ internal open class VersionCatalogEntry {
         return name
     }
 
+    /**
+     * Returns an absolute alias for the given relative one.
+     *
+     * The absolute alias is calculated in respect to [baseAlias].
+     */
     private fun resolveAlias(relativeAlias: String): String {
         val result = if (baseAlias.endsWith(relativeAlias)) baseAlias
                      else "$baseAlias-$relativeAlias"
