@@ -42,3 +42,13 @@ internal class PluginReference(alias: String) : Reference<PluginReference>(alias
 
 internal fun <T : Reference<T>> provideDelegate(action: (KProperty<*>) -> T) =
     PropertyDelegateProvider<Any?, T> { _, property -> action(property) }
+
+internal fun VersionCatalogEntry.version(value: String) = provideDelegate { property -> version(property.name, value) }
+
+internal fun VersionCatalogEntry.lib(gav: String) = provideDelegate { property -> lib(property.name, gav) }
+
+internal fun VersionCatalogEntry.bundle(vararg libs: LibraryReference) =
+    provideDelegate { property -> bundle(property.name, *libs) }
+
+internal fun VersionCatalogEntry.plugin(id: String, version: String) =
+    provideDelegate { property -> plugin(property.name, id, version) }

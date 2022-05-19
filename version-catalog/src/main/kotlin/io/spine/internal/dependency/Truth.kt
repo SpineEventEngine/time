@@ -27,6 +27,8 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.bundle
+import io.spine.internal.version.catalog.lib
 
 /**
  * [Truth](https://github.com/google/truth).

@@ -27,6 +27,7 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.lib
 
 /**
  * A JSON parser in Kotlin.

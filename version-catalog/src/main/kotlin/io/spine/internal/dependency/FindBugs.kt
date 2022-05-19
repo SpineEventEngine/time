@@ -27,6 +27,7 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.lib
 
 /**
  * The FindBugs project is dead since 2017. It has a successor called SpotBugs,

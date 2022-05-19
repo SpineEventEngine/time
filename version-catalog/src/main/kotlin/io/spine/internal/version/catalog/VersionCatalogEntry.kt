@@ -40,33 +40,33 @@ internal open class VersionCatalogEntry {
         builderActions.play(builder)
     }
 
-    fun lib(gav: String) = provideDelegate { property ->
-        val alias = resolveAlias(property.name)
-        builderActions.add { library(alias, gav) }
-        val reference = LibraryReference(alias)
-        reference
+    fun version(relativeAlias: String, value: String): VersionReference {
+        val alias = resolveAlias(relativeAlias)
+        builderActions.add { version(alias, value) }
+        val reference = VersionReference(alias)
+        return reference
     }
 
-    fun bundle(vararg libs: LibraryReference) = provideDelegate { property ->
-        val alias = resolveAlias(property.name)
+    fun lib(relativeAlias: String, gav: String): LibraryReference {
+        val alias = resolveAlias(relativeAlias)
+        builderActions.add { library(alias, gav) }
+        val reference = LibraryReference(alias)
+        return reference
+    }
+
+    fun bundle(relativeAlias: String, vararg libs: LibraryReference): BundleReference {
+        val alias = resolveAlias(relativeAlias)
         val aliases = libs.map { it.alias }
         builderActions.add { bundle(alias, aliases) }
         val reference = BundleReference(alias)
-        reference
+        return reference
     }
 
-    fun version(value: String) = provideDelegate { property ->
-        val alias = resolveAlias(property.name)
-        builderActions.add { version(alias, value) }
-        val reference = VersionReference(alias)
-        reference
-    }
-
-    fun plugin(id: String, version: String) = provideDelegate { property ->
-        val alias = resolveAlias(property.name)
+    fun plugin(relativeAlias: String, id: String, version: String): PluginReference {
+        val alias = resolveAlias(relativeAlias)
         builderActions.add { plugin(alias, id).version(version) }
         val reference = PluginReference(alias)
-        reference
+        return reference
     }
 
     private fun baseAlias(): String {
