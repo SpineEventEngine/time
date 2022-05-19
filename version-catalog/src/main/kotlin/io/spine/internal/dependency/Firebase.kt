@@ -35,5 +35,5 @@ import io.spine.internal.version.catalog.lib
 @Suppress("unused")
 internal object Firebase : VersionCatalogEntry() {
     private const val adminVersion = "8.1.0"
-    val admin by lib("com.google.firebase:firebase-admin:${adminVersion}")
+    val admin by lib("com.google.firebase:firebase-admin:$adminVersion")
 }

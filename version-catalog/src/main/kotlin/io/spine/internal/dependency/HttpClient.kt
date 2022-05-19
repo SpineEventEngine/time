@@ -34,6 +34,7 @@ import io.spine.internal.version.catalog.lib
  */
 @Suppress("unused")
 internal object HttpClient : VersionCatalogEntry() {
+
     /**
      * [Releases](https://github.com/googleapis/google-http-java-client).
      */

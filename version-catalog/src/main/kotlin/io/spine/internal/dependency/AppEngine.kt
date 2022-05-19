@@ -38,7 +38,7 @@ internal object AppEngine : VersionCatalogEntry() {
     private const val version = "1.9.82"
     val sdk by lib("com.google.appengine:appengine-api-1.0-sdk:$version")
 
-    object GradlePlugin : VersionCatalogEntry() {
+    object GradlePlugin {
         private const val version = "2.2.0"
         val gradlePlugin by lib("com.google.cloud.tools:appengine-gradle-plugin:$version")
     }

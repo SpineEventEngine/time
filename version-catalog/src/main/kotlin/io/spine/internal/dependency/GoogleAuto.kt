@@ -35,7 +35,7 @@ import io.spine.internal.version.catalog.lib
 @Suppress("unused")
 internal object GoogleAuto : VersionCatalogEntry() {
 
-    object Common : VersionCatalogEntry() {
+    object Common {
         private const val version = "1.2.1"
         val common by lib("com.google.auto:auto-common:$version")
     }

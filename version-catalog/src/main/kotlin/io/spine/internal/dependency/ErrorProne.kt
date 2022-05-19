@@ -51,7 +51,7 @@ internal object ErrorProne : VersionCatalogEntry() {
     /**
      * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
      */
-    object JavacPlugin : VersionCatalogEntry() {
+    object JavacPlugin {
         private const val version = "9+181-r4173-1"
         val javacPlugin by lib("com.google.errorprone:javac:$version")
     }

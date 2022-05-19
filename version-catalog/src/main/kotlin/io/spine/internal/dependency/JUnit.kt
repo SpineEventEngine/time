@@ -36,34 +36,33 @@ import io.spine.internal.version.catalog.version
  */
 @Suppress("unused")
 internal object JUnit : VersionCatalogEntry() {
-    private const val version = "5.8.2"
-    private const val platformVersion = "1.8.2"
-    private const val legacyVersion = "4.13.1"
 
-    object Versions {
-        val junit by version(version)
-    }
+    private const val version = "5.8.2"
+    val junit by version(version)
+    val bom by lib("org.junit:junit-bom:$version")
+    val runner by lib("org.junit.jupiter:junit-jupiter-engine:$version")
+    val params by lib("org.junit.jupiter:junit-jupiter-params:$version")
+    val api by lib("org.junit.jupiter:junit-jupiter-api:$version")
+
+    private const val platformVersion = "1.8.2"
+    val platformCommons by lib("org.junit.platform:junit-platform-commons:$platformVersion")
+    val platformLauncher by lib("org.junit.platform:junit-platform-launcher:$platformVersion")
+
+    private const val legacyVersion = "4.13.1"
+    val legacy by lib("junit:junit:$legacyVersion")
 
     /**
      * [ApiGuardian](https://github.com/apiguardian-team/apiguardian).
      */
     private const val apiGuardianVersion = "1.1.2"
+    val apiGuardian by lib("org.apiguardian:apiguardian-api:$apiGuardianVersion")
 
     /**
      * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer).
      */
     private const val pioneerVersion = "1.5.0"
-
-    val legacy by lib("junit:junit:$legacyVersion")
-    val bom by lib("org.junit:junit-bom:$version")
-    val runner by lib("org.junit.jupiter:junit-jupiter-engine:$version")
     val pioneer by lib("org.junit-pioneer:junit-pioneer:$pioneerVersion")
-    val platformCommons by lib("org.junit.platform:junit-platform-commons:$platformVersion")
-    val platformLauncher by lib("org.junit.platform:junit-platform-launcher:$platformVersion")
 
-    val params by lib("org.junit.jupiter:junit-jupiter-params:$version")
-    val apiGuardian by lib("org.apiguardian:apiguardian-api:$apiGuardianVersion")
-    val api by lib("org.junit.jupiter:junit-jupiter-api:$version")
 
     object Bundle {
         val api by bundle(params, apiGuardian, JUnit.api)

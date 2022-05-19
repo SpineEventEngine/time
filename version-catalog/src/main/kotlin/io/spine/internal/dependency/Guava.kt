@@ -42,5 +42,5 @@ import io.spine.internal.version.catalog.lib
 internal object Guava : VersionCatalogEntry() {
     private const val version = "31.1-jre"
     val guava by lib("com.google.guava:guava:$version")
-    val testLib by lib("com.google.guava:guava-testlib:${version}")
+    val testLib by lib("com.google.guava:guava-testlib:$version")
 }
