@@ -27,9 +27,6 @@
 package io.spine.internal.dependency
 
 import io.spine.internal.version.catalog.VersionCatalogEntry
-import io.spine.internal.version.catalog.bundle
-import io.spine.internal.version.catalog.lib
-import io.spine.internal.version.catalog.plugin
 
 /**
  * [ErrorProne](https://github.com/google/error-prone)
