@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [JavaPoet](https://github.com/square/javapoet).
  */
 @Suppress("unused")
-internal object JavaPoet : VersionCatalogEntry() {
+internal object JavaPoet : VersionCatalogEntryOld() {
     private const val version = "1.13.0"
     val javaPoet by lib("com.squareup:javapoet:$version")
 }

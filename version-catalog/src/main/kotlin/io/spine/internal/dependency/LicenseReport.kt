@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [LicenseReport](https://github.com/jk1/Gradle-License-Report).
  */
 @Suppress("unused")
-internal object LicenseReport : VersionCatalogEntry() {
+internal object LicenseReport : VersionCatalogEntryOld() {
 
     private const val version = "1.16"
     val licenseReport by lib("com.github.jk1:gradle-license-report:$version")

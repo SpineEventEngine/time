@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [GoogleApis](https://github.com/googleapis/).
  */
 @Suppress("unused")
-internal object GoogleApis : VersionCatalogEntry() {
+internal object GoogleApis : VersionCatalogEntryOld() {
 
     /**
      * [Client](https://github.com/googleapis/google-api-java-client).
@@ -67,9 +67,9 @@ internal object GoogleApis : VersionCatalogEntry() {
     /**
      * [AuthLibrary](https://github.com/googleapis/google-auth-library-java).
      */
-    object AuthLibrary : VersionCatalogEntry() {
+    object AuthLibrary : VersionCatalogEntryOld() {
         private const val version = "1.3.0"
-        val authLibrary by version(version)
+        val authLibrary by versioning(version)
         val credentials by lib("com.google.auth:google-auth-library-credentials:$version")
         val oAuth2Http by lib("com.google.auth:google-auth-library-oauth2-http:$version")
     }

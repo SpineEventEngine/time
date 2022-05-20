@@ -46,15 +46,15 @@ configurations.all {
             libs.httpClient.google,
             libs.slf4J.api,
             libs.jackson.core,
-            libs.kotlin.stdLibJdk8,
             libs.kotlin.stdLib,
-            libs.kotlin.stdLibCommon,
+            libs.kotlin.stdLib.jdk8,
+            libs.kotlin.stdLib.common,
             libs.apacheHttp.core,
             libs.jackson.dataformatXml,
             libs.kotlin.reflect,
             libs.jackson.moduleKotlin,
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.1",
-            "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1",
+            libs.kotlinX.coroutines.core,
+            libs.kotlinX.coroutines.core.jvm,
         )
     }
 }
@@ -92,3 +92,25 @@ dependencies {
         exclude("org.jetbrains.dokka", "kotlin-analysis-intellij")
     }
 }
+
+// Demonstration of a `Dummy` dependency accessors.
+
+println("Versions:")
+println(libs.versions.dummy.asProvider().get())
+println(libs.versions.dummy.gradlePlugin.get())
+println()
+
+println("Libs:")
+println(libs.dummy.asProvider().get())
+println(libs.dummy.core.get())
+println(libs.dummy.runner.get())
+println(libs.dummy.api.get())
+println(libs.dummy.params.get())
+println(libs.dummy.gradlePlugin.get())
+println()
+
+println("Bundles:")
+println(libs.bundles.dummy.get())
+
+println("Plugins:")
+println(libs.plugins.dummy)

@@ -24,18 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.catalog
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
- * Gradle TestKit extension for Google Truth.
- *
- * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
- * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
+ * Adds versions, libraries, bundles or plugins to Version Catalog.
  */
-@Suppress("unused")
-internal object TestKitTruth : VersionCatalogEntryOld() {
-    private const val version = "1.1"
-    val testKitTruth by lib("com.autonomousapps:testkit-truth:$version")
+internal interface CatalogContributor {
+
+    /**
+     * Contributes to the given catalog.
+     */
+    fun accept(catalog: VersionCatalogBuilder)
 }

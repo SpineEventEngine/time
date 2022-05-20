@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java).
  */
 @Suppress("unused")
-internal object Firebase : VersionCatalogEntry() {
+internal object Firebase : VersionCatalogEntryOld() {
     private const val adminVersion = "8.1.0"
     val admin by lib("com.google.firebase:firebase-admin:$adminVersion")
 }

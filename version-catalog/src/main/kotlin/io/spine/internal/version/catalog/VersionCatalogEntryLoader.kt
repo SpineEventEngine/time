@@ -24,18 +24,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.version.catalog
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import kotlin.reflect.KClass
 
-/**
- * Gradle TestKit extension for Google Truth.
- *
- * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
- * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
- */
-@Suppress("unused")
-internal object TestKitTruth : VersionCatalogEntryOld() {
-    private const val version = "1.1"
-    val testKitTruth by lib("com.autonomousapps:testkit-truth:$version")
+internal class VersionCatalogEntryLoader
+private constructor(private val kClazz: KClass<out VersionCatalogEntry>) {
+
+    companion object {
+        fun fromClass(clazz: Class<out VersionCatalogEntry>): VersionCatalogEntryLoader {
+            val kClazz = clazz.kotlin
+            val result = VersionCatalogEntryLoader(kClazz)
+            return result
+        }
+    }
+
+    fun load(): VersionCatalogEntry {
+        val entry = kClazz.objectInstance ?: throwNotAnObject()
+        entry.initialize()
+        return entry
+    }
+
+    private fun throwNotAnObject(): Nothing =
+        throw IllegalStateException("Only objects can extend `VersionCatalogEntry`!")
 }

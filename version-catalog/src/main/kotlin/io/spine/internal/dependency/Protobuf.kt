@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Protobuf](https://github.com/protocolbuffers/protobuf).
  */
 @Suppress("unused")
-internal object Protobuf : VersionCatalogEntry() {
+internal object Protobuf : VersionCatalogEntryOld() {
 
     private const val group = "com.google.protobuf"
     private const val version = "3.20.1"

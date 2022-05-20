@@ -26,14 +26,14 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
  * which we don't use directly. This object is used for forcing the version.
  */
 @Suppress("unused")
-internal object J2ObjC : VersionCatalogEntry() {
+internal object J2ObjC : VersionCatalogEntryOld() {
 
     /**
      * [Releases](https://github.com/google/j2objc/releases).

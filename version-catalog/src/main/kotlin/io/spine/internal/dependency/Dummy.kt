@@ -26,16 +26,27 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.version.catalog.VersionCatalogEntry
 
-/**
- * Gradle TestKit extension for Google Truth.
- *
- * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
- * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
- */
-@Suppress("unused")
-internal object TestKitTruth : VersionCatalogEntryOld() {
-    private const val version = "1.1"
-    val testKitTruth by lib("com.autonomousapps:testkit-truth:$version")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+internal object Dummy : VersionCatalogEntry() {
+
+    private const val group = "org.dummy.company"
+    override val module = "$group:dummy-lib"
+    override val version = "1.0.0"
+
+    val core by module(group, "dummy-core")
+    val runner by module(group, "dummy-runner")
+
+    override val bundle = setOf(
+        core, runner,
+        module("api", group, "dummy-api"),
+        module("params", group, "dummy-params")
+    )
+
+    object GradlePlugin : VersionCatalogEntry() {
+        override val version = "0.0.8"
+        override val module = "my.company:my-dummy-gradle-plugin"
+        override val id = "my-dummy"
+    }
 }

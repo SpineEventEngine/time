@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Dokka](https://github.com/Kotlin/dokka).
  */
 @Suppress("unused")
-internal object Dokka : VersionCatalogEntry() {
+internal object Dokka : VersionCatalogEntryOld() {
 
     private const val version = "1.6.20"
     private const val group = "org.jetbrains.dokka"

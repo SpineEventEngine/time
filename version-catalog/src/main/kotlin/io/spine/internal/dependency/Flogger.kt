@@ -26,19 +26,19 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Flogger](https://github.com/google/flogger).
  */
 @Suppress("unused")
-internal object Flogger : VersionCatalogEntry() {
+internal object Flogger : VersionCatalogEntryOld() {
 
     private const val version = "0.7.4"
     private const val group = "com.google.flogger"
     val flogger by lib("com.google.flogger:flogger:$version")
 
-    object Runtime : VersionCatalogEntry() {
+    object Runtime : VersionCatalogEntryOld() {
         val systemBackend by lib("$group:flogger-system-backend:$version")
         val log4J by lib("$group:flogger-log4j:$version")
         val slf4J by lib("$group:slf4j-backend-factory:$version")

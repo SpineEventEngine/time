@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Pmd](https://pmd.github.io/).
  */
 @Suppress("unused")
-internal object Pmd : VersionCatalogEntry() {
+internal object Pmd : VersionCatalogEntryOld() {
     private const val version = "6.44.0"
-    val pmd by version(version)
+    val pmd by versioning(version)
 }

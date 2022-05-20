@@ -26,10 +26,10 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object JavaX : VersionCatalogEntry() {
+internal object JavaX : VersionCatalogEntryOld() {
 
     /**
      * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.

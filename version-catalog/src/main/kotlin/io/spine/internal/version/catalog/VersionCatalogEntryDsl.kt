@@ -24,18 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+package io.spine.internal.version.catalog
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.Alias
+import io.spine.internal.catalog.BundleAlias
+import io.spine.internal.catalog.LibraryAlias
+import io.spine.internal.catalog.PluginAlias
+import io.spine.internal.catalog.VersionAlias
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
 
-/**
- * Gradle TestKit extension for Google Truth.
- *
- * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
- * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
- */
-@Suppress("unused")
-internal object TestKitTruth : VersionCatalogEntryOld() {
-    private const val version = "1.1"
-    val testKitTruth by lib("com.autonomousapps:testkit-truth:$version")
+internal typealias AliasDelegateProvider = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, Alias>>
+
+internal interface VersionCatalogEntryDsl {
+
+    val version: String?
+
+    val module: String?
+
+    val bundle: Set<LibraryAlias>?
+
+    val id: String?
+
+    fun module(group: String, artifact: String): AliasDelegateProvider
+
+    fun version(relativeAlias: String, value: String): VersionAlias
+
+    fun module(relativeAlias: String, group: String, artifact: String): LibraryAlias
+
+    fun bundle(relativeAlias: String, libs: Set<LibraryAlias>): BundleAlias
+
+    fun plugin(relativeAlias: String, id: String, version: String): PluginAlias
 }

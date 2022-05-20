@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Roaster](https://github.com/forge/roaster).
  */
 @Suppress("unused")
-internal object Roaster : VersionCatalogEntry() {
+internal object Roaster : VersionCatalogEntryOld() {
 
     /**
      * Do not advance this version further because it would break compatibility with Java 8

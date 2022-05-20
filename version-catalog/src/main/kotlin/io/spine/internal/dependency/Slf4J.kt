@@ -26,7 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
@@ -37,7 +37,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
  */
 @Suppress("unused")
 @Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
-internal object Slf4J : VersionCatalogEntry() {
+internal object Slf4J : VersionCatalogEntryOld() {
     private const val version = "1.7.30"
     val slf4J by lib("org.slf4j:slf4j-api:$version")
     val jdk14 by lib("org.slf4j:slf4j-jdk14:$version")

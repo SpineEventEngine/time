@@ -26,10 +26,10 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object GoogleCloud : VersionCatalogEntry() {
+internal object GoogleCloud : VersionCatalogEntryOld() {
 
     /**
      * [Core](https://github.com/googleapis/java-core).
@@ -51,7 +51,7 @@ internal object GoogleCloud : VersionCatalogEntry() {
      */
     val datastore by lib("com.google.cloud:google-cloud-datastore:2.2.1")
 
-    object ArtifactRegistry : VersionCatalogEntry() {
+    object ArtifactRegistry : VersionCatalogEntryOld() {
         private const val version = "2.1.2"
         val authCommon by lib("com.google.cloud.artifactregistry:artifactregistry-auth-common:$version")
     }

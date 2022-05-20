@@ -24,13 +24,44 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal.catalog
 
 import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
 
-internal fun <T> provideDelegate(action: (KProperty<*>) -> ReadOnlyProperty<Any?, T>) =
-    PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>> { _, property -> action(property) }
+internal typealias PropertyDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
 
-internal fun <T> delegate(value: T) = ReadOnlyProperty<Any?, T> { _, _ -> value }
+private const val GAV_SEPARATOR = ':'
+
+internal interface CatalogEntryDsl {
+
+    val version: String?
+    val module: String?
+    val bundle: Set<LibraryAlias>?
+    val id: String?
+
+    fun module(group: String, artifact: String): PropertyDelegate<LibraryAlias>
+
+    fun module(value: String): PropertyDelegate<LibraryAlias> = value.run {
+        val group = substringBefore(GAV_SEPARATOR)
+        val artifact = substringAfter(GAV_SEPARATOR)
+        module(group, artifact)
+    }
+
+    fun lib(group: String, artifact: String, version: VersionAlias): PropertyDelegate<LibraryAlias>
+
+    fun lib(gav: String): PropertyDelegate<LibraryAlias>
+
+    fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias> = module.run {
+        val group = substringBefore(GAV_SEPARATOR)
+        val artifact = substringAfter(GAV_SEPARATOR)
+        lib(group, artifact, version)
+    }
+
+    fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
+
+    fun plugin(id: String, version: VersionAlias): PropertyDelegate<PluginAlias>
+
+    fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
+
+}

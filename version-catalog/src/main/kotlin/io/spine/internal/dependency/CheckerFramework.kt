@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [CheckerFramework](https://checkerframework.org/).
  */
 @Suppress("unused")
-internal object CheckerFramework : VersionCatalogEntry() {
+internal object CheckerFramework : VersionCatalogEntryOld() {
 
     /**
      * This is a discontinued artifact, which we do not use directly.

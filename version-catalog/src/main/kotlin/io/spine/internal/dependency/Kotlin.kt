@@ -26,26 +26,23 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
- * [Kotlin](https://github.com/Kotlin).
+ * [Kotlin](https://github.com/JetBrains/kotlin).
  */
 @Suppress("unused")
-internal object Kotlin : VersionCatalogEntry() {
+internal object Kotlin : VersionCatalogEntryOld() {
 
-    /**
-     * [Releases](https://github.com/JetBrains/kotlin).
-     */
-    private const val version = "1.6.21"
-    val kotlin by version(version)
+    private const val group = "org.jetbrains.kotlin"
+    val version by versioning("1.6.21")
 
-    val gradlePlugin by lib("org.jetbrains.kotlin:kotlin-gradle-plugin:$version")
-    val reflect by lib("org.jetbrains.kotlin:kotlin-reflect:$version")
+    val gradlePlugin by lib(group, "kotlin-gradle-plugin", version)
+    val reflect by lib(group, "kotlin-reflect", version)
 
-    object StdLib : VersionCatalogEntry() {
-        val stdLib by lib("org.jetbrains.kotlin:kotlin-stdlib:$version")
-        val common by lib("org.jetbrains.kotlin:kotlin-stdlib-common:$version")
-        val jdk8 by lib("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version")
+    object StdLib : VersionCatalogEntryOld() {
+        val stdLib by lib(group, "kotlin-stdlib", version)
+        val common by lib(group, "kotlin-stdlib-common", version)
+        val jdk8 by lib(group, "kotlin-stdlib-jdk8", version)
     }
 }

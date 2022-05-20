@@ -26,7 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * Gson is a transitive dependency which we don't use directly.
@@ -36,7 +36,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
  * [Gson](https://github.com/google/gson).
  */
 @Suppress("unused")
-internal object Gson : VersionCatalogEntry() {
+internal object Gson : VersionCatalogEntryOld() {
     private const val version = "2.9.0"
     val gson by lib("com.google.code.gson:gson:$version")
 }

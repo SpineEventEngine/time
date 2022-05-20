@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [CheckStyle](https://checkstyle.sourceforge.io/).
  */
 @Suppress("unused")
-internal object CheckStyle : VersionCatalogEntry() {
+internal object CheckStyle : VersionCatalogEntryOld() {
     private const val version = "10.1"
-    val checkStyle by version(version)
+    val checkStyle by versioning(version)
 }

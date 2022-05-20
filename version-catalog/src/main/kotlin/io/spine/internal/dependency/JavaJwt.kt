@@ -26,7 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * A Java implementation of JSON Web Token (JWT) - RFC 7519.
@@ -34,7 +34,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
  * [Java JWT](https://github.com/auth0/java-jwt).
  */
 @Suppress("unused")
-internal object JavaJwt : VersionCatalogEntry() {
+internal object JavaJwt : VersionCatalogEntryOld() {
     private const val version = "3.19.1"
     val javaJwt by lib("com.auth0:java-jwt:$version")
 }

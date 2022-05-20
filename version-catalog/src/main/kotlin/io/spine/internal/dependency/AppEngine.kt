@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [AppEngine](https://cloud.google.com/java/docs/reference).
  */
 @Suppress("unused")
-internal object AppEngine : VersionCatalogEntry() {
+internal object AppEngine : VersionCatalogEntryOld() {
 
     private const val version = "1.9.82"
     val sdk by lib("com.google.appengine:appengine-api-1.0-sdk:$version")

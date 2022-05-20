@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Grpc Java](https://github.com/grpc/grpc-java).
  */
 @Suppress("unused")
-internal object Grpc : VersionCatalogEntry() {
+internal object Grpc : VersionCatalogEntryOld() {
     private const val version = "1.45.1"
     val api by lib("io.grpc:grpc-api:$version")
     val auth by lib("io.grpc:grpc-auth:$version")

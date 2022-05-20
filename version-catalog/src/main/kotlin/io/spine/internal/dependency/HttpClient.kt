@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Google HTTP client](https://github.com/googleapis/google-http-java-client).
  */
 @Suppress("unused")
-internal object HttpClient : VersionCatalogEntry() {
+internal object HttpClient : VersionCatalogEntryOld() {
 
     /**
      * [Releases](https://github.com/googleapis/google-http-java-client).

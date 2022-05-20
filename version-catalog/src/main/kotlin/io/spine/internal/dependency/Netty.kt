@@ -26,10 +26,10 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object Netty : VersionCatalogEntry() {
+internal object Netty : VersionCatalogEntryOld() {
 
     /**
      * [Releases](https://github.com/netty/netty/releases).

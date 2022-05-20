@@ -26,10 +26,10 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object ApacheCommons : VersionCatalogEntry() {
+internal object ApacheCommons : VersionCatalogEntryOld() {
 
     /**
      * [CommonsCli](https://commons.apache.org/proper/commons-cli/).

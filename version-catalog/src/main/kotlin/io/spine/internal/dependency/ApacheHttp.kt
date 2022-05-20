@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [ApacheHttp](https://hc.apache.org/downloads.cgi).
  */
 @Suppress("unused")
-internal object ApacheHttp : VersionCatalogEntry() {
+internal object ApacheHttp : VersionCatalogEntryOld() {
     private const val version = "4.4.14"
     val core by lib("org.apache.httpcomponents:httpcore:$version")
 }

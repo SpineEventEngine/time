@@ -26,26 +26,26 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [GoogleAuto](https://github.com/google/auto).
  */
 @Suppress("unused")
-internal object GoogleAuto : VersionCatalogEntry() {
+internal object GoogleAuto : VersionCatalogEntryOld() {
 
     object Common {
         private const val version = "1.2.1"
         val common by lib("com.google.auto:auto-common:$version")
     }
 
-    object Service : VersionCatalogEntry() {
+    object Service : VersionCatalogEntryOld() {
         private const val version = "1.0.1"
         val annotations by lib("com.google.auto.service:auto-service-annotations:$version")
         val processor by lib("com.google.auto.service:auto-service:$version")
     }
 
-    object Value : VersionCatalogEntry() {
+    object Value : VersionCatalogEntryOld() {
         private const val version = "1.9"
         val annotations by lib("com.google.auto.value:auto-value-annotations:$version")
     }

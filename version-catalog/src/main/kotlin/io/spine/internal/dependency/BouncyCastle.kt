@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [BouncyCastle](https://www.bouncycastle.org/java.html).
  */
 @Suppress("unused")
-internal object BouncyCastle : VersionCatalogEntry() {
+internal object BouncyCastle : VersionCatalogEntryOld() {
     private const val version = "1.68"
     val libPkcsJdk15 by lib("org.bouncycastle:bcpkix-jdk15on:$version")
 }

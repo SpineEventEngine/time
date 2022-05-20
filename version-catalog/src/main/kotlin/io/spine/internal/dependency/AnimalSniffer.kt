@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [AnimalSniffer](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/).
  */
 @Suppress("unused")
-internal object AnimalSniffer : VersionCatalogEntry() {
+internal object AnimalSniffer : VersionCatalogEntryOld() {
     private const val version = "1.21"
     val animalSniffer by lib("org.codehaus.mojo:animal-sniffer-annotations:$version")
 }

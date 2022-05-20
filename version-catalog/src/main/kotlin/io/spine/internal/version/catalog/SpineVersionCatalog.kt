@@ -49,21 +49,25 @@ open class SpineDependencies {
      */
     @Suppress("unused")
     fun useIn(catalog: VersionCatalogBuilder) {
-        val entries = findDeclaredEntries()
-        entries.forEach { it.addTo(catalog) }
+        val oldEntries = findDeclaredEntriesOld()
+        oldEntries.forEach { it.addTo(catalog) }
+
+        val locator = VersionCatalogEntriesLocator.forPackage("io.spine.internal.dependency")
+        val newEntries = locator.find()
+        newEntries.forEach { it.addTo(catalog) }
     }
 
     /**
-     * Finds all declared [entries][VersionCatalogEntry] within
+     * Finds all declared [entries][VersionCatalogEntryOld] within
      * `io.spine.internal.dependency` package.
      *
      * This method utilizes reflection.
      */
-    private fun findDeclaredEntries(): Set<VersionCatalogEntry> {
+    private fun findDeclaredEntriesOld(): Set<VersionCatalogEntryOld> {
         val entriesLocation = "io.spine.internal.dependency"
         val builder = ConfigurationBuilder().forPackage(entriesLocation)
         val reflections = Reflections(builder)
-        val entries = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
+        val entries = reflections.getSubTypesOf(VersionCatalogEntryOld::class.java)
             .map { it.kotlin }
             .mapNotNull { it.objectInstance }
             .onEach { it.resolveNestedObjects() }
@@ -72,14 +76,14 @@ open class SpineDependencies {
     }
 
     /**
-     * Triggers initializing of the nested objects in this [VersionCatalogEntry].
+     * Triggers initializing of the nested objects in this [VersionCatalogEntryOld].
      *
      * It forces the code they contain to execute. We use nested objects for
      * scopes demarcation.
      *
-     * Please see docs to [VersionCatalogEntry] for details.
+     * Please see docs to [VersionCatalogEntryOld] for details.
      */
-    private fun VersionCatalogEntry.resolveNestedObjects() =
+    private fun VersionCatalogEntryOld.resolveNestedObjects() =
         this::class.nestedClasses.forEach { it.objectInstance }
 }
 

@@ -26,7 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * A JSON parser in Kotlin.
@@ -34,7 +34,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
  * [Klaxon](https://github.com/cbeust/klaxon).
  */
 @Suppress("unused")
-internal object Klaxon : VersionCatalogEntry() {
+internal object Klaxon : VersionCatalogEntryOld() {
     private const val version = "5.6"
     val klaxon by lib("com.beust:klaxon:$version")
 }

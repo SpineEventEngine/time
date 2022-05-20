@@ -26,16 +26,16 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [JUnit5](https://junit.org/junit5/).
  */
 @Suppress("unused")
-internal object JUnit : VersionCatalogEntry() {
+internal object JUnit : VersionCatalogEntryOld() {
 
     private const val version = "5.8.2"
-    val junit by version(version)
+    val junit by versioning(version)
     val bom by lib("org.junit:junit-bom:$version")
     val runner by lib("org.junit.jupiter:junit-jupiter-engine:$version")
     val params by lib("org.junit.jupiter:junit-jupiter-params:$version")

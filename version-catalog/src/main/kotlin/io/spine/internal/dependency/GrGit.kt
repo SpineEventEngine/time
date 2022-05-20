@@ -26,10 +26,10 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object GrGit : VersionCatalogEntry() {
+internal object GrGit : VersionCatalogEntryOld() {
     private const val version = "3.1.1"
     val core by lib("org.ajoberstar.grgit:grgit-core:$version")
 }

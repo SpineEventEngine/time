@@ -26,7 +26,7 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * The dependencies for Guava.
@@ -38,7 +38,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntry
  * [Guava](https://github.com/google/guava).
  */
 @Suppress("unused")
-internal object Guava : VersionCatalogEntry() {
+internal object Guava : VersionCatalogEntryOld() {
     private const val version = "31.1-jre"
     val guava by lib("com.google.guava:guava:$version")
     val testLib by lib("com.google.guava:guava-testlib:$version")

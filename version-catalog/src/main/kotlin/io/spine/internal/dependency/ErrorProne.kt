@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [ErrorProne](https://github.com/google/error-prone)
  */
 @Suppress("unused")
-internal object ErrorProne : VersionCatalogEntry() {
+internal object ErrorProne : VersionCatalogEntryOld() {
 
     private const val version = "2.13.1"
     val core by lib("com.google.errorprone:error_prone_core:$version")

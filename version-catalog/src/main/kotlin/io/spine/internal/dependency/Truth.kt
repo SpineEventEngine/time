@@ -26,13 +26,13 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 /**
  * [Truth](https://github.com/google/truth).
  */
 @Suppress("unused")
-internal object Truth : VersionCatalogEntry() {
+internal object Truth : VersionCatalogEntryOld() {
     private const val version = "1.1.3"
     val truth by lib("com.google.truth:truth:$version")
     val java8Extension by lib("com.google.truth.extensions:truth-java8-extension:$version")

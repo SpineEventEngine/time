@@ -26,17 +26,17 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object Jackson : VersionCatalogEntry() {
+internal object Jackson : VersionCatalogEntryOld() {
 
     private const val version = "2.13.2"
     private const val databindVersion = "2.13.2.2"
 
     object Versions {
-        val jackson by version(version)
-        val databind by version(databindVersion)
+        val jackson by versioning(version)
+        val databind by versioning(databindVersion)
     }
 
     /**

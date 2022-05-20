@@ -26,19 +26,19 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.version.catalog.VersionCatalogEntryOld
 
 @Suppress("unused")
-internal object KotlinX : VersionCatalogEntry() {
+internal object KotlinX : VersionCatalogEntryOld() {
 
-    object Coroutines : VersionCatalogEntry() {
+    object Coroutines : VersionCatalogEntryOld() {
 
         /**
          * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines).
          */
         private const val version = "1.6.1"
 
-        object Core : VersionCatalogEntry() {
+        object Core : VersionCatalogEntryOld() {
             val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$version")
             val core by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core:$version")
         }
