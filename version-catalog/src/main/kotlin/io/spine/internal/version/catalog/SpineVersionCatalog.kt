@@ -33,50 +33,35 @@ import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
 /**
- * A Gradle plugin for [Settings] which registers a Version Catalog with
- * dependencies used within Spine-related projects.
+ * Set of pre-declared dependencies that are used in Spine-related projects.
  *
- * Please take a look on [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html).
+ * Contains:
+ *
+ *  1. Versions.
+ *  2. Libraries.
+ *  3. Bundles of libraries.
+ *  4. Plugins.
  */
-@Suppress("UnstableApiUsage", "unused")
-class SpineVersionCatalog : Plugin<Settings> {
-
-    companion object {
-        private const val ENTRIES_PKG = "io.spine.internal.dependency"
-    }
+open class SpineDependencies {
 
     /**
-     * Applies this plugin to the given [Settings].
-     *
-     * In particular, this method does the following:
-     *
-     *  1. Creates a new `libs` catalog.
-     *  2. Finds all declared [entries][VersionCatalogEntry].
-     *  3. Add them all to the created catalog.
+     * Registers Spine dependencies in the given version catalog.
      */
-    override fun apply(settings: Settings) {
-        val catalog = settings.createCatalog("libs")
-        val entries = findDeclaredEntries(ENTRIES_PKG)
+    @Suppress("unused")
+    fun useIn(catalog: VersionCatalogBuilder) {
+        val entries = findDeclaredEntries()
         entries.forEach { it.addTo(catalog) }
     }
 
     /**
-     * Creates a new catalog with the given name in this [Settings].
-     */
-    private fun Settings.createCatalog(name: String): VersionCatalogBuilder {
-        val result = dependencyResolutionManagement.versionCatalogs.create(name)
-        return result
-    }
-
-    /**
-     * Finds all declared entries within the given package.
+     * Finds all declared [entries][VersionCatalogEntry] within
+     * `io.spine.internal.dependency` package.
      *
-     * The method utilizes reflection.
-     *
-     * @param pkg a package to scan.
+     * This method utilizes reflection.
      */
-    private fun findDeclaredEntries(pkg: String): Set<VersionCatalogEntry> {
-        val builder = ConfigurationBuilder().forPackage(pkg)
+    private fun findDeclaredEntries(): Set<VersionCatalogEntry> {
+        val entriesLocation = "io.spine.internal.dependency"
+        val builder = ConfigurationBuilder().forPackage(entriesLocation)
         val reflections = Reflections(builder)
         val entries = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
             .map { it.kotlin }
@@ -87,11 +72,23 @@ class SpineVersionCatalog : Plugin<Settings> {
     }
 
     /**
-     * Triggers initializing of the nested objects.
+     * Triggers initializing of the nested objects in this [VersionCatalogEntry].
      *
-     * It forces the code they contain to execute. And, in particular, the code
-     * which declares the delegated properties using [VersionCatalogEntry].
+     * It forces the code they contain to execute. We use nested objects for
+     * scopes demarcation.
+     *
+     * Please see docs to [VersionCatalogEntry] for details.
      */
     private fun VersionCatalogEntry.resolveNestedObjects() =
         this::class.nestedClasses.forEach { it.objectInstance }
+}
+
+/**
+ * A Gradle plugin for [Settings], which registers [SpineDependencies] extension.
+ */
+@Suppress("unused")
+class SpineVersionCatalog : Plugin<Settings> {
+    override fun apply(settings: Settings) {
+        settings.extensions.create("spineDependencies", SpineDependencies::class.java)
+    }
 }

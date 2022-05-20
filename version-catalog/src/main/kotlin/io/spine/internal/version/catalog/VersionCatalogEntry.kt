@@ -27,7 +27,11 @@
 package io.spine.internal.version.catalog
 
 import io.spine.internal.Actions
-import java.util.*
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
@@ -41,7 +45,7 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
  *
  * Such a unit can add one or more of the following items to the catalog:
  *
- *  1. [version].
+ *  1. [versioning].
  *  2. [lib].
  *  3. [bundle].
  *  4. [plugin].
@@ -162,8 +166,8 @@ internal open class VersionCatalogEntry {
     /**
      * Registers a version in this entry.
      */
-    fun version(value: String) = provideDelegate { property ->
-        val alias = resolveAlias(property.name)
+    fun versioning(value: String) = provideDelegate {
+        val alias = resolveAlias(baseAlias)
         builderActions.add { version(alias, value) }
         VersionReference(alias)
     }
@@ -174,6 +178,15 @@ internal open class VersionCatalogEntry {
     fun lib(gav: String) = provideDelegate { property ->
         val alias = resolveAlias(property.name)
         builderActions.add { library(alias, gav) }
+        LibraryReference(alias)
+    }
+
+    /**
+     * Registers a library in this entry.
+     */
+    fun lib(group:String, artifact: String, version: VersionReference) = provideDelegate { property ->
+        val alias = resolveAlias(property.name)
+        builderActions.add { library(alias, group, artifact).versionRef(version.alias) }
         LibraryReference(alias)
     }
 
@@ -202,20 +215,13 @@ internal open class VersionCatalogEntry {
      * Usually, it is a class name with respect to its nesting.
      */
     private fun baseAlias(): String {
-
-        fun String.decapitalized() = replaceFirstChar { it.lowercase() }
-
         val clazz = this::class.java
-        var name = clazz.simpleName.decapitalized()
-
-        if (Objects.nonNull(clazz.enclosingClass)) {
-            val nested = clazz.enclosingClass
-            val nestedName = nested.simpleName.decapitalized()
-            name = "$nestedName-$name"
-        }
-
-        return name
+        val outer = clazz.enclosingClass?.kotlin?.objectInstance
+        return if (outer is VersionCatalogEntry) "${outer.baseAlias}-${clazz.camelName()}"
+                else clazz.camelName()
     }
+
+    private fun Class<*>.camelName() = simpleName.replaceFirstChar { it.lowercase() }
 
     /**
      * Returns an absolute alias for the given relative one.
