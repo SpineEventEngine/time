@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.internal.version.catalog.SpineDependencies
+
 rootProject.name = "spine-time"
 
 include(
@@ -50,4 +52,14 @@ buildscript {
 
 apply {
     plugin("io.spine.internal.version-catalog")
+}
+
+val spineDependencies = extensions.getByType<SpineDependencies>()
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            spineDependencies.useIn(this)
+        }
+    }
 }

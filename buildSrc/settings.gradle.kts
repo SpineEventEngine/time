@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.internal.version.catalog.SpineDependencies
+
 buildscript {
     repositories {
         mavenLocal()
@@ -36,4 +38,15 @@ buildscript {
 
 apply {
     plugin("io.spine.internal.version-catalog")
+}
+
+val spineDependencies = extensions.getByType<SpineDependencies>()
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            version("kotlin", "1.5.31")
+            spineDependencies.useIn(this)
+        }
+    }
 }
