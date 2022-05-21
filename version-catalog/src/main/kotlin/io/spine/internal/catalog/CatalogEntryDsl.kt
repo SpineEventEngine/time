@@ -51,7 +51,5 @@ internal interface PluginEntryDsl : LibraryEntryDsl {
 
     val id: String?
 
-    fun plugin(id: String, version: VersionAlias): PropertyDelegate<PluginAlias>
-
     fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
 }

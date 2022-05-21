@@ -38,13 +38,6 @@ internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
         }
     }
 
-    override fun plugin(id: String, version: VersionAlias): PropertyDelegate<PluginAlias> =
-        delegate { property ->
-            val alias = resolve(property.name)
-            builder { plugin(alias.absolute, id).versionRef(version.absolute) }
-            alias.toPlugin()
-        }
-
     override fun plugin(id: String, version: String): PropertyDelegate<PluginAlias> =
         delegate { property ->
             plugin(property.name, id, version)
