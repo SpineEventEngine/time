@@ -26,10 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
-import org.reflections.Reflections
-import org.reflections.util.ConfigurationBuilder
 
 /**
  * An atomic unit which contributes to Version Catalog.
@@ -155,40 +152,8 @@ open class SpineVersionCatalog {
      */
     @Suppress("unused")
     fun useIn(catalog: VersionCatalogBuilder) {
-        val oldEntries = findDeclaredEntriesOld()
-        oldEntries.forEach { it.addTo(catalog) }
-
         val locator = VersionCatalogEntriesLocator.forPackage("io.spine.internal.dependency")
         val newEntries = locator.find()
         newEntries.forEach { it.accept(catalog) }
     }
-
-    /**
-     * Finds all declared [entries][VersionCatalogEntryOld] within
-     * `io.spine.internal.dependency` package.
-     *
-     * This method utilizes reflection.
-     */
-    private fun findDeclaredEntriesOld(): Set<VersionCatalogEntryOld> {
-        val entriesLocation = "io.spine.internal.dependency"
-        val builder = ConfigurationBuilder().forPackage(entriesLocation)
-        val reflections = Reflections(builder)
-        val entries = reflections.getSubTypesOf(VersionCatalogEntryOld::class.java)
-            .map { it.kotlin }
-            .mapNotNull { it.objectInstance }
-            .onEach { it.resolveNestedObjects() }
-            .toSet()
-        return entries
-    }
-
-    /**
-     * Triggers initializing of the nested objects in this [VersionCatalogEntryOld].
-     *
-     * It forces the code they contain to execute. We use nested objects for
-     * scopes demarcation.
-     *
-     * Please see docs to [VersionCatalogEntryOld] for details.
-     */
-    private fun VersionCatalogEntryOld.resolveNestedObjects() =
-        this::class.nestedClasses.forEach { it.objectInstance }
 }

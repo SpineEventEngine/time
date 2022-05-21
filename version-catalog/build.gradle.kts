@@ -47,7 +47,7 @@ dependencies {
 gradlePlugin {
     plugins.create("spine-version-catalog") {
         id = "io.spine.internal.version-catalog"
-        implementationClass = "io.spine.internal.version.catalog.SpineVersionCatalog"
+        implementationClass = "io.spine.internal.catalog.plugin.SpineVersionCatalogPlugin"
     }
 }
 
