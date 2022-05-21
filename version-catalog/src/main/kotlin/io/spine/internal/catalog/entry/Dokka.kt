@@ -26,16 +26,17 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.PluginEntry
 
 /**
- * [Dokka](https://github.com/Kotlin/dokka).
+ * [Dokka](https://github.com/Kotlin/dokka)
  */
 @Suppress("unused")
-internal object Dokka : VersionCatalogEntryOld() {
+internal object Dokka : LibraryEntry() {
 
-    private const val version = "1.6.20"
     private const val group = "org.jetbrains.dokka"
+    override val version = "1.6.20"
 
     /**
      * To generate the documentation as seen from Java perspective use this plugin.
@@ -43,24 +44,25 @@ internal object Dokka : VersionCatalogEntryOld() {
      * @see <a href="https://github.com/Kotlin/dokka#output-formats">
      *     Dokka output formats</a>
      */
-    val kotlinAsJavaPlugin by lib("${io.spine.internal.catalog.entry.Dokka.group}:kotlin-as-java-plugin:${io.spine.internal.catalog.entry.Dokka.version}")
-    val basePlugin by lib("${io.spine.internal.catalog.entry.Dokka.group}:dokka-base:${io.spine.internal.catalog.entry.Dokka.version}")
+    val kotlinAsJavaPlugin by module("$group:kotlin-as-java-plugin")
+    val basePlugin by module("$group:dokka-base")
 
     /**
-     * Custom Dokka plugins developed for Spine-specific needs like excluding by `@Internal`
-     * annotation.
+     * Custom Dokka plugins developed for Spine-specific needs like excluding
+     * by `@Internal` annotation.
      *
      * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
      *     Custom Dokka Plugins</a>
      */
-    object SpineExtensions {
+    object SpineExtensions : LibraryEntry() {
         private const val group = "io.spine.tools"
-        private const val version = "2.0.0-SNAPSHOT.3"
-        val spineExtensions by lib("${io.spine.internal.catalog.entry.Dokka.SpineExtensions.group}:spine-dokka-extensions:${io.spine.internal.catalog.entry.Dokka.SpineExtensions.version}")
+        override val version = "2.0.0-SNAPSHOT.3"
+        val spineExtensions by module("$group:spine-dokka-extensions")
     }
 
-    object GradlePlugin {
-        val dokka by plugin("org.jetbrains.dokka", io.spine.internal.catalog.entry.Dokka.version)
-        val gradlePlugin by lib("${io.spine.internal.catalog.entry.Dokka.group}:dokka-gradle-plugin:${io.spine.internal.catalog.entry.Dokka.version}")
+    object GradlePlugin : PluginEntry() {
+        override val version = Dokka.version
+        override val module = "$group:dokka-gradle-plugin"
+        override val id = "org.jetbrains.dokka"
     }
 }

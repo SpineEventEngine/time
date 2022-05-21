@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [AssertK](https://github.com/willowtreeapps/assertk).
+ * [AssertK](https://github.com/willowtreeapps/assertk)
  */
 @Suppress("unused")
-internal object AssertK : VersionCatalogEntryOld() {
-    private const val version = "0.25"
-    val jvm by lib("com.willowtreeapps.assertk:assertk-jvm:${io.spine.internal.catalog.entry.AssertK.version}")
+internal object AssertK : LibraryEntry() {
+    override val version = "0.25"
+    val jvm by module("com.willowtreeapps.assertk:assertk-jvm")
 }

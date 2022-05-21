@@ -29,12 +29,14 @@ package io.spine.internal.catalog
 import io.spine.internal.Actions
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-internal abstract class CatalogEntry : CatalogEntryDsl, CatalogContributor {
+internal open class CatalogEntry : CatalogEntryDsl, CatalogContributor {
 
     private val builderActions = Actions<VersionCatalogBuilder>()
     override val alias: Alias = alias()
 
-    abstract fun initialize()
+    open fun initialize() {
+        // No action.
+    }
 
     override fun accept(catalog: VersionCatalogBuilder) = builderActions.play(catalog)
 

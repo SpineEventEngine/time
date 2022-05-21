@@ -26,16 +26,14 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.PluginEntry
 
 /**
- * [OsDetector](https://github.com/google/osdetector-gradle-plugin).
+ * [OsDetector](https://github.com/google/osdetector-gradle-plugin)
  */
 @Suppress("unused")
-internal object OsDetector : VersionCatalogEntryOld() {
-    private const val version = "1.7.0"
-    val gradlePlugin by lib("com.google.gradle:osdetector-gradle-plugin:${io.spine.internal.catalog.entry.OsDetector.version}")
-    val osDetector by plugin("com.google.osdetector",
-        io.spine.internal.catalog.entry.OsDetector.version
-    )
+internal object OsDetector : PluginEntry() {
+    override val version = "1.7.0"
+    override val module = "com.google.gradle:osdetector-gradle-plugin"
+    override val id = "com.google.osdetector"
 }

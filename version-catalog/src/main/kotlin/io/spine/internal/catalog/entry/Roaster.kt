@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Roaster](https://github.com/forge/roaster).
+ * [Roaster](https://github.com/forge/roaster)
  */
 @Suppress("unused")
-internal object Roaster : VersionCatalogEntryOld() {
+internal object Roaster : LibraryEntry() {
 
     /**
      * Do not advance this version further because it would break compatibility with Java 8
@@ -41,8 +41,8 @@ internal object Roaster : VersionCatalogEntryOld() {
      *
      * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
      */
-    private const val version = "2.24.0.Final"
+    override val version = "2.24.0.Final"
 
-    val api by lib("org.jboss.forge.roaster:roaster-api:${io.spine.internal.catalog.entry.Roaster.version}")
-    val jdt by lib("org.jboss.forge.roaster:roaster-jdt:${io.spine.internal.catalog.entry.Roaster.version}")
+    val api by module("org.jboss.forge.roaster:roaster-api")
+    val jdt by module("org.jboss.forge.roaster:roaster-jdt")
 }

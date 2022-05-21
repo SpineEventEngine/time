@@ -26,22 +26,26 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Google HTTP client](https://github.com/googleapis/google-http-java-client).
+ * [Google HTTP client](https://github.com/googleapis/google-http-java-client)
  */
 @Suppress("unused")
-internal object HttpClient : VersionCatalogEntryOld() {
+internal object HttpClient : LibraryEntry() {
 
     /**
-     * [Releases](https://github.com/googleapis/google-http-java-client).
+     * [Releases](https://github.com/googleapis/google-http-java-client)
      */
-    private const val version = "1.41.5"
-    val google by lib("com.google.http-client:google-http-client:${io.spine.internal.catalog.entry.HttpClient.version}")
-    val jackson2 by lib("com.google.http-client:google-http-client-jackson2:${io.spine.internal.catalog.entry.HttpClient.version}")
-    val gson by lib("com.google.http-client:google-http-client-gson:${io.spine.internal.catalog.entry.HttpClient.version}")
-    val apache2 by lib("com.google.http-client:google-http-client-apache-v2:${io.spine.internal.catalog.entry.HttpClient.version}")
+    override val version = "1.41.5"
 
-    val apache by lib("com.google.http-client:google-http-client-apache:2.1.2")
+    val google by module("com.google.http-client:google-http-client")
+    val jackson2 by module("com.google.http-client:google-http-client-jackson2")
+    val gson by module("com.google.http-client:google-http-client-gson")
+    val apache2 by module("com.google.http-client:google-http-client-apache-v2")
+
+    object Apache : LibraryEntry() {
+        override val version = "2.1.2"
+        override val module = "com.google.http-client:google-http-client-apache"
+    }
 }

@@ -26,51 +26,69 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [GoogleApis](https://github.com/googleapis/).
+ * [GoogleApis](https://github.com/googleapis/)
  */
 @Suppress("unused")
-internal object GoogleApis : VersionCatalogEntryOld() {
+internal object GoogleApis : CatalogEntry() {
 
     /**
-     * [Client](https://github.com/googleapis/google-api-java-client).
+     * [Client](https://github.com/googleapis/google-api-java-client)
      */
-    val client by lib("com.google.api-client:google-api-client:1.32.2")
+    object Client : LibraryEntry() {
+        override val version = "1.32.2"
+        override val module = "com.google.api-client:google-api-client"
+    }
 
     /**
-     * [Common](https://github.com/googleapis/api-common-java).
+     * [Common](https://github.com/googleapis/api-common-java)
      */
-    val common by lib("com.google.api:api-common:2.1.1")
+    object Common : LibraryEntry() {
+        override val version = "2.1.1"
+        override val module = "com.google.api:api-common"
+    }
 
     /**
-     * [CommonProtos](https://github.com/googleapis/java-common-protos).
+     * [CommonProtos](https://github.com/googleapis/java-common-protos)
      */
-    val commonProtos by lib("com.google.api.grpc:proto-google-common-protos:2.7.0")
+    object CommonProtos : LibraryEntry() {
+        override val version = "2.7.0"
+        override val module = "com.google.api.grpc:proto-google-common-protos"
+    }
 
     /**
-     * [GAX](https://github.com/googleapis/gax-java).
+     * [GAX](https://github.com/googleapis/gax-java)
      */
-    val gax by lib("com.google.api:gax:2.7.1")
+    object Gax : LibraryEntry() {
+        override val version = "2.7.1"
+        override val module = "com.google.api:gax"
+    }
 
     /**
-     * [ProtoAim](https://github.com/googleapis/java-iam).
+     * [ProtoAim](https://github.com/googleapis/java-iam)
      */
-    val protoAim by lib("com.google.api.grpc:proto-google-iam-v1:1.2.0")
+    object ProtoAim : LibraryEntry() {
+        override val version = "1.2.0"
+        override val module = "com.google.api.grpc:proto-google-iam-v1"
+    }
 
     /**
-     * [OAuthClient](https://github.com/googleapis/google-oauth-java-client).
+     * [OAuthClient](https://github.com/googleapis/google-oauth-java-client)
      */
-    val oAuthClient by lib("com.google.oauth-client:google-oauth-client:1.32.1")
+    object OAuthClient : LibraryEntry() {
+        override val version = "1.32.1"
+        override val module = "com.google.oauth-client:google-oauth-client"
+    }
 
     /**
-     * [AuthLibrary](https://github.com/googleapis/google-auth-library-java).
+     * [AuthLibrary](https://github.com/googleapis/google-auth-library-java)
      */
-    object AuthLibrary : VersionCatalogEntryOld() {
-        private const val version = "1.3.0"
-        val authLibrary by versioning(io.spine.internal.catalog.entry.GoogleApis.AuthLibrary.version)
-        val credentials by lib("com.google.auth:google-auth-library-credentials:${io.spine.internal.catalog.entry.GoogleApis.AuthLibrary.version}")
-        val oAuth2Http by lib("com.google.auth:google-auth-library-oauth2-http:${io.spine.internal.catalog.entry.GoogleApis.AuthLibrary.version}")
+    object AuthLibrary : LibraryEntry() {
+        override val version = "1.3.0"
+        val credentials by module("com.google.auth:google-auth-library-credentials")
+        val oAuth2Http by module("com.google.auth:google-auth-library-oauth2-http")
     }
 }

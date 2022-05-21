@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
  * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
@@ -38,7 +38,7 @@ import io.spine.internal.version.catalog.VersionCatalogEntryOld
  * See [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
  */
 @Suppress("unused")
-internal object FindBugs : VersionCatalogEntryOld() {
-    private const val version = "3.0.2"
-    val annotations by lib("com.google.code.findbugs:jsr305:${io.spine.internal.catalog.entry.FindBugs.version}")
+internal object FindBugs : LibraryEntry() {
+    override val version = "3.0.2"
+    val annotations by module("com.google.code.findbugs:jsr305")
 }

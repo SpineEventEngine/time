@@ -26,21 +26,21 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
  * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
  * which we don't use directly. This object is used for forcing the version.
  */
 @Suppress("unused")
-internal object J2ObjC : VersionCatalogEntryOld() {
+internal object J2ObjC : LibraryEntry() {
 
     /**
-     * [Releases](https://github.com/google/j2objc/releases).
-     * [MavenCentral](https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations).
+     * [Releases](https://github.com/google/j2objc/releases)
+     * [MavenCentral](https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations)
      *
      * `1.3.` is the latest version available from Maven Central.
      */
-    private const val version = "1.3"
-    val annotations by lib("com.google.j2objc:j2objc-annotations:${io.spine.internal.catalog.entry.J2ObjC.version}")
+    override val version = "1.3"
+    val annotations by module("com.google.j2objc:j2objc-annotations")
 }

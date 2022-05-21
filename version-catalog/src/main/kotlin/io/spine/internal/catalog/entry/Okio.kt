@@ -26,15 +26,15 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
  * Okio is a transitive dependency which we don't use directly.
  * This object is used to force the version.
  */
 @Suppress("unused")
-internal object Okio : VersionCatalogEntryOld() {
+internal object Okio : LibraryEntry() {
     // This is the last version before next major.
-    private const val version = "1.17.5"
-    val okio by lib("com.squareup.okio:okio:${io.spine.internal.catalog.entry.Okio.version}")
+    override val version = "1.17.5"
+    override val module = "com.squareup.okio:okio"
 }

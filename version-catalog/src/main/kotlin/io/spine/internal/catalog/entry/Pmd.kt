@@ -26,13 +26,12 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.VersionEntry
 
 /**
- * [Pmd](https://pmd.github.io/).
+ * [Pmd](https://pmd.github.io/)
  */
 @Suppress("unused")
-internal object Pmd : VersionCatalogEntryOld() {
-    private const val version = "6.44.0"
-    val pmd by versioning(io.spine.internal.catalog.entry.Pmd.version)
+internal object Pmd : VersionEntry() {
+    override val version = "6.44.0"
 }

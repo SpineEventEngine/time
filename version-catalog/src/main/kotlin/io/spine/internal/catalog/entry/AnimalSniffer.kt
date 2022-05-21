@@ -29,7 +29,7 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [AnimalSniffer](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/).
+ * [AnimalSniffer](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/)
  */
 @Suppress("unused")
 internal object AnimalSniffer : LibraryEntry() {

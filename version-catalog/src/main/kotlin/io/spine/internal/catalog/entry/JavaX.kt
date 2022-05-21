@@ -26,15 +26,15 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 @Suppress("unused")
-internal object JavaX : VersionCatalogEntryOld() {
+internal object JavaX : LibraryEntry() {
 
     /**
      * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
      *
-     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api).
+     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api)
      */
     val annotations by lib("javax.annotation:javax.annotation-api:1.3.2")
 

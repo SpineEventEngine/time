@@ -26,19 +26,20 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.PluginEntry
 
 /**
- * [AppEngine](https://cloud.google.com/java/docs/reference).
+ * [AppEngine](https://cloud.google.com/java/docs/reference)
  */
 @Suppress("unused")
-internal object AppEngine : VersionCatalogEntryOld() {
+internal object AppEngine : LibraryEntry() {
 
-    private const val version = "1.9.82"
-    val sdk by lib("com.google.appengine:appengine-api-1.0-sdk:${io.spine.internal.catalog.entry.AppEngine.version}")
+    override val version = "1.9.82"
+    val sdk by module("com.google.appengine:appengine-api-1.0-sdk")
 
-    object GradlePlugin {
-        private const val version = "2.2.0"
-        val gradlePlugin by lib("com.google.cloud.tools:appengine-gradle-plugin:${io.spine.internal.catalog.entry.AppEngine.GradlePlugin.version}")
+    object GradlePlugin : PluginEntry() {
+        override val version = "2.2.0"
+        override val module = "com.google.cloud.tools:appengine-gradle-plugin"
     }
 }

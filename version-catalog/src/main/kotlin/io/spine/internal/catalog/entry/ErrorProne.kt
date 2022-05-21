@@ -26,44 +26,40 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.PluginEntry
 
 /**
  * [ErrorProne](https://github.com/google/error-prone)
  */
 @Suppress("unused")
-internal object ErrorProne : VersionCatalogEntryOld() {
+internal object ErrorProne : LibraryEntry() {
 
-    private const val version = "2.13.1"
-    val core by lib("com.google.errorprone:error_prone_core:${io.spine.internal.catalog.entry.ErrorProne.version}")
-    val checkApi by lib("com.google.errorprone:error_prone_check_api:${io.spine.internal.catalog.entry.ErrorProne.version}")
-    val testHelpers by lib("com.google.errorprone:error_prone_test_helpers:${io.spine.internal.catalog.entry.ErrorProne.version}")
-    val annotations by lib("com.google.errorprone:error_prone_annotations:${io.spine.internal.catalog.entry.ErrorProne.version}")
-    val typeAnnotations by lib("com.google.errorprone:error_prone_type_annotations:${io.spine.internal.catalog.entry.ErrorProne.version}")
+    override val version = "2.13.1"
 
-    object Bundle {
-        val annotations by bundle(
-            io.spine.internal.catalog.entry.ErrorProne.annotations,
-            io.spine.internal.catalog.entry.ErrorProne.typeAnnotations
-        )
-    }
+    val core by module("com.google.errorprone:error_prone_core")
+    val checkApi by module("com.google.errorprone:error_prone_check_api")
+    val testHelpers by module("com.google.errorprone:error_prone_test_helpers")
+
+    val annotations by bundle(
+        module("annotations", "com.google.errorprone:error_prone_annotations"),
+        module("typeAnnotations", "com.google.errorprone:error_prone_type_annotations")
+    )
 
     /**
      * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
      */
-    object JavacPlugin {
-        private const val version = "9+181-r4173-1"
-        val javacPlugin by lib("com.google.errorprone:javac:${io.spine.internal.catalog.entry.ErrorProne.JavacPlugin.version}")
+    object JavacPlugin : LibraryEntry() {
+        override val version = "9+181-r4173-1"
+        val javacPlugin by module("com.google.errorprone:javac")
     }
 
     /**
      * [GradlePlugin](https://github.com/tbroyer/gradle-errorprone-plugin/releases)
      */
-    object GradlePlugin {
-        private const val version = "2.0.2"
-        val errorProne by plugin("net.ltgt.errorprone",
-            io.spine.internal.catalog.entry.ErrorProne.GradlePlugin.version
-        )
-        val gradlePlugin by lib("net.ltgt.gradle:gradle-errorprone-plugin:${io.spine.internal.catalog.entry.ErrorProne.GradlePlugin.version}")
+    object GradlePlugin : PluginEntry() {
+        override val version = "2.0.2"
+        override val module = "net.ltgt.gradle:gradle-errorprone-plugin"
+        override val id = "net.ltgt.errorprone"
     }
 }

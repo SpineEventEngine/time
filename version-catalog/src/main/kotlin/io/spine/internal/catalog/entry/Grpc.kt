@@ -26,23 +26,23 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Grpc Java](https://github.com/grpc/grpc-java).
+ * [Grpc Java](https://github.com/grpc/grpc-java)
  */
 @Suppress("unused")
-internal object Grpc : VersionCatalogEntryOld() {
-    private const val version = "1.45.1"
-    val api by lib("io.grpc:grpc-api:${io.spine.internal.catalog.entry.Grpc.version}")
-    val auth by lib("io.grpc:grpc-auth:${io.spine.internal.catalog.entry.Grpc.version}")
-    val core by lib("io.grpc:grpc-core:${io.spine.internal.catalog.entry.Grpc.version}")
-    val context by lib("io.grpc:grpc-context:${io.spine.internal.catalog.entry.Grpc.version}")
-    val stub by lib("io.grpc:grpc-stub:${io.spine.internal.catalog.entry.Grpc.version}")
-    val okHttp by lib("io.grpc:grpc-okhttp:${io.spine.internal.catalog.entry.Grpc.version}")
-    val protobuf by lib("io.grpc:grpc-protobuf:${io.spine.internal.catalog.entry.Grpc.version}")
-    val protobufLite by lib("io.grpc:grpc-protobuf-lite:${io.spine.internal.catalog.entry.Grpc.version}")
-    val protobufPlugin by lib("io.grpc:protoc-gen-grpc-java:${io.spine.internal.catalog.entry.Grpc.version}")
-    val netty by lib("io.grpc:grpc-netty:${io.spine.internal.catalog.entry.Grpc.version}")
-    val nettyShaded by lib("io.grpc:grpc-netty-shaded:${io.spine.internal.catalog.entry.Grpc.version}")
+internal object Grpc : LibraryEntry() {
+    override val version = "1.45.1"
+    val api by module("io.grpc:grpc-api")
+    val auth by module("io.grpc:grpc-auth")
+    val core by module("io.grpc:grpc-core")
+    val context by module("io.grpc:grpc-context")
+    val stub by module("io.grpc:grpc-stub")
+    val okHttp by module("io.grpc:grpc-okhttp")
+    val protobuf by module("io.grpc:grpc-protobuf")
+    val protobufLite by module("io.grpc:grpc-protobuf-lite")
+    val protobufPlugin by module("io.grpc:protoc-gen-grpc-java")
+    val netty by module("io.grpc:grpc-netty")
+    val nettyShaded by module("io.grpc:grpc-netty-shaded")
 }

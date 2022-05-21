@@ -26,38 +26,31 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.PluginEntry
 
 /**
- * [Protobuf](https://github.com/protocolbuffers/protobuf).
+ * [Protobuf](https://github.com/protocolbuffers/protobuf)
  */
 @Suppress("unused")
-internal object Protobuf : VersionCatalogEntryOld() {
+internal object Protobuf : LibraryEntry() {
 
     private const val group = "com.google.protobuf"
-    private const val version = "3.20.1"
+    override val version = "3.20.1"
+    override val bundle = setOf(
+        module("java", "$group:protobuf-java"),
+        module("javaUtil", "$group:protobuf-java-util"),
+        module("kotlin", "$group:protobuf-kotlin"),
+    )
 
-    val compiler by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protoc:${io.spine.internal.catalog.entry.Protobuf.version}")
-    val java by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-java:${io.spine.internal.catalog.entry.Protobuf.version}")
-    val javaUtil by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-java-util:${io.spine.internal.catalog.entry.Protobuf.version}")
-    val kotlin by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-kotlin:${io.spine.internal.catalog.entry.Protobuf.version}")
-
-    object Bundle {
-        val protobuf by bundle(
-            io.spine.internal.catalog.entry.Protobuf.java,
-            io.spine.internal.catalog.entry.Protobuf.javaUtil,
-            io.spine.internal.catalog.entry.Protobuf.kotlin
-        )
-    }
+    val compiler by module("$group:protoc")
 
     /**
-     * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases).
+     * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases)
      */
-    object GradlePlugin {
-        private const val version = "0.8.18"
-        val protobuf by plugin("com.google.protobuf",
-            io.spine.internal.catalog.entry.Protobuf.GradlePlugin.version
-        )
-        val gradlePlugin by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-gradle-plugin:${io.spine.internal.catalog.entry.Protobuf.GradlePlugin.version}")
+    object GradlePlugin : PluginEntry() {
+        override val version = "0.8.18"
+        override val module = "$group:protobuf-gradle-plugin"
+        override val id = "com.google.protobuf"
     }
 }

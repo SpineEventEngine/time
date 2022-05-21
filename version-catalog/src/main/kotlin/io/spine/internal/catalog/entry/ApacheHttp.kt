@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [ApacheHttp](https://hc.apache.org/downloads.cgi).
+ * [ApacheHttp](https://hc.apache.org/downloads.cgi)
  */
 @Suppress("unused")
-internal object ApacheHttp : VersionCatalogEntryOld() {
-    private const val version = "4.4.14"
-    val core by lib("org.apache.httpcomponents:httpcore:${io.spine.internal.catalog.entry.ApacheHttp.version}")
+internal object ApacheHttp : LibraryEntry() {
+    override val version = "4.4.14"
+    val core by module("org.apache.httpcomponents:httpcore")
 }

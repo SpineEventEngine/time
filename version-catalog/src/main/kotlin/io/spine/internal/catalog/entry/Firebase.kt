@@ -26,13 +26,17 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
-/**
- * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java).
- */
 @Suppress("unused")
-internal object Firebase : VersionCatalogEntryOld() {
-    private const val adminVersion = "8.1.0"
-    val admin by lib("com.google.firebase:firebase-admin:${io.spine.internal.catalog.entry.Firebase.adminVersion}")
+internal object Firebase : CatalogEntry() {
+
+    /**
+     * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java)
+     */
+    object Admin : LibraryEntry() {
+        override val version = "8.1.0"
+        override val module = "com.google.firebase:firebase-admin"
+    }
 }

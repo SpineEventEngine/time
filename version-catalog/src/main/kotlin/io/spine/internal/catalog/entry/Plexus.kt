@@ -26,16 +26,16 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
  * Plexus Utils is a transitive dependency which we don't use directly.
  * This object is used to force the version.
  *
- * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/).
+ * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
  */
 @Suppress("unused")
-internal object Plexus : VersionCatalogEntryOld() {
-    private const val version = "3.4.0"
-    val utils by lib("org.codehaus.plexus:plexus-utils:${io.spine.internal.catalog.entry.Plexus.version}")
+internal object Plexus : LibraryEntry() {
+    override val version = "3.4.0"
+    val utils by module("org.codehaus.plexus:plexus-utils")
 }

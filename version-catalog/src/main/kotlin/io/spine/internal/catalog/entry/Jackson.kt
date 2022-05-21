@@ -26,41 +26,38 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 @Suppress("unused")
-internal object Jackson : VersionCatalogEntryOld() {
+internal object Jackson : LibraryEntry() {
 
-    private const val version = "2.13.2"
-    private const val databindVersion = "2.13.2.2"
+    override val version = "2.13.2"
 
-    object Versions {
-        val jackson by versioning(io.spine.internal.catalog.entry.Jackson.version)
-        val databind by versioning(io.spine.internal.catalog.entry.Jackson.databindVersion)
+    /**
+     * [Core](https://github.com/FasterXML/jackson-core)
+     */
+    val core by module("com.fasterxml.jackson.core:jackson-core")
+
+    /**
+     * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases)
+     */
+    val dataformatXml by module("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+
+    /**
+     * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases)
+     */
+    val dataformatYaml by module("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+
+    /**
+     * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases)
+     */
+    val moduleKotlin by module("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    /**
+     * [Databind](https://github.com/FasterXML/jackson-databind)
+     */
+    object Databind : LibraryEntry() {
+        override val version = "2.13.2.2"
+        override val module = "com.fasterxml.jackson.core:jackson-databind"
     }
-
-    /**
-     * [Core](https://github.com/FasterXML/jackson-core).
-     */
-    val core by lib("com.fasterxml.jackson.core:jackson-core:${io.spine.internal.catalog.entry.Jackson.version}")
-
-    /**
-     * [Databind](https://github.com/FasterXML/jackson-databind).
-     */
-    val databind by lib("com.fasterxml.jackson.core:jackson-databind:${io.spine.internal.catalog.entry.Jackson.databindVersion}")
-
-    /**
-     * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases).
-     */
-    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${io.spine.internal.catalog.entry.Jackson.version}")
-
-    /**
-     * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases).
-     */
-    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${io.spine.internal.catalog.entry.Jackson.version}")
-
-    /**
-     * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases).
-     */
-    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin:${io.spine.internal.catalog.entry.Jackson.version}")
 }

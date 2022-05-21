@@ -26,27 +26,28 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [GoogleAuto](https://github.com/google/auto).
+ * [GoogleAuto](https://github.com/google/auto)
  */
 @Suppress("unused")
-internal object GoogleAuto : VersionCatalogEntryOld() {
+internal object GoogleAuto : CatalogEntry() {
 
-    object Common {
-        private const val version = "1.2.1"
-        val common by lib("com.google.auto:auto-common:${io.spine.internal.catalog.entry.GoogleAuto.Common.version}")
+    object Common : LibraryEntry() {
+        override val version = "1.2.1"
+        override val module = "com.google.auto:auto-common"
     }
 
-    object Service : VersionCatalogEntryOld() {
-        private const val version = "1.0.1"
-        val annotations by lib("com.google.auto.service:auto-service-annotations:${io.spine.internal.catalog.entry.GoogleAuto.Service.version}")
-        val processor by lib("com.google.auto.service:auto-service:${io.spine.internal.catalog.entry.GoogleAuto.Service.version}")
+    object Service : LibraryEntry() {
+        override val version = "1.0.1"
+        val annotations by module("com.google.auto.service:auto-service-annotations")
+        val processor by module("com.google.auto.service:auto-service")
     }
 
-    object Value : VersionCatalogEntryOld() {
-        private const val version = "1.9"
-        val annotations by lib("com.google.auto.value:auto-value-annotations:${io.spine.internal.catalog.entry.GoogleAuto.Value.version}")
+    object Value : LibraryEntry() {
+        override val version = "1.9"
+        val annotations by module("com.google.auto.value:auto-value-annotations")
     }
 }

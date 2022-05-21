@@ -46,10 +46,10 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
             module(property.name, value)
         }
 
-    private fun module(relativeAlias: String, module: String): LibraryAlias {
+    override fun module(relativeAlias: String, value: String): LibraryAlias {
         check(version != null) { "A module can't be declared unless its version is specified!" }
         val alias = resolve(relativeAlias)
-        val (group, artifact) = module.splitBy(GAV_SEPARATOR)
+        val (group, artifact) = value.splitBy(GAV_SEPARATOR)
         builder { library(alias.absolute, group, artifact).version(version!!) }
         return alias.toLibrary()
     }

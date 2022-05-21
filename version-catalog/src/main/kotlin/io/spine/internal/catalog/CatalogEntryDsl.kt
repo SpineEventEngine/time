@@ -42,6 +42,8 @@ internal interface LibraryEntryDsl : VersionEntryDsl {
 
     fun module(value: String): PropertyDelegate<LibraryAlias>
 
+    fun module(relativeAlias: String, value: String): LibraryAlias
+
     fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias>
 
     fun lib(gav: String): PropertyDelegate<LibraryAlias>

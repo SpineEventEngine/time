@@ -26,23 +26,33 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
 @Suppress("unused")
-internal object ApacheCommons : VersionCatalogEntryOld() {
+internal object ApacheCommons : CatalogEntry() {
 
     /**
-     * [CommonsCli](https://commons.apache.org/proper/commons-cli/).
+     * [CommonsCli](https://commons.apache.org/proper/commons-cli/)
      */
-    val cli by lib("commons-cli:commons-cli:1.5.0")
+    object Cli : LibraryEntry() {
+        override val version = "1.5.0"
+        override val module = "commons-cli:commons-cli"
+    }
 
     /**
-     * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html).
+     * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html)
      */
-    val codec by lib("commons-codec:commons-codec:1.15")
+    object Codec : LibraryEntry() {
+        override val version = "1.15"
+        override val module = "commons-codec:commons-codec"
+    }
 
     /**
-     * [CommonsLogging](https://commons.apache.org/proper/commons-logging/).
+     * [CommonsLogging](https://commons.apache.org/proper/commons-logging/)
      */
-    val logging by lib("commons-logging:commons-logging:1.2")
+    object Logging : LibraryEntry() {
+        override val version = "1.2"
+        override val module = "commons-logging:commons-logging"
+    }
 }

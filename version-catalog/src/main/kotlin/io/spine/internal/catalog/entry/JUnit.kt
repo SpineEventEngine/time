@@ -26,46 +26,59 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [JUnit5](https://junit.org/junit5/).
+ * [JUnit5](https://junit.org/junit5/)
  */
 @Suppress("unused")
-internal object JUnit : VersionCatalogEntryOld() {
+internal object JUnit : LibraryEntry() {
 
-    private const val version = "5.8.2"
-    val junit by versioning(io.spine.internal.catalog.entry.JUnit.version)
-    val bom by lib("org.junit:junit-bom:${io.spine.internal.catalog.entry.JUnit.version}")
-    val runner by lib("org.junit.jupiter:junit-jupiter-engine:${io.spine.internal.catalog.entry.JUnit.version}")
-    val params by lib("org.junit.jupiter:junit-jupiter-params:${io.spine.internal.catalog.entry.JUnit.version}")
-    val api by lib("org.junit.jupiter:junit-jupiter-api:${io.spine.internal.catalog.entry.JUnit.version}")
+    override val version = "5.8.2"
+    val bom by module("org.junit:junit-bom")
+    val runner by module("org.junit.jupiter:junit-jupiter-engine")
+    val params by module("org.junit.jupiter:junit-jupiter-params")
+    val api by module("org.junit.jupiter:junit-jupiter-api")
 
-    private const val platformVersion = "1.8.2"
-    val platformCommons by lib("org.junit.platform:junit-platform-commons:${io.spine.internal.catalog.entry.JUnit.platformVersion}")
-    val platformLauncher by lib("org.junit.platform:junit-platform-launcher:${io.spine.internal.catalog.entry.JUnit.platformVersion}")
-
-    private const val legacyVersion = "4.13.1"
-    val legacy by lib("junit:junit:${io.spine.internal.catalog.entry.JUnit.legacyVersion}")
-
-    /**
-     * [ApiGuardian](https://github.com/apiguardian-team/apiguardian).
-     */
-    private const val apiGuardianVersion = "1.1.2"
-    val apiGuardian by lib("org.apiguardian:apiguardian-api:${io.spine.internal.catalog.entry.JUnit.apiGuardianVersion}")
-
-    /**
-     * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer).
-     */
-    private const val pioneerVersion = "1.5.0"
-    val pioneer by lib("org.junit-pioneer:junit-pioneer:${io.spine.internal.catalog.entry.JUnit.pioneerVersion}")
-
-
-    object Bundle {
-        val api by bundle(
-            io.spine.internal.catalog.entry.JUnit.params,
-            io.spine.internal.catalog.entry.JUnit.apiGuardian,
-            io.spine.internal.catalog.entry.JUnit.api
-        )
+    object Platform : LibraryEntry() {
+        override val version = "1.8.2"
+        val commons by module("org.junit.platform:junit-platform-commons")
+        val launcher by module("org.junit.platform:junit-platform-launcher")
     }
+
+    object Legacy : LibraryEntry() {
+        override val version = "4.13.1"
+        override val module = "junit:junit"
+    }
+
+    /**
+     * [ApiGuardian](https://github.com/apiguardian-team/apiguardian)
+     */
+    object ApiGuardian : LibraryEntry() {
+        override val version = "1.1.2"
+        override val module = "org.apiguardian:apiguardian-api"
+    }
+
+    /**
+     * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer)
+     */
+    object Pioneer : LibraryEntry() {
+        override val version = "1.5.0"
+        override val module = "org.junit-pioneer:junit-pioneer"
+    }
+
+//    object Api : LibraryEntry() {
+//        override val module = "org.junit.jupiter:junit-jupiter-api"
+//        override val bundle = setOf(
+//            params, ApiGuardian, this
+//        )
+//    }
+
+//    object Bundle {
+//        val api by bundle(
+//            io.spine.internal.catalog.entry.JUnit.params,
+//            io.spine.internal.catalog.entry.JUnit.apiGuardian,
+//            io.spine.internal.catalog.entry.JUnit.api
+//        )
+//    }
 }

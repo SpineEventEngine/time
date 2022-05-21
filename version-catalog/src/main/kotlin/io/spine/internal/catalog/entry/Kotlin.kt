@@ -26,38 +26,24 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Kotlin](https://github.com/JetBrains/kotlin).
+ * [Kotlin](https://github.com/JetBrains/kotlin)
  */
 @Suppress("unused")
-internal object Kotlin : VersionCatalogEntryOld() {
+internal object Kotlin : LibraryEntry() {
 
     private const val group = "org.jetbrains.kotlin"
-    val version by versioning("1.6.21")
+    override val version = "1.6.21"
 
-    val gradlePlugin by lib(
-        io.spine.internal.catalog.entry.Kotlin.group, "kotlin-gradle-plugin",
-        io.spine.internal.catalog.entry.Kotlin.version
-    )
-    val reflect by lib(
-        io.spine.internal.catalog.entry.Kotlin.group, "kotlin-reflect",
-        io.spine.internal.catalog.entry.Kotlin.version
-    )
+    val gradlePlugin by module("$group:kotlin-gradle-plugin")
+    val reflect by module("$group:kotlin-reflect")
 
-    object StdLib : VersionCatalogEntryOld() {
-        val stdLib by lib(
-            io.spine.internal.catalog.entry.Kotlin.group, "kotlin-stdlib",
-            io.spine.internal.catalog.entry.Kotlin.version
-        )
-        val common by lib(
-            io.spine.internal.catalog.entry.Kotlin.group, "kotlin-stdlib-common",
-            io.spine.internal.catalog.entry.Kotlin.version
-        )
-        val jdk8 by lib(
-            io.spine.internal.catalog.entry.Kotlin.group, "kotlin-stdlib-jdk8",
-            io.spine.internal.catalog.entry.Kotlin.version
-        )
+    object StdLib : CatalogEntry() {
+        val stdLib by module("$group:kotlin-stdlib")
+        val common by module("$group:kotlin-stdlib-common")
+        val jdk8 by module("$group:kotlin-stdlib-jdk8")
     }
 }

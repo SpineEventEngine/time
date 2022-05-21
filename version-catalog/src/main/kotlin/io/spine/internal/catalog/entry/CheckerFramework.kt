@@ -26,29 +26,28 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [CheckerFramework](https://checkerframework.org/).
+ * [CheckerFramework](https://checkerframework.org/)
  */
 @Suppress("unused")
-internal object CheckerFramework : VersionCatalogEntryOld() {
+internal object CheckerFramework : LibraryEntry() {
 
     /**
      * This is a discontinued artifact, which we do not use directly.
      * It is a transitive dependency which we use for forcing the version.
      */
-    val compatQual by lib("org.checkerframework:checker-compat-qual:2.5.5")
-
-    private const val version = "3.21.3"
-    val annotations by lib("org.checkerframework:checker-qual:${io.spine.internal.catalog.entry.CheckerFramework.version}")
-    val dataflow by lib("org.checkerframework:dataflow:${io.spine.internal.catalog.entry.CheckerFramework.version}")
-    val javacUtil by lib("org.checkerframework:javacutil:${io.spine.internal.catalog.entry.CheckerFramework.version}")
-
-    object Bundle {
-        val dataflow by bundle(
-            io.spine.internal.catalog.entry.CheckerFramework.dataflow,
-            io.spine.internal.catalog.entry.CheckerFramework.javacUtil
-        )
+    object CompatQual : LibraryEntry() {
+        override val version = "2.5.5"
+        override val module = "org.checkerframework:checker-compat-qual"
     }
+
+    override val version = "3.21.3"
+    val annotations by module("org.checkerframework:checker-qual")
+
+    val dataflow by bundle(
+        module("dataflow", "org.checkerframework:dataflow"),
+        module("javacUtil", "org.checkerframework:javacutil")
+    )
 }

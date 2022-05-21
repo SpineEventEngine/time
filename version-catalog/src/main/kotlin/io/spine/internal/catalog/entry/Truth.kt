@@ -26,23 +26,17 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Truth](https://github.com/google/truth).
+ * [Truth](https://github.com/google/truth)
  */
 @Suppress("unused")
-internal object Truth : VersionCatalogEntryOld() {
-    private const val version = "1.1.3"
-    val truth by lib("com.google.truth:truth:${io.spine.internal.catalog.entry.Truth.version}")
-    val java8Extension by lib("com.google.truth.extensions:truth-java8-extension:${io.spine.internal.catalog.entry.Truth.version}")
-    val protoExtension by lib("com.google.truth.extensions:truth-proto-extension:${io.spine.internal.catalog.entry.Truth.version}")
-
-    object Bundle {
-        val truth by bundle(
-            io.spine.internal.catalog.entry.Truth.truth,
-            io.spine.internal.catalog.entry.Truth.java8Extension,
-            io.spine.internal.catalog.entry.Truth.protoExtension
-        )
-    }
+internal object Truth : LibraryEntry() {
+    override val version = "1.1.3"
+    override val bundle = setOf(
+        module("truth", "com.google.truth:truth"),
+        module("java8Extension", "com.google.truth.extensions:truth-java8-extension"),
+        module("protoExtension", "com.google.truth.extensions:truth-proto-extension"),
+    )
 }

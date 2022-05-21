@@ -26,19 +26,19 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.LibraryEntry
 
 @Suppress("unused")
-internal object Netty : VersionCatalogEntryOld() {
+internal object Netty : LibraryEntry() {
 
     /**
-     * [Releases](https://github.com/netty/netty/releases).
+     * [Releases](https://github.com/netty/netty/releases)
      */
-    private const val version = "4.1.72.Final"
+    override val version = "4.1.72.Final"
 
-    val common by lib("io.netty:netty-common:${io.spine.internal.catalog.entry.Netty.version}")
-    val buffer by lib("io.netty:netty-buffer:${io.spine.internal.catalog.entry.Netty.version}")
-    val transport by lib("io.netty:netty-transport:${io.spine.internal.catalog.entry.Netty.version}")
-    val handler by lib("io.netty:netty-handler:${io.spine.internal.catalog.entry.Netty.version}")
-    val codecHttp by lib("io.netty:netty-codec-http:${io.spine.internal.catalog.entry.Netty.version}")
+    val common by module("io.netty:netty-common")
+    val buffer by module("io.netty:netty-buffer")
+    val transport by module("io.netty:netty-transport")
+    val handler by module("io.netty:netty-handler")
+    val codecHttp by module("io.netty:netty-codec-http")
 }

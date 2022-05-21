@@ -33,22 +33,24 @@ import io.spine.internal.catalog.PluginEntry
 internal object Dummy : LibraryEntry() {
 
     private const val group = "org.dummy.company"
-    override val module = "${io.spine.internal.catalog.entry.Dummy.group}:dummy-lib"
+    override val module = "$group:dummy-lib"
     override val version = "1.0.0"
 
-    val core by module("${io.spine.internal.catalog.entry.Dummy.group}:dummy-core")
-    val runner by module("${io.spine.internal.catalog.entry.Dummy.group}:dummy-runner")
-    val api by module("${io.spine.internal.catalog.entry.Dummy.group}:dummy-api")
+    val core by module("$group:dummy-core")
+    val runner by module("$group:dummy-runner")
+    val api by module("$group:dummy-api")
 
     override val bundle = setOf(
-        io.spine.internal.catalog.entry.Dummy.core,
-        io.spine.internal.catalog.entry.Dummy.runner,
-        io.spine.internal.catalog.entry.Dummy.api
+        core, runner, api,
+        module("params","$group:dummy-params"),
+        module("types","$group:dummy-types"),
     )
+
+    val base by bundle(core, runner)
 
     object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"
-        override val module = "${io.spine.internal.catalog.entry.Dummy.group}:my-dummy-plugin"
+        override val module = "$group:my-dummy-plugin"
         override val id = "my-dummy-plugin"
     }
 }

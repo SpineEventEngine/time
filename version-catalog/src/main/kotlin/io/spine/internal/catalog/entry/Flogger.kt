@@ -26,21 +26,22 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.version.catalog.VersionCatalogEntryOld
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.LibraryEntry
 
 /**
- * [Flogger](https://github.com/google/flogger).
+ * [Flogger](https://github.com/google/flogger)
  */
 @Suppress("unused")
-internal object Flogger : VersionCatalogEntryOld() {
+internal object Flogger : LibraryEntry() {
 
-    private const val version = "0.7.4"
     private const val group = "com.google.flogger"
-    val flogger by lib("com.google.flogger:flogger:${io.spine.internal.catalog.entry.Flogger.version}")
+    override val version = "0.7.4"
+    override val module = "$group:flogger"
 
-    object Runtime : VersionCatalogEntryOld() {
-        val systemBackend by lib("${io.spine.internal.catalog.entry.Flogger.group}:flogger-system-backend:${io.spine.internal.catalog.entry.Flogger.version}")
-        val log4J by lib("${io.spine.internal.catalog.entry.Flogger.group}:flogger-log4j:${io.spine.internal.catalog.entry.Flogger.version}")
-        val slf4J by lib("${io.spine.internal.catalog.entry.Flogger.group}:slf4j-backend-factory:${io.spine.internal.catalog.entry.Flogger.version}")
+    object Runtime : CatalogEntry() {
+        val systemBackend by module("$group:flogger-system-backend")
+        val log4J by module("$group:flogger-log4j")
+        val slf4J by module("$group:slf4j-backend-factory")
     }
 }
