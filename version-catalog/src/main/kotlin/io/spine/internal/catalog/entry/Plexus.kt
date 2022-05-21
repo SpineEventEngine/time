@@ -37,5 +37,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object Plexus : LibraryEntry() {
     override val version = "3.4.0"
-    val utils by module("org.codehaus.plexus:plexus-utils")
+    val utils by lib("org.codehaus.plexus:plexus-utils")
 }

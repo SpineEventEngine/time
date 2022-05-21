@@ -38,12 +38,12 @@ internal object Protobuf : LibraryEntry() {
     private const val group = "com.google.protobuf"
     override val version = "3.20.1"
     override val bundle = setOf(
-        module("java", "$group:protobuf-java"),
-        module("javaUtil", "$group:protobuf-java-util"),
-        module("kotlin", "$group:protobuf-kotlin"),
+        lib("java", "$group:protobuf-java"),
+        lib("javaUtil", "$group:protobuf-java-util"),
+        lib("kotlin", "$group:protobuf-kotlin"),
     )
 
-    val compiler by module("$group:protoc")
+    val compiler by lib("$group:protoc")
 
     /**
      * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases)

@@ -40,5 +40,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object FindBugs : LibraryEntry() {
     override val version = "3.0.2"
-    val annotations by module("com.google.code.findbugs:jsr305")
+    val annotations by lib("com.google.code.findbugs:jsr305")
 }

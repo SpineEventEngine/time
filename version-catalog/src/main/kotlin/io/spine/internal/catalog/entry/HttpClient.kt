@@ -39,10 +39,10 @@ internal object HttpClient : LibraryEntry() {
      */
     override val version = "1.41.5"
 
-    val google by module("com.google.http-client:google-http-client")
-    val jackson2 by module("com.google.http-client:google-http-client-jackson2")
-    val gson by module("com.google.http-client:google-http-client-gson")
-    val apache2 by module("com.google.http-client:google-http-client-apache-v2")
+    val google by lib("com.google.http-client:google-http-client")
+    val jackson2 by lib("com.google.http-client:google-http-client-jackson2")
+    val gson by lib("com.google.http-client:google-http-client-gson")
+    val apache2 by lib("com.google.http-client:google-http-client-apache-v2")
 
     object Apache : LibraryEntry() {
         override val version = "2.1.2"

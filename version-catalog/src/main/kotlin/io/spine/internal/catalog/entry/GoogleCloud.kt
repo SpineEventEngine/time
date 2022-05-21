@@ -66,6 +66,6 @@ internal object GoogleCloud : CatalogEntry() {
 
     object ArtifactRegistry : LibraryEntry() {
         override val version = "2.1.2"
-        val authCommon by module("com.google.cloud.artifactregistry:artifactregistry-auth-common")
+        val authCommon by lib("com.google.cloud.artifactregistry:artifactregistry-auth-common")
     }
 }

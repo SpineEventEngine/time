@@ -40,13 +40,9 @@ internal interface LibraryEntryDsl : VersionEntryDsl {
     val module: String?
     val bundle: Set<LibraryAlias>?
 
-    fun module(value: String): PropertyDelegate<LibraryAlias>
+    fun lib(module: String): PropertyDelegate<LibraryAlias>
 
-    fun module(relativeAlias: String, value: String): LibraryAlias
-
-    fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias>
-
-    fun lib(gav: String): PropertyDelegate<LibraryAlias>
+    fun lib(alias: String, module: String): LibraryAlias
 
     fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
 }

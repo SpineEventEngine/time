@@ -36,7 +36,7 @@ import io.spine.internal.catalog.PluginEntry
 internal object AppEngine : LibraryEntry() {
 
     override val version = "1.9.82"
-    val sdk by module("com.google.appengine:appengine-api-1.0-sdk")
+    val sdk by lib("com.google.appengine:appengine-api-1.0-sdk")
 
     object GradlePlugin : PluginEntry() {
         override val version = "2.2.0"

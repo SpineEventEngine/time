@@ -42,12 +42,12 @@ internal object GoogleAuto : CatalogEntry() {
 
     object Service : LibraryEntry() {
         override val version = "1.0.1"
-        val annotations by module("com.google.auto.service:auto-service-annotations")
-        val processor by module("com.google.auto.service:auto-service")
+        val annotations by lib("com.google.auto.service:auto-service-annotations")
+        val processor by lib("com.google.auto.service:auto-service")
     }
 
     object Value : LibraryEntry() {
         override val version = "1.9"
-        val annotations by module("com.google.auto.value:auto-value-annotations")
+        val annotations by lib("com.google.auto.value:auto-value-annotations")
     }
 }

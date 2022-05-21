@@ -35,15 +35,15 @@ import io.spine.internal.catalog.LibraryEntry
 internal object JUnit : LibraryEntry() {
 
     override val version = "5.8.2"
-    val bom by module("org.junit:junit-bom")
-    val runner by module("org.junit.jupiter:junit-jupiter-engine")
-    val params by module("org.junit.jupiter:junit-jupiter-params")
-    val api by module("org.junit.jupiter:junit-jupiter-api")
+    val bom by lib("org.junit:junit-bom")
+    val runner by lib("org.junit.jupiter:junit-jupiter-engine")
+    val params by lib("org.junit.jupiter:junit-jupiter-params")
+    val api by lib("org.junit.jupiter:junit-jupiter-api")
 
     object Platform : LibraryEntry() {
         override val version = "1.8.2"
-        val commons by module("org.junit.platform:junit-platform-commons")
-        val launcher by module("org.junit.platform:junit-platform-launcher")
+        val commons by lib("org.junit.platform:junit-platform-commons")
+        val launcher by lib("org.junit.platform:junit-platform-launcher")
     }
 
     object Legacy : LibraryEntry() {

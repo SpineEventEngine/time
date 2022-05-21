@@ -31,5 +31,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object GrGit : LibraryEntry() {
     override val version = "3.1.1"
-    val core by module("org.ajoberstar.grgit:grgit-core")
+    val core by lib("org.ajoberstar.grgit:grgit-core")
 }

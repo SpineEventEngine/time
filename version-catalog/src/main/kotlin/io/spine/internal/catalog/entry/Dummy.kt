@@ -36,14 +36,14 @@ internal object Dummy : LibraryEntry() {
     override val module = "$group:dummy-lib"
     override val version = "1.0.0"
 
-    val core by module("$group:dummy-core")
-    val runner by module("$group:dummy-runner")
-    val api by module("$group:dummy-api")
+    val core by lib("$group:dummy-core")
+    val runner by lib("$group:dummy-runner")
+    val api by lib("$group:dummy-api")
 
     override val bundle = setOf(
         core, runner, api,
-        module("params","$group:dummy-params"),
-        module("types","$group:dummy-types"),
+        lib("params","$group:dummy-params"),
+        lib("types","$group:dummy-types"),
     )
 
     val base by bundle(core, runner)

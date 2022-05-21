@@ -39,7 +39,7 @@ import io.spine.internal.catalog.LibraryEntry
 @Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
 internal object Slf4J : LibraryEntry() {
     override val version = "1.7.30"
-    val slf4J by module("org.slf4j:slf4j-api")
-    val jdk14 by module("org.slf4j:slf4j-jdk14")
-    val api by module("org.slf4j:slf4j-api")
+    val slf4J by lib("org.slf4j:slf4j-api")
+    val jdk14 by lib("org.slf4j:slf4j-jdk14")
+    val api by lib("org.slf4j:slf4j-api")
 }

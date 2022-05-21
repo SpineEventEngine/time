@@ -43,6 +43,6 @@ internal object Roaster : LibraryEntry() {
      */
     override val version = "2.24.0.Final"
 
-    val api by module("org.jboss.forge.roaster:roaster-api")
-    val jdt by module("org.jboss.forge.roaster:roaster-jdt")
+    val api by lib("org.jboss.forge.roaster:roaster-api")
+    val jdt by lib("org.jboss.forge.roaster:roaster-jdt")
 }

@@ -34,5 +34,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object ApacheHttp : LibraryEntry() {
     override val version = "4.4.14"
-    val core by module("org.apache.httpcomponents:httpcore")
+    val core by lib("org.apache.httpcomponents:httpcore")
 }

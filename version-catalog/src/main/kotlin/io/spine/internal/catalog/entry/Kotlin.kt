@@ -38,12 +38,12 @@ internal object Kotlin : LibraryEntry() {
     private const val group = "org.jetbrains.kotlin"
     override val version = "1.6.21"
 
-    val gradlePlugin by module("$group:kotlin-gradle-plugin")
-    val reflect by module("$group:kotlin-reflect")
+    val gradlePlugin by lib("$group:kotlin-gradle-plugin")
+    val reflect by lib("$group:kotlin-reflect")
 
     object StdLib : CatalogEntry() {
-        val stdLib by module("$group:kotlin-stdlib")
-        val common by module("$group:kotlin-stdlib-common")
-        val jdk8 by module("$group:kotlin-stdlib-jdk8")
+        val stdLib by lib("$group:kotlin-stdlib")
+        val common by lib("$group:kotlin-stdlib-common")
+        val jdk8 by lib("$group:kotlin-stdlib-jdk8")
     }
 }

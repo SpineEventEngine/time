@@ -41,7 +41,7 @@ internal object KotlinX : CatalogEntry() {
 
         object Core : LibraryEntry() {
             override val module = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
-            val jvm by module("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
+            val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
         }
     }
 }

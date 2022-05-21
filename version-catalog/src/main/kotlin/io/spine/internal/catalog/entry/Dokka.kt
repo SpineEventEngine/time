@@ -44,8 +44,8 @@ internal object Dokka : LibraryEntry() {
      * @see <a href="https://github.com/Kotlin/dokka#output-formats">
      *     Dokka output formats</a>
      */
-    val kotlinAsJavaPlugin by module("$group:kotlin-as-java-plugin")
-    val basePlugin by module("$group:dokka-base")
+    val kotlinAsJavaPlugin by lib("$group:kotlin-as-java-plugin")
+    val basePlugin by lib("$group:dokka-base")
 
     /**
      * Custom Dokka plugins developed for Spine-specific needs like excluding
@@ -57,7 +57,7 @@ internal object Dokka : LibraryEntry() {
     object SpineExtensions : LibraryEntry() {
         private const val group = "io.spine.tools"
         override val version = "2.0.0-SNAPSHOT.3"
-        val spineExtensions by module("$group:spine-dokka-extensions")
+        val spineExtensions by lib("$group:spine-dokka-extensions")
     }
 
     object GradlePlugin : PluginEntry() {

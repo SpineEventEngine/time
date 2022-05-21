@@ -34,5 +34,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object BouncyCastle : LibraryEntry() {
     override val version = "1.68"
-    val libPkcsJdk15 by module("org.bouncycastle:bcpkix-jdk15on")
+    val libPkcsJdk15 by lib("org.bouncycastle:bcpkix-jdk15on")
 }

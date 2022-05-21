@@ -35,8 +35,8 @@ import io.spine.internal.catalog.LibraryEntry
 internal object Truth : LibraryEntry() {
     override val version = "1.1.3"
     override val bundle = setOf(
-        module("truth", "com.google.truth:truth"),
-        module("java8Extension", "com.google.truth.extensions:truth-java8-extension"),
-        module("protoExtension", "com.google.truth.extensions:truth-proto-extension"),
+        lib("truth", "com.google.truth:truth"),
+        lib("java8Extension", "com.google.truth.extensions:truth-java8-extension"),
+        lib("protoExtension", "com.google.truth.extensions:truth-proto-extension"),
     )
 }

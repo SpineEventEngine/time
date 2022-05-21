@@ -36,22 +36,22 @@ internal object Jackson : LibraryEntry() {
     /**
      * [Core](https://github.com/FasterXML/jackson-core)
      */
-    val core by module("com.fasterxml.jackson.core:jackson-core")
+    val core by lib("com.fasterxml.jackson.core:jackson-core")
 
     /**
      * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases)
      */
-    val dataformatXml by module("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 
     /**
      * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases)
      */
-    val dataformatYaml by module("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 
     /**
      * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases)
      */
-    val moduleKotlin by module("com.fasterxml.jackson.module:jackson-module-kotlin")
+    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     /**
      * [Databind](https://github.com/FasterXML/jackson-databind)

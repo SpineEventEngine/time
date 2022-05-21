@@ -41,5 +41,5 @@ import io.spine.internal.catalog.LibraryEntry
 internal object Guava : LibraryEntry() {
     override val version = "31.1-jre"
     override val module = "com.google.guava:guava"
-    val testLib by module("com.google.guava:guava-testlib")
+    val testLib by lib("com.google.guava:guava-testlib")
 }

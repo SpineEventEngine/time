@@ -37,13 +37,13 @@ internal object ErrorProne : LibraryEntry() {
 
     override val version = "2.13.1"
 
-    val core by module("com.google.errorprone:error_prone_core")
-    val checkApi by module("com.google.errorprone:error_prone_check_api")
-    val testHelpers by module("com.google.errorprone:error_prone_test_helpers")
+    val core by lib("com.google.errorprone:error_prone_core")
+    val checkApi by lib("com.google.errorprone:error_prone_check_api")
+    val testHelpers by lib("com.google.errorprone:error_prone_test_helpers")
 
     val annotations by bundle(
-        module("annotations", "com.google.errorprone:error_prone_annotations"),
-        module("typeAnnotations", "com.google.errorprone:error_prone_type_annotations")
+        lib("annotations", "com.google.errorprone:error_prone_annotations"),
+        lib("typeAnnotations", "com.google.errorprone:error_prone_type_annotations")
     )
 
     /**
@@ -51,7 +51,7 @@ internal object ErrorProne : LibraryEntry() {
      */
     object JavacPlugin : LibraryEntry() {
         override val version = "9+181-r4173-1"
-        val javacPlugin by module("com.google.errorprone:javac")
+        val javacPlugin by lib("com.google.errorprone:javac")
     }
 
     /**

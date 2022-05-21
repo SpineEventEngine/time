@@ -36,9 +36,9 @@ internal object Netty : LibraryEntry() {
      */
     override val version = "4.1.72.Final"
 
-    val common by module("io.netty:netty-common")
-    val buffer by module("io.netty:netty-buffer")
-    val transport by module("io.netty:netty-transport")
-    val handler by module("io.netty:netty-handler")
-    val codecHttp by module("io.netty:netty-codec-http")
+    val common by lib("io.netty:netty-common")
+    val buffer by lib("io.netty:netty-buffer")
+    val transport by lib("io.netty:netty-transport")
+    val handler by lib("io.netty:netty-handler")
+    val codecHttp by lib("io.netty:netty-codec-http")
 }

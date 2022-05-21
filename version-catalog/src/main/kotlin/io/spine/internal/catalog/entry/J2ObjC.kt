@@ -42,5 +42,5 @@ internal object J2ObjC : LibraryEntry() {
      * `1.3.` is the latest version available from Maven Central.
      */
     override val version = "1.3"
-    val annotations by module("com.google.j2objc:j2objc-annotations")
+    val annotations by lib("com.google.j2objc:j2objc-annotations")
 }

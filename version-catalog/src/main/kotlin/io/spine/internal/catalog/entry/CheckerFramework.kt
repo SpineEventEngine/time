@@ -44,10 +44,10 @@ internal object CheckerFramework : LibraryEntry() {
     }
 
     override val version = "3.21.3"
-    val annotations by module("org.checkerframework:checker-qual")
+    val annotations by lib("org.checkerframework:checker-qual")
 
     val dataflow by bundle(
-        module("dataflow", "org.checkerframework:dataflow"),
-        module("javacUtil", "org.checkerframework:javacutil")
+        lib("dataflow", "org.checkerframework:dataflow"),
+        lib("javacUtil", "org.checkerframework:javacutil")
     )
 }

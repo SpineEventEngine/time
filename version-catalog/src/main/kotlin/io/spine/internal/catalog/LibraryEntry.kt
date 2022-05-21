@@ -37,40 +37,25 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
 
     override fun initialize() {
         super.initialize()
-        module?.let { module(alias.relative, it) }
+        module?.let { lib(alias.relative, it) }
         bundle?.let { bundle(alias.relative, it) }
     }
 
-    override fun module(value: String): PropertyDelegate<LibraryAlias> =
+    override fun lib(module: String): PropertyDelegate<LibraryAlias> =
         delegate { property ->
-            module(property.name, value)
+            lib(property.name, module)
         }
 
-    override fun module(relativeAlias: String, value: String): LibraryAlias {
+    override fun lib(alias: String, module: String): LibraryAlias {
         check(version != null) { "A module can't be declared unless its version is specified!" }
-        val alias = resolve(relativeAlias)
-        val (group, artifact) = value.splitBy(GAV_SEPARATOR)
-        builder { library(alias.absolute, group, artifact).version(version!!) }
-        return alias.toLibrary()
+        val resolved = resolve(alias)
+        val (group, artifact) = module.splitBy(GAV_SEPARATOR)
+        builder { library(resolved.absolute, group, artifact).version(version!!) }
+        return resolved.toLibrary()
     }
 
     private fun String.splitBy(separator: Char) =
         Pair(substringBefore(separator), substringAfter(separator))
-
-    override fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias> =
-        delegate { property ->
-            val alias = resolve(property.name)
-            val (group, artifact) = module.splitBy(GAV_SEPARATOR)
-            builder { library(alias.absolute, group, artifact).versionRef(version.absolute) }
-            alias.toLibrary()
-        }
-
-    override fun lib(gav: String): PropertyDelegate<LibraryAlias> =
-        delegate { property ->
-            val alias = resolve(property.name)
-            builder { library(alias.absolute, gav) }
-            alias.toLibrary()
-        }
 
     override fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias> =
         delegate { property ->

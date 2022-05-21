@@ -34,5 +34,5 @@ import io.spine.internal.catalog.LibraryEntry
 @Suppress("unused")
 internal object AssertK : LibraryEntry() {
     override val version = "0.25"
-    val jvm by module("com.willowtreeapps.assertk:assertk-jvm")
+    val jvm by lib("com.willowtreeapps.assertk:assertk-jvm")
 }

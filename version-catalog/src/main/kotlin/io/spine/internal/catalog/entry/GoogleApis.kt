@@ -88,7 +88,7 @@ internal object GoogleApis : CatalogEntry() {
      */
     object AuthLibrary : LibraryEntry() {
         override val version = "1.3.0"
-        val credentials by module("com.google.auth:google-auth-library-credentials")
-        val oAuth2Http by module("com.google.auth:google-auth-library-oauth2-http")
+        val credentials by lib("com.google.auth:google-auth-library-credentials")
+        val oAuth2Http by lib("com.google.auth:google-auth-library-oauth2-http")
     }
 }

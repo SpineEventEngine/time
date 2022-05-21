@@ -40,8 +40,8 @@ internal object Flogger : LibraryEntry() {
     override val module = "$group:flogger"
 
     object Runtime : CatalogEntry() {
-        val systemBackend by module("$group:flogger-system-backend")
-        val log4J by module("$group:flogger-log4j")
-        val slf4J by module("$group:slf4j-backend-factory")
+        val systemBackend by lib("$group:flogger-system-backend")
+        val log4J by lib("$group:flogger-log4j")
+        val slf4J by lib("$group:slf4j-backend-factory")
     }
 }
