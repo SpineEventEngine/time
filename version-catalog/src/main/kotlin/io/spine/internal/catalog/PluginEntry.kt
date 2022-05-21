@@ -24,25 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.CatalogEntry
-import kotlin.reflect.KClass
+internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
-internal class VersionCatalogEntryLoader
-private constructor(private val kClazz: KClass<out CatalogEntry>) {
+    override val id: String? = null
 
-    companion object {
-        fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
-            val kClazz = clazz.kotlin
-            val result = VersionCatalogEntryLoader(kClazz)
-            return result
+    override fun initialize() {
+        super.initialize()
+        id?.let {
+            check(version != null) { "A plugin can't be declared unless its version is specified!" }
+            plugin("", it, version!!)
         }
     }
 
-    fun load(): CatalogEntry? {
-        val entry = kClazz.objectInstance
-        entry?.initialize()
-        return entry
+    override fun plugin(id: String, version: VersionAlias): PropertyDelegate<PluginAlias> =
+        delegate { property ->
+            val alias = resolve(property.name)
+            builder { plugin(alias.absolute, id).versionRef(version.absolute) }
+            alias.toPlugin()
+        }
+
+    override fun plugin(id: String, version: String): PropertyDelegate<PluginAlias> =
+        delegate { property ->
+            plugin(property.name, id, version)
+        }
+
+    private fun plugin(relativeAlias: String, id: String, version: String): PluginAlias {
+        val alias = resolve(relativeAlias)
+        builder { plugin(alias.absolute, id).version(version) }
+        return alias.toPlugin()
     }
 }

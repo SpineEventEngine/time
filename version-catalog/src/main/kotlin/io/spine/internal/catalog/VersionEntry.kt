@@ -24,25 +24,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.CatalogEntry
-import kotlin.reflect.KClass
+internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
 
-internal class VersionCatalogEntryLoader
-private constructor(private val kClazz: KClass<out CatalogEntry>) {
+    override val version: String? = null
 
-    companion object {
-        fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
-            val kClazz = clazz.kotlin
-            val result = VersionCatalogEntryLoader(kClazz)
-            return result
-        }
+    override fun initialize() {
+        version?.let { version(alias.relative, it) }
     }
 
-    fun load(): CatalogEntry? {
-        val entry = kClazz.objectInstance
-        entry?.initialize()
-        return entry
+    override fun version(value: String): PropertyDelegate<VersionAlias> =
+        delegate { property ->
+            version(property.name, value)
+        }
+
+    private fun version(relativeAlias: String, value: String): VersionAlias {
+        val alias = resolve(relativeAlias)
+        builder { version(alias.absolute, value) }
+        return alias.toVersion()
     }
 }

@@ -24,25 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.CatalogEntry
-import kotlin.reflect.KClass
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
-internal class VersionCatalogEntryLoader
-private constructor(private val kClazz: KClass<out CatalogEntry>) {
+internal typealias PropertyDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
 
-    companion object {
-        fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
-            val kClazz = clazz.kotlin
-            val result = VersionCatalogEntryLoader(kClazz)
-            return result
-        }
+internal fun <T> delegate(action: (KProperty<*>) -> T) =
+    PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>> { _, property ->
+        alwaysReturn(action(property))
     }
 
-    fun load(): CatalogEntry? {
-        val entry = kClazz.objectInstance
-        entry?.initialize()
-        return entry
-    }
-}
+private fun <T> alwaysReturn(value: T) = ReadOnlyProperty<Any?, T> { _, _ -> value }

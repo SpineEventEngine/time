@@ -24,25 +24,36 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.version.catalog
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.CatalogEntry
-import kotlin.reflect.KClass
+import io.spine.internal.Actions
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-internal class VersionCatalogEntryLoader
-private constructor(private val kClazz: KClass<out CatalogEntry>) {
+internal abstract class CatalogEntry : CatalogEntryDsl, CatalogContributor {
 
-    companion object {
-        fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
-            val kClazz = clazz.kotlin
-            val result = VersionCatalogEntryLoader(kClazz)
-            return result
+    private val builderActions = Actions<VersionCatalogBuilder>()
+    override val alias: Alias = alias()
+
+    abstract fun initialize()
+
+    override fun accept(catalog: VersionCatalogBuilder) = builderActions.play(catalog)
+
+    protected fun builder(action: VersionCatalogBuilder.() -> Unit) = builderActions.add(action)
+
+    protected open fun resolve(relative: String): Alias =
+        when (relative) {
+            "" -> Alias(alias.parent)
+            alias.relative -> alias
+            else -> alias + relative
         }
+
+    private fun alias(): Alias {
+        val clazz = this::class.java
+        val clazzName = clazz.camelName()
+        val outer = clazz.enclosingClass?.kotlin?.objectInstance
+        val result = if (outer is CatalogEntry) outer.alias + clazzName else Alias(clazzName)
+        return result
     }
 
-    fun load(): CatalogEntry? {
-        val entry = kClazz.objectInstance
-        entry?.initialize()
-        return entry
-    }
+    private fun Class<*>.camelName() = simpleName.replaceFirstChar { it.lowercase() }
 }

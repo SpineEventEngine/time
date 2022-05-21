@@ -26,42 +26,34 @@
 
 package io.spine.internal.catalog
 
-import kotlin.properties.PropertyDelegateProvider
-import kotlin.properties.ReadOnlyProperty
+internal interface CatalogEntryDsl : Aliased
 
-internal typealias PropertyDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
-
-private const val GAV_SEPARATOR = ':'
-
-internal interface CatalogEntryDsl {
+internal interface VersionEntryDsl : CatalogEntryDsl {
 
     val version: String?
+
+    fun version(value: String): PropertyDelegate<VersionAlias>
+}
+
+internal interface LibraryEntryDsl : VersionEntryDsl {
+
     val module: String?
     val bundle: Set<LibraryAlias>?
-    val id: String?
 
-    fun module(group: String, artifact: String): PropertyDelegate<LibraryAlias>
+    fun module(value: String): PropertyDelegate<LibraryAlias>
 
-    fun module(value: String): PropertyDelegate<LibraryAlias> = value.run {
-        val group = substringBefore(GAV_SEPARATOR)
-        val artifact = substringAfter(GAV_SEPARATOR)
-        module(group, artifact)
-    }
-
-    fun lib(group: String, artifact: String, version: VersionAlias): PropertyDelegate<LibraryAlias>
+    fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias>
 
     fun lib(gav: String): PropertyDelegate<LibraryAlias>
 
-    fun lib(module: String, version: VersionAlias): PropertyDelegate<LibraryAlias> = module.run {
-        val group = substringBefore(GAV_SEPARATOR)
-        val artifact = substringAfter(GAV_SEPARATOR)
-        lib(group, artifact, version)
-    }
-
     fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
+}
+
+internal interface PluginEntryDsl : LibraryEntryDsl {
+
+    val id: String?
 
     fun plugin(id: String, version: VersionAlias): PropertyDelegate<PluginAlias>
 
     fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
-
 }

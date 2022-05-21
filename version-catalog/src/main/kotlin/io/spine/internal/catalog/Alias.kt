@@ -60,6 +60,14 @@ internal interface Aliased {
 }
 
 internal class VersionAlias(value: String): Alias(value)
+internal fun Alias.toVersion() = VersionAlias(absolute)
+
 internal class LibraryAlias(value: String): Alias(value)
+internal fun Alias.toLibrary() = LibraryAlias(absolute)
+
 internal class BundleAlias(value: String): Alias(value)
+internal fun Alias.toBundle() = BundleAlias(absolute)
+
 internal class PluginAlias(value: String): Alias(value)
+internal fun Alias.toPlugin() = PluginAlias(absolute)
+

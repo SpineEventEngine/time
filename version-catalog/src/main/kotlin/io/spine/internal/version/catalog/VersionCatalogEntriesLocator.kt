@@ -26,6 +26,7 @@
 
 package io.spine.internal.version.catalog
 
+import io.spine.internal.catalog.CatalogEntry
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
@@ -36,12 +37,12 @@ private constructor(private val pkg: String) {
         fun forPackage(name: String) = VersionCatalogEntriesLocator(name)
     }
 
-    fun find(): Set<VersionCatalogEntry> {
+    fun find(): Set<CatalogEntry> {
         val builder = ConfigurationBuilder().forPackage(pkg)
         val reflections = Reflections(builder)
-        val result = reflections.getSubTypesOf(VersionCatalogEntry::class.java)
+        val result = reflections.getSubTypesOf(CatalogEntry::class.java)
             .map { VersionCatalogEntryLoader.fromClass(it) }
-            .map { loader -> loader.load() }
+            .mapNotNull { loader -> loader.load() }
             .toSet()
         return result
     }

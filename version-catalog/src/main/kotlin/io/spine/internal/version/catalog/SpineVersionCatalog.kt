@@ -54,7 +54,7 @@ open class SpineDependencies {
 
         val locator = VersionCatalogEntriesLocator.forPackage("io.spine.internal.dependency")
         val newEntries = locator.find()
-        newEntries.forEach { it.addTo(catalog) }
+        newEntries.forEach { it.accept(catalog) }
     }
 
     /**

@@ -26,27 +26,25 @@
 
 package io.spine.internal.dependency
 
-import io.spine.internal.version.catalog.VersionCatalogEntry
+import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.PluginEntry
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal object Dummy : VersionCatalogEntry() {
+internal object Dummy : LibraryEntry() {
 
     private const val group = "org.dummy.company"
     override val module = "$group:dummy-lib"
     override val version = "1.0.0"
 
-    val core by module(group, "dummy-core")
-    val runner by module(group, "dummy-runner")
+    val core by module("$group:dummy-core")
+    val runner by module("$group:dummy-runner")
+    val api by module("$group:dummy-api")
 
-    override val bundle = setOf(
-        core, runner,
-        module("api", group, "dummy-api"),
-        module("params", group, "dummy-params")
-    )
+    override val bundle = setOf(core, runner, api)
 
-    object GradlePlugin : VersionCatalogEntry() {
+    object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"
-        override val module = "my.company:my-dummy-gradle-plugin"
-        override val id = "my-dummy"
+        override val module = "$group:my-dummy-plugin"
+        override val id = "my-dummy-plugin"
     }
 }
