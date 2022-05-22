@@ -39,7 +39,6 @@ internal object LicenseReport : LibraryEntry() {
     override val module = "com.github.jk1:gradle-license-report"
 
     object GradlePlugin : PluginEntry() {
-        override val version = LicenseReport.version
         override val module = "com.github.jk1:gradle-license-report"
         override val id = "com.github.jk1.dependency-license-report"
     }

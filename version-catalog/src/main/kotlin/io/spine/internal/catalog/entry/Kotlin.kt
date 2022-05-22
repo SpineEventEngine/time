@@ -41,7 +41,6 @@ internal object Kotlin : LibraryEntry() {
     val reflect by lib("$group:kotlin-reflect")
 
     object StdLib : LibraryEntry() {
-        override val version = Kotlin.version
         val stdLib by lib("$group:kotlin-stdlib")
         val common by lib("$group:kotlin-stdlib-common")
         val jdk8 by lib("$group:kotlin-stdlib-jdk8")

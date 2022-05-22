@@ -61,7 +61,6 @@ internal object Dokka : LibraryEntry() {
     }
 
     object GradlePlugin : PluginEntry() {
-        override val version = Dokka.version
         override val module = "$group:dokka-gradle-plugin"
         override val id = "org.jetbrains.dokka"
     }

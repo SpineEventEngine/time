@@ -30,9 +30,6 @@ import io.spine.internal.catalog.SpineVersionCatalog
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
 
-/**
- * A Gradle plugin for [Settings], which registers [SpineVersionCatalog] extension.
- */
 @Suppress("unused")
 class SpineVersionCatalogPlugin : Plugin<Settings> {
     override fun apply(settings: Settings) {

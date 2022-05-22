@@ -26,29 +26,26 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.PropertyDelegate
-import io.spine.internal.delegate
-
 internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
     override val id: String? = null
 
     override fun initialize() {
         super.initialize()
-        id?.let { plugin("", it) }
+        id?.let { plugin(it) }
     }
 
-    private fun plugin(relativeAlias: String, id: String): PluginAlias {
-        val alias = resolve(relativeAlias)
+    private fun plugin(id: String): PluginAlias {
+        val alias = resolve("")
         val versionAlias = if(version != null) alias else fetchVersionFromParent()
         val versionRef = versionAlias?.absolute ?: throw IllegalStateException("A module can't be declared unless its version is specified!")
         builder { plugin(alias.absolute, id).versionRef(versionRef) }
         return alias.toPlugin()
     }
 
-    private fun fetchVersionFromParent(): EntryReference? {
+    private fun fetchVersionFromParent(): CatalogAlias? {
         val outer = javaClass.enclosingClass?.kotlin?.objectInstance
-        val versionRef = if (outer is VersionEntrySketch) outer.alias else null
+        val versionRef = if (outer is VersionEntry) outer.alias else null
         return versionRef
     }
 }

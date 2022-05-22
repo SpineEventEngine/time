@@ -30,9 +30,6 @@ internal class VersionCatalogEntryLoader
 private constructor(private val clazz: Class<out CatalogEntry>) {
 
     companion object {
-
-        private val loaded = mutableSetOf<Class<out CatalogEntry>>()
-
         fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
             val result = VersionCatalogEntryLoader(clazz)
             return result

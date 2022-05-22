@@ -26,7 +26,9 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.LibraryAlias
 import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.toLibrary
 
 /**
  * [JUnit5](https://junit.org/junit5/)
@@ -37,7 +39,20 @@ internal object JUnit : LibraryEntry() {
     override val version = "5.8.2"
     val bom by lib("org.junit:junit-bom")
     val runner by lib("org.junit.jupiter:junit-jupiter-engine")
-    val params by lib("org.junit.jupiter:junit-jupiter-params")
+
+    /**
+     * [ApiGuardian](https://github.com/apiguardian-team/apiguardian)
+     */
+    object ApiGuardian : LibraryEntry() {
+        override val version = "1.1.2"
+        override val module = "org.apiguardian:apiguardian-api"
+    }
+
+    override val bundle = setOf(
+        lib("api", "org.junit.jupiter:junit-jupiter-api"),
+        lib("params", "org.junit.jupiter:junit-jupiter-params"),
+        ApiGuardian.alias.toLibrary()
+    )
 
     object Platform : LibraryEntry() {
         override val version = "1.8.2"
@@ -51,24 +66,10 @@ internal object JUnit : LibraryEntry() {
     }
 
     /**
-     * [ApiGuardian](https://github.com/apiguardian-team/apiguardian)
-     */
-    object ApiGuardian : LibraryEntry() {
-        override val version = "1.1.2"
-        override val module = "org.apiguardian:apiguardian-api"
-    }
-
-    /**
      * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer)
      */
     object Pioneer : LibraryEntry() {
         override val version = "1.5.0"
         override val module = "org.junit-pioneer:junit-pioneer"
-    }
-
-    object Api : LibraryEntry() {
-        override val version = JUnit.version
-        val api by lib("org.junit.jupiter:junit-jupiter-api")
-        override val bundle = setOf(api, /* ApiGuardian, */ params)
     }
 }

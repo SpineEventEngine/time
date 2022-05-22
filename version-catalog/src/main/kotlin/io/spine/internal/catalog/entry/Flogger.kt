@@ -39,7 +39,6 @@ internal object Flogger : LibraryEntry() {
     override val module = "$group:flogger"
 
     object Runtime : LibraryEntry() {
-        override val version = Flogger.version
         val systemBackend by lib("$group:flogger-system-backend")
         val log4J by lib("$group:flogger-log4j")
         val slf4J by lib("$group:slf4j-backend-factory")

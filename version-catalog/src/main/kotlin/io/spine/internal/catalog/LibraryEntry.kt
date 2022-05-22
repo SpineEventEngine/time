@@ -44,16 +44,23 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
         bundle?.let { bundle(alias.relative, it) }
     }
 
+    private fun fetchVersionFromParent(): CatalogAlias? {
+        val outer = javaClass.enclosingClass?.kotlin?.objectInstance
+        val versionRef = if (outer is VersionEntry) outer.alias else null
+        return versionRef
+    }
+
     override fun lib(module: String): PropertyDelegate<LibraryAlias> =
         delegate { property ->
             lib(property.name, module)
         }
 
     override fun lib(alias: String, module: String): LibraryAlias {
-        check(version != null) { "A module can't be declared unless its version is specified!" }
         val resolved = resolve(alias)
         val (group, artifact) = module.splitBy(GAV_SEPARATOR)
-        builder { library(resolved.absolute, group, artifact).version(version!!) }
+        val versionAlias = if (version != null) this.alias else fetchVersionFromParent()
+        val versionRef = versionAlias?.absolute ?: throw IllegalStateException("A module can't be declared unless its version is specified!")
+        builder { library(resolved.absolute, group, artifact).versionRef(versionRef) }
         return resolved.toLibrary()
     }
 
