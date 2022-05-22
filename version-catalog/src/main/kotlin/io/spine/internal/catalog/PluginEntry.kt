@@ -26,12 +26,15 @@
 
 package io.spine.internal.catalog
 
+import io.spine.internal.PropertyDelegate
+import io.spine.internal.delegate
+
 internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
     override val id: String? = null
 
-    override fun initialize() {
-        super.initialize()
+    override fun postInit() {
+        super.postInit()
         id?.let {
             check(version != null) { "A plugin can't be declared unless its version is specified!" }
             plugin("", it, version!!)

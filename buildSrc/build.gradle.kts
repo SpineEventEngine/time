@@ -92,25 +92,3 @@ dependencies {
         exclude("org.jetbrains.dokka", "kotlin-analysis-intellij")
     }
 }
-
-// Demonstration of a `Dummy` dependency accessors.
-
-println("Versions:")
-println(libs.versions.dummy.asProvider().get())
-println(libs.versions.dummy.gradlePlugin.get())
-println()
-
-println("Libs:")
-println(libs.dummy.asProvider().get())
-println(libs.dummy.core.get())
-println(libs.dummy.runner.get())
-println(libs.dummy.api.get())
-println(libs.dummy.gradlePlugin.get())
-println()
-
-println("Bundles:")
-println(libs.bundles.dummy.get())
-println()
-
-println("Plugins:")
-println(libs.plugins.dummy.get())

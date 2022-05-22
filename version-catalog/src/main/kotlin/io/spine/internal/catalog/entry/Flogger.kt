@@ -26,7 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.CatalogEntry
 import io.spine.internal.catalog.LibraryEntry
 
 /**
@@ -39,7 +38,8 @@ internal object Flogger : LibraryEntry() {
     override val version = "0.7.4"
     override val module = "$group:flogger"
 
-    object Runtime : CatalogEntry() {
+    object Runtime : LibraryEntry() {
+        override val version = Flogger.version
         val systemBackend by lib("$group:flogger-system-backend")
         val log4J by lib("$group:flogger-log4j")
         val slf4J by lib("$group:slf4j-backend-factory")

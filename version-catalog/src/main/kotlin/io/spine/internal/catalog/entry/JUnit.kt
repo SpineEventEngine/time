@@ -38,7 +38,6 @@ internal object JUnit : LibraryEntry() {
     val bom by lib("org.junit:junit-bom")
     val runner by lib("org.junit.jupiter:junit-jupiter-engine")
     val params by lib("org.junit.jupiter:junit-jupiter-params")
-    val api by lib("org.junit.jupiter:junit-jupiter-api")
 
     object Platform : LibraryEntry() {
         override val version = "1.8.2"
@@ -67,18 +66,9 @@ internal object JUnit : LibraryEntry() {
         override val module = "org.junit-pioneer:junit-pioneer"
     }
 
-//    object Api : LibraryEntry() {
-//        override val module = "org.junit.jupiter:junit-jupiter-api"
-//        override val bundle = setOf(
-//            params, ApiGuardian, this
-//        )
-//    }
-
-//    object Bundle {
-//        val api by bundle(
-//            io.spine.internal.catalog.entry.JUnit.params,
-//            io.spine.internal.catalog.entry.JUnit.apiGuardian,
-//            io.spine.internal.catalog.entry.JUnit.api
-//        )
-//    }
+    object Api : LibraryEntry() {
+        override val version = JUnit.version
+        val api by lib("org.junit.jupiter:junit-jupiter-api")
+        override val bundle = setOf(api, /* ApiGuardian, */ params)
+    }
 }

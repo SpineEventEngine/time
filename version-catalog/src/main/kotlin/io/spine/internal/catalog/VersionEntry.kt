@@ -26,11 +26,15 @@
 
 package io.spine.internal.catalog
 
+import io.spine.internal.PropertyDelegate
+import io.spine.internal.delegate
+
 internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
 
     override val version: String? = null
 
-    override fun initialize() {
+    override fun postInit() {
+        super.postInit()
         version?.let { version(alias.relative, it) }
     }
 

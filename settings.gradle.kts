@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.version.catalog.SpineDependencies
+import io.spine.internal.catalog.SpineVersionCatalog
 
 rootProject.name = "spine-time"
 
@@ -54,7 +54,7 @@ apply {
     plugin("io.spine.internal.version-catalog")
 }
 
-val spineDependencies = extensions.getByType<SpineDependencies>()
+val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 
 dependencyResolutionManagement {
     versionCatalogs {

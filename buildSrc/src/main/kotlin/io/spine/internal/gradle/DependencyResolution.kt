@@ -89,8 +89,8 @@ private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
         libs.jUnit.apiGuardian,
         libs.jUnit.params,
         libs.jUnit.legacy,
-        libs.jUnit.platformCommons,
-        libs.jUnit.platformLauncher,
+        libs.jUnit.platform.commons,
+        libs.jUnit.platform.launcher,
         libs.truth.protoExtension,
         libs.truth.java8Extension,
     )

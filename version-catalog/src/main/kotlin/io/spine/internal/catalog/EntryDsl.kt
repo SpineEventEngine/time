@@ -24,29 +24,38 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineVersionCatalog
+package io.spine.internal.catalog
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
+import io.spine.internal.PropertyDelegate
+
+/**
+ * This file is for development aims.
+ */
+
+internal interface CatalogEntryDsl : Aliased
+
+internal interface VersionEntryDsl : CatalogEntryDsl {
+
+    val version: String?
+
+    fun version(value: String): PropertyDelegate<VersionAlias>
 }
 
-apply {
-    plugin("io.spine.internal.version-catalog")
+internal interface LibraryEntryDsl : VersionEntryDsl {
+
+    val module: String?
+    val bundle: Set<LibraryAlias>?
+
+    fun lib(module: String): PropertyDelegate<LibraryAlias>
+
+    fun lib(alias: String, module: String): LibraryAlias
+
+    fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
 }
 
-val spineDependencies = extensions.getByType<SpineVersionCatalog>()
+internal interface PluginEntryDsl : LibraryEntryDsl {
 
-dependencyResolutionManagement {
-    versionCatalogs {
-        create("libs") {
-            version("kotlin", "1.5.31")
-            spineDependencies.useIn(this)
-        }
-    }
+    val id: String?
+
+    fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
 }

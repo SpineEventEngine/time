@@ -27,33 +27,41 @@
 package io.spine.internal.catalog
 
 import io.spine.internal.Actions
+import kotlin.reflect.KClass
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 internal open class CatalogEntry : CatalogEntryDsl, CatalogContributor {
 
     private val builderActions = Actions<VersionCatalogBuilder>()
-    override val alias: Alias = alias()
+    private val nestedEntries by lazy { fetchNested() }
+    override val alias: CatalogAlias by lazy { alias() }
 
-    open fun initialize() {
-        // No action.
+    open fun postInit() {
+        nestedEntries.forEach { it.postInit() }
     }
 
-    override fun accept(catalog: VersionCatalogBuilder) = builderActions.play(catalog)
+    override fun accept(catalog: VersionCatalogBuilder) {
+        builderActions.play(catalog)
+        fetchNested().forEach { it.accept(catalog) }
+    }
+
+    private fun fetchNested() = this::class.nestedClasses.filterIsInstance<KClass<out CatalogEntry>>()
+        .mapNotNull { it.objectInstance }
 
     protected fun builder(action: VersionCatalogBuilder.() -> Unit) = builderActions.add(action)
 
-    protected open fun resolve(relative: String): Alias =
+    protected open fun resolve(relative: String): CatalogAlias =
         when (relative) {
-            "" -> Alias(alias.parent)
+            "" -> CatalogAlias(alias.parent)
             alias.relative -> alias
             else -> alias + relative
         }
 
-    private fun alias(): Alias {
+    private fun alias(): CatalogAlias {
         val clazz = this::class.java
         val clazzName = clazz.camelName()
         val outer = clazz.enclosingClass?.kotlin?.objectInstance
-        val result = if (outer is CatalogEntry) outer.alias + clazzName else Alias(clazzName)
+        val result = if (outer is CatalogEntry) outer.alias + clazzName else CatalogAlias(clazzName)
         return result
     }
 

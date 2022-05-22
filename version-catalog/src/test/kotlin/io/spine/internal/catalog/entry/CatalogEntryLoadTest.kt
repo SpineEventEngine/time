@@ -24,32 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog
+package io.spine.internal.catalog.entry
 
-internal interface CatalogEntryDsl : Aliased
+import io.spine.internal.catalog.CatalogEntry
+import io.spine.internal.catalog.VersionCatalogEntryLoader
+import org.junit.jupiter.api.Test
 
-internal interface VersionEntryDsl : CatalogEntryDsl {
+internal class CatalogEntryLoadTest {
 
-    val version: String?
+    private val entriesUnderTest = setOf(
+        AnimalSniffer::class.java,
+        ApacheCommons::class.java,
+        KotlinX::class.java,
+    )
 
-    fun version(value: String): PropertyDelegate<VersionAlias>
-}
+    @Test
+    fun shouldLoadEntries() {
+        entriesUnderTest.forEach { it.load() }
+    }
 
-internal interface LibraryEntryDsl : VersionEntryDsl {
-
-    val module: String?
-    val bundle: Set<LibraryAlias>?
-
-    fun lib(module: String): PropertyDelegate<LibraryAlias>
-
-    fun lib(alias: String, module: String): LibraryAlias
-
-    fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
-}
-
-internal interface PluginEntryDsl : LibraryEntryDsl {
-
-    val id: String?
-
-    fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
+    private fun Class<out CatalogEntry>.load() {
+        println("Loading ${this.simpleName}:")
+        val loader = VersionCatalogEntryLoader.fromClass(this)
+        val instance = loader.load()
+        check(instance != null)
+        instance.accept(LoggingVersionCatalogBuilder())
+        println()
+    }
 }

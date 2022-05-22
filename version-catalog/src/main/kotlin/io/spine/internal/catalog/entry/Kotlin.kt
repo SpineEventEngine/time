@@ -26,7 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.CatalogEntry
 import io.spine.internal.catalog.LibraryEntry
 
 /**
@@ -41,7 +40,8 @@ internal object Kotlin : LibraryEntry() {
     val gradlePlugin by lib("$group:kotlin-gradle-plugin")
     val reflect by lib("$group:kotlin-reflect")
 
-    object StdLib : CatalogEntry() {
+    object StdLib : LibraryEntry() {
+        override val version = Kotlin.version
         val stdLib by lib("$group:kotlin-stdlib")
         val common by lib("$group:kotlin-stdlib-common")
         val jdk8 by lib("$group:kotlin-stdlib-jdk8")

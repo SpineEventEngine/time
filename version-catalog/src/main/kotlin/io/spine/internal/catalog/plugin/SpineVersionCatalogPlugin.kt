@@ -36,6 +36,6 @@ import org.gradle.api.initialization.Settings
 @Suppress("unused")
 class SpineVersionCatalogPlugin : Plugin<Settings> {
     override fun apply(settings: Settings) {
-        settings.extensions.create("spineDependencies", SpineVersionCatalog::class.java)
+        settings.extensions.create("spineVersionCatalog", SpineVersionCatalog::class.java)
     }
 }

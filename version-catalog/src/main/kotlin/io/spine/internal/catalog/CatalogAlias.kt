@@ -41,7 +41,7 @@ package io.spine.internal.catalog
  *
  * [Mapping aliases to accessors](https://docs.gradle.org/current/userguide/platforms.html#sub:mapping-aliases-to-accessors).
  */
-internal open class Alias(val absolute: String) {
+internal open class CatalogAlias(val absolute: String) {
 
     companion object {
         private const val SEPARATOR = '-'
@@ -50,24 +50,24 @@ internal open class Alias(val absolute: String) {
     val parent by lazy { absolute.substringBeforeLast(SEPARATOR) }
     val relative by lazy { absolute.substringAfterLast(SEPARATOR) }
 
-    operator fun plus(relative: String) = Alias("$absolute-$relative")
+    operator fun plus(relative: String) = CatalogAlias("$absolute-$relative")
 
     override fun toString() = absolute
 }
 
 internal interface Aliased {
-    val alias: Alias
+    val alias: CatalogAlias
 }
 
-internal class VersionAlias(value: String): Alias(value)
-internal fun Alias.toVersion() = VersionAlias(absolute)
+internal class VersionAlias(value: String): CatalogAlias(value)
+internal fun CatalogAlias.toVersion() = VersionAlias(absolute)
 
-internal class LibraryAlias(value: String): Alias(value)
-internal fun Alias.toLibrary() = LibraryAlias(absolute)
+internal class LibraryAlias(value: String): CatalogAlias(value)
+internal fun CatalogAlias.toLibrary() = LibraryAlias(absolute)
 
-internal class BundleAlias(value: String): Alias(value)
-internal fun Alias.toBundle() = BundleAlias(absolute)
+internal class BundleAlias(value: String): CatalogAlias(value)
+internal fun CatalogAlias.toBundle() = BundleAlias(absolute)
 
-internal class PluginAlias(value: String): Alias(value)
-internal fun Alias.toPlugin() = PluginAlias(absolute)
+internal class PluginAlias(value: String): CatalogAlias(value)
+internal fun CatalogAlias.toPlugin() = PluginAlias(absolute)
 

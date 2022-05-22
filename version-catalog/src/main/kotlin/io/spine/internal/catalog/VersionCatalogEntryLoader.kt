@@ -40,8 +40,13 @@ private constructor(private val kClazz: KClass<out CatalogEntry>) {
     }
 
     fun load(): CatalogEntry? {
+
+        if (kClazz.java.enclosingClass != null) {
+            return null
+        }
+
         val entry = kClazz.objectInstance
-        entry?.initialize()
+        entry?.postInit()
         return entry
     }
 }

@@ -26,6 +26,9 @@
 
 package io.spine.internal.catalog
 
+import io.spine.internal.PropertyDelegate
+import io.spine.internal.delegate
+
 internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
 
     private companion object {
@@ -35,8 +38,8 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
     override val module: String? = null
     override val bundle: Set<LibraryAlias>? = null
 
-    override fun initialize() {
-        super.initialize()
+    override fun postInit() {
+        super.postInit()
         module?.let { lib(alias.relative, it) }
         bundle?.let { bundle(alias.relative, it) }
     }

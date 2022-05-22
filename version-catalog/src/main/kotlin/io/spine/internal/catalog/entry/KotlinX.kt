@@ -40,6 +40,7 @@ internal object KotlinX : CatalogEntry() {
         override val version = "1.6.1"
 
         object Core : LibraryEntry() {
+            override val version = Coroutines.version
             override val module = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
             val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
         }

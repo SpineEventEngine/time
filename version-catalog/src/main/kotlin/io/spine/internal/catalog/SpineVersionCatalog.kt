@@ -152,7 +152,7 @@ open class SpineVersionCatalog {
      */
     @Suppress("unused")
     fun useIn(catalog: VersionCatalogBuilder) {
-        val locator = VersionCatalogEntriesLocator.forPackage("io.spine.internal.dependency")
+        val locator = VersionCatalogEntriesLocator.forPackage("io.spine.internal.catalog.entry")
         val newEntries = locator.find()
         newEntries.forEach { it.accept(catalog) }
     }
