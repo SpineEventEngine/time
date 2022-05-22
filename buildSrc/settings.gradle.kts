@@ -46,6 +46,7 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             version("kotlin", "1.5.31")
+            version("kotlinX-coroutines", "1.5.2")
             spineDependencies.useIn(this)
         }
     }

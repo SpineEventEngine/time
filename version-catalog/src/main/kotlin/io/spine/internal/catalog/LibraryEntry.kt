@@ -38,8 +38,8 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
     override val module: String? = null
     override val bundle: Set<LibraryAlias>? = null
 
-    override fun postInit() {
-        super.postInit()
+    override fun initialize() {
+        super.initialize()
         module?.let { lib(alias.relative, it) }
         bundle?.let { bundle(alias.relative, it) }
     }

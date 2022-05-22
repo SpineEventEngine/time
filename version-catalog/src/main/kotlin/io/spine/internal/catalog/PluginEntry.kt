@@ -33,8 +33,8 @@ internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
     override val id: String? = null
 
-    override fun postInit() {
-        super.postInit()
+    override fun initialize() {
+        super.initialize()
         id?.let {
             check(version != null) { "A plugin can't be declared unless its version is specified!" }
             plugin("", it, version!!)

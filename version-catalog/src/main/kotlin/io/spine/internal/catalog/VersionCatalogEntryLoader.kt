@@ -26,22 +26,24 @@
 
 package io.spine.internal.catalog
 
-import kotlin.reflect.KClass
-
 internal class VersionCatalogEntryLoader
-private constructor(private val kClazz: KClass<out CatalogEntry>) {
+private constructor(private val clazz: Class<out CatalogEntry>) {
 
     companion object {
+
+        private val loaded = mutableSetOf<Class<out CatalogEntry>>()
+
         fun fromClass(clazz: Class<out CatalogEntry>): VersionCatalogEntryLoader {
-            val kClazz = clazz.kotlin
-            val result = VersionCatalogEntryLoader(kClazz)
+            val result = VersionCatalogEntryLoader(clazz)
             return result
         }
     }
 
+    private val kClazz = clazz.kotlin
+
     fun load(): CatalogEntry? {
 
-        if (kClazz.java.enclosingClass != null) {
+        if (clazz.enclosingClass != null) {
             return null
         }
 

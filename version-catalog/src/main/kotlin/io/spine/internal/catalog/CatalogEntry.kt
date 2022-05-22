@@ -34,15 +34,26 @@ internal open class CatalogEntry : CatalogEntryDsl, CatalogContributor {
 
     private val builderActions = Actions<VersionCatalogBuilder>()
     private val nestedEntries by lazy { fetchNested() }
-    override val alias: CatalogAlias by lazy { alias() }
+    private var fullyInitialized = false
+    override val alias by lazy { computeAlias() }
+
+    protected open fun initialize() {
+        nestedEntries.forEach { it.initialize() }
+    }
 
     open fun postInit() {
-        nestedEntries.forEach { it.postInit() }
+        if (fullyInitialized) {
+            return
+        }
+
+        initialize()
+
+        fullyInitialized = true
     }
 
     override fun accept(catalog: VersionCatalogBuilder) {
         builderActions.play(catalog)
-        fetchNested().forEach { it.accept(catalog) }
+        nestedEntries.forEach { it.accept(catalog) }
     }
 
     private fun fetchNested() = this::class.nestedClasses.filterIsInstance<KClass<out CatalogEntry>>()
@@ -57,7 +68,7 @@ internal open class CatalogEntry : CatalogEntryDsl, CatalogContributor {
             else -> alias + relative
         }
 
-    private fun alias(): CatalogAlias {
+    private fun computeAlias(): CatalogAlias {
         val clazz = this::class.java
         val clazzName = clazz.camelName()
         val outer = clazz.enclosingClass?.kotlin?.objectInstance

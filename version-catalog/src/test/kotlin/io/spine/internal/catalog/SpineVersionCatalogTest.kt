@@ -24,32 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.CatalogEntry
-import io.spine.internal.catalog.VersionCatalogEntryLoader
+import io.spine.internal.catalog.entry.LoggingVersionCatalogBuilder
 import org.junit.jupiter.api.Test
 
-internal class CatalogEntryLoadTest {
-
-    private val entriesUnderTest = setOf(
-        AnimalSniffer::class.java,
-//        ApacheCommons::class.java,
-//        KotlinX::class.java,
-    )
+internal class SpineVersionCatalogTest {
 
     @Test
-    fun shouldLoadEntries() {
-        entriesUnderTest.forEach { it.load() }
-    }
-
-    private fun Class<out CatalogEntry>.load() {
-        println()
-        println("Loading ${this.simpleName}:")
-        val loader = VersionCatalogEntryLoader.fromClass(this)
-        val instance = loader.load()
-        check(instance != null)
-        instance.accept(LoggingVersionCatalogBuilder())
-        println()
+    fun shouldFetchCorrectNumberOfEntries() {
+        val catalog = SpineVersionCatalog()
+        catalog.useIn(LoggingVersionCatalogBuilder())
     }
 }

@@ -33,8 +33,8 @@ internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
 
     override val version: String? = null
 
-    override fun postInit() {
-        super.postInit()
+    override fun initialize() {
+        super.initialize()
         version?.let { version(alias.relative, it) }
     }
 
