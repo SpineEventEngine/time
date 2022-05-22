@@ -28,17 +28,10 @@ package io.spine.internal.catalog
 
 import io.spine.internal.PropertyDelegate
 
-/**
- * This file is for development aims.
- */
-
 internal interface CatalogEntryDsl : Aliased
 
 internal interface VersionEntryDsl : CatalogEntryDsl {
-
     val version: String?
-
-    fun version(value: String): PropertyDelegate<VersionAlias>
 }
 
 internal interface LibraryEntryDsl : VersionEntryDsl {
@@ -54,8 +47,5 @@ internal interface LibraryEntryDsl : VersionEntryDsl {
 }
 
 internal interface PluginEntryDsl : LibraryEntryDsl {
-
     val id: String?
-
-    fun plugin(id: String, version: String): PropertyDelegate<PluginAlias>
 }

@@ -26,9 +26,6 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.PropertyDelegate
-import io.spine.internal.delegate
-
 internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
 
     override val version: String? = null
@@ -37,11 +34,6 @@ internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
         super.initialize()
         version?.let { version(alias.relative, it) }
     }
-
-    override fun version(value: String): PropertyDelegate<VersionAlias> =
-        delegate { property ->
-            version(property.name, value)
-        }
 
     private fun version(relativeAlias: String, value: String): VersionAlias {
         val alias = resolve(relativeAlias)

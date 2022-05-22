@@ -35,20 +35,20 @@ internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
     override fun initialize() {
         super.initialize()
-        id?.let {
-            check(version != null) { "A plugin can't be declared unless its version is specified!" }
-            plugin("", it, version!!)
-        }
+        id?.let { plugin("", it) }
     }
 
-    override fun plugin(id: String, version: String): PropertyDelegate<PluginAlias> =
-        delegate { property ->
-            plugin(property.name, id, version)
-        }
-
-    private fun plugin(relativeAlias: String, id: String, version: String): PluginAlias {
+    private fun plugin(relativeAlias: String, id: String): PluginAlias {
         val alias = resolve(relativeAlias)
-        builder { plugin(alias.absolute, id).version(version) }
+        val versionAlias = if(version != null) alias else fetchVersionFromParent()
+        val versionRef = versionAlias?.absolute ?: throw IllegalStateException("A module can't be declared unless its version is specified!")
+        builder { plugin(alias.absolute, id).versionRef(versionRef) }
         return alias.toPlugin()
+    }
+
+    private fun fetchVersionFromParent(): EntryReference? {
+        val outer = javaClass.enclosingClass?.kotlin?.objectInstance
+        val versionRef = if (outer is VersionEntrySketch) outer.alias else null
+        return versionRef
     }
 }
