@@ -76,11 +76,11 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
         val alias = resolve(relativeAlias)
         val aliases = libs.map {
             when (it) {
-                is LibraryEntry -> it.alias.toLibrary()
                 is LibraryAlias -> it
+                is LibraryEntry -> it.alias.toLibrary()
                 else -> throw IllegalArgumentException()
             }
-        }.toSet()
+        }.map { it.absolute }
         builder { bundle(alias.absolute, aliases) }
         return alias.toBundle()
     }

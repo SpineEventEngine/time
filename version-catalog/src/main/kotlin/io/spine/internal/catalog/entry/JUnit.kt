@@ -68,6 +68,6 @@ internal object JUnit : LibraryEntry() {
     override val bundle = setOf(
         lib("api", "org.junit.jupiter:junit-jupiter-api"),
         lib("params", "org.junit.jupiter:junit-jupiter-params"),
-        ApiGuardian,
+        ApiGuardian
     )
 }
