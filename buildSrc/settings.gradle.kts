@@ -45,8 +45,19 @@ val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
+
+            // An example of how to override versions.
+            //
+            // Below we override the versions of Kotlin for our build logic.
+            //
+            // Anyway, build scripts are executed by Gradle's embedded Kotlin.
+            // And writing build logic with different Kotlin makes little sense.
+            //
+            // + It gets rid of a big warning block.
+
             version("kotlin", "1.5.31")
             version("kotlinX-coroutines", "1.5.2")
+
             spineDependencies.useIn(this)
         }
     }

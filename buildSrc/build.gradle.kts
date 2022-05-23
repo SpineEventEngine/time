@@ -32,10 +32,13 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
     mavenLocal()
     gradlePluginPortal()
+    mavenCentral()
 }
+
+// Let's get rid of warnings about different Kotlin version on the classpath.
+// Also, builds are more reproducible when dynamic version resolution is suppressed.
 
 configurations.all {
     resolutionStrategy {
@@ -82,9 +85,13 @@ dependencies {
     implementation(libs.licenseReport.gradlePlugin)
     implementation(libs.protobuf.gradlePlugin)
 
-    // These guys below use a fat jar with Kotlin runtime inside. This is a
-    // reason for two warnings. I'm not sure if we can just exclude those jars.
-    // But it eliminates warnings.
+    // These guys below use a fat jar with Kotlin runtime inside. This is
+    // a reason for two warnings.
+    //
+    // I'm not sure if we can just exclude those jars. It should be checked on
+    // a repo where Dokka is used.
+    //
+    // But the warnings have gone.
 
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin) {
