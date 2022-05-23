@@ -36,12 +36,12 @@ import io.spine.internal.catalog.PluginEntry
 internal object Dummy : LibraryEntry() {
 
     private const val group = "org.dummy.company"
-    override val module = "$group:dummy-lib"              // libs.dummy
-    override val version = "1.0.0"                        // libs.versions.dummy
+    override val module = "$group:dummy-lib" // libs.dummy
+    override val version = "1.0.0"           // libs.versions.dummy
 
-    val core by lib("$group:dummy-core")          // libs.dummy.core
-    val runner by lib("$group:dummy-runner")      // libs.dummy.runner
-    val api by lib("$group:dummy-api")            // libs.dummy.api
+    val core by lib("$group:dummy-core")     // libs.dummy.core
+    val runner by lib("$group:dummy-runner") // libs.dummy.runner
+    val api by lib("$group:dummy-api")       // libs.dummy.api
 
     // In bundles, you can reference already declared libs,
     // or create them in-place.
@@ -53,9 +53,9 @@ internal object Dummy : LibraryEntry() {
     )
 
     object GradlePlugin : PluginEntry() {
-        override val version = "0.0.8"                   // libs.versions.dummy.gradlePlugin
-        override val module = "$group:my-dummy-plugin"   // libs.dummy.gradlePlugin
-        override val id = "my-dummy-plugin"              // libs.plugins.dummy
+        override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
+        override val module = "$group:my-dummy-plugin" // libs.dummy.gradlePlugin
+        override val id = "my-dummy-plugin"            // libs.plugins.dummy
     }
 
     object Runtime : LibraryEntry() {
@@ -68,15 +68,15 @@ internal object Dummy : LibraryEntry() {
         val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
 
         object BOM : LibraryEntry() {
-            override val version = "2.0.0"               // libs.versions.dummy.runtime.bom
-            override val module = "$group:dummy-bom"     // libs.dummy.runtime.bom
+            override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
+            override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
         }
     }
 
     // The lib declared as `LibraryEntry` can be referenced as well
     // as the one declared by `lib()` delegate.
 
-    val runtime by bundle(                               // libs.bundles.dummy.runtime
+    val runtime by bundle( // libs.bundles.dummy.runtime
         Runtime.BOM,
         Runtime.win,
         Runtime.mac,
@@ -84,8 +84,13 @@ internal object Dummy : LibraryEntry() {
     )
 }
 
-/* The code for verification. Further, it is better to implement a test.
+/**
+ * The code below is for verification. Further, it is better to
+ * implement a test. As for now, it can be run in order to check if
+ * API implementation works correctly.
+ */
 
+/*
 val dummyEntries = with(libs) {
     listOf(
         versions.dummy,
@@ -122,5 +127,4 @@ dummyEntries.map {
         else -> throw IllegalArgumentException(it.toString())
     }
 }.forEach { println(it) }
-
  */
