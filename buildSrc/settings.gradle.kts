@@ -44,6 +44,19 @@ val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 
 dependencyResolutionManagement {
     versionCatalogs {
+
+        // The plugin doesn't create a catalog on its own. It just provides
+        // an extension, that can execute code upon `VersionCatalogBuilder`.
+        //
+        // It is so because we want to preserve a possibility of overwrite.
+        // Currently, Gradle does not provide a clear way to do overwrite.
+        // When a lib is added to a catalog, it can not be overwritten.
+        // The subsequent attempts to add the lib lead to a silent nothing.
+        //
+        // Thus, to overwrite a lib or version you should declare it first.
+        //
+        // See the issue: https://github.com/gradle/gradle/issues/20836
+
         create("libs") {
 
             // An example of how to override versions.
