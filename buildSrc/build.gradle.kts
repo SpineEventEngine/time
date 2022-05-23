@@ -89,9 +89,9 @@ dependencies {
     // a reason for two warnings.
     //
     // I'm not sure if we can just exclude those jars. It should be checked on
-    // a repo where Dokka is used.
+    // a repo where Dokka is used. And if not, leave a comment here.
     //
-    // But the warnings have gone.
+    // The warnings have gone.
 
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin) {
