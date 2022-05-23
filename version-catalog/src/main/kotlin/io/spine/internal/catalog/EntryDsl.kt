@@ -37,13 +37,16 @@ internal interface VersionEntryDsl : CatalogEntryDsl {
 internal interface LibraryEntryDsl : VersionEntryDsl {
 
     val module: String?
-    val bundle: Set<LibraryAlias>?
+    val bundle: Set<Any>?
 
     fun lib(module: String): PropertyDelegate<LibraryAlias>
 
     fun lib(alias: String, module: String): LibraryAlias
 
-    fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias>
+    /**
+     * [LibraryAlias] or [LibraryEntry]
+     */
+    fun bundle(vararg libs: Any): PropertyDelegate<BundleAlias>
 }
 
 internal interface PluginEntryDsl : LibraryEntryDsl {

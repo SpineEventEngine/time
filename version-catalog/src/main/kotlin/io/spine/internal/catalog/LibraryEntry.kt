@@ -36,7 +36,7 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
     }
 
     override val module: String? = null
-    override val bundle: Set<LibraryAlias>? = null
+    override val bundle: Set<Any>? = null
 
     override fun initialize() {
         super.initialize()
@@ -67,14 +67,21 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
     private fun String.splitBy(separator: Char) =
         Pair(substringBefore(separator), substringAfter(separator))
 
-    override fun bundle(vararg libs: LibraryAlias): PropertyDelegate<BundleAlias> =
+    override fun bundle(vararg libs: Any): PropertyDelegate<BundleAlias> =
         delegate { property ->
             bundle(property.name, libs.toSet())
         }
 
-    private fun bundle(relativeAlias: String, libs: Set<LibraryAlias>): BundleAlias {
+    private fun bundle(relativeAlias: String, libs: Set<Any>): BundleAlias {
         val alias = resolve(relativeAlias)
-        builder { bundle(alias.absolute, libs.map { it.absolute }) }
+        val aliases = libs.map {
+            when (it) {
+                is LibraryEntry -> it.alias.toLibrary()
+                is LibraryAlias -> it
+                else -> throw IllegalArgumentException()
+            }
+        }.toSet()
+        builder { bundle(alias.absolute, aliases) }
         return alias.toBundle()
     }
 }

@@ -26,9 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.LibraryAlias
 import io.spine.internal.catalog.LibraryEntry
-import io.spine.internal.catalog.toLibrary
 
 /**
  * [JUnit5](https://junit.org/junit5/)
@@ -48,12 +46,6 @@ internal object JUnit : LibraryEntry() {
         override val module = "org.apiguardian:apiguardian-api"
     }
 
-    override val bundle = setOf(
-        lib("api", "org.junit.jupiter:junit-jupiter-api"),
-        lib("params", "org.junit.jupiter:junit-jupiter-params"),
-        ApiGuardian.alias.toLibrary()
-    )
-
     object Platform : LibraryEntry() {
         override val version = "1.8.2"
         val commons by lib("org.junit.platform:junit-platform-commons")
@@ -72,4 +64,10 @@ internal object JUnit : LibraryEntry() {
         override val version = "1.5.0"
         override val module = "org.junit-pioneer:junit-pioneer"
     }
+
+    override val bundle = setOf(
+        lib("api", "org.junit.jupiter:junit-jupiter-api"),
+        lib("params", "org.junit.jupiter:junit-jupiter-params"),
+        ApiGuardian,
+    )
 }
