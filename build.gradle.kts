@@ -49,12 +49,17 @@ import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    apply(from = "$rootDir/version.gradle.kts")
-
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations, libs)
 
-    val mcJavaVersion: String by extra
+    // Due to a bug, we can't apply scripts.
+    //
+    // `version.gradle.kts` is not applied, thus the version of mcJava is
+    // declared right here.
+    //
+    // See issue: https://github.com/gradle/gradle/issues/20717
+
+    val mcJavaVersion = "2.0.0-SNAPSHOT.83"
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
@@ -71,6 +76,15 @@ plugins {
     jacoco
     idea
     `project-report`
+
+    // As for now, Gradle doesn't provide API for applying plugins without version.
+    // This is why we resolve a provider by `get()`.
+    //
+    // See a feature request: https://github.com/gradle/gradle/issues/17968
+
+    // Also, for these two lines below, IDEA reports a false error.
+    //
+    // See issue: https://github.com/gradle/gradle/issues/20839
 
     id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.errorProne.get().pluginId)
@@ -96,10 +110,13 @@ spinePublishing {
 allprojects {
 
     // Due to a bug, we can't apply scripts.
-    // See: https://github.com/gradle/gradle/issues/20717
+
+    // `version.gradle.kts` is not applied, thus the versions of spine libs are
+    // declared right here.
+    //
+    // See issue: https://github.com/gradle/gradle/issues/20717
 
     /** Versions of the Spine libraries that `time` depends on. */
-    extra["mcJavaVersion"] = "2.0.0-SNAPSHOT.83"
     extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
     extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
 
@@ -130,6 +147,13 @@ subprojects {
 
     val spineBaseVersion: String by extra
     dependencies {
+
+        // Gradle discourages cross-configuration of projects.
+        // Thus, the direct access to `libs` in `allprojects` and `subprojects`
+        // blocks is unavailable. But we still can use it from `rootProject`.
+        //
+        // See the closed issue: https://github.com/gradle/gradle/issues/16634
+
         errorprone(rootProject.libs.errorProne.core)
         api(kotlin("stdlib-jdk8"))
 
@@ -222,7 +246,7 @@ subprojects {
         rootFolder.set(rootDir)
     }
 
-    // Apply the same IDEA module configuration for each of sub-projects.
+    // Apply the same IDEA module configuration for each of subprojects.
     idea {
         module {
             with(generatedSourceDirs) {
