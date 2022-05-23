@@ -46,7 +46,7 @@ internal object Dummy : LibraryEntry() {
     // In bundles, you can reference already declared libs,
     // or create them in-place.
 
-    override val bundle = setOf(                          // libs.bundles.dummy
+    override val bundle = setOf( // libs.bundles.dummy
         core, runner, api,
         lib("params","$group:dummy-params"), // libs.dummy.params
         lib("types","$group:dummy-types"),   // libs.dummy.types
