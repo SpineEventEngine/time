@@ -56,59 +56,59 @@ fun NamedDomainObjectContainer<Configuration>.forceVersions(libs: LibrariesForLi
     }
 }
 
-private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) = with(libs) {
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
-        libs.animalSniffer,
-        libs.googleAuto.common,
-        libs.googleAuto.service.annotations,
-        libs.checkerFramework.annotations,
-        libs.errorProne.annotations,
-        libs.errorProne.typeAnnotations,
-        libs.errorProne.core,
-        libs.findBugs.annotations,
-        libs.flogger,
-        libs.flogger.runtime.systemBackend,
-        libs.guava,
-        libs.kotlin.reflect,
-        libs.kotlin.stdLib,
-        libs.kotlin.stdLib.common,
-        libs.kotlin.stdLib.jdk8,
-        libs.protobuf.java,
-        libs.protobuf.javaUtil,
-        libs.protobuf.kotlin,
-        libs.protobuf.gradlePlugin,
-        libs.slf4J,
+        animalSniffer,
+        googleAuto.common,
+        googleAuto.service.annotations,
+        checkerFramework.annotations,
+        errorProne.annotations,
+        errorProne.typeAnnotations,
+        errorProne.core,
+        findBugs.annotations,
+        flogger,
+        flogger.runtime.systemBackend,
+        guava,
+        kotlin.reflect,
+        kotlin.stdLib,
+        kotlin.stdLib.common,
+        kotlin.stdLib.jdk8,
+        protobuf.java,
+        protobuf.javaUtil,
+        protobuf.kotlin,
+        protobuf.gradlePlugin,
+        slf4J,
     )
 }
 
-private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        libs.guava.testLib,
-        libs.jUnit.api,
-        libs.jUnit.apiGuardian,
-        libs.jUnit.params,
-        libs.jUnit.legacy,
-        libs.jUnit.platform.commons,
-        libs.jUnit.platform.launcher,
-        libs.truth.protoExtension,
-        libs.truth.java8Extension,
+        guava.testLib,
+        jUnit.api,
+        jUnit.apiGuardian,
+        jUnit.params,
+        jUnit.legacy,
+        jUnit.platform.commons,
+        jUnit.platform.launcher,
+        truth.protoExtension,
+        truth.java8Extension,
     )
 }
 
 /**
  * Forces transitive dependencies of 3rd party components that we don't use directly.
  */
-private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) {
+private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        libs.apacheCommons.cli,
-        libs.apacheCommons.logging,
-        libs.checkerFramework.compatQual,
-        libs.googleAuto.value.annotations,
-        libs.gson,
-        libs.j2ObjC.annotations,
-        libs.okio,
-        libs.plexus.utils,
+        apacheCommons.cli,
+        apacheCommons.logging,
+        checkerFramework.compatQual,
+        googleAuto.value.annotations,
+        gson,
+        j2ObjC.annotations,
+        okio,
+        plexus.utils,
     )
 }
 
