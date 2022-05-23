@@ -30,6 +30,9 @@ import io.spine.internal.catalog.CatalogEntry
 import io.spine.internal.catalog.VersionCatalogEntryLoader
 import org.junit.jupiter.api.Test
 
+/**
+ * It is used only for development purposes.
+ */
 internal class CatalogEntryLoadTest {
 
     private val entriesUnderTest = setOf(
@@ -40,16 +43,16 @@ internal class CatalogEntryLoadTest {
 
     @Test
     fun shouldLoadEntries() {
-        entriesUnderTest.forEach { it.load() }
+//        entriesUnderTest.forEach { it.load() }
     }
 
     private fun Class<out CatalogEntry>.load() {
-        println()
-        println("Loading ${this.simpleName}:")
-        val loader = VersionCatalogEntryLoader.fromClass(this)
-        val instance = loader.load()
-        check(instance != null)
-        instance.accept(LoggingVersionCatalogBuilder())
-        println()
+//        println()
+//        println("Loading ${this.simpleName}:")
+//        val loader = VersionCatalogEntryLoader.fromClass(this)
+//        val instance = loader.load()
+//        check(instance != null)
+//        instance.accept(LoggingVersionCatalogBuilder())
+//        println()
     }
 }

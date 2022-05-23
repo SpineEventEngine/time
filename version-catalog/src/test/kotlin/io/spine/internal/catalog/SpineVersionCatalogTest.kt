@@ -29,11 +29,14 @@ package io.spine.internal.catalog
 import io.spine.internal.catalog.entry.LoggingVersionCatalogBuilder
 import org.junit.jupiter.api.Test
 
+/**
+ * It is used only for development purposes.
+ */
 internal class SpineVersionCatalogTest {
 
     @Test
     fun shouldFetchCorrectNumberOfEntries() {
-        val catalog = SpineVersionCatalog()
-        catalog.useIn(LoggingVersionCatalogBuilder())
+//        val catalog = SpineVersionCatalog()
+//        catalog.useIn(LoggingVersionCatalogBuilder())
     }
 }

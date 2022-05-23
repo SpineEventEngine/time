@@ -31,6 +31,9 @@ import org.gradle.api.artifacts.MutableVersionConstraint
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.gradle.api.provider.Property
 
+/**
+ * It is used only for development purposes.
+ */
 @Suppress("CAST_NEVER_SUCCEEDS")
 class LoggingVersionCatalogBuilder : VersionCatalogBuilder {
 

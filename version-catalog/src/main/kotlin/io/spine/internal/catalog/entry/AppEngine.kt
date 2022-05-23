@@ -27,7 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.LibraryEntry
-import io.spine.internal.catalog.PluginEntry
 
 /**
  * [AppEngine](https://cloud.google.com/java/docs/reference)
@@ -38,7 +37,7 @@ internal object AppEngine : LibraryEntry() {
     override val version = "1.9.82"
     val sdk by lib("com.google.appengine:appengine-api-1.0-sdk")
 
-    object GradlePlugin : PluginEntry() {
+    object GradlePlugin : LibraryEntry() {
         override val version = "2.2.0"
         override val module = "com.google.cloud.tools:appengine-gradle-plugin"
     }
