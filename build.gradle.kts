@@ -84,7 +84,8 @@ plugins {
 
     // Also, for these two lines below, IDEA reports a false error.
     //
-    // See issue: https://github.com/gradle/gradle/issues/20839
+    // See issue in Gradle: https://github.com/gradle/gradle/issues/20839
+    // See issue in IDEA: https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-can-t-be-called-in-this-context-by-implicit-recei
 
     id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.errorProne.get().pluginId)

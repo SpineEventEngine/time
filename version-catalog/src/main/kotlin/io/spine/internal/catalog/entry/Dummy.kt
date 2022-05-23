@@ -29,28 +29,98 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.LibraryEntry
 import io.spine.internal.catalog.PluginEntry
 
-@Suppress("unused", "MemberVisibilityCanBePrivate")
+/**
+ * This entry just showcases the proposed API of dependency declarations.
+ */
+@Suppress("unused")
 internal object Dummy : LibraryEntry() {
 
     private const val group = "org.dummy.company"
-    override val module = "$group:dummy-lib"
-    override val version = "1.0.0"
+    override val module = "$group:dummy-lib"              // libs.dummy
+    override val version = "1.0.0"                        // libs.versions.dummy
 
-    val core by lib("$group:dummy-core")
-    val runner by lib("$group:dummy-runner")
-    val api by lib("$group:dummy-api")
+    val core by lib("$group:dummy-core")          // libs.dummy.core
+    val runner by lib("$group:dummy-runner")      // libs.dummy.runner
+    val api by lib("$group:dummy-api")            // libs.dummy.api
 
-    override val bundle = setOf(
+    // In bundles, you can reference already declared libs,
+    // or create them in-place.
+
+    override val bundle = setOf(                          // libs.bundles.dummy
         core, runner, api,
-        lib("params","$group:dummy-params"),
-        lib("types","$group:dummy-types"),
+        lib("params","$group:dummy-params"), // libs.dummy.params
+        lib("types","$group:dummy-types"),   // libs.dummy.types
     )
 
-    val base by bundle(core, runner)
-
     object GradlePlugin : PluginEntry() {
-        override val version = "0.0.8"
-        override val module = "$group:my-dummy-plugin"
-        override val id = "my-dummy-plugin"
+        override val version = "0.0.8"                   // libs.versions.dummy.gradlePlugin
+        override val module = "$group:my-dummy-plugin"   // libs.dummy.gradlePlugin
+        override val id = "my-dummy-plugin"              // libs.plugins.dummy
     }
+
+    object Runtime : LibraryEntry() {
+
+        // When the version is not overridden, it is taken from the outer entry.
+        // In this case, all libs within "Runtime" entry will have "1.0.0".
+
+        val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
+        val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
+        val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
+
+        object BOM : LibraryEntry() {
+            override val version = "2.0.0"               // libs.versions.dummy.runtime.bom
+            override val module = "$group:dummy-bom"     // libs.dummy.runtime.bom
+        }
+    }
+
+    // The lib declared as `LibraryEntry` can be referenced as well
+    // as the one declared by `lib()` delegate.
+
+    val runtime by bundle(                               // libs.bundles.dummy.runtime
+        Runtime.BOM,
+        Runtime.win,
+        Runtime.mac,
+        Runtime.linux,
+    )
 }
+
+/* The code for verification. Further, it is better to implement a test.
+
+val dummyEntries = with(libs) {
+    listOf(
+        versions.dummy,
+        dummy,
+        "",
+        dummy.core,
+        dummy.runner,
+        dummy.api,
+        "",
+        bundles.dummy,
+        dummy.params,
+        dummy.types,
+        "",
+        versions.dummy.gradlePlugin,
+        dummy.gradlePlugin,
+        plugins.dummy,
+        "",
+        dummy.runtime.win,
+        dummy.runtime.mac,
+        dummy.runtime.linux,
+        "",
+        versions.dummy.runtime.bom,
+        dummy.runtime.bom,
+        "",
+        bundles.dummy.runtime,
+    )
+}
+
+dummyEntries.map {
+    when (it) {
+        is ProviderConvertible<*> -> it.asProvider().get()
+        is Provider<*> -> it.get()
+        is String -> it
+        else -> throw IllegalArgumentException(it.toString())
+    }
+}.forEach { println(it) }
+
+ */
