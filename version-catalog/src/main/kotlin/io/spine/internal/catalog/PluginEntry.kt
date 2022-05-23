@@ -37,7 +37,7 @@ internal open class PluginEntry : LibraryEntry(), PluginEntryDsl {
 
     private fun plugin(id: String): PluginAlias {
         val alias = resolve("")
-        val versionAlias = if(version != null) alias else fetchVersionFromParent()
+        val versionAlias = if(version != null) this.alias else fetchVersionFromParent()
         val versionRef = versionAlias?.absolute ?: throw IllegalStateException("A module can't be declared unless its version is specified!")
         builder { plugin(alias.absolute, id).versionRef(versionRef) }
         return alias.toPlugin()
