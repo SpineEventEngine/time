@@ -51,9 +51,10 @@ dependencyResolutionManagement {
         // It is so because we want to preserve a possibility of overwrite.
         // Currently, Gradle does not provide a clear way to do overwrite.
         // When a lib is added to a catalog, it can not be overwritten.
-        // The subsequent attempts to add the lib lead to a silent nothing.
+        // The subsequent attempts to add the same lib lead to a silent nothing.
         //
         // Thus, to overwrite a lib or version you should declare it first.
+        // All subsequent declaration of that lib or version are just ignored.
         //
         // See the issue: https://github.com/gradle/gradle/issues/20836
 
@@ -66,7 +67,7 @@ dependencyResolutionManagement {
             // Anyway, build scripts are executed by Gradle's embedded Kotlin.
             // And writing build logic with different Kotlin makes little sense.
             //
-            // + It gets rid of a big warning block.
+            // Primarily, it just gets rid of a multi-line warning block.
 
             version("kotlin", "1.5.31")
             version("kotlinX-coroutines", "1.5.2")

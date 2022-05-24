@@ -26,19 +26,19 @@
 
 import io.spine.internal.catalog.SpineVersionCatalog
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "spine-time"
 
 include(
     "time",
     "testutil-time",
 )
-
-pluginManagement {
-    repositories {
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
 
 buildscript {
     repositories {
@@ -59,10 +59,10 @@ val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 dependencyResolutionManagement {
     versionCatalogs {
 
-        // Check `buildSrc/settings.gradle.kts` file.
+        // Please, check out `buildSrc/settings.gradle.kts` file.
         //
-        // There is an explanation about why the plugin doesn't create
-        // a catalog on its own.
+        // There is an explanation why the plugin doesn't create
+        // a catalog on its own, and we have to create it ourselves.
 
         create("libs") {
             spineDependencies.useIn(this)

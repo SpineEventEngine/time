@@ -71,7 +71,8 @@ dependencies {
     // It means we can fetch them in a type-safe manner from a `Project`
     // instance, in which this extension is registered.
 
-    // ==> `val libs = project.extensions.getByType<LibrariesForLibs>()`
+    // For example:
+    // val libs = project.extensions.getByType<LibrariesForLibs>()
 
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
@@ -85,13 +86,11 @@ dependencies {
     implementation(libs.licenseReport.gradlePlugin)
     implementation(libs.protobuf.gradlePlugin)
 
-    // These guys below use a fat jar with Kotlin runtime inside. This is
-    // a reason for two warnings.
+    // These guys below use a fat jar with Kotlin runtime inside. One more
+    // Kotlin version. This is a reason for two warnings.
     //
     // I'm not sure if we can just exclude those jars. It should be checked on
     // a repo where Dokka is used. And if not, leave a comment here.
-    //
-    // The warnings have gone.
 
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin) {
