@@ -39,6 +39,10 @@ package io.spine.internal.catalog
  * "kotlinx-coroutines-runtime-clr" => libs.kotlin.runtime.clr
  * ```
  *
+ * Inheritors of this class bring only a semantic value with no
+ * additional functionality. They are intended to help clearly distinguish
+ * on an entry of which type the given alias references.
+ *
  * [Mapping aliases to accessors](https://docs.gradle.org/current/userguide/platforms.html#sub:mapping-aliases-to-accessors).
  */
 internal open class CatalogAlias(val absolute: String) {
@@ -55,10 +59,6 @@ internal open class CatalogAlias(val absolute: String) {
     override fun toString() = absolute
 }
 
-internal interface Aliased {
-    val alias: CatalogAlias
-}
-
 internal class VersionAlias(value: String): CatalogAlias(value)
 internal fun CatalogAlias.toVersion() = VersionAlias(absolute)
 
@@ -70,4 +70,3 @@ internal fun CatalogAlias.toBundle() = BundleAlias(absolute)
 
 internal class PluginAlias(value: String): CatalogAlias(value)
 internal fun CatalogAlias.toPlugin() = PluginAlias(absolute)
-

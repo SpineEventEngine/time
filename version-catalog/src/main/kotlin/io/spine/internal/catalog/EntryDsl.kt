@@ -28,7 +28,9 @@ package io.spine.internal.catalog
 
 import io.spine.internal.AlwaysReturnDelegate
 
-internal interface CatalogEntryDsl : Aliased
+internal interface CatalogEntryDsl {
+    val alias: CatalogAlias
+}
 
 internal interface VersionEntryDsl : CatalogEntryDsl {
     val version: String?
