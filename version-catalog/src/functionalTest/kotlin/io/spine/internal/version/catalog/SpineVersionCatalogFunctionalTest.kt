@@ -26,7 +26,7 @@
 
 package io.spine.internal.version.catalog
 
-import org.gradle.internal.impldep.org.junit.rules.TemporaryFolder
+import java.nio.file.Files
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -52,7 +52,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 @DisplayName("`SpineVersionCatalog` should")
 class SpineVersionCatalogFunctionalTest {
 
-    private val projectDir = TemporaryFolder().also { it.create() }.root
+    private val projectDir = Files.createTempDirectory(this::class.simpleName).toFile()
 
     /**
      * The test verifies that a build doesn't fail when the plugin is applied.
