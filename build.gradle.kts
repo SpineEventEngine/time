@@ -52,12 +52,16 @@ buildscript {
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations, libs)
 
-    // Due to a bug, we can't apply scripts.
-    //
-    // `version.gradle.kts` is not applied, thus the version of mcJava is
-    // declared right here.
-    //
-    // See issue: https://github.com/gradle/gradle/issues/20717
+    /*
+
+     Due to a bug, we can't apply scripts.
+
+     `version.gradle.kts` file is not applied, thus the version of mcJava is
+     declared right here.
+
+     See issue: https://github.com/gradle/gradle/issues/20717
+
+     */
 
     val mcJavaVersion = "2.0.0-SNAPSHOT.83"
     dependencies {
@@ -77,15 +81,19 @@ plugins {
     idea
     `project-report`
 
-    // As for now, Gradle doesn't provide API for applying plugins without version.
-    // This is why we resolve a provider by `get()`.
-    //
-    // See a feature request: https://github.com/gradle/gradle/issues/17968
+    /*
 
-    // Also, for these two lines below, IDEA reports a false-positive error.
-    //
-    // See issue in Gradle: https://github.com/gradle/gradle/issues/20839
-    // See issue in IDEA: https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-can-t-be-called-in-this-context-by-implicit-recei
+     As for now, Gradle doesn't provide API for applying plugins without version.
+     This is why we resolve a provider by `get()`.
+
+     See a feature request: https://github.com/gradle/gradle/issues/17968
+
+     Also, for these two lines below, IDEA reports a false-positive error.
+
+     See issue in Gradle: https://github.com/gradle/gradle/issues/20839
+     See issue in IDEA: https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-can-t-be-called-in-this-context-by-implicit-recei
+
+     */
 
     id(libs.plugins.protobuf.get().pluginId)
     id(libs.plugins.errorProne.get().pluginId)
@@ -110,12 +118,16 @@ spinePublishing {
 
 allprojects {
 
-    // Due to a bug, we can't apply scripts.
+    /*
 
-    // `version.gradle.kts` is not applied, thus the versions of spine libs are
-    // declared right here.
-    //
-    // See issue: https://github.com/gradle/gradle/issues/20717
+     Due to a bug, we can't apply scripts.
+
+     `version.gradle.kts` file is not applied, thus the versions of spine libs
+     are declared right here.
+
+     See issue: https://github.com/gradle/gradle/issues/20717
+
+     */
 
     /** Versions of the Spine libraries that `time` depends on. */
     extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
@@ -149,11 +161,15 @@ subprojects {
     val spineBaseVersion: String by extra
     dependencies {
 
-        // Gradle discourages cross-configuration of projects.
-        // Thus, the direct access to `libs` in `allprojects` and `subprojects`
-        // blocks is unavailable. But we still can use it from `rootProject`.
-        //
-        // See the closed issue: https://github.com/gradle/gradle/issues/16634
+        /*
+
+         Gradle discourages cross-configuration of projects.
+         Thus, the direct access to `libs` in `allprojects` and `subprojects`
+         blocks is unavailable. But we still can use it from `rootProject`.
+
+         See the closed issue: https://github.com/gradle/gradle/issues/16634
+
+         */
 
         errorprone(rootProject.libs.errorProne.core)
         api(kotlin("stdlib-jdk8"))

@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.PropertyDelegate
+import io.spine.internal.AlwaysReturnDelegate
 import io.spine.internal.delegate
 
 internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
@@ -50,7 +50,7 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
         return versionRef
     }
 
-    override fun lib(module: String): PropertyDelegate<LibraryAlias> =
+    override fun lib(module: String): AlwaysReturnDelegate<LibraryAlias> =
         delegate { property ->
             lib(property.name, module)
         }
@@ -67,7 +67,7 @@ internal open class LibraryEntry : VersionEntry(), LibraryEntryDsl {
     private fun String.splitBy(separator: Char) =
         Pair(substringBefore(separator), substringAfter(separator))
 
-    override fun bundle(vararg libs: Any): PropertyDelegate<BundleAlias> =
+    override fun bundle(vararg libs: Any): AlwaysReturnDelegate<BundleAlias> =
         delegate { property ->
             bundle(property.name, libs.toSet())
         }

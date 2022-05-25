@@ -64,15 +64,20 @@ configurations.all {
 
 dependencies {
 
-    // A line below makes the generated `LibrariesForLibs` extension class
-    // available in `main` source set.
+    /*
 
-    // It does not mean our dependencies are available in `main` sources.
-    // It means we can fetch them in a type-safe manner from a `Project`
-    // instance, in which this extension is registered.
+     We add the implementation dependency on the class of `libs` extension
+     in order to make the generated `LibrariesForLibs` available in `main`
+     source set.
 
-    // For example:
-    // val libs = project.extensions.getByType<LibrariesForLibs>()
+     It does not mean our dependencies will be available in `main` sources.
+     It means we can fetch them in a type-safe manner from a `Project` instance,
+     in which this extension is registered.
+
+     For example:
+     val libs = project.extensions.getByType<LibrariesForLibs>()
+
+     */
 
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
@@ -86,11 +91,16 @@ dependencies {
     implementation(libs.licenseReport.gradlePlugin)
     implementation(libs.protobuf.gradlePlugin)
 
-    // These guys below use a fat jar with Kotlin runtime inside. One more
-    // Kotlin version. This is a reason for two warnings.
-    //
-    // I'm not sure if we can just exclude those jars. It should be checked on
-    // a repo where Dokka is used. And if not, leave a comment here.
+    /*
+
+     These guys below use a fat jar with Kotlin runtime inside. One more
+     Kotlin version. This is a reason for two warnings.
+
+     I'm not sure if we can just exclude those jars. It should be checked on
+     a repo where Dokka is used. And if not, leave a comment here, describing
+     why it is so.
+
+     */
 
     implementation(libs.dokka.gradlePlugin)
     implementation(libs.dokka.basePlugin) {

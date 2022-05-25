@@ -30,10 +30,19 @@ import kotlin.properties.PropertyDelegateProvider
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-internal typealias PropertyDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
+/**
+ * Much more meaningful name for the type, returned by [delegate] method.
+ */
+internal typealias AlwaysReturnDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
 
-internal fun <T> delegate(action: (KProperty<*>) -> T) =
-    PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>> { _, property ->
+/**
+ * Provides a property delegate, which always returns a value, obtained as a
+ * result of the given [action].
+ *
+ * The [action] will be executed only once, during a property initializing.
+ */
+internal fun <T> delegate(action: (KProperty<*>) -> T): AlwaysReturnDelegate<T> =
+    PropertyDelegateProvider { _, property ->
         alwaysReturn(action(property))
     }
 

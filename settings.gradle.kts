@@ -59,10 +59,14 @@ val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 dependencyResolutionManagement {
     versionCatalogs {
 
-        // Please, check out `buildSrc/settings.gradle.kts` file.
-        //
-        // There is an explanation why the plugin doesn't create
-        // a catalog on its own, and we have to create it ourselves.
+        /*
+
+         Please, check out `buildSrc/settings.gradle.kts` file.
+
+         There is an explanation on why the plugin doesn't create
+         a catalog on its own, and we have to create it ourselves.
+
+         */
 
         create("libs") {
             spineDependencies.useIn(this)

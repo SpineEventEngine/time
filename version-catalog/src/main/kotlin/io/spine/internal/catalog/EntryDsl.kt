@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.PropertyDelegate
+import io.spine.internal.AlwaysReturnDelegate
 
 internal interface CatalogEntryDsl : Aliased
 
@@ -39,14 +39,14 @@ internal interface LibraryEntryDsl : VersionEntryDsl {
     val module: String?
     val bundle: Set<Any>?
 
-    fun lib(module: String): PropertyDelegate<LibraryAlias>
+    fun lib(module: String): AlwaysReturnDelegate<LibraryAlias>
 
     fun lib(alias: String, module: String): LibraryAlias
 
     /**
      * [LibraryAlias] or [LibraryEntry]
      */
-    fun bundle(vararg libs: Any): PropertyDelegate<BundleAlias>
+    fun bundle(vararg libs: Any): AlwaysReturnDelegate<BundleAlias>
 }
 
 internal interface PluginEntryDsl : LibraryEntryDsl {
