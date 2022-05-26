@@ -24,19 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.record
+package io.spine.internal.catalog.entry.version.given
 
-internal abstract class CatalogRecord(val alias: String) {
+import io.spine.internal.catalog.entry.VersionEntry
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is CatalogRecord) return false
-        return alias == other.alias
-    }
-
-    override fun hashCode(): Int = alias.hashCode()
-
-    override fun toString(): String ="CatalogRecord(alias='$alias')"
-
+internal object StandaloneDummy : VersionEntry() {
+    override val version = "sd-1.0.1"
 }
 
+internal object WrongStandaloneDummy : VersionEntry()

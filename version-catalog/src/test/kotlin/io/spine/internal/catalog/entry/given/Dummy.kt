@@ -24,8 +24,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.given
 
-internal interface VersionEntryDsl {
-    val version: String?
+import io.spine.internal.catalog.entry.VersionEntry
+
+@Suppress("unused")
+internal object Dummy : VersionEntry() {
+    override val version: String = "1.0.0"
+
+    object NestedDummyInherit : VersionEntry()
+
+    object NestedDummyOverride : VersionEntry() {
+        override val version: String = "2.0.0"
+
+        object TwiceNestedDummyInherit : VersionEntry()
+
+        object TwiceNestedDummyOverride : VersionEntry() {
+            override val version: String = "3.0.0"
+        }
+    }
 }

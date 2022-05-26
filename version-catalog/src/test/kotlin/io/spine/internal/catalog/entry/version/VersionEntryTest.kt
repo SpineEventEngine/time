@@ -24,13 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.version
 
-import io.spine.internal.catalog.entry.given.EnclosingDummy
-import io.spine.internal.catalog.entry.given.StandaloneDummy
-import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.assert
-import io.spine.internal.catalog.entry.given.WrongEnclosingDummy
-import io.spine.internal.catalog.entry.given.WrongStandaloneDummy
+import io.spine.internal.catalog.entry.version.given.EnclosingDummy
+import io.spine.internal.catalog.entry.version.given.StandaloneDummy
+import io.spine.internal.catalog.entry.version.given.VersionEntryTestEnv.Companion.assert
+import io.spine.internal.catalog.entry.version.given.VersionEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.version.given.WrongEnclosingDummy
+import io.spine.internal.catalog.entry.version.given.WrongStandaloneDummy
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -44,14 +45,14 @@ class VersionEntryTest {
 
         @Test
         fun `assemble a record if the version is specified`() {
-            val record = StandaloneDummy.toRecord()
+            val record = record(StandaloneDummy)
             record.assert(alias = "standaloneDummy", version = "sd-1.0.1")
         }
 
         @Test
         fun `fail on a record assembling if the version is not specified`() {
             assertThrows<IllegalStateException> {
-                WrongStandaloneDummy.toRecord()
+                record(WrongStandaloneDummy)
             }
         }
     }
@@ -61,20 +62,20 @@ class VersionEntryTest {
 
         @Test
         fun `inherit the version from outerEntry`() {
-            val record = EnclosingDummy.NestedDummy.toRecord()
+            val record = record(EnclosingDummy.NestedDummy)
             record.assert("enclosingDummy-nestedDummy", "ed-1.0.2")
         }
 
         @Test
         fun `override the version`() {
-            val record = EnclosingDummy.NestedOverrideDummy.toRecord()
+            val record = record(EnclosingDummy.NestedOverrideDummy)
             record.assert("enclosingDummy-nestedOverrideDummy", "ed-n-1.0.3")
         }
 
         @Test
         fun `fail when it neither overrides nor inherits the version`() {
             assertThrows<IllegalStateException> {
-                WrongEnclosingDummy.WrongNestedDummy.toRecord()
+                record(WrongEnclosingDummy.WrongNestedDummy)
             }
         }
     }

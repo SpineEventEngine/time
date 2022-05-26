@@ -24,12 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.entry.version.given
 
 import io.spine.internal.catalog.entry.VersionEntry
 
-internal object StandaloneDummy : VersionEntry() {
-    override val version = "sd-1.0.1"
+internal object EnclosingDummy : VersionEntry() {
+
+    override val version: String = "ed-1.0.2"
+
+    internal object NestedDummy : VersionEntry()
+
+    internal object NestedOverrideDummy : VersionEntry() {
+        override val version: String = "ed-n-1.0.3"
+    }
 }
 
-internal object WrongStandaloneDummy : VersionEntry()
+internal object WrongEnclosingDummy : VersionEntry() {
+    internal object WrongNestedDummy : VersionEntry()
+}

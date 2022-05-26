@@ -28,39 +28,20 @@ package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.VersionRecord
-import kotlin.reflect.KClass
 
-internal abstract class CatalogEntry<T : CatalogRecord> {
-
-    protected val outerEntry: CatalogEntry<*>? by lazy { outerEntry() }
-
-    abstract fun toRecord(): T
-
-    protected fun alias(): String {
-        val className = this::class.camelName()
-        val alias = if (outerEntry != null) "${outerEntry!!.alias()}-$className" else className
-        return alias
-    }
-
-    private fun KClass<*>.camelName() = simpleName!!.replaceFirstChar { it.lowercaseChar() }
-
-    private fun outerEntry(): CatalogEntry<*>? {
-        val enclosingClass = this::class.java.enclosingClass
-        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
-        val outerEntry = if (enclosingInstance is CatalogEntry<*>) enclosingInstance else null
-        return outerEntry
-    }
+internal interface VersionEntryDsl {
+    val version: String?
 }
 
-internal open class VersionEntry : CatalogEntry<VersionRecord>(), VersionEntryDsl {
+internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
 
     override val version: String? = null
 
-    override fun toRecord(): VersionRecord {
+    override fun records(): Set<CatalogRecord> {
         val finalVersion = version ?: outerVersion()
         check(finalVersion != null) { "Specify `version` in this entry explicitly or in an outer entry!" }
         val record = VersionRecord(alias(), finalVersion)
-        return record
+        return setOf(record)
     }
 
     private fun outerVersion(): String? =

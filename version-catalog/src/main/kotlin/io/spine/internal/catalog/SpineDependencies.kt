@@ -24,16 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.record.VersionRecord
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
-internal class VersionEntryTestEnv {
-    companion object {
-        fun VersionRecord.assert(alias: String, version: String) {
-            assertEquals(this.alias, alias)
-            assertEquals(this.version, version)
-        }
+class SpineDependencies {
+    fun useIn(catalog: VersionCatalogBuilder) {
+
     }
 }
