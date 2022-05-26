@@ -24,15 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.record.VersionRecord
+import org.junit.jupiter.api.Assertions.assertEquals
 
-/**
- * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver)
- */
-@Suppress("unused")
-internal object KotlinSemver : LibraryEntry() {
-    override val version = "1.2.1"
-    override val module = "io.github.z4kn4fein:semver"
+internal class VersionEntryTestEnv {
+    companion object {
+        fun VersionRecord.assert(alias: String, version: String) {
+            assertEquals(this.alias, alias)
+            assertEquals(this.version, version)
+        }
+    }
 }

@@ -26,13 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.LibraryEntry
-
-/**
- * [BouncyCastle](https://www.bouncycastle.org/java.html)
- */
-@Suppress("unused")
-internal object BouncyCastle : LibraryEntry() {
-    override val version = "1.68"
-    val libPkcsJdk15 by lib("org.bouncycastle:bcpkix-jdk15on")
+internal interface VersionEntryDsl {
+    val version: String?
 }

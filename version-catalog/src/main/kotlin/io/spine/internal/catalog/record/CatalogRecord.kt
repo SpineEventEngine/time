@@ -24,15 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.record
 
-import io.spine.internal.catalog.LibraryEntry
+internal abstract class CatalogRecord(val alias: String)
 
-/**
- * [JavaPoet](https://github.com/square/javapoet)
- */
-@Suppress("unused")
-internal object JavaPoet : LibraryEntry() {
-    override val version = "1.13.0"
-    override val module = "com.squareup:javapoet"
-}
+internal class VersionRecord(alias: String, val version: String) : CatalogRecord(alias)

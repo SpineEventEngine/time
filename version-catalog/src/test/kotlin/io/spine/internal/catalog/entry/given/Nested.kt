@@ -24,25 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.LibraryEntry
+import io.spine.internal.catalog.entry.VersionEntry
 
-@Suppress("unused")
-internal object JavaX : LibraryEntry() {
+internal object EnclosingDummy : VersionEntry() {
 
-    /**
-     * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
-     *
-     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api)
-     */
-    object Annotations : LibraryEntry() {
-        override val version = "1.3.2"
-        override val module = "javax.annotation:javax.annotation-api"
+    override val version: String = "ed-1.0.2"
+
+    internal object NestedDummy : VersionEntry()
+
+    internal object NestedOverrideDummy : VersionEntry() {
+        override val version: String = "ed-n-1.0.3"
     }
+}
 
-    object ServletApi : LibraryEntry() {
-        override val version = "3.1.0"
-        override val module = "javax.servlet:javax.servlet-api"
-    }
+internal object WrongEnclosingDummy : VersionEntry() {
+    internal object WrongNestedDummy : VersionEntry()
 }

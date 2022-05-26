@@ -38,9 +38,13 @@ repositories {
 }
 
 dependencies {
+
     implementation("org.reflections:reflections:0.10.2")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
