@@ -29,9 +29,9 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.record.BundleRecord
 import io.spine.internal.catalog.record.CatalogRecord
 
-internal abstract class BundleEntry : CatalogEntry() {
+internal abstract class BundleEntry : CatalogEntry(), BundleNotation {
 
-    open val bundle: Set<LibraryEntry>? = null
+    override val bundle: Set<LibraryEntry>? = null
 
     override fun records(): Set<CatalogRecord> {
 

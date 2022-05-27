@@ -24,24 +24,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.libraries
 
-import io.spine.internal.catalog.record.CatalogRecord
+import com.google.common.truth.Truth.assertThat
+import io.spine.internal.catalog.entry.libraries.given.DummyLib
+import io.spine.internal.catalog.record.LibraryRecord
 import io.spine.internal.catalog.record.VersionRecord
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
+internal class `LibrariesEntries when` {
 
-    override val version: String? = outerVersionByDefault()
+    @Nested
+    inner class `nested should` {
 
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
+        @Test
+        fun `behave like a LibraryEntry`() {
+            val records = DummyLib.allRecords()
+            val expected = setOf(
+                VersionRecord("dummyLib", "ver-2.2.2"),
+                LibraryRecord("dummyLib", "org.dummy:dummy-lib", "dummyLib"),
+                VersionRecord("dummyLib-nested1", "ver-2.2.2"),
+                LibraryRecord("dummyLib-nested1", "org.dummy:dummy-lib-nested1", "dummyLib-nested1"),
+                VersionRecord("dummyLib-nested2", "ver-3.3.3"),
+                LibraryRecord("dummyLib-nested2", "org.dummy:dummy-lib-nested2", "dummyLib-nested2"),
+            )
+
+            assertThat(records).isEqualTo(expected)
+        }
     }
-
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
 }

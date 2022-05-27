@@ -29,9 +29,9 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.LibraryRecord
 
-internal abstract class LibraryEntry : VersionEntry() {
+internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
 
-    open val module: String? = null
+    override val module: String? = null
 
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()

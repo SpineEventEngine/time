@@ -26,14 +26,24 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.AlwaysReturnDelegate
+import io.spine.internal.catalog.record.CatalogRecord
+import io.spine.internal.catalog.record.PluginRecord
 
-internal interface LibrariesEntryDsl {
-    val bundle: Set<LibraryEntry>?
+internal class PluginEntry : LibraryEntry(), PluginNotation {
 
-    fun lib(module: String): AlwaysReturnDelegate<LibraryEntry>
+    override val id: String? = null
 
-    fun lib(alias: String, module: String): LibraryEntry
+    override fun records(): Set<CatalogRecord> {
+        val result = mutableSetOf<CatalogRecord>()
 
-    fun bundle(vararg libs: LibraryEntry): AlwaysReturnDelegate<BundleEntry>
+        val fromSuper = super.records()
+        result.addAll(fromSuper)
+
+        id?.let {
+            val record = PluginRecord(alias, it, alias, it)
+            result.add(record)
+        }
+
+        return result
+    }
 }

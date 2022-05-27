@@ -24,24 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.libraries.given
 
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.entry.LibrariesEntry
 
-internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
+@Suppress("unused")
+internal object DummyLib : LibrariesEntry() {
+    override val version = "ver-2.2.2"
+    override val module = "org.dummy:dummy-lib"
 
-    override val version: String? = outerVersionByDefault()
-
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
+    object Nested1 : LibrariesEntry() {
+        override val module = "org.dummy:dummy-lib-nested1"
     }
 
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
+    object Nested2 : LibrariesEntry() {
+        override val version = "ver-3.3.3"
+        override val module = "org.dummy:dummy-lib-nested2"
+    }
 }

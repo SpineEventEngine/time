@@ -26,22 +26,34 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.AlwaysReturnDelegate
 
-internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
+// => VersionEntry (DONE)
+internal interface VersionNotation {
+    val version: String?
+}
 
-    override val version: String? = outerVersionByDefault()
+// => LibraryEntry (DONE)
+internal interface LibraryNotation : VersionNotation {
+    val module: String?
+}
 
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
-    }
+// => PluginEntry (DONE)
+internal interface PluginNotation : LibraryNotation {
+    val id: String?
+}
 
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
+// => BundleEntry
+internal interface BundleNotation {
+    val bundle: Set<LibraryNotation>?
+}
+
+// => DependencyEntry
+internal interface DependencyNotation : LibraryNotation, BundleNotation {
+
+    fun lib(alias: String, module: String): LibraryNotation
+
+    fun lib(module: String): AlwaysReturnDelegate<LibraryNotation>
+
+    fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation>
 }
