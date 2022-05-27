@@ -24,28 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.library.given
 
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.entry.LibraryEntry
 
-internal interface VersionEntryDsl {
-    val version: String?
+internal object StandaloneDummy : LibraryEntry() {
+    override val version = "sd-1.0.1"
+    override val module = "org.dummy:dummy-lib"
 }
 
-internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
-
-    override val version: String? = outerVersionByDefault()
-
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
-    }
-
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
+internal object WrongStandaloneDummy : LibraryEntry() {
+    override val module = "org.dummy:dummy-lib"
 }

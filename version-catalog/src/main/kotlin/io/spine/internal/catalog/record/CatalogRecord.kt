@@ -26,7 +26,9 @@
 
 package io.spine.internal.catalog.record
 
-internal abstract class CatalogRecord(val alias: String) {
+internal typealias Alias = String
+
+internal abstract class CatalogRecord(val alias: Alias) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

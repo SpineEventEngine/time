@@ -26,22 +26,22 @@
 
 package io.spine.internal.catalog.record
 
-internal class VersionRecord(alias: String, val version: String) : CatalogRecord(alias) {
+internal open class VersionRecord(alias: Alias, val value: String) : CatalogRecord(alias) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is VersionRecord) return false
         if (!super.equals(other)) return false
-        return version == other.version
+        return value == other.value
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + version.hashCode()
+        result = 31 * result + value.hashCode()
         return result
     }
 
     override fun toString(): String {
-        return "VersionRecord(alias=`$alias`, version='$version')"
+        return "VersionRecord(alias=`$alias`, version='$value')"
     }
 }

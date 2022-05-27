@@ -27,25 +27,27 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.record.LibraryRecord
 
-internal interface VersionEntryDsl {
-    val version: String?
+internal interface LibraryEntryDsl : VersionEntryDsl {
+    val module: String?
 }
 
-internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
+internal abstract class LibraryEntry : VersionEntry(), LibraryEntryDsl {
 
-    override val version: String? = outerVersionByDefault()
+    override val module: String? = null
 
     override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
-    }
+        val result = mutableSetOf<CatalogRecord>()
 
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
+        val fromSuper = super.records()
+        result.addAll(fromSuper)
+
+        if (module != null) {
+            val record = LibraryRecord(alias, module!!, alias)
+            result.add(record)
+        }
+
+        return result
+    }
 }

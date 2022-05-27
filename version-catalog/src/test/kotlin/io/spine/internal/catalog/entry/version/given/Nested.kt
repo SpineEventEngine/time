@@ -42,3 +42,20 @@ internal object EnclosingDummy : VersionEntry() {
 internal object WrongEnclosingDummy : VersionEntry() {
     internal object WrongNestedDummy : VersionEntry()
 }
+
+@Suppress("unused")
+internal object Dummy : VersionEntry() {
+    override val version: String = "1.0.0"
+
+    object NestedDummyInherit : VersionEntry()
+
+    object NestedDummyOverride : VersionEntry() {
+        override val version: String = "2.0.0"
+
+        object TwiceNestedDummyInherit : VersionEntry()
+
+        object TwiceNestedDummyOverride : VersionEntry() {
+            override val version: String = "3.0.0"
+        }
+    }
+}

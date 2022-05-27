@@ -26,22 +26,23 @@
 
 package io.spine.internal.catalog.entry.version
 
+import com.google.common.truth.Truth.assertThat
+import io.spine.internal.catalog.entry.version.given.Dummy
 import io.spine.internal.catalog.entry.version.given.EnclosingDummy
 import io.spine.internal.catalog.entry.version.given.StandaloneDummy
 import io.spine.internal.catalog.entry.version.given.VersionEntryTestEnv.Companion.assert
 import io.spine.internal.catalog.entry.version.given.VersionEntryTestEnv.Companion.record
 import io.spine.internal.catalog.entry.version.given.WrongEnclosingDummy
 import io.spine.internal.catalog.entry.version.given.WrongStandaloneDummy
-import org.junit.jupiter.api.DisplayName
+import io.spine.internal.catalog.record.VersionRecord
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`VersionEntry` should")
-class VersionEntryTest {
+internal open class `VersionEntry when` {
 
     @Nested
-    inner class `when standalone should` {
+    inner class `standalone should` {
 
         @Test
         fun `assemble a record if the version is specified`() {
@@ -58,7 +59,7 @@ class VersionEntryTest {
     }
 
     @Nested
-    inner class `when nested should` {
+    inner class `nested should` {
 
         @Test
         fun `inherit the version from outerEntry`() {
@@ -73,10 +74,23 @@ class VersionEntryTest {
         }
 
         @Test
-        fun `fail when it neither overrides nor inherits the version`() {
+        fun `fail if it neither overrides nor inherits the version`() {
             assertThrows<IllegalStateException> {
                 record(WrongEnclosingDummy.WrongNestedDummy)
             }
+        }
+
+        @Test
+        fun `collect records from nested entries recursively`() {
+            val records = Dummy.allRecords()
+            val expected = setOf(
+                VersionRecord("dummy", "1.0.0"),
+                VersionRecord("dummy-nestedDummyInherit", "1.0.0"),
+                VersionRecord("dummy-nestedDummyOverride", "2.0.0"),
+                VersionRecord("dummy-nestedDummyOverride-twiceNestedDummyInherit", "2.0.0"),
+                VersionRecord("dummy-nestedDummyOverride-twiceNestedDummyOverride", "3.0.0"),
+            )
+            assertThat(records).isEqualTo(expected)
         }
     }
 }

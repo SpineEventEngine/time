@@ -24,23 +24,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.record
 
-import io.spine.internal.catalog.entry.VersionEntry
+internal class LibraryRecord(alias: Alias, val module: String, val versionRef: Alias) :
+    CatalogRecord(alias) {
 
-@Suppress("unused")
-internal object Dummy : VersionEntry() {
-    override val version: String = "1.0.0"
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is LibraryRecord) return false
+        if (!super.equals(other)) return false
 
-    object NestedDummyInherit : VersionEntry()
+        if (module != other.module) return false
+        if (versionRef != other.versionRef) return false
 
-    object NestedDummyOverride : VersionEntry() {
-        override val version: String = "2.0.0"
-
-        object TwiceNestedDummyInherit : VersionEntry()
-
-        object TwiceNestedDummyOverride : VersionEntry() {
-            override val version: String = "3.0.0"
-        }
+        return true
     }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + module.hashCode()
+        result = 31 * result + versionRef.hashCode()
+        return result
+    }
+
+    override fun toString(): String =
+        "LibraryRecord(alias=`$alias`, module='$module', versionRef='$versionRef')"
 }

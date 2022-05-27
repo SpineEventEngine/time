@@ -36,8 +36,8 @@ internal class VersionEntryTestEnv {
         fun record(entry: VersionEntry) = entry.records().first() as VersionRecord
 
         fun VersionRecord.assert(alias: String, version: String) {
-            assertEquals(this.alias, alias)
-            assertEquals(this.version, version)
+            assertEquals(alias, this.alias)
+            assertEquals(version, this.value)
         }
     }
 }

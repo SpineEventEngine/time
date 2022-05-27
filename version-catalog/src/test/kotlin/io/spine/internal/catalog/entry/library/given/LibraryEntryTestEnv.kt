@@ -24,28 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.library.given
 
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.record.LibraryRecord
+import org.junit.jupiter.api.Assertions.assertEquals
 
-internal interface VersionEntryDsl {
-    val version: String?
-}
+internal class LibraryEntryTestEnv {
+    companion object {
 
-internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
+        fun record(entry: LibraryEntry) =
+            entry.records().first { it is LibraryRecord } as LibraryRecord
 
-    override val version: String? = outerVersionByDefault()
-
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
+        fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {
+            assertEquals(alias, this.alias)
+            assertEquals(module, this.module)
+            assertEquals(versionRef, this.versionRef)
+        }
     }
-
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
 }

@@ -24,28 +24,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal
 
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.VersionRecord
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
-internal interface VersionEntryDsl {
-    val version: String?
-}
+/**
+ * Much more meaningful name for the type, returned by [delegate] method.
+ */
+internal typealias AlwaysReturnDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
 
-internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
-
-    override val version: String? = outerVersionByDefault()
-
-    override fun records(): Set<CatalogRecord> {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        val record = VersionRecord(alias, version!!)
-        return setOf(record)
+/**
+ * Provides a property delegate, which always returns a value, obtained as a
+ * result of the given [action].
+ *
+ * The [action] will be executed only once, during a property initializing.
+ */
+internal fun <T> delegate(action: (KProperty<*>) -> T): AlwaysReturnDelegate<T> =
+    PropertyDelegateProvider { _, property ->
+        alwaysReturn(action(property))
     }
 
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
-}
+private fun <T> alwaysReturn(value: T) = ReadOnlyProperty<Any?, T> { _, _ -> value }

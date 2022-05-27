@@ -24,27 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.library.given
 
-import com.google.common.truth.Truth.assertThat
-import io.spine.internal.catalog.entry.given.Dummy
-import io.spine.internal.catalog.record.VersionRecord
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
+import io.spine.internal.catalog.entry.LibraryEntry
 
-@DisplayName("`CatalogEntry` should")
-class CatalogEntryIntegrationTest {
+@Suppress("unused")
+internal object EnclosingDummy : LibraryEntry() {
+    override val version = "d-0.0.1"
+    override val module = "org.dummy:dummy-lib"
 
-    @Test
-    fun `collect records from nested entries recursively`() {
-        val records = Dummy.allRecords()
-        val expected = setOf(
-            VersionRecord("dummy", "1.0.0"),
-            VersionRecord("dummy-nestedDummyInherit", "1.0.0"),
-            VersionRecord("dummy-nestedDummyOverride", "2.0.0"),
-            VersionRecord("dummy-nestedDummyOverride-twiceNestedDummyInherit", "2.0.0"),
-            VersionRecord("dummy-nestedDummyOverride-twiceNestedDummyOverride", "3.0.0"),
-        )
-        assertThat(records).isEqualTo(expected)
+    object NestedDummy : LibraryEntry() {
+        override val module = "org.dummy:nested-dummy-lib"
     }
 }

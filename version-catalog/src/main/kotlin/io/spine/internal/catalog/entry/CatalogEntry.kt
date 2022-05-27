@@ -31,21 +31,34 @@ import kotlin.reflect.KClass
 
 internal abstract class CatalogEntry {
 
+    // They are lazy by design.
+    // If not, it leads to InitializationError.
+
+    // Also, those operations are quite heavy.
+
     protected val outerEntry: CatalogEntry? by lazy { outerEntry() }
+    protected val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
+    protected val alias: String = alias()
 
     abstract fun records(): Set<CatalogRecord>
 
     fun allRecords(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
-        val fromThisEntry = records()
-        val fromNested = nestedEntries().flatMap { it.allRecords() }
 
-        result.run {
-            addAll(fromThisEntry)
-            addAll(fromNested)
-        }
+        val fromThisEntry = records()
+        result.addAll(fromThisEntry)
+
+        val fromNested = nestedEntries.flatMap { it.allRecords() }
+        result.addAll(fromNested)
 
         return result
+    }
+
+    private fun outerEntry(): CatalogEntry? {
+        val enclosingClass = this::class.java.enclosingClass
+        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
+        val outerEntry = if (enclosingInstance is CatalogEntry) enclosingInstance else null
+        return outerEntry
     }
 
     private fun nestedEntries(): Set<CatalogEntry> {
@@ -55,18 +68,14 @@ internal abstract class CatalogEntry {
         return nestedEntries.toSet()
     }
 
-    protected fun alias(): String {
+    /**
+     * Smart cast doesn't work, since [outerEntry] is lazy.
+     */
+    private fun alias(): String {
         val className = this::class.camelName()
-        val alias = if (outerEntry != null) "${outerEntry!!.alias()}-$className" else className
+        val alias = if (outerEntry != null) "${outerEntry!!.alias}-$className" else className
         return alias
     }
 
     private fun KClass<*>.camelName() = simpleName!!.replaceFirstChar { it.lowercaseChar() }
-
-    private fun outerEntry(): CatalogEntry? {
-        val enclosingClass = this::class.java.enclosingClass
-        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
-        val outerEntry = if (enclosingInstance is CatalogEntry) enclosingInstance else null
-        return outerEntry
-    }
 }
