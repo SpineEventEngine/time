@@ -29,13 +29,9 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.VersionRecord
 
-internal interface VersionEntryDsl {
-    val version: String?
-}
+internal abstract class VersionEntry : CatalogEntry() {
 
-internal open class VersionEntry : CatalogEntry(), VersionEntryDsl {
-
-    override val version: String? = outerVersionByDefault()
+    open val version: String? = outerVersionByDefault()
 
     override fun records(): Set<CatalogRecord> {
         check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }

@@ -37,8 +37,8 @@ internal abstract class CatalogEntry {
     // Also, those operations are quite heavy.
 
     protected val outerEntry: CatalogEntry? by lazy { outerEntry() }
-    protected val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
-    protected val alias: String = alias()
+    private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
+    internal val alias: String = alias()
 
     abstract fun records(): Set<CatalogRecord>
 
