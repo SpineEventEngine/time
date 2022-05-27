@@ -41,5 +41,5 @@ internal class BundleRecord(alias: Alias, val libs: Set<Alias>) : CatalogRecord(
         return result
     }
 
-    override fun toString(): String = "BundleRecord(libs=`$libs`)"
+    override fun toString(): String = "BundleRecord(alias=`$alias`, libs=`$libs`)"
 }

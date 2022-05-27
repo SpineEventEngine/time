@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.record
 
-internal typealias Alias = String
-
 internal abstract class CatalogRecord(val alias: Alias) {
 
     override fun equals(other: Any?): Boolean {
@@ -37,8 +35,4 @@ internal abstract class CatalogRecord(val alias: Alias) {
     }
 
     override fun hashCode(): Int = alias.hashCode()
-
-    override fun toString(): String ="CatalogRecord(alias='$alias')"
-
 }
-

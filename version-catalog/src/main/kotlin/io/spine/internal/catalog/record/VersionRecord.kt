@@ -41,7 +41,5 @@ internal open class VersionRecord(alias: Alias, val value: String) : CatalogReco
         return result
     }
 
-    override fun toString(): String {
-        return "VersionRecord(alias=`$alias`, version='$value')"
-    }
+    override fun toString(): String = "VersionRecord(alias=`$alias`, version='$value')"
 }
