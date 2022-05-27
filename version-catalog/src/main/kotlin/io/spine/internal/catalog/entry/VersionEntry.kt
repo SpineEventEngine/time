@@ -32,11 +32,14 @@ import io.spine.internal.catalog.record.VersionRecord
 internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
 
     override val version: String? = outerVersionByDefault()
+    internal val versionRecord: VersionRecord by lazy { versionRecord() }
 
-    override fun records(): Set<CatalogRecord> {
+    override fun records(): Set<CatalogRecord> = setOf(versionRecord)
+
+    private fun versionRecord(): VersionRecord {
         check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
         val record = VersionRecord(alias, version!!)
-        return setOf(record)
+        return record
     }
 
     /**

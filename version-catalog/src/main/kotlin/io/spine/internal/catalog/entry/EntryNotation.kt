@@ -43,7 +43,7 @@ internal interface PluginNotation : LibraryNotation {
     val id: String?
 }
 
-// => BundleEntry
+// => BundleEntry (Done)
 internal interface BundleNotation {
     val bundle: Set<LibraryNotation>?
 }

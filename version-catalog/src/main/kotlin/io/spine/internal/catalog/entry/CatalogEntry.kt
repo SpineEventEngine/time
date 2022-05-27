@@ -36,8 +36,8 @@ internal abstract class CatalogEntry {
 
     // Also, those operations are quite heavy.
 
-    internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
     private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
+    internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
     internal val alias: String = alias()
 
     abstract fun records(): Set<CatalogRecord>
@@ -54,18 +54,18 @@ internal abstract class CatalogEntry {
         return result
     }
 
-    private fun outerEntry(): CatalogEntry? {
-        val enclosingClass = this::class.java.enclosingClass
-        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
-        val outerEntry = if (enclosingInstance is CatalogEntry) enclosingInstance else null
-        return outerEntry
-    }
-
     private fun nestedEntries(): Set<CatalogEntry> {
         val nestedClasses = this::class.nestedClasses
         val nestedObjects = nestedClasses.mapNotNull { it.objectInstance }
         val nestedEntries = nestedObjects.filterIsInstance<CatalogEntry>()
         return nestedEntries.toSet()
+    }
+
+    private fun outerEntry(): CatalogEntry? {
+        val enclosingClass = this::class.java.enclosingClass
+        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
+        val outerEntry = if (enclosingInstance is CatalogEntry) enclosingInstance else null
+        return outerEntry
     }
 
     /**
