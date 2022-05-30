@@ -26,10 +26,11 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.CatalogEntryNotation
 import io.spine.internal.catalog.record.CatalogRecord
 import kotlin.reflect.KClass
 
-internal abstract class CatalogEntry {
+internal abstract class CatalogEntry : CatalogEntryNotation {
 
     // They are lazy by design.
     // If not, it leads to InitializationError.
@@ -38,7 +39,7 @@ internal abstract class CatalogEntry {
 
     private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
     internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
-    internal val alias: String = alias()
+    override val alias: String = alias()
 
     abstract fun records(): Set<CatalogRecord>
 

@@ -24,23 +24,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog
 
-import io.spine.internal.catalog.record.BundleRecord
-import io.spine.internal.catalog.record.CatalogRecord
+import io.spine.internal.AlwaysReturnDelegate
+import io.spine.internal.catalog.record.Alias
 
-internal abstract class BundleEntry : CatalogEntry(), BundleNotation {
+/**
+ * Notation is a language, which is used to declare VersionCatalog-compatible
+ * dependencies.
+ */
+internal interface CatalogEntryNotation {
+    val alias: Alias
+}
 
-    override val bundle: Set<LibraryEntry>? = null
+// => VersionEntry (DONE)
+internal interface VersionNotation : CatalogEntryNotation {
+    val version: String?
+}
 
-    override fun records(): Set<CatalogRecord> {
+// => LibraryEntry (DONE)
+internal interface LibraryNotation : VersionNotation {
+    val module: String?
+}
 
-        if (bundle == null) {
-            return emptySet()
-        }
+// => PluginEntry (DONE)
+internal interface PluginNotation : LibraryNotation {
+    val id: String?
+}
 
-        val libsAliases = bundle!!.map { libEntry -> libEntry.alias }.toSet()
-        val record = BundleRecord(alias, libsAliases)
-        return setOf(record)
-    }
+// => BundleEntry (Done)
+internal interface BundleNotation : CatalogEntryNotation {
+    val bundle: Set<LibraryNotation>?
+}
+
+// => DependencyEntry
+internal interface DependencyNotation : LibraryNotation, BundleNotation {
+
+    fun lib(name: String, module: String): LibraryNotation
+
+    fun lib(module: String): AlwaysReturnDelegate<LibraryNotation>
+
+    fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation>
 }

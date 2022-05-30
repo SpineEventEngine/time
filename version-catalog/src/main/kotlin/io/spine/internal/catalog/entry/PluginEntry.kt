@@ -26,6 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.PluginNotation
 import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.PluginRecord
 
@@ -40,7 +41,7 @@ internal class PluginEntry : LibraryEntry(), PluginNotation {
         result.addAll(fromSuper)
 
         id?.let {
-            val record = PluginRecord(alias, it, alias, it)
+            val record= PluginRecord(alias, it, alias)
             result.add(record)
         }
 

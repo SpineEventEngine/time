@@ -26,22 +26,27 @@
 
 package io.spine.internal.catalog.record
 
-internal class PluginRecord(alias: Alias, module: String, versionRef: Alias, val id: String) :
-    LibraryRecord(alias, module, versionRef) {
+internal class PluginRecord(alias: Alias, val id: String, val versionRef: Alias) :
+    CatalogRecord(alias) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is PluginRecord) return false
         if (!super.equals(other)) return false
-        return id == other.id
+
+        if (id != other.id) return false
+        if (versionRef != other.versionRef) return false
+
+        return true
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
         result = 31 * result + id.hashCode()
+        result = 31 * result + versionRef.hashCode()
         return result
     }
 
     override fun toString(): String =
-        "PluginRecord(alias=`$alias`, module='$module', versionRef='$versionRef', id='$id')"
+        "PluginRecord(alias=`$alias`, id='$id', versionRef='$versionRef')"
 }

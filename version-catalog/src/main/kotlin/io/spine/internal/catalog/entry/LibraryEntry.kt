@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.LibraryRecord
 
 internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
 
     override val module: String? = null
-    internal val libraryRecord: LibraryRecord? by lazy { libraryRecord() }
 
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
@@ -40,9 +40,11 @@ internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
         val fromSuper = super.records()
         result.addAll(fromSuper)
 
-        libraryRecord?.let { result.add(it) }
+        module?.let {
+            val record = LibraryRecord(alias, it, alias)
+            result.add(record)
+        }
+
         return result
     }
-
-    private fun libraryRecord() =  module?.let { LibraryRecord(alias, it, alias) }
 }
