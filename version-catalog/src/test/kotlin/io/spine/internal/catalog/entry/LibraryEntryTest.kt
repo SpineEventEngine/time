@@ -33,19 +33,18 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("`LibraryEntry` should when")
+@DisplayName("`LibraryEntry`")
 internal class LibraryEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone should` {
 
         @Test
         fun `assemble a library record if the module and version are specified`() {
             val record = record(StandaloneDummyLibrary)
             record.assert(
                 alias = "standaloneDummyLibrary",
-                module = "org.dummy:dummy-lib",
-                versionRef = "standaloneDummyLibrary"
+                module = "org.dummy:dummy-lib"
             )
         }
     }

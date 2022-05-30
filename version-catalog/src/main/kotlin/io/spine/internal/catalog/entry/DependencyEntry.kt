@@ -35,7 +35,7 @@ import io.spine.internal.catalog.record.CatalogRecord
 import io.spine.internal.catalog.record.LibraryRecord
 import io.spine.internal.delegate
 
-internal class DependencyEntry : LibraryEntry(), DependencyNotation {
+internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
 
     override val bundle: Set<LibraryNotation>? = null
     private val standaloneLibs = mutableSetOf<LibraryNotation>()

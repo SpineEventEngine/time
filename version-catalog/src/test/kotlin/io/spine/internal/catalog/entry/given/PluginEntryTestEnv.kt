@@ -24,28 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.PluginNotation
-import io.spine.internal.catalog.record.CatalogRecord
+import io.spine.internal.catalog.entry.PluginEntry
 import io.spine.internal.catalog.record.PluginRecord
+import org.junit.jupiter.api.Assertions
 
-internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
+internal class PluginEntryTestEnv {
+    companion object {
 
-    override val id: String? = null
+        fun record(entry: PluginEntry) =
+            entry.records().first { it is PluginRecord } as PluginRecord
 
-    override fun records(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        id?.let {
-            val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, it, alias)
-            result.add(record)
+        fun PluginRecord.assert(alias: String, id: String) {
+            Assertions.assertEquals(alias, this.alias)
+            Assertions.assertEquals(id, this.id)
         }
-
-        return result
     }
 }

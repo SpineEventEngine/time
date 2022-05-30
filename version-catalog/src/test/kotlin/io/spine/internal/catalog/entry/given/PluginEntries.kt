@@ -24,28 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.PluginNotation
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.PluginRecord
+import io.spine.internal.catalog.entry.PluginEntry
 
-internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
+internal object StandaloneDummyPlugin : PluginEntry() {
+    override val version = "sdp-0.0.1"
+    override val id = "dummy-plugin"
+}
 
-    override val id: String? = null
+internal object OuterDummyPlugin : PluginEntry() {
 
-    override fun records(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        id?.let {
-            val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, it, alias)
-            result.add(record)
-        }
-
-        return result
+    internal object GradlePlugin : PluginEntry() {
+        override val version = "gp-0.0.1"
+        override val id = "dummy-gradle-plugin"
     }
 }

@@ -26,26 +26,34 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.PluginNotation
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.PluginRecord
+import io.spine.internal.catalog.entry.given.OuterDummyPlugin
+import io.spine.internal.catalog.entry.given.PluginEntryTestEnv.Companion.assert
+import io.spine.internal.catalog.entry.given.PluginEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.given.StandaloneDummyPlugin
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
+@DisplayName("`PluginEntry` should when")
+internal class PluginEntryTest {
 
-    override val id: String? = null
+    @Nested
+    inner class standalone {
 
-    override fun records(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        id?.let {
-            val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, it, alias)
-            result.add(record)
+        @Test
+        fun `assemble a plugin record if the id and version are specified`(){
+            val record = record(StandaloneDummyPlugin)
+            record.assert(alias = "standaloneDummyPlugin", id = "dummy-plugin")
         }
+    }
 
-        return result
+    @Nested
+    inner class nested {
+
+        @Test
+        fun `not prepend a 'GradlePlugin' prefix for the plugin id `() {
+            val record = record(OuterDummyPlugin.GradlePlugin)
+            record.assert(alias = "outerDummyPlugin", id = "dummy-gradle-plugin")
+        }
     }
 }

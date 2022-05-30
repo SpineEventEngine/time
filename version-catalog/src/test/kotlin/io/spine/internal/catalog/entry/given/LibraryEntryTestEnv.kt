@@ -36,10 +36,9 @@ internal class LibraryEntryTestEnv {
         fun record(entry: LibraryEntry) =
             entry.records().first { it is LibraryRecord } as LibraryRecord
 
-        fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {
+        fun LibraryRecord.assert(alias: String, module: String) {
             assertEquals(alias, this.alias)
             assertEquals(module, this.module)
-            assertEquals(versionRef, this.versionRef)
         }
     }
 }
