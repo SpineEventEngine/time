@@ -24,22 +24,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.record
+package io.spine.internal.catalog
 
-internal class BundleRecord(alias: Alias, val libs: Set<Alias>) : CatalogRecord(alias) {
+internal typealias Alias = String
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is BundleRecord) return false
-        if (!super.equals(other)) return false
-        return libs == other.libs
-    }
+internal interface CatalogRecord
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + libs.hashCode()
-        return result
-    }
+internal data class VersionRecord(
+    val alias: Alias,
+    val value: String
+) : CatalogRecord
 
-    override fun toString(): String = "BundleRecord(alias = \"$alias\", libs = \"$libs\")"
-}
+internal data class LibraryRecord(
+    val alias: Alias,
+    val module: String,
+    val versionRef: Alias
+) : CatalogRecord
+
+internal data class PluginRecord(
+    val alias: Alias,
+    val id: String,
+    val versionRef: Alias
+) : CatalogRecord
+
+internal data class BundleRecord(
+    val alias: Alias,
+    val libs: Set<Alias>
+) : CatalogRecord

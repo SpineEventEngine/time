@@ -24,6 +24,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.record
+package io.spine.internal.catalog
 
-internal typealias Alias = String
+import kotlin.properties.PropertyDelegateProvider
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
+
+/**
+ * Much more meaningful name for the type, returned by [delegate] method.
+ */
+internal typealias AlwaysReturnDelegate<T> = PropertyDelegateProvider<Any?, ReadOnlyProperty<Any?, T>>
+
+/**
+ * Provides a property delegate, which always returns a value, obtained as a
+ * result of the given [action].
+ *
+ * The [action] will be executed only once, during a property initializing.
+ */
+internal fun <T> delegate(action: (KProperty<*>) -> T): AlwaysReturnDelegate<T> =
+    PropertyDelegateProvider { _, property ->
+        alwaysReturn(action(property))
+    }
+
+private fun <T> alwaysReturn(value: T) = ReadOnlyProperty<Any?, T> { _, _ -> value }

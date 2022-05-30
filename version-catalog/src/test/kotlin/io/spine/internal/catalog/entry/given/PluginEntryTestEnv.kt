@@ -27,7 +27,7 @@
 package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.PluginEntry
-import io.spine.internal.catalog.record.PluginRecord
+import io.spine.internal.catalog.PluginRecord
 import org.junit.jupiter.api.Assertions
 
 internal class PluginEntryTestEnv {

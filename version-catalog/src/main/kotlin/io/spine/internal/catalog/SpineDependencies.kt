@@ -26,10 +26,27 @@
 
 package io.spine.internal.catalog
 
+import io.spine.internal.catalog.entry.CatalogEntry
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+import org.reflections.Reflections
+import org.reflections.util.ConfigurationBuilder
 
 class SpineDependencies {
-    fun useIn(catalog: VersionCatalogBuilder) {
+    companion object {
+        const val pkg = "io.spine.internal.catalog.entries"
+    }
 
+    fun useIn(catalog: VersionCatalogBuilder) {
+        val entries = findEntries()
+    }
+
+    private fun findEntries(): Set<CatalogEntry> {
+        val builder = ConfigurationBuilder().forPackage(pkg)
+        val reflections = Reflections(builder)
+        val result = reflections.getSubTypesOf(CatalogEntry::class.java)
+            .filter { it.enclosingClass == null }
+            .mapNotNull { it.kotlin.objectInstance }
+            .toSet()
+        return result
     }
 }

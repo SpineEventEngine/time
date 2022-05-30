@@ -27,8 +27,8 @@
 package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.record.Alias
-import io.spine.internal.catalog.record.BundleRecord
+import io.spine.internal.catalog.Alias
+import io.spine.internal.catalog.BundleRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class DependencyEntryTestEnv {

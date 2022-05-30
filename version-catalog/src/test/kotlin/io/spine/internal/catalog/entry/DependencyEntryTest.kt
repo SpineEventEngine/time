@@ -32,9 +32,9 @@ import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.re
 import io.spine.internal.catalog.entry.given.MethodDummyDependency
 import io.spine.internal.catalog.entry.given.PropertyDummyDependency
 import io.spine.internal.catalog.entry.given.StandaloneDummyDependency
-import io.spine.internal.catalog.record.BundleRecord
-import io.spine.internal.catalog.record.LibraryRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.BundleRecord
+import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionRecord
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

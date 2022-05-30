@@ -24,29 +24,42 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.record
+package io.spine.internal.catalog
 
-internal class PluginRecord(alias: Alias, val id: String, val versionRef: Alias) :
-    CatalogRecord(alias) {
+/**
+ * Notation is a language, which is used to declare VersionCatalog-compatible
+ * dependencies.
+ */
+internal interface CatalogEntryNotation {
+    val alias: Alias
+}
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is PluginRecord) return false
-        if (!super.equals(other)) return false
+// => VersionEntry (DONE)
+internal interface VersionNotation : CatalogEntryNotation {
+    val version: String?
+}
 
-        if (id != other.id) return false
-        if (versionRef != other.versionRef) return false
+// => LibraryEntry (DONE)
+internal interface LibraryNotation : VersionNotation {
+    val module: String?
+}
 
-        return true
-    }
+// => PluginEntry (DONE)
+internal interface PluginNotation : LibraryNotation {
+    val id: String?
+}
 
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + id.hashCode()
-        result = 31 * result + versionRef.hashCode()
-        return result
-    }
+// => BundleEntry (Done)
+internal interface BundleNotation : CatalogEntryNotation {
+    val bundle: Set<LibraryNotation>?
+}
 
-    override fun toString(): String =
-        "PluginRecord(alias = \"$alias\", id = \"$id\", versionRef = \"$versionRef\")"
+// => DependencyEntry
+internal interface DependencyNotation : LibraryNotation, BundleNotation {
+
+    fun lib(name: String, module: String): LibraryNotation
+
+    fun lib(module: String): AlwaysReturnDelegate<LibraryNotation>
+
+    fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation>
 }

@@ -26,14 +26,14 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.AlwaysReturnDelegate
+import io.spine.internal.catalog.AlwaysReturnDelegate
 import io.spine.internal.catalog.BundleNotation
 import io.spine.internal.catalog.DependencyNotation
 import io.spine.internal.catalog.LibraryNotation
-import io.spine.internal.catalog.record.BundleRecord
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.LibraryRecord
-import io.spine.internal.delegate
+import io.spine.internal.catalog.BundleRecord
+import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.delegate
 
 internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
 
@@ -93,8 +93,6 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
         delegate { property ->
             val thisEntryAlias = this.alias
             val bundleAlias = "$thisEntryAlias-${property.name}"
-
-            println(bundleAlias)
 
             val notation = object : BundleNotation {
                 override val alias: String = bundleAlias

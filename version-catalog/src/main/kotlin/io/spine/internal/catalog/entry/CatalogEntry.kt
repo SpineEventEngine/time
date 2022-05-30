@@ -27,7 +27,7 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.CatalogEntryNotation
-import io.spine.internal.catalog.record.CatalogRecord
+import io.spine.internal.catalog.CatalogRecord
 import kotlin.reflect.KClass
 
 internal abstract class CatalogEntry : CatalogEntryNotation {

@@ -27,8 +27,8 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.LibraryNotation
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.LibraryRecord
+import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.LibraryRecord
 
 internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
 

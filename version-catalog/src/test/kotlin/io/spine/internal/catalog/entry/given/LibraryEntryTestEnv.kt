@@ -27,7 +27,7 @@
 package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.LibraryEntry
-import io.spine.internal.catalog.record.LibraryRecord
+import io.spine.internal.catalog.LibraryRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class LibraryEntryTestEnv {

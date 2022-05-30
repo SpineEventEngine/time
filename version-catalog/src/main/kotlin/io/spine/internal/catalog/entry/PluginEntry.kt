@@ -27,8 +27,8 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.PluginNotation
-import io.spine.internal.catalog.record.CatalogRecord
-import io.spine.internal.catalog.record.PluginRecord
+import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.PluginRecord
 
 internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
 

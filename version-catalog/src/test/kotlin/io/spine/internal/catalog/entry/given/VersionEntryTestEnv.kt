@@ -27,7 +27,7 @@
 package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.VersionEntry
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.VersionRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class VersionEntryTestEnv {
