@@ -41,7 +41,7 @@ internal abstract class CatalogEntry : CatalogEntryNotation {
     internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
     override val alias: String = alias()
 
-    abstract fun records(): Set<CatalogRecord>
+    open fun records(): Set<CatalogRecord> = emptySet()
 
     fun allRecords(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()

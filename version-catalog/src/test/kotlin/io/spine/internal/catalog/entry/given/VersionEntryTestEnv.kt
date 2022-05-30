@@ -24,29 +24,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.bundle.given
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.entry.BundleEntry
-import io.spine.internal.catalog.entry.LibraryEntry
 import io.spine.internal.catalog.entry.VersionEntry
+import io.spine.internal.catalog.record.VersionRecord
+import org.junit.jupiter.api.Assertions.assertEquals
 
-@Suppress("unused")
-internal object StandaloneDummy : VersionEntry() {
+internal class VersionEntryTestEnv {
+    companion object {
 
-    private const val group = "ord.dummy"
-    override val version = "dl-1.2.3"
+        fun record(entry: VersionEntry) = entry.records().first() as VersionRecord
 
-    object Lib1 : LibraryEntry() {
-        override val module = "$group:dummy-lib1"
-    }
-    object Lib2 : LibraryEntry() {
-        override val module = "$group:dummy-lib2"
-    }
-    object Lib3 : LibraryEntry() {
-        override val module = "$group:dummy-lib3"
-    }
-
-    object Libs : BundleEntry() {
-        override val bundle = setOf(Lib1, Lib2, Lib3)
+        fun VersionRecord.assert(alias: String, version: String) {
+            assertEquals(alias, this.alias)
+            assertEquals(version, this.value)
+        }
     }
 }

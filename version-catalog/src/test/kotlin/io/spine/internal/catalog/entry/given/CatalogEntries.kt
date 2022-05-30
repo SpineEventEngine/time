@@ -24,38 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.version.given
+package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.entry.VersionEntry
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.record.CatalogRecord
 
-internal object EnclosingDummy : VersionEntry() {
+internal object StandaloneDummy : CatalogEntry()
 
-    override val version: String = "ed-1.0.2"
+internal object OuterDummy : CatalogEntry() {
 
-    internal object NestedDummy : VersionEntry()
+    internal object NestedDummy : CatalogEntry() {
 
-    internal object NestedOverrideDummy : VersionEntry() {
-        override val version: String = "ed-n-1.0.3"
-    }
-}
+        var wasAsked: Boolean = false
 
-internal object WrongEnclosingDummy : VersionEntry() {
-    internal object WrongNestedDummy : VersionEntry()
-}
-
-@Suppress("unused")
-internal object Dummy : VersionEntry() {
-    override val version: String = "1.0.0"
-
-    object NestedDummyInherit : VersionEntry()
-
-    object NestedDummyOverride : VersionEntry() {
-        override val version: String = "2.0.0"
-
-        object TwiceNestedDummyInherit : VersionEntry()
-
-        object TwiceNestedDummyOverride : VersionEntry() {
-            override val version: String = "3.0.0"
+        override fun records(): Set<CatalogRecord> {
+            wasAsked = true
+            return super.records()
         }
     }
 }

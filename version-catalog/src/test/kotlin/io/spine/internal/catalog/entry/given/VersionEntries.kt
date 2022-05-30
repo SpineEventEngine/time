@@ -24,32 +24,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.bundle
+package io.spine.internal.catalog.entry.given
 
-import com.google.common.truth.Truth.assertThat
-import io.spine.internal.catalog.entry.bundle.given.StandaloneDummy
-import io.spine.internal.catalog.record.BundleRecord
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import io.spine.internal.catalog.entry.VersionEntry
 
-internal class `BundleEntry when` {
+internal object StandaloneDummyVersion : VersionEntry() {
+    override val version = "sdv-0.0.1"
+}
 
-    @Nested
-    inner class `standalone should` {
+internal object ErroneousStandaloneDummyVersion : VersionEntry()
 
-        @Test
-        fun `assemble a record if the bundle is specified`() {
-            val record = StandaloneDummy.Libs.records().first() as BundleRecord
-            assertThat(record.alias).isEqualTo("standaloneDummy-libs")
+internal object OuterDummyVersion : VersionEntry() {
 
-            val aliases = record.libs
-            val expected = setOf(
-                "standaloneDummy-lib1",
-                "standaloneDummy-lib2",
-                "standaloneDummy-lib3",
-            )
+    override val version = "odv-0.0.1"
 
-            assertThat(aliases).isEqualTo(expected)
-        }
+    internal object NestedDummyVersion : VersionEntry()
+
+    internal object NestedDummyVersion2 : VersionEntry() {
+        override val version = "ndv2-0.0.1"
     }
+}
+
+internal object ErroneousOuterDummyVersion : VersionEntry() {
+    internal object ErroneousNestedDummyVersion : VersionEntry()
 }

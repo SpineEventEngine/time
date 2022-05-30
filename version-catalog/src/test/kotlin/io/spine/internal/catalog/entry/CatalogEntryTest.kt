@@ -24,33 +24,58 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.libraries
+package io.spine.internal.catalog.entry
 
 import com.google.common.truth.Truth.assertThat
-import io.spine.internal.catalog.entry.libraries.given.DummyLib
-import io.spine.internal.catalog.record.LibraryRecord
-import io.spine.internal.catalog.record.VersionRecord
+import io.spine.internal.catalog.entry.given.OuterDummy
+import io.spine.internal.catalog.entry.given.StandaloneDummy
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class `LibrariesEntries when` {
+@DisplayName("`CatalogEntry` should when")
+internal class CatalogEntryTest {
+
+    private val standaloneEntry = StandaloneDummy
+    private val outerEntry = OuterDummy
+    private val nestedEntry = OuterDummy.NestedDummy
 
     @Nested
-    inner class `nested should` {
+    inner class standalone {
 
         @Test
-        fun `behave like a LibraryEntry`() {
-            val records = DummyLib.allRecords()
-            val expected = setOf(
-                VersionRecord("dummyLib", "ver-2.2.2"),
-                LibraryRecord("dummyLib", "org.dummy:dummy-lib", "dummyLib"),
-                VersionRecord("dummyLib-nested1", "ver-2.2.2"),
-                LibraryRecord("dummyLib-nested1", "org.dummy:dummy-lib-nested1", "dummyLib-nested1"),
-                VersionRecord("dummyLib-nested2", "ver-3.3.3"),
-                LibraryRecord("dummyLib-nested2", "org.dummy:dummy-lib-nested2", "dummyLib-nested2"),
-            )
+        fun `use object's name as alias`() {
+            assertThat(standaloneEntry.alias).isEqualTo("standaloneDummy")
+        }
 
-            assertThat(records).isEqualTo(expected)
+        @Test
+        fun `return null value for outer entry property`() {
+            assertThat(standaloneEntry.outerEntry).isNull()
+        }
+    }
+
+    @Nested
+    inner class nested {
+
+        @Test
+        fun `regard outer object in alias`() {
+            assertThat(nestedEntry.alias).isEqualTo("outerDummy-nestedDummy")
+        }
+
+        @Test
+        fun `return outer object for outer entry property`() {
+            assertThat(nestedEntry.outerEntry).isEqualTo(outerEntry)
+        }
+    }
+
+    @Nested
+    inner class outer {
+
+        @Test
+        fun `ask nested entries for records`() {
+            assertThat(nestedEntry.wasAsked).isFalse()
+            assertThat(outerEntry.allRecords()).isEmpty()
+            assertThat(nestedEntry.wasAsked).isTrue()
         }
     }
 }
