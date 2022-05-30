@@ -24,22 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.record
+package io.spine.internal.catalog.entry.given
 
-internal class BundleRecord(alias: Alias, val libs: Set<Alias>) : CatalogRecord(alias) {
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.record.Alias
+import io.spine.internal.catalog.record.BundleRecord
+import org.junit.jupiter.api.Assertions.assertEquals
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is BundleRecord) return false
-        if (!super.equals(other)) return false
-        return libs == other.libs
+internal class DependencyEntryTestEnv {
+    companion object {
+
+        fun record(entry: DependencyEntry) =
+            entry.records().first { it is BundleRecord } as BundleRecord
+
+        fun BundleRecord.assert(alias: Alias, libs: Set<Alias>) {
+            assertEquals(alias, this.alias)
+            assertEquals(libs, this.libs)
+        }
     }
-
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + libs.hashCode()
-        return result
-    }
-
-    override fun toString(): String = "BundleRecord(alias = \"$alias\", libs = \"$libs\")"
 }

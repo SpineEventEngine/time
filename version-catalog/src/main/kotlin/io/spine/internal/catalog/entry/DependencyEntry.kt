@@ -53,15 +53,23 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
         val otherBundleRecords = standaloneBundles.mapNotNull { record(it) }
         result.addAll(otherBundleRecords)
 
-        val otherLibRecords = standaloneLibs.map { LibraryRecord(it.alias, it.module!!, alias) }
+        val otherLibRecords = standaloneLibs.map { LibraryRecord(it.alias, it.module!!, versionAlias) }
         result.addAll(otherLibRecords)
 
         return result
     }
 
-    private fun record(notation: BundleNotation): BundleRecord? = notation.bundle?.let {
-        val libsAliases = it.map { notation -> notation.alias }.toSet()
-        BundleRecord(alias, libsAliases)
+    private fun record(notation: BundleNotation): BundleRecord? {
+
+        if (notation.bundle == null) {
+            return null
+        }
+
+        val bundleAlias = notation.alias
+        val libsAliases = notation.bundle!!.map { it.alias }.toSet()
+        val record = BundleRecord(bundleAlias, libsAliases)
+
+        return record
     }
 
     override fun lib(name: String, module: String): LibraryNotation {
@@ -85,6 +93,8 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
         delegate { property ->
             val thisEntryAlias = this.alias
             val bundleAlias = "$thisEntryAlias-${property.name}"
+
+            println(bundleAlias)
 
             val notation = object : BundleNotation {
                 override val alias: String = bundleAlias

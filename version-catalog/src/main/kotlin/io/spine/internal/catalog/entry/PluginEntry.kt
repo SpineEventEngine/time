@@ -42,7 +42,7 @@ internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
 
         id?.let {
             val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, it, alias)
+            val record = PluginRecord(pluginAlias, it, versionAlias)
             result.add(record)
         }
 

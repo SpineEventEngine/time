@@ -48,5 +48,5 @@ internal class PluginRecord(alias: Alias, val id: String, val versionRef: Alias)
     }
 
     override fun toString(): String =
-        "PluginRecord(alias=`$alias`, id='$id', versionRef='$versionRef')"
+        "PluginRecord(alias = \"$alias\", id = \"$id\", versionRef = \"$versionRef\")"
 }

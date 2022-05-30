@@ -41,7 +41,7 @@ internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
         result.addAll(fromSuper)
 
         module?.let {
-            val record = LibraryRecord(alias, it, alias)
+            val record = LibraryRecord(alias, it, versionAlias)
             result.add(record)
         }
 

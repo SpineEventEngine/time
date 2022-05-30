@@ -35,4 +35,6 @@ internal abstract class CatalogRecord(val alias: Alias) {
     }
 
     override fun hashCode(): Int = alias.hashCode()
+
+    override fun toString(): String = "CatalogEntry(alias = \"$alias\")"
 }

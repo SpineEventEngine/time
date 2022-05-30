@@ -48,5 +48,5 @@ internal open class LibraryRecord(alias: Alias, val module: String, val versionR
     }
 
     override fun toString(): String =
-        "LibraryRecord(alias=`$alias`, module='$module', versionRef='$versionRef')"
+        "LibraryRecord(alias = \"$alias\", module = \"$module\", versionRef = \"$versionRef\")"
 }

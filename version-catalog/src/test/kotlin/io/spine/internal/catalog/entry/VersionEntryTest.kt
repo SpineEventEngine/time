@@ -48,13 +48,6 @@ internal class VersionEntryTest {
             val record = record(StandaloneDummyVersion)
             record.assert(alias = "standaloneDummyVersion", version = "sdv-0.0.1")
         }
-
-        @Test
-        fun `fail on a record assembling if the version is not specified`() {
-            assertThrows<IllegalStateException> {
-                record(ErroneousStandaloneDummyVersion)
-            }
-        }
     }
 
     @Nested
@@ -70,13 +63,6 @@ internal class VersionEntryTest {
         fun `override the version from the outer entry`() {
             val record = record(OuterDummyVersion.NestedDummyVersion2)
             record.assert("outerDummyVersion-nestedDummyVersion2", "ndv2-0.0.1")
-        }
-
-        @Test
-        fun `fail if it neither overrides nor inherits the version`() {
-            assertThrows<IllegalStateException> {
-                record(ErroneousOuterDummyVersion.ErroneousNestedDummyVersion)
-            }
         }
     }
 }
