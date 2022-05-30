@@ -24,16 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.library.given
+package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.record.LibraryRecord
+import org.junit.jupiter.api.Assertions.assertEquals
 
-@Suppress("unused")
-internal object EnclosingDummy : LibraryEntry() {
-    override val version = "d-0.0.1"
-    override val module = "org.dummy:dummy-lib"
+internal class LibraryEntryTestEnv {
+    companion object {
 
-    object NestedDummy : LibraryEntry() {
-        override val module = "org.dummy:nested-dummy-lib"
+        fun record(entry: LibraryEntry) =
+            entry.records().first { it is LibraryRecord } as LibraryRecord
+
+        fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {
+            assertEquals(alias, this.alias)
+            assertEquals(module, this.module)
+            assertEquals(versionRef, this.versionRef)
+        }
     }
 }

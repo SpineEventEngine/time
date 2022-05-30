@@ -24,15 +24,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.library.given
+package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.assert
+import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.given.StandaloneDummyLibrary
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
-internal object StandaloneDummy : LibraryEntry() {
-    override val version = "sd-1.0.1"
-    override val module = "org.dummy:dummy-lib"
-}
+@DisplayName("`LibraryEntry` should when")
+internal class LibraryEntryTest {
 
-internal object WrongStandaloneDummy : LibraryEntry() {
-    override val module = "org.dummy:dummy-lib"
+    @Nested
+    inner class standalone {
+
+        @Test
+        fun `assemble a library record if the module and version are specified`() {
+            val record = record(StandaloneDummyLibrary)
+            record.assert(
+                alias = "standaloneDummyLibrary",
+                module = "org.dummy:dummy-lib",
+                versionRef = "standaloneDummyLibrary"
+            )
+        }
+    }
 }

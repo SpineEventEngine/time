@@ -24,22 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.library.given
+package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.LibraryEntry
-import io.spine.internal.catalog.record.LibraryRecord
-import org.junit.jupiter.api.Assertions.assertEquals
 
-internal class LibraryEntryTestEnv {
-    companion object {
-
-        fun record(entry: LibraryEntry) =
-            entry.records().first { it is LibraryRecord } as LibraryRecord
-
-        fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {
-            assertEquals(alias, this.alias)
-            assertEquals(module, this.module)
-            assertEquals(versionRef, this.versionRef)
-        }
-    }
+internal object StandaloneDummyLibrary : LibraryEntry() {
+    override val version = "sdl-0.0.1"
+    override val module = "org.dummy:dummy-lib"
 }

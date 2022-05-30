@@ -39,7 +39,7 @@ internal abstract class CatalogEntry : CatalogEntryNotation {
 
     private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
     internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
-    override val alias: String = alias()
+    final override val alias: String = alias()
 
     open fun records(): Set<CatalogRecord> = emptySet()
 
