@@ -29,7 +29,6 @@ version = "0.0.1-SNAPSHOT.1"
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.21"
-    `java-gradle-plugin`
     `maven-publish`
 }
 
@@ -37,8 +36,14 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
+configurations {
+    create("functionalTestImplementation") {
+        extendsFrom(getByName("testImplementation"))
+    }
+}
 
+dependencies {
+    implementation(gradleApi())
     implementation("org.reflections:reflections:0.10.2")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -46,26 +51,23 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+
+    add("functionalTestImplementation", gradleTestKit())
 }
 
-gradlePlugin {
-    plugins.create("spine-version-catalog") {
-        id = "io.spine.internal.version-catalog"
-        implementationClass = "io.spine.internal.catalog.plugin.SpineVersionCatalogPlugin"
-    }
+sourceSets {
+    create("functionalTest")
 }
-
-// Why we need a functional test is described in the test itself.
-// See: `SpineVersionCatalogFunctionalTest`.
-
-val functionalTestSourceSet = sourceSets.create("functionalTest")
-configurations["functionalTestImplementation"].extendsFrom(configurations["testImplementation"])
-gradlePlugin.testSourceSets(functionalTestSourceSet)
 
 tasks {
+
+    // Why we need a functional test is described in the test itself.
+    // See: `SpineDependenciesFunctionalTest`.
+
     val functionalTest by registering(Test::class) {
-        testClassesDirs = functionalTestSourceSet.output.classesDirs
-        classpath = functionalTestSourceSet.runtimeClasspath
+        val sourceSet = sourceSets.getByName("functionalTest")
+        testClassesDirs = sourceSet.output.classesDirs
+        classpath = sourceSet.runtimeClasspath
         dependsOn(named("publishToMavenLocal"), test)
     }
 
@@ -74,11 +76,7 @@ tasks {
     }
 
     withType<Test>().configureEach {
-        useJUnitPlatform {
-            includeEngines("junit-jupiter")
-        }
-        testLogging {
-            showStandardStreams = true
-        }
+        useJUnitPlatform { includeEngines("junit-jupiter") }
+        testLogging { showStandardStreams = true }
     }
 }
