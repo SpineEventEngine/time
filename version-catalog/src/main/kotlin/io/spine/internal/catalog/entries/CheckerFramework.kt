@@ -24,46 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [CheckerFramework](https://checkerframework.org/)
+ */
+@Suppress("unused")
+internal object CheckerFramework : DependencyEntry() {
+
+    /**
+     * This is a discontinued artifact, which we do not use directly.
+     * It is a transitive dependency which we use for forcing the version.
+     */
+    object CompatQual : LibraryEntry() {
+        override val version = "2.5.5"
+        override val module = "org.checkerframework:checker-compat-qual"
     }
-}
 
-rootProject.name = "spine-time"
+    override val version = "3.21.3"
+    val annotations by lib("org.checkerframework:checker-qual")
 
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+    val dataflow by bundle(
+        lib("dataflow", "org.checkerframework:dataflow"),
+        lib("javacUtil", "org.checkerframework:javacutil")
+    )
 }

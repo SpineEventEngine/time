@@ -24,46 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+@Suppress("unused")
+internal object Firebase : CatalogEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    /**
+     * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java)
+     */
+    object Admin : LibraryEntry() {
+        override val version = "8.1.0"
+        override val module = "com.google.firebase:firebase-admin"
     }
 }

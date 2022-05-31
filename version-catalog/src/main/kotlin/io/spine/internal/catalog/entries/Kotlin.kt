@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
+/**
+ * [Kotlin](https://github.com/JetBrains/kotlin)
+ */
+@Suppress("unused")
+internal object Kotlin : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    private const val group = "org.jetbrains.kotlin"
+    override val version = "1.6.21"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
+    val gradlePlugin by lib("$group:kotlin-gradle-plugin")
+    val reflect by lib("$group:kotlin-reflect")
 
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object StdLib : DependencyEntry() {
+        override val module = "$group:kotlin-stdlib"
+        val common by lib("$group:kotlin-stdlib-common")
+        val jdk8 by lib("$group:kotlin-stdlib-jdk8")
     }
 }

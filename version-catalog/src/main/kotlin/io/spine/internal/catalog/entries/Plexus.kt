@@ -24,46 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+/**
+ * Plexus Utils is a transitive dependency which we don't use directly.
+ * This object is used to force the version.
+ *
+ * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
+ */
+@Suppress("unused")
+internal object Plexus : DependencyEntry() {
+    override val version = "3.4.0"
+    val utils by lib("org.codehaus.plexus:plexus-utils")
 }

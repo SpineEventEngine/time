@@ -24,46 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+/**
+ * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver)
+ */
+@Suppress("unused")
+internal object KotlinSemver : LibraryEntry() {
+    override val version = "1.2.1"
+    override val module = "io.github.z4kn4fein:semver"
 }

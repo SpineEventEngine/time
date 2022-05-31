@@ -24,57 +24,45 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.entries
 
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.entry.PluginEntry
 
-internal object OuterDummyDependency : DependencyEntry() {
+/**
+ * [Dokka](https://github.com/Kotlin/dokka)
+ */
+@Suppress("unused")
+internal object Dokka : DependencyEntry() {
 
-    override val version = "odd-0.0.1"
+    private const val group = "org.jetbrains.dokka"
+    override val version = "1.6.20"
 
-    internal object SubLib1 : LibraryEntry() {
-        override val module = "org.dummy:subLib1"
+    /**
+     * To generate the documentation as seen from Java perspective use this plugin.
+     *
+     * @see <a href="https://github.com/Kotlin/dokka#output-formats">
+     *     Dokka output formats</a>
+     */
+    val kotlinAsJavaPlugin by lib("$group:kotlin-as-java-plugin")
+    val basePlugin by lib("$group:dokka-base")
+
+    /**
+     * Custom Dokka plugins developed for Spine-specific needs like excluding
+     * by `@Internal` annotation.
+     *
+     * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
+     *     Custom Dokka Plugins</a>
+     */
+    object SpineExtensions : LibraryEntry() {
+        private const val group = "io.spine.tools"
+        override val version = "2.0.0-SNAPSHOT.3"
+        override val module = "$group:spine-dokka-extensions"
     }
 
-    internal object SubLib2 : LibraryEntry() {
-        override val module = "org.dummy:subLib2"
+    object GradlePlugin : PluginEntry() {
+        override val module = "$group:dokka-gradle-plugin"
+        override val id = "org.jetbrains.dokka"
     }
-
-    internal object SubLib3 : LibraryEntry() {
-        override val module = "org.dummy:subLib3"
-    }
-}
-
-internal object StandaloneDummyDependency : DependencyEntry() {
-    override val bundle = setOf(
-        OuterDummyDependency.SubLib1,
-        OuterDummyDependency.SubLib2,
-        OuterDummyDependency.SubLib3,
-    )
-}
-
-internal object MethodDummyDependency : DependencyEntry() {
-
-    override val version = "mdd-0.0.1"
-    override val bundle = setOf(
-        lib("subLib1", "org.dummy:subLib1"),
-        lib("subLib2", "org.dummy:subLib2"),
-        lib("subLib3", "org.dummy:subLib3"),
-    )
-}
-
-internal object PropertyDummyDependency : DependencyEntry() {
-
-    override val version = "pdd-0.0.1"
-
-    val subLib1 by lib("org.dummy:subLib1")
-    val subLib2 by lib("org.dummy:subLib2")
-    val subLib3 by lib("org.dummy:subLib3")
-
-    val pile by bundle(subLib1, subLib2, subLib3)
-}
-
-internal object ErroneousDummyDependency : DependencyEntry() {
-    val erroneousDummyDependency by lib("...")
 }

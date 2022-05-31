@@ -76,6 +76,12 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
         val thisEntryAlias = this.alias
         val libAlias = "$thisEntryAlias-$name"
 
+        check(!thisEntryAlias.endsWith(name)) {
+            "Name of a sub-library can't be the same with entry's name: " +
+                    "\nLibrary: $name" +
+                    "\nEntry  : $thisEntryAlias"
+        }
+
         val notation = object : LibraryNotation {
             override val alias: String = libAlias
             override val version: String? = null

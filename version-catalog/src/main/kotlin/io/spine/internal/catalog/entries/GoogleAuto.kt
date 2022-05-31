@@ -24,46 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [GoogleAuto](https://github.com/google/auto)
+ */
+@Suppress("unused")
+internal object GoogleAuto : CatalogEntry() {
+
+    object Common : LibraryEntry() {
+        override val version = "1.2.1"
+        override val module = "com.google.auto:auto-common"
     }
-}
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
+    object Service : DependencyEntry() {
+        override val version = "1.0.1"
+        val annotations by lib("com.google.auto.service:auto-service-annotations")
+        val processor by lib("com.google.auto.service:auto-service")
     }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
 
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object Value : DependencyEntry() {
+        override val version = "1.9"
+        val annotations by lib("com.google.auto.value:auto-value-annotations")
     }
 }

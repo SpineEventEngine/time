@@ -66,7 +66,7 @@ tasks {
     val functionalTest by registering(Test::class) {
         testClassesDirs = functionalTestSourceSet.output.classesDirs
         classpath = functionalTestSourceSet.runtimeClasspath
-        dependsOn(named("publishToMavenLocal"))
+        dependsOn(named("publishToMavenLocal"), test)
     }
 
     check {

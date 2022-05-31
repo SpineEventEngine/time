@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+import io.spine.internal.catalog.entry.LibraryEntry
+
+@Suppress("unused")
+internal object JavaX : LibraryEntry() {
+
+    /**
+     * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
+     *
+     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api)
+     */
+    object Annotations : LibraryEntry() {
+        override val version = "1.3.2"
+        override val module = "javax.annotation:javax.annotation-api"
     }
-}
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object ServletApi : LibraryEntry() {
+        override val version = "3.1.0"
+        override val module = "javax.servlet:javax.servlet-api"
     }
 }

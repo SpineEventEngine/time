@@ -24,46 +24,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
+/**
+ * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
+ * which we don't use directly. This object is used for forcing the version.
+ */
+@Suppress("unused")
+internal object J2ObjC : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+    /**
+     * [Releases](https://github.com/google/j2objc/releases)
+     * [MavenCentral](https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations)
+     *
+     * `1.3.` is the latest version available from Maven Central.
+     */
+    override val version = "1.3"
+    val annotations by lib("com.google.j2objc:j2objc-annotations")
 }

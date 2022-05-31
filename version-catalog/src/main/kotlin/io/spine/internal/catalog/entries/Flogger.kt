@@ -24,46 +24,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+/**
+ * [Flogger](https://github.com/google/flogger)
+ */
+@Suppress("unused")
+internal object Flogger : LibraryEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    private const val group = "com.google.flogger"
+    override val version = "0.7.4"
+    override val module = "$group:flogger"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object Runtime : DependencyEntry() {
+        val systemBackend by lib("$group:flogger-system-backend")
+        val log4J by lib("$group:flogger-log4j")
+        val slf4J by lib("$group:slf4j-backend-factory")
     }
 }

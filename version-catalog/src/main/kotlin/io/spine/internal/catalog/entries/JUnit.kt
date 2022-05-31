@@ -24,57 +24,51 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.entries
 
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 
-internal object OuterDummyDependency : DependencyEntry() {
+/**
+ * [JUnit5](https://junit.org/junit5/)
+ */
+@Suppress("unused")
+internal object JUnit : DependencyEntry() {
 
-    override val version = "odd-0.0.1"
+    override val version = "5.8.2"
+    val bom by lib("org.junit:junit-bom")
+    val runner by lib("org.junit.jupiter:junit-jupiter-engine")
 
-    internal object SubLib1 : LibraryEntry() {
-        override val module = "org.dummy:subLib1"
+    /**
+     * [ApiGuardian](https://github.com/apiguardian-team/apiguardian)
+     */
+    object ApiGuardian : LibraryEntry() {
+        override val version = "1.1.2"
+        override val module = "org.apiguardian:apiguardian-api"
     }
 
-    internal object SubLib2 : LibraryEntry() {
-        override val module = "org.dummy:subLib2"
+    object Platform : DependencyEntry() {
+        override val version = "1.8.2"
+        val commons by lib("org.junit.platform:junit-platform-commons")
+        val launcher by lib("org.junit.platform:junit-platform-launcher")
     }
 
-    internal object SubLib3 : LibraryEntry() {
-        override val module = "org.dummy:subLib3"
+    object Legacy : LibraryEntry() {
+        override val version = "4.13.1"
+        override val module = "junit:junit"
     }
-}
 
-internal object StandaloneDummyDependency : DependencyEntry() {
+    /**
+     * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer)
+     */
+    object Pioneer : LibraryEntry() {
+        override val version = "1.5.0"
+        override val module = "org.junit-pioneer:junit-pioneer"
+    }
+
     override val bundle = setOf(
-        OuterDummyDependency.SubLib1,
-        OuterDummyDependency.SubLib2,
-        OuterDummyDependency.SubLib3,
+        lib("api", "org.junit.jupiter:junit-jupiter-api"),
+        lib("params", "org.junit.jupiter:junit-jupiter-params"),
+        ApiGuardian
     )
-}
-
-internal object MethodDummyDependency : DependencyEntry() {
-
-    override val version = "mdd-0.0.1"
-    override val bundle = setOf(
-        lib("subLib1", "org.dummy:subLib1"),
-        lib("subLib2", "org.dummy:subLib2"),
-        lib("subLib3", "org.dummy:subLib3"),
-    )
-}
-
-internal object PropertyDummyDependency : DependencyEntry() {
-
-    override val version = "pdd-0.0.1"
-
-    val subLib1 by lib("org.dummy:subLib1")
-    val subLib2 by lib("org.dummy:subLib2")
-    val subLib3 by lib("org.dummy:subLib3")
-
-    val pile by bundle(subLib1, subLib2, subLib3)
-}
-
-internal object ErroneousDummyDependency : DependencyEntry() {
-    val erroneousDummyDependency by lib("...")
 }

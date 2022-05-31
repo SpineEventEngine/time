@@ -24,46 +24,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+/**
+ * [Google HTTP client](https://github.com/googleapis/google-http-java-client)
+ */
+@Suppress("unused")
+internal object HttpClient : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    /**
+     * [Releases](https://github.com/googleapis/google-http-java-client)
+     */
+    override val version = "1.41.5"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
+    val google by lib("com.google.http-client:google-http-client")
+    val jackson2 by lib("com.google.http-client:google-http-client-jackson2")
+    val gson by lib("com.google.http-client:google-http-client-gson")
+    val apache2 by lib("com.google.http-client:google-http-client-apache-v2")
 
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object Apache : LibraryEntry() {
+        override val version = "2.1.2"
+        override val module = "com.google.http-client:google-http-client-apache"
     }
 }

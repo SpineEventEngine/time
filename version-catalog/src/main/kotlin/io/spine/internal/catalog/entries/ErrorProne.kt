@@ -24,57 +24,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.entries
 
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.entry.PluginEntry
 
-internal object OuterDummyDependency : DependencyEntry() {
+/**
+ * [ErrorProne](https://github.com/google/error-prone)
+ */
+@Suppress("unused")
+internal object ErrorProne : DependencyEntry() {
 
-    override val version = "odd-0.0.1"
+    override val version = "2.13.1"
 
-    internal object SubLib1 : LibraryEntry() {
-        override val module = "org.dummy:subLib1"
-    }
+    val core by lib("com.google.errorprone:error_prone_core")
+    val checkApi by lib("com.google.errorprone:error_prone_check_api")
+    val testHelpers by lib("com.google.errorprone:error_prone_test_helpers")
 
-    internal object SubLib2 : LibraryEntry() {
-        override val module = "org.dummy:subLib2"
-    }
-
-    internal object SubLib3 : LibraryEntry() {
-        override val module = "org.dummy:subLib3"
-    }
-}
-
-internal object StandaloneDummyDependency : DependencyEntry() {
-    override val bundle = setOf(
-        OuterDummyDependency.SubLib1,
-        OuterDummyDependency.SubLib2,
-        OuterDummyDependency.SubLib3,
+    val annotations by bundle(
+        lib("annotations", "com.google.errorprone:error_prone_annotations"),
+        lib("typeAnnotations", "com.google.errorprone:error_prone_type_annotations")
     )
-}
 
-internal object MethodDummyDependency : DependencyEntry() {
+    /**
+     * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
+     */
+    object JavacPlugin : LibraryEntry() {
+        override val version = "9+181-r4173-1"
+        override val module = "com.google.errorprone:javac"
+    }
 
-    override val version = "mdd-0.0.1"
-    override val bundle = setOf(
-        lib("subLib1", "org.dummy:subLib1"),
-        lib("subLib2", "org.dummy:subLib2"),
-        lib("subLib3", "org.dummy:subLib3"),
-    )
-}
-
-internal object PropertyDummyDependency : DependencyEntry() {
-
-    override val version = "pdd-0.0.1"
-
-    val subLib1 by lib("org.dummy:subLib1")
-    val subLib2 by lib("org.dummy:subLib2")
-    val subLib3 by lib("org.dummy:subLib3")
-
-    val pile by bundle(subLib1, subLib2, subLib3)
-}
-
-internal object ErroneousDummyDependency : DependencyEntry() {
-    val erroneousDummyDependency by lib("...")
+    /**
+     * [GradlePlugin](https://github.com/tbroyer/gradle-errorprone-plugin/releases)
+     */
+    object GradlePlugin : PluginEntry() {
+        override val version = "2.0.2"
+        override val module = "net.ltgt.gradle:gradle-errorprone-plugin"
+        override val id = "net.ltgt.errorprone"
+    }
 }

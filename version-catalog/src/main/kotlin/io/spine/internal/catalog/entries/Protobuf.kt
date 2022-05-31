@@ -24,46 +24,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.PluginEntry
 
-rootProject.name = "spine-time"
+/**
+ * [Protobuf](https://github.com/protocolbuffers/protobuf)
+ */
+@Suppress("unused")
+internal object Protobuf : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    private const val group = "com.google.protobuf"
+    override val version = "3.20.1"
+    override val bundle = setOf(
+        lib("java", "$group:protobuf-java"),
+        lib("javaUtil", "$group:protobuf-java-util"),
+        lib("kotlin", "$group:protobuf-kotlin"),
+    )
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
+    val compiler by lib("$group:protoc")
 
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    /**
+     * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases)
+     */
+    object GradlePlugin : PluginEntry() {
+        override val version = "0.8.18"
+        override val module = "$group:protobuf-gradle-plugin"
+        override val id = "com.google.protobuf"
     }
 }

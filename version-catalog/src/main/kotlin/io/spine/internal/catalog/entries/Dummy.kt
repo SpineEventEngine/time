@@ -29,6 +29,7 @@ package io.spine.internal.catalog.entries
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 import io.spine.internal.catalog.entry.PluginEntry
+import io.spine.internal.catalog.entry.VersionEntry
 
 /**
  * This dependency represents an imaginary library.
@@ -98,4 +99,10 @@ internal object Dummy : DependencyEntry() {
         Runtime.mac,
         Runtime.linux,
     )
+
+    // It is also possible to declare just a bare version.
+
+    object Tools : VersionEntry() {
+        override val version = "3.0.0" // libs.versions.dummy.tools
+    }
 }

@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+/**
+ * [Grpc Java](https://github.com/grpc/grpc-java)
+ */
+@Suppress("unused")
+internal object Grpc : DependencyEntry() {
+    override val version = "1.45.1"
+    val api by lib("io.grpc:grpc-api")
+    val auth by lib("io.grpc:grpc-auth")
+    val core by lib("io.grpc:grpc-core")
+    val context by lib("io.grpc:grpc-context")
+    val stub by lib("io.grpc:grpc-stub")
+    val okHttp by lib("io.grpc:grpc-okhttp")
+    val protobuf by lib("io.grpc:grpc-protobuf")
+    val protobufLite by lib("io.grpc:grpc-protobuf-lite")
+    val protobufPlugin by lib("io.grpc:protoc-gen-grpc-java")
+    val netty by lib("io.grpc:grpc-netty")
+    val nettyShaded by lib("io.grpc:grpc-netty-shaded")
 }

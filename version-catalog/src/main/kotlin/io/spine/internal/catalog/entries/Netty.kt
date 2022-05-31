@@ -24,46 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
+@Suppress("unused")
+internal object Netty : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    /**
+     * [Releases](https://github.com/netty/netty/releases)
+     */
+    override val version = "4.1.72.Final"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+    val common by lib("io.netty:netty-common")
+    val buffer by lib("io.netty:netty-buffer")
+    val transport by lib("io.netty:netty-transport")
+    val handler by lib("io.netty:netty-handler")
+    val codecHttp by lib("io.netty:netty-codec-http")
 }

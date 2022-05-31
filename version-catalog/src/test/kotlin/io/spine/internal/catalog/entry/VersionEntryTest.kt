@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.given.ErroneousOuterDummyVersion
-import io.spine.internal.catalog.entry.given.ErroneousStandaloneDummyVersion
 import io.spine.internal.catalog.entry.given.OuterDummyVersion
 import io.spine.internal.catalog.entry.given.StandaloneDummyVersion
 import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.assert
@@ -35,7 +33,6 @@ import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.recor
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 @DisplayName("`VersionEntry` should when")
 internal class VersionEntryTest {

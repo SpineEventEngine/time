@@ -24,46 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+/**
+ * The dependencies for Guava.
+ *
+ * When changing the version, also change the version used in the `build.gradle.kts`. We need
+ * to synchronize the version used in `buildSrc` and in Spine modules. Otherwise, when testing
+ * Gradle plugins, errors may occur due to version clashes.
+ *
+ * [Guava](https://github.com/google/guava)
+ */
+@Suppress("unused")
+internal object Guava : DependencyEntry() {
+    override val version = "31.1-jre"
+    override val module = "com.google.guava:guava"
+    val testLib by lib("com.google.guava:guava-testlib")
 }

@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+@Suppress("unused")
+internal object KotlinX : CatalogEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    object Coroutines : LibraryEntry() {
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
+        /**
+         * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
          */
+        override val version = "1.6.1"
 
-        create("libs") {
-            SpineDependencies.useIn(this)
+        object Core : DependencyEntry() {
+            override val module = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+            val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
         }
     }
 }

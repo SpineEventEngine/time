@@ -66,3 +66,5 @@ assert(
             "org.dummy.company:runtime-linux:1.0.0" +
             "]"
 )
+
+assert(libs.versions.dummy.tools, "3.0.0")

@@ -24,46 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "testutil-time",
-)
-
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+/**
+ * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
+ * but we don't use it. We use ErrorProne for static analysis instead. The only
+ * reason for having this dependency is the annotations for null-checking introduced
+ * by JSR-305. These annotations are troublesome, but no alternatives are known for
+ * some of them so far.
+ *
+ * See [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
+ */
+@Suppress("unused")
+internal object FindBugs : DependencyEntry() {
+    override val version = "3.0.2"
+    val annotations by lib("com.google.code.findbugs:jsr305")
 }

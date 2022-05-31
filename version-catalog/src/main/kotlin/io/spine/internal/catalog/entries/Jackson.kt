@@ -24,46 +24,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+@Suppress("unused")
+internal object Jackson : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    override val version = "2.13.2"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
+    /**
+     * [Core](https://github.com/FasterXML/jackson-core)
+     */
+    val core by lib("com.fasterxml.jackson.core:jackson-core")
 
-dependencyResolutionManagement {
-    versionCatalogs {
+    /**
+     * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases)
+     */
+    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
 
-        /*
+    /**
+     * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases)
+     */
+    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 
-         Please, check out `buildSrc/settings.gradle.kts` file.
+    /**
+     * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases)
+     */
+    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    /**
+     * [Databind](https://github.com/FasterXML/jackson-databind)
+     */
+    object Databind : LibraryEntry() {
+        override val version = "2.13.2.2"
+        override val module = "com.fasterxml.jackson.core:jackson-databind"
     }
 }

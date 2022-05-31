@@ -24,46 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
 
-rootProject.name = "spine-time"
+/**
+ * [AppEngine](https://cloud.google.com/java/docs/reference)
+ */
+@Suppress("unused")
+internal object AppEngine : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    override val version = "1.9.82"
+    val sdk by lib("com.google.appengine:appengine-api-1.0-sdk")
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
+    object GradlePlugin : LibraryEntry() {
+        override val version = "2.2.0"
+        override val module = "com.google.cloud.tools:appengine-gradle-plugin"
     }
 }

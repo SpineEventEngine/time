@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineVersionCatalog
+import io.spine.internal.catalog.SpineDependencies
 
 buildscript {
     repositories {
@@ -35,12 +35,6 @@ buildscript {
         classpath("io.spine.internal:spine-version-catalog:+")
     }
 }
-
-apply {
-    plugin("io.spine.internal.version-catalog")
-}
-
-val spineDependencies = extensions.getByType<SpineVersionCatalog>()
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -79,7 +73,7 @@ dependencyResolutionManagement {
             version("kotlin", "1.5.31")
             version("kotlinX-coroutines", "1.5.2")
 
-            spineDependencies.useIn(this)
+            SpineDependencies.useIn(this)
         }
     }
 }

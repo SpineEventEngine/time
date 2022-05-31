@@ -24,57 +24,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry.given
+package io.spine.internal.catalog.entries
 
+import io.spine.internal.catalog.entry.CatalogEntry
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 
-internal object OuterDummyDependency : DependencyEntry() {
+@Suppress("unused")
+internal object GoogleCloud : CatalogEntry() {
 
-    override val version = "odd-0.0.1"
-
-    internal object SubLib1 : LibraryEntry() {
-        override val module = "org.dummy:subLib1"
+    /**
+     * [Core](https://github.com/googleapis/java-core)
+     */
+    object Core : LibraryEntry() {
+        override val version = "2.3.3"
+        override val module = "com.google.cloud:google-cloud-core"
     }
 
-    internal object SubLib2 : LibraryEntry() {
-        override val module = "org.dummy:subLib2"
+    /**
+     * [PubSubGrcpApi](https://github.com/googleapis/java-pubsub/tree/main/proto-google-cloud-pubsub-v1)
+     */
+    object PubSubGrpcApi : LibraryEntry() {
+        override val version = "1.97.0"
+        override val module = "com.google.api.grpc:proto-google-cloud-pubsub-v1"
     }
 
-    internal object SubLib3 : LibraryEntry() {
-        override val module = "org.dummy:subLib3"
+    /**
+     * [Trace](https://github.com/googleapis/java-trace)
+     */
+    object Trace : LibraryEntry() {
+        override val version = "2.1.0"
+        override val module = "com.google.cloud:google-cloud-trace"
     }
-}
 
-internal object StandaloneDummyDependency : DependencyEntry() {
-    override val bundle = setOf(
-        OuterDummyDependency.SubLib1,
-        OuterDummyDependency.SubLib2,
-        OuterDummyDependency.SubLib3,
-    )
-}
+    /**
+     * [Datastore](https://github.com/googleapis/java-datastore)
+     */
+    object Datastore : LibraryEntry() {
+        override val version = "2.2.1"
+        override val module = "com.google.cloud:google-cloud-datastore"
+    }
 
-internal object MethodDummyDependency : DependencyEntry() {
-
-    override val version = "mdd-0.0.1"
-    override val bundle = setOf(
-        lib("subLib1", "org.dummy:subLib1"),
-        lib("subLib2", "org.dummy:subLib2"),
-        lib("subLib3", "org.dummy:subLib3"),
-    )
-}
-
-internal object PropertyDummyDependency : DependencyEntry() {
-
-    override val version = "pdd-0.0.1"
-
-    val subLib1 by lib("org.dummy:subLib1")
-    val subLib2 by lib("org.dummy:subLib2")
-    val subLib3 by lib("org.dummy:subLib3")
-
-    val pile by bundle(subLib1, subLib2, subLib3)
-}
-
-internal object ErroneousDummyDependency : DependencyEntry() {
-    val erroneousDummyDependency by lib("...")
+    object ArtifactRegistry : DependencyEntry() {
+        override val version = "2.1.2"
+        val authCommon by lib("com.google.cloud.artifactregistry:artifactregistry-auth-common")
+    }
 }

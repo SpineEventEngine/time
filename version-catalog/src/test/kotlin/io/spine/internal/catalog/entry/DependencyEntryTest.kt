@@ -35,6 +35,8 @@ import io.spine.internal.catalog.entry.given.StandaloneDummyDependency
 import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.LibraryRecord
 import io.spine.internal.catalog.VersionRecord
+import io.spine.internal.catalog.entry.given.ErroneousDummyDependency
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -116,6 +118,13 @@ internal class DependencyEntryTest {
                 ),
             )
             assertThat(records).isEqualTo(expected)
+        }
+
+        @Test
+        fun `prohibit a sub-library named the same as outer entry`() {
+            Assertions.assertThrows(ExceptionInInitializerError::class.java) {
+                ErroneousDummyDependency.allRecords()
+            }
         }
     }
 }

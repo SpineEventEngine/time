@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
+/**
+ * [Roaster](https://github.com/forge/roaster)
+ */
+@Suppress("unused")
+internal object Roaster : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    /**
+     * Do not advance this version further because it would break compatibility with Java 8
+     * projects. Starting from the following version Roaster has a shaded version of Eclipse
+     * JFace built with Java 11.
+     *
+     * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
+     */
+    override val version = "2.24.0.Final"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+    val api by lib("org.jboss.forge.roaster:roaster-api")
+    val jdt by lib("org.jboss.forge.roaster:roaster-jdt")
 }

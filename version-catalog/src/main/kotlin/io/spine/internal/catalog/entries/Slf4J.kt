@@ -24,46 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+package io.spine.internal.catalog.entries
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+import io.spine.internal.catalog.entry.DependencyEntry
 
-rootProject.name = "spine-time"
+/**
+ * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
+ * we recommend to use the latter.
+ *
+ * Some third-party libraries may clash with different versions of the library.
+ * Thus, we have to force the version.
+ */
+@Suppress("unused")
+@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
+internal object Slf4J : DependencyEntry() {
 
-include(
-    "time",
-    "testutil-time",
-)
+    private const val group = "org.slf4j"
+    override val version = "1.7.30"
+    override val module = "$group:slf4j-api"
 
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("io.spine.internal:spine-version-catalog:+")
-    }
-}
-
-dependencyResolutionManagement {
-    versionCatalogs {
-
-        /*
-
-         Please, check out `buildSrc/settings.gradle.kts` file.
-
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
-
-         */
-
-        create("libs") {
-            SpineDependencies.useIn(this)
-        }
-    }
+    val jdk14 by lib("$group:slf4j-jdk14")
+    val api by lib("$group:slf4j-api")
 }
