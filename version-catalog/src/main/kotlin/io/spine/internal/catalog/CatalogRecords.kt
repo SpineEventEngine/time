@@ -26,28 +26,57 @@
 
 package io.spine.internal.catalog
 
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
 internal typealias Alias = String
 
-internal interface CatalogRecord
+internal interface CatalogRecord {
+
+    val alias: Alias
+
+    fun writeTo(catalog: VersionCatalogBuilder)
+}
 
 internal data class VersionRecord(
-    val alias: Alias,
+    override val alias: Alias,
     val value: String
-) : CatalogRecord
+) : CatalogRecord {
+
+    override fun writeTo(catalog: VersionCatalogBuilder) {
+        catalog.version(alias, value)
+    }
+}
 
 internal data class LibraryRecord(
-    val alias: Alias,
+    override val alias: Alias,
     val module: String,
     val versionRef: Alias
-) : CatalogRecord
+) : CatalogRecord {
+
+    override fun writeTo(catalog: VersionCatalogBuilder) {
+        val group = module.substringBefore(':')
+        val artifact = module.substringAfter(':')
+        catalog.run { library(alias, group, artifact).versionRef(versionRef) }
+    }
+}
 
 internal data class PluginRecord(
-    val alias: Alias,
+    override val alias: Alias,
     val id: String,
     val versionRef: Alias
-) : CatalogRecord
+) : CatalogRecord {
+
+    override fun writeTo(catalog: VersionCatalogBuilder) {
+        catalog.plugin(alias, id).versionRef(versionRef)
+    }
+}
 
 internal data class BundleRecord(
-    val alias: Alias,
+    override val alias: Alias,
     val libs: Set<Alias>
-) : CatalogRecord
+) : CatalogRecord {
+
+    override fun writeTo(catalog: VersionCatalogBuilder) {
+        catalog.bundle(alias, libs.toList())
+    }
+}

@@ -33,20 +33,23 @@ import org.reflections.util.ConfigurationBuilder
 
 class SpineDependencies {
     companion object {
-        const val pkg = "io.spine.internal.catalog.entries"
-    }
 
-    fun useIn(catalog: VersionCatalogBuilder) {
-        val entries = findEntries()
-    }
+        private const val pkg = "io.spine.internal.catalog.entries"
 
-    private fun findEntries(): Set<CatalogEntry> {
-        val builder = ConfigurationBuilder().forPackage(pkg)
-        val reflections = Reflections(builder)
-        val result = reflections.getSubTypesOf(CatalogEntry::class.java)
-            .filter { it.enclosingClass == null }
-            .mapNotNull { it.kotlin.objectInstance }
-            .toSet()
-        return result
+        fun useIn(catalog: VersionCatalogBuilder) {
+            val entries = findEntries()
+            val records = entries.flatMap { it.allRecords() }
+            records.forEach { it.writeTo(catalog) }
+        }
+
+        private fun findEntries(): Set<CatalogEntry> {
+            val builder = ConfigurationBuilder().forPackage(pkg)
+            val reflections = Reflections(builder)
+            val result = reflections.getSubTypesOf(CatalogEntry::class.java)
+                .filter { it.enclosingClass == null }
+                .mapNotNull { it.kotlin.objectInstance }
+                .toSet()
+            return result
+        }
     }
 }
