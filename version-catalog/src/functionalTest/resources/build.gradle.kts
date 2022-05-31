@@ -48,7 +48,6 @@ assert(libs.versions.dummy.gradlePlugin, "0.0.8")
 assert(libs.dummy.gradlePlugin, "$group:my-dummy-plugin:0.0.8")
 assert(libs.plugins.dummy, "my-dummy-plugin:0.0.8")
 
-assert(libs.versions.dummy.runtime, "1.0.0")
 assert(libs.versions.dummy.runtime.bom, "2.0.0")
 with(libs.dummy.runtime) {
     assert(win, "$group:runtime-win:1.0.0")

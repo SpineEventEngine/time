@@ -76,5 +76,6 @@ internal object PropertyDummyDependency : DependencyEntry() {
 }
 
 internal object ErroneousDummyDependency : DependencyEntry() {
+    @Suppress("unused")
     val erroneousDummyDependency by lib("...")
 }

@@ -77,8 +77,7 @@ internal object Dummy : DependencyEntry() {
 
         // When an entry does not override the version, it is taken from
         // the outer entry. For example, in this case, all libs within "Runtime"
-        // entry will have "1.0.0". For hard objects (as this one), the inherited
-        // version will be available for override in settings file.
+        // entry will have "1.0.0". The inherited version can't be overridden.
 
         val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac

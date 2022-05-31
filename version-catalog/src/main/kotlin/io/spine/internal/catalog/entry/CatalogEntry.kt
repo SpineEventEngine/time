@@ -38,7 +38,7 @@ internal abstract class CatalogEntry : CatalogEntryNotation {
     // Also, those operations are quite heavy.
 
     private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
-    internal val outerEntry: CatalogEntry? by lazy { outerEntry() }
+    internal val outerEntry: CatalogEntry? = outerEntry()
     final override val alias: String = alias()
 
     open fun records(): Set<CatalogRecord> = emptySet()
@@ -69,12 +69,9 @@ internal abstract class CatalogEntry : CatalogEntryNotation {
         return outerEntry
     }
 
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
     private fun alias(): String {
         val className = this::class.camelName()
-        val alias = if (outerEntry != null) "${outerEntry!!.alias}-$className" else className
+        val alias = if (outerEntry != null) "${outerEntry.alias}-$className" else className
         return alias
     }
 

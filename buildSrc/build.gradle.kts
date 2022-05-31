@@ -44,20 +44,20 @@ configurations.all {
     resolutionStrategy {
         failOnVersionConflict()
         force(
-            libs.guava,
-            libs.jackson.databind,
-            libs.httpClient.google,
-            libs.slf4J.api,
-            libs.jackson.core,
-            libs.kotlin.stdLib,
-            libs.kotlin.stdLib.jdk8,
-            libs.kotlin.stdLib.common,
             libs.apacheHttp.core,
+            libs.guava,
+            libs.httpClient.google,
+            libs.jackson.core,
+            libs.jackson.databind,
             libs.jackson.dataformatXml,
-            libs.kotlin.reflect,
             libs.jackson.moduleKotlin,
+            libs.kotlin.reflect,
+            libs.kotlin.stdLib,
+            libs.kotlin.stdLib.common,
+            libs.kotlin.stdLib.jdk8,
             libs.kotlinX.coroutines.core,
             libs.kotlinX.coroutines.core.jvm,
+            libs.slf4J.api,
         )
     }
 }

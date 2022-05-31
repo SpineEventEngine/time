@@ -33,7 +33,7 @@ import io.spine.internal.catalog.VersionRecord
 
 internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
 
-    override val version: String? = outerVersionByDefault()
+    override val version: String? = null
     protected val versionAlias: Alias by lazy { versionAlias() }
 
     override fun records(): Set<CatalogRecord> {
@@ -50,14 +50,9 @@ internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
         return result
     }
 
-    private fun versionAlias(): Alias {
-        check(version != null) { "Specify `version` in this entry explicitly or in the outer entry!" }
-        return alias
+    private fun versionAlias(): Alias = when {
+        version != null -> alias
+        outerEntry is VersionEntry && outerEntry.version != null -> outerEntry.alias
+        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
     }
-
-    /**
-     * Smart cast doesn't work, since [outerEntry] is lazy.
-     */
-    private fun outerVersionByDefault(): String? =
-        if (outerEntry is VersionEntry) (outerEntry as VersionEntry).version else null
 }

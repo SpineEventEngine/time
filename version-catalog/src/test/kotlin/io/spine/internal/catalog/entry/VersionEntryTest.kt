@@ -51,12 +51,6 @@ internal class VersionEntryTest {
     inner class nested {
 
         @Test
-        fun `inherit the version from the outer entry`() {
-            val record = record(OuterDummyVersion.NestedDummyVersion)
-            record.assert("outerDummyVersion-nestedDummyVersion", "odv-0.0.1")
-        }
-
-        @Test
         fun `override the version from the outer entry`() {
             val record = record(OuterDummyVersion.NestedDummyVersion2)
             record.assert("outerDummyVersion-nestedDummyVersion2", "ndv2-0.0.1")

@@ -28,23 +28,39 @@ package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.assert
 import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.given.OuterDummyLibrary
 import io.spine.internal.catalog.entry.given.StandaloneDummyLibrary
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("`LibraryEntry`")
+@DisplayName("`LibraryEntry` should when")
 internal class LibraryEntryTest {
 
     @Nested
-    inner class `when standalone should` {
+    inner class standalone {
 
         @Test
         fun `assemble a library record if the module and version are specified`() {
             val record = record(StandaloneDummyLibrary)
             record.assert(
                 alias = "standaloneDummyLibrary",
-                module = "org.dummy:dummy-lib"
+                module = "org.dummy:dummy-lib",
+                versionRef = "standaloneDummyLibrary",
+            )
+        }
+    }
+
+    @Nested
+    inner class nested {
+
+        @Test
+        fun `inherit the version alias from the outer entry`() {
+            val record = record(OuterDummyLibrary.NestedDummyLibrary)
+            record.assert(
+                alias = "outerDummyLibrary-nestedDummyLibrary",
+                module = "org.dummy:dummy-nested-lib",
+                versionRef = "outerDummyLibrary",
             )
         }
     }
