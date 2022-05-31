@@ -46,6 +46,7 @@ import org.reflections.util.ConfigurationBuilder
  * It is worth to mention, that the relationship between catalog entries and
  * records is "one to many". Meaning, a single entry can produce one or more records.
  */
+@Suppress("unused")
 class SpineDependencies {
     companion object {
 

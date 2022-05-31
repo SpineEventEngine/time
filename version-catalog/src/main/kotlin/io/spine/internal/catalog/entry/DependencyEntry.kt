@@ -27,9 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.AlwaysReturnDelegate
-import io.spine.internal.catalog.BundleNotation
-import io.spine.internal.catalog.DependencyNotation
-import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.CatalogRecord
 import io.spine.internal.catalog.LibraryRecord
