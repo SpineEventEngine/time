@@ -28,6 +28,7 @@ group = "io.spine.internal"
 version = "0.0.1-SNAPSHOT.1"
 
 plugins {
+    id("com.dorongold.task-tree") version "2.1.0"
     id("org.jetbrains.kotlin.jvm") version "1.6.21"
     `maven-publish`
 }
@@ -57,6 +58,18 @@ dependencies {
 
 sourceSets {
     create("functionalTest")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = project.name
+            version = project.version.toString()
+
+            from(components["java"])
+        }
+    }
 }
 
 tasks {
