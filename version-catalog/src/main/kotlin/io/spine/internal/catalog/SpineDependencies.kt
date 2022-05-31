@@ -31,17 +31,40 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
+/**
+ * The class represents all dependencies, declared within
+ * [io.spine.internal.catalog.entries] package.
+ *
+ * The dependencies, declared there are used in Spine-related projects.
+ *
+ * It locates all top-level catalog entries, declared in the package. A catalog
+ * entry is quite complex structure itself, which can also have children
+ * and parents. Thus, it can't be written into the version catalog directly.
+ * Firstly, it is transformed into plain catalog records, and only then they are
+ * written into the given version catalog.
+ *
+ * It is worth to mention, that the relationship between catalog entries and
+ * records is "one to many". Meaning, a single entry can produce one or more records.
+ */
 class SpineDependencies {
     companion object {
 
         private const val pkg = "io.spine.internal.catalog.entries"
 
+        /**
+         * Fills up the given version catalog with dependencies, which are used
+         * in Spine-related projects.
+         */
         fun useIn(catalog: VersionCatalogBuilder) {
             val entries = findEntries()
             val records = entries.flatMap { it.allRecords() }
             records.forEach { it.writeTo(catalog) }
         }
 
+        /**
+         * This method utilizes reflection in order to scan the package for
+         * declared [catalog entries][CatalogEntry].
+         */
         private fun findEntries(): Set<CatalogEntry> {
             val builder = ConfigurationBuilder().forPackage(pkg)
             val reflections = Reflections(builder)

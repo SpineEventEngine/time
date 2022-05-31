@@ -32,22 +32,20 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 
-// Actually, our plugin operates only upon a Gradle-provided `VersionCatalogBuilder`.
-//
-// Thus, before publishing the plugin, it is better to check if the
-// resulted code upon the builder can assemble a catalog instance.
-
-// Sometimes happens it can't. Due to aliases mismatch or incorrect alias name.
-// The catalog builder doesn't check this on its own.
-//
-// And as for now, there is no legitimate way to check this out without
-// a true functional test.
-//
-// See issue in Gradle: https://github.com/gradle/gradle/issues/20807
-
 /**
- * Checks out that the code upon `VersionCatalogBuilder`, produced by the plugin,
- * can assemble an instance of the catalog.
+ * Verifies the generated type-safe accessors for `Dummy` dependency.
+ *
+ * `Dummy` dependency is an imaginary library, which exists for two reasons:
+ *
+ *  1. Showcasing API for dependency declarations.
+ *  2. Functional testing in conditions, which are very close to real life.
+ *
+ * Actually, our plugin provides code upon Gradle-provided `VersionCatalogBuilder`,
+ * which fills up the given catalog. And, as for now, there's no any other
+ * legitimate way (except for a true functional test) to check if this code
+ * executes successfully on a real instance of `VersionCatalogBuilder`.
+ *
+ * See issue in Gradle: https://github.com/gradle/gradle/issues/20807
  */
 @Suppress("FunctionName")
 @DisplayName("`SpineDependencies` should")
@@ -56,9 +54,28 @@ class SpineDependenciesFunctionalTest {
     private val projectDir = Files.createTempDirectory(this::class.simpleName).toFile()
 
     /**
-     * The test verifies that a build doesn't fail when the plugin is applied.
+     * The test prepares an empty Gradle project in a temporary directory
+     * and builds it.
      *
-     * The build fails if a version catalog can't be assembled.
+     * This project has our plugin applied to settings file from MavenLocal.
+     * Thus, the plugin should be published to MavenLocal in advance.
+     *
+     * The simplest way to achieve this is by means of Gradle:
+     *
+     * ```
+     * tasks {
+     *     named("functionalTest") {
+     *         dependsOn(named("publishToMavenLocal")
+     *     }
+     * }
+     * ```
+     *
+     * A build file of this dummy project has assertions upon the generated
+     * accessors to `Dummy` dependency. When any of assertions fails, the build
+     * fails as well, making the test not passed.
+     *
+     * @see `io.spine.internal.catalog.entries.Dummy`
+     * @see `src/functionalTest/resources/build.gradle.kts`
      */
     @Test
     fun `fill up an existing version catalog`() {
@@ -74,21 +91,6 @@ class SpineDependenciesFunctionalTest {
         }
     }
 
-    /**
-     * Applies the plugin to a dummy project.
-     *
-     * The plugin is fetched from MavenLocal.
-     *
-     * This, it should be published to MavenLocal in advance:
-     *
-     * ```
-     * tasks {
-     *     named("functionalTest") {
-     *         dependsOn(named("publishToMavenLocal")
-     *     }
-     * }
-     * ```
-     */
     private fun createSettingsFile() = copyFromResources("settings.gradle.kts")
 
     private fun createBuildFile() = copyFromResources("build.gradle.kts")

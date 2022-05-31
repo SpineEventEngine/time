@@ -30,6 +30,17 @@ import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 import io.spine.internal.catalog.entry.PluginEntry
 
+/**
+ * This dependency represents an imaginary library.
+ *
+ * It is used to showcase API for dependency declaration and perform true
+ * functional testing.
+ *
+ * Side comments to certain statements demonstrate how those lines will
+ * be represented in the generated type-safe accessors.
+ *
+ * @see `io.spine.internal.catalog.SpineDependenciesFunctionalTest`
+ */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 internal object Dummy : DependencyEntry() {
 
@@ -51,8 +62,9 @@ internal object Dummy : DependencyEntry() {
     )
 
     // "GradlePlugin" - is a special entry name for `PluginEntry`.
-    // For plugin entries with this name, the facade will not put "gradlePlugin" suffix for a plugin's id.
-    // Note, that we have this suffix for the version and module, and does not have for id.
+    // For plugin entries with this name, the facade will not put "gradlePlugin"
+    // suffix for a plugin's id. Note, that we have this suffix for the version
+    // and module, and does not have for id.
 
     object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
@@ -62,9 +74,10 @@ internal object Dummy : DependencyEntry() {
 
     object Runtime : DependencyEntry() {
 
-        // When the version is not overridden, it is taken from the outer entry.
-        // In this case, all libs within "Runtime" entry will have "1.0.0".
-        // For hard objects, the inherited version will be available for override.
+        // When an entry does not override the version, it is taken from
+        // the outer entry. For example, in this case, all libs within "Runtime"
+        // entry will have "1.0.0". For hard objects (as this one), the inherited
+        // version will be available for override in settings file.
 
         val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
@@ -76,8 +89,8 @@ internal object Dummy : DependencyEntry() {
         }
     }
 
-    // The lib that is declared as `object SomeLib : LibraryEntry()` can be referenced as well
-    // as the one declared by `lib()` delegate.
+    // A library that is declared as `object SomeLib : LibraryEntry()` can be
+    // referenced as well as the one declared by `lib()` delegate.
 
     val runtime by bundle( // libs.bundles.dummy.runtime
         Runtime.BOM,
