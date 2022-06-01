@@ -26,8 +26,8 @@
 
 package io.spine.internal.catalog.entry.given
 
-import io.spine.internal.catalog.entry.CatalogEntry
 import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.entry.CatalogEntry
 
 internal object StandaloneDummy : CatalogEntry()
 

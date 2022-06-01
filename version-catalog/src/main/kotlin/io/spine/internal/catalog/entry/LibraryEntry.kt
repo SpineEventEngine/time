@@ -27,23 +27,32 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionRecord
 
-internal abstract class LibraryEntry : VersionEntry(), LibraryNotation {
+/**
+ * A catalog entry, which is used to declare a library.
+ *
+ * Only object declarations are meant to inherit from this class.
+ *
+ * Below is an example of how to declare a library using this entry:
+ *
+ * ```
+ * internal object MyLib : LibraryEntry() {
+ *     override val version = "1.0.0"
+ *     override val module = "org.my.company:my-lib"
+ * }
+ * ```
+ */
+internal abstract class LibraryEntry : AbstractCatalogEntry(), LibraryNotation {
 
-    override val module: String = ""
-
+    /**
+     * Produces [VersionRecord] and [LibraryRecord].
+     */
     override fun records(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        if (module.isNotEmpty()) {
-            val record = LibraryRecord(alias, module, versionAlias)
-            result.add(record)
-        }
-
-        return result
+        val version = VersionRecord(alias, version)
+        val library = LibraryRecord(alias, module, alias)
+        return setOf(version, library)
     }
 }

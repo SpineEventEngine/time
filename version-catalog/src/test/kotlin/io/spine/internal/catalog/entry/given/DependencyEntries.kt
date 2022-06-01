@@ -30,28 +30,10 @@ import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 
 internal object OuterDummyDependency : DependencyEntry() {
-
     override val version = "odd-0.0.1"
-
-    internal object SubLib1 : LibraryEntry() {
-        override val module = "org.dummy:subLib1"
-    }
-
-    internal object SubLib2 : LibraryEntry() {
-        override val module = "org.dummy:subLib2"
-    }
-
-    internal object SubLib3 : LibraryEntry() {
-        override val module = "org.dummy:subLib3"
-    }
 }
 
 internal object StandaloneDummyDependency : DependencyEntry() {
-    override val bundle = setOf(
-        OuterDummyDependency.SubLib1,
-        OuterDummyDependency.SubLib2,
-        OuterDummyDependency.SubLib3,
-    )
 }
 
 internal object MethodDummyDependency : DependencyEntry() {

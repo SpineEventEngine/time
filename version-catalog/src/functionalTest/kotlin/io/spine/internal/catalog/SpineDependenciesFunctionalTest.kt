@@ -83,7 +83,7 @@ class SpineDependenciesFunctionalTest {
         createBuildFile()
 
         val runner = GradleRunner.create()
-            .withArguments("help")
+            .withArguments("help", "--stacktrace")
             .withProjectDir(projectDir)
 
         assertDoesNotThrow {

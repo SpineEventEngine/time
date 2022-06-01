@@ -27,52 +27,33 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.CatalogRecord
-import kotlin.reflect.KClass
 
-internal abstract class CatalogEntry : CatalogEntryNotation {
+/**
+ * An entry, which produces no records.
+ *
+ * It can be used as an outer entry to introduce a common alias. Such entries
+ * don't declare anything on their own, they just serve as a named scope for
+ * nested declarations.
+ *
+ * Please, consider the following example:
+ *
+ * ```
+ * internal object Runtime : CatalogEntry() {
+ *     object Linux : SomeEntry()  // alias = runtime.linux
+ *     object Mac : SomeEntry()    // alias = runtime.mac
+ *     object Win : SomeEntry()    // alias = runtime.win
+ * }
+ * ```
+ *
+ * In the example above, `Linux`, `Mac` and `Win` are concrete entries, which
+ * may produce concrete records (such as a library, version, etc.). Meanwhile,
+ * `Runtime` does not produce anything. It's just hosting other entries, affecting
+ * their final alias.
+ */
+internal open class CatalogEntry : AbstractCatalogEntry() {
 
-    // They are lazy by design.
-    // If not, it leads to InitializationError.
-
-    // Also, those operations are quite heavy.
-
-    private val nestedEntries: Set<CatalogEntry> by lazy {  nestedEntries() }
-    internal val outerEntry: CatalogEntry? = outerEntry()
-    final override val alias: String = alias()
-
-    open fun records(): Set<CatalogRecord> = emptySet()
-
-    fun allRecords(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromThisEntry = records()
-        result.addAll(fromThisEntry)
-
-        val fromNested = nestedEntries.flatMap { it.allRecords() }
-        result.addAll(fromNested)
-
-        return result
-    }
-
-    private fun nestedEntries(): Set<CatalogEntry> {
-        val nestedClasses = this::class.nestedClasses
-        val nestedObjects = nestedClasses.mapNotNull { it.objectInstance }
-        val nestedEntries = nestedObjects.filterIsInstance<CatalogEntry>()
-        return nestedEntries.toSet()
-    }
-
-    private fun outerEntry(): CatalogEntry? {
-        val enclosingClass = this::class.java.enclosingClass
-        val enclosingInstance = enclosingClass?.kotlin?.objectInstance
-        val outerEntry = if (enclosingInstance is CatalogEntry) enclosingInstance else null
-        return outerEntry
-    }
-
-    private fun alias(): String {
-        val className = this::class.camelName()
-        val alias = if (outerEntry != null) "${outerEntry.alias}-$className" else className
-        return alias
-    }
-
-    private fun KClass<*>.camelName() = simpleName!!.replaceFirstChar { it.lowercaseChar() }
+    /**
+     * No records are produced by this entry.
+     */
+    override fun records(): Set<CatalogRecord> = emptySet()
 }

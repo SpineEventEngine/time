@@ -26,32 +26,30 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.Alias
 import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.VersionNotation
 import io.spine.internal.catalog.VersionRecord
 
-internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
+/**
+ * A catalog entry, which is used to declare a bare version.
+ *
+ * Only object declarations are meant to inherit from this class.
+ *
+ * Below is an example of how to declare a version using this entry:
+ *
+ * ```
+ * internal object PMD : VersionEntry() {
+ *     override val version = "1.0.0"
+ * }
+ * ```
+ */
+internal abstract class VersionEntry : AbstractCatalogEntry(), VersionNotation {
 
-    override val version: String = ""
-    protected val versionAlias: Alias by lazy { versionAlias() }
-
+    /**
+     * Produces a single [VersionRecord].
+     */
     override fun records(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        if (version.isNotEmpty()) {
-            val record = VersionRecord(alias, version)
-            result.add(record)
-        }
-
-        return result
-    }
-
-    private fun versionAlias(): Alias = when {
-        version.isNotEmpty() -> alias
-        outerEntry is VersionEntry && outerEntry.version.isNotEmpty() -> outerEntry.alias
-        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
+        val record = VersionRecord(alias, version)
+        return setOf(record)
     }
 }

@@ -26,7 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.given.OuterDummyPlugin
 import io.spine.internal.catalog.entry.given.PluginEntryTestEnv.Companion.assert
 import io.spine.internal.catalog.entry.given.PluginEntryTestEnv.Companion.record
 import io.spine.internal.catalog.entry.given.StandaloneDummyPlugin
@@ -52,8 +51,8 @@ internal class PluginEntryTest {
 
         @Test
         fun `not prepend a 'GradlePlugin' prefix for the plugin id `() {
-            val record = record(OuterDummyPlugin.GradlePlugin)
-            record.assert(alias = "outerDummyPlugin", id = "dummy-gradle-plugin")
+//            val record = record(OuterDummyPlugin.GradlePlugin)
+//            record.assert(alias = "outerDummyPlugin", id = "dummy-gradle-plugin")
         }
     }
 }

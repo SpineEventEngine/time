@@ -28,12 +28,12 @@ package io.spine.internal.catalog.entries
 
 import io.spine.internal.catalog.entry.CatalogEntry
 import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.entry.VersionEntry
 
 @Suppress("unused")
 internal object KotlinX : CatalogEntry() {
 
-    object Coroutines : LibraryEntry() {
+    object Coroutines : VersionEntry() {
 
         /**
          * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines)

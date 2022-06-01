@@ -26,25 +26,113 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.Alias
 import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.PluginNotation
 import io.spine.internal.catalog.PluginRecord
+import io.spine.internal.catalog.VersionNotation
+import io.spine.internal.catalog.VersionRecord
 
-internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
+/**
+ * A catalog entry, which is used to declare a Gradle plugin.
+ *
+ * Only object declarations are meant to inherit from this class.
+ *
+ * Below is an example of how to declare a plugin using this entry:
+ *
+ * ```
+ * internal object MyPlugin : PluginEntry() {
+ *     override val version = "1.0.0"
+ *     override val module = "org.my.company:my-gradle-plugin"
+ *     override val id = "org.my.company.plugin"
+ * }
+ * ```
+ *
+ * Specifying of [module] is optional. Also, [version] can be inherited from
+ * the outer entry.
+ *
+ * An example with an inherited version:
+ *
+ * ```
+ * internal object MyLib : VersionEntry() {
+ *     override val version = "1.2.3"
+ *
+ *     object GradlePlugin : PluginEntry() {
+ *         override val module = "org.my.company:my-gradle-plugin"
+ *         override val id = "org.my.company.plugin"
+ *     }
+ * }
+ * ```
+ *
+ * There's a special treatment for plugin entries named "GradlePlugin". For them,
+ * "gradlePlugin" suffix will not be appended to a final plugin's alias.
+ *
+ * Consider the following example:
+ *
+ * ```
+ * internal object MyLib : CatalogEntry() {
+ *     object GradlePlugin : PluginEntry() {
+ *         override val version = "1.2.3"               // libs.versions.myLib.gradlePlugin
+ *         override val module = "my.company:my-plugin" // libs.myLib.gradlePlugin
+ *         override val id = "org.my.company.plugin"    // libs.plugins.myLib
+ *     }
+ * }
+ * ```
+ *
+ * In the example above, the side comments demonstrate the generated accessors.
+ * The version and module have `gradlePlugin` suffix, while the plugin itself not.
+ * It is done so in order not to repeat yourself in naming. Otherwise, we would
+ * come up with this: `libs.plugins.myLib.gradlePlugin`.
+ */
+internal abstract class PluginEntry : AbstractCatalogEntry(), PluginNotation {
 
-    override val id: String = ""
+    private val versionAlias: Alias by lazy { versionAlias() }
+    private val pluginAlias: Alias by lazy { pluginAlias() }
 
+    /**
+     * A version of this plugin.
+     *
+     * When unspecified, the entry will try to use the version, declared in
+     * the outer entry.
+     *
+     * Please note, this property is mandatory. And if neither this entry nor
+     * outer one declares the version, an exception will be thrown.
+     */
+    override val version: String = ""
+
+    /**
+     * Always produces [PluginRecord].
+     *
+     * Optionally, it can produce [VersionRecord] and/or [LibraryRecord],
+     * when the respected properties are set.
+     */
+    @Suppress("DuplicatedCode") // `DependencyEntry` has similar code.
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
-
-        if (id.isNotEmpty()) {
-            val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, id, versionAlias)
-            result.add(record)
+        if (version.isNotEmpty()) {
+            val version = VersionRecord(alias, version)
+            result.add(version)
         }
+
+        if (module != null) {
+            val library = LibraryRecord(alias, module!!, versionAlias)
+            result.add(library)
+        }
+
+        val record = PluginRecord(pluginAlias, id, versionAlias)
+        result.add(record)
 
         return result
     }
+
+    private fun versionAlias(): Alias = when {
+        version.isNotEmpty() -> alias
+        outerEntry is VersionNotation && outerEntry.version.isNotEmpty() -> outerEntry.alias
+        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
+    }
+
+    private fun pluginAlias(): Alias =
+        if (alias.endsWith("gradlePlugin")) alias.substringBeforeLast('-') else alias
 }

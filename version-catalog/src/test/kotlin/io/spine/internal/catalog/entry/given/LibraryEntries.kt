@@ -33,11 +33,11 @@ internal object StandaloneDummyLibrary : LibraryEntry() {
     override val module = "org.dummy:dummy-lib"
 }
 
-internal object OuterDummyLibrary : LibraryEntry() {
-
-    override val version = "odl-0.0.1"
-
-    internal object NestedDummyLibrary : LibraryEntry() {
-        override val module = "org.dummy:dummy-nested-lib"
-    }
-}
+//internal object OuterDummyLibrary : LibraryEntry() {
+//
+//    override val version = "odl-0.0.1"
+//
+//    internal object NestedDummyLibrary : LibraryEntry() {
+//        override val module = "org.dummy:dummy-nested-lib"
+//    }
+//}

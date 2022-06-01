@@ -26,62 +26,83 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.Alias
 import io.spine.internal.catalog.AlwaysReturnDelegate
+import io.spine.internal.catalog.BundleNotation
 import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.DependencyNotation
+import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionNotation
+import io.spine.internal.catalog.VersionRecord
 import io.spine.internal.catalog.delegate
 
-internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
+internal abstract class DependencyEntry : AbstractCatalogEntry(), DependencyNotation {
 
-    override val bundle: Set<LibraryNotation>? = null
     private val standaloneLibs = mutableSetOf<LibraryNotation>()
     private val standaloneBundles = mutableSetOf<BundleNotation>()
+    private val versionAlias: Alias by lazy { versionAlias() }
 
+    /**
+     * A version of this dependency.
+     *
+     * When unspecified, the entry will try to use the version, declared in
+     * the outer entry.
+     *
+     * Please note, this property is mandatory. And if neither this entry nor
+     * outer one declares the version, an exception will be thrown.
+     */
+    override val version: String = ""
+
+    @Suppress("DuplicatedCode") // `PluginEntry` has similar code.
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
-        val fromSuper = super.records()
-        result.addAll(fromSuper)
+        if (version.isNotEmpty()) {
+            val version = VersionRecord(alias, version)
+            result.add(version)
+        }
 
-        val thisBundle = record(this)
-        thisBundle?.let { result.add(it) }
+        if (module != null) {
+            val library = LibraryRecord(alias, module!!, versionAlias)
+            result.add(library)
+        }
 
-        val otherBundleRecords = standaloneBundles.mapNotNull { record(it) }
-        result.addAll(otherBundleRecords)
+        if (bundle != null) {
+            val aliases = bundle!!.map { it.alias }.toSet()
+            val bundle = BundleRecord(alias, aliases)
+            result.add(bundle)
+        }
 
-        val otherLibRecords = standaloneLibs.map { LibraryRecord(it.alias, it.module, versionAlias) }
-        result.addAll(otherLibRecords)
+        val extraBundles = standaloneBundles.map { record(it) }
+        result.addAll(extraBundles)
+
+        val extraLibraries = standaloneLibs.map { record(it) }
+        result.addAll(extraLibraries)
 
         return result
     }
 
-    private fun record(notation: BundleNotation): BundleRecord? {
+    private fun record(notation: BundleNotation): BundleRecord {
+        val aliases = notation.bundle.map { it.alias }.toSet()
+        val record = BundleRecord(notation.alias, aliases)
+        return record
+    }
 
-        if (notation.bundle == null) {
-            return null
-        }
-
-        val bundleAlias = notation.alias
-        val libsAliases = notation.bundle!!.map { it.alias }.toSet()
-        val record = BundleRecord(bundleAlias, libsAliases)
-
+    private fun record(notation: LibraryNotation): LibraryRecord {
+        val record = LibraryRecord(notation.alias, notation.module, versionAlias)
         return record
     }
 
     override fun lib(name: String, module: String): LibraryNotation {
         val thisEntryAlias = this.alias
-        val libAlias = "$thisEntryAlias-$name"
-
-        check(!thisEntryAlias.endsWith(name)) {
-            "Name of a sub-library can't be the same with entry's name: " +
-                    "\nLibrary: $name" +
-                    "\nEntry  : $thisEntryAlias"
-        }
+        val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
+                       else "$thisEntryAlias-$name"
 
         val notation = object : LibraryNotation {
             override val alias: String = libAlias
-            override val version: String = ""
+            override val version: String = "" // will be taken from this entry
             override val module: String = module
         }
 
@@ -105,4 +126,10 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
             standaloneBundles.add(notation)
             notation
         }
+
+    private fun versionAlias(): Alias = when {
+        version.isNotEmpty() -> alias
+        outerEntry is VersionNotation && outerEntry.version.isNotEmpty() -> outerEntry.alias
+        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
+    }
 }

@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.AbstractCatalogEntry
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
@@ -43,8 +43,9 @@ import org.reflections.util.ConfigurationBuilder
  * Firstly, it is transformed into plain catalog records, and only then they are
  * written into the given version catalog.
  *
- * It is worth to mention, that the relationship between catalog entries and
- * records is "one to many". Meaning, a single entry can produce one or more records.
+ * In order to add a new dependency to this set, create an object in [io.spine.internal.catalog.entries].
+ * Reference [io.spine.internal.catalog.entries.Dummy] to quickly grasp the API
+ * for dependencies declaration.
  */
 @Suppress("unused")
 class SpineDependencies {
@@ -64,12 +65,12 @@ class SpineDependencies {
 
         /**
          * This method utilizes reflection in order to scan the package for
-         * declared [catalog entries][CatalogEntry].
+         * declared [catalog entries][AbstractCatalogEntry].
          */
-        private fun findEntries(): Set<CatalogEntry> {
+        private fun findEntries(): Set<AbstractCatalogEntry> {
             val builder = ConfigurationBuilder().forPackage(pkg)
             val reflections = Reflections(builder)
-            val result = reflections.getSubTypesOf(CatalogEntry::class.java)
+            val result = reflections.getSubTypesOf(AbstractCatalogEntry::class.java)
                 .filter { it.enclosingClass == null }
                 .mapNotNull { it.kotlin.objectInstance }
                 .toSet()

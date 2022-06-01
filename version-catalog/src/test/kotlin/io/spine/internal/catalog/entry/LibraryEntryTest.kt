@@ -28,7 +28,6 @@ package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.assert
 import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.record
-import io.spine.internal.catalog.entry.given.OuterDummyLibrary
 import io.spine.internal.catalog.entry.given.StandaloneDummyLibrary
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -56,12 +55,12 @@ internal class LibraryEntryTest {
 
         @Test
         fun `inherit the version alias from the outer entry`() {
-            val record = record(OuterDummyLibrary.NestedDummyLibrary)
-            record.assert(
-                alias = "outerDummyLibrary-nestedDummyLibrary",
-                module = "org.dummy:dummy-nested-lib",
-                versionRef = "outerDummyLibrary",
-            )
+//            val record = record(OuterDummyLibrary.NestedDummyLibrary)
+//            record.assert(
+//                alias = "outerDummyLibrary-nestedDummyLibrary",
+//                module = "org.dummy:dummy-nested-lib",
+//                versionRef = "outerDummyLibrary",
+//            )
         }
     }
 }

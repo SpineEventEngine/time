@@ -47,11 +47,6 @@ internal class CatalogEntryTest {
         fun `use object's name as alias`() {
             assertThat(standaloneEntry.alias).isEqualTo("standaloneDummy")
         }
-
-        @Test
-        fun `return null value for outer entry property`() {
-            assertThat(standaloneEntry.outerEntry).isNull()
-        }
     }
 
     @Nested
@@ -60,11 +55,6 @@ internal class CatalogEntryTest {
         @Test
         fun `regard outer object in alias`() {
             assertThat(nestedEntry.alias).isEqualTo("outerDummy-nestedDummy")
-        }
-
-        @Test
-        fun `return outer object for outer entry property`() {
-            assertThat(nestedEntry.outerEntry).isEqualTo(outerEntry)
         }
     }
 

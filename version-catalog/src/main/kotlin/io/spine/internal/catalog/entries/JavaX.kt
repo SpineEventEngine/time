@@ -26,10 +26,11 @@
 
 package io.spine.internal.catalog.entries
 
+import io.spine.internal.catalog.entry.CatalogEntry
 import io.spine.internal.catalog.entry.LibraryEntry
 
 @Suppress("unused")
-internal object JavaX : LibraryEntry() {
+internal object JavaX : CatalogEntry() {
 
     /**
      * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.

@@ -33,10 +33,10 @@ internal object StandaloneDummyPlugin : PluginEntry() {
     override val id = "dummy-plugin"
 }
 
-internal object OuterDummyPlugin : PluginEntry() {
-
-    internal object GradlePlugin : PluginEntry() {
-        override val version = "gp-0.0.1"
-        override val id = "dummy-gradle-plugin"
-    }
-}
+//internal object OuterDummyPlugin : PluginEntry() {
+//
+//    internal object GradlePlugin : PluginEntry() {
+//        override val version = "gp-0.0.1"
+//        override val id = "dummy-gradle-plugin"
+//    }
+//}
