@@ -50,7 +50,7 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
         val otherBundleRecords = standaloneBundles.mapNotNull { record(it) }
         result.addAll(otherBundleRecords)
 
-        val otherLibRecords = standaloneLibs.map { LibraryRecord(it.alias, it.module!!, versionAlias) }
+        val otherLibRecords = standaloneLibs.map { LibraryRecord(it.alias, it.module, versionAlias) }
         result.addAll(otherLibRecords)
 
         return result
@@ -81,7 +81,7 @@ internal abstract class DependencyEntry : LibraryEntry(), DependencyNotation {
 
         val notation = object : LibraryNotation {
             override val alias: String = libAlias
-            override val version: String? = null
+            override val version: String = ""
             override val module: String = module
         }
 

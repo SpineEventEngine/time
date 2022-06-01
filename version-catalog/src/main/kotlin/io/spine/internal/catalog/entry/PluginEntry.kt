@@ -31,7 +31,7 @@ import io.spine.internal.catalog.PluginRecord
 
 internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
 
-    override val id: String? = null
+    override val id: String = ""
 
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
@@ -39,9 +39,9 @@ internal abstract class PluginEntry : LibraryEntry(), PluginNotation {
         val fromSuper = super.records()
         result.addAll(fromSuper)
 
-        id?.let {
+        if (id.isNotEmpty()) {
             val pluginAlias = alias.substringBeforeLast('-')
-            val record = PluginRecord(pluginAlias, it, versionAlias)
+            val record = PluginRecord(pluginAlias, id, versionAlias)
             result.add(record)
         }
 

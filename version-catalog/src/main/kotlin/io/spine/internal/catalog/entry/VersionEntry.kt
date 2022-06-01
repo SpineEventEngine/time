@@ -32,7 +32,7 @@ import io.spine.internal.catalog.VersionRecord
 
 internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
 
-    override val version: String? = null
+    override val version: String = ""
     protected val versionAlias: Alias by lazy { versionAlias() }
 
     override fun records(): Set<CatalogRecord> {
@@ -41,8 +41,8 @@ internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
         val fromSuper = super.records()
         result.addAll(fromSuper)
 
-        version?.let {
-            val record = VersionRecord(alias, it)
+        if (version.isNotEmpty()) {
+            val record = VersionRecord(alias, version)
             result.add(record)
         }
 
@@ -50,8 +50,8 @@ internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
     }
 
     private fun versionAlias(): Alias = when {
-        version != null -> alias
-        outerEntry is VersionEntry && outerEntry.version != null -> outerEntry.alias
+        version.isNotEmpty() -> alias
+        outerEntry is VersionEntry && outerEntry.version.isNotEmpty() -> outerEntry.alias
         else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
     }
 }
