@@ -35,7 +35,7 @@ internal class DependencyEntryTestEnv {
     companion object {
 
         fun record(entry: DependencyEntry) =
-            entry.records().first { it is BundleRecord } as BundleRecord
+            entry.allRecords().first { it is BundleRecord } as BundleRecord
 
         fun BundleRecord.assert(alias: Alias, libs: Set<Alias>) {
             assertEquals(alias, this.alias)

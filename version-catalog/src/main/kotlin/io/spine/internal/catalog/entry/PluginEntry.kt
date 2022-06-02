@@ -31,7 +31,6 @@ import io.spine.internal.catalog.CatalogRecord
 import io.spine.internal.catalog.LibraryRecord
 import io.spine.internal.catalog.PluginNotation
 import io.spine.internal.catalog.PluginRecord
-import io.spine.internal.catalog.VersionNotation
 import io.spine.internal.catalog.VersionRecord
 
 /**
@@ -85,52 +84,28 @@ import io.spine.internal.catalog.VersionRecord
  * It is done so in order not to repeat yourself in naming. Otherwise, we would
  * come up with this: `libs.plugins.myLib.gradlePlugin`.
  */
-internal abstract class PluginEntry : AbstractCatalogEntry(), PluginNotation {
+internal abstract class PluginEntry : AbstractVersionInheritingEntry(), PluginNotation {
 
-    private val versionAlias: Alias by lazy { versionAlias() }
     private val pluginAlias: Alias by lazy { pluginAlias() }
 
     /**
-     * A version of this plugin.
+     * Always produces [PluginRecord] and [LibraryRecord].
      *
-     * When unspecified, the entry will try to use the version, declared in
-     * the outer entry.
-     *
-     * Please note, this property is mandatory. And if neither this entry nor
-     * outer one declares the version, an exception will be thrown.
+     * Optionally, it can produce [VersionRecord] if the according property is set.
      */
-    override val version: String = ""
-
-    /**
-     * Always produces [PluginRecord].
-     *
-     * Optionally, it can produce [VersionRecord] and/or [LibraryRecord],
-     * when the respected properties are set.
-     */
-    @Suppress("DuplicatedCode") // `DependencyEntry` has similar code.
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
-        if (version.isNotEmpty()) {
-            val version = VersionRecord(alias, version)
-            result.add(version)
-        }
+        val optionalVersion = super.records()
+        result.addAll(optionalVersion)
 
-        if (module != null) {
-            val library = LibraryRecord(alias, module!!, versionAlias)
-            result.add(library)
-        }
+        val library = LibraryRecord(alias, module, versionAlias)
+        result.add(library)
 
         val record = PluginRecord(pluginAlias, id, versionAlias)
         result.add(record)
 
         return result
-    }
-
-    private fun versionAlias(): Alias = when {
-        version.isNotEmpty() -> alias
-        outerEntry is VersionNotation && outerEntry.version.isNotEmpty() -> outerEntry.alias
-        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
     }
 
     private fun pluginAlias(): Alias =

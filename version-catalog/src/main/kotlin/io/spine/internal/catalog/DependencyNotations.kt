@@ -38,12 +38,8 @@ internal interface LibraryNotation : VersionNotation {
     val module: String
 }
 
-internal interface PluginNotation : VersionNotation {
-
+internal interface PluginNotation : LibraryNotation {
     val id: String
-
-    val module: String?
-        get() = null
 }
 
 internal interface BundleNotation : CatalogEntryNotation {

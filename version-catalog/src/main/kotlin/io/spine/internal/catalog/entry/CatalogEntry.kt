@@ -31,9 +31,9 @@ import io.spine.internal.catalog.CatalogRecord
 /**
  * An entry, which produces no records.
  *
- * It can be used as an outer entry to introduce a common alias. Such entries
+ * It can be used as an outer entry for introducing a common alias. Such entries
  * don't declare anything on their own, they just serve as a named scope for
- * nested declarations.
+ * their nested declarations.
  *
  * Please, consider the following example:
  *

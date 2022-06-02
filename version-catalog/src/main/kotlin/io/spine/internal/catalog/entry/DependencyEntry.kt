@@ -26,7 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.Alias
 import io.spine.internal.catalog.AlwaysReturnDelegate
 import io.spine.internal.catalog.BundleNotation
 import io.spine.internal.catalog.BundleRecord
@@ -34,35 +33,18 @@ import io.spine.internal.catalog.CatalogRecord
 import io.spine.internal.catalog.DependencyNotation
 import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.LibraryRecord
-import io.spine.internal.catalog.VersionNotation
-import io.spine.internal.catalog.VersionRecord
 import io.spine.internal.catalog.delegate
 
-internal abstract class DependencyEntry : AbstractCatalogEntry(), DependencyNotation {
+internal abstract class DependencyEntry : AbstractVersionInheritingEntry(), DependencyNotation {
 
     private val standaloneLibs = mutableSetOf<LibraryNotation>()
     private val standaloneBundles = mutableSetOf<BundleNotation>()
-    private val versionAlias: Alias by lazy { versionAlias() }
 
-    /**
-     * A version of this dependency.
-     *
-     * When unspecified, the entry will try to use the version, declared in
-     * the outer entry.
-     *
-     * Please note, this property is mandatory. And if neither this entry nor
-     * outer one declares the version, an exception will be thrown.
-     */
-    override val version: String = ""
-
-    @Suppress("DuplicatedCode") // `PluginEntry` has similar code.
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
-        if (version.isNotEmpty()) {
-            val version = VersionRecord(alias, version)
-            result.add(version)
-        }
+        val optionalVersion = super.records()
+        result.addAll(optionalVersion)
 
         if (module != null) {
             val library = LibraryRecord(alias, module!!, versionAlias)
@@ -126,10 +108,4 @@ internal abstract class DependencyEntry : AbstractCatalogEntry(), DependencyNota
             standaloneBundles.add(notation)
             notation
         }
-
-    private fun versionAlias(): Alias = when {
-        version.isNotEmpty() -> alias
-        outerEntry is VersionNotation && outerEntry.version.isNotEmpty() -> outerEntry.alias
-        else -> throw IllegalStateException("Specify `version` in this entry or in the outer entry!")
-    }
 }

@@ -34,7 +34,7 @@ internal class PluginEntryTestEnv {
     companion object {
 
         fun record(entry: PluginEntry) =
-            entry.records().first { it is PluginRecord } as PluginRecord
+            entry.allRecords().first { it is PluginRecord } as PluginRecord
 
         fun PluginRecord.assert(alias: String, id: String) {
             Assertions.assertEquals(alias, this.alias)

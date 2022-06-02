@@ -34,7 +34,7 @@ internal class LibraryEntryTestEnv {
     companion object {
 
         fun record(entry: LibraryEntry) =
-            entry.records().first { it is LibraryRecord } as LibraryRecord
+            entry.allRecords().first { it is LibraryRecord } as LibraryRecord
 
         fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {
             assertEquals(alias, this.alias)

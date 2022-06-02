@@ -30,6 +30,7 @@ import io.spine.internal.catalog.entry.PluginEntry
 
 internal object StandaloneDummyPlugin : PluginEntry() {
     override val version = "sdp-0.0.1"
+    override val module = "org.dummy"
     override val id = "dummy-plugin"
 }
 

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 internal class VersionEntryTestEnv {
     companion object {
 
-        fun record(entry: VersionEntry) = entry.records().first() as VersionRecord
+        fun record(entry: VersionEntry) = entry.allRecords().first() as VersionRecord
 
         fun VersionRecord.assert(alias: String, version: String) {
             assertEquals(alias, this.alias)

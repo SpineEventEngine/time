@@ -33,18 +33,18 @@ import io.spine.internal.catalog.CatalogRecord
  * A skeleton implementation of a catalog entry.
  *
  * The main idea behind the concept of entries is to provide a declarative way
- * to create version catalog items. Entries expose a declarative API, leaving
+ * to declare version catalog items. Entries expose a declarative API, leaving
  * behind the scene all imperative code.
  *
- * Only object declarations are meant to serve as concrete entries. And thanks
- * to Kotlin, they can be easily nested one in another.
+ * Only object declarations are meant to serve as concrete entries. And they
+ * can be easily nested one in another.
  *
  * For example:
  *
  * ```
- * internal object MyCatalogEntry : SomeEntryType() {
- *     object SubEntry1 : SomeEntryType()
- *     object SubEntry2 : SomeEntryType()
+ * internal object MyCatalogEntry : SomeEntry() {
+ *     object SubEntry1 : SomeEntry()
+ *     object SubEntry2 : SomeEntry()
  * }
  * ```
  *
@@ -93,7 +93,7 @@ internal abstract class AbstractCatalogEntry : CatalogEntryNotation {
     /**
      * Obtains all catalog records, produced by this entry.
      */
-    abstract fun records(): Set<CatalogRecord>
+    protected abstract fun records(): Set<CatalogRecord>
 
     /**
      * Obtains all catalog records, produced by this entry and its nested entries.
@@ -104,8 +104,8 @@ internal abstract class AbstractCatalogEntry : CatalogEntryNotation {
         val fromThisEntry = records()
         result.addAll(fromThisEntry)
 
-        val nestedAliases = nestedEntries()
-        val fromNested = nestedAliases.flatMap { it.allRecords() }
+        val nestedEntries = nestedEntries()
+        val fromNested = nestedEntries.flatMap { it.allRecords() }
         result.addAll(fromNested)
 
         return result
