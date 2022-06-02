@@ -30,16 +30,142 @@ import io.spine.internal.catalog.AlwaysReturnDelegate
 import io.spine.internal.catalog.BundleNotation
 import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.CatalogRecord
-import io.spine.internal.catalog.DependencyNotation
 import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionNotation
 import io.spine.internal.catalog.delegate
 
-internal abstract class DependencyEntry : AbstractVersionInheritingEntry(), DependencyNotation {
+/**
+ * A compound catalog entry, which is used to declare complex dependencies.
+ *
+ * Although, many dependencies can be represented by a single [LibraryEntry],
+ * some are a way more complex. They may consist of several modules, versions
+ * and bundles. For example, frameworks.
+ *
+ * This entry can declare a library and version. But, in case it is all you need,
+ * it is better to use a simpler entries: [VersionEntry] and [LibraryEntry].
+ *
+ * An example of a version and module declaration:
+ *
+ * ```
+ * internal object MyLib : DependencyEntry() {
+ *     override val version = "1.9.0"            // libs.versions.myLib
+ *     override val module = "ua.company:my-lib" // libs.myLib
+ * }
+ * ```
+ *
+ * The main feature of this entry is a possibility to declare extra [libraries][lib]
+ * and [bundles][bundle] on top of this entry, using property delegation.
+ *
+ * An example of declaring several extra libraries and an extra bundle:
+ *
+ * ```
+ * internal object MyLib : DependencyEntry() {
+ *
+ *     override val version = "1.9.0"            // libs.versions.myLib
+ *     override val module = "ua.company:my-lib" // libs.myLib
+ *
+ *     object Adapters : DependencyEntry() {
+ *         val html4 by lib("ua.company:html4-adapter") // libs.myLib.adapters.html4
+ *         val html5 by lib("ua.company:html5-adapter") // libs.myLib.adapters.html5
+ *     }
+ *
+ *     val adapters by bundle( // libs.bundles.myLib.adapters
+ *         Adapters.html4,
+ *         Adapters.html5
+ *     )
+ * }
+ * ```
+ *
+ * Even more, a code snippet above can be re-written even simpler, using in-place
+ * bundle declaration and method calls to declare extra libraries.
+ *
+ * Below is the same example as above, but re-written with in-place API:
+ *
+ * ```
+ * internal object MyLib : DependencyEntry() {
+ *
+ *     override val version = "1.9.0"            // libs.versions.myLib
+ *     override val module = "ua.company:my-lib" // libs.myLib
+ *
+ *     object Adapters : DependencyEntry() {
+ *         override val bundle = setOf(
+ *             lib("html4", "ua.company:html4-adapter"),
+ *             lib("html5", "ua.company:html5-adapter")
+ *         )
+ *     }
+ * }
+ * ```
+ *
+ * Bundles can't include entries, within which they are declared. A [DependencyEntry]
+ * can't guarantee that a library is declared within it. Library declaration is
+ * optional for such entries.
+ *
+ * Something like this is not possible:
+ *
+ * ```
+ * internal object MyLib : DependencyEntry() {
+ *
+ *     override val version = "1.9.0"            // libs.versions.myLib
+ *     override val module = "ua.company:my-lib" // libs.myLib
+ *
+ *     val types by lib("ua.company:my-types") // libs.myLib.types
+ *     val data by lib("ua.company:my-data")   // libs.myLib.data
+ *
+ *     // Referencing to [this] is not supported.
+ *     override val bundle = setOf(this, types, data) // libs.bundles.myLib
+ * }
+ * ```
+ *
+ * When one needs a bundle and library with the same name, (or even more, that
+ * bundle should include that library) one can declare an extra library, named
+ * after the entry in which it is declared. It is a special case for extra libraries.
+ * In thi case, the entry will not concat entry name with library's one.
+ *
+ * Let's re-write a snippet above with that knowledge:
+ *
+ * ```
+ * internal object MyLib : DependencyEntry() {
+ *
+ *     override val version = "1.9.0"            // libs.versions.myLib
+ *
+ *     val myLib by lib("ua.company:my-lib")   // libs.myLib (not libs.myLib.myLib!)
+ *     val types by lib("ua.company:my-types") // libs.myLib.types
+ *     val data by lib("ua.company:my-data")   // libs.myLib.data
+ *
+ *     override val bundle = setOf(myLib, types, data) // libs.bundles.myLib
+ * }
+ * ```
+ */
+internal open class DependencyEntry : AbstractVersionInheritingEntry(), VersionNotation {
 
     private val standaloneLibs = mutableSetOf<LibraryNotation>()
     private val standaloneBundles = mutableSetOf<BundleNotation>()
 
+    /**
+     * Optionally, this entry can declare a module.
+     *
+     * When declaring a module, make sure the entry has a version to compose a [LibraryRecord].
+     * The version can be declared right in this entry or inherited from the outer one.
+     */
+    open val module: String? = null
+
+    /**
+     * Optionally, this entry can declare a bundle.
+     *
+     * The bundle elements can be: [LibraryEntry]s and extra libraries.
+     *
+     * An example usage is provided in documentation to this class.
+     */
+    open val bundle: Set<LibraryNotation>? = null
+
+    /**
+     * This entry is very flexible in how many records it can produce.
+     *
+     * It may produce zero, one or more: [LibraryRecord]s and [BundleRecord]s.
+     *
+     * And also, it may produce zero or one [io.spine.internal.catalog.VersionRecord].
+     */
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
@@ -77,7 +203,23 @@ internal abstract class DependencyEntry : AbstractVersionInheritingEntry(), Depe
         return record
     }
 
-    override fun lib(name: String, module: String): LibraryNotation {
+    /**
+     * Declares a library on the top of this entry.
+     *
+     * This method is useful to declare libraries right in a bundle declaration:
+     *
+     * ```
+     * val bundle = setOf(
+     *     lib("core", "my.company:core-lib"),
+     *     lib("types", "my.company:types-lib"),
+     *     lib("lang", "my.company:lang-lib")
+     * )
+     * ```
+     *
+     * When a property and entry have the same name, it is not duplicated in
+     * the resulting alias of the library.
+     */
+    fun lib(name: String, module: String): LibraryNotation {
         val thisEntryAlias = this.alias
         val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
                        else "$thisEntryAlias-$name"
@@ -92,10 +234,39 @@ internal abstract class DependencyEntry : AbstractVersionInheritingEntry(), Depe
         return notation
     }
 
-    override fun lib(module: String): AlwaysReturnDelegate<LibraryNotation> =
+    /**
+     * Declares a library on the top of this entry, using property delegation.
+     *
+     * The name of library will be the same as a property name.
+     *
+     * An example usage:
+     *
+     * ```
+     * val core by lib("my.company:core-lib")
+     * ```
+     *
+     * When a property and entry have the same name, it is not duplicated in
+     * the resulting alias of the library.
+     */
+    fun lib(module: String): AlwaysReturnDelegate<LibraryNotation> =
         delegate { property -> lib(property.name, module) }
 
-    override fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation> =
+    /**
+     * Declares a bundle on top of this notation, using property delegation.
+     *
+     * The name of a bundle will be the same as a property name.
+     *
+     * An example usage:
+     *
+     * ```
+     * val runtime by bundle(
+     *     lib("mac", "my.company:mac-lib"),
+     *     lib("linux", "my.company:linux-lib"),
+     *     lib("win", "my.company:win-lib")
+     * )
+     * ```
+     */
+    fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation> =
         delegate { property ->
             val thisEntryAlias = this.alias
             val bundleAlias = "$thisEntryAlias-${property.name}"

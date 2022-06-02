@@ -24,35 +24,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
-
-import io.spine.internal.catalog.CatalogRecord
-import io.spine.internal.catalog.LibraryNotation
-import io.spine.internal.catalog.LibraryRecord
-import io.spine.internal.catalog.VersionRecord
+package io.spine.internal.catalog
 
 /**
- * A catalog entry, which is used to declare a library.
- *
- * Only object declarations are meant to inherit from this class.
- *
- * Below is an example of how to declare a library using this entry:
- *
- * ```
- * internal object MyLib : LibraryEntry() {
- *     override val version = "1.0.0"
- *     override val module = "org.my.company:my-lib"
- * }
- * ```
+ * Each notation defines what information is necessary and sufficient
+ * to assemble one or another version catalog-compatible item.
  */
-internal abstract class LibraryEntry : CatalogEntry(), LibraryNotation {
+internal interface CatalogItemNotation {
+    val alias: Alias
+}
 
-    /**
-     * Produces [VersionRecord] and [LibraryRecord].
-     */
-    override fun records(): Set<CatalogRecord> {
-        val version = VersionRecord(alias, version)
-        val library = LibraryRecord(alias, module, alias)
-        return setOf(version, library)
-    }
+/**
+ * Information, required to assemble a version item.
+ */
+internal interface VersionNotation : CatalogItemNotation {
+    val version: String
+}
+
+/**
+ * Information, required to assemble a library item.
+ */
+internal interface LibraryNotation : VersionNotation {
+    val module: String
+}
+
+/**
+ * Information, required to assemble a plugin item.
+ */
+internal interface PluginNotation : LibraryNotation {
+    val id: String
+}
+
+/**
+ * Information, required to assemble a bundle item.
+ */
+internal interface BundleNotation : CatalogItemNotation {
+    val bundle: Set<LibraryNotation>
 }

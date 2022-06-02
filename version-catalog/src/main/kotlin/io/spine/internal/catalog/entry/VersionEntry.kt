@@ -43,7 +43,7 @@ import io.spine.internal.catalog.VersionRecord
  * }
  * ```
  */
-internal abstract class VersionEntry : AbstractCatalogEntry(), VersionNotation {
+internal abstract class VersionEntry : CatalogEntry(), VersionNotation {
 
     /**
      * Produces a single [VersionRecord].

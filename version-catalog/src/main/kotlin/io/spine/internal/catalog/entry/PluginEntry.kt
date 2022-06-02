@@ -48,7 +48,7 @@ import io.spine.internal.catalog.VersionRecord
  * }
  * ```
  *
- * Specifying of [module] is optional. Also, [version] can be inherited from
+ * Specifying of [version] is optional, when it can be inherited from
  * the outer entry.
  *
  * An example with an inherited version:
@@ -91,7 +91,8 @@ internal abstract class PluginEntry : AbstractVersionInheritingEntry(), PluginNo
     /**
      * Always produces [PluginRecord] and [LibraryRecord].
      *
-     * Optionally, it can produce [VersionRecord] if the according property is set.
+     * Optionally, it can produce [VersionRecord] if the entry declares it
+     * on its own.
      */
     override fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()

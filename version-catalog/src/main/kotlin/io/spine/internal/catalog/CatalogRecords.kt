@@ -29,37 +29,12 @@ package io.spine.internal.catalog
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
- * A pseudonym, by which an item is known in a version catalog.
- *
- * Each item within the catalog has its unique alias.
- *
- * Aliases perform two functions:
- *
- *  1. Navigation. By the alias, one can locate and access an item in the catalog.
- *  2. Referencing. One item in a version catalog can use another item, and this
- *     linkage is done by aliases.
- *
- * Please, consider an example of how the aliases are mapped to the generated
- * type-safe accessors of a version catalog:
- *
- * ```
- * "kotlinx-coroutines" => libs.kotlin.coroutines
- * "kotlinx-coroutines-gradlePlugin" => libs.kotlin.coroutines.gradlePlugin
- * "kotlinx-coroutines-runtime-jvm" => libs.kotlin.runtime.jvm
- * "kotlinx-coroutines-runtime-clr" => libs.kotlin.runtime.clr
- * ```
- */
-internal typealias Alias = String
-
-/**
- * A record represents a single item in a version catalog.
- *
- * It is an atomic and indivisible unit, which can be written to the catalog.
+ * A record represents a single unit, which can be written to a version catalog.
  */
 internal interface CatalogRecord {
 
     /**
-     * A pseudonym, by which this record is known in the catalog.
+     * A pseudonym, by which this record will be known in the catalog.
      */
     val alias: Alias
 
@@ -83,8 +58,10 @@ internal data class VersionRecord(
 }
 
 /**
- * Represents a library, version of which is specified by the given
- * version reference.
+ * Represents a library.
+ *
+ * Version for the library is obtained by the reference. Thus, the given
+ * [versionRef] should point to a [VersionRecord].
  */
 internal data class LibraryRecord(
     override val alias: Alias,
@@ -100,8 +77,10 @@ internal data class LibraryRecord(
 }
 
 /**
- * Represents a Gradle plugin, version of which is specified by the given
- * version reference.
+ * Represents a Gradle plugin.
+ *
+ * Version of the plugin is obtained by the reference. Thus, the given
+ * [versionRef] should point to a [VersionRecord].
  */
 internal data class PluginRecord(
     override val alias: Alias,
@@ -117,8 +96,7 @@ internal data class PluginRecord(
 /**
  * Represents a named set of libraries.
  *
- * Please note, it is implied, that the given set consists of aliases,
- * each of which denotes a library.
+ * It is expected, that each alias in [libs] points to a [LibraryRecord].
  */
 internal data class BundleRecord(
     override val alias: Alias,

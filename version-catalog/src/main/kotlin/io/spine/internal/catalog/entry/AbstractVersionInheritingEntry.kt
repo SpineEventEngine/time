@@ -33,12 +33,12 @@ import io.spine.internal.catalog.VersionRecord
 
 /**
  * A skeleton implementation of a version entry, which can take the version
- * from the outer entries.
+ * from the outer entry.
  *
  * From the outside it looks like the entry just "inherits" the version from
- * the nearest parent, which has one.
+ * its parent.
  *
- * Consider the following snippet:
+ * In order to understand why do we need this, consider the following snippet:
  *
  * ```
  * internal object Kotlin : LibraryEntry() {
@@ -52,20 +52,21 @@ import io.spine.internal.catalog.VersionRecord
  * }
  * ```
  *
- * Both `Kotlin` and `Kotlin.Runtime` libs will receive the same version.
- * But for each library, an independent version record will be created:
+ * Both `Kotlin` and `Kotlin.Runtime` libraries will receive the same version,
+ * declared in a single place. But for each library, an independent version
+ * record will be created:
  *
  *  1. `libs.versions.kotlin`.
  *  2. `libs.versions.kotlin.runtime`.
  *
- * Thus, a local overriding of `libs.versions.kotlin` will not affect the version
- * of `Kotlin.Runtime` library.
+ * Thus, a local overriding (in settings file) of `libs.versions.kotlin` will
+ * not affect the version of `Kotlin.Runtime` library. But, intuitively should.
  *
- * When using the entry which extends this class, there's no need to manually
- * declare the version in the nested entry. A version inheriting entry can take
- * the version from the nearest parent, which has one.
+ * In contrast, when using the entry which extends this skeleton, there's no
+ * need in manual declaring the version in the nested entry. A version inheriting
+ * entry can take the version from the outer entry on its own.
  *
- * Consider the following example:
+ * Consider the same snippet, but with entry which extends this class:
  *
  * ```
  * internal object Kotlin : LibraryEntry() {
@@ -79,16 +80,15 @@ import io.spine.internal.catalog.VersionRecord
  * ```
  *
  * Going this way, only `libs.versions.kotlin` will be generated and available
- * for a local override. Both `Kotlin` and `Kotlin.Runtime` libs will reference
- * `libs.versions.kotlin` version. When this version is overridden, both libraries
- * will be affected.
+ * for a local override. Both `Kotlin` and `Kotlin.Runtime` libraries will
+ * reference `libs.versions.kotlin` version. When this version is overridden,
+ * both libraries will be affected as well.
  *
- * The entry is not bound to use only the inherited version. It is still possible
- * to override the version, just like in [VersionEntry]. But for this entry,
- * this is not mandatory. In case, neither this entry nor any of its parents
- * declare a version, an exception will be thrown.
+ * Although, such entries are not bound to use only an inherited version.
+ * It is still possible to declare the version within entry. In case, when neither
+ * this entry nor its outer one declares a version, an exception will be thrown.
  */
-internal abstract class AbstractVersionInheritingEntry : AbstractCatalogEntry(), VersionNotation {
+internal open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNotation {
 
     private companion object {
         const val FROM_PARENT = ""
@@ -96,6 +96,14 @@ internal abstract class AbstractVersionInheritingEntry : AbstractCatalogEntry(),
 
     /**
      * When inheritors of this class need a version, they should use this reference.
+     *
+     * It is lazy by design. Otherwise, if this property is computed during class
+     * initialization, we will never be able to handle a version, declared by
+     * the entry on its own.
+     *
+     * In other words, making this property non-lazy eliminates a possibility
+     * of a version declaration for this entry. It will be able only to inherit
+     * the version from the outer entry.
      */
     protected val versionAlias: Alias by lazy { versionAlias() }
 
@@ -103,10 +111,10 @@ internal abstract class AbstractVersionInheritingEntry : AbstractCatalogEntry(),
      * A version for this entry.
      *
      * When unspecified, the entry will try to use the version, declared in
-     * the nearest parent, which has one.
+     * the outer entry.
      *
      * Please note, a presence of the version is mandatory. And if neither this
-     * entry nor any of its parents declares one, an exception will be thrown.
+     * entry nor its outer one declares a version, an exception will be thrown.
      */
     override val version: String = FROM_PARENT
 
@@ -124,6 +132,6 @@ internal abstract class AbstractVersionInheritingEntry : AbstractCatalogEntry(),
         version != FROM_PARENT -> alias
         outerEntry is AbstractVersionInheritingEntry -> outerEntry.versionAlias
         outerEntry is VersionNotation -> outerEntry.alias
-        else -> throw IllegalStateException("Specify `version` in this entry or any parent entry!")
+        else -> throw IllegalStateException("Specify version in this entry or the outer entry!")
     }
 }

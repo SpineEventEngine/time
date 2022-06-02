@@ -49,7 +49,4 @@ internal fun <T> delegate(action: (KProperty<*>) -> T): AlwaysReturnDelegate<T> 
         alwaysReturn(obj)
     }
 
-/**
- * Creates a property delegate, which always returns the given object.
- */
 private fun <T> alwaysReturn(obj: T) = ReadOnlyProperty<Any?, T> { _, _ -> obj }

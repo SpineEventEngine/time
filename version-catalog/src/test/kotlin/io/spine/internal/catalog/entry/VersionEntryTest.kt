@@ -43,7 +43,7 @@ internal class VersionEntryTest {
         @Test
         fun `assemble a version record`() {
             val entry = StandaloneDummyVersion
-            assertThat(entry.allRecords()).hasSize(2)
+            assertThat(entry.allRecords()).hasSize(1)
 
             val record = versionRecord(StandaloneDummyVersion)
             record.assert(alias = "standaloneDummyVersion", version = "sdv-0.0.1")

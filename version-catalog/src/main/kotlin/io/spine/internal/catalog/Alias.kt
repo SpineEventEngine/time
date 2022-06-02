@@ -24,35 +24,27 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.catalog.entry
-
-import io.spine.internal.catalog.CatalogRecord
-import io.spine.internal.catalog.LibraryNotation
-import io.spine.internal.catalog.LibraryRecord
-import io.spine.internal.catalog.VersionRecord
+package io.spine.internal.catalog
 
 /**
- * A catalog entry, which is used to declare a library.
+ * A pseudonym, by which an item is known in a version catalog.
  *
- * Only object declarations are meant to inherit from this class.
+ * Each item within the catalog has its unique alias.
  *
- * Below is an example of how to declare a library using this entry:
+ * Aliases perform two functions:
+ *
+ *  1. Navigation. By an alias, one can locate and access an item in the catalog.
+ *  2. Referencing. One item in a version catalog can use another item, and this
+ *     linkage is done via aliases.
+ *
+ * Please, consider an example of how aliases are mapped to the generated
+ * type-safe accessors of the catalog.
  *
  * ```
- * internal object MyLib : LibraryEntry() {
- *     override val version = "1.0.0"
- *     override val module = "org.my.company:my-lib"
- * }
+ * "kotlinx-coroutines" => libs.kotlin.coroutines
+ * "kotlinx-coroutines-gradlePlugin" => libs.kotlin.coroutines.gradlePlugin
+ * "kotlinx-coroutines-runtime-jvm" => libs.kotlin.runtime.jvm
+ * "kotlinx-coroutines-runtime-clr" => libs.kotlin.runtime.clr
  * ```
  */
-internal abstract class LibraryEntry : CatalogEntry(), LibraryNotation {
-
-    /**
-     * Produces [VersionRecord] and [LibraryRecord].
-     */
-    override fun records(): Set<CatalogRecord> {
-        val version = VersionRecord(alias, version)
-        val library = LibraryRecord(alias, module, alias)
-        return setOf(version, library)
-    }
-}
+internal typealias Alias = String

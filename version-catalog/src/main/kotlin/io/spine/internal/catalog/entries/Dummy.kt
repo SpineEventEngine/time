@@ -32,7 +32,7 @@ import io.spine.internal.catalog.entry.PluginEntry
 import io.spine.internal.catalog.entry.VersionEntry
 
 /**
- * This dependency represents an imaginary library.
+ * This dependency defines an imaginary library.
  *
  * It is used to showcase API for dependency declaration and perform true
  * functional testing.
@@ -77,7 +77,7 @@ internal object Dummy : DependencyEntry() {
 
         // When an entry does not override the version, it is taken from
         // the outer entry. For example, in this case, all libs within "Runtime"
-        // entry will have "1.0.0". The inherited version can't be overridden.
+        // entry will have "1.0.0".
 
         val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac

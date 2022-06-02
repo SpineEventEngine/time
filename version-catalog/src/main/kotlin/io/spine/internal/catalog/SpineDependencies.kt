@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.catalog.entry.AbstractCatalogEntry
+import io.spine.internal.catalog.entry.CatalogEntry
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
@@ -37,15 +37,17 @@ import org.reflections.util.ConfigurationBuilder
  *
  * The dependencies, declared there are used in Spine-related projects.
  *
- * It locates all top-level catalog entries, declared in the package. A catalog
+ * This class locates all catalog entries, declared in the package. A catalog
  * entry is quite complex structure itself, which can also have children
  * and parents. Thus, it can't be written into the version catalog directly.
- * Firstly, it is transformed into plain catalog records, and only then they are
+ * Firstly, entries are transformed into catalog records, and then they are
  * written into the given version catalog.
  *
- * In order to add a new dependency to this set, create an object in [io.spine.internal.catalog.entries].
- * Reference [io.spine.internal.catalog.entries.Dummy] to quickly grasp the API
- * for dependencies declaration.
+ * In order to add a new dependency to this set, create an object declaration
+ * in the package, mentioned above. Take a look on a special `Dummy` dependency
+ * to quickly grasp API of a dependency declarations.
+ *
+ * See: [Dummy][io.spine.internal.catalog.entries.Dummy]
  */
 @Suppress("unused")
 class SpineDependencies {
@@ -65,12 +67,12 @@ class SpineDependencies {
 
         /**
          * This method utilizes reflection in order to scan the package for
-         * declared [catalog entries][AbstractCatalogEntry].
+         * declared [catalog entries][CatalogEntry].
          */
-        private fun findEntries(): Set<AbstractCatalogEntry> {
+        private fun findEntries(): Set<CatalogEntry> {
             val builder = ConfigurationBuilder().forPackage(pkg)
             val reflections = Reflections(builder)
-            val result = reflections.getSubTypesOf(AbstractCatalogEntry::class.java)
+            val result = reflections.getSubTypesOf(CatalogEntry::class.java)
                 .filter { it.enclosingClass == null }
                 .mapNotNull { it.kotlin.objectInstance }
                 .toSet()
