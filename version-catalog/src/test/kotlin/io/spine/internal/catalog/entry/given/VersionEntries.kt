@@ -31,12 +31,3 @@ import io.spine.internal.catalog.entry.VersionEntry
 internal object StandaloneDummyVersion : VersionEntry() {
     override val version = "sdv-0.0.1"
 }
-
-internal object OuterDummyVersion : VersionEntry() {
-
-    override val version = "odv-0.0.1"
-
-    internal object NestedDummyVersion2 : VersionEntry() {
-        override val version = "ndv2-0.0.1"
-    }
-}

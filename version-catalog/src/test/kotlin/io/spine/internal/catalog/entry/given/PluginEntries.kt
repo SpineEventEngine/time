@@ -26,7 +26,9 @@
 
 package io.spine.internal.catalog.entry.given
 
+import io.spine.internal.catalog.entry.CatalogEntry
 import io.spine.internal.catalog.entry.PluginEntry
+import io.spine.internal.catalog.entry.VersionEntry
 
 internal object StandaloneDummyPlugin : PluginEntry() {
     override val version = "sdp-0.0.1"
@@ -34,10 +36,30 @@ internal object StandaloneDummyPlugin : PluginEntry() {
     override val id = "dummy-plugin"
 }
 
-//internal object OuterDummyPlugin : PluginEntry() {
-//
-//    internal object GradlePlugin : PluginEntry() {
-//        override val version = "gp-0.0.1"
-//        override val id = "dummy-gradle-plugin"
-//    }
-//}
+internal object ErroneousStandaloneDummyPlugin : PluginEntry() {
+    override val module = "org.dummy"
+    override val id = "dummy-plugin"
+}
+
+internal object OuterDummyPlugin : CatalogEntry() {
+
+    object GradlePlugin : PluginEntry() {
+        override val version = "gp-0.0.1"
+        override val module = "org.dummy"
+        override val id = "dummy-gradle-plugin"
+    }
+
+    object ErroneousGradlePlugin : PluginEntry() {
+        override val module = "org.dummy"
+        override val id = "dummy-gradle-plugin"
+    }
+}
+
+internal object OuterDummyVersion : VersionEntry() {
+    override val version = "pe-0.0.1"
+
+    object GradlePlugin : PluginEntry() {
+        override val module = "org.dummy"
+        override val id = "dummy-gradle-plugin"
+    }
+}

@@ -28,103 +28,104 @@ package io.spine.internal.catalog.entry
 
 import com.google.common.truth.Truth.assertThat
 import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.assert
-import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.record
-import io.spine.internal.catalog.entry.given.MethodDummyDependency
-import io.spine.internal.catalog.entry.given.PropertyDummyDependency
 import io.spine.internal.catalog.entry.given.StandaloneDummyDependency
-import io.spine.internal.catalog.BundleRecord
-import io.spine.internal.catalog.LibraryRecord
-import io.spine.internal.catalog.VersionRecord
-import io.spine.internal.catalog.entry.given.ErroneousDummyDependency
-import org.junit.jupiter.api.Assertions
+import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.bundleRecord
+import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.libraryRecord
+import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.versionRecord
+import io.spine.internal.catalog.entry.given.ErroneousOuterDummyDependency
+import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.assert
+import io.spine.internal.catalog.entry.given.OuterDummyDependency
+import io.spine.internal.catalog.entry.given.SimpleDependency
+import io.spine.internal.catalog.entry.given.StandaloneDummyBundleDependency
+import io.spine.internal.catalog.entry.given.StandaloneDummyLibraryDependency
+import io.spine.internal.catalog.entry.given.StandaloneDummyPropertyDependency
+import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.assert
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`DependencyEntry`")
+@DisplayName("`DependencyEntry` should when")
 internal class DependencyEntryTest {
 
     @Nested
-    inner class `when standalone should` {
-
-//        @Test
-//        fun `assemble a bundle record if the bundle is specified`() {
-//            val record = record(StandaloneDummyDependency)
-//            record.assert(
-//                "standaloneDummyDependency",
-//                setOf(
-//                    "outerDummyDependency-subLib1",
-//                    "outerDummyDependency-subLib2",
-//                    "outerDummyDependency-subLib3",
-//                )
-//            )
-//        }
-//
-//        @Test
-//        fun `add additional libraries by methods`() {
-//            val records = MethodDummyDependency.records()
-//            val bundleLibs = setOf(
-//                "methodDummyDependency-subLib1",
-//                "methodDummyDependency-subLib2",
-//                "methodDummyDependency-subLib3"
-//            )
-//            val expected = setOf(
-//                VersionRecord(alias = "methodDummyDependency", value = "mdd-0.0.1"),
-//                BundleRecord(alias = "methodDummyDependency", libs = bundleLibs),
-//                LibraryRecord(
-//                    alias = "methodDummyDependency-subLib1",
-//                    module = "org.dummy:subLib1",
-//                    versionRef = "methodDummyDependency"
-//                ),
-//                LibraryRecord(
-//                    alias = "methodDummyDependency-subLib2",
-//                    module = "org.dummy:subLib2",
-//                    versionRef = "methodDummyDependency"
-//                ),
-//                LibraryRecord(
-//                    alias = "methodDummyDependency-subLib3",
-//                    module = "org.dummy:subLib3",
-//                    versionRef = "methodDummyDependency"
-//                ),
-//            )
-//            assertThat(records).isEqualTo(expected)
-//        }
-//
-//        @Test
-//        fun `add additional libraries and bundles by property delegation`() {
-//            val records = PropertyDummyDependency.records()
-//            val bundleLibs = setOf(
-//                "propertyDummyDependency-subLib1",
-//                "propertyDummyDependency-subLib2",
-//                "propertyDummyDependency-subLib3"
-//            )
-//            val expected = setOf(
-//                VersionRecord(alias = "propertyDummyDependency", value = "pdd-0.0.1"),
-//                BundleRecord(alias = "propertyDummyDependency-pile", libs = bundleLibs),
-//                LibraryRecord(
-//                    alias = "propertyDummyDependency-subLib1",
-//                    module = "org.dummy:subLib1",
-//                    versionRef = "propertyDummyDependency"
-//                ),
-//                LibraryRecord(
-//                    alias = "propertyDummyDependency-subLib2",
-//                    module = "org.dummy:subLib2",
-//                    versionRef = "propertyDummyDependency"
-//                ),
-//                LibraryRecord(
-//                    alias = "propertyDummyDependency-subLib3",
-//                    module = "org.dummy:subLib3",
-//                    versionRef = "propertyDummyDependency"
-//                ),
-//            )
-//            assertThat(records).isEqualTo(expected)
-//        }
+    inner class standalone {
 
         @Test
-        fun `prohibit a sub-library named the same as outer entry`() {
-            Assertions.assertThrows(IllegalStateException::class.java) {
-                ErroneousDummyDependency.allRecords()
+        fun `assemble a version record`() {
+            val version = versionRecord(StandaloneDummyDependency)
+            version.assert(
+                alias = "standaloneDummyDependency",
+                version = "sdd-0.0.1"
+            )
+        }
+
+        @Test
+        fun `assemble a library record, if module is specified`() {
+            val library = libraryRecord(StandaloneDummyLibraryDependency)
+            library.assert(
+                alias = "standaloneDummyLibraryDependency",
+                module = "org.dummy",
+                versionRef = "standaloneDummyLibraryDependency"
+            )
+        }
+
+        @Test
+        fun `assemble a bundle record, if bundle is specified`() {
+            val bundle = bundleRecord(StandaloneDummyBundleDependency)
+            bundle.assert(
+                alias = "standaloneDummyBundleDependency",
+                libs = setOf(
+                    "standaloneDummyBundleDependency-subLib1",
+                    "standaloneDummyBundleDependency-subLib2",
+                    "standaloneDummyBundleDependency-subLib3"
+                )
+            )
+        }
+
+        @Test
+        fun `add an extra library by property delegation`() {
+            val library = libraryRecord(StandaloneDummyPropertyDependency)
+            library.assert(
+                alias = "standaloneDummyPropertyDependency-subLib",
+                module = "org.dummy:subLib",
+                versionRef = "standaloneDummyPropertyDependency"
+            )
+        }
+
+        @Test
+        fun `don't append extra-lib's name to alias, when it has the same with entry`() {
+            val library = libraryRecord(SimpleDependency)
+            library.assert(
+                alias = "simpleDependency",
+                module = "org.simple",
+                versionRef = "simpleDependency"
+            )
+        }
+    }
+
+    @Nested
+    inner class nested {
+
+        @Test
+        fun `be able to inherit the version from the outer entry`() {
+            val library = libraryRecord(OuterDummyDependency.Nested)
+            library.assert(
+                alias = "outerDummyDependency-nested",
+                module = "org.nested",
+                versionRef = "outerDummyDependency"
+            )
+        }
+
+        @Test
+        fun `throw an exception when the version is neither declared nor inherited`() {
+            val exception = assertThrows<IllegalStateException> {
+                val entry = ErroneousOuterDummyDependency.Nested
+                entry.allRecords()
             }
+            assertThat(exception.message).isEqualTo(
+                "Specify version in this entry or the outer entry!"
+            )
         }
     }
 }

@@ -29,12 +29,20 @@ package io.spine.internal.catalog.entry.given
 import io.spine.internal.catalog.entry.DependencyEntry
 import io.spine.internal.catalog.Alias
 import io.spine.internal.catalog.BundleRecord
+import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class DependencyEntryTestEnv {
     companion object {
 
-        fun record(entry: DependencyEntry) =
+        fun versionRecord(entry: DependencyEntry) =
+            entry.allRecords().first { it is VersionRecord } as VersionRecord
+
+        fun libraryRecord(entry: DependencyEntry) =
+            entry.allRecords().first { it is LibraryRecord } as LibraryRecord
+
+        fun bundleRecord(entry: DependencyEntry) =
             entry.allRecords().first { it is BundleRecord } as BundleRecord
 
         fun BundleRecord.assert(alias: Alias, libs: Set<Alias>) {

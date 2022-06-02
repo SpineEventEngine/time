@@ -31,15 +31,27 @@ import io.spine.internal.catalog.entry.CatalogEntry
 
 internal object StandaloneDummy : CatalogEntry()
 
+internal open class MemoizingCatalogEntry : CatalogEntry() {
+
+    var wasAsked: Boolean = false
+
+    override fun records(): Set<CatalogRecord> {
+        wasAsked = true
+        return emptySet()
+    }
+}
+
 internal object OuterDummy : CatalogEntry() {
 
-    internal object NestedDummy : CatalogEntry() {
+    object Runtime : MemoizingCatalogEntry() {
+        object Mac : MemoizingCatalogEntry()
+        object Win : MemoizingCatalogEntry()
+        object Linux : MemoizingCatalogEntry()
+    }
 
-        var wasAsked: Boolean = false
-
-        override fun records(): Set<CatalogRecord> {
-            wasAsked = true
-            return super.records()
+    object NotEntry {
+        object Api : CatalogEntry() {
+            object Params : CatalogEntry()
         }
     }
 }

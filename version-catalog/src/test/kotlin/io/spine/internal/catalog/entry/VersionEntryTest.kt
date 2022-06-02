@@ -26,10 +26,10 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.given.OuterDummyVersion
+import com.google.common.truth.Truth.assertThat
 import io.spine.internal.catalog.entry.given.StandaloneDummyVersion
 import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.assert
-import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.versionRecord
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -41,19 +41,12 @@ internal class VersionEntryTest {
     inner class standalone {
 
         @Test
-        fun `assemble a version record if the version is specified`() {
-            val record = record(StandaloneDummyVersion)
+        fun `assemble a version record`() {
+            val entry = StandaloneDummyVersion
+            assertThat(entry.allRecords()).hasSize(2)
+
+            val record = versionRecord(StandaloneDummyVersion)
             record.assert(alias = "standaloneDummyVersion", version = "sdv-0.0.1")
-        }
-    }
-
-    @Nested
-    inner class nested {
-
-        @Test
-        fun `override the version from the outer entry`() {
-            val record = record(OuterDummyVersion.NestedDummyVersion2)
-            record.assert("outerDummyVersion-nestedDummyVersion2", "ndv2-0.0.1")
         }
     }
 }

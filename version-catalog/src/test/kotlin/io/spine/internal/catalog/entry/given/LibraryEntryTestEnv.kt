@@ -28,12 +28,16 @@ package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.LibraryEntry
 import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionRecord
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class LibraryEntryTestEnv {
     companion object {
 
-        fun record(entry: LibraryEntry) =
+        fun versionRecord(entry: LibraryEntry) =
+            entry.allRecords().first { it is VersionRecord } as VersionRecord
+
+        fun libraryRecord(entry: LibraryEntry) =
             entry.allRecords().first { it is LibraryRecord } as LibraryRecord
 
         fun LibraryRecord.assert(alias: String, module: String, versionRef: String) {

@@ -26,9 +26,12 @@
 
 package io.spine.internal.catalog.entry
 
+import com.google.common.truth.Truth.assertThat
 import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.assert
-import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.record
+import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.libraryRecord
+import io.spine.internal.catalog.entry.given.LibraryEntryTestEnv.Companion.versionRecord
 import io.spine.internal.catalog.entry.given.StandaloneDummyLibrary
+import io.spine.internal.catalog.entry.given.VersionEntryTestEnv.Companion.assert
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -40,27 +43,22 @@ internal class LibraryEntryTest {
     inner class standalone {
 
         @Test
-        fun `assemble a library record if the module and version are specified`() {
-            val record = record(StandaloneDummyLibrary)
-            record.assert(
+        fun `assemble version and library records`() {
+            val entry = StandaloneDummyLibrary
+            assertThat(entry.allRecords()).hasSize(2)
+
+            val version = versionRecord(entry)
+            version.assert(
+                alias = "standaloneDummyLibrary",
+                version = "sdl-0.0.1"
+            )
+
+            val library = libraryRecord(entry)
+            library.assert(
                 alias = "standaloneDummyLibrary",
                 module = "org.dummy:dummy-lib",
-                versionRef = "standaloneDummyLibrary",
+                versionRef = "standaloneDummyLibrary"
             )
-        }
-    }
-
-    @Nested
-    inner class nested {
-
-        @Test
-        fun `inherit the version alias from the outer entry`() {
-//            val record = record(OuterDummyLibrary.NestedDummyLibrary)
-//            record.assert(
-//                alias = "outerDummyLibrary-nestedDummyLibrary",
-//                module = "org.dummy:dummy-nested-lib",
-//                versionRef = "outerDummyLibrary",
-//            )
         }
     }
 }

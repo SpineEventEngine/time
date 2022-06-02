@@ -32,20 +32,24 @@ import io.spine.internal.catalog.entry.given.StandaloneDummy
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 @DisplayName("`CatalogEntry` should when")
 internal class CatalogEntryTest {
 
-    private val standaloneEntry = StandaloneDummy
-    private val outerEntry = OuterDummy
-    private val nestedEntry = OuterDummy.NestedDummy
-
     @Nested
     inner class standalone {
+
+        private val standaloneEntry = StandaloneDummy
 
         @Test
         fun `use object's name as alias`() {
             assertThat(standaloneEntry.alias).isEqualTo("standaloneDummy")
+        }
+
+        @Test
+        fun `produce no records`() {
+            assertThat(standaloneEntry.allRecords()).isEmpty()
         }
     }
 
@@ -53,8 +57,21 @@ internal class CatalogEntryTest {
     inner class nested {
 
         @Test
-        fun `regard outer object in alias`() {
-            assertThat(nestedEntry.alias).isEqualTo("outerDummy-nestedDummy")
+        fun `regard parent entries in alias`() {
+            val nested = OuterDummy.Runtime.Mac
+            assertThat(nested.alias).isEqualTo("outerDummy-runtime-mac")
+        }
+
+        @Test
+        fun `throw an exception when being nested in a plain object`() {
+            val exception = assertThrows<ExceptionInInitializerError> {
+                // Let's trigger object initializing.
+                OuterDummy.NotEntry.Api.Params
+            }
+
+            val cause = exception.cause
+            assertThat(cause).isInstanceOf(IllegalStateException::class.java)
+            assertThat(cause).hasMessageThat().isEqualTo("Plain objects can't nest entries!")
         }
     }
 
@@ -63,9 +80,23 @@ internal class CatalogEntryTest {
 
         @Test
         fun `ask nested entries for records`() {
-            assertThat(nestedEntry.wasAsked).isFalse()
-            assertThat(outerEntry.allRecords()).isEmpty()
-            assertThat(nestedEntry.wasAsked).isTrue()
+
+            val nested = listOf(
+                OuterDummy.Runtime,
+                OuterDummy.Runtime.Mac,
+                OuterDummy.Runtime.Win,
+                OuterDummy.Runtime.Linux,
+            )
+
+            nested.forEach {
+                assertThat(it.wasAsked).isFalse()
+            }
+
+            assertThat(OuterDummy.allRecords()).isEmpty()
+
+            nested.forEach {
+                assertThat(it.wasAsked).isTrue()
+            }
         }
     }
 }

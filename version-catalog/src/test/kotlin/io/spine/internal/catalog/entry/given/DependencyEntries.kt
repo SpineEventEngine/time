@@ -27,18 +27,18 @@
 package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.entry.LibraryEntry
-
-internal object OuterDummyDependency : DependencyEntry() {
-    override val version = "odd-0.0.1"
-}
 
 internal object StandaloneDummyDependency : DependencyEntry() {
+    override val version = "sdd-0.0.1"
 }
 
-internal object MethodDummyDependency : DependencyEntry() {
+internal object StandaloneDummyLibraryDependency : DependencyEntry() {
+    override val version = "sdld-0.0.1"
+    override val module = "org.dummy"
+}
 
-    override val version = "mdd-0.0.1"
+internal object StandaloneDummyBundleDependency : DependencyEntry() {
+    override val version = "sdbd-0.0.1"
     override val bundle = setOf(
         lib("subLib1", "org.dummy:subLib1"),
         lib("subLib2", "org.dummy:subLib2"),
@@ -46,18 +46,28 @@ internal object MethodDummyDependency : DependencyEntry() {
     )
 }
 
-internal object PropertyDummyDependency : DependencyEntry() {
-
-    override val version = "pdd-0.0.1"
-
-    val subLib1 by lib("org.dummy:subLib1")
-    val subLib2 by lib("org.dummy:subLib2")
-    val subLib3 by lib("org.dummy:subLib3")
-
-    val pile by bundle(subLib1, subLib2, subLib3)
+@Suppress("unused")
+internal object StandaloneDummyPropertyDependency : DependencyEntry() {
+    override val version = "sdpd-0.0.1"
+    val subLib by lib("org.dummy:subLib")
 }
 
-internal object ErroneousDummyDependency : DependencyEntry() {
-    @Suppress("unused")
-    val erroneousDummyDependency by lib("...")
+@Suppress("unused")
+internal object SimpleDependency : DependencyEntry() {
+    override val version = "sdpnd-0.0.1"
+    val simpleDependency by lib("org.simple")
+}
+
+internal object OuterDummyDependency : DependencyEntry() {
+    override val version = "odp-0.0.1"
+
+    object Nested : DependencyEntry() {
+        override val module = "org.nested"
+    }
+}
+
+internal object ErroneousOuterDummyDependency : DependencyEntry() {
+    object Nested : DependencyEntry() {
+        override val module = "org.dummy"
+    }
 }

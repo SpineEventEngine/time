@@ -26,19 +26,29 @@
 
 package io.spine.internal.catalog.entry.given
 
+import io.spine.internal.catalog.Alias
+import io.spine.internal.catalog.LibraryRecord
 import io.spine.internal.catalog.entry.PluginEntry
 import io.spine.internal.catalog.PluginRecord
+import io.spine.internal.catalog.VersionRecord
 import org.junit.jupiter.api.Assertions
 
 internal class PluginEntryTestEnv {
     companion object {
 
-        fun record(entry: PluginEntry) =
+        fun versionRecord(entry: PluginEntry) =
+            entry.allRecords().first { it is VersionRecord } as VersionRecord
+
+        fun libraryRecord(entry: PluginEntry) =
+            entry.allRecords().first { it is LibraryRecord } as LibraryRecord
+
+        fun pluginRecord(entry: PluginEntry) =
             entry.allRecords().first { it is PluginRecord } as PluginRecord
 
-        fun PluginRecord.assert(alias: String, id: String) {
+        fun PluginRecord.assert(alias: String, id: String, versionRef: Alias) {
             Assertions.assertEquals(alias, this.alias)
             Assertions.assertEquals(id, this.id)
+            Assertions.assertEquals(versionRef, this.versionRef)
         }
     }
 }
