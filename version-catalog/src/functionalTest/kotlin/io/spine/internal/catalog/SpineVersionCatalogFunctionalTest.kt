@@ -40,14 +40,19 @@ import org.junit.jupiter.api.assertDoesNotThrow
  *  1. Showcasing API for dependency declarations.
  *  2. Functional testing in conditions, which are very close to real life.
  *
- * Actually, our plugin provides code upon Gradle-provided `VersionCatalogBuilder`,
- * which fills up the given catalog. And, as for now, there's no any other
- * legitimate way (except for a true functional test) to check if this code
- * executes successfully on a real instance of `VersionCatalogBuilder`.
+ * Actually, our `SpineVersionCatalog` provides code upon Gradle-provided
+ * `VersionCatalogBuilder`. This code can fill up the passed catalog. And, as
+ * for now, there's no any other legitimate way (except for a true functional test)
+ * to check if this code executes successfully on a real instance of `VersionCatalogBuilder`.
  *
  * See issue in Gradle: https://github.com/gradle/gradle/issues/20807
+ *
+ * A note about `FunctionName` suppression. In JUnit in Kotlin, it is okay
+ * to write test names just in function name. But IDEA does not report it as en
+ * error only for `test` source set. It's unclear how to disable it for custom
+ * source sets.
  */
-@Suppress("FunctionName")
+@Suppress("FunctionName") // See docs above.
 @DisplayName("`SpineVersionCatalog` should")
 class SpineVersionCatalogFunctionalTest {
 
@@ -57,8 +62,8 @@ class SpineVersionCatalogFunctionalTest {
      * The test prepares an empty Gradle project in a temporary directory
      * and builds it.
      *
-     * This project has our plugin applied to settings file from MavenLocal.
-     * Thus, the plugin should be published to MavenLocal in advance.
+     * This project fetched `SpineVersionCatalog` from MavenLocal. Thus, our code
+     * should be published to MavenLocal in advance.
      *
      * The simplest way to achieve this is by means of Gradle:
      *

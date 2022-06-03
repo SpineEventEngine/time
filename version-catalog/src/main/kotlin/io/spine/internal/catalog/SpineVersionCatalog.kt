@@ -32,22 +32,52 @@ import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
 /**
- * The class represents all dependencies, declared within
- * [io.spine.internal.catalog.entries] package.
+ * This catalog contains dependencies, which are used in Spine-related projects.
  *
- * The dependencies, declared there are used in Spine-related projects.
+ * ## Usage
  *
- * This class locates all catalog entries, declared in the package. A catalog
- * entry is quite complex structure itself, which can also have children
- * and parents. Thus, it can't be written into the version catalog directly.
- * Firstly, entries are transformed into catalog records, and then they are
- * written into the given version catalog.
+ * In order to use this catalog, one should perform the following:
  *
- * In order to add a new dependency to this set, create an object declaration
- * in the package, mentioned above. Take a look on a special `Dummy` dependency
- * to quickly grasp API of a dependency declarations.
+ *  1. Obtain this class on a classpath of settings file.
+ *  2. Create a version catalog.
+ *  3. Call [useIn] on a newly created catalog.
  *
- * See: [Dummy][io.spine.internal.catalog.entries.Dummy]
+ * Below is an example of how to obtain this catalog in the project.
+ *
+ * In `settings.gradle.kts` file of the project:
+ *
+ * ```
+ * buildscript {
+ *     repositories {
+ *         mavenCentral()
+ *     }
+ *     dependencies {
+ *         classpath("io.spine.internal:spine-version-catalog:1.0.0")
+ *     }
+ * }
+ *
+ * dependencyResolutionManagement {
+ *     versionCatalogs {
+ *         create("libs") {
+ *             SpineVersionCatalog.useIn(this)
+ *         }
+ *     }
+ * }
+ * ```
+ *
+ * In order to add a new dependency to this catalog, create an object declaration
+ * in [io.spine.internal.catalog.entries] package. Take a look on a special
+ * `Dummy` dependency (link is below) to quickly grasp API of a dependency declaration.
+ *
+ * ## Implementation details
+ *
+ * The class locates all top-level catalog entries, declared in
+ * [io.spine.internal.catalog.entries] package. A catalog entry is quite complex
+ * structure itself, which can have children and parents. Thus, it can't be
+ * written into the version catalog directly. Firstly, entries are loaded, then
+ * they can produce catalog records, which are written into the given version catalog.
+ *
+ * See: [Dummy][io.spine.internal.catalog.entries.Dummy].
  */
 @Suppress("unused")
 class SpineVersionCatalog {
@@ -56,8 +86,8 @@ class SpineVersionCatalog {
         private const val pkg = "io.spine.internal.catalog.entries"
 
         /**
-         * Fills up the given version catalog with dependencies, which are used
-         * in Spine-related projects.
+         * Fills up the given version catalog with dependencies, declared in
+         * this catalog.
          */
         fun useIn(catalog: VersionCatalogBuilder) {
             val entries = findEntries()

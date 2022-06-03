@@ -28,7 +28,7 @@ package io.spine.internal.catalog.entry
 
 import com.google.common.truth.Truth.assertThat
 import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.assert
-import io.spine.internal.catalog.entry.given.StandaloneDummyDependency
+import io.spine.internal.catalog.entry.given.StandaloneDummyVersionDependency
 import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.bundleRecord
 import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.libraryRecord
 import io.spine.internal.catalog.entry.given.DependencyEntryTestEnv.Companion.versionRecord
@@ -52,11 +52,11 @@ internal class DependencyEntryTest {
     inner class standalone {
 
         @Test
-        fun `assemble a version record`() {
-            val version = versionRecord(StandaloneDummyDependency)
+        fun `assemble a version record, if version is specified`() {
+            val version = versionRecord(StandaloneDummyVersionDependency)
             version.assert(
-                alias = "standaloneDummyDependency",
-                version = "sdd-0.0.1"
+                alias = "standaloneDummyVersionDependency",
+                version = "sdvd-0.0.1"
             )
         }
 
@@ -94,7 +94,7 @@ internal class DependencyEntryTest {
         }
 
         @Test
-        fun `don't append extra-lib's name to alias, when it has the same with entry`() {
+        fun `don't append extra-lib's name to alias, when it named after the entry`() {
             val library = libraryRecord(SimpleDependency)
             library.assert(
                 alias = "simpleDependency",

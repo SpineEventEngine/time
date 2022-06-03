@@ -72,7 +72,7 @@ internal data class LibraryRecord(
     override fun writeTo(catalog: VersionCatalogBuilder) {
         val group = module.substringBefore(':')
         val artifact = module.substringAfter(':')
-        catalog.run { library(alias, group, artifact).versionRef(versionRef) }
+        catalog.library(alias, group, artifact).versionRef(versionRef)
     }
 }
 

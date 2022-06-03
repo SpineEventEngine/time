@@ -38,7 +38,7 @@ import io.spine.internal.catalog.VersionRecord
  * From the outside it looks like the entry just "inherits" the version from
  * its parent.
  *
- * In order to understand why do we need this, consider the following snippet:
+ * In order to understand why it's needed, consider the following snippet:
  *
  * ```
  * internal object Kotlin : LibraryEntry() {
@@ -62,11 +62,11 @@ import io.spine.internal.catalog.VersionRecord
  * Thus, a local overriding (in settings file) of `libs.versions.kotlin` will
  * not affect the version of `Kotlin.Runtime` library. But, intuitively should.
  *
- * In contrast, when using the entry which extends this skeleton, there's no
+ * In contrast, when using an entry which extends this skeleton, there's no
  * need in manual declaring the version in the nested entry. A version inheriting
  * entry can take the version from the outer entry on its own.
  *
- * Consider the same snippet, but with entry which extends this class:
+ * Consider the same snippet, but with an entry which extends this class:
  *
  * ```
  * internal object Kotlin : LibraryEntry() {
@@ -85,8 +85,9 @@ import io.spine.internal.catalog.VersionRecord
  * both libraries will be affected as well.
  *
  * Although, such entries are not bound to use only an inherited version.
- * It is still possible to declare the version within entry. In case, when neither
- * this entry nor its outer one declares a version, an exception will be thrown.
+ * It is still possible to declare the version within this entry. In case,
+ * when neither this entry nor its outer one declares a version, an exception
+ * will be thrown.
  */
 internal open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNotation {
 
@@ -95,20 +96,7 @@ internal open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNota
     }
 
     /**
-     * When inheritors of this class need a version, they should use this reference.
-     *
-     * It is lazy by design. Otherwise, if this property is computed during class
-     * initialization, we will never be able to handle a version, declared by
-     * the entry on its own.
-     *
-     * In other words, making this property non-lazy eliminates a possibility
-     * of a version declaration for this entry. It will be able only to inherit
-     * the version from the outer entry.
-     */
-    protected val versionAlias: Alias by lazy { versionAlias() }
-
-    /**
-     * A version for this entry.
+     * A version of this entry.
      *
      * When unspecified, the entry will try to use the version, declared in
      * the outer entry.
@@ -117,6 +105,19 @@ internal open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNota
      * entry nor its outer one declares a version, an exception will be thrown.
      */
     override val version: String = FROM_PARENT
+
+    /**
+     * When inheritors of this class need a version, they should use this reference.
+     *
+     * It is lazy by design. Otherwise, if this property is computed during class
+     * initialization, we will never be able to handle a version, declared by
+     * this entry on its own.
+     *
+     * In other words, making this property non-lazy eliminates a possibility
+     * of a version declaration for this entry. It will be able only to inherit
+     * the version from the outer entry.
+     */
+    protected val versionAlias: Alias by lazy { versionAlias() }
 
     override fun records(): Set<CatalogRecord> {
 

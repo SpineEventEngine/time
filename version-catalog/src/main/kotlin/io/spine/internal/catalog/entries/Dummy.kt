@@ -32,7 +32,7 @@ import io.spine.internal.catalog.entry.PluginEntry
 import io.spine.internal.catalog.entry.VersionEntry
 
 /**
- * This dependency defines an imaginary library.
+ * This dependency describes an imaginary library.
  *
  * It is used to showcase API for dependency declaration and perform true
  * functional testing.

@@ -32,7 +32,6 @@ import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.CatalogRecord
 import io.spine.internal.catalog.LibraryNotation
 import io.spine.internal.catalog.LibraryRecord
-import io.spine.internal.catalog.VersionNotation
 import io.spine.internal.catalog.delegate
 
 /**
@@ -120,7 +119,7 @@ import io.spine.internal.catalog.delegate
  * When one needs a bundle and library with the same name, (or even more, that
  * bundle should include that library) one can declare an extra library, named
  * after the entry in which it is declared. It is a special case for extra libraries.
- * In thi case, the entry will not concat entry name with library's one.
+ * In this case, the entry will not concat its name with library's one.
  *
  * Let's re-write a snippet above with that knowledge:
  *
@@ -137,7 +136,7 @@ import io.spine.internal.catalog.delegate
  * }
  * ```
  */
-internal open class DependencyEntry : AbstractVersionInheritingEntry(), VersionNotation {
+internal open class DependencyEntry : AbstractVersionInheritingEntry() {
 
     private val standaloneLibs = mutableSetOf<LibraryNotation>()
     private val standaloneBundles = mutableSetOf<BundleNotation>()
@@ -252,7 +251,7 @@ internal open class DependencyEntry : AbstractVersionInheritingEntry(), VersionN
         delegate { property -> lib(property.name, module) }
 
     /**
-     * Declares a bundle on top of this notation, using property delegation.
+     * Declares a bundle on top of this entry, using property delegation.
      *
      * The name of a bundle will be the same as a property name.
      *

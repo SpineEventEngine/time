@@ -28,8 +28,8 @@ package io.spine.internal.catalog.entry.given
 
 import io.spine.internal.catalog.entry.DependencyEntry
 
-internal object StandaloneDummyDependency : DependencyEntry() {
-    override val version = "sdd-0.0.1"
+internal object StandaloneDummyVersionDependency : DependencyEntry() {
+    override val version = "sdvd-0.0.1"
 }
 
 internal object StandaloneDummyLibraryDependency : DependencyEntry() {

@@ -28,7 +28,7 @@ group = "io.spine.internal"
 version = "0.0.1-SNAPSHOT.1"
 
 plugins {
-    // For those, who works with Gradle (or just discover it),
+    // For those, who works with Gradle (or just discovers it),
     // task tree is very useful thingy.
     id("com.dorongold.task-tree") version "2.1.0"
     id("org.jetbrains.kotlin.jvm") version "1.6.21"

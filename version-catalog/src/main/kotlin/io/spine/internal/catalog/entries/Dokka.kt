@@ -56,9 +56,8 @@ internal object Dokka : DependencyEntry() {
      *     Custom Dokka Plugins</a>
      */
     object SpineExtensions : LibraryEntry() {
-        private const val group = "io.spine.tools"
         override val version = "2.0.0-SNAPSHOT.3"
-        override val module = "$group:spine-dokka-extensions"
+        override val module = "io.spine.tools:spine-dokka-extensions"
     }
 
     object GradlePlugin : PluginEntry() {

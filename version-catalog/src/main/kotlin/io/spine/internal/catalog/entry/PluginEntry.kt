@@ -64,8 +64,8 @@ import io.spine.internal.catalog.VersionRecord
  * }
  * ```
  *
- * There's a special treatment for plugin entries named "GradlePlugin". For them,
- * "gradlePlugin" suffix will not be appended to a final plugin's alias.
+ * Also, there's a special treatment for plugin entries named "GradlePlugin".
+ * For them, "gradlePlugin" suffix will not be appended to a final plugin's alias.
  *
  * Consider the following example:
  *
@@ -80,7 +80,7 @@ import io.spine.internal.catalog.VersionRecord
  * ```
  *
  * In the example above, the side comments demonstrate the generated accessors.
- * The version and module have `gradlePlugin` suffix, while the plugin itself not.
+ * The version and module have `gradlePlugin` suffix, while the plugin not.
  * It is done so in order not to repeat yourself in naming. Otherwise, we would
  * come up with this: `libs.plugins.myLib.gradlePlugin`.
  */
