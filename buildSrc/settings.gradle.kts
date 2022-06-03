@@ -42,7 +42,6 @@ dependencyResolutionManagement {
     versionCatalogs {
 
         /*
-
          The code, we have put on a classpath, exposes a class `SpineVersionCatalog`,
          which can execute code upon `VersionCatalogBuilder`.
 
@@ -58,13 +57,11 @@ dependencyResolutionManagement {
          don't need it.
 
          See the issue: https://github.com/gradle/gradle/issues/20836
-
          */
 
         create("libs") {
 
             /*
-
              An example of how to override versions.
 
              Two lines below declare versions of Kotlin for our build logic.
@@ -76,7 +73,6 @@ dependencyResolutionManagement {
              implementing build logic with different Kotlin makes little sense.
 
              Primarily, it just gets rid of a multi-line warning block.
-
              */
 
             version("kotlin", "1.5.31")

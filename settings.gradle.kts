@@ -56,13 +56,11 @@ dependencyResolutionManagement {
     versionCatalogs {
 
         /*
-
          Please, check out `buildSrc/settings.gradle.kts` file.
 
          There is an explanation on why we don't have a plugin, which creates
          a catalog on its own, and we have to create a catalog ourselves in
          every settings file.
-
          */
 
         create("libs") {

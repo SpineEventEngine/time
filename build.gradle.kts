@@ -53,14 +53,12 @@ buildscript {
     io.spine.internal.gradle.doForceVersions(configurations, libs)
 
     /*
-
      Due to a bug, we can't apply scripts.
 
      `version.gradle.kts` file is not applied, thus the version of mcJava is
      declared right here.
 
      See issue: https://github.com/gradle/gradle/issues/20717
-
      */
 
     val mcJavaVersion = "2.0.0-SNAPSHOT.83"
@@ -82,7 +80,6 @@ plugins {
     `project-report`
 
     /*
-
      As for now, Gradle doesn't provide API for applying plugins without version.
      This is why we resolve a provider by `get()`.
 
@@ -92,7 +89,6 @@ plugins {
 
      See issue in Gradle: https://github.com/gradle/gradle/issues/20839
      See issue in IDEA: https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-can-t-be-called-in-this-context-by-implicit-recei
-
      */
 
     id(libs.plugins.protobuf.get().pluginId)
@@ -119,14 +115,12 @@ spinePublishing {
 allprojects {
 
     /*
-
      Due to a bug, we can't apply scripts.
 
      `version.gradle.kts` file is not applied, thus the versions of spine libs
      are declared right here.
 
      See issue: https://github.com/gradle/gradle/issues/20717
-
      */
 
     /** Versions of the Spine libraries that `time` depends on. */
@@ -162,13 +156,11 @@ subprojects {
     dependencies {
 
         /*
-
          Gradle discourages cross-configuration of projects.
          Thus, the direct access to `libs` in `allprojects` and `subprojects`
          blocks is unavailable. But we still can use it from `rootProject`.
 
          See the closed issue: https://github.com/gradle/gradle/issues/16634
-
          */
 
         errorprone(rootProject.libs.errorProne.core)

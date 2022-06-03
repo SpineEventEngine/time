@@ -77,7 +77,6 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
         protobuf.gradlePlugin,
 
         /*
-
          Previously, we could force bundles, which we represented as iterable
          of strings. But we are not allowed to force version catalog's bundles:
 
@@ -87,7 +86,6 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
          => Only dependency accessors are supported but not plugin, bundle or version accessors for 'force()'.
 
          So, we have to open out the given bundle, and force three libraries independently.
-
          */
 
         protobuf.java,
