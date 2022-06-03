@@ -44,7 +44,7 @@ configurations {
     // Why we need a functional test is described in the test itself.
     // See: `SpineVersionCatalogFunctionalTest`.
 
-    create("functionalTestImplementation") {
+    create("func-testImplementation") {
         extendsFrom(getByName("testImplementation"))
     }
 }
@@ -59,11 +59,11 @@ dependencies {
     testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 
-    add("functionalTestImplementation", gradleTestKit())
+    add("func-testImplementation", gradleTestKit())
 }
 
 sourceSets {
-    create("functionalTest")
+    create("func-test")
 }
 
 publishing {
@@ -78,16 +78,15 @@ publishing {
 }
 
 tasks {
-
-    val functionalTest by registering(Test::class) {
-        val sourceSet = sourceSets.getByName("functionalTest")
+    val funcTest = register<Test>("func-test") {
+        val sourceSet = sourceSets.getByName("func-test")
         testClassesDirs = sourceSet.output.classesDirs
         classpath = sourceSet.runtimeClasspath
         dependsOn(named("publishToMavenLocal"), test)
     }
 
     check {
-        dependsOn(functionalTest)
+        dependsOn(funcTest)
     }
 
     withType<Test>().configureEach {
