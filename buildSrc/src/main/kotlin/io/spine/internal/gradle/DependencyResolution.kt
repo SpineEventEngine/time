@@ -60,24 +60,40 @@ private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLib
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
         animalSniffer,
-        googleAuto.common,
-        googleAuto.service.annotations,
         checkerFramework.annotations,
         errorProne.annotations,
-        errorProne.typeAnnotations,
         errorProne.core,
+        errorProne.typeAnnotations,
         findBugs.annotations,
         flogger,
         flogger.runtime.systemBackend,
+        googleAuto.common,
+        googleAuto.service.annotations,
         guava,
         kotlin.reflect,
         kotlin.stdLib,
         kotlin.stdLib.common,
         kotlin.stdLib.jdk8,
+        protobuf.gradlePlugin,
+
+        /*
+
+         Previously, we could force bundles, which we represented as iterable
+         of strings. But we are not allowed to force version catalog's bundles:
+
+         `bundles.protobuf`
+
+         It's not a bug. It's rather a design desicion, as the error clearly states:
+         => Only dependency accessors are supported but not plugin, bundle or version accessors for 'force()'.
+
+         So, we have to open out the given bundle, and force three libraries independently.
+
+         */
+
         protobuf.java,
         protobuf.javaUtil,
         protobuf.kotlin,
-        protobuf.gradlePlugin,
+
         slf4J,
     )
 }
@@ -87,12 +103,12 @@ private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) = w
         guava.testLib,
         jUnit.api,
         jUnit.apiGuardian,
-        jUnit.params,
         jUnit.legacy,
+        jUnit.params,
         jUnit.platform.commons,
         jUnit.platform.launcher,
-        truth.protoExtension,
         truth.java8Extension,
+        truth.protoExtension,
     )
 }
 

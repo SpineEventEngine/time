@@ -1,4 +1,4 @@
-import io.spine.internal.catalog.SpineDependencies
+import io.spine.internal.catalog.SpineVersionCatalog
 
 buildscript {
     repositories {
@@ -12,6 +12,6 @@ buildscript {
 
 dependencyResolutionManagement.versionCatalogs {
     create("libs") {
-        SpineDependencies.useIn(this)
+        SpineVersionCatalog.useIn(this)
     }
 }

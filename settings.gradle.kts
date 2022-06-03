@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+import io.spine.internal.catalog.SpineVersionCatalog
 
 pluginManagement {
     repositories {
@@ -46,6 +46,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        // We don't apply any plugins.
+        // We just put our code on a classpath of settings script.
         classpath("io.spine.internal:spine-version-catalog:+")
     }
 }
@@ -57,13 +59,14 @@ dependencyResolutionManagement {
 
          Please, check out `buildSrc/settings.gradle.kts` file.
 
-         There is an explanation on why the plugin doesn't create
-         a catalog on its own, and we have to create it ourselves.
+         There is an explanation on why we don't have a plugin, which creates
+         a catalog on its own, and we have to create it ourselves in every
+         settings file.
 
          */
 
         create("libs") {
-            SpineDependencies.useIn(this)
+            SpineVersionCatalog.useIn(this)
         }
     }
 }

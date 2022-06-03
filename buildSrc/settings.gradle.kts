@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.catalog.SpineDependencies
+import io.spine.internal.catalog.SpineVersionCatalog
 
 buildscript {
     repositories {
@@ -32,6 +32,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        // We don't apply any plugins.
+        // We just put our code on a classpath of settings script.
         classpath("io.spine.internal:spine-version-catalog:+")
     }
 }
@@ -41,16 +43,17 @@ dependencyResolutionManagement {
 
         /*
 
-         The plugin doesn't create a catalog on its own. It just provides
-         an extension, that can execute code upon `VersionCatalogBuilder`.
+         The plugin doesn't create a catalog on its own. It just exposes
+         a class `SpineVersionCatalog`, which can execute code upon `VersionCatalogBuilder`.
 
          It is so because we want to preserve a possibility of overwrite.
-         Currently, Gradle does not provide a clear way to do overwrite.
-         When a lib is added to a catalog, it can not be overwritten.
-         The subsequent attempts to add the same lib lead to a silent nothing.
+         Currently, Gradle does not provide a clear way to do overwrite for
+         already created catalogs. When a library is added to a catalog, it can
+         not be overwritten. The subsequent attempts to add the same library lead
+         to a silent nothing.
 
-         Thus, to overwrite a lib or version you should declare it first.
-         All subsequent declaration of that lib or version will just be ignored.
+         Thus, to overwrite a library or version you should declare it first.
+         All subsequent declaration of that library or version will just be ignored.
 
          See the issue: https://github.com/gradle/gradle/issues/20836
 
@@ -62,7 +65,11 @@ dependencyResolutionManagement {
 
              An example of how to override versions.
 
-             Two lines below override versions of Kotlin for our build logic.
+             Two lines below declare versions of Kotlin for our build logic.
+             Our `SpineVersionCatalog` class also declares those versions, and
+             declaring them first in settings file is, actually, current way
+             to perform override.
+
              Build scripts are executed by Gradle's embedded Kotlin, and
              implementing build logic with different Kotlin makes little sense.
 
@@ -73,7 +80,8 @@ dependencyResolutionManagement {
             version("kotlin", "1.5.31")
             version("kotlinX-coroutines", "1.5.2")
 
-            SpineDependencies.useIn(this)
+            // Fills up this catalog with our dependencies.
+            SpineVersionCatalog.useIn(this)
         }
     }
 }

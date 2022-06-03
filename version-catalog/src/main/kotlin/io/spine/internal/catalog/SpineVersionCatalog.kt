@@ -50,7 +50,7 @@ import org.reflections.util.ConfigurationBuilder
  * See: [Dummy][io.spine.internal.catalog.entries.Dummy]
  */
 @Suppress("unused")
-class SpineDependencies {
+class SpineVersionCatalog {
     companion object {
 
         private const val pkg = "io.spine.internal.catalog.entries"

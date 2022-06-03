@@ -28,6 +28,8 @@ group = "io.spine.internal"
 version = "0.0.1-SNAPSHOT.1"
 
 plugins {
+    // For those, who works with Gradle (or just discover it),
+    // task tree is very useful thingy.
     id("com.dorongold.task-tree") version "2.1.0"
     id("org.jetbrains.kotlin.jvm") version "1.6.21"
     `maven-publish`
@@ -38,6 +40,10 @@ repositories {
 }
 
 configurations {
+
+    // Why we need a functional test is described in the test itself.
+    // See: `SpineVersionCatalogFunctionalTest`.
+
     create("functionalTestImplementation") {
         extendsFrom(getByName("testImplementation"))
     }
@@ -66,16 +72,12 @@ publishing {
             groupId = project.group.toString()
             artifactId = project.name
             version = project.version.toString()
-
             from(components["java"])
         }
     }
 }
 
 tasks {
-
-    // Why we need a functional test is described in the test itself.
-    // See: `SpineDependenciesFunctionalTest`.
 
     val functionalTest by registering(Test::class) {
         val sourceSet = sourceSets.getByName("functionalTest")

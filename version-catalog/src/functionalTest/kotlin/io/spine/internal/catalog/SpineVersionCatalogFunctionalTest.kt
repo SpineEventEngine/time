@@ -48,8 +48,8 @@ import org.junit.jupiter.api.assertDoesNotThrow
  * See issue in Gradle: https://github.com/gradle/gradle/issues/20807
  */
 @Suppress("FunctionName")
-@DisplayName("`SpineDependencies` should")
-class SpineDependenciesFunctionalTest {
+@DisplayName("`SpineVersionCatalog` should")
+class SpineVersionCatalogFunctionalTest {
 
     private val projectDir = Files.createTempDirectory(this::class.simpleName).toFile()
 
