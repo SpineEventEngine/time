@@ -40,7 +40,7 @@ import io.spine.internal.catalog.entry.VersionEntry
  * Side comments to certain statements demonstrate how those lines will
  * be represented in the generated type-safe accessors.
  *
- * @see `io.spine.internal.catalog.SpineVersionCatalogFunctionalTest`
+ * @see `io.spine.internal.catalog.SpineVersionCatalogTest`
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 internal object Dummy : DependencyEntry() {

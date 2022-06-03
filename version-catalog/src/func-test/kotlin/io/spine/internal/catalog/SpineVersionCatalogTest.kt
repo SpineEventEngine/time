@@ -60,7 +60,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 @Suppress("FunctionName") // See docs above.
 @TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("`SpineVersionCatalog` should")
-class SpineVersionCatalogFunctionalTest {
+class SpineVersionCatalogTest {
 
     private lateinit var projectDir: File
 

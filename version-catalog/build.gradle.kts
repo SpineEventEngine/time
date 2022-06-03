@@ -42,7 +42,7 @@ repositories {
 configurations {
 
     // Why we need a functional test is described in the test itself.
-    // See: `SpineVersionCatalogFunctionalTest`.
+    // See: `SpineVersionCatalogTest`.
 
     create("func-testImplementation") {
         extendsFrom(getByName("testImplementation"))
