@@ -26,10 +26,15 @@
 
 package io.spine.internal.catalog
 
+import java.io.File
 import java.nio.file.Files
 import org.gradle.testkit.runner.GradleRunner
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.TestInstance.Lifecycle
 import org.junit.jupiter.api.assertDoesNotThrow
 
 /**
@@ -53,10 +58,23 @@ import org.junit.jupiter.api.assertDoesNotThrow
  * source sets.
  */
 @Suppress("FunctionName") // See docs above.
+@TestInstance(Lifecycle.PER_CLASS)
 @DisplayName("`SpineVersionCatalog` should")
 class SpineVersionCatalogFunctionalTest {
 
-    private val projectDir = Files.createTempDirectory(this::class.simpleName).toFile()
+    private lateinit var projectDir: File
+
+    @BeforeAll
+    fun setUpProject() {
+        projectDir = Files.createTempDirectory(javaClass.simpleName).toFile()
+        createSettingsFile()
+        createBuildFile()
+    }
+
+    @AfterAll
+    fun cleanUp() {
+        projectDir.deleteRecursively()
+    }
 
     /**
      * The test prepares an empty Gradle project in a temporary directory
@@ -84,9 +102,6 @@ class SpineVersionCatalogFunctionalTest {
      */
     @Test
     fun `fill up an existing version catalog`() {
-        createSettingsFile()
-        createBuildFile()
-
         val runner = GradleRunner.create()
             .withArguments("help", "--stacktrace")
             .withProjectDir(projectDir)
