@@ -80,8 +80,8 @@ class SpineVersionCatalogFunctionalTest {
      * The test prepares an empty Gradle project in a temporary directory
      * and builds it.
      *
-     * This project fetched `SpineVersionCatalog` from MavenLocal. Thus, our code
-     * should be published to MavenLocal in advance.
+     * This project fetched `SpineVersionCatalog` from Maven local. Thus, our code
+     * should be published to Maven local in advance.
      *
      * The simplest way to achieve this is by means of Gradle:
      *

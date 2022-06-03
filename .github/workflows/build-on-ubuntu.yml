@@ -18,7 +18,7 @@ jobs:
       - name: Pull config
         run: git submodule update --init --recursive
 
-      - name: Prepare a version catalog in MavenLocal
+      - name: Prepare a version catalog in Maven local
         shell: bash
         run: cd version-catalog && ./gradlew build
 
