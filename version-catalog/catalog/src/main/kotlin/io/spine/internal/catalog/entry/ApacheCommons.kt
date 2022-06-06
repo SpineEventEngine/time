@@ -24,10 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+@Suppress("unused")
+internal object ApacheCommons : CatalogEntry() {
+
+    /**
+     * [CommonsCli](https://commons.apache.org/proper/commons-cli/)
+     */
+    object Cli : LibraryEntry() {
+        override val version = "1.5.0"
+        override val module = "commons-cli:commons-cli"
+    }
+
+    /**
+     * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html)
+     */
+    object Codec : LibraryEntry() {
+        override val version = "1.15"
+        override val module = "commons-codec:commons-codec"
+    }
+
+    /**
+     * [CommonsLogging](https://commons.apache.org/proper/commons-logging/)
+     */
+    object Logging : LibraryEntry() {
+        override val version = "1.2"
+        override val module = "commons-logging:commons-logging"
+    }
+}

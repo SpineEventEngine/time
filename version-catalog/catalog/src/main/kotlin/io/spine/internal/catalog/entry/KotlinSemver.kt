@@ -24,10 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver)
+ */
+@Suppress("unused")
+internal object KotlinSemver : LibraryEntry() {
+    override val version = "1.2.1"
+    override val module = "io.github.z4kn4fein:semver"
+}

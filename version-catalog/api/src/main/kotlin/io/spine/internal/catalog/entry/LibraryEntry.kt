@@ -24,10 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.LibraryNotation
+import io.spine.internal.catalog.LibraryRecord
+import io.spine.internal.catalog.VersionRecord
+
+/**
+ * A catalog entry, which is used to declare a library.
+ *
+ * Only object declarations are meant to inherit from this class.
+ *
+ * Below is an example of how to declare a library using this entry:
+ *
+ * ```
+ * internal object MyLib : LibraryEntry() {
+ *     override val version = "1.0.0"
+ *     override val module = "org.my.company:my-lib"
+ * }
+ * ```
+ */
+abstract class LibraryEntry : CatalogEntry(), LibraryNotation {
+
+    /**
+     * Produces [VersionRecord] and [LibraryRecord].
+     */
+    override fun records(): Set<CatalogRecord> {
+        val version = VersionRecord(alias, version)
+        val library = LibraryRecord(alias, module, alias)
+        return setOf(version, library)
+    }
+}

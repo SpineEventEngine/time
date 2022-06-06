@@ -24,10 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+@Suppress("unused")
+internal object Netty : DependencyEntry() {
+
+    /**
+     * [Releases](https://github.com/netty/netty/releases)
+     */
+    override val version = "4.1.72.Final"
+
+    val common by lib("io.netty:netty-common")
+    val buffer by lib("io.netty:netty-buffer")
+    val transport by lib("io.netty:netty-transport")
+    val handler by lib("io.netty:netty-handler")
+    val codecHttp by lib("io.netty:netty-codec-http")
+}

@@ -24,10 +24,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [Google HTTP client](https://github.com/googleapis/google-http-java-client)
+ */
+@Suppress("unused")
+internal object HttpClient : DependencyEntry() {
+
+    /**
+     * [Releases](https://github.com/googleapis/google-http-java-client)
+     */
+    override val version = "1.41.5"
+
+    val google by lib("com.google.http-client:google-http-client")
+    val jackson2 by lib("com.google.http-client:google-http-client-jackson2")
+    val gson by lib("com.google.http-client:google-http-client-gson")
+    val apache2 by lib("com.google.http-client:google-http-client-apache-v2")
+
+    object Apache : LibraryEntry() {
+        override val version = "2.1.2"
+        override val module = "com.google.http-client:google-http-client-apache"
+    }
+}

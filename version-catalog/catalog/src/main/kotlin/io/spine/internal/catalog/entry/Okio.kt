@@ -24,10 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * Okio is a transitive dependency which we don't use directly.
+ * This object is used to force the version.
+ */
+@Suppress("unused")
+internal object Okio : LibraryEntry() {
+    // This is the last version before next major.
+    override val version = "1.17.5"
+    override val module = "com.squareup.okio:okio"
+}

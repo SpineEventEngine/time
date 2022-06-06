@@ -24,10 +24,41 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+@Suppress("unused")
+internal object Jackson : DependencyEntry() {
+
+    override val version = "2.13.2"
+
+    /**
+     * [Core](https://github.com/FasterXML/jackson-core)
+     */
+    val core by lib("com.fasterxml.jackson.core:jackson-core")
+
+    /**
+     * [DataformatXml](https://github.com/FasterXML/jackson-dataformat-xml/releases)
+     */
+    val dataformatXml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
+
+    /**
+     * [DataformatYaml](https://github.com/FasterXML/jackson-dataformats-text/releases)
+     */
+    val dataformatYaml by lib("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+
+    /**
+     * [ModuleKotlin](https://github.com/FasterXML/jackson-module-kotlin/releases)
+     */
+    val moduleKotlin by lib("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    /**
+     * [Databind](https://github.com/FasterXML/jackson-databind)
+     */
+    object Databind : LibraryEntry() {
+        override val version = "2.13.2.2"
+        override val module = "com.fasterxml.jackson.core:jackson-databind"
+    }
+}

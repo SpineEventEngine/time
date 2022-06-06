@@ -24,10 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * Gradle TestKit extension for Google Truth.
+ *
+ * [Source Code](https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/tree/main/testkit-truth)
+ * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
+ */
+@Suppress("unused")
+internal object TestKitTruth : LibraryEntry() {
+    override val version = "1.1"
+    override val module = "com.autonomousapps:testkit-truth"
+}

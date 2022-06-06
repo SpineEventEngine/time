@@ -24,10 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * The dependencies for Guava.
+ *
+ * When changing the version, also change the version used in the `build.gradle.kts`. We need
+ * to synchronize the version used in `buildSrc` and in Spine modules. Otherwise, when testing
+ * Gradle plugins, errors may occur due to version clashes.
+ *
+ * [Guava](https://github.com/google/guava)
+ */
+@Suppress("unused")
+internal object Guava : DependencyEntry() {
+    override val version = "31.1-jre"
+    override val module = "com.google.guava:guava"
+    val testLib by lib("com.google.guava:guava-testlib")
+}

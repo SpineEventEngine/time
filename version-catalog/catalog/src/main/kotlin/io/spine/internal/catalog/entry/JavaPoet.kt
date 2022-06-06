@@ -24,10 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [JavaPoet](https://github.com/square/javapoet)
+ */
+@Suppress("unused")
+internal object JavaPoet : LibraryEntry() {
+    override val version = "1.13.0"
+    override val module = "com.squareup:javapoet"
+}

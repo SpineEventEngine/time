@@ -24,10 +24,40 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+/**
+ * Each notation defines what information is necessary and sufficient
+ * to assemble one or another version catalog-compatible item.
+ */
+interface CatalogItemNotation {
+    val alias: Alias
+}
+
+/**
+ * Information, required to assemble a version item.
+ */
+interface VersionNotation : CatalogItemNotation {
+    val version: String
+}
+
+/**
+ * Information, required to assemble a library item.
+ */
+interface LibraryNotation : VersionNotation {
+    val module: String
+}
+
+/**
+ * Information, required to assemble a plugin item.
+ */
+interface PluginNotation : LibraryNotation {
+    val id: String
+}
+
+/**
+ * Information, required to assemble a bundle item.
+ */
+interface BundleNotation : CatalogItemNotation {
+    val bundle: Set<LibraryNotation>
+}

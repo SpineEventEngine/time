@@ -24,10 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [CheckerFramework](https://checkerframework.org/)
+ */
+@Suppress("unused")
+internal object CheckerFramework : DependencyEntry() {
+
+    /**
+     * This is a discontinued artifact, which we do not use directly.
+     * It is a transitive dependency which we use for forcing the version.
+     */
+    object CompatQual : LibraryEntry() {
+        override val version = "2.5.5"
+        override val module = "org.checkerframework:checker-compat-qual"
+    }
+
+    override val version = "3.21.3"
+    val annotations by lib("org.checkerframework:checker-qual")
+
+    val dataflow by bundle(
+        lib("dataflow", "org.checkerframework:dataflow"),
+        lib("javacUtil", "org.checkerframework:javacutil")
+    )
+}

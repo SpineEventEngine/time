@@ -24,10 +24,26 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+@Suppress("unused")
+internal object JavaX : CatalogEntry() {
+
+    /**
+     * This artifact which used to be a part of J2EE moved under Eclipse EE4J project.
+     *
+     * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api)
+     */
+    object Annotations : LibraryEntry() {
+        override val version = "1.3.2"
+        override val module = "javax.annotation:javax.annotation-api"
+    }
+
+    object ServletApi : LibraryEntry() {
+        override val version = "3.1.0"
+        override val module = "javax.servlet:javax.servlet-api"
+    }
+}

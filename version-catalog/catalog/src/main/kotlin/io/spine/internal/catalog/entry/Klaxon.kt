@@ -24,10 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * A JSON parser in Kotlin.
+ *
+ * [Klaxon](https://github.com/cbeust/klaxon)
+ */
+@Suppress("unused")
+internal object Klaxon : LibraryEntry() {
+    override val version = "5.6"
+    override val module = "com.beust:klaxon"
+}

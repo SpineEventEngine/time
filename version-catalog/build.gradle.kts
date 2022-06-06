@@ -24,73 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-group = "io.spine.internal"
-version = "2.0.0-SNAPSHOT.1"
+subprojects {
+    group = "io.spine.internal"
+    version = "2.0.0-SNAPSHOT.1"
 
-plugins {
-    // For those, who works with Gradle (or just discovers it),
-    // task tree is a very useful thingy.
-    id("com.dorongold.task-tree") version "2.1.0"
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
-    `maven-publish`
-}
-
-repositories {
-    mavenCentral()
-}
-
-configurations {
-
-    // Why we need a functional test is described in the test itself.
-    // See: `SpineVersionCatalogTest`.
-
-    create("func-testImplementation") {
-        extendsFrom(getByName("testImplementation"))
-    }
-}
-
-dependencies {
-    implementation(gradleApi())
-    implementation("org.reflections:reflections:0.10.2")
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    testImplementation("com.google.truth:truth:1.1.3")
-    testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-
-    add("func-testImplementation", gradleTestKit())
-}
-
-sourceSets {
-    create("func-test")
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            groupId = project.group.toString()
-            artifactId = project.name
-            version = project.version.toString()
-            from(components["java"])
-        }
-    }
-}
-
-tasks {
-    val funcTest = register<Test>("func-test") {
-        val sourceSet = sourceSets.getByName("func-test")
-        testClassesDirs = sourceSet.output.classesDirs
-        classpath = sourceSet.runtimeClasspath
-        dependsOn(named("publishToMavenLocal"), test)
-    }
-
-    check {
-        dependsOn(funcTest)
-    }
-
-    withType<Test>().configureEach {
-        useJUnitPlatform { includeEngines("junit-jupiter") }
-        testLogging { showStandardStreams = true }
+    repositories {
+        mavenCentral()
     }
 }

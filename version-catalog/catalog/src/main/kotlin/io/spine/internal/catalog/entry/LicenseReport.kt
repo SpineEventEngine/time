@@ -24,10 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.LibraryEntry
+import io.spine.internal.catalog.entry.PluginEntry
+
+/**
+ * [LicenseReport](https://github.com/jk1/Gradle-License-Report)
+ */
+@Suppress("unused")
+internal object LicenseReport : LibraryEntry() {
+
+    override val version = "1.16"
+    override val module = "com.github.jk1:gradle-license-report"
+
+    object GradlePlugin : PluginEntry() {
+        override val module = "com.github.jk1:gradle-license-report"
+        override val id = "com.github.jk1.dependency-license-report"
+    }
+}

@@ -24,10 +24,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.CatalogRecord
+import io.spine.internal.catalog.VersionNotation
+import io.spine.internal.catalog.VersionRecord
+
+/**
+ * A catalog entry, which is used to declare a bare version.
+ *
+ * Only object declarations are meant to inherit from this class.
+ *
+ * Below is an example of how to declare a version using this entry:
+ *
+ * ```
+ * internal object PMD : VersionEntry() {
+ *     override val version = "1.0.0"
+ * }
+ * ```
+ */
+abstract class VersionEntry : CatalogEntry(), VersionNotation {
+
+    /**
+     * Produces a single [VersionRecord].
+     */
+    override fun records(): Set<CatalogRecord> {
+        val record = VersionRecord(alias, version)
+        return setOf(record)
+    }
+}

@@ -24,10 +24,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * Plexus Utils is a transitive dependency which we don't use directly.
+ * This object is used to force the version.
+ *
+ * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
+ */
+@Suppress("unused")
+internal object Plexus : DependencyEntry() {
+    override val version = "3.4.0"
+    val utils by lib("org.codehaus.plexus:plexus-utils")
+}

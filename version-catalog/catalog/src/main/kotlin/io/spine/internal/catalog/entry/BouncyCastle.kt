@@ -24,10 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [BouncyCastle](https://www.bouncycastle.org/java.html)
+ */
+@Suppress("unused")
+internal object BouncyCastle : DependencyEntry() {
+    override val version = "1.68"
+    val libPkcsJdk15 by lib("org.bouncycastle:bcpkix-jdk15on")
+}

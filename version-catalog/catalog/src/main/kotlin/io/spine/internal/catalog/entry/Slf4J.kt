@@ -24,10 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
+ * we recommend to use the latter.
+ *
+ * Some third-party libraries may clash with different versions of the library.
+ * Thus, we have to force the version.
+ */
+@Suppress("unused")
+@Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
+internal object Slf4J : DependencyEntry() {
+
+    private const val group = "org.slf4j"
+    override val version = "1.7.30"
+    override val module = "${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-api"
+
+    val jdk14 by lib("${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-jdk14")
+    val api by lib("${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-api")
+}

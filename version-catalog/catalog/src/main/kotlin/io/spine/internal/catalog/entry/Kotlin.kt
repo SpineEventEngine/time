@@ -24,10 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [Kotlin](https://github.com/JetBrains/kotlin)
+ */
+@Suppress("unused")
+internal object Kotlin : DependencyEntry() {
+
+    private const val group = "org.jetbrains.kotlin"
+    override val version = "1.6.21"
+
+    val gradlePlugin by lib("${io.spine.internal.catalog.entry.Kotlin.group}:kotlin-gradle-plugin")
+    val reflect by lib("${io.spine.internal.catalog.entry.Kotlin.group}:kotlin-reflect")
+
+    object StdLib : DependencyEntry() {
+        override val module = "${io.spine.internal.catalog.entry.Kotlin.group}:kotlin-stdlib"
+        val common by lib("${io.spine.internal.catalog.entry.Kotlin.group}:kotlin-stdlib-common")
+        val jdk8 by lib("${io.spine.internal.catalog.entry.Kotlin.group}:kotlin-stdlib-jdk8")
+    }
+}

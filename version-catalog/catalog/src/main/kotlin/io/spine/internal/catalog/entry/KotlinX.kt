@@ -24,10 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.VersionEntry
+
+@Suppress("unused")
+internal object KotlinX : CatalogEntry() {
+
+    object Coroutines : VersionEntry() {
+
+        /**
+         * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+         */
+        override val version = "1.6.1"
+
+        object Core : DependencyEntry() {
+            override val module = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+            val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
+        }
+    }
+}

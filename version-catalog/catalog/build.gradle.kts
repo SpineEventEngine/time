@@ -24,10 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+}
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+dependencies {
+    implementation(project(":api"))
+    implementation("org.reflections:reflections:0.10.2")
+}

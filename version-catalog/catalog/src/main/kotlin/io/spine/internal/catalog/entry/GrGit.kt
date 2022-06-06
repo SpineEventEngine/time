@@ -24,10 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+@Suppress("unused")
+internal object GrGit : DependencyEntry() {
+    override val version = "3.1.1"
+    val core by lib("org.ajoberstar.grgit:grgit-core")
+}

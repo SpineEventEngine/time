@@ -24,10 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [Roaster](https://github.com/forge/roaster)
+ */
+@Suppress("unused")
+internal object Roaster : DependencyEntry() {
+
+    /**
+     * Do not advance this version further because it would break compatibility with Java 8
+     * projects. Starting from the following version Roaster has a shaded version of Eclipse
+     * JFace built with Java 11.
+     *
+     * Please see [this issue][https://github.com/SpineEventEngine/config/issues/220] for details.
+     */
+    override val version = "2.24.0.Final"
+
+    val api by lib("org.jboss.forge.roaster:roaster-api")
+    val jdt by lib("org.jboss.forge.roaster:roaster-jdt")
+}

@@ -24,10 +24,25 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [Grpc Java](https://github.com/grpc/grpc-java)
+ */
+@Suppress("unused")
+internal object Grpc : DependencyEntry() {
+    override val version = "1.45.1"
+    val api by lib("io.grpc:grpc-api")
+    val auth by lib("io.grpc:grpc-auth")
+    val core by lib("io.grpc:grpc-core")
+    val context by lib("io.grpc:grpc-context")
+    val stub by lib("io.grpc:grpc-stub")
+    val okHttp by lib("io.grpc:grpc-okhttp")
+    val protobuf by lib("io.grpc:grpc-protobuf")
+    val protobufLite by lib("io.grpc:grpc-protobuf-lite")
+    val protobufPlugin by lib("io.grpc:protoc-gen-grpc-java")
+    val netty by lib("io.grpc:grpc-netty")
+    val nettyShaded by lib("io.grpc:grpc-netty-shaded")
+}

@@ -24,10 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
+ * but we don't use it. We use ErrorProne for static analysis instead. The only
+ * reason for having this dependency is the annotations for null-checking introduced
+ * by JSR-305. These annotations are troublesome, but no alternatives are known for
+ * some of them so far.
+ *
+ * See [this issue](https://github.com/SpineEventEngine/base/issues/108) for more details.
+ */
+@Suppress("unused")
+internal object FindBugs : DependencyEntry() {
+    override val version = "3.0.2"
+    val annotations by lib("com.google.code.findbugs:jsr305")
+}

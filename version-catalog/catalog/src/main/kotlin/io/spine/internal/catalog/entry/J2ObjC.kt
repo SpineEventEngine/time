@@ -24,10 +24,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
+ * which we don't use directly. This object is used for forcing the version.
+ */
+@Suppress("unused")
+internal object J2ObjC : DependencyEntry() {
+
+    /**
+     * [Releases](https://github.com/google/j2objc/releases)
+     * [MavenCentral](https://search.maven.org/artifact/com.google.j2objc/j2objc-annotations)
+     *
+     * `1.3.` is the latest version available from Maven Central.
+     */
+    override val version = "1.3"
+    val annotations by lib("com.google.j2objc:j2objc-annotations")
+}

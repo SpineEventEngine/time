@@ -24,10 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.VersionEntry
+
+/**
+ * [Pmd](https://pmd.github.io/)
+ */
+@Suppress("unused")
+internal object Pmd : VersionEntry() {
+    override val version = "6.44.0"
+}

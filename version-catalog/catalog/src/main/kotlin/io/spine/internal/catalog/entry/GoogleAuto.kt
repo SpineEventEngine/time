@@ -24,10 +24,31 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+/**
+ * [GoogleAuto](https://github.com/google/auto)
+ */
+@Suppress("unused")
+internal object GoogleAuto : CatalogEntry() {
+
+    object Common : LibraryEntry() {
+        override val version = "1.2.1"
+        override val module = "com.google.auto:auto-common"
+    }
+
+    object Service : DependencyEntry() {
+        override val version = "1.0.1"
+        val annotations by lib("com.google.auto.service:auto-service-annotations")
+        val processor by lib("com.google.auto.service:auto-service")
+    }
+
+    object Value : DependencyEntry() {
+        override val version = "1.9"
+        val annotations by lib("com.google.auto.value:auto-value-annotations")
+    }
+}

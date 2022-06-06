@@ -24,10 +24,33 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+import io.spine.internal.catalog.entry.PluginEntry
+
+/**
+ * [Protobuf](https://github.com/protocolbuffers/protobuf)
+ */
+@Suppress("unused")
+internal object Protobuf : DependencyEntry() {
+
+    private const val group = "com.google.protobuf"
+    override val version = "3.20.1"
+    override val bundle = setOf(
+        lib("java", "${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-java"),
+        lib("javaUtil", "${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-java-util"),
+        lib("kotlin", "${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-kotlin"),
+    )
+
+    val compiler by lib("${io.spine.internal.catalog.entry.Protobuf.group}:protoc")
+
+    /**
+     * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases)
+     */
+    object GradlePlugin : PluginEntry() {
+        override val version = "0.8.18"
+        override val module = "${io.spine.internal.catalog.entry.Protobuf.group}:protobuf-gradle-plugin"
+        override val id = "com.google.protobuf"
+    }
+}

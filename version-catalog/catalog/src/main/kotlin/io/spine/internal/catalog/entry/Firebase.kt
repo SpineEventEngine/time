@@ -24,10 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.entry.LibraryEntry
+
+@Suppress("unused")
+internal object Firebase : CatalogEntry() {
+
+    /**
+     * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java)
+     */
+    object Admin : LibraryEntry() {
+        override val version = "8.1.0"
+        override val module = "com.google.firebase:firebase-admin"
+    }
+}

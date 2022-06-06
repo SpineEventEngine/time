@@ -24,10 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.PluginEntry
+
+/**
+ * [OsDetector](https://github.com/google/osdetector-gradle-plugin)
+ */
+@Suppress("unused")
+internal object OsDetector : PluginEntry() {
+    override val version = "1.7.0"
+    override val module = "com.google.gradle:osdetector-gradle-plugin"
+    override val id = "com.google.osdetector"
+}

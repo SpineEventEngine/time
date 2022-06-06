@@ -24,10 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-rootProject.name = "spine-version-catalog"
+package io.spine.internal.catalog.entry
 
-include(
-    "api",
-    "catalog",
-    "func-test",
-)
+import io.spine.internal.catalog.entry.DependencyEntry
+
+/**
+ * [AssertK](https://github.com/willowtreeapps/assertk)
+ */
+@Suppress("unused")
+internal object AssertK : DependencyEntry() {
+    override val version = "0.25"
+    val jvm by lib("com.willowtreeapps.assertk:assertk-jvm")
+}
