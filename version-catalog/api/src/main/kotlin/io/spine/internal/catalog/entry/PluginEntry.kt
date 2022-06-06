@@ -80,7 +80,7 @@ import io.spine.internal.catalog.VersionRecord
  * ```
  *
  * In the example above, the side comments demonstrate the generated accessors.
- * The version and module have `gradlePlugin` suffix, while the plugin not.
+ * The version and module have `gradlePlugin` suffix, while the plugin doesn't.
  * It is done so in order not to repeat yourself in naming. Otherwise, we would
  * come up with this: `libs.plugins.myLib.gradlePlugin`.
  */

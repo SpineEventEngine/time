@@ -100,7 +100,7 @@ import io.spine.internal.catalog.delegate
  * can't guarantee that a library is declared within it. Library declaration is
  * optional for such entries.
  *
- * Something like this is not possible:
+ * Something like this is NOT possible:
  *
  * ```
  * internal object MyLib : DependencyEntry() {

@@ -27,7 +27,7 @@
 package io.spine.internal.catalog
 
 /**
- * A pseudonym, by which an item is known in a version catalog.
+ * A name, by which an item is known in a version catalog.
  *
  * Each item within the catalog has its unique alias.
  *

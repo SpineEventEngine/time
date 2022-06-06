@@ -94,6 +94,15 @@ class SpineVersionCatalog {
         /**
          * This method utilizes reflection in order to scan the package for
          * declared [catalog entries][CatalogEntry].
+         *
+         * The [Reflections] builder is configured to search for all subclasses
+         * of [CatalogEntry], declared in the [given package][pkg]. The found
+         * entries, in order to be included into the resulting set, should meet
+         * the following criteria:
+         *
+         *  1. Be an object declaration. Only objects can serve as concrete entries.
+         *  2. Be a top-level declared. Only root entries should be asked for records.
+         *     Then, they will ask their nested entries accordingly.
          */
         private fun findEntries(): Set<CatalogEntry> {
             val builder = ConfigurationBuilder().forPackage(pkg)

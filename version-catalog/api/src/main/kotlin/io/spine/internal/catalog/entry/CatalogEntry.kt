@@ -27,15 +27,17 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.Alias
-import io.spine.internal.catalog.CatalogItemNotation
+import io.spine.internal.catalog.CatalogNotation
 import io.spine.internal.catalog.CatalogRecord
 
 /**
  * A base catalog entry.
  *
  * The main idea behind the concept of entries is to provide a declarative way
- * to define version catalog items. Entries expose a declarative API, leaving
- * behind the scene all imperative code.
+ * to define catalog items. Entries expose a declarative API, leaving behind
+ * the scene all imperative code. Entries resemble a bridge between notations
+ * (a language, used to declare items) and records (the way, items are stored
+ * in the catalog).
  *
  * Only object declarations are meant to serve as concrete entries.
  *
@@ -45,10 +47,10 @@ import io.spine.internal.catalog.CatalogRecord
  *  2. Automatic aliasing for entries. An alias is picked up from the object's
  *     name, taking into account its nesting.
  *
- * As the ultimate goal of its existence, the class provides [allRecords] method.
- * The method produces a set of [CatalogRecord]s, using all declarations that
- * are done within this entry and its nested entries. Then, those records can be
- * directly [written][CatalogRecord.writeTo] into a version catalog.
+ * The primary goal achieved by the `CatalogEntry` objects is to [produce][allRecords]
+ * a set of [CatalogRecord]s. It combines all the declarations from this entry
+ * and its nested entries. Once produced, the records can be directly
+ * [written][CatalogRecord.writeTo] into a version catalog.
  *
  * It is worth to mention, that the relationship between an entry and records
  * it produces is "one to many". It means that a single entry can produce zero,
@@ -72,8 +74,10 @@ import io.spine.internal.catalog.CatalogRecord
  * may produce concrete records (such as a library, version, etc.).
  * Meanwhile, `Runtime` does not produce anything. It's just hosting other
  * entries, affecting their final alias.
+ *
+ * See also: [CatalogNotation], [CatalogRecord].
  */
-open class CatalogEntry : CatalogItemNotation {
+open class CatalogEntry : CatalogNotation {
 
     /**
      * A parent entry, within which this entry resides, if present.
