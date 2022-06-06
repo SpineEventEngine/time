@@ -24,7 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-subprojects {
-    group = "io.spine.internal"
-    version = "2.0.0-SNAPSHOT.1"
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    `maven-publish`
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(project(":api"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = "dummy-version-catalog"
+            version = project.version.toString()
+            from(components["java"])
+        }
+    }
 }

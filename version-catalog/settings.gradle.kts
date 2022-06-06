@@ -30,4 +30,5 @@ include(
     "api",
     "catalog",
     "func-test",
+    "func-test:dummy-catalog",
 )

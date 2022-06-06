@@ -38,7 +38,7 @@ package io.spine.internal.catalog.entry
  * @see `io.spine.internal.catalog.SpineVersionCatalogTest`
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal object Dummy : io.spine.internal.catalog.entry.DependencyEntry() {
+internal object Dummy : DependencyEntry() {
 
     private const val group = "org.dummy.company"
     override val module = "$group:dummy-lib" // libs.dummy
@@ -62,13 +62,13 @@ internal object Dummy : io.spine.internal.catalog.entry.DependencyEntry() {
     // suffix for a plugin's id. Note, that we have this suffix for the version
     // and module, and does not have for id.
 
-    object GradlePlugin : io.spine.internal.catalog.entry.PluginEntry() {
+    object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
         override val module = "$group:my-dummy-plugin" // libs.dummy.gradlePlugin
         override val id = "my-dummy-plugin"            // libs.plugins.dummy
     }
 
-    object Runtime : io.spine.internal.catalog.entry.DependencyEntry() {
+    object Runtime : DependencyEntry() {
 
         // When an entry does not override the version, it is taken from
         // the outer entry. For example, in this case, all libs within "Runtime"
@@ -78,7 +78,7 @@ internal object Dummy : io.spine.internal.catalog.entry.DependencyEntry() {
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
         val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
 
-        object BOM : io.spine.internal.catalog.entry.LibraryEntry() {
+        object BOM : LibraryEntry() {
             override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
             override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
         }
@@ -96,7 +96,7 @@ internal object Dummy : io.spine.internal.catalog.entry.DependencyEntry() {
 
     // It is also possible to declare just a bare version.
 
-    object Tools : io.spine.internal.catalog.entry.VersionEntry() {
+    object Tools : VersionEntry() {
         override val version = "3.0.0" // libs.versions.dummy.tools
     }
 }

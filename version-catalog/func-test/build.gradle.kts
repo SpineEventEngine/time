@@ -24,7 +24,24 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-subprojects {
-    group = "io.spine.internal"
-    version = "2.0.0-SNAPSHOT.1"
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(gradleTestKit())
+    testImplementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+}
+
+tasks {
+    withType<Test>().configureEach {
+        useJUnitPlatform { includeEngines("junit-jupiter") }
+        testLogging { showStandardStreams = true }
+    }
 }

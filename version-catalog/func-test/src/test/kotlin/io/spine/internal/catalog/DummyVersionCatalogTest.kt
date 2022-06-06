@@ -26,15 +26,10 @@
 
 package io.spine.internal.catalog
 
-import java.io.File
-import java.nio.file.Files
+import java.nio.file.Paths
 import org.gradle.testkit.runner.GradleRunner
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestInstance.Lifecycle
 import org.junit.jupiter.api.assertDoesNotThrow
 
 /**
@@ -60,23 +55,8 @@ import org.junit.jupiter.api.assertDoesNotThrow
  * source sets.
  */
 @Suppress("FunctionName") // See docs above.
-@TestInstance(Lifecycle.PER_CLASS)
-@DisplayName("`SpineVersionCatalog` should")
-class SpineVersionCatalogTest {
-
-    private lateinit var projectDir: File
-
-    @BeforeAll
-    fun setUpProject() {
-        projectDir = Files.createTempDirectory(javaClass.simpleName).toFile()
-        createSettingsFile()
-        createBuildFile()
-    }
-
-    @AfterAll
-    fun cleanUp() {
-        projectDir.deleteRecursively()
-    }
+@DisplayName("`DummyVersionCatalog` should")
+class DummyVersionCatalogTest {
 
     /**
      * Prepares an empty Gradle project in a temporary directory and builds it.
@@ -103,6 +83,13 @@ class SpineVersionCatalogTest {
      */
     @Test
     fun `fill up an existing version catalog`() {
+        val dummyCatalog = Paths.get("dummy-catalog").toFile()
+        GradleRunner.create()
+            .withArguments("build", "publishToMavenLocal", "--stacktrace")
+            .withProjectDir(dummyCatalog)
+            .build()
+
+        val projectDir = Paths.get("dummy-project").toFile()
         val runner = GradleRunner.create()
             .withArguments("help", "--stacktrace")
             .withProjectDir(projectDir)
@@ -110,14 +97,5 @@ class SpineVersionCatalogTest {
         assertDoesNotThrow {
             runner.build()
         }
-    }
-
-    private fun createSettingsFile() = copyFromResources("settings.gradle.kts")
-
-    private fun createBuildFile() = copyFromResources("build.gradle.kts")
-
-    private fun copyFromResources(file: String) {
-        val content = javaClass.getResource("/$file")!!.readText()
-        projectDir.resolve(file).writeText(content)
     }
 }

@@ -24,7 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-subprojects {
-    group = "io.spine.internal"
-    version = "2.0.0-SNAPSHOT.1"
+package io.spine.internal.catalog
+
+import io.spine.internal.catalog.entry.Dummy
+import org.gradle.api.initialization.dsl.VersionCatalogBuilder
+
+@Suppress("unused")
+class DummyVersionCatalog {
+    companion object {
+        fun useIn(catalog: VersionCatalogBuilder) = setOf(Dummy).useIn(catalog)
+    }
 }

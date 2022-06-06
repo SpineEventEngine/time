@@ -24,7 +24,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-subprojects {
-    group = "io.spine.internal"
-    version = "2.0.0-SNAPSHOT.1"
+import io.spine.internal.catalog.DummyVersionCatalog
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spine.internal:dummy-version-catalog:+")
+    }
+}
+
+dependencyResolutionManagement.versionCatalogs {
+    create("libs") {
+        DummyVersionCatalog.useIn(this)
+    }
 }

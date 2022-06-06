@@ -29,9 +29,15 @@ plugins {
     `maven-publish`
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation(project(":api"))
     implementation("org.reflections:reflections:0.10.2")
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
 publishing {

@@ -29,6 +29,10 @@ plugins {
     `maven-publish`
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     api(gradleApi())
 
