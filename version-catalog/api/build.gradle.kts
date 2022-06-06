@@ -26,6 +26,7 @@
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    `maven-publish`
 }
 
 dependencies {
@@ -43,5 +44,16 @@ tasks {
     withType<Test>().configureEach {
         useJUnitPlatform { includeEngines("junit-jupiter") }
         testLogging { showStandardStreams = true }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = project.group.toString()
+            artifactId = "spine-version-catalog-api"
+            version = project.version.toString()
+            from(components["java"])
+        }
     }
 }
