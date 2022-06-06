@@ -45,16 +45,18 @@ import org.junit.jupiter.api.assertDoesNotThrow
  *  1. Showcasing API for dependency declarations.
  *  2. Functional testing in conditions, which are very close to real life.
  *
- * Actually, our `SpineVersionCatalog` provides code upon Gradle-provided
- * `VersionCatalogBuilder`. This code can fill up the passed catalog. And, as
- * for now, there's no any other legitimate way (except for a true functional test)
- * to check if this code executes successfully on a real instance of `VersionCatalogBuilder`.
+ * `SpineVersionCatalog` provides a set of actions upon Gradle-provided `VersionCatalogBuilder`.
+ * These actions fill up the passed catalog with records. And, as for now, there's
+ * no any other legitimate way, except for a true functional test, to check whether:
+ *
+ *  1. Those actions are successfully executed upon a real instance of the builder.
+ *  2. A resulted catalog, assembled from the builder, contains the expected records.
  *
  * See issue in Gradle: https://github.com/gradle/gradle/issues/20807
  *
  * A note about `FunctionName` suppression. In JUnit in Kotlin, it is okay
- * to write test names just in function name. But IDEA does not report it as en
- * error only for `test` source set. It's unclear how to disable it for custom
+ * to write test names right in a function name. But IDEA does not report it as
+ * an error only for `test` source set. It's unclear how to disable it for custom
  * source sets.
  */
 @Suppress("FunctionName") // See docs above.
@@ -77,10 +79,9 @@ class SpineVersionCatalogTest {
     }
 
     /**
-     * The test prepares an empty Gradle project in a temporary directory
-     * and builds it.
+     * Prepares an empty Gradle project in a temporary directory and builds it.
      *
-     * This project fetched `SpineVersionCatalog` from Maven local. Thus, our code
+     * This project fetches `SpineVersionCatalog` from Maven local. Thus, the catalog
      * should be published to Maven local in advance.
      *
      * The simplest way to achieve this is by means of Gradle:
