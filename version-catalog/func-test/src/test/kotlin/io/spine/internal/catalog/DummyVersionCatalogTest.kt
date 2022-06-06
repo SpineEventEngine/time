@@ -83,16 +83,22 @@ class DummyVersionCatalogTest {
      */
     @Test
     fun `fill up an existing version catalog`() {
+        val api = Paths.get("../api").toFile()
+        GradleRunner.create()
+            .withProjectDir(api)
+            .withArguments("publishToMavenLocal", "--stacktrace")
+            .build()
+
         val dummyCatalog = Paths.get("dummy-catalog").toFile()
         GradleRunner.create()
-            .withArguments("build", "publishToMavenLocal", "--stacktrace")
             .withProjectDir(dummyCatalog)
+            .withArguments("publishToMavenLocal", "--stacktrace")
             .build()
 
         val projectDir = Paths.get("dummy-project").toFile()
         val runner = GradleRunner.create()
-            .withArguments("help", "--stacktrace")
             .withProjectDir(projectDir)
+            .withArguments("help", "--stacktrace")
 
         assertDoesNotThrow {
             runner.build()

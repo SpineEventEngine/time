@@ -20,7 +20,7 @@ jobs:
 
       - name: Prepare a version catalog in Maven local
         shell: bash
-        run: cd version-catalog && ./gradlew build
+        run: cd version-catalog && ./gradlew build publishToMavenLocal
 
       - name: Build project and run tests
         shell: cmd
