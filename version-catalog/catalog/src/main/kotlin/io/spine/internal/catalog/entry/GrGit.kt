@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-
 @Suppress("unused")
 internal object GrGit : DependencyEntry() {
     override val version = "3.1.1"

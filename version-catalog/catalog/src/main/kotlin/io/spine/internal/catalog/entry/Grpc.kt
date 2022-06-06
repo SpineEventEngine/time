@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-
 /**
  * [Grpc Java](https://github.com/grpc/grpc-java)
  */

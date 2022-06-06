@@ -26,10 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.entry.LibraryEntry
-import io.spine.internal.catalog.entry.PluginEntry
-
 /**
  * [ErrorProne](https://github.com/google/error-prone)
  */

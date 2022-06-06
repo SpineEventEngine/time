@@ -26,9 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.entry.LibraryEntry
-
 /**
  * [Google HTTP client](https://github.com/googleapis/google-http-java-client)
  */

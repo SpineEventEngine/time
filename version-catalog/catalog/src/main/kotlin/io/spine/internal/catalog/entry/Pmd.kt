@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.VersionEntry
-
 /**
  * [Pmd](https://pmd.github.io/)
  */

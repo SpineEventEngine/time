@@ -72,10 +72,7 @@ import org.reflections.util.ConfigurationBuilder
  * ## Implementation details
  *
  * The class locates all top-level catalog entries, declared in
- * [io.spine.internal.catalog.entries] package. A catalog entry is quite complex
- * structure itself, which can have children and parents. Thus, it can't be
- * written into the version catalog directly. Firstly, entries are loaded, then
- * they can produce catalog records, which are written into the given version catalog.
+ * [io.spine.internal.catalog.entries] package.
  *
  * See: [Dummy][io.spine.internal.catalog.entries.Dummy].
  */

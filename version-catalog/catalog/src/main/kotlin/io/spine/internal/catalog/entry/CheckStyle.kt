@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.VersionEntry
-
 /**
  * [CheckStyle](https://checkstyle.sourceforge.io/)
  */

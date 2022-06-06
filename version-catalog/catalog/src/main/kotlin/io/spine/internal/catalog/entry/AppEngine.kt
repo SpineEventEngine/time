@@ -26,9 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-import io.spine.internal.catalog.entry.LibraryEntry
-
 /**
  * [AppEngine](https://cloud.google.com/java/docs/reference)
  */

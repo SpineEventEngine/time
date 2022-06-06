@@ -29,6 +29,15 @@ package io.spine.internal.catalog
 import io.spine.internal.catalog.entry.CatalogEntry
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
+/**
+ * Writes this set of entries to the given catalog.
+ *
+ * A catalog entry is quite complex structure itself, which can have children
+ * and parents. Thus, it can't be written into the version catalog directly.
+ *
+ * Firstly, this method maps entries to [CatalogRecord]s. Then, those records
+ * are written into the given version catalog.
+ */
 fun Set<CatalogEntry>.useIn(catalog: VersionCatalogBuilder) {
     val records = flatMap { it.allRecords() }
     records.forEach { it.writeTo(catalog) }

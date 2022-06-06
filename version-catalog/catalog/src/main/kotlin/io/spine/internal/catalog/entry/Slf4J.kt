@@ -26,8 +26,6 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.entry.DependencyEntry
-
 /**
  * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
  * we recommend to use the latter.
@@ -41,8 +39,8 @@ internal object Slf4J : DependencyEntry() {
 
     private const val group = "org.slf4j"
     override val version = "1.7.30"
-    override val module = "${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-api"
+    override val module = "$group:slf4j-api"
 
-    val jdk14 by lib("${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-jdk14")
-    val api by lib("${io.spine.internal.catalog.entry.Slf4J.group}:slf4j-api")
+    val jdk14 by lib("$group:slf4j-jdk14")
+    val api by lib("$group:slf4j-api")
 }
