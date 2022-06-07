@@ -8,7 +8,7 @@ and published in a form of Gradle's [Version Catalog](https://docs.gradle.org/cu
 
 In order to use this catalog, one should perform the following:
 
- 1. Put `spine-version-catalog` library on a classpath of settings file.
+ 1. Put `spine-version-catalog` library on a classpath of `settings.gradle.kts` file.
  2. Create a new version catalog. `libs` is a conventional name to go with.
  3. Apply `SpineVersionCatalog` to a newly created catalog.
 
