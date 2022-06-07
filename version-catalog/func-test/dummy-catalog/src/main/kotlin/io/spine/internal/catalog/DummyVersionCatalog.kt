@@ -29,9 +29,13 @@ package io.spine.internal.catalog
 import io.spine.internal.catalog.entry.Dummy
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
+/**
+ * A version catalog, which is filled by a single [entry][Dummy].
+ */
 @Suppress("unused")
 class DummyVersionCatalog {
     companion object {
-        fun useIn(catalog: VersionCatalogBuilder) = setOf(Dummy).useIn(catalog)
+        fun useIn(catalog: VersionCatalogBuilder) =
+            Dummy.allRecords().forEach { it.writeTo(catalog) }
     }
 }

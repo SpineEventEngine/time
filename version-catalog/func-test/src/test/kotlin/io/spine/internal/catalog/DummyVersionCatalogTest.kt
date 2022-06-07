@@ -40,64 +40,33 @@ import org.junit.jupiter.api.assertDoesNotThrow
  *  1. Showcasing API for dependency declarations.
  *  2. Functional testing in conditions, which are very close to real life.
  *
- * `SpineVersionCatalog` provides a set of actions upon Gradle-provided `VersionCatalogBuilder`.
+ * `DummyVersionCatalog` provides a set of actions upon Gradle-provided `VersionCatalogBuilder`.
  * These actions fill up the passed catalog with records. And, as for now, there's
  * no any other legitimate way, except for a true functional test, to check whether:
  *
  *  1. Those actions are successfully executed upon a real instance of the builder.
- *  2. A resulted catalog, assembled from the builder, contains the expected records.
+ *  2. A resulted catalog, assembled from the builder, contains the expected items.
  *
  * See issue in Gradle: https://github.com/gradle/gradle/issues/20807
- *
- * A note about `FunctionName` suppression. In JUnit in Kotlin, it is okay
- * to write test names right in a function name. But IDEA does not report it as
- * an error only for `test` source set. It's unclear how to disable it for custom
- * source sets.
  */
-@Suppress("FunctionName") // See docs above.
 @DisplayName("`DummyVersionCatalog` should")
 class DummyVersionCatalogTest {
 
     /**
-     * Prepares an empty Gradle project in a temporary directory and builds it.
+     * Triggers a `dummy-project` which uses a `dummy-catalog`.
      *
-     * This project fetches `SpineVersionCatalog` from Maven local. Thus, the catalog
-     * should be published to Maven local in advance.
+     * The project fetches `DummyVersionCatalog` from Maven local. Thus, the catalog
+     * should be published to Maven local in advance. See README file for details.
      *
-     * The simplest way to achieve this is by means of Gradle:
-     *
-     * ```
-     * tasks {
-     *     named("functionalTest") {
-     *         dependsOn(named("publishToMavenLocal")
-     *     }
-     * }
-     * ```
-     *
-     * A build file of this dummy project has assertions upon the generated
-     * accessors to `Dummy` dependency. When any of assertions fails, the build
-     * fails as well, making the test not passed.
-     *
-     * @see `io.spine.internal.catalog.entries.Dummy`
-     * @see `src/functionalTest/resources/build.gradle.kts`
+     * A build file of `dummy-project` has assertions upon the generated accessors
+     * to `Dummy` dependency. When any of assertions fails, the build fails as well,
+     * making the test not passed.
      */
     @Test
     fun `fill up an existing version catalog`() {
-        val api = Paths.get("../api").toFile()
-        GradleRunner.create()
-            .withProjectDir(api)
-            .withArguments("publishToMavenLocal", "--stacktrace")
-            .build()
-
-        val dummyCatalog = Paths.get("dummy-catalog").toFile()
-        GradleRunner.create()
-            .withProjectDir(dummyCatalog)
-            .withArguments("publishToMavenLocal", "--stacktrace")
-            .build()
-
-        val projectDir = Paths.get("dummy-project").toFile()
+        val dummyProject = Paths.get("dummy-project").toFile()
         val runner = GradleRunner.create()
-            .withProjectDir(projectDir)
+            .withProjectDir(dummyProject)
             .withArguments("help", "--stacktrace")
 
         assertDoesNotThrow {

@@ -24,7 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+}
+
 subprojects {
     group = "io.spine.internal"
     version = "2.0.0-SNAPSHOT.1"
+
+    apply {
+        plugin("org.jetbrains.kotlin.jvm")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+        testImplementation("com.google.truth:truth:1.1.3")
+        testImplementation("com.google.truth.extensions:truth-java8-extension:1.1.3")
+        testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    }
+
+    tasks {
+        withType<Test>().configureEach {
+            useJUnitPlatform { includeEngines("junit-jupiter") }
+            testLogging { showStandardStreams = true }
+        }
+    }
 }
