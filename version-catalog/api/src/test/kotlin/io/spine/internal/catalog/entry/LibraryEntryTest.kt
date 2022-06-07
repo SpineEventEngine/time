@@ -36,11 +36,11 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("`LibraryEntry` should when")
+@DisplayName("`LibraryEntry` should")
 internal class LibraryEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone` {
 
         @Test
         fun `assemble version and library records`() {

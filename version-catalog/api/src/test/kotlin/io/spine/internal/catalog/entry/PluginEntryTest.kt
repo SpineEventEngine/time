@@ -42,11 +42,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`PluginEntry` should when")
+@DisplayName("`PluginEntry` should")
 internal class PluginEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone` {
 
         @Test
         fun `assemble plugin, library and version records`() {
@@ -87,7 +87,7 @@ internal class PluginEntryTest {
     }
 
     @Nested
-    inner class nested {
+    inner class `when nested` {
 
         @Test
         fun `not prepend a 'GradlePlugin' prefix for the plugin alias `() {

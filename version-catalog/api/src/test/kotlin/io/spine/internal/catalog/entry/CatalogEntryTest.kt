@@ -34,11 +34,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`CatalogEntry` should when")
+@DisplayName("`CatalogEntry` should")
 internal class CatalogEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone` {
 
         private val standaloneEntry = StandaloneDummy
 
@@ -54,7 +54,7 @@ internal class CatalogEntryTest {
     }
 
     @Nested
-    inner class nested {
+    inner class `when nested` {
 
         @Test
         fun `regard parent entries in alias`() {
@@ -76,7 +76,7 @@ internal class CatalogEntryTest {
     }
 
     @Nested
-    inner class outer {
+    inner class `when outer` {
 
         @Test
         fun `ask nested entries for records`() {

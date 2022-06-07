@@ -45,11 +45,11 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`DependencyEntry` should when")
+@DisplayName("`DependencyEntry` should")
 internal class DependencyEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone` {
 
         @Test
         fun `assemble a version record, if version is specified`() {
@@ -105,7 +105,7 @@ internal class DependencyEntryTest {
     }
 
     @Nested
-    inner class nested {
+    inner class `when nested` {
 
         @Test
         fun `be able to inherit the version from the outer entry`() {

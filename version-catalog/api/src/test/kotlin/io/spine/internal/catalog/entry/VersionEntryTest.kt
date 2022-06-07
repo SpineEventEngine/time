@@ -34,11 +34,11 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("`VersionEntry` should when")
+@DisplayName("`VersionEntry` should")
 internal class VersionEntryTest {
 
     @Nested
-    inner class standalone {
+    inner class `when standalone` {
 
         @Test
         fun `assemble a version record`() {
