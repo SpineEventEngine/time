@@ -37,7 +37,7 @@ import org.reflections.util.ConfigurationBuilder
  * In order to use this catalog, one should perform the following:
  *
  *  1. Obtain this class on a classpath of settings file.
- *  2. Create a version catalog.
+ *  2. Create a version catalog. `libs` is a conventional name to go with.
  *  3. Call [useIn] on a newly created catalog.
  *
  * Below is an example of how to obtain this catalog in the project.
@@ -45,6 +45,8 @@ import org.reflections.util.ConfigurationBuilder
  * In `settings.gradle.kts` file of the project:
  *
  * ```
+ * import io.spine.internal.catalog.SpineVersionCatalog
+ *
  * buildscript {
  *     repositories {
  *         mavenCentral()
