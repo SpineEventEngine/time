@@ -1,76 +1,176 @@
 # SpineVersionCatalog
-Represents a set of dependencies (libraries, Gradle plugins, versions, bundles) used in 
-Spine-related projects. It's assembled and published in a form of Gradle's [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html#sec:sharing-catalogs).
+
+Represents a set of dependencies used in Spine-related projects. It's assembled 
+and published in a form of Gradle's [Version Catalog](https://docs.gradle.org/current/userguide/platforms.html#sec:sharing-catalogs).
 
 
-## General Information
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+## Usage example
+
+In order to use this catalog, one should perform the following:
+
+ 1. Put `spine-version-catalog` library on a classpath of settings file.
+ 2. Create a new version catalog. `libs` is a conventional name to go with.
+ 3. Apply `SpineVersionCatalog` to a newly created catalog.
+
+Below is an example of how to obtain this catalog in the project.
+
+In `settings.gradle.kts` file of the project:
+
+```kotlin
+import io.spine.internal.catalog.SpineVersionCatalog
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spine.internal:spine-version-catalog:2.0.0")
+    }
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            SpineVersionCatalog.useIn(this)
+        }
+    }
+}
+```
 
 
-## Technologies Used
-- Tech 1 - version 1.0
-- Tech 2 - version 2.0
-- Tech 3 - version 3.0
+## Adding a new dependency to the catalog
+
+In order to add a new dependency to this catalog, perform the following steps:
+
+ 1. Go to `catalog` module.
+ 2. Open `io.spine.internal.catalog.entry` package.
+ 3. Create a new file there, which contains an object declaration, named after 
+a dependency, that is being added.
+ 4. Make an object inherit from one of the following entries, depending on what 
+a dependency represents:
+    1. `VersionEntry` for a bare version.
+    2. `LibraryEntry` for a single library.
+    3. `PluginEntry` for a single Gradle plugin.
+    4. `DependnecyEntry` for complex dependencies, which may contain several modules,
+    plugins or bundles.
+ 5. Publish a new version of the catalog.
+
+Take a look on an example, which showcases usage of all entries in a single place.
+Pay attention to how entries are nested one into another. And how it reflects in
+their resulting accessors.
+
+Source code of `Dummy` dependency:
+
+```kotlin
+internal object Dummy : DependencyEntry() {
+
+    private const val group = "org.dummy.company"
+    override val module = "$group:dummy-lib" // libs.dummy
+    override val version = "1.0.0"           // libs.versions.dummy
+
+    val core by lib("$group:dummy-core")     // libs.dummy.core
+    val runner by lib("$group:dummy-runner") // libs.dummy.runner
+    val api by lib("$group:dummy-api")       // libs.dummy.api
+
+    // In bundles, you can reference already declared libs,
+    // or create them in-place.
+
+    override val bundle = setOf( // libs.bundles.dummy
+        core, runner, api,
+        lib("params", "$group:dummy-params"), // libs.dummy.params
+        lib("types", "$group:dummy-types"),   // libs.dummy.types
+    )
+
+    // "GradlePlugin" - is a special entry name for `PluginEntry`.
+    // For plugin entries with this name, the facade will not put "gradlePlugin"
+    // suffix for a plugin's id. Note, that we have this suffix for the version
+    // and module, and does not have for id.
+
+    object GradlePlugin : PluginEntry() {
+        override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
+        override val module = "$group:my-dummy-plugin" // libs.dummy.gradlePlugin
+        override val id = "my-dummy-plugin"            // libs.plugins.dummy
+    }
+
+    object Runtime : DependencyEntry() {
+
+        // When an entry does not override the version, it is taken from
+        // the outer entry. For example, in this case, all libs within "Runtime"
+        // entry will have "1.0.0".
+
+        val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
+        val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
+        val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
+
+        object BOM : LibraryEntry() {
+            override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
+            override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
+        }
+    }
+
+    // A library that is declared as `object SomeLib : LibraryEntry()` can be
+    // referenced as well as the one declared by `lib()` delegate.
+
+    val runtime by bundle( // libs.bundles.dummy.runtime
+        Runtime.BOM,
+        Runtime.win,
+        Runtime.mac,
+        Runtime.linux,
+    )
+
+    // It is also possible to declare just a bare version.
+
+    object Tools : VersionEntry() {
+        override val version = "3.0.0" // libs.versions.dummy.tools
+    }
+}
+```
 
 
-## Features
-List the ready features here:
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
+## Modules structure
+
+Within this PR, `spine-version-catalog` is a resident of `time` repository, but
+it is a standalone project. Meaning, it has its own Gradle's `settings` file,
+and doesn't relate anyhow to `time`.
+
+`spine-version-catalog` consists of several modules:
+
+1. `api` – represents a facade upon Gradle's provided `VersionCatalogBuilder`. 
+This module hides an imperative nature of the builder, and, instead, provides
+a declarative API to declare dependencies using Kotlin objects.
+
+2. `catalog` – contains all dependencies, declared using the declarative `api`. 
+The module publishes `SpineVersionCatalog`.
+
+3. `func-test` – performs testing of `api` with a real `VersionCatalogBuilder`.
+To do that, the module does the following:
+
+   1. Assembles a `dummy-catalog` with a single `Dummy` dependency and publishes
+   it to Maven local.
+   2. Makes `dummy-project` use `dummy-catalog` from Maven local. 
+   3. Builds `dummy-project`. It has assertions in its build file. Those assertions verify
+   the generated type-safe accessors to `Dummy` dependency. When any of assertions
+   fails, the test fails accordingly.
 
 
-## Screenshots
-![Example screenshot](./img/screenshot.png)
-<!-- If you have screenshots you'd like to share, include them here. -->
+## Details about Functional Testing
 
+`func-test` module sets the next dependencies for `test` task:
 
-## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
+```kotlin
+test {
+    dependsOn(
+        ":api:publishToMavenLocal",
+        ":func-test:dummy-catalog:publishToMavenLocal"
+    )
+}
+```
 
-Proceed to describe how to install / setup one's local environment / get started with the project.
+It is so, because `dummy-project` (which the test builds), fetches `dummy-catalog` 
+from Maven local. Which, in turn, depends on `api` module. Thus, we need them both in Maven local.
 
+We have to do a true functional testing here, because Gradle does not provide 
+a test fixture for `Settings`, as it does for `Project`. For this reason, we test 
+it on a real Gradle project, with assertions right in a build file.
 
-## Usage
-How does one go about using it?
-Provide various use cases and code examples here.
-
-`write-your-code-here`
-
-
-## Project Status
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
-
-
-## Room for Improvement
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
-Room for improvement:
-- Improvement to be done 1
-- Improvement to be done 2
-
-To do:
-- Feature to be added 1
-- Feature to be added 2
-
-
-## Acknowledgements
-Give credit here.
-- This project was inspired by...
-- This project was based on [this tutorial](https://www.example.com).
-- Many thanks to...
-
-
-## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
-
-
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
-
-<!-- You don't have to include all sections - just the one's relevant to your project -->
+See [issue](https://github.com/gradle/gradle/issues/20807) for details.
