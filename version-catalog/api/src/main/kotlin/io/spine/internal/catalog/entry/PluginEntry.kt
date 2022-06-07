@@ -84,7 +84,7 @@ import io.spine.internal.catalog.VersionRecord
  * It is done so in order not to repeat yourself in naming. Otherwise, we would
  * come up with this: `libs.plugins.myLib.gradlePlugin`.
  */
-abstract class PluginEntry : AbstractVersionInheritingEntry(), PluginNotation {
+abstract class PluginEntry : VersionInheritingEntry(), PluginNotation {
 
     private val pluginAlias: Alias by lazy { pluginAlias() }
 

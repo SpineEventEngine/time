@@ -116,10 +116,11 @@ import io.spine.internal.catalog.delegate
  * }
  * ```
  *
- * When one needs a bundle and library with the same name, (or even more, that
- * bundle should include that library) one can declare an extra library, named
- * after the entry in which it is declared. It is a special case for extra libraries.
- * In this case, the entry will not concat its name with library's one.
+ * When one needs a bundle and library named after the enclosing entry itself,
+ * (or even more, that bundle should include that library) one can declare an
+ * extra library, named after the entry in which it is declared. It is a special
+ * case for extra libraries. In this case, the entry will not concat its name
+ * with library's one.
  *
  * Let's re-write a snippet above with that knowledge:
  *
@@ -135,8 +136,12 @@ import io.spine.internal.catalog.delegate
  *     override val bundle = setOf(myLib, types, data) // libs.bundles.myLib
  * }
  * ```
+ *
+ * The desired goal has been achieved. We came up with a library and bundle, both
+ * named after the enclosing entry: `libs.myLib` and `libs.bundles.myLib`.
+ * And the bundle includes the library.
  */
-open class DependencyEntry : AbstractVersionInheritingEntry() {
+open class DependencyEntry : VersionInheritingEntry() {
 
     private val standaloneLibs = mutableSetOf<LibraryNotation>()
     private val standaloneBundles = mutableSetOf<BundleNotation>()

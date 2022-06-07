@@ -33,32 +33,31 @@ import io.spine.internal.catalog.CatalogRecord
 /**
  * A base catalog entry.
  *
- * The main idea behind the concept of entries is to provide a declarative way
- * to define catalog items. Entries expose a declarative API, leaving behind
- * the scene all imperative code. Entries resemble a bridge between notations
- * (a language, used to declare items) and records (the way, items are stored
- * in the catalog).
+ * The main idea behind the concept of entries is to provide a declarative way to
+ * define catalog items. Entries expose a declarative API, leaving behind the scene
+ * all imperative code. Entries resemble a bridge between notations (a language,
+ * used to declare items) and records (the way, items are stored in the catalog).
  *
  * Only object declarations are meant to serve as concrete entries.
  *
  * As a base entry, this class takes a responsibility for the following:
  *
  *  1. Support of nesting. An entry can nest one or more other entries.
- *  2. Automatic aliasing for entries. An alias is picked up from the object's
- *     name, taking into account its nesting.
+ *  2. Automatic aliasing for entries. An alias is picked up from the object's name,
+ *     taking into account its nesting.
  *
  * The primary goal achieved by the `CatalogEntry` objects is to [produce][allRecords]
- * a set of [CatalogRecord]s. It combines all the declarations from this entry
- * and its nested entries. Once produced, the records can be directly
- * [written][CatalogRecord.writeTo] into a version catalog.
+ * a set of [CatalogRecord]s. It combines all the declarations within this entry and
+ * its nested entries. Once produced, the records can be directly [written][CatalogRecord.writeTo]
+ * into a version catalog.
  *
- * It is worth to mention, that the relationship between an entry and records
- * it produces is "one to many". It means that a single entry can produce zero,
- * one or more records.
+ * It is worth to mention, that the relationship between an entry and records it
+ * produces is "one to many". It means that a single entry can produce zero, one
+ * or more records.
  *
- * A base entry doesn't produce any records. It can only be used as an outer
- * entry for introducing a common alias. Such entries don't declare anything,
- * they just serve as a named scope for nested declarations.
+ * A base entry doesn't produce any records. It can only be used as an outer entry
+ * for introducing a common alias. Such entries don't declare anything, they just
+ * serve as a named scope for nested declarations.
  *
  * Below is an example of `Runtime` entry:
  *
@@ -70,10 +69,9 @@ import io.spine.internal.catalog.CatalogRecord
  * }
  * ```
  *
- * In the example above, `Linux`, `Mac` and `Win` are concrete entries, which
- * may produce concrete records (such as a library, version, etc.).
- * Meanwhile, `Runtime` does not produce anything. It's just hosting other
- * entries, affecting their final alias.
+ * In the example above, `Linux`, `Mac` and `Win` are concrete entries, which may
+ * produce concrete records (such as a library, version, etc.). Meanwhile, `Runtime`
+ * does not produce anything. It's just hosting other entries, affecting their final alias.
  *
  * See also: [CatalogNotation], [CatalogRecord].
  */

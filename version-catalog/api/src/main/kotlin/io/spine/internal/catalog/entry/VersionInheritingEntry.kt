@@ -63,8 +63,8 @@ import io.spine.internal.catalog.VersionRecord
  * not affect the version of `Kotlin.Runtime` library. But, intuitively should.
  *
  * In contrast, when using an entry which extends this skeleton, there's no
- * need in manual declaring the version in the nested entry. A version inheriting
- * entry can take the version from the outer entry on its own.
+ * need in manual declaration of the version in the nested entry. A version
+ * inheriting entry can take the version from the outer entry on its own.
  *
  * Consider the same snippet, but with an entry which extends this class:
  *
@@ -85,11 +85,13 @@ import io.spine.internal.catalog.VersionRecord
  * both libraries will be affected as well.
  *
  * Although, such entries are not bound to use only an inherited version.
- * It is still possible to declare the version within this entry. In case,
+ * It is still possible to declare the version within this entry. But in case,
  * when neither this entry nor its outer one declares a version, an exception
  * will be thrown.
+ *
+ * See direct implementations: [PluginEntry], [DependencyEntry].
  */
-open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNotation {
+open class VersionInheritingEntry : CatalogEntry(), VersionNotation {
 
     private companion object {
         const val FROM_PARENT = ""
@@ -131,7 +133,7 @@ open class AbstractVersionInheritingEntry : CatalogEntry(), VersionNotation {
 
     private fun versionAlias(): Alias = when {
         version != FROM_PARENT -> alias
-        outerEntry is AbstractVersionInheritingEntry -> outerEntry.versionAlias
+        outerEntry is VersionInheritingEntry -> outerEntry.versionAlias
         outerEntry is VersionNotation -> outerEntry.alias
         else -> throw IllegalStateException("Specify version in this entry or the outer entry!")
     }

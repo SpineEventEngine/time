@@ -27,10 +27,10 @@
 package io.spine.internal.catalog
 
 /**
- * Defines what information is necessary to create one or another
- * version catalog-compatible item.
+ * Defines what information is necessary to create one or another version
+ * catalog-compatible item.
  *
- * Notations are citizens of a declaration site. They from DSL and say what is
+ * Notations are citizens of a declaration site. They form DSL and say what is
  * needed from the point of view of who provides this information. In other words,
  * they define what input is required from a user.
  *
@@ -42,7 +42,7 @@ package io.spine.internal.catalog
  *     delegates in `DependencyEntry` return notations, which can be consumed
  *     by other delegates or methods.
  *
- * This interface, in particular, doesn't describe any concrete item in the catalog.
+ * This interface, in particular, doesn't describe any concrete catalog item.
  * It just serves as a common foundation for other notations.
  *
  * Direct implementation: [CatalogEntry][io.spine.internal.catalog.entry.CatalogEntry].
@@ -106,8 +106,7 @@ interface PluginNotation : LibraryNotation {
 /**
  * Information, required to create a bundle item.
  *
- * This notation doesn't have a direct implementation. It is used only to hold
- * the data.
+ * Direct implementation: [DependencyEntry][io.spine.internal.catalog.entry.DependencyEntry].
  */
 interface BundleNotation : CatalogNotation {
 

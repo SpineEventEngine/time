@@ -34,8 +34,6 @@ import org.reflections.util.ConfigurationBuilder
 /**
  * This catalog contains dependencies, which are used in Spine-related projects.
  *
- * ## Usage
- *
  * In order to use this catalog, one should perform the following:
  *
  *  1. Obtain this class on a classpath of settings file.
@@ -52,7 +50,7 @@ import org.reflections.util.ConfigurationBuilder
  *         mavenCentral()
  *     }
  *     dependencies {
- *         classpath("io.spine.internal:spine-version-catalog:1.0.0")
+ *         classpath("io.spine.internal:spine-version-catalog:2.0.0")
  *     }
  * }
  *
@@ -66,15 +64,8 @@ import org.reflections.util.ConfigurationBuilder
  * ```
  *
  * In order to add a new dependency to this catalog, create an object declaration
- * in [io.spine.internal.catalog.entries] package. Take a look on a special
- * `Dummy` dependency (link is below) to quickly grasp API of a dependency declaration.
- *
- * ## Implementation details
- *
- * The class locates all top-level catalog entries, declared in
- * [io.spine.internal.catalog.entries] package.
- *
- * See: [Dummy][io.spine.internal.catalog.entries.Dummy].
+ * in [io.spine.internal.catalog.entry] package. Take a look on a special `Dummy`
+ * dependency in README file to quickly grasp API of a dependency declaration.
  */
 @Suppress("unused")
 class SpineVersionCatalog {
@@ -88,7 +79,8 @@ class SpineVersionCatalog {
          */
         fun useIn(catalog: VersionCatalogBuilder) {
             val entries = findEntries()
-            entries.useIn(catalog)
+            val records = entries.flatMap { it.allRecords() }
+            records.forEach { it.writeTo(catalog) }
         }
 
         /**

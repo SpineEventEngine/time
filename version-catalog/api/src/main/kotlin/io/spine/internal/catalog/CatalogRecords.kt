@@ -31,16 +31,14 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 /**
  * A single, atomic unit, which can be written into a version catalog.
  *
- * Records define what information is necessary to write one or another item
- * into a version catalog. Record's properties strictly reflect the way, an item
- * is stored in the catalog.
+ * Records say what information is necessary to write one or another item into
+ * a version catalog. Theirs properties strictly reflect the way, an item is
+ * stored in the catalog.
  *
- * Similarly to [CatalogNotation]s, records define what information is needed
- * to create one or another catalog-compatible item. Records and notations have
- * similar properties and class hierarchy, but they are different. In contrast
- * to notations, records are citizens of an implementation site. They sas what
- * is needed from the point of view of how this information is actually stored
- * in the catalog.
+ * Similarly to [notations][CatalogNotation], records define what information is
+ * needed to create one or another catalog-compatible item. But in contrast to
+ * notations, records are citizens of an implementation site. They sas what is needed
+ * from the point of view of how this information is actually stored in the catalog.
  *
  * Consider the following example:
  *
@@ -58,9 +56,7 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
  * In order to represent this notation in [VersionCatalogBuilder], three records
  * should be written there: [VersionRecord], [LibraryRecord], [PluginRecord].
  *
- * A record can write itself into the given catalog.
- *
- * This interface, in particular, doesn't describe any concrete item in the catalog.
+ * This interface, in particular, doesn't describe any concrete catalog item.
  * It just serves as a common foundation for other records.
  */
 interface CatalogRecord {
