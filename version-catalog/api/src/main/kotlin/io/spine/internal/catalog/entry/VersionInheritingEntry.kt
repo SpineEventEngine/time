@@ -32,11 +32,13 @@ import io.spine.internal.catalog.VersionNotation
 import io.spine.internal.catalog.VersionRecord
 
 /**
- * A skeleton implementation of a version entry, which can take the version
- * from the outer entry.
+ * A version entry, which can take the version from the outer entry.
  *
  * From the outside it looks like the entry just "inherits" the version from
  * its parent.
+ *
+ * This entry is not meant to be used directly, rather server as a foundation
+ * for other entries.
  *
  * In order to understand why it's needed, consider the following snippet:
  *
@@ -62,9 +64,9 @@ import io.spine.internal.catalog.VersionRecord
  * Thus, a local overriding (in settings file) of `libs.versions.kotlin` will
  * not affect the version of `Kotlin.Runtime` library. But, intuitively should.
  *
- * In contrast, when using an entry which extends this skeleton, there's no
- * need in manual declaration of the version in the nested entry. A version
- * inheriting entry can take the version from the outer entry on its own.
+ * In contrast, when using this entry, there's no need in manual declaration of
+ * the version in the nested entry. A version inheriting entry can take the version
+ * from the outer entry on its own.
  *
  * Consider the same snippet, but with an entry which extends this class:
  *
