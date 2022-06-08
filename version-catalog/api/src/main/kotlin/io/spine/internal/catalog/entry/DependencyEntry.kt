@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.AlwaysReturnDelegate
+import io.spine.internal.catalog.MemoizingDelegate
 import io.spine.internal.catalog.BundleNotation
 import io.spine.internal.catalog.BundleRecord
 import io.spine.internal.catalog.CatalogRecord
@@ -252,7 +252,7 @@ open class DependencyEntry : VersionInheritingEntry() {
      * When a property and entry have the same name, it is not duplicated in
      * the resulting alias of the library.
      */
-    fun lib(module: String): AlwaysReturnDelegate<LibraryNotation> =
+    fun lib(module: String): MemoizingDelegate<LibraryNotation> =
         delegate { property -> lib(property.name, module) }
 
     /**
@@ -270,7 +270,7 @@ open class DependencyEntry : VersionInheritingEntry() {
      * )
      * ```
      */
-    fun bundle(vararg libs: LibraryNotation): AlwaysReturnDelegate<BundleNotation> =
+    fun bundle(vararg libs: LibraryNotation): MemoizingDelegate<BundleNotation> =
         delegate { property ->
             val thisEntryAlias = this.alias
             val bundleAlias = "$thisEntryAlias-${property.name}"
