@@ -41,11 +41,9 @@ configurations.all {
     resolutionStrategy {
 
         /*
-         Let's get rid of warnings about different Kotlin version on the classpath.
-
-         Failing on each conflict leads to a bigger `force()` block, but finally
-         eliminates warnings. Also, builds are more reproducible when dynamic version
-         resolution is suppressed.
+         Failing on each conflict leads to a bit bigger `force()` block,
+         but eliminates warnings. Also, builds are more reproducible when dynamic
+         version resolution is suppressed.
          */
 
         failOnVersionConflict()
@@ -58,12 +56,19 @@ configurations.all {
             libs.jackson.databind,
             libs.jackson.dataformatXml,
             libs.jackson.moduleKotlin,
+
+            /*
+             Suppressing of Kotlin libraries eliminates warnings about different
+             Kotlin versions on the classpath.
+             */
+
             libs.kotlin.reflect,
             libs.kotlin.stdLib,
             libs.kotlin.stdLib.common,
             libs.kotlin.stdLib.jdk8,
             libs.kotlinX.coroutines.core,
             libs.kotlinX.coroutines.core.jvm,
+
             libs.slf4J.api,
         )
     }
@@ -97,12 +102,13 @@ dependencies {
     implementation(libs.protobuf.gradlePlugin)
 
     /*
-     These libraries below use a fat jar with Kotlin runtime inside. One more
-     Kotlin version. This is a reason for two warnings.
+     Dokka uses a fat jar with Kotlin runtime inside. One more Kotlin version.
+     This is a reason for two warnings.
 
-     I'm not sure if we can just exclude those jars. It should be checked on
-     a repo where Dokka is used. And if not, leave a comment here, describing
-     why it is so.
+     It's not certain if we can just exclude those jars. Thus, before merge these
+     changes into `config`, it should be checked out on a repository, where Dokka
+     is used. And if not, a comment should be left here, mentioning this fact and
+     describing why it is so.
      */
 
     implementation(libs.dokka.gradlePlugin)
