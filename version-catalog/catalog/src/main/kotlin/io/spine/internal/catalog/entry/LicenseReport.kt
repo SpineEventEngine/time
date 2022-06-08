@@ -26,6 +26,9 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.PluginEntry
+
 /**
  * [LicenseReport](https://github.com/jk1/Gradle-License-Report)
  */

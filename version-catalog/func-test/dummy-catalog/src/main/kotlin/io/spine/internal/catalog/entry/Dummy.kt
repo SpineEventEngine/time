@@ -26,6 +26,11 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.VersionEntry
+
 /**
  * This dependency describes an imaginary library.
  *
@@ -34,6 +39,10 @@ package io.spine.internal.catalog.entry
  *
  * Side comments to certain statements demonstrate how those lines will
  * be represented in the generated type-safe accessors.
+ *
+ * Source code of this dependency is shown in README file to the module.
+ * As for now, an automatic rendering of this file is NOT configured.
+ * Thus, when modifying this dependency, put the updated code to `README.md`.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 internal object Dummy : DependencyEntry() {
@@ -57,8 +66,8 @@ internal object Dummy : DependencyEntry() {
 
     // "GradlePlugin" - is a special entry name for `PluginEntry`.
     // For plugin entries with this name, the facade will not put "gradlePlugin"
-    // suffix for a plugin's id. Note, that we have this suffix for the version
-    // and module, and does not have for id.
+    // suffix for a plugin's ID. Note, that we have this suffix for the version
+    // and module, and does not have for ID.
 
     object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin

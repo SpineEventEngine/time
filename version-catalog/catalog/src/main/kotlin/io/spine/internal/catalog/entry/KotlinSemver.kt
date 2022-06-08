@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.LibraryEntry
+
 /**
  * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver)
  */

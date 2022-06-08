@@ -83,8 +83,8 @@ internal object Dummy : DependencyEntry() {
 
     // "GradlePlugin" - is a special entry name for `PluginEntry`.
     // For plugin entries with this name, the facade will not put "gradlePlugin"
-    // suffix for a plugin's id. Note, that we have this suffix for the version
-    // and module, and does not have for id.
+    // suffix for a plugin's ID. Note, that we have this suffix for the version
+    // and module, and does not have for ID.
 
     object GradlePlugin : PluginEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin

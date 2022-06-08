@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog
 
-import io.spine.internal.catalog.entry.CatalogEntry
+import io.spine.internal.catalog.model.CatalogEntry
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder

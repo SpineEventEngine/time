@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+
 /**
  * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
  * we recommend to use the latter.

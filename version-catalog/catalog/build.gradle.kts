@@ -29,7 +29,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":api"))
+    api(gradleApi())
     implementation("org.reflections:reflections:0.10.2")
 }
 

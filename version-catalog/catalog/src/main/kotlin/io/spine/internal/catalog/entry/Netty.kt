@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+
 @Suppress("unused")
 internal object Netty : DependencyEntry() {
 

@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.LibraryEntry
+
 /**
  * A Java implementation of JSON Web Token (JWT) - RFC 7519.
  *

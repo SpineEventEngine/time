@@ -26,6 +26,9 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.LibraryEntry
+
 @Suppress("unused")
 internal object Jackson : DependencyEntry() {
 

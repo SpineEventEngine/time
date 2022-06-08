@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+
 /**
  * The FindBugs project is dead since 2017. It has a successor called SpotBugs,
  * but we don't use it. We use ErrorProne for static analysis instead. The only

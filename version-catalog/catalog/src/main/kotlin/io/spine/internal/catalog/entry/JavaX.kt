@@ -26,6 +26,9 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.CatalogEntry
+import io.spine.internal.catalog.model.LibraryEntry
+
 @Suppress("unused")
 internal object JavaX : CatalogEntry() {
 

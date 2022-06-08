@@ -29,7 +29,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":api"))
+    implementation(project(":catalog"))
 }
 
 publishing {
@@ -40,5 +40,11 @@ publishing {
             version = project.version.toString()
             from(components["java"])
         }
+    }
+}
+
+tasks {
+    named("publishToMavenLocal") {
+        dependsOn(":catalog:publishToMavenLocal")
     }
 }

@@ -26,6 +26,10 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.CatalogEntry
+import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.LibraryEntry
+
 /**
  * [GoogleApis](https://github.com/googleapis/)
  */

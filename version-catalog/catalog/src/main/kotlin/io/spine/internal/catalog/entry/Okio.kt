@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.LibraryEntry
+
 /**
  * Okio is a transitive dependency which we don't use directly.
  * This object is used to force the version.

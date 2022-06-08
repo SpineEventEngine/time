@@ -26,6 +26,8 @@
 
 package io.spine.internal.catalog.entry
 
+import io.spine.internal.catalog.model.DependencyEntry
+
 /**
  * [J2ObjC](https://developers.google.com/j2objc) is a transitive dependency
  * which we don't use directly. This object is used for forcing the version.

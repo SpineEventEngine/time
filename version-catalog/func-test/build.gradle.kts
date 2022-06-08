@@ -31,7 +31,7 @@ dependencies {
 tasks {
     test {
         dependsOn(
-            ":api:publishToMavenLocal",
+            ":catalog:test",
             ":func-test:dummy-catalog:publishToMavenLocal"
         )
     }

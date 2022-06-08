@@ -27,7 +27,6 @@
 rootProject.name = "spine-version-catalog"
 
 include(
-    "api",
     "catalog",
     "func-test",
     "func-test:dummy-catalog",
