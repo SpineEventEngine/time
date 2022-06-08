@@ -37,12 +37,19 @@ repositories {
     mavenCentral()
 }
 
-// Let's get rid of warnings about different Kotlin version on the classpath.
-// Also, builds are more reproducible when dynamic version resolution is suppressed.
-
 configurations.all {
     resolutionStrategy {
+
+        /*
+         Let's get rid of warnings about different Kotlin version on the classpath.
+
+         Failing on each conflict leads to a bigger `force()` block, but finally
+         eliminates warnings. Also, builds are more reproducible when dynamic version
+         resolution is suppressed.
+         */
+
         failOnVersionConflict()
+
         force(
             libs.apacheHttp.core,
             libs.guava,
@@ -90,7 +97,7 @@ dependencies {
     implementation(libs.protobuf.gradlePlugin)
 
     /*
-     These guys below use a fat jar with Kotlin runtime inside. One more
+     These libraries below use a fat jar with Kotlin runtime inside. One more
      Kotlin version. This is a reason for two warnings.
 
      I'm not sure if we can just exclude those jars. It should be checked on
