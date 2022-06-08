@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Roaster](https://github.com/forge/roaster)
  */
 @Suppress("unused")
-internal object Roaster : DependencyEntry() {
+internal object Roaster : CatalogEntry() {
 
     /**
      * Do not advance this version further because it would break compatibility with Java 8

@@ -26,20 +26,19 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Flogger](https://github.com/google/flogger)
  */
 @Suppress("unused")
-internal object Flogger : LibraryEntry() {
+internal object Flogger : CatalogEntry() {
 
     private const val group = "com.google.flogger"
     override val version = "0.7.4"
     override val module = "$group:flogger"
 
-    object Runtime : DependencyEntry() {
+    object Runtime : CatalogEntry() {
         val systemBackend by lib("$group:flogger-system-backend")
         val log4J by lib("$group:flogger-log4j")
         val slf4J by lib("$group:slf4j-backend-factory")

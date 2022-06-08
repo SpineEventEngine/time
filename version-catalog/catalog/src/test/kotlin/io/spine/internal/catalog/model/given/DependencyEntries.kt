@@ -26,18 +26,18 @@
 
 package io.spine.internal.catalog.model.given
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
-internal object StandaloneDummyVersionDependency : DependencyEntry() {
+internal object StandaloneDummyVersionDependency : CatalogEntry() {
     override val version = "sdvd-0.0.1"
 }
 
-internal object StandaloneDummyLibraryDependency : DependencyEntry() {
+internal object StandaloneDummyLibraryDependency : CatalogEntry() {
     override val version = "sdld-0.0.1"
     override val module = "org.dummy"
 }
 
-internal object StandaloneDummyBundleDependency : DependencyEntry() {
+internal object StandaloneDummyBundleDependency : CatalogEntry() {
     override val version = "sdbd-0.0.1"
     override val bundle = setOf(
         lib("subLib1", "org.dummy:subLib1"),
@@ -47,27 +47,27 @@ internal object StandaloneDummyBundleDependency : DependencyEntry() {
 }
 
 @Suppress("unused")
-internal object StandaloneDummyPropertyDependency : DependencyEntry() {
+internal object StandaloneDummyPropertyDependency : CatalogEntry() {
     override val version = "sdpd-0.0.1"
     val subLib by lib("org.dummy:subLib")
 }
 
 @Suppress("unused")
-internal object SimpleDependency : DependencyEntry() {
+internal object SimpleDependency : CatalogEntry() {
     override val version = "sdpnd-0.0.1"
     val simpleDependency by lib("org.simple")
 }
 
-internal object OuterDummyDependency : DependencyEntry() {
+internal object OuterDummyDependency : CatalogEntry() {
     override val version = "odp-0.0.1"
 
-    object Nested : DependencyEntry() {
+    object Nested : CatalogEntry() {
         override val module = "org.nested"
     }
 }
 
-internal object ErroneousOuterDummyDependency : DependencyEntry() {
-    object Nested : DependencyEntry() {
+internal object ErroneousOuterDummyDependency : CatalogEntry() {
+    object Nested : CatalogEntry() {
         override val module = "org.dummy"
     }
 }

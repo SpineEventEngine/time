@@ -27,8 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
 
 @Suppress("unused")
 internal object GoogleCloud : CatalogEntry() {
@@ -36,7 +34,7 @@ internal object GoogleCloud : CatalogEntry() {
     /**
      * [Core](https://github.com/googleapis/java-core)
      */
-    object Core : LibraryEntry() {
+    object Core : CatalogEntry() {
         override val version = "2.3.3"
         override val module = "com.google.cloud:google-cloud-core"
     }
@@ -44,7 +42,7 @@ internal object GoogleCloud : CatalogEntry() {
     /**
      * [PubSubGrcpApi](https://github.com/googleapis/java-pubsub/tree/main/proto-google-cloud-pubsub-v1)
      */
-    object PubSubGrpcApi : LibraryEntry() {
+    object PubSubGrpcApi : CatalogEntry() {
         override val version = "1.97.0"
         override val module = "com.google.api.grpc:proto-google-cloud-pubsub-v1"
     }
@@ -52,7 +50,7 @@ internal object GoogleCloud : CatalogEntry() {
     /**
      * [Trace](https://github.com/googleapis/java-trace)
      */
-    object Trace : LibraryEntry() {
+    object Trace : CatalogEntry() {
         override val version = "2.1.0"
         override val module = "com.google.cloud:google-cloud-trace"
     }
@@ -60,12 +58,12 @@ internal object GoogleCloud : CatalogEntry() {
     /**
      * [Datastore](https://github.com/googleapis/java-datastore)
      */
-    object Datastore : LibraryEntry() {
+    object Datastore : CatalogEntry() {
         override val version = "2.2.1"
         override val module = "com.google.cloud:google-cloud-datastore"
     }
 
-    object ArtifactRegistry : DependencyEntry() {
+    object ArtifactRegistry : CatalogEntry() {
         override val version = "2.1.2"
         val authCommon by lib("com.google.cloud.artifactregistry:artifactregistry-auth-common")
     }

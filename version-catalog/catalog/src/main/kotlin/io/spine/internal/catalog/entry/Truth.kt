@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Truth](https://github.com/google/truth)
  */
 @Suppress("unused")
-internal object Truth : DependencyEntry() {
+internal object Truth : CatalogEntry() {
     override val version = "1.1.3"
     override val bundle = setOf(
         lib("truth", "com.google.truth:truth"),

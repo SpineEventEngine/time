@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Grpc Java](https://github.com/grpc/grpc-java)
  */
 @Suppress("unused")
-internal object Grpc : DependencyEntry() {
+internal object Grpc : CatalogEntry() {
     override val version = "1.45.1"
     val api by lib("io.grpc:grpc-api")
     val auth by lib("io.grpc:grpc-auth")

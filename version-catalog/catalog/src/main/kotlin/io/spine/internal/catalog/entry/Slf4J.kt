@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * Spine used to log with SLF4J. Now we use Flogger. Whenever a choice comes up,
@@ -37,7 +37,7 @@ import io.spine.internal.catalog.model.DependencyEntry
  */
 @Suppress("unused")
 @Deprecated("Use Flogger over SLF4J.", replaceWith = ReplaceWith("Flogger"))
-internal object Slf4J : DependencyEntry() {
+internal object Slf4J : CatalogEntry() {
 
     private const val group = "org.slf4j"
     override val version = "1.7.30"

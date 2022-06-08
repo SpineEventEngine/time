@@ -27,7 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.LibraryEntry
 
 @Suppress("unused")
 internal object Firebase : CatalogEntry() {
@@ -35,7 +34,7 @@ internal object Firebase : CatalogEntry() {
     /**
      * [Firebase Admin](https://firebase.google.com/docs/admin/setup#java)
      */
-    object Admin : LibraryEntry() {
+    object Admin : CatalogEntry() {
         override val version = "8.1.0"
         override val module = "com.google.firebase:firebase-admin"
     }

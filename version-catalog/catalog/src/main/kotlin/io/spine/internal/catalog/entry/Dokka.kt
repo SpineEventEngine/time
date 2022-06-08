@@ -26,15 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
-import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Dokka](https://github.com/Kotlin/dokka)
  */
 @Suppress("unused")
-internal object Dokka : DependencyEntry() {
+internal object Dokka : CatalogEntry() {
 
     private const val group = "org.jetbrains.dokka"
     override val version = "1.6.20"
@@ -45,8 +43,8 @@ internal object Dokka : DependencyEntry() {
      * @see <a href="https://github.com/Kotlin/dokka#output-formats">
      *     Dokka output formats</a>
      */
-    val kotlinAsJavaPlugin by lib("${io.spine.internal.catalog.entry.Dokka.group}:kotlin-as-java-plugin")
-    val basePlugin by lib("${io.spine.internal.catalog.entry.Dokka.group}:dokka-base")
+    val kotlinAsJavaPlugin by lib("$group:kotlin-as-java-plugin")
+    val basePlugin by lib("$group:dokka-base")
 
     /**
      * Custom Dokka plugins developed for Spine-specific needs like excluding
@@ -55,13 +53,13 @@ internal object Dokka : DependencyEntry() {
      * @see <a href="https://github.com/SpineEventEngine/dokka-tools/tree/master/dokka-extensions">
      *     Custom Dokka Plugins</a>
      */
-    object SpineExtensions : LibraryEntry() {
+    object SpineExtensions : CatalogEntry() {
         override val version = "2.0.0-SNAPSHOT.3"
         override val module = "io.spine.tools:spine-dokka-extensions"
     }
 
-    object GradlePlugin : PluginEntry() {
-        override val module = "${io.spine.internal.catalog.entry.Dokka.group}:dokka-gradle-plugin"
+    object GradlePlugin : CatalogEntry() {
+        override val module = "$group:dokka-gradle-plugin"
         override val id = "org.jetbrains.dokka"
     }
 }

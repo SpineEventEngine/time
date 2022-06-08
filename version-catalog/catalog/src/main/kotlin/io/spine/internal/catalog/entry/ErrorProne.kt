@@ -26,15 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
-import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [ErrorProne](https://github.com/google/error-prone)
  */
 @Suppress("unused")
-internal object ErrorProne : DependencyEntry() {
+internal object ErrorProne : CatalogEntry() {
 
     override val version = "2.13.1"
 
@@ -50,7 +48,7 @@ internal object ErrorProne : DependencyEntry() {
     /**
      * [JavacPlugin](https://github.com/tbroyer/gradle-errorprone-plugin/blob/v0.8/build.gradle.kts)
      */
-    object JavacPlugin : LibraryEntry() {
+    object JavacPlugin : CatalogEntry() {
         override val version = "9+181-r4173-1"
         override val module = "com.google.errorprone:javac"
     }
@@ -58,7 +56,7 @@ internal object ErrorProne : DependencyEntry() {
     /**
      * [GradlePlugin](https://github.com/tbroyer/gradle-errorprone-plugin/releases)
      */
-    object GradlePlugin : PluginEntry() {
+    object GradlePlugin : CatalogEntry() {
         override val version = "2.0.2"
         override val module = "net.ltgt.gradle:gradle-errorprone-plugin"
         override val id = "net.ltgt.errorprone"

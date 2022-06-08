@@ -27,8 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
 
 /**
  * [GoogleAuto](https://github.com/google/auto)
@@ -36,18 +34,18 @@ import io.spine.internal.catalog.model.LibraryEntry
 @Suppress("unused")
 internal object GoogleAuto : CatalogEntry() {
 
-    object Common : LibraryEntry() {
+    object Common : CatalogEntry() {
         override val version = "1.2.1"
         override val module = "com.google.auto:auto-common"
     }
 
-    object Service : DependencyEntry() {
+    object Service : CatalogEntry() {
         override val version = "1.0.1"
         val annotations by lib("com.google.auto.service:auto-service-annotations")
         val processor by lib("com.google.auto.service:auto-service")
     }
 
-    object Value : DependencyEntry() {
+    object Value : CatalogEntry() {
         override val version = "1.9"
         val annotations by lib("com.google.auto.value:auto-value-annotations")
     }

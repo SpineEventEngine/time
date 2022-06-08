@@ -26,20 +26,19 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [CheckerFramework](https://checkerframework.org/)
  */
 @Suppress("unused")
-internal object CheckerFramework : DependencyEntry() {
+internal object CheckerFramework : CatalogEntry() {
 
     /**
      * This is a discontinued artifact, which we do not use directly.
      * It is a transitive dependency which we use for forcing the version.
      */
-    object CompatQual : LibraryEntry() {
+    object CompatQual : CatalogEntry() {
         override val version = "2.5.5"
         override val module = "org.checkerframework:checker-compat-qual"
     }

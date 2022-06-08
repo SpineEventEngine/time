@@ -26,10 +26,10 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 @Suppress("unused")
-internal object Netty : DependencyEntry() {
+internal object Netty : CatalogEntry() {
 
     /**
      * [Releases](https://github.com/netty/netty/releases)

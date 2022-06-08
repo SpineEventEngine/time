@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * Plexus Utils is a transitive dependency which we don't use directly.
@@ -35,7 +35,7 @@ import io.spine.internal.catalog.model.DependencyEntry
  * [Plexus Utils](https://codehaus-plexus.github.io/plexus-utils/)
  */
 @Suppress("unused")
-internal object Plexus : DependencyEntry() {
+internal object Plexus : CatalogEntry() {
     override val version = "3.4.0"
     val utils by lib("org.codehaus.plexus:plexus-utils")
 }

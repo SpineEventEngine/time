@@ -26,10 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
-import io.spine.internal.catalog.model.PluginEntry
-import io.spine.internal.catalog.model.VersionEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * This dependency describes an imaginary library.
@@ -45,7 +42,7 @@ import io.spine.internal.catalog.model.VersionEntry
  * Thus, when modifying this dependency, put the updated code to `README.md`.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-internal object Dummy : DependencyEntry() {
+internal object Dummy : CatalogEntry() {
 
     private const val group = "org.dummy.company"
     override val module = "$group:dummy-lib" // libs.dummy
@@ -69,13 +66,13 @@ internal object Dummy : DependencyEntry() {
     // suffix for a plugin's ID. Note, that we have this suffix for the version
     // and module, and does not have for ID.
 
-    object GradlePlugin : PluginEntry() {
+    object GradlePlugin : CatalogEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
         override val module = "$group:my-dummy-plugin" // libs.dummy.gradlePlugin
         override val id = "my-dummy-plugin"            // libs.plugins.dummy
     }
 
-    object Runtime : DependencyEntry() {
+    object Runtime : CatalogEntry() {
 
         // When an entry does not override the version, it is taken from
         // the outer entry. For example, in this case, all libs within "Runtime"
@@ -85,7 +82,7 @@ internal object Dummy : DependencyEntry() {
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
         val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
 
-        object BOM : LibraryEntry() {
+        object BOM : CatalogEntry() {
             override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
             override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
         }
@@ -103,7 +100,7 @@ internal object Dummy : DependencyEntry() {
 
     // It is also possible to declare just a bare version.
 
-    object Tools : VersionEntry() {
+    object Tools : CatalogEntry() {
         override val version = "3.0.0" // libs.versions.dummy.tools
     }
 }

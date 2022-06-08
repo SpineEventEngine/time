@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.model.given
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 import io.spine.internal.catalog.model.Alias
 import io.spine.internal.catalog.model.BundleRecord
 import io.spine.internal.catalog.model.LibraryRecord
@@ -36,13 +36,18 @@ import org.junit.jupiter.api.Assertions.assertEquals
 internal class DependencyEntryTestEnv {
     companion object {
 
-        fun versionRecord(entry: DependencyEntry) =
+        fun versionRecord(entry: CatalogEntry) =
             entry.allRecords().first { it is VersionRecord } as VersionRecord
 
-        fun libraryRecord(entry: DependencyEntry) =
+        fun VersionRecord.assert(alias: String, version: String) {
+            assertEquals(alias, this.alias)
+            assertEquals(version, this.value)
+        }
+
+        fun libraryRecord(entry: CatalogEntry) =
             entry.allRecords().first { it is LibraryRecord } as LibraryRecord
 
-        fun bundleRecord(entry: DependencyEntry) =
+        fun bundleRecord(entry: CatalogEntry) =
             entry.allRecords().first { it is BundleRecord } as BundleRecord
 
         fun BundleRecord.assert(alias: Alias, libs: Set<Alias>) {

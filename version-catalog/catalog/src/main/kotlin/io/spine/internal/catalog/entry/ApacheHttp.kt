@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [ApacheHttp](https://hc.apache.org/downloads.cgi)
  */
 @Suppress("unused")
-internal object ApacheHttp : DependencyEntry() {
+internal object ApacheHttp : CatalogEntry() {
     override val version = "4.4.14"
     val core by lib("org.apache.httpcomponents:httpcore")
 }

@@ -26,14 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Protobuf](https://github.com/protocolbuffers/protobuf)
  */
 @Suppress("unused")
-internal object Protobuf : DependencyEntry() {
+internal object Protobuf : CatalogEntry() {
 
     private const val group = "com.google.protobuf"
     override val version = "3.20.1"
@@ -48,7 +47,7 @@ internal object Protobuf : DependencyEntry() {
     /**
      * [GradlePlugin](https://github.com/google/protobuf-gradle-plugin/releases)
      */
-    object GradlePlugin : PluginEntry() {
+    object GradlePlugin : CatalogEntry() {
         override val version = "0.8.18"
         override val module = "$group:protobuf-gradle-plugin"
         override val id = "com.google.protobuf"

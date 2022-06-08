@@ -26,14 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [JUnit5](https://junit.org/junit5/)
  */
 @Suppress("unused")
-internal object JUnit : DependencyEntry() {
+internal object JUnit : CatalogEntry() {
 
     override val version = "5.8.2"
     val bom by lib("org.junit:junit-bom")
@@ -42,18 +41,18 @@ internal object JUnit : DependencyEntry() {
     /**
      * [ApiGuardian](https://github.com/apiguardian-team/apiguardian)
      */
-    object ApiGuardian : LibraryEntry() {
+    object ApiGuardian : CatalogEntry() {
         override val version = "1.1.2"
         override val module = "org.apiguardian:apiguardian-api"
     }
 
-    object Platform : DependencyEntry() {
+    object Platform : CatalogEntry() {
         override val version = "1.8.2"
         val commons by lib("org.junit.platform:junit-platform-commons")
         val launcher by lib("org.junit.platform:junit-platform-launcher")
     }
 
-    object Legacy : LibraryEntry() {
+    object Legacy : CatalogEntry() {
         override val version = "4.13.1"
         override val module = "junit:junit"
     }
@@ -61,7 +60,7 @@ internal object JUnit : DependencyEntry() {
     /**
      * [Junit-Pioneer](https://github.com/junit-pioneer/junit-pioneer)
      */
-    object Pioneer : LibraryEntry() {
+    object Pioneer : CatalogEntry() {
         override val version = "1.5.0"
         override val module = "org.junit-pioneer:junit-pioneer"
     }
@@ -69,6 +68,6 @@ internal object JUnit : DependencyEntry() {
     override val bundle = setOf(
         lib("api", "org.junit.jupiter:junit-jupiter-api"),
         lib("params", "org.junit.jupiter:junit-jupiter-params"),
-        io.spine.internal.catalog.entry.JUnit.ApiGuardian
+        ApiGuardian
     )
 }

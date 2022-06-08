@@ -26,10 +26,10 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 @Suppress("unused")
-internal object GrGit : DependencyEntry() {
+internal object GrGit : CatalogEntry() {
     override val version = "3.1.1"
     val core by lib("org.ajoberstar.grgit:grgit-core")
 }

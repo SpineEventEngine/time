@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [JavaPoet](https://github.com/square/javapoet)
  */
 @Suppress("unused")
-internal object JavaPoet : LibraryEntry() {
+internal object JavaPoet : CatalogEntry() {
     override val version = "1.13.0"
     override val module = "com.squareup:javapoet"
 }

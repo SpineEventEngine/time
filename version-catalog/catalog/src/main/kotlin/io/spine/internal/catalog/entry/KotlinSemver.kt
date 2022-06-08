@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [KotlinSemver](https://github.com/z4kn4fein/kotlin-semver)
  */
 @Suppress("unused")
-internal object KotlinSemver : LibraryEntry() {
+internal object KotlinSemver : CatalogEntry() {
     override val version = "1.2.1"
     override val module = "io.github.z4kn4fein:semver"
 }

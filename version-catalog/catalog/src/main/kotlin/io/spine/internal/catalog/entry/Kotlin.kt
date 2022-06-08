@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [Kotlin](https://github.com/JetBrains/kotlin)
  */
 @Suppress("unused")
-internal object Kotlin : DependencyEntry() {
+internal object Kotlin : CatalogEntry() {
 
     private const val group = "org.jetbrains.kotlin"
     override val version = "1.6.21"
@@ -40,7 +40,7 @@ internal object Kotlin : DependencyEntry() {
     val gradlePlugin by lib("$group:kotlin-gradle-plugin")
     val reflect by lib("$group:kotlin-reflect")
 
-    object StdLib : DependencyEntry() {
+    object StdLib : CatalogEntry() {
         override val module = "$group:kotlin-stdlib"
         val common by lib("$group:kotlin-stdlib-common")
         val jdk8 by lib("$group:kotlin-stdlib-jdk8")

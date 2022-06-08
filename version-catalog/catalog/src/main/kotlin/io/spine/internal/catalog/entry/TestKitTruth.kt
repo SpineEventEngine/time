@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * Gradle TestKit extension for Google Truth.
@@ -35,7 +35,7 @@ import io.spine.internal.catalog.model.LibraryEntry
  * [Usage description](https://dev.to/autonomousapps/gradle-all-the-way-down-testing-your-gradle-plugin-with-gradle-testkit-2hmc)
  */
 @Suppress("unused")
-internal object TestKitTruth : LibraryEntry() {
+internal object TestKitTruth : CatalogEntry() {
     override val version = "1.1"
     override val module = "com.autonomousapps:testkit-truth"
 }

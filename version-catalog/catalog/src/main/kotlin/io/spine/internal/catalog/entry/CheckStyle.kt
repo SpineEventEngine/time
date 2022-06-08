@@ -26,12 +26,12 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.VersionEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [CheckStyle](https://checkstyle.sourceforge.io/)
  */
 @Suppress("unused")
-internal object CheckStyle : VersionEntry() {
+internal object CheckStyle : CatalogEntry() {
     override val version = "10.1"
 }

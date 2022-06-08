@@ -27,7 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.LibraryEntry
 
 @Suppress("unused")
 internal object JavaX : CatalogEntry() {
@@ -37,12 +36,12 @@ internal object JavaX : CatalogEntry() {
      *
      * [Annotations](https://github.com/eclipse-ee4j/common-annotations-api)
      */
-    object Annotations : LibraryEntry() {
+    object Annotations : CatalogEntry() {
         override val version = "1.3.2"
         override val module = "javax.annotation:javax.annotation-api"
     }
 
-    object ServletApi : LibraryEntry() {
+    object ServletApi : CatalogEntry() {
         override val version = "3.1.0"
         override val module = "javax.servlet:javax.servlet-api"
     }

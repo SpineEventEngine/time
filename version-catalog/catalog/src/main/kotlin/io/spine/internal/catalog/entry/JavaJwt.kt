@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * A Java implementation of JSON Web Token (JWT) - RFC 7519.
@@ -34,7 +34,7 @@ import io.spine.internal.catalog.model.LibraryEntry
  * [Java JWT](https://github.com/auth0/java-jwt)
  */
 @Suppress("unused")
-internal object JavaJwt : LibraryEntry() {
+internal object JavaJwt : CatalogEntry() {
     override val version = "3.19.1"
     override val module = "com.auth0:java-jwt"
 }

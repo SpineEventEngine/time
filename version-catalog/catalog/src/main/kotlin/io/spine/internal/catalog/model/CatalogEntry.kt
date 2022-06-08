@@ -26,74 +26,57 @@
 
 package io.spine.internal.catalog.model
 
-/**
- * A base catalog entry.
- *
- * The main idea behind the concept of entries is to provide a declarative way to
- * define catalog items. Entries expose a declarative API, leaving behind the scene
- * all imperative code. Entries resemble a bridge between notations (a language,
- * used to declare items) and records (the way, items are stored in the catalog).
- *
- * Only object declarations are meant to serve as concrete entries.
- *
- * As a base entry, this class takes a responsibility for the following:
- *
- *  1. Support of nesting. An entry can nest one or more other entries.
- *  2. Automatic aliasing for entries. An alias is picked up from the object's name,
- *     taking into account its nesting.
- *
- * The primary goal achieved by the `CatalogEntry` objects is to [produce][allRecords]
- * a set of [CatalogRecord]s. It combines all the declarations within this entry and
- * its nested entries. Once produced, the records can be directly [written][CatalogRecord.writeTo]
- * into a version catalog.
- *
- * It is worth to mention, that the relationship between an entry and records it
- * produces is "one to many". It means that a single entry can produce zero, one
- * or more records.
- *
- * A base entry doesn't produce any records. It can only be used as an outer entry
- * for introducing a common alias. Such entries don't declare anything, they just
- * serve as a named scope for nested declarations.
- *
- * Below is an example of `Runtime` entry:
- *
- * ```
- * internal object Runtime : CatalogEntry() { // alias = runtime
- *     object Linux : SomeEntry() // alias = runtime.linux
- *     object Mac : SomeEntry()   // alias = runtime.mac
- *     object Win : SomeEntry()   // alias = runtime.win
- * }
- * ```
- *
- * In the example above, `Linux`, `Mac` and `Win` are concrete entries, which may
- * produce concrete records (such as a library, version, etc.). Meanwhile, `Runtime`
- * does not produce anything. It's just hosting other entries, affecting their final alias.
- *
- * See also: [CatalogNotation], [CatalogRecord].
- */
-open class CatalogEntry : CatalogNotation {
+open class CatalogEntry {
 
-    /**
-     * A parent entry, within which this entry resides, if present.
-     */
-    protected val outerEntry: CatalogEntry? = outerEntry()
+    private val outerEntry: CatalogEntry? = outerEntry()
 
-    /**
-     * Object's name with respect to entity's nesting.
-     *
-     * We say "object" here because all concrete entries are meant to be
-     * object declarations.
-     */
-    final override val alias: Alias = alias()
+    private val alias: Alias = alias()
 
-    /**
-     * A base entry produce no records.
-     */
-    protected open fun records(): Set<CatalogRecord> = emptySet()
+    private val standaloneLibs = mutableSetOf<LibraryRecord>()
 
-    /**
-     * Obtains all catalog records, produced by this entry and its nested entries.
-     */
+    private val standaloneBundles = mutableSetOf<BundleRecord>()
+
+    private val versionRecord: VersionRecord by lazy { versionRecord() }
+
+    open val version: String? = null
+
+    open val module: String? = null
+
+    open val id: String? = null
+
+    open val bundle: Set<Any>? = null
+
+    private fun records(): Set<CatalogRecord> {
+        val result = mutableSetOf<CatalogRecord>()
+
+        if (version != null) {
+            val record = VersionRecord(alias, version!!)
+            result.add(record)
+        }
+
+        if (module != null) {
+            val record = LibraryRecord(alias, module!!, versionRecord)
+            result.add(record)
+        }
+
+        if (id != null) {
+            val pluginAlias = pluginAlias()
+            val record = PluginRecord(pluginAlias, id!!, versionRecord)
+            result.add(record)
+        }
+
+        if (bundle != null) {
+            val libs = toLibraryRecords(bundle!!)
+            val record = BundleRecord(alias, libs)
+            result.add(record)
+        }
+
+        standaloneLibs.forEach { result.add(it) }
+        standaloneBundles.forEach { result.add(it) }
+
+        return result
+    }
+
     fun allRecords(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
@@ -106,6 +89,32 @@ open class CatalogEntry : CatalogNotation {
 
         return result
     }
+
+    fun lib(name: String, module: String): LibraryRecord {
+        val thisEntryAlias = this.alias
+        val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
+        else "$thisEntryAlias-$name"
+
+        val record = LibraryRecord(libAlias, module, versionRecord)
+        standaloneLibs.add(record)
+
+        return record
+    }
+
+    fun lib(module: String): MemoizingDelegate<LibraryRecord> =
+        delegate { property -> lib(property.name, module) }
+
+    fun bundle(vararg libs: Any): MemoizingDelegate<BundleRecord> =
+        delegate { property ->
+            val thisEntryAlias = this.alias
+            val bundleAlias = "$thisEntryAlias-${property.name}"
+
+            val libRecords = toLibraryRecords(libs.asIterable())
+            val record = BundleRecord(bundleAlias, libRecords)
+            standaloneBundles.add(record)
+
+            record
+        }
 
     private fun nestedEntries(): Set<CatalogEntry> {
         val nestedClasses = this::class.nestedClasses
@@ -132,4 +141,21 @@ open class CatalogEntry : CatalogNotation {
     }
 
     private fun String.toCamelCase() = replaceFirstChar { it.lowercaseChar() }
+
+    private fun toLibraryRecords(obj: Iterable<Any>): Set<LibraryRecord> =
+        obj.map { toLibraryRecord(it) }.toSet()
+
+    private fun toLibraryRecord(obj: Any): LibraryRecord = when (obj) {
+        is LibraryRecord -> obj
+        is CatalogEntry -> LibraryRecord(obj.alias, obj.module!!, obj.versionRecord)
+        else -> throw IllegalArgumentException("Unknown object has been passed: $obj!")
+    }
+
+    private fun versionRecord(): VersionRecord = when {
+        version != null -> VersionRecord(alias, version!!)
+        outerEntry != null -> outerEntry.versionRecord
+        else -> throw IllegalStateException("Specify version in this entry or any parent one!")
+    }
+
+    private fun pluginAlias(): Alias = alias.removeSuffix("-gradlePlugin")
 }

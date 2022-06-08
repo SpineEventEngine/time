@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * Gson is a transitive dependency which we don't use directly.
@@ -36,7 +36,7 @@ import io.spine.internal.catalog.model.LibraryEntry
  * [Gson](https://github.com/google/gson)
  */
 @Suppress("unused")
-internal object Gson : LibraryEntry() {
+internal object Gson : CatalogEntry() {
     override val version = "2.9.0"
     override val module = "com.google.code.gson:gson"
 }

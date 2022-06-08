@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [OsDetector](https://github.com/google/osdetector-gradle-plugin)
  */
 @Suppress("unused")
-internal object OsDetector : PluginEntry() {
+internal object OsDetector : CatalogEntry() {
     override val version = "1.7.0"
     override val module = "com.google.gradle:osdetector-gradle-plugin"
     override val id = "com.google.osdetector"

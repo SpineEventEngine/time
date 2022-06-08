@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * The dependencies for Guava.
@@ -38,7 +38,7 @@ import io.spine.internal.catalog.model.DependencyEntry
  * [Guava](https://github.com/google/guava)
  */
 @Suppress("unused")
-internal object Guava : DependencyEntry() {
+internal object Guava : CatalogEntry() {
     override val version = "31.1-jre"
     override val module = "com.google.guava:guava"
     val testLib by lib("com.google.guava:guava-testlib")

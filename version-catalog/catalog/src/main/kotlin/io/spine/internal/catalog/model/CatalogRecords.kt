@@ -81,7 +81,7 @@ interface CatalogRecord {
  *
  * For example: `2.0.0-SNAPSHOT.21`.
  */
-internal data class VersionRecord(
+data class VersionRecord(
     override val alias: Alias,
     val value: String
 ) : CatalogRecord {
@@ -97,20 +97,17 @@ internal data class VersionRecord(
  * [module] is a group and artifact of a library, seperated by a colon.
  *
  * For example: `io.spine:spine-core`.
- *
- * Version for the library is obtained by the reference. Thus, the given [versionRef]
- * should point to a [VersionRecord].
  */
-internal data class LibraryRecord(
+data class LibraryRecord(
     override val alias: Alias,
     val module: String,
-    val versionRef: Alias
+    val version: VersionRecord
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
         val group = module.substringBefore(':')
         val artifact = module.substringAfter(':')
-        catalog.library(alias, group, artifact).versionRef(versionRef)
+        catalog.library(alias, group, artifact).versionRef(version.alias)
     }
 }
 
@@ -121,33 +118,28 @@ internal data class LibraryRecord(
  * and in the project.
  *
  * For example: `org.jetbrains.kotlin.jvm`.
- *
- * Version of the plugin is obtained by the reference. Thus, the given [versionRef]
- * should point to a [VersionRecord].
  */
 internal data class PluginRecord(
     override val alias: Alias,
     val id: String,
-    val versionRef: Alias
+    val version: VersionRecord
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
-        catalog.plugin(alias, id).versionRef(versionRef)
+        catalog.plugin(alias, id).versionRef(version.alias)
     }
 }
 
 /**
  * Represents a named set of libraries, which can be directly written into
  * a version catalog
- *
- * It is expected, that each alias in [libs] points to a [LibraryRecord].
  */
-internal data class BundleRecord(
+data class BundleRecord(
     override val alias: Alias,
-    val libs: Set<Alias>
+    val libs: Set<LibraryRecord>
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
-        catalog.bundle(alias, libs.toList())
+        catalog.bundle(alias, libs.map { it.alias })
     }
 }

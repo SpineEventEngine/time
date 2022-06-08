@@ -27,20 +27,18 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.VersionEntry
 
 @Suppress("unused")
 internal object KotlinX : CatalogEntry() {
 
-    object Coroutines : VersionEntry() {
+    object Coroutines : CatalogEntry() {
 
         /**
          * [KotlinX.Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
          */
         override val version = "1.6.1"
 
-        object Core : DependencyEntry() {
+        object Core : CatalogEntry() {
             override val module = "org.jetbrains.kotlinx:kotlinx-coroutines-core"
             val jvm by lib("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm")
         }

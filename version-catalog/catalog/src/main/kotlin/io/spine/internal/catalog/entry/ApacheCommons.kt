@@ -27,7 +27,6 @@
 package io.spine.internal.catalog.entry
 
 import io.spine.internal.catalog.model.CatalogEntry
-import io.spine.internal.catalog.model.LibraryEntry
 
 @Suppress("unused")
 internal object ApacheCommons : CatalogEntry() {
@@ -35,7 +34,7 @@ internal object ApacheCommons : CatalogEntry() {
     /**
      * [CommonsCli](https://commons.apache.org/proper/commons-cli/)
      */
-    object Cli : LibraryEntry() {
+    object Cli : CatalogEntry() {
         override val version = "1.5.0"
         override val module = "commons-cli:commons-cli"
     }
@@ -43,7 +42,7 @@ internal object ApacheCommons : CatalogEntry() {
     /**
      * [CommonsCodec](https://commons.apache.org/proper/commons-codec/changes-report.html)
      */
-    object Codec : LibraryEntry() {
+    object Codec : CatalogEntry() {
         override val version = "1.15"
         override val module = "commons-codec:commons-codec"
     }
@@ -51,7 +50,7 @@ internal object ApacheCommons : CatalogEntry() {
     /**
      * [CommonsLogging](https://commons.apache.org/proper/commons-logging/)
      */
-    object Logging : LibraryEntry() {
+    object Logging : CatalogEntry() {
         override val version = "1.2"
         override val module = "commons-logging:commons-logging"
     }

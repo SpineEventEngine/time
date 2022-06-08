@@ -26,19 +26,18 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
-import io.spine.internal.catalog.model.PluginEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [LicenseReport](https://github.com/jk1/Gradle-License-Report)
  */
 @Suppress("unused")
-internal object LicenseReport : LibraryEntry() {
+internal object LicenseReport : CatalogEntry() {
 
     override val version = "1.16"
     override val module = "com.github.jk1:gradle-license-report"
 
-    object GradlePlugin : PluginEntry() {
+    object GradlePlugin : CatalogEntry() {
         override val module = "com.github.jk1:gradle-license-report"
         override val id = "com.github.jk1.dependency-license-report"
     }

@@ -26,13 +26,13 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * [AnimalSniffer](https://www.mojohaus.org/animal-sniffer/animal-sniffer-maven-plugin/)
  */
 @Suppress("unused")
-internal object AnimalSniffer : LibraryEntry() {
+internal object AnimalSniffer : CatalogEntry() {
     override val version = "1.21"
     override val module = "org.codehaus.mojo:animal-sniffer-annotations"
 }

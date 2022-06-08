@@ -26,7 +26,7 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 /**
  * A JSON parser in Kotlin.
@@ -34,7 +34,7 @@ import io.spine.internal.catalog.model.LibraryEntry
  * [Klaxon](https://github.com/cbeust/klaxon)
  */
 @Suppress("unused")
-internal object Klaxon : LibraryEntry() {
+internal object Klaxon : CatalogEntry() {
     override val version = "5.6"
     override val module = "com.beust:klaxon"
 }

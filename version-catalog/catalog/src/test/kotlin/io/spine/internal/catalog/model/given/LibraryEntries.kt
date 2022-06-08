@@ -23,12 +23,3 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-package io.spine.internal.catalog.model.given
-
-import io.spine.internal.catalog.model.LibraryEntry
-
-internal object StandaloneDummyLibrary : LibraryEntry() {
-    override val version = "sdl-0.0.1"
-    override val module = "org.dummy:dummy-lib"
-}

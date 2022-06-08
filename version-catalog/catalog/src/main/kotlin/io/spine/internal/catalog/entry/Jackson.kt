@@ -26,11 +26,10 @@
 
 package io.spine.internal.catalog.entry
 
-import io.spine.internal.catalog.model.DependencyEntry
-import io.spine.internal.catalog.model.LibraryEntry
+import io.spine.internal.catalog.model.CatalogEntry
 
 @Suppress("unused")
-internal object Jackson : DependencyEntry() {
+internal object Jackson : CatalogEntry() {
 
     override val version = "2.13.2"
 
@@ -57,7 +56,7 @@ internal object Jackson : DependencyEntry() {
     /**
      * [Databind](https://github.com/FasterXML/jackson-databind)
      */
-    object Databind : LibraryEntry() {
+    object Databind : CatalogEntry() {
         override val version = "2.13.2.2"
         override val module = "com.fasterxml.jackson.core:jackson-databind"
     }
