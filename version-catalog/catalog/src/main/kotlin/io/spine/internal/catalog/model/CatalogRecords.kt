@@ -31,33 +31,16 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 /**
  * A single, atomic unit, which can be written into a version catalog.
  *
- * Records say what information is necessary to write one or another item into
- * a version catalog. Theirs properties strictly reflect the way, an item is
- * stored in the catalog.
+ * Records strictly reflect the way, the information is stored in the catalog.
+ * Due to this fact, they don't need any preparations to be written there.
  *
- * Similarly to [notations][CatalogNotation], records define what information is
- * needed to create one or another catalog-compatible item. But in contrast to
- * notations, records are citizens of an implementation site. They sas what is needed
- * from the point of view of how this information is actually stored in the catalog.
+ * This interface, doesn't represent a concrete catalog item. It serves as a common
+ * foundation for other records.
  *
- * Consider the following example:
- *
- * ```
- * // A user defines a plugin, using the corresponding notation.
- *
- * val plugin = object : PluginNotation {
- *     override val id: String = "kotlin-jvm"
- *     override val module: String = "org.jetbrains:kotlin-jvm"
- *     override val version: String = "1.6.21"
- *     override val alias: Alias = "kotlin.jvm"
- * }
- * ```
- *
- * In order to represent this notation in [VersionCatalogBuilder], three records
- * should be written there: [VersionRecord], [LibraryRecord], [PluginRecord].
- *
- * This interface, in particular, doesn't describe any concrete catalog item.
- * It just serves as a common foundation for other records.
+ * All concrete records are internal by design. They are used by [CatalogEntry]
+ * under the hood and not meant to be exposed to end-users. All a user might need
+ * to do with a record is to write it into the catalog, which can be done with
+ * this public interface.
  */
 interface CatalogRecord {
 
@@ -65,6 +48,9 @@ interface CatalogRecord {
      * A name, by which this record will be known in the catalog.
      *
      * For example: `kotlin.stdLib.common.jvm`.
+     *
+     * See documentation to [Alias] to see how a type-safe accessor is generated
+     * from an alias.
      */
     val alias: Alias
 
@@ -75,7 +61,7 @@ interface CatalogRecord {
 }
 
 /**
- * Represents a version item, which can be directly written into a version catalog.
+ * Represents a version, which can be directly written into a version catalog.
  *
  * [value] is a string representation of a version.
  *
@@ -92,11 +78,13 @@ internal data class VersionRecord(
 }
 
 /**
- * Represents a library item, which can be directly written into a version catalog.
+ * Represents a library, which can be directly written into a version catalog.
  *
  * [module] is a group and artifact of a library, seperated by a colon.
  *
  * For example: `io.spine:spine-core`.
+ *
+ * A version of the library is obtained by referencing to the given [version record][version].
  */
 internal data class LibraryRecord(
     override val alias: Alias,
@@ -112,12 +100,14 @@ internal data class LibraryRecord(
 }
 
 /**
- * Represents a plugin item, which can be directly written into a version catalog.
+ * Represents a plugin, which can be directly written into a version catalog.
  *
  * [id] is a unique name, by which a plugin is represented in both Gradle Plugin Portal
  * and in the project.
  *
  * For example: `org.jetbrains.kotlin.jvm`.
+ *
+ * A version of the plugin is obtained by referencing to the given [version record][version].
  */
 internal data class PluginRecord(
     override val alias: Alias,

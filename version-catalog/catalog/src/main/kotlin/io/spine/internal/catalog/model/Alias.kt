@@ -29,7 +29,15 @@ package io.spine.internal.catalog.model
 /**
  * A name, by which an item is known in a version catalog.
  *
- * Each item within the catalog has its unique alias.
+ * It consists of one or more camel cased words separated by a hyphen.
+ *
+ * For example: `kotlinX-coroutines-gradlePlugin`.
+ *
+ * ### Role of aliases in the catalog
+ *
+ * A version catalog itself consists of four sections: versions, libraries, plugins
+ * and bundles (sets of libraries). Thus, an alias can denote four types of items.
+ * Within each section, an alias should be unique.
  *
  * Aliases perform two functions:
  *
@@ -37,14 +45,28 @@ package io.spine.internal.catalog.model
  *  2. Referencing. One item in a version catalog can use another item, and this
  *     linkage is done via aliases.
  *
- * Please, consider an example of how aliases are mapped to the generated
- * type-safe accessors of the catalog.
+ * ### Mapping to the generated accessors
+ *
+ * Below is an example of how aliases are mapped to the generated type-safe
+ * accessors of the catalog.
+ *
+ * Let's suppose, a catalog is named `libs`:
  *
  * ```
- * "kotlinx-coroutines" => libs.kotlin.coroutines
- * "kotlinx-coroutines-gradlePlugin" => libs.kotlin.coroutines.gradlePlugin
- * "kotlinx-coroutines-runtime-jvm" => libs.kotlin.runtime.jvm
- * "kotlinx-coroutines-runtime-clr" => libs.kotlin.runtime.clr
+ * "kotlinX-coroutines" => libs.kotlinX.coroutines
+ * "kotlinX-coroutines-gradlePlugin" => libs.kotlinX.coroutines.gradlePlugin
+ * "kotlinX-runtime-jvm" => libs.kotlinX.runtime.jvm
+ * "kotlinX-runtime-clr" => libs.kotlinX.runtime.clr
  * ```
+ *
+ * Depending on which type of item an alias points, the resulting accessor
+ * may have additional prefixes.
+ *
+ * Below are an accessor patterns for different items:
+ *
+ *  1. Library: `{catalog name}.{alias}`.
+ *  2. Version: `{catalog name}.versions.{alias}`.
+ *  3. Plugin : `{catalog name}.plugins.{alias}`.
+ *  4. Bundle : `{catalog name}.bundles.{alias}`.
  */
 internal typealias Alias = String
