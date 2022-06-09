@@ -26,17 +26,227 @@
 
 package io.spine.internal.catalog.model
 
-open class CatalogEntry {
-
-    private val outerEntry: CatalogEntry? = outerEntry()
-
-    private val alias: Alias = alias()
+/**
+ * A dependency, which is going to be added into a version catalog.
+ *
+ * The main idea behind the concept of entries is to provide a declarative way
+ * to define catalog items: versions, libraries, plugins and bundles. Entries expose
+ * a declarative API, leaving behind the scene all imperative code. Out of declarations,
+ * which are done within an entry, it [produces][allRecords] a set of [CatalogRecord]s.
+ * Once produced, the records can be directly [written][CatalogRecord.writeTo]
+ * into a version catalog.
+ *
+ * It is worth to mention, that the relationship between an entry and records it
+ * produces is "one to many". It means that a single entry can produce zero, one
+ * or more records.
+ *
+ * # Usage
+ *
+ * Please note, only object declarations are meant to inherit from this class
+ * and serve as concrete entries.
+ *
+ * ```
+ * internal object SomeLibrary : CatalogEntry() {
+ *     // ...
+ * }
+ * ```
+ *
+ * ## Nesting
+ *
+ * Entries support nesting. One entry can be put into another one. This way they
+ * can form a hierarchy.
+ *
+ * Also, each item in a version catalog should have [Alias]. An entry sets aliases
+ * on its own for items, declared within it. To do this, it takes object's name
+ * with respect to its nesting.
+ *
+ * One can declare an entry, which only hosts other entries. Thus, providing
+ * a named scope for other declarations.
+ *
+ * Consider the following example:
+ *
+ * ```
+ * internal object Runtime : CatalogEntry() { // alias = runtime
+ *     object Linux : CatalogEntry() // alias = runtime.linux
+ *     object Mac : CatalogEntry()   // alias = runtime.mac
+ *     object Win : CatalogEntry()   // alias = runtime.win
+ * }
+ * ```
+ *
+ * See documentation to [Alias] to see how a type-safe accessor is generated
+ * from an alias.
+ *
+ * ## Versions
+ *
+ * An entry which declares only a version is a quite rare case. Such entries
+ * can be used to declare a version of used tools.
+ *
+ * An example of how to declare a bare version:
+ *
+ * ```
+ * internal object MyTool : CatalogEntry() {
+ *     override val version = "1.0.0"
+ * }
+ * ```
+ *
+ * ## Libraries
+ *
+ * The most common case is a declaring a library. Most entries just declare a
+ * single library.
+ *
+ * An example of how to declare a library:
+ *
+ * ```
+ * internal object MyLib : CatalogEntry() {
+ *     override val version = "1.0.0"
+ *     override val module = "com.company:my-lib"
+ * }
+ * ```
+ *
+ * Sometimes, a library can consist of several modules. Or even of a group
+ * of modules. A group can be declared using a nested entry, and extra modules
+ * by a [delegated property][lib].
+ *
+ * For example:
+ *
+ * ```
+ * internal object MyLib : CatalogEntry() {
+ *
+ *     private const val group = "com.company"
+ *     override val version = "1.9.0"
+ *     override val module = "$group:my-lib"
+ *
+ *     val runner by lib("$group:my-runner")
+ *     val linter by lib("$group:my-linter")
+ *
+ *     object Adapters : CatalogEntry() {
+ *         val html4 by lib("$group:html4-adapter")
+ *         val html5 by lib("$group:html5-adapter")
+ *     }
+ * }
+ * ```
+ *
+ * Please note, that nested `Adapters` entry doesn't declare a version. In cases,
+ * when a version is not declared, an entry will try to fetch it from the parent.
+ *
+ * Also, when a module is named after the entry in which it is declared,
+ * the resulting suffix will not contain a duplicated suffix. Consider an example
+ * below, in which comments represent the generated type-safe accessors to
+ * corresponding items.
+ *
+ *
+ * An example with a module named after the entry:
+ *
+ * ```
+ * internal object MyLib : CatalogEntry() {
+ *     private const val group = "com.company"
+ *     override val version = "1.9.0"      // libs.versions.myLib
+ *
+ *     val myLib by lib("$group:my-lib")   // libs.myLib (not libs.myLib.myLib!)
+ *     val types by lib("$group:my-types") // libs.myLib.types
+ *     val data by lib("$group:my-data")   // libs.myLib.data
+ * }
+ * ```
+ *
+ * ## Plugins
+ *
+ * The minimum, required to declare a plugin is a [version] and [id].
+ *
+ * For example:
+ *
+ * ```
+ * internal object MyPlugin : CatalogEntry() {
+ *     override val version = "1.0.0"
+ *     override val id = "com.company.plugin"
+ * }
+ * ```
+ *
+ * A standalone plugin is also a quite rare case. Usually, they are declared
+ * within more complex entries, which represent frameworks or big libraries that
+ * consists of several modules. Additionally, plugins can be supplemented with
+ * a library, that makes possible applying a plugin from `buildSrc`.
+ *
+ * Please note, that `GradlePlugin` is a special name for entries. Such entry
+ * will not append `gradlePlugin` suffix for [id] item.
+ *
+ * For example:
+ *
+ * ```
+ * internal object MyBigLib : VersionEntry() {
+ *     private const val group = "com.company"
+ *     // ...
+ *
+ *     object GradlePlugin : PluginEntry() {
+ *         override val version = "1.2.3"           // libs.versions.myBigLib.gradlePlugin
+ *         override val module = "$group:my-plugin" // libs.myBigLib.gradlePlugin
+ *         override val id = "$group.plugin"        // libs.plugins.myBigLib (without `gradlePlugin`!)
+ *     }
+ * }
+ * ```
+ *
+ * ## Bundles
+ *
+ * A bundle is a named set of libraries. One can compose a bundle out of
+ * extra modules, in-place module declarations or entries (which declare module).
+ *
+ * For example:
+ *
+ * ```
+ * internal object MyLib : CatalogEntry() {
+ *     private const val group = "com.company"
+ *     override val version = "1.9.0"
+ *     override val module = "$group:my-lib"
+ *
+ *     object Adapters : CatalogEntry() {
+ *         val html4 by lib("$group:html4-adapter")
+ *         val html5 by lib("$group:html5-adapter")
+ *     }
+ *
+ *     object Runner : CatalogEntry() {
+ *         override val version = "18.51.0"
+ *         override val module = "$group:runner"
+ *     }
+ *
+ *     override val bundle = setOf(
+ *         Runner,
+ *         Adapters.html4,
+ *         Adapters.html5,
+ *         lib("linter", "$group:linter"),
+ *         lib("core", "$group:core")
+ *     )
+ * }
+ * ```
+ *
+ * There's also a possibility to declare extra bundles on top of a current entry.
+ * Just like with extra modules, using a [property delegation][bundle].
+ *
+ * For example:
+ *
+ *  * ```
+ * internal object MyLib : CatalogEntry() {
+ *     private const val group = "com.company"
+ *     override val version = "1.9.0"
+ *     override val module = "$group:my-lib"
+ *
+ *     object Adapters : CatalogEntry() {
+ *         val html4 by lib("$group:html4-adapter")
+ *         val html5 by lib("$group:html5-adapter")
+ *     }
+ *
+ *     val adapters by bundle(
+ *         Adapters.html4,
+ *         Adapters.html5,
+ *     )
+ * }
+ * ```
+ */
+abstract class CatalogEntry {
 
     private val standaloneLibs = mutableSetOf<LibraryRecord>()
-
     private val standaloneBundles = mutableSetOf<BundleRecord>()
-
     private val versionRecord: VersionRecord by lazy { versionRecord() }
+    private val outerEntry: CatalogEntry? = outerEntry()
+    private val alias: Alias = alias()
 
     open val version: String? = null
 
@@ -45,6 +255,45 @@ open class CatalogEntry {
     open val id: String? = null
 
     open val bundle: Set<Any>? = null
+
+    fun lib(module: String): MemoizingDelegate<CatalogRecord> =
+        delegate { property -> lib(property.name, module) }
+
+    fun lib(name: String, module: String): CatalogRecord {
+        val thisEntryAlias = this.alias
+        val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
+        else "$thisEntryAlias-$name"
+
+        val record = LibraryRecord(libAlias, module, versionRecord)
+        standaloneLibs.add(record)
+
+        return record
+    }
+
+    fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
+        delegate { property ->
+            val thisEntryAlias = this.alias
+            val bundleAlias = "$thisEntryAlias-${property.name}"
+
+            val libRecords = libs.asIterable().toLibraryRecords()
+            val record = BundleRecord(bundleAlias, libRecords)
+            standaloneBundles.add(record)
+
+            record
+        }
+
+    fun allRecords(): Set<CatalogRecord> {
+        val result = mutableSetOf<CatalogRecord>()
+
+        val fromThisEntry = records()
+        result.addAll(fromThisEntry)
+
+        val nestedEntries = nestedEntries()
+        val fromNested = nestedEntries.flatMap { it.allRecords() }
+        result.addAll(fromNested)
+
+        return result
+    }
 
     private fun records(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
@@ -60,13 +309,13 @@ open class CatalogEntry {
         }
 
         if (id != null) {
-            val pluginAlias = pluginAlias()
+            val pluginAlias = alias.removeSuffix("-gradlePlugin")
             val record = PluginRecord(pluginAlias, id!!, versionRecord)
             result.add(record)
         }
 
         if (bundle != null) {
-            val libs = toLibraryRecords(bundle!!)
+            val libs = bundle!!.toLibraryRecords()
             val record = BundleRecord(alias, libs)
             result.add(record)
         }
@@ -76,45 +325,6 @@ open class CatalogEntry {
 
         return result
     }
-
-    fun allRecords(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
-
-        val fromThisEntry = records()
-        result.addAll(fromThisEntry)
-
-        val nestedEntries = nestedEntries()
-        val fromNested = nestedEntries.flatMap { it.allRecords() }
-        result.addAll(fromNested)
-
-        return result
-    }
-
-    fun lib(name: String, module: String): CatalogRecord {
-        val thisEntryAlias = this.alias
-        val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
-        else "$thisEntryAlias-$name"
-
-        val record = LibraryRecord(libAlias, module, versionRecord)
-        standaloneLibs.add(record)
-
-        return record
-    }
-
-    fun lib(module: String): MemoizingDelegate<CatalogRecord> =
-        delegate { property -> lib(property.name, module) }
-
-    fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
-        delegate { property ->
-            val thisEntryAlias = this.alias
-            val bundleAlias = "$thisEntryAlias-${property.name}"
-
-            val libRecords = toLibraryRecords(libs.asIterable())
-            val record = BundleRecord(bundleAlias, libRecords)
-            standaloneBundles.add(record)
-
-            record
-        }
 
     private fun nestedEntries(): Set<CatalogEntry> {
         val nestedClasses = this::class.nestedClasses
@@ -135,20 +345,10 @@ open class CatalogEntry {
     }
 
     private fun alias(): String {
+        fun String.toCamelCase() = replaceFirstChar { it.lowercaseChar() }
         val className = this::class.java.simpleName.toCamelCase()
         val alias = if (outerEntry != null) "${outerEntry.alias}-$className" else className
         return alias
-    }
-
-    private fun String.toCamelCase() = replaceFirstChar { it.lowercaseChar() }
-
-    private fun toLibraryRecords(obj: Iterable<Any>): Set<LibraryRecord> =
-        obj.map { toLibraryRecord(it) }.toSet()
-
-    private fun toLibraryRecord(obj: Any): LibraryRecord = when (obj) {
-        is LibraryRecord -> obj
-        is CatalogEntry -> LibraryRecord(obj.alias, obj.module!!, obj.versionRecord)
-        else -> throw IllegalArgumentException("Unknown object has been passed: $obj!")
     }
 
     private fun versionRecord(): VersionRecord = when {
@@ -157,5 +357,22 @@ open class CatalogEntry {
         else -> throw IllegalStateException("Specify version in this entry or any parent one!")
     }
 
-    private fun pluginAlias(): Alias = alias.removeSuffix("-gradlePlugin")
+    private fun Iterable<Any>.toLibraryRecords(): Set<LibraryRecord> {
+        val result = map { it.toLibraryRecord() }.toSet()
+        return result
+    }
+
+    private fun Any.toLibraryRecord(): LibraryRecord {
+        if (this is LibraryRecord) {
+            return this
+        }
+
+        if (this is CatalogEntry) {
+            val entry = this
+            val record = LibraryRecord(entry.alias, entry.module!!, entry.versionRecord)
+            return record
+        }
+
+        throw IllegalArgumentException("Unknown object has been passed: $this!")
+    }
 }
