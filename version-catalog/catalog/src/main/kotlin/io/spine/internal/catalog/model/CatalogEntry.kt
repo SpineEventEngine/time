@@ -90,7 +90,7 @@ open class CatalogEntry {
         return result
     }
 
-    fun lib(name: String, module: String): LibraryRecord {
+    fun lib(name: String, module: String): CatalogRecord {
         val thisEntryAlias = this.alias
         val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
         else "$thisEntryAlias-$name"
@@ -101,10 +101,10 @@ open class CatalogEntry {
         return record
     }
 
-    fun lib(module: String): MemoizingDelegate<LibraryRecord> =
+    fun lib(module: String): MemoizingDelegate<CatalogRecord> =
         delegate { property -> lib(property.name, module) }
 
-    fun bundle(vararg libs: Any): MemoizingDelegate<BundleRecord> =
+    fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
         delegate { property ->
             val thisEntryAlias = this.alias
             val bundleAlias = "$thisEntryAlias-${property.name}"

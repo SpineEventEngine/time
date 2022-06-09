@@ -81,7 +81,7 @@ interface CatalogRecord {
  *
  * For example: `2.0.0-SNAPSHOT.21`.
  */
-data class VersionRecord(
+internal data class VersionRecord(
     override val alias: Alias,
     val value: String
 ) : CatalogRecord {
@@ -98,7 +98,7 @@ data class VersionRecord(
  *
  * For example: `io.spine:spine-core`.
  */
-data class LibraryRecord(
+internal data class LibraryRecord(
     override val alias: Alias,
     val module: String,
     val version: VersionRecord
@@ -134,7 +134,7 @@ internal data class PluginRecord(
  * Represents a named set of libraries, which can be directly written into
  * a version catalog
  */
-data class BundleRecord(
+internal data class BundleRecord(
     override val alias: Alias,
     val libs: Set<LibraryRecord>
 ) : CatalogRecord {
