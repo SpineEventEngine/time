@@ -62,11 +62,11 @@ with(libs.dummy) {
 
 assert(
     libs.bundles.dummy, "[" +
-            "org.dummy.company:dummy-core:1.0.0, " +
-            "org.dummy.company:dummy-runner:1.0.0, " +
-            "org.dummy.company:dummy-api:1.0.0, " +
-            "org.dummy.company:dummy-params:1.0.0, " +
-            "org.dummy.company:dummy-types:1.0.0" +
+            "$group:dummy-core:1.0.0, " +
+            "$group:dummy-runner:1.0.0, " +
+            "$group:dummy-api:1.0.0, " +
+            "$group:dummy-params:1.0.0, " +
+            "$group:dummy-types:1.0.0" +
             "]"
 )
 
@@ -85,10 +85,11 @@ with(libs.dummy.runtime) {
 assert(
     libs.bundles.dummy.runtime,
     "[" +
-            "org.dummy.company:dummy-bom:2.0.0, " +
-            "org.dummy.company:runtime-win:1.0.0, " +
-            "org.dummy.company:runtime-mac:1.0.0, " +
-            "org.dummy.company:runtime-linux:1.0.0" +
+            "$group:dummy-lib:1.0.0, " +
+            "$group:dummy-bom:2.0.0, " +
+            "$group:runtime-win:1.0.0, " +
+            "$group:runtime-mac:1.0.0, " +
+            "$group:runtime-linux:1.0.0" +
             "]"
 )
 

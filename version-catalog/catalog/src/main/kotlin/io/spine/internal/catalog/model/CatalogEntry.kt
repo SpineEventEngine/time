@@ -27,18 +27,16 @@
 package io.spine.internal.catalog.model
 
 /**
- * A dependency, which is going to be added into a version catalog.
+ * Declaration of a dependency, which is going to become a part of a version catalog.
  *
  * The main idea behind the concept of entries is to provide a declarative way
  * to define catalog items: versions, libraries, plugins and bundles. Entries expose
- * a declarative API, leaving behind the scene all imperative code. Out of declarations,
- * which are done within an entry, it [produces][allRecords] a set of [CatalogRecord]s.
- * Once produced, the records can be directly [written][CatalogRecord.writeTo]
- * into a version catalog.
+ * a declarative API, leaving behind the scene all imperative code.
  *
- * It is worth to mention, that the relationship between an entry and records it
- * produces is "one to many". It means that a single entry can produce zero, one
- * or more records.
+ * Out of declarations, which are done within an entry, it [produces][allRecords]
+ * a set of [CatalogRecord]s. Once produced, the records can be directly [written][CatalogRecord.writeTo]
+ * into a version catalog. The relationship between an entry and records it produces
+ * is "one to many". It means that a single entry can produce zero, one or more records.
  *
  * # Usage
  *
@@ -46,15 +44,16 @@ package io.spine.internal.catalog.model
  * and serve as concrete entries.
  *
  * ```
- * internal object SomeLibrary : CatalogEntry() {
+ * internal object MyLib : CatalogEntry() {
  *     // ...
  * }
  * ```
  *
  * ## Nesting
  *
- * Entries support nesting. One entry can be put into another one. This way they
- * can form a hierarchy.
+ * One entry can be put into another one. This way entries can form a hierarchy.
+ * When an entry is [asked][allRecords] for records, it will propagate the
+ * request down the hierarchy. Thus, only root entries should be asked for records.
  *
  * Also, each item in a version catalog should have [Alias]. An entry sets aliases
  * on its own for items, declared within it. To do this, it takes object's name
@@ -103,15 +102,13 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * Sometimes, a library can consist of several modules. Or even of a group
- * of modules. A group can be declared using a nested entry, and extra modules
- * by a [delegated property][lib].
+ * Sometimes, a library consists of several modules. Or even of a group of modules.
+ * A group can be declared by a nested entry, and extra modules by a [delegated property][lib].
  *
  * For example:
  *
  * ```
  * internal object MyLib : CatalogEntry() {
- *
  *     private const val group = "com.company"
  *     override val version = "1.9.0"
  *     override val module = "$group:my-lib"
@@ -129,25 +126,6 @@ package io.spine.internal.catalog.model
  * Please note, that nested `Adapters` entry doesn't declare a version. In cases,
  * when a version is not declared, an entry will try to fetch it from the parent.
  *
- * Also, when a module is named after the entry in which it is declared,
- * the resulting suffix will not contain a duplicated suffix. Consider an example
- * below, in which comments represent the generated type-safe accessors to
- * corresponding items.
- *
- *
- * An example with a module named after the entry:
- *
- * ```
- * internal object MyLib : CatalogEntry() {
- *     private const val group = "com.company"
- *     override val version = "1.9.0"      // libs.versions.myLib
- *
- *     val myLib by lib("$group:my-lib")   // libs.myLib (not libs.myLib.myLib!)
- *     val types by lib("$group:my-types") // libs.myLib.types
- *     val data by lib("$group:my-data")   // libs.myLib.data
- * }
- * ```
- *
  * ## Plugins
  *
  * The minimum, required to declare a plugin is a [version] and [id].
@@ -161,28 +139,28 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * A standalone plugin is also a quite rare case. Usually, they are declared
- * within more complex entries, which represent frameworks or big libraries that
- * consists of several modules. Additionally, plugins can be supplemented with
- * a library, that makes possible applying a plugin from `buildSrc`.
- *
- * Please note, that `GradlePlugin` is a special name for entries. Such entry
- * will not append `gradlePlugin` suffix for [id] item.
+ * A standalone plugin is a quite rare case. Usually, they are declared within
+ * more complex entries, which represent frameworks or big libraries that
+ * consists of several modules. A plugin can also be supplemented with a library,
+ * that makes possible applying it from `buildSrc`.
  *
  * For example:
  *
  * ```
- * internal object MyBigLib : VersionEntry() {
+ * internal object MyLib : VersionEntry() {
  *     private const val group = "com.company"
  *     // ...
  *
  *     object GradlePlugin : PluginEntry() {
- *         override val version = "1.2.3"           // libs.versions.myBigLib.gradlePlugin
- *         override val module = "$group:my-plugin" // libs.myBigLib.gradlePlugin
- *         override val id = "$group.plugin"        // libs.plugins.myBigLib (without `gradlePlugin`!)
+ *         override val version = "1.2.3"           // libs.versions.myLib.gradlePlugin
+ *         override val module = "$group:my-plugin" // libs.myLib.gradlePlugin
+ *         override val id = "$group.plugin"        // libs.plugins.myLib (without `gradlePlugin`!)
  *     }
  * }
  * ```
+ *
+ * Please note, that `GradlePlugin` is a special name for entries. Such an entry
+ * will not append `gradlePlugin` suffix for [id] item.
  *
  * ## Bundles
  *
@@ -208,21 +186,27 @@ package io.spine.internal.catalog.model
  *     }
  *
  *     override val bundle = setOf(
- *         Runner,
+ *
+ *         // entries, which declare `module`
+ *         this, Runner,
+ *
+ *         // extra modules
  *         Adapters.html4,
  *         Adapters.html5,
+ *
+ *         // in-place declarations
  *         lib("linter", "$group:linter"),
- *         lib("core", "$group:core")
+ *         lib("core", "$group:core"),
  *     )
  * }
  * ```
  *
- * There's also a possibility to declare extra bundles on top of a current entry.
- * Just like with extra modules, using a [property delegation][bundle].
+ * There's also a possibility to declare extra bundles on top of the current entry.
+ * Just like with extra modules, using a [property delegate][bundle].
  *
  * For example:
  *
- *  * ```
+ * ```
  * internal object MyLib : CatalogEntry() {
  *     private const val group = "com.company"
  *     override val version = "1.9.0"
@@ -260,26 +244,17 @@ abstract class CatalogEntry {
         delegate { property -> lib(property.name, module) }
 
     fun lib(name: String, module: String): CatalogRecord {
-        val thisEntryAlias = this.alias
-        val libAlias = if (thisEntryAlias.endsWith(name)) thisEntryAlias
-        else "$thisEntryAlias-$name"
-
+        val libAlias = "$alias-$name"
         val record = LibraryRecord(libAlias, module, versionRecord)
-        standaloneLibs.add(record)
-
-        return record
+        return record.also { standaloneLibs.add(it) }
     }
 
     fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
         delegate { property ->
-            val thisEntryAlias = this.alias
-            val bundleAlias = "$thisEntryAlias-${property.name}"
-
+            val bundleAlias = "$alias-${property.name}"
             val libRecords = libs.asIterable().toLibraryRecords()
             val record = BundleRecord(bundleAlias, libRecords)
-            standaloneBundles.add(record)
-
-            record
+            record.also { standaloneBundles.add(it) }
         }
 
     fun allRecords(): Set<CatalogRecord> {

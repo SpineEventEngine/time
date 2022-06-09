@@ -92,6 +92,7 @@ internal object Dummy : CatalogEntry() {
     // referenced as well as the one declared by `lib()` delegate.
 
     val runtime by bundle( // libs.bundles.dummy.runtime
+        this,
         Runtime.BOM,
         Runtime.win,
         Runtime.mac,

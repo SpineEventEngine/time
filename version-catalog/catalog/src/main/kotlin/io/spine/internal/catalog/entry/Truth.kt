@@ -34,8 +34,9 @@ import io.spine.internal.catalog.model.CatalogEntry
 @Suppress("unused")
 internal object Truth : CatalogEntry() {
     override val version = "1.1.3"
+    override val module = "com.google.truth:truth"
     override val bundle = setOf(
-        lib("truth", "com.google.truth:truth"),
+        this,
         lib("java8Extension", "com.google.truth.extensions:truth-java8-extension"),
         lib("protoExtension", "com.google.truth.extensions:truth-proto-extension"),
     )
