@@ -65,7 +65,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(1)
 
                 val record = versionRecord(records)
-                assertThat(record.alias).isEqualTo("versionEntry")
+                assertThat(record.alias.value).isEqualTo("versionEntry")
                 assertThat(record.value).isEqualTo("v0.0.1")
             }
 
@@ -76,7 +76,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(2)
 
                 val library = libraryRecord(records)
-                assertThat(library.alias).isEqualTo("libraryEntry")
+                assertThat(library.alias.value).isEqualTo("libraryEntry")
                 assertThat(library.module).isEqualTo("com.company:lib")
 
                 val version = versionRecord(records)
@@ -90,7 +90,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(2)
 
                 val library = libraryRecord(records)
-                assertThat(library.alias).isEqualTo("extraLibraryEntry-core")
+                assertThat(library.alias.value).isEqualTo("extraLibraryEntry-core")
                 assertThat(library.module).isEqualTo("com.company:core-lib")
 
                 val version = versionRecord(records)
@@ -104,7 +104,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(2)
 
                 val plugin = pluginRecord(records)
-                assertThat(plugin.alias).isEqualTo("pluginEntry")
+                assertThat(plugin.alias.value).isEqualTo("pluginEntry")
                 assertThat(plugin.id).isEqualTo("com.company.plugin")
 
                 val version = versionRecord(records)
@@ -118,7 +118,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(5)
 
                 val bundle = bundleRecord(records)
-                assertThat(bundle.alias).isEqualTo("bundleEntry")
+                assertThat(bundle.alias.value).isEqualTo("bundleEntry")
 
                 val expected = records.filterIsInstance<LibraryRecord>().toSet()
                 assertThat(expected).hasSize(3)
@@ -132,7 +132,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(5)
 
                 val bundle = bundleRecord(records)
-                assertThat(bundle.alias).isEqualTo("extraBundleEntry-full")
+                assertThat(bundle.alias.value).isEqualTo("extraBundleEntry-full")
 
                 val expected = records.filterIsInstance<LibraryRecord>().toSet()
                 assertThat(expected).hasSize(3)
@@ -158,7 +158,7 @@ internal class CatalogEntryTest {
         fun `use object's name for alias`() {
             val entry = RootEntry
             val record = entry.allRecords().first()
-            assertThat(record.alias).isEqualTo("rootEntry")
+            assertThat(record.alias.value).isEqualTo("rootEntry")
         }
     }
 
@@ -175,7 +175,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(2)
 
                 val library = libraryRecord(records)
-                assertThat(library.alias).isEqualTo("directInheritingEntry-inheritor")
+                assertThat(library.alias.value).isEqualTo("directInheritingEntry-inheritor")
                 assertThat(library.module).isEqualTo("com.company:lib")
 
                 val version = versionRecord(records)
@@ -189,7 +189,7 @@ internal class CatalogEntryTest {
                 assertThat(records).hasSize(2)
 
                 val library = libraryRecord(records)
-                assertThat(library.alias).isEqualTo("indirectInheritingEntry-separator-inheritor")
+                assertThat(library.alias.value).isEqualTo("indirectInheritingEntry-separator-inheritor")
                 assertThat(library.module).isEqualTo("com.company:lib")
 
                 val version = versionRecord(records)
@@ -210,26 +210,27 @@ internal class CatalogEntryTest {
             assertThat(records).hasSize(2)
 
             val plugin = pluginRecord(records)
-            assertThat(plugin.alias).isEqualTo("withPluginEntry")
+            assertThat(plugin.alias.value).isEqualTo("withPluginEntry")
             assertThat(plugin.id).isEqualTo("my.plugin")
 
             val version = versionRecord(records)
             assertThat(plugin.version).isEqualTo(version)
-            assertThat(version.alias).isEqualTo("withPluginEntry-gradlePlugin")
+            assertThat(version.alias.value).isEqualTo("withPluginEntry-gradlePlugin")
         }
 
         @Test
         fun `reflect nesting in alias`() {
             val entry = RootEntry
             val records = entry.allRecords()
-            val expected = setOf(
-                VersionRecord("rootEntry", "re0.0.0"),
-                VersionRecord("rootEntry-firstChild", "fc0.0.0"),
-                VersionRecord("rootEntry-secondChild", "sc0.0.0"),
-                VersionRecord("rootEntry-thirdChild", "tc0.0.0"),
-                VersionRecord("rootEntry-thirdChild-grandChild", "gc0.0.0"),
+            val aliases = records.map { it.alias.value }
+            val expected = listOf(
+                "rootEntry",
+                "rootEntry-firstChild",
+                "rootEntry-secondChild",
+                "rootEntry-thirdChild",
+                "rootEntry-thirdChild-grandChild",
             )
-            assertThat(records).isEqualTo(expected)
+            assertThat(aliases).isEqualTo(expected)
         }
 
         @Test

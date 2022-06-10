@@ -36,8 +36,8 @@ package io.spine.internal.catalog.model
  * ### Role of aliases in the catalog
  *
  * A version catalog itself consists of four sections: versions, libraries, plugins
- * and bundles (sets of libraries). Thus, an alias can denote four types of items.
- * Within each section, an alias should be unique.
+ * and bundles (sets of libraries). Thus, an alias can point to a version, library,
+ * plugin or bundle. Within each section, an alias should be unique.
  *
  * Aliases perform two functions:
  *
@@ -50,7 +50,7 @@ package io.spine.internal.catalog.model
  * Below is an example of how aliases are mapped to the generated type-safe
  * accessors of the catalog.
  *
- * Let's suppose, a catalog is named `libs`:
+ * Let's suppose, a catalog is named `libs` and each alias denotes a library:
  *
  * ```
  * "kotlinX-coroutines" => libs.kotlinX.coroutines
@@ -62,11 +62,37 @@ package io.spine.internal.catalog.model
  * Depending on which type of item an alias points, the resulting accessor
  * may have additional prefixes.
  *
- * Below are an accessor patterns for different items:
+ * Below are accessor patterns for different items:
  *
  *  1. Library: `{catalog name}.{alias}`.
  *  2. Version: `{catalog name}.versions.{alias}`.
  *  3. Plugin : `{catalog name}.plugins.{alias}`.
  *  4. Bundle : `{catalog name}.bundles.{alias}`.
  */
-internal typealias Alias = String
+@JvmInline
+value class Alias private constructor(val value: String) {
+
+    companion object {
+
+        private const val SEPARATOR = "-"
+
+        fun forEntry(entry: CatalogEntry): Alias {
+            val className = entry.javaClass.simpleName.replaceFirstChar { it.lowercaseChar() }
+            val outerEntry = entry.outerEntry
+            val result = if (outerEntry != null) outerEntry.alias + className else Alias(className)
+            return result
+        }
+    }
+
+    operator fun plus(value: String): Alias {
+        val newValue = this.value + SEPARATOR + value
+        val result = Alias(newValue)
+        return result
+    }
+
+    fun withoutSuffix(value: String): Alias {
+        val newValue = this.value.removeSuffix(SEPARATOR + value)
+        val result = Alias(newValue)
+        return result
+    }
+}

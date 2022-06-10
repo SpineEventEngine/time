@@ -228,13 +228,14 @@ package io.spine.internal.catalog.model
  * }
  * ```
  */
+@Suppress("LeakingThis") // `Alias.forEntry()` uses only final properties.
 abstract class CatalogEntry {
 
     private val standaloneLibs = mutableSetOf<LibraryRecord>()
     private val standaloneBundles = mutableSetOf<BundleRecord>()
     private val versionRecord: VersionRecord by lazy { versionRecord() }
-    private val outerEntry: CatalogEntry? = outerEntry()
-    private val alias: Alias = alias()
+    internal val outerEntry: CatalogEntry? = outerEntry()
+    internal val alias: Alias = Alias.forEntry(this)
 
     open val version: String? = null
 
@@ -248,14 +249,14 @@ abstract class CatalogEntry {
         delegate { property -> lib(property.name, module) }
 
     fun lib(name: String, module: String): CatalogRecord {
-        val libAlias = "$alias-$name"
+        val libAlias = alias + name
         val record = LibraryRecord(libAlias, module, versionRecord)
         return record.also { standaloneLibs.add(it) }
     }
 
     fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
         delegate { property ->
-            val bundleAlias = "$alias-${property.name}"
+            val bundleAlias = alias + property.name
             val libRecords = libs.asIterable().toLibraryRecords()
             val record = BundleRecord(bundleAlias, libRecords)
             record.also { standaloneBundles.add(it) }
@@ -292,7 +293,7 @@ abstract class CatalogEntry {
         }
 
         if (id != null) {
-            val pluginAlias = alias.removeSuffix("-gradlePlugin")
+            val pluginAlias = alias.withoutSuffix("gradlePlugin")
             val record = PluginRecord(pluginAlias, id!!, versionRecord)
             result.add(record)
         }
@@ -333,13 +334,6 @@ abstract class CatalogEntry {
         }
 
         return enclosingInstance
-    }
-
-    private fun alias(): String {
-        fun String.toCamelCase() = replaceFirstChar { it.lowercaseChar() }
-        val className = this::class.java.simpleName.toCamelCase()
-        val alias = if (outerEntry != null) "${outerEntry.alias}-$className" else className
-        return alias
     }
 
     private fun versionRecord(): VersionRecord = when {

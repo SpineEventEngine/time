@@ -29,7 +29,7 @@ package io.spine.internal.catalog.model
 import org.gradle.api.initialization.dsl.VersionCatalogBuilder
 
 /**
- * A single, atomic unit, which can be written into a version catalog.
+ * An atomic unit, which can be written into a version catalog.
  *
  * Records strictly reflect the way, the information is stored in the catalog.
  * Due to this fact, they don't need any preparations to be written there.
@@ -37,7 +37,7 @@ import org.gradle.api.initialization.dsl.VersionCatalogBuilder
  * This interface, doesn't represent a concrete catalog item. It serves as a common
  * foundation for other records.
  *
- * All concrete records are internal by design. They are used by [CatalogEntry]
+ * All concrete records are internal by design. They are assembled by [CatalogEntry]
  * under the hood and not meant to be exposed to end-users. All a user might need
  * to do with a record is to write it into the catalog, which can be done with
  * this public interface.
@@ -61,7 +61,7 @@ interface CatalogRecord {
 }
 
 /**
- * Represents a version, which can be directly written into a version catalog.
+ * A version, which can be directly written into a version catalog.
  *
  * [value] is a string representation of a version.
  *
@@ -73,18 +73,18 @@ internal data class VersionRecord(
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
-        catalog.version(alias, value)
+        catalog.version(alias.value, value)
     }
 }
 
 /**
- * Represents a library, which can be directly written into a version catalog.
+ * A library, which can be directly written into a version catalog.
  *
  * [module] is a group and artifact of a library, seperated by a colon.
  *
  * For example: `io.spine:spine-core`.
  *
- * A version of the library is obtained by referencing to the given [version record][version].
+ * A version of the library is referenced by the given [version record][version].
  */
 internal data class LibraryRecord(
     override val alias: Alias,
@@ -95,19 +95,19 @@ internal data class LibraryRecord(
     override fun writeTo(catalog: VersionCatalogBuilder) {
         val group = module.substringBefore(':')
         val artifact = module.substringAfter(':')
-        catalog.library(alias, group, artifact).versionRef(version.alias)
+        catalog.library(alias.value, group, artifact).versionRef(version.alias.value)
     }
 }
 
 /**
- * Represents a plugin, which can be directly written into a version catalog.
+ * A plugin, which can be directly written into a version catalog.
  *
  * [id] is a unique name, by which a plugin is represented in both Gradle Plugin Portal
  * and in the project.
  *
  * For example: `org.jetbrains.kotlin.jvm`.
  *
- * A version of the plugin is obtained by referencing to the given [version record][version].
+ * A version of the plugin is referenced by the given [version record][version].
  */
 internal data class PluginRecord(
     override val alias: Alias,
@@ -116,13 +116,12 @@ internal data class PluginRecord(
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
-        catalog.plugin(alias, id).versionRef(version.alias)
+        catalog.plugin(alias.value, id).versionRef(version.alias.value)
     }
 }
 
 /**
- * Represents a named set of libraries, which can be directly written into
- * a version catalog
+ * A named set of libraries, which can be directly written into a version catalog
  */
 internal data class BundleRecord(
     override val alias: Alias,
@@ -130,6 +129,6 @@ internal data class BundleRecord(
 ) : CatalogRecord {
 
     override fun writeTo(catalog: VersionCatalogBuilder) {
-        catalog.bundle(alias, libs.map { it.alias })
+        catalog.bundle(alias.value, libs.map { it.alias.value })
     }
 }
