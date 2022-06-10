@@ -34,7 +34,8 @@ import io.spine.internal.catalog.model.given.CatalogEntryTestEnv.Companion.plugi
 import io.spine.internal.catalog.model.given.CatalogEntryTestEnv.Companion.versionRecord
 import io.spine.internal.catalog.model.given.DirectInheritingEntry
 import io.spine.internal.catalog.model.given.EmptyRootEntry
-import io.spine.internal.catalog.model.given.ErroneousEntry
+import io.spine.internal.catalog.model.given.ErroneousLibraryEntry
+import io.spine.internal.catalog.model.given.ErroneousPluginEntry
 import io.spine.internal.catalog.model.given.ExtraBundleEntry
 import io.spine.internal.catalog.model.given.ExtraLibraryEntry
 import io.spine.internal.catalog.model.given.IndirectInheritingEntry
@@ -197,10 +198,20 @@ internal class CatalogEntryTest {
             }
         }
 
-        @Test
-        fun `throw if the version is needed, but not declared`() {
-            val entry = ErroneousEntry
-            assertThrows<IllegalStateException> { entry.allRecords() }
+        @Nested
+        inner class `throw an exception if the version is needed, but not declared for` {
+
+            @Test
+            fun `a library`() {
+                val entry = ErroneousLibraryEntry
+                assertThrows<IllegalStateException> { entry.allRecords() }
+            }
+
+            @Test
+            fun `a plugin`() {
+                val entry = ErroneousPluginEntry
+                assertThrows<IllegalStateException> { entry.allRecords() }
+            }
         }
 
         @Test

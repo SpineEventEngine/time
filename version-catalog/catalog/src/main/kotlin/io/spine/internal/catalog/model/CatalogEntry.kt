@@ -43,6 +43,8 @@ package io.spine.internal.catalog.model
  * Please note, only object declarations are meant to inherit from this class
  * and serve as concrete entries.
  *
+ * For example:
+ *
  * ```
  * internal object MyLib : CatalogEntry() {
  *     // ...
@@ -53,13 +55,13 @@ package io.spine.internal.catalog.model
  *
  * One entry can be put into another one. When an entry is [asked][allRecords]
  * for records, it will propagate the request down to its nested entries.
- * Thus, only root entries should be used for obtaining records.
+ * Thus, only root entries should be used to produce records.
  *
  * ## Aliasing
  *
  * Each item in a version catalog should have [Alias]. An entry sets aliases on
- * its own for items, declared within it. To do this, it takes object's name with
- * respect to its nesting.
+ * its own for items, declared within it. Automatic aliasing takes into account
+ * entry's nesting.
  *
  * One can declare an entry, which only hosts other entries. Thus, providing
  * a named scope for other declarations.
@@ -67,10 +69,10 @@ package io.spine.internal.catalog.model
  * Consider the following example:
  *
  * ```
- * internal object Runtime : CatalogEntry() { // alias = runtime
- *     object Linux : CatalogEntry() // alias = runtime.linux
- *     object Mac : CatalogEntry()   // alias = runtime.mac
- *     object Win : CatalogEntry()   // alias = runtime.win
+ * internal object Runtime : CatalogEntry() { // alias = "runtime"
+ *     object Linux : CatalogEntry() // alias = "runtime-linux"
+ *     object Mac : CatalogEntry()   // alias = "runtime-mac"
+ *     object Win : CatalogEntry()   // alias = "runtime-win"
  * }
  * ```
  *
@@ -104,8 +106,9 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * Sometimes, a library consists of several modules. Or even of a group of modules.
- * A group can be declared by a nested entry, and extra modules by a [delegated property][lib].
+ * Sometimes, a dependency consists of several libraries. Or even of a group
+ * of libraries. A group can be declared by a nested entry, and extra libraries
+ * by a [delegated property][lib].
  *
  * For example:
  *
@@ -126,9 +129,9 @@ package io.spine.internal.catalog.model
  * ```
  *
  * Please note, that nested `Adapters` entry doesn't declare a version. In cases,
- * when a version is not declared, an entry will try to fetch it from the parent.
- * Entry will go up to the root, searching for a version. If the version is needed,
- * but can't be found, an entry will throw an exception.
+ * when a version is not declared, an entry will try to fetch it from any
+ * parental entry. Entry will go up to the root entry, searching for a version.
+ * If the version is needed, but isn't found, an entry will throw an exception.
  *
  * ## Declaring plugins
  *
@@ -143,19 +146,19 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * A standalone plugin is a quite rare case. Usually, they are declared within
- * more complex entries, which represent frameworks or big libraries that
- * consists of several modules. A plugin can also be supplemented with a library,
- * that makes possible applying it from `buildSrc`.
+ * A standalone plugin is also a quite rare case. Usually, they are declared
+ * within more complex entries, which represent frameworks or big libraries.
+ * A plugin can also be supplemented with a library, that makes possible applying
+ * it from `buildSrc`.
  *
  * For example:
  *
  * ```
- * internal object MyLib : VersionEntry() {
+ * internal object MyLib : CatalogEntry() {
  *     private const val group = "com.company"
  *     // ...
  *
- *     object GradlePlugin : PluginEntry() {
+ *     object GradlePlugin : CatalogEntry() {
  *         override val version = "1.2.3"           // libs.versions.myLib.gradlePlugin
  *         override val module = "$group:my-plugin" // libs.myLib.gradlePlugin
  *         override val id = "$group.plugin"        // libs.plugins.myLib (without `gradlePlugin`!)
@@ -163,13 +166,16 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * Please note, that `GradlePlugin` is a special name for entries. Such an entry
- * will not append `gradlePlugin` suffix for [id] item.
+ * In the example above, comments show the resulting generated accessors. Please note,
+ * that `GradlePlugin` is a special name for entries. Such an entry will not append
+ * `gradlePlugin` suffix for [id] item. It is done in order not to repeat yourself
+ * in naming. Otherwise, we would come up with this: `libs.plugins.myLib.gradlePlugin`.
  *
  * ## Declaring bundles
  *
  * A bundle is a named set of libraries. One can compose a bundle out of already
- * declared extra modules, in-place module declarations or entries (which declare module).
+ * declared extra libraries, in-place library declarations or entries, which
+ * declare a library.
  *
  * For example:
  *
@@ -206,7 +212,7 @@ package io.spine.internal.catalog.model
  * ```
  *
  * There's also a possibility to declare extra bundles on top of the current entry.
- * Just like with extra modules, using a [property delegate][bundle].
+ * Just like with extra libraries, using a [property delegate][bundle].
  *
  * For example:
  *
@@ -228,40 +234,156 @@ package io.spine.internal.catalog.model
  * }
  * ```
  */
-@Suppress("LeakingThis") // `Alias.forEntry()` uses only final properties.
 abstract class CatalogEntry {
 
-    private val standaloneLibs = mutableSetOf<LibraryRecord>()
-    private val standaloneBundles = mutableSetOf<BundleRecord>()
+    private val extraLibs = mutableSetOf<LibraryRecord>()
+    private val extraBundles = mutableSetOf<BundleRecord>()
     private val versionRecord: VersionRecord by lazy { versionRecord() }
+
+    /**
+     * A direct parent of this entry, if any.
+     */
     internal val outerEntry: CatalogEntry? = outerEntry()
+
+    /**
+     * An alias of this entry.
+     *
+     * All items, declared within this entry, will receive this alias.
+     *
+     * [Extra libraries][lib] and [bundles][bundle], declared on top of this
+     * entry, will also use this alias as a base for their own aliases.
+     */
+    @Suppress("LeakingThis") // `Alias.forEntry()` uses only final properties.
     internal val alias: Alias = Alias.forEntry(this)
 
+    /**
+     * Optionally, this entry can declare a version.
+     *
+     * In order to do that, override this property, specifying a string
+     * representation of a version.
+     *
+     * For example: `2.0.0-SNAPSHOT.21`.
+     *
+     * A declared version will inherit entry's [alias].
+     */
     open val version: String? = null
 
+    /**
+     * Optionally, this entry can declare a library.
+     *
+     * In order to do that, override this property, specifying a group and artifact
+     * of a library, seperated by a colon.
+     *
+     * For example: `io.spine:spine-core`.
+     *
+     * A declared library will inherit entry's [alias].
+     *
+     * When declaring [module], make sure that this entry or any parental one
+     * declares [version]. A library can't be declared without version.
+     */
     open val module: String? = null
 
+    /**
+     * Optionally, this entry can declare a plugin.
+     *
+     * In order to do that, override this property, specifying a plugin id.
+     *
+     * A declared plugin will inherit entry's [alias].
+     *
+     * When declaring [id], make sure that this entry or any parental one
+     * declares [version]. A plugin can't be declared without version.
+     */
     open val id: String? = null
 
+    /**
+     * Optionally, this entry can declare a bundle (named set of libraries).
+     *
+     * In order to do that, override this property, specifying a set of libraries.
+     *
+     * The following declarations are acceptable to pass into this set:
+     *
+     *  1. [CatalogEntry]s which declare [module].
+     *  2. Extra libraries, created by a [delegated property][lib].
+     *  3. Extra libraries, declared by a [method][lib] right in this set.
+     *
+     *  An example snippet is present in `Declaring bundles` section of
+     *  documentation to [CatalogEntry].
+     *
+     * A declared bundle will inherit entry's [alias].
+     */
     open val bundle: Set<Any>? = null
 
+    /**
+     * Declares an extra library on the top of this entry, using property delegation.
+     *
+     * An example usage:
+     *
+     * ```
+     * val core by lib("my.company:core-lib")
+     * ```
+     *
+     * The resulting alias fot this library is based on entry's [alias] and
+     * a property name.
+     */
     fun lib(module: String): MemoizingDelegate<CatalogRecord> =
         delegate { property -> lib(property.name, module) }
 
+    /**
+     * Declares an extra library on the top of this entry.
+     *
+     * This method exists to declare libraries right in bundle declarations:
+     *
+     * ```
+     * val bundle = setOf(
+     *     lib("core", "my.company:core-lib"),
+     *     lib("types", "my.company:types-lib"),
+     *     lib("lang", "my.company:lang-lib")
+     * )
+     * ```
+     *
+     * The resulting alias fot this library is based on entry's [alias] and
+     * a property name.
+     */
     fun lib(name: String, module: String): CatalogRecord {
         val libAlias = alias + name
         val record = LibraryRecord(libAlias, module, versionRecord)
-        return record.also { standaloneLibs.add(it) }
+        return record.also { extraLibs.add(it) }
     }
 
+    /**
+     * Declares an extra bundle on top of this entry, using property delegation.
+     *
+     * An example usage:
+     *
+     * ```
+     * val runtime by bundle(
+     *     lib("mac", "my.company:mac-lib"),
+     *     lib("linux", "my.company:linux-lib"),
+     *     lib("win", "my.company:win-lib")
+     * )
+     * ```
+     *
+     * The resulting alias fot this bundle is based on entry's [alias] and
+     * a property name.
+     */
     fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
         delegate { property ->
             val bundleAlias = alias + property.name
             val libRecords = libs.asIterable().toLibraryRecords()
             val record = BundleRecord(bundleAlias, libRecords)
-            record.also { standaloneBundles.add(it) }
+            record.also { extraBundles.add(it) }
         }
 
+    /**
+     * Produces [CatalogRecord]s out of declarations, performed within this
+     * entry and its nested entries.
+     *
+     * When an entry is asked for records, it will propagate the request down
+     * to its nested entries. For this reason, this method should be called only
+     * on top-level (root) entries.
+     *
+     * Calling of this method on a nested entry leads to an exception.
+     */
     fun allRecords(): Set<CatalogRecord> {
 
         if (outerEntry != null) {
@@ -293,7 +415,7 @@ abstract class CatalogEntry {
         }
 
         if (id != null) {
-            val pluginAlias = alias.withoutSuffix("gradlePlugin")
+            val pluginAlias = alias - "gradlePlugin"
             val record = PluginRecord(pluginAlias, id!!, versionRecord)
             result.add(record)
         }
@@ -304,8 +426,8 @@ abstract class CatalogEntry {
             result.add(record)
         }
 
-        standaloneLibs.forEach { result.add(it) }
-        standaloneBundles.forEach { result.add(it) }
+        extraLibs.forEach { result.add(it) }
+        extraBundles.forEach { result.add(it) }
 
         return result
     }

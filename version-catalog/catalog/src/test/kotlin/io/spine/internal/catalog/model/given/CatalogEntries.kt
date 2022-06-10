@@ -119,9 +119,16 @@ internal object IndirectInheritingEntry : CatalogEntry() {
 }
 
 @Suppress("unused")
-internal object ErroneousEntry : CatalogEntry() {
+internal object ErroneousLibraryEntry : CatalogEntry() {
     object Nested : CatalogEntry() {
         override val module = "com.company:lib"
+    }
+}
+
+@Suppress("unused")
+internal object ErroneousPluginEntry : CatalogEntry() {
+    object Nested : CatalogEntry() {
+        override val id = "com.company:lib"
     }
 }
 
