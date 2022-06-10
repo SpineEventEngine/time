@@ -35,10 +35,10 @@ import io.spine.internal.catalog.model.CatalogEntry
  * functional testing.
  *
  * Side comments to certain statements demonstrate how those lines will
- * be represented in the generated type-safe accessors.
+ * be represented in the generated type-safe accessors. `libs` is a conventional
+ * name for version catalogs.
  *
- * Source code of this dependency is shown in README file to the module.
- * As for now, an automatic rendering of this file is NOT configured.
+ * Source code of this dependency is shown in README file of the module.
  * Thus, when modifying this dependency, put the updated code to `README.md`.
  */
 @Suppress("unused", "MemberVisibilityCanBePrivate")
@@ -52,19 +52,19 @@ internal object Dummy : CatalogEntry() {
     val runner by lib("$group:dummy-runner") // libs.dummy.runner
     val api by lib("$group:dummy-api")       // libs.dummy.api
 
-    // In bundles, you can reference already declared libs,
-    // or create them in-place.
+    // In bundles, you can reference entries (which declare module), extra
+    // libraries or declare them in-place.
 
     override val bundle = setOf( // libs.bundles.dummy
+        this,
         core, runner, api,
         lib("params", "$group:dummy-params"), // libs.dummy.params
         lib("types", "$group:dummy-types"),   // libs.dummy.types
     )
 
-    // "GradlePlugin" - is a special entry name for `PluginEntry`.
-    // For plugin entries with this name, the facade will not put "gradlePlugin"
-    // suffix for a plugin's ID. Note, that we have this suffix for the version
-    // and module, and does not have for ID.
+    // "GradlePlugin" - is a special entry name. "gradlePlugin" suffix will not be
+    // put for a final plugin alias. Note, that in an example below, we have this
+    // suffix for the version and module, and does not have for ID.
 
     object GradlePlugin : CatalogEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
@@ -75,7 +75,7 @@ internal object Dummy : CatalogEntry() {
     object Runtime : CatalogEntry() {
 
         // When an entry does not override the version, it is taken from
-        // the outer entry. For example, in this case, all libs within "Runtime"
+        // the parent entry. For example, in this case, all libs within "Runtime"
         // entry will have "1.0.0".
 
         val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
@@ -88,20 +88,13 @@ internal object Dummy : CatalogEntry() {
         }
     }
 
-    // A library that is declared as `object SomeLib : LibraryEntry()` can be
-    // referenced as well as the one declared by `lib()` delegate.
+    // It's also possible to declare an extra bundle by a property delegate.
+    // Just like with extra modules.
 
     val runtime by bundle( // libs.bundles.dummy.runtime
-        this,
         Runtime.BOM,
         Runtime.win,
         Runtime.mac,
         Runtime.linux,
     )
-
-    // It is also possible to declare just a bare version.
-
-    object Tools : CatalogEntry() {
-        override val version = "3.0.0" // libs.versions.dummy.tools
-    }
 }

@@ -62,6 +62,7 @@ with(libs.dummy) {
 
 assert(
     libs.bundles.dummy, "[" +
+            "$group:dummy-lib:1.0.0, " +
             "$group:dummy-core:1.0.0, " +
             "$group:dummy-runner:1.0.0, " +
             "$group:dummy-api:1.0.0, " +
@@ -85,12 +86,9 @@ with(libs.dummy.runtime) {
 assert(
     libs.bundles.dummy.runtime,
     "[" +
-            "$group:dummy-lib:1.0.0, " +
             "$group:dummy-bom:2.0.0, " +
             "$group:runtime-win:1.0.0, " +
             "$group:runtime-mac:1.0.0, " +
             "$group:runtime-linux:1.0.0" +
             "]"
 )
-
-assert(libs.versions.dummy.tools, "3.0.0")

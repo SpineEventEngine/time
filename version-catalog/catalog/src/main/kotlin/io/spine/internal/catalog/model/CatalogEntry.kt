@@ -51,13 +51,15 @@ package io.spine.internal.catalog.model
  *
  * ## Nesting
  *
- * One entry can be put into another one. This way entries can form a hierarchy.
- * When an entry is [asked][allRecords] for records, it will propagate the
- * request down the hierarchy. Thus, only root entries should be asked for records.
+ * One entry can be put into another one. When an entry is [asked][allRecords]
+ * for records, it will propagate the request down to its nested entries.
+ * Thus, only root entries should be used for obtaining records.
  *
- * Also, each item in a version catalog should have [Alias]. An entry sets aliases
- * on its own for items, declared within it. To do this, it takes object's name
- * with respect to its nesting.
+ * ## Aliasing
+ *
+ * Each item in a version catalog should have [Alias]. An entry sets aliases on
+ * its own for items, declared within it. To do this, it takes object's name with
+ * respect to its nesting.
  *
  * One can declare an entry, which only hosts other entries. Thus, providing
  * a named scope for other declarations.
@@ -75,9 +77,9 @@ package io.spine.internal.catalog.model
  * See documentation to [Alias] to see how a type-safe accessor is generated
  * from an alias.
  *
- * ## Versions
+ * ## Declaring versions
  *
- * An entry which declares only a version is a quite rare case. Such entries
+ * An entry which declares only a bare version is a quite rare case. Such entries
  * can be used to declare a version of used tools.
  *
  * An example of how to declare a bare version:
@@ -88,7 +90,7 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * ## Libraries
+ * ## Declaring libraries
  *
  * The most common case is a declaring a library. Most entries just declare a
  * single library.
@@ -125,8 +127,10 @@ package io.spine.internal.catalog.model
  *
  * Please note, that nested `Adapters` entry doesn't declare a version. In cases,
  * when a version is not declared, an entry will try to fetch it from the parent.
+ * Entry will go up to the root, searching for a version. If the version is needed,
+ * but can't be found, an entry will throw an exception.
  *
- * ## Plugins
+ * ## Declaring plugins
  *
  * The minimum, required to declare a plugin is a [version] and [id].
  *
@@ -162,10 +166,10 @@ package io.spine.internal.catalog.model
  * Please note, that `GradlePlugin` is a special name for entries. Such an entry
  * will not append `gradlePlugin` suffix for [id] item.
  *
- * ## Bundles
+ * ## Declaring bundles
  *
- * A bundle is a named set of libraries. One can compose a bundle out of
- * extra modules, in-place module declarations or entries (which declare module).
+ * A bundle is a named set of libraries. One can compose a bundle out of already
+ * declared extra modules, in-place module declarations or entries (which declare module).
  *
  * For example:
  *
@@ -258,19 +262,23 @@ abstract class CatalogEntry {
         }
 
     fun allRecords(): Set<CatalogRecord> {
-        val result = mutableSetOf<CatalogRecord>()
 
-        val fromThisEntry = records()
-        result.addAll(fromThisEntry)
+        if (outerEntry != null) {
+            throw IllegalStateException("Only root entries can produce records!")
+        }
 
-        val nestedEntries = nestedEntries()
-        val fromNested = nestedEntries.flatMap { it.allRecords() }
-        result.addAll(fromNested)
-
-        return result
+        val allRecords = records()
+        return allRecords
     }
 
     private fun records(): Set<CatalogRecord> {
+        val fromThisEntry = recordsFromThisEntry()
+        val fromNested = recordsFromNested()
+        val result = fromThisEntry + fromNested
+        return result
+    }
+
+    private fun recordsFromThisEntry(): Set<CatalogRecord> {
         val result = mutableSetOf<CatalogRecord>()
 
         if (version != null) {
@@ -298,6 +306,14 @@ abstract class CatalogEntry {
         standaloneLibs.forEach { result.add(it) }
         standaloneBundles.forEach { result.add(it) }
 
+        return result
+    }
+
+    private fun recordsFromNested(): Set<CatalogRecord> {
+        val result = mutableSetOf<CatalogRecord>()
+        val nestedEntries = nestedEntries()
+        val fromNested = nestedEntries.flatMap { it.records() }
+        result.addAll(fromNested)
         return result
     }
 

@@ -23,3 +23,27 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+package io.spine.internal.catalog.model.given
+
+import io.spine.internal.catalog.model.BundleRecord
+import io.spine.internal.catalog.model.CatalogRecord
+import io.spine.internal.catalog.model.LibraryRecord
+import io.spine.internal.catalog.model.PluginRecord
+import io.spine.internal.catalog.model.VersionRecord
+
+internal class CatalogEntryTestEnv {
+    companion object {
+
+        fun versionRecord(records: Iterable<CatalogRecord>): VersionRecord = typedRecord(records)
+
+        fun libraryRecord(records: Iterable<CatalogRecord>): LibraryRecord = typedRecord(records)
+
+        fun pluginRecord(records: Iterable<CatalogRecord>): PluginRecord = typedRecord(records)
+
+        fun bundleRecord(records: Iterable<CatalogRecord>): BundleRecord = typedRecord(records)
+
+        private inline fun <reified T> typedRecord(records: Iterable<CatalogRecord>): T =
+            records.first { it is T } as T
+    }
+}
