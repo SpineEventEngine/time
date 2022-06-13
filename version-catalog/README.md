@@ -45,7 +45,7 @@ In order to add a new dependency to this catalog, perform the following steps:
  1. Go to `catalog` module.
  2. Open `io.spine.internal.catalog.entry` package.
  3. Create a new file there, which contains an object declaration, named after 
-a dependency, that is being added.
+    a dependency, that is being added.
  4. Make an object inherit from `CatalogEntry`. 
  5. Perform all necessary declarations within this object.
  6. Publish a new version of the catalog.
@@ -194,18 +194,17 @@ and doesn't relate anyhow to `time`.
 `spine-version-catalog` consists of two modules:
 
 1. `catalog` – provides a facade upon Gradle's provided `VersionCatalogBuilder`
-and assembles `SpineVersionCatalog`, using that facade.
-
+   and assembles `SpineVersionCatalog`, using that facade.
 2. `func-test` – performs testing of the facade with a real instance of `VersionCatalogBuilder`.
-To do that, the module does the following:
+   To do that, the module does the following:
 
    1. Assembles a `dummy-catalog` with a single `Dummy` dependency and publishes
-   it to Maven local. In order to declare `Dummy`, the module depends on `:catalog`, 
-   which exposes the declarative facade.
+      it to Maven local. In order to declare `Dummy`, the module depends on `:catalog`, 
+      which exposes the declarative facade.
    2. Makes `dummy-project` use `dummy-catalog` from Maven local. 
-   3. Builds `dummy-project`. It has assertions in its build file. Those assertions verify
-   the generated type-safe accessors to `Dummy` dependency. When any of assertions
-   fails, the test fails accordingly.
+   3. Builds `dummy-project`. It has assertions in its build file. Those assertions 
+      verify the generated type-safe accessors to `Dummy` dependency. When any 
+      of assertions fails, the test fails accordingly.
 
 
 ## Details about Functional Testing
