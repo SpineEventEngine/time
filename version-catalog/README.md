@@ -191,20 +191,17 @@ Within this PR, `spine-version-catalog` is a resident of `time` repository, but
 it is a standalone project. Meaning, it has its own Gradle's `settings` file,
 and doesn't relate anyhow to `time`.
 
-`spine-version-catalog` consists of several modules:
+`spine-version-catalog` consists of two modules:
 
-1. `api` – represents a facade upon Gradle's provided `VersionCatalogBuilder`. 
-This module hides an imperative nature of the builder, and, instead, provides
-a declarative API to declare dependencies using Kotlin objects.
+1. `catalog` – provides a facade upon Gradle's provided `VersionCatalogBuilder`
+and assembles `SpineVersionCatalog`, using that facade.
 
-2. `catalog` – contains all dependencies, declared using the declarative `api`. 
-The module publishes `SpineVersionCatalog`.
-
-3. `func-test` – performs testing of `api` with a real `VersionCatalogBuilder`.
+2. `func-test` – performs testing of the facade with a real instance of `VersionCatalogBuilder`.
 To do that, the module does the following:
 
    1. Assembles a `dummy-catalog` with a single `Dummy` dependency and publishes
-   it to Maven local.
+   it to Maven local. In order to declare `Dummy`, the module depends on `:catalog`, 
+   which exposes the declarative facade.
    2. Makes `dummy-project` use `dummy-catalog` from Maven local. 
    3. Builds `dummy-project`. It has assertions in its build file. Those assertions verify
    the generated type-safe accessors to `Dummy` dependency. When any of assertions
@@ -212,20 +209,6 @@ To do that, the module does the following:
 
 
 ## Details about Functional Testing
-
-`func-test` module sets the next dependencies for `test` task:
-
-```kotlin
-test {
-    dependsOn(
-        ":api:publishToMavenLocal",
-        ":func-test:dummy-catalog:publishToMavenLocal"
-    )
-}
-```
-
-It is so, because `dummy-project` (which the test builds), fetches `dummy-catalog` 
-from Maven local. Which, in turn, depends on `api` module. Thus, we need them both in Maven local.
 
 We have to do a true functional testing here, because Gradle does not provide 
 a test fixture for `Settings`, as it does for `Project`. For this reason, we test 

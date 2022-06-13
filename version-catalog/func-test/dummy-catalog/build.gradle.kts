@@ -29,7 +29,8 @@ plugins {
 }
 
 dependencies {
-    // Defines declarative API for dependencies.
+    // Provides declarative API for dependencies.
+    // It is a facade upon Gradle's provided `VersionCatalogBuilder`.
     implementation(project(":catalog"))
 }
 
@@ -45,8 +46,9 @@ publishing {
 }
 
 tasks {
+    // It will be impossible to use this module from Maven local without `:catalog`.
+    // As this module depends on it.
     named("publishToMavenLocal") {
-        // We can't use this module from Maven local without `:catalog`.
         dependsOn(":catalog:publishToMavenLocal")
     }
 }
