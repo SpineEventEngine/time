@@ -82,7 +82,7 @@ internal object Dummy : CatalogEntry() {
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
         val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
 
-        object BOM : CatalogEntry() {
+        object Bom : CatalogEntry() {
             override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
             override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
         }
@@ -92,7 +92,7 @@ internal object Dummy : CatalogEntry() {
     // Just like with extra modules.
 
     val runtime by bundle( // libs.bundles.dummy.runtime
-        Runtime.BOM,
+        Runtime.Bom,
         Runtime.win,
         Runtime.mac,
         Runtime.linux,
