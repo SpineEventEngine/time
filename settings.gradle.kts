@@ -47,7 +47,7 @@ buildscript {
     }
     dependencies {
         // We don't apply any plugins.
-        // We just put our code on a classpath of settings script.
+        // We just put `SpineVersionCatalog` class on a classpath of settings script.
         classpath("io.spine.internal:spine-version-catalog:+")
     }
 }

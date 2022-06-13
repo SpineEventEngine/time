@@ -33,7 +33,7 @@ buildscript {
     }
     dependencies {
         // We don't apply any plugins.
-        // We just put our code on a classpath of settings script.
+        // We just put `SpineVersionCatalog` class on a classpath of settings script.
         classpath("io.spine.internal:spine-version-catalog:+")
     }
 }
@@ -42,13 +42,14 @@ dependencyResolutionManagement {
     versionCatalogs {
 
         /*
-         The code, we have put on a classpath, exposes a class `SpineVersionCatalog`,
-         which can execute actions upon `VersionCatalogBuilder`.
+         `SpineVersionCatalog` is not a plugin, it just exposes a method, which
+         operates upon Gradle's provided `VersionCatalogBuilder`, filling it up
+         with items.
 
          It is so because we want to preserve a possibility of overwrite.
          Currently, Gradle does not provide a clear way to perform overwrite for
-         already created catalogs. Thus, it is a responsibility of end-users
-         to create catalogs. `SpineVersionCatalog` just operates upon the given builder.
+         ALREADY CREATED catalogs. Thus, a plugin can't create the catalog, and
+         it's a responsibility of end-users to it.
 
          In order to override a version, shipped by the catalog, one should
          declare it BEFORE applying the catalog to the builder. Versions,
@@ -80,7 +81,7 @@ dependencyResolutionManagement {
             version("kotlin", "1.5.31")
             version("kotlinX-coroutines", "1.5.2")
 
-            // Fills up this catalog with our dependencies.
+            // Fills up this builder.
             SpineVersionCatalog.useIn(this)
         }
     }
