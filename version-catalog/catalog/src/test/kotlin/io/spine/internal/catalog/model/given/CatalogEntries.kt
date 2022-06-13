@@ -37,9 +37,10 @@ internal object LibraryEntry : CatalogEntry() {
     override val module = "com.company:lib"
 }
 
-@Suppress("unused")
 internal object ExtraLibraryEntry : CatalogEntry() {
     override val version = "el0.0.1"
+
+    @Suppress("unused")
     val core by lib("com.company:core-lib")
 }
 
@@ -60,11 +61,14 @@ internal object BundleEntry : CatalogEntry() {
     )
 }
 
-@Suppress("unused", "MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate")
 internal object ExtraBundleEntry : CatalogEntry() {
     override val version = "b0.0.1"
     override val module = "com.company:lib"
+
     val core by lib("com.company:core-lib")
+
+    @Suppress("unused")
     val full by bundle(
         this,
         core,
@@ -74,19 +78,21 @@ internal object ExtraBundleEntry : CatalogEntry() {
 
 internal object EmptyRootEntry : CatalogEntry()
 
-@Suppress("unused")
 internal object RootEntry : CatalogEntry() {
 
     override val version = "re0.0.0"
 
+    @Suppress("unused")
     object FirstChild : CatalogEntry() {
         override val version = "fc0.0.0"
     }
 
+    @Suppress("unused")
     object SecondChild : CatalogEntry() {
         override val version = "sc0.0.0"
     }
 
+    @Suppress("unused")
     object ThirdChild : CatalogEntry() {
 
         override val version = "tc0.0.0"
@@ -97,43 +103,42 @@ internal object RootEntry : CatalogEntry() {
     }
 }
 
-@Suppress("unused")
 internal object DirectInheritingEntry : CatalogEntry() {
     override val version = "dvi0.0.1"
 
+    @Suppress("unused")
     object Inheritor : CatalogEntry() {
         override val module = "com.company:lib"
     }
 }
 
-@Suppress("unused")
 internal object IndirectInheritingEntry : CatalogEntry() {
     override val version = "ivi0.0.1"
 
+    @Suppress("unused")
     object Separator : CatalogEntry() {
-
         object Inheritor : CatalogEntry() {
             override val module = "com.company:lib"
         }
     }
 }
 
-@Suppress("unused")
 internal object ErroneousLibraryEntry : CatalogEntry() {
+    @Suppress("unused")
     object Nested : CatalogEntry() {
         override val module = "com.company:lib"
     }
 }
 
-@Suppress("unused")
 internal object ErroneousPluginEntry : CatalogEntry() {
+    @Suppress("unused")
     object Nested : CatalogEntry() {
         override val id = "com.company:lib"
     }
 }
 
-@Suppress("unused")
 internal object WithPluginEntry : CatalogEntry() {
+    @Suppress("unused")
     internal object GradlePlugin : CatalogEntry() {
         override val version = "gp0.0.2"
         override val id = "my.plugin"

@@ -107,8 +107,8 @@ package io.spine.internal.catalog.model
  * ```
  *
  * Sometimes, a dependency consists of several libraries. Or even of a group
- * of libraries. A group can be declared by a nested entry, and extra libraries
- * by a [delegated property][lib].
+ * of libraries. A group can be extracted into a nested entry, and extra libraries
+ * can be declared by a [delegated property][lib].
  *
  * For example:
  *
@@ -129,9 +129,9 @@ package io.spine.internal.catalog.model
  * ```
  *
  * Please note, that nested `Adapters` entry doesn't declare a version. In cases,
- * when a version is not declared, an entry will try to fetch it from any
- * parental entry. Entry will go up to the root entry, searching for a version.
- * If the version is needed, but isn't found, an entry will throw an exception.
+ * when a version is not declared, an entry will try to fetch it from the closest
+ * parental entry, which has one. If the version is needed, but isn't found,
+ * an entry will throw an exception.
  *
  * ## Declaring plugins
  *
@@ -166,7 +166,7 @@ package io.spine.internal.catalog.model
  * }
  * ```
  *
- * In the example above, comments show the resulting generated accessors. Please note,
+ * In the example above, comments show the resulted generated accessors. Please note,
  * that `GradlePlugin` is a special name for entries. Such an entry will not append
  * `gradlePlugin` suffix for [id] item. It is done in order not to repeat yourself
  * in naming. Otherwise, we would come up with this: `libs.plugins.myLib.gradlePlugin`.
@@ -197,14 +197,14 @@ package io.spine.internal.catalog.model
  *
  *     override val bundle = setOf(
  *
- *         // entries, which declare `module`
+ *         // Entries, which declare `module`.
  *         this, Runner,
  *
- *         // extra modules
+ *         // Extra libraries, declared by `lib` delegate.
  *         Adapters.html4,
  *         Adapters.html5,
  *
- *         // in-place declarations
+ *         // In-place declarations.
  *         lib("linter", "$group:linter"),
  *         lib("core", "$group:core"),
  *     )
@@ -271,8 +271,8 @@ abstract class CatalogEntry {
     /**
      * Optionally, this entry can declare a library.
      *
-     * In order to do that, override this property, specifying a group and artifact
-     * of a library, seperated by a colon.
+     * In order to do that, override this property, specifying a group and
+     * artifact of a library, seperated by a colon.
      *
      * For example: `io.spine:spine-core`.
      *
@@ -288,6 +288,8 @@ abstract class CatalogEntry {
      *
      * In order to do that, override this property, specifying a plugin id.
      *
+     * For example: `org.jetbrains.kotlin.jvm`.
+     *
      * A declared plugin will inherit entry's [alias].
      *
      * When declaring [id], make sure that this entry or any parental one
@@ -300,10 +302,10 @@ abstract class CatalogEntry {
      *
      * In order to do that, override this property, specifying a set of libraries.
      *
-     * The following declarations are acceptable to pass into this set:
+     * The following declarations are acceptable to be passed into this set:
      *
      *  1. [CatalogEntry]s which declare [module].
-     *  2. Extra libraries, created by a [delegated property][lib].
+     *  2. Extra libraries, declared by a [delegated property][lib].
      *  3. Extra libraries, declared by a [method][lib] right in this set.
      *
      *  An example snippet is present in `Declaring bundles` section of
@@ -314,7 +316,7 @@ abstract class CatalogEntry {
     open val bundle: Set<Any>? = null
 
     /**
-     * Declares an extra library on the top of this entry, using property delegation.
+     * Declares an extra library on top of this entry, using property delegation.
      *
      * An example usage:
      *
@@ -322,16 +324,16 @@ abstract class CatalogEntry {
      * val core by lib("my.company:core-lib")
      * ```
      *
-     * The resulting alias fot this library is based on entry's [alias] and
+     * The resulting alias fot this library is entry's [alias] followed by
      * a property name.
      */
     fun lib(module: String): MemoizingDelegate<CatalogRecord> =
         delegate { property -> lib(property.name, module) }
 
     /**
-     * Declares an extra library on the top of this entry.
+     * Declares an extra library on top of this entry.
      *
-     * This method exists to declare libraries right in bundle declarations:
+     * This method allows declaring libraries right in bundle declarations:
      *
      * ```
      * val bundle = setOf(
@@ -341,8 +343,8 @@ abstract class CatalogEntry {
      * )
      * ```
      *
-     * The resulting alias fot this library is based on entry's [alias] and
-     * a property name.
+     * The resulting alias fot this library is entry's [alias] followed by
+     * the given name.
      */
     fun lib(name: String, module: String): CatalogRecord {
         val libAlias = alias + name
@@ -353,17 +355,16 @@ abstract class CatalogEntry {
     /**
      * Declares an extra bundle on top of this entry, using property delegation.
      *
-     * An example usage:
+     * The following declarations are acceptable to be passed into this set:
      *
-     * ```
-     * val runtime by bundle(
-     *     lib("mac", "my.company:mac-lib"),
-     *     lib("linux", "my.company:linux-lib"),
-     *     lib("win", "my.company:win-lib")
-     * )
-     * ```
+     *  1. [CatalogEntry]s which declare [module].
+     *  2. Extra libraries, declared by a [delegated property][lib].
+     *  3. Extra libraries, declared by a [method][lib] right in this set.
      *
-     * The resulting alias fot this bundle is based on entry's [alias] and
+     *  An example snippet is present in `Declaring bundles` section of
+     *  documentation to [CatalogEntry].
+     *
+     * The resulting alias fot this library is entry's [alias] followed by
      * a property name.
      */
     fun bundle(vararg libs: Any): MemoizingDelegate<CatalogRecord> =
@@ -461,7 +462,7 @@ abstract class CatalogEntry {
     private fun versionRecord(): VersionRecord = when {
         version != null -> VersionRecord(alias, version!!)
         outerEntry != null -> outerEntry.versionRecord
-        else -> throw IllegalStateException("Specify version in this entry or any parent one!")
+        else -> throw IllegalStateException("Specify version in this entry or any parental one!")
     }
 
     private fun Iterable<Any>.toLibraryRecords(): Set<LibraryRecord> {

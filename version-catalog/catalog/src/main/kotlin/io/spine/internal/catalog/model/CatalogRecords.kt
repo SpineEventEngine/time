@@ -47,8 +47,6 @@ interface CatalogRecord {
     /**
      * A name, by which this record will be known in the catalog.
      *
-     * For example: `kotlin.stdLib.common.jvm`.
-     *
      * See documentation to [Alias] to see how a type-safe accessor is generated
      * from an alias.
      */

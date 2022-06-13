@@ -35,7 +35,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 /**
  * Verifies the generated type-safe accessors for `Dummy` dependency.
  *
- * `Dummy` dependency is an imaginary library, which exists for two reasons:
+ * `Dummy` is an imaginary dependency, which exists for two reasons:
  *
  *  1. Showcasing API for dependency declarations.
  *  2. Functional testing in conditions, which are very close to real life.

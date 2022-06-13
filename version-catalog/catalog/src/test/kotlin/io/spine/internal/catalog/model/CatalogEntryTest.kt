@@ -245,7 +245,7 @@ internal class CatalogEntryTest {
         }
 
         @Test
-        fun `throw on request to produce records`() {
+        fun `throw an exception on request to produce records`() {
             val entry = OuterEntry.Nested
             assertThrows<IllegalStateException> { entry.allRecords() }
         }

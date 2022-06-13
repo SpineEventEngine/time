@@ -32,11 +32,11 @@ import org.reflections.Reflections
 import org.reflections.util.ConfigurationBuilder
 
 /**
- * This catalog contains dependencies, which are used in Spine-related projects.
+ * Contains dependencies, which are used in Spine-related projects.
  *
  * In order to use this catalog, one should perform the following:
  *
- *  1. Obtain this class on a classpath of settings file.
+ *  1. Obtain this class on a classpath of `settings.gradle.kts` file.
  *  2. Create a version catalog. `libs` is a conventional name to go with.
  *  3. Call [useIn] on a newly created catalog.
  *
@@ -66,8 +66,9 @@ import org.reflections.util.ConfigurationBuilder
  * ```
  *
  * In order to add a new dependency to this catalog, create an object declaration
- * in [io.spine.internal.catalog.entry] package. Take a look on a special `Dummy`
- * dependency in README file to quickly grasp API of a dependency declaration.
+ * that inherits from [CatalogEntry] in [io.spine.internal.catalog.entry] package.
+ * Take a look on a special `Dummy` dependency in README file to quickly grasp API
+ * of a dependency declaration.
  */
 @Suppress("unused")
 class SpineVersionCatalog {
@@ -95,8 +96,7 @@ class SpineVersionCatalog {
          * the following criteria:
          *
          *  1. Be an object declaration. Only objects can serve as concrete entries.
-         *  2. Be a top-level declared. Only root entries should be asked for records.
-         *     Then, they will ask their nested entries accordingly.
+         *  2. Be top-level declared. Only root entries can be asked for records.
          */
         private fun findEntries(): Set<CatalogEntry> {
             val builder = ConfigurationBuilder().forPackage(pkg)

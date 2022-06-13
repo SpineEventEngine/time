@@ -59,10 +59,10 @@ package io.spine.internal.catalog.model
  * "kotlinX-runtime-clr" => libs.kotlinX.runtime.clr
  * ```
  *
- * Depending on which type of item an alias points, the resulting accessor
+ * Depending on which type of item an alias points to, the resulting accessor
  * may have additional prefixes.
  *
- * Below are accessor patterns for different types of item:
+ * Below are accessor patterns for different types of items:
  *
  *  1. Library: `{catalog name}.{alias}`.
  *  2. Version: `{catalog name}.versions.{alias}`.
@@ -75,9 +75,7 @@ value class Alias private constructor(val value: String) {
     companion object {
 
         /**
-         * Gradle's recommended separator for aliases.
-         *
-         * It can also be a dot (.) or an underscore (_).
+         * Gradle's recommended separator for sub-aliases.
          */
         private const val SEPARATOR = "-"
 
@@ -86,8 +84,7 @@ value class Alias private constructor(val value: String) {
          *
          * For a top-level entry it's just a camel-cased entry's name.
          *
-         * For a nested entry, it's a parent alias with camel-cased entry's
-         * name appended.
+         * For a nested entry, it's a parent alias plus camel-cased entry's name.
          */
         fun forEntry(entry: CatalogEntry): Alias {
             val className = entry.javaClass.simpleName.replaceFirstChar { it.lowercaseChar() }

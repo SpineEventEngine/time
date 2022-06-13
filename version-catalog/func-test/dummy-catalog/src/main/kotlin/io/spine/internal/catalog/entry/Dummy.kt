@@ -29,7 +29,7 @@ package io.spine.internal.catalog.entry
 import io.spine.internal.catalog.model.CatalogEntry
 
 /**
- * This dependency describes an imaginary library.
+ * An imaginary dependency.
  *
  * It is used to showcase API for dependency declaration and perform true
  * functional testing.
@@ -62,9 +62,9 @@ internal object Dummy : CatalogEntry() {
         lib("types", "$group:dummy-types"),   // libs.dummy.types
     )
 
-    // "GradlePlugin" - is a special entry name. "gradlePlugin" suffix will not be
-    // put for a final plugin alias. Note, that in an example below, we have this
-    // suffix for the version and module, and does not have for ID.
+    // "GradlePlugin" - is a special entry name. "gradlePlugin" suffix will not
+    // be put for a final plugin alias. Note, that in an example below, we have
+    // this suffix for the version and module, and does not have for ID.
 
     object GradlePlugin : CatalogEntry() {
         override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
@@ -74,9 +74,9 @@ internal object Dummy : CatalogEntry() {
 
     object Runtime : CatalogEntry() {
 
-        // When an entry does not override the version, it is taken from
-        // the parent entry. For example, in this case, all libs within "Runtime"
-        // entry will have "1.0.0".
+        // When an entry does not override the version, it will try to fetch it
+        // from the closest parental entry, which has one. For example, in this case,
+        // all libraries within "Runtime" entry will have version = "1.0.0".
 
         val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
         val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac

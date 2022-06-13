@@ -31,7 +31,7 @@ dependencies {
 tasks {
     test {
         dependsOn(
-            ":catalog:test",
+            ":catalog:test", // Let's force unit tests run first.
             ":func-test:dummy-catalog:publishToMavenLocal"
         )
     }

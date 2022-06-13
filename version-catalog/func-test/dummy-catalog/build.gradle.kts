@@ -29,6 +29,7 @@ plugins {
 }
 
 dependencies {
+    // Defines declarative API for dependencies.
     implementation(project(":catalog"))
 }
 
@@ -45,6 +46,7 @@ publishing {
 
 tasks {
     named("publishToMavenLocal") {
+        // We can't use this module from Maven local without `:catalog`.
         dependsOn(":catalog:publishToMavenLocal")
     }
 }
