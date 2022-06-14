@@ -53,7 +53,7 @@ internal object Dummy : CatalogEntry() {
     val api by lib("$group:dummy-api")       // libs.dummy.api
 
     // In bundles, you can reference entries (which declare module), extra
-    // libraries or declare them in-place.
+    // libraries, or declare them in-place.
 
     override val bundle = setOf( // libs.bundles.dummy
         this,

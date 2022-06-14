@@ -67,7 +67,7 @@ internal object Dummy : CatalogEntry() {
    val api by lib("$group:dummy-api")       // libs.dummy.api
 
    // In bundles, you can reference entries (which declare module), extra
-   // libraries or declare them in-place.
+   // libraries, or declare them in-place.
 
    override val bundle = setOf( // libs.bundles.dummy
       this,
@@ -117,7 +117,7 @@ internal object Dummy : CatalogEntry() {
 
 ## Overriding of items shipped by `SpineVersionCatalog`
 
-Sometimes, it happens that a projects needs to override items, shipped by the catalog.
+Sometimes, it happens that a project needs to override items, shipped by the catalog.
 In most cases, it is needed to override one or more versions.
 
 Currently, Gradle does not [provide](https://github.com/gradle/gradle/issues/20836) 
@@ -203,8 +203,8 @@ and doesn't relate anyhow to `time`.
       which exposes the declarative facade.
    2. Makes `dummy-project` use `dummy-catalog` from Maven local. 
    3. Builds `dummy-project`. It has assertions in its build file. Those assertions 
-      verify the generated type-safe accessors to `Dummy` dependency. When any 
-      of assertions fails, the test fails accordingly.
+      verify the generated type-safe accessors to `Dummy` dependency. If any of
+      assertions fails, the test fails accordingly.
 
 
 ## Details about Functional Testing
