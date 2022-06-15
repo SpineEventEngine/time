@@ -31,9 +31,6 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
@@ -52,12 +49,19 @@ import io.spine.internal.gradle.test.registerTestTasks
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    apply(from = "$rootDir/version.gradle.kts")
-
     io.spine.internal.gradle.doApplyStandard(repositories)
-    io.spine.internal.gradle.doForceVersions(configurations)
+    io.spine.internal.gradle.doForceVersions(configurations, libs)
 
-    val mcJavaVersion: String by extra
+    /*
+     Due to a bug, we can't apply scripts.
+
+     `version.gradle.kts` file is not applied, thus the version of mcJava is
+     declared right here.
+
+     See issue: https://github.com/gradle/gradle/issues/20717
+     */
+
+    val mcJavaVersion = "2.0.0-SNAPSHOT.83"
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
     }
@@ -75,8 +79,20 @@ plugins {
     idea
     `project-report`
 
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+    /*
+     As for now, Gradle doesn't provide API for applying plugins without version.
+     This is why we resolve a provider by `get()`.
+
+     See a feature request: https://github.com/gradle/gradle/issues/17968
+
+     Also, for these two lines below, IDEA reports a false-positive error.
+
+     See issue in Gradle: https://github.com/gradle/gradle/issues/20839
+     See issue in IDEA: https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-can-t-be-called-in-this-context-by-implicit-recei
+     */
+
+    id(libs.plugins.protobuf.get().pluginId)
+    id(libs.plugins.errorProne.get().pluginId)
 }
 
 spinePublishing {
@@ -91,27 +107,39 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
-
     dokkaJar {
         enabled = true
     }
 }
 
 allprojects {
-    apply(from = "$rootDir/version.gradle.kts")
+
+    /*
+     Due to a bug, we can't apply scripts.
+
+     `version.gradle.kts` file is not applied, thus the versions of spine libs
+     are declared right here.
+
+     See issue: https://github.com/gradle/gradle/issues/20717
+     */
+
+    /** Versions of the Spine libraries that `time` depends on. */
+    extra["spineBaseVersion"] = "2.0.0-SNAPSHOT.91"
+    extra["javadocToolsVersion"] = "2.0.0-SNAPSHOT.75"
+
+    /** The version of this library. */
+    val versionToPublish by extra("2.0.0-SNAPSHOT.93")
 
     group = "io.spine"
-    version = extra["versionToPublish"]!!
+    version = versionToPublish
 }
 
 subprojects {
-
     apply {
         plugin("java-library")
         plugin("kotlin")
         plugin("com.google.protobuf")
         plugin("net.ltgt.errorprone")
-        plugin("pmd")
         plugin("checkstyle")
         plugin("idea")
         plugin("pmd-settings")
@@ -126,11 +154,20 @@ subprojects {
 
     val spineBaseVersion: String by extra
     dependencies {
-        errorprone(ErrorProne.core)
+
+        /*
+         Gradle discourages cross-configuration of projects.
+         Thus, the direct access to `libs` in `allprojects` and `subprojects`
+         blocks is unavailable. But we still can use it from `rootProject`.
+
+         See the closed issue: https://github.com/gradle/gradle/issues/16634
+         */
+
+        errorprone(rootProject.libs.errorProne.core)
         api(kotlin("stdlib-jdk8"))
 
         testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
-        testImplementation(JUnit.runner)
+        testImplementation(rootProject.libs.jUnit.runner)
     }
 
     /**
@@ -138,7 +175,7 @@ subprojects {
      * [com.google.errorprone.bugpatterns.CheckReturnValue] was removed leading to breaking the API.
      */
     configurations {
-        forceVersions()
+        forceVersions(rootProject.libs)
         all {
             resolutionStrategy {
                 force(
@@ -199,7 +236,7 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Protobuf.compiler
+            artifact = rootProject.libs.protobuf.compiler.get().toString()
         }
         generateProtoTasks {
             all().forEach { task ->
@@ -218,7 +255,7 @@ subprojects {
         rootFolder.set(rootDir)
     }
 
-    // Apply the same IDEA module configuration for each of sub-projects.
+    // Apply the same IDEA module configuration for each of subprojects.
     idea {
         module {
             with(generatedSourceDirs) {

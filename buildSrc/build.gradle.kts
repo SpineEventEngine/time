@@ -24,19 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- * This script uses two declarations of the constant [licenseReportVersion] because
- * currently there is no way to define a constant _before_ a build script of `buildSrc`.
- * We cannot use imports or do something else before the `buildscript` or `plugin` clauses.
- */
-
 plugins {
     java
     groovy
     `kotlin-dsl`
     pmd
-    val licenseReportVersion = "2.1"
-    id("com.github.jk1.dependency-license-report").version(licenseReportVersion)
 }
 
 repositories {
@@ -45,105 +37,83 @@ repositories {
     mavenCentral()
 }
 
-/**
- * The version of Jackson used by `buildSrc`.
- *
- * Please keep this value in sync. with `io.spine.internal.dependency.Jackson.version`.
- * It's not a requirement, but would be good in terms of consistency.
- */
-val jacksonVersion = "2.13.0"
-
-val googleAuthToolVersion = "2.1.2"
-val licenseReportVersion = "2.1"
-val grGitVersion = "3.1.1"
-
-/**
- * The version of the Kotlin Gradle plugin.
- *
- * Please check that this value matches one defined in
- *  [io.spine.internal.dependency.Kotlin.version].
- */
-val kotlinVersion = "1.6.21"
-
-/**
- * The version of Guava used in `buildSrc`.
- *
- * Always use the same version as the one specified in [io.spine.internal.dependency.Guava].
- * Otherwise, when testing Gradle plugins, clashes may occur.
- */
-val guavaVersion = "31.1-jre"
-
-/**
- * The version of ErrorProne Gradle plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.ErrorProne.GradlePlugin.version].
- *
- * @see <a href="https://github.com/tbroyer/gradle-errorprone-plugin/releases">
- *     Error Prone Gradle Plugin Releases</a>
- */
-val errorProneVersion = "2.0.2"
-
-/**
- * The version of Protobuf Gradle Plugin.
- *
- * Please keep in sync. with [io.spine.internal.dependency.Protobuf.GradlePlugin.version].
- *
- * @see <a href="https://github.com/google/protobuf-gradle-plugin/releases">
- *     Protobuf Gradle Plugins Releases</a>
- */
-val protobufPluginVersion = "0.8.18"
-
-/**
- * The version of Dokka Gradle Plugins.
- *
- * Please keep in sync with [io.spine.internal.dependency.Dokka.version].
- *
- * @see <a href="https://github.com/Kotlin/dokka/releases">
- *     Dokka Releases</a>
- */
-val dokkaVersion = "1.6.20"
-
 configurations.all {
     resolutionStrategy {
-        // Force Kotlin lib versions avoiding using those bundled with Gradle.
+
+        /*
+         Failing on each conflict leads to a bit bigger `force()` block,
+         but eliminates warnings. Also, builds are more reproducible when dynamic
+         version resolution is suppressed.
+         */
+
+        failOnVersionConflict()
+
         force(
-            "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion",
-            "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+            libs.apacheHttp.core,
+            libs.guava,
+            libs.httpClient.google,
+            libs.jackson.core,
+            libs.jackson.databind,
+            libs.jackson.dataformatXml,
+            libs.jackson.moduleKotlin,
+
+            /*
+             Suppressing of Kotlin libraries eliminates warnings about different
+             Kotlin versions on the classpath.
+             */
+
+            libs.kotlin.reflect,
+            libs.kotlin.stdLib,
+            libs.kotlin.stdLib.common,
+            libs.kotlin.stdLib.jdk8,
+            libs.kotlinX.coroutines.core,
+            libs.kotlinX.coroutines.core.jvm,
+
+            libs.slf4J.api,
         )
     }
 }
 
-val jvmVersion = JavaLanguageVersion.of(11)
-
-java {
-    toolchain.languageVersion.set(jvmVersion)
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = jvmVersion.toString()
-    }
-}
-
 dependencies {
-    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
-    implementation("com.google.cloud.artifactregistry:artifactregistry-auth-common:$googleAuthToolVersion") {
-        exclude(group = "com.google.guava")
+
+    /*
+     We add the implementation dependency on the class of `libs` extension
+     in order to make the generated `LibrariesForLibs` available in `main`
+     source set.
+
+     It does not mean our dependencies will be available in `main` sources.
+     It means we can fetch them in a type-safe manner from a `Project` instance,
+     in which this extension is registered.
+
+     For example:
+     val libs = project.extensions.getByType<LibrariesForLibs>()
+     */
+
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
+    implementation(libs.errorProne.gradlePlugin)
+    implementation(libs.googleCloud.artifactRegistry.authCommon)
+    implementation(libs.grGit.core)
+    implementation(libs.guava)
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.dataformatXml)
+    implementation(libs.kotlin.gradlePlugin)
+    implementation(libs.licenseReport.gradlePlugin)
+    implementation(libs.protobuf.gradlePlugin)
+
+    /*
+     Dokka uses a fat jar with Kotlin runtime inside. One more Kotlin version.
+     This is a reason for two warnings.
+
+     It's not certain if we can just exclude those jars. Thus, before merge these
+     changes into `config`, it should be checked out on a repository, where Dokka
+     is used. And if not, a comment should be left here, mentioning this fact and
+     describing why it is so.
+     */
+
+    implementation(libs.dokka.gradlePlugin)
+    implementation(libs.dokka.basePlugin) {
+        exclude("org.jetbrains.dokka", "kotlin-analysis-compiler")
+        exclude("org.jetbrains.dokka", "kotlin-analysis-intellij")
     }
-    implementation("com.google.guava:guava:$guavaVersion")
-    api("com.github.jk1:gradle-license-report:$licenseReportVersion")
-    implementation("org.ajoberstar.grgit:grgit-core:${grGitVersion}")
-    implementation("net.ltgt.gradle:gradle-errorprone-plugin:${errorProneVersion}")
-
-    // Add explicit dependency to avoid warning on different Kotlin runtime versions.
-    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-
-    implementation("gradle.plugin.com.google.protobuf:protobuf-gradle-plugin:$protobufPluginVersion")
-    implementation("org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}")
-    implementation("org.jetbrains.dokka:dokka-base:${dokkaVersion}")
 }

@@ -1,0 +1,100 @@
+/*
+ * Copyright 2022, TeamDev. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Redistribution and use in source and/or binary forms, with or without
+ * modification, must retain the above copyright notice and the following
+ * disclaimer.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package io.spine.internal.catalog.entry
+
+import io.spine.internal.catalog.model.CatalogEntry
+
+/**
+ * An imaginary dependency.
+ *
+ * It is used to showcase API for dependency declaration and perform true
+ * functional testing.
+ *
+ * Side comments to certain statements demonstrate how those lines will
+ * be represented in the generated type-safe accessors. `libs` is a conventional
+ * name for version catalogs.
+ *
+ * Source code of this dependency is shown in README file of the module.
+ * Thus, when modifying this dependency, put the updated code to `README.md`.
+ */
+@Suppress("unused", "MemberVisibilityCanBePrivate")
+internal object Dummy : CatalogEntry() {
+
+    private const val group = "org.dummy.company"
+    override val module = "$group:dummy-lib" // libs.dummy
+    override val version = "1.0.0"           // libs.versions.dummy
+
+    val core by lib("$group:dummy-core")     // libs.dummy.core
+    val runner by lib("$group:dummy-runner") // libs.dummy.runner
+    val api by lib("$group:dummy-api")       // libs.dummy.api
+
+    // In bundles, you can reference entries (which declare module), extra
+    // libraries, or declare them in-place.
+
+    override val bundle = setOf( // libs.bundles.dummy
+        this,
+        core, runner, api,
+        lib("params", "$group:dummy-params"), // libs.dummy.params
+        lib("types", "$group:dummy-types"),   // libs.dummy.types
+    )
+
+    // "GradlePlugin" - is a special entry name. "gradlePlugin" suffix will not
+    // be put for a final plugin alias. Note, that in an example below, we have
+    // this suffix for the version and module, and does not have for ID.
+
+    object GradlePlugin : CatalogEntry() {
+        override val version = "0.0.8"                 // libs.versions.dummy.gradlePlugin
+        override val module = "$group:my-dummy-plugin" // libs.dummy.gradlePlugin
+        override val id = "my-dummy-plugin"            // libs.plugins.dummy
+    }
+
+    object Runtime : CatalogEntry() {
+
+        // When an entry does not override the version, it will try to fetch it
+        // from the closest parental entry, which has one. For example, in this case,
+        // all libraries within "Runtime" entry will have version = "1.0.0".
+
+        val win by lib("$group:runtime-win")     // libs.dummy.runtime.win
+        val mac by lib("$group:runtime-mac")     // libs.dummy.runtime.mac
+        val linux by lib("$group:runtime-linux") // libs.dummy.runtime.linux
+
+        object Bom : CatalogEntry() {
+            override val version = "2.0.0"           // libs.versions.dummy.runtime.bom
+            override val module = "$group:dummy-bom" // libs.dummy.runtime.bom
+        }
+    }
+
+    // It's also possible to declare an extra bundle by a property delegate.
+    // Just like with extra modules.
+
+    val runtime by bundle( // libs.bundles.dummy.runtime
+        Runtime.Bom,
+        Runtime.win,
+        Runtime.mac,
+        Runtime.linux,
+    )
+}

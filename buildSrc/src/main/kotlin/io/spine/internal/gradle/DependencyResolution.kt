@@ -26,25 +26,7 @@
 
 package io.spine.internal.gradle
 
-import io.spine.internal.dependency.AnimalSniffer
-import io.spine.internal.dependency.AutoCommon
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.dependency.AutoValue
-import io.spine.internal.dependency.CheckerFramework
-import io.spine.internal.dependency.CommonsCli
-import io.spine.internal.dependency.CommonsLogging
-import io.spine.internal.dependency.ErrorProne
-import io.spine.internal.dependency.FindBugs
-import io.spine.internal.dependency.Flogger
-import io.spine.internal.dependency.Gson
-import io.spine.internal.dependency.Guava
-import io.spine.internal.dependency.J2ObjC
-import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.Kotlin
-import io.spine.internal.dependency.Okio
-import io.spine.internal.dependency.Plexus
-import io.spine.internal.dependency.Protobuf
-import io.spine.internal.dependency.Truth
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.ConfigurationContainer
@@ -55,72 +37,92 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
  * The function to be used in `buildscript` when a fully-qualified call must be made.
  */
 @Suppress("unused")
-fun doForceVersions(configurations: ConfigurationContainer) {
-    configurations.forceVersions()
+fun doForceVersions(configurations: ConfigurationContainer, libs: LibrariesForLibs) {
+    configurations.forceVersions(libs)
 }
 
 /**
  * Forces dependencies used in the project.
  */
-fun NamedDomainObjectContainer<Configuration>.forceVersions() {
+fun NamedDomainObjectContainer<Configuration>.forceVersions(libs: LibrariesForLibs) {
     all {
         resolutionStrategy {
             failOnVersionConflict()
             cacheChangingModulesFor(0, "seconds")
-            forceProductionDependencies()
-            forceTestDependencies()
-            forceTransitiveDependencies()
+            forceProductionDependencies(libs)
+            forceTestDependencies(libs)
+            forceTransitiveDependencies(libs)
         }
     }
 }
 
-private fun ResolutionStrategy.forceProductionDependencies() {
+private fun ResolutionStrategy.forceProductionDependencies(libs: LibrariesForLibs) = with(libs) {
     @Suppress("DEPRECATION") // Force SLF4J version.
     force(
-        AnimalSniffer.lib,
-        AutoCommon.lib,
-        AutoService.annotations,
-        CheckerFramework.annotations,
-        ErrorProne.annotations,
-        ErrorProne.core,
-        Guava.lib,
-        FindBugs.annotations,
-        Flogger.lib,
-        Flogger.Runtime.systemBackend,
-        Kotlin.reflect,
-        Kotlin.stdLib,
-        Kotlin.stdLibCommon,
-        Kotlin.stdLibJdk8,
-        Protobuf.libs,
-        Protobuf.GradlePlugin.lib,
-        io.spine.internal.dependency.Slf4J.lib
+        animalSniffer,
+        checkerFramework.annotations,
+        errorProne.annotations,
+        errorProne.core,
+        errorProne.typeAnnotations,
+        findBugs.annotations,
+        flogger,
+        flogger.runtime.systemBackend,
+        googleAuto.common,
+        googleAuto.service.annotations,
+        guava,
+        kotlin.reflect,
+        kotlin.stdLib,
+        kotlin.stdLib.common,
+        kotlin.stdLib.jdk8,
+        protobuf.gradlePlugin,
+
+        /*
+         Previously, we could force bundles, which we represented as iterable
+         of strings. But we are not allowed to force version catalog's bundles:
+
+         `bundles.protobuf`
+
+         It's not a bug. It's rather a design desicion, as the error clearly states:
+         => Only dependency accessors are supported but not plugin, bundle or version accessors for 'force()'.
+
+         So, we have to open out the given bundle, and force three libraries independently.
+         */
+
+        protobuf.java,
+        protobuf.javaUtil,
+        protobuf.kotlin,
+
+        slf4J,
     )
 }
 
-private fun ResolutionStrategy.forceTestDependencies() {
+private fun ResolutionStrategy.forceTestDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        Guava.testLib,
-        JUnit.api,
-        JUnit.platformCommons,
-        JUnit.platformLauncher,
-        JUnit.legacy,
-        Truth.libs
+        guava.testLib,
+        jUnit.api,
+        jUnit.apiGuardian,
+        jUnit.legacy,
+        jUnit.params,
+        jUnit.platform.commons,
+        jUnit.platform.launcher,
+        truth.java8Extension,
+        truth.protoExtension,
     )
 }
 
 /**
  * Forces transitive dependencies of 3rd party components that we don't use directly.
  */
-private fun ResolutionStrategy.forceTransitiveDependencies() {
+private fun ResolutionStrategy.forceTransitiveDependencies(libs: LibrariesForLibs) = with(libs) {
     force(
-        AutoValue.annotations,
-        Gson.lib,
-        J2ObjC.annotations,
-        Plexus.utils,
-        Okio.lib,
-        CommonsCli.lib,
-        CheckerFramework.compatQual,
-        CommonsLogging.lib
+        apacheCommons.cli,
+        apacheCommons.logging,
+        checkerFramework.compatQual,
+        googleAuto.value.annotations,
+        gson,
+        j2ObjC.annotations,
+        okio,
+        plexus.utils,
     )
 }
 
@@ -145,8 +147,8 @@ object DependencyResolution {
         "Please use `configurations.forceVersions()`.",
         ReplaceWith("configurations.forceVersions()")
     )
-    fun forceConfiguration(configurations: ConfigurationContainer) {
-        configurations.forceVersions()
+    fun forceConfiguration(configurations: ConfigurationContainer, libs: LibrariesForLibs) {
+        configurations.forceVersions(libs)
     }
 
     @Deprecated(

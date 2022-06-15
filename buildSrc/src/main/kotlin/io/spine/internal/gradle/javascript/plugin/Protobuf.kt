@@ -32,7 +32,6 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import com.google.protobuf.gradle.remove
-import io.spine.internal.dependency.Protobuf
 
 /**
  * Applies and configures `protobuf` plugin to work with a JavaScript module.
@@ -47,7 +46,7 @@ import io.spine.internal.dependency.Protobuf
 fun JsPlugins.protobuf() {
 
     plugins {
-        apply(Protobuf.GradlePlugin.id)
+        apply(libs.plugins.protobuf.get().pluginId)
     }
 
     project.protobuf {
@@ -55,7 +54,7 @@ fun JsPlugins.protobuf() {
         generatedFilesBaseDir = projectDir.path
 
         protoc {
-            artifact = Protobuf.compiler
+            artifact = libs.protobuf.compiler.get().toString()
         }
 
         generateProtoTasks {

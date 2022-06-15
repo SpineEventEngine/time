@@ -24,14 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.Pmd
+import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     pmd
 }
 
 pmd {
-    toolVersion = Pmd.version
+    val libs = rootProject.extensions.getByType<LibrariesForLibs>()
+
+    toolVersion = libs.versions.pmd.get()
     isConsoleOutput = true
     incrementalAnalysis.set(true)
 

@@ -26,11 +26,12 @@
 
 package io.spine.internal.gradle.checkstyle
 
-import io.spine.internal.dependency.CheckStyle
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.api.plugins.quality.CheckstyleExtension
 import org.gradle.api.plugins.quality.CheckstylePlugin
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.the
 
 /**
@@ -58,9 +59,10 @@ object CheckStyleConfig {
         }
 
         val configDir = project.rootDir.resolve("config/quality/")
+        val libs = project.rootProject.extensions.getByType<LibrariesForLibs>()
 
         with(project.the<CheckstyleExtension>()) {
-            toolVersion = CheckStyle.version
+            toolVersion = libs.versions.checkStyle.get().toString()
             configDirectory.set(configDir)
         }
 

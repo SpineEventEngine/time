@@ -28,10 +28,12 @@ package io.spine.internal.gradle.dart.plugin
 
 import io.spine.internal.gradle.dart.DartContext
 import io.spine.internal.gradle.dart.DartEnvironment
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
 import org.gradle.api.plugins.PluginContainer
 import org.gradle.api.tasks.TaskContainer
+import org.gradle.kotlin.dsl.getByType
 
 /**
  * A scope for applying and configuring Dart-related plugins.
@@ -40,7 +42,8 @@ import org.gradle.api.tasks.TaskContainer
  *
  *  1. [plugins].
  *  2. [extensions].
- *  3. [tasks].
+ *  3. [libs].
+ *  4. [tasks].
  *
  * Let's imagine one wants to apply and configure `FooBar` plugin. To do that, several steps
  * should be completed:
@@ -79,6 +82,7 @@ class DartPlugins(dartEnv: DartEnvironment, project: Project) : DartContext(dart
 
     internal val plugins = project.plugins
     internal val extensions = project.extensions
+    internal val libs = extensions.getByType<LibrariesForLibs>()
     internal val tasks = project.tasks
 
     internal fun plugins(configurations: PluginContainer.() -> Unit) =

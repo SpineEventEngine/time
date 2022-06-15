@@ -31,7 +31,6 @@ import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.remove
-import io.spine.internal.dependency.Protobuf
 
 /**
  * Applies `protobuf` plugin and configures `GenerateProtoTask` to work with a Dart module.
@@ -40,7 +39,7 @@ import io.spine.internal.dependency.Protobuf
  */
 fun DartPlugins.protobuf() {
 
-    plugins.apply(Protobuf.GradlePlugin.id)
+    plugins.apply(libs.plugins.protobuf.get().pluginId)
 
     project.protobuf {
         generateProtoTasks.all().forEach { task ->

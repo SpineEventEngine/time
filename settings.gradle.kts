@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.internal.catalog.SpineVersionCatalog
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -37,3 +39,32 @@ include(
     "time",
     "testutil-time",
 )
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        // We don't apply any plugins.
+        // We just put `SpineVersionCatalog` class on a classpath of settings script.
+        classpath("io.spine.internal:spine-version-catalog:+")
+    }
+}
+
+dependencyResolutionManagement {
+    versionCatalogs {
+
+        /*
+         Please, check out `buildSrc/settings.gradle.kts` file.
+
+         There is an explanation on why we don't have a plugin, which creates
+         a catalog on its own, and we have to create a catalog ourselves in
+         every settings file.
+         */
+
+        create("libs") {
+            SpineVersionCatalog.useIn(this)
+        }
+    }
+}
