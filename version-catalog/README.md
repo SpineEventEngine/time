@@ -125,6 +125,10 @@ a clear way to perform overwrite for already created catalogs. Thus, we use appr
 with creating a catalog directly in settings files. It preserves a possibility
 of a local override.
 
+Each item in a version catalog is known by an alias. The generated accessors to
+items are based on them. And in order to override an item, one should know its alias.
+Out of comments do `Dummy` dependency, it's seen how an alias is formed.
+
 Below are examples on how to override the items of `Dummy` dependency. Instead of
 applying `SpineVersionCatalog`, `DummyVersionCatalog` is used, as we are going to
 override `Dummy`'s items.
@@ -132,7 +136,7 @@ override `Dummy`'s items.
 ### Overriding of versions
 
 In order to override a version you should declare it *before* applying the catalog.
-A version, declared first always wins. All subsequent declarations of the same version
+A version, declared first, always wins. All subsequent declarations of the same version
 will be ignored by the builder.
 
 In total, `Dummy` declares three versions.
@@ -144,9 +148,16 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
            
+           // Firstly, we declare versions, we would like to use instead of ones,
+           // provided by `DummyVersionCatalog`.
+           
             version("dummy", "2.0.0")              // Dummy.version
             version("dummy-gradlePlugin", "0.0.9") // Dummy.GradlePlugin.version
             version("dummy-runtime-bom", "3.0.0")  // Dummy.Runtime.Bom.version
+           
+           // Secondly, we apply the catalog. It will try to declare the versions 
+           // above one more time, but subsequent declarations of versions are
+           // ignored by `VersionCatalogBuilder`.
            
             DummyVersionCatalog.useIn(this)
         }
@@ -159,8 +170,6 @@ dependencyResolutionManagement {
 In order to override a library, plugin or bundle, one should declare it *after* 
 applying the catalog. This is the opposite of what is done with versions.
 
-When overriding libraries and plugins, a version should be specified in-place.
-
 For example:
 
 ```kotlin
@@ -168,15 +177,31 @@ dependencyResolutionManagement {
    versionCatalogs {
       create("libs") {
          
+         // Firstly, we apply the catalog.
+         
          DummyVersionCatalog.useIn(this)
+         
+         // Secondly, we declare needed libraries, plugins and bundles one more time.
+         // Subsequent declarations of those items override previous declarations.
+         // Which is the opposite to how it works with version items.
+         
+         // For libraries, it's impossible to override only a module (group + artifact).
+         // They are overridden by full GAV coordinates (group + artifact + version).
+         // Even if the version remains the same, it should be specified as a part of GAV.
          
          library("dummy", "org.dummy.company:dummy-lib-patched:3.41-patched")           // Dummy.module + version
          library("dummy-gradlePlugin", "org.dummy.company:another-plugin:3.41-patched") // Dummy.GradlePlugin.module + version
          library("dummy-runtime-mac", "org.dummy.company:runtime-linux:3.41-patched")   // Dummy.Runtime.mac + version
+         
+         // The same applies to plugins. It's impossible to override only `ID`.
+         // Plugin's version should be necessarily specified, even if remains the same.
+         // Otherwise, an error will occur.
 
          plugin("dummy", "my-dummy-plugin-patched").version("1.0.0-patched") // Dummy.GradlePlugin.id + version
 
-         // In bundles, the passed list contains aliases of libraries. 
+         // In bundles, the passed list consists of aliases. Each alias is meant
+         // to point to a library declaration. If not, an error will occur.
+         
          bundle("dummy", listOf("dummy-runtime-bom", "dummy-runtime-win"))   // Dummy.bundle
          bundle("dummy-runtime", listOf("dummy", "dummy-core"))              // Dummy.runtime
       }
