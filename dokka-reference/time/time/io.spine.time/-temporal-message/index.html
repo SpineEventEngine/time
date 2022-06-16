@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TemporalMessage</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<link href="../../../images/logo-icon.svg">
+<link href="../../../styles/custom-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>time</span>
+            </a>
+    </div>
+    <div>
+1.8.0    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="time::io.spine.time/TemporalMessage///PointingToDeclaration//-615451212">
+  <div class="breadcrumbs"><a href="../../../index.html">time</a><span class="delimiter">/</span><a href="../index.html">io.spine.time</a><span class="delimiter">/</span><a href="index.html">TemporalMessage</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Temporal</span><wbr></wbr><span><span>Message</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">interface </span><a href="index.html">TemporalMessage</a><span class="token operator">&lt;</span>T<span class="token keyword"> extends </span><a href="index.html">TemporalMessage</a><span class="token operator">&lt;</span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token keyword"> implements </span><a href="../-temporal/index.html">Temporal</a><span class="token operator">&lt;</span><a href="../-temporal/index.html">T</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">A <a href="../-temporal/index.html">Temporal</a> implemented with a message. </p><p class="paragraph">Messages marked with the <code class="lang-kotlin">Temporal</code> interface should use this type instead of using the <code class="lang-kotlin">Temporal</code> directly. </p><p class="paragraph">To create a temporal message type: </p><ol><li>create a new interface derived from this one; </li><li>specify the target message type as the type parameter; </li><li>implement leftover abstract methods inherited from <a href="../-temporal/index.html">Temporal</a>; </li><li>mark the target message with the <code class="lang-kotlin">(is)</code> option. </li></ol></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Inherited functions">Inherited functions</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Parameters</h2>
+      <div data-togglable="Parameters">
+        <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span><span>&lt;T&gt;</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the type of itself</p></div></div></div></div></div></div></div></div></div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="1375727365%2FFunctions%2F-615451212" anchor-label="toAny" id="1375727365%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="to-any.html"><span>to</span><wbr></wbr><span><span>Any</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1375727365%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>Any <a href="to-any.html"><span class="token function">toAny</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Packs this message into an <code class="lang-kotlin">Any</code>.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Inherited functions</h2>
+      <div class="table" data-togglable="Inherited functions"><a data-name="785785350%2FFunctions%2F-615451212" anchor-label="compareTo" id="785785350%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-2125089448%2FFunctions%2F-615451212"><span>compare</span><wbr></wbr><span><span>To</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="785785350%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>int <a href="index.html#-2125089448%2FFunctions%2F-615451212"><span class="token function">compareTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Compares this point in time to the given one.</div><div class="symbol monospace block"><span class="token keyword">abstract </span><span class="token keyword"></span>int <a href="index.html#423392082%2FFunctions%2F-615451212"><span class="token function">compareTo</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> p</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1392848859%2FFunctions%2F-615451212" anchor-label="isBetween" id="-1392848859%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-1392848859%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span><span>Between</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1392848859%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-1392848859%2FFunctions%2F-615451212"><span class="token function">isBetween</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> periodStart<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> periodEnd</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point is time lies between the given.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1674537815%2FFunctions%2F-615451212" anchor-label="isEarlierOrSameAs" id="-1674537815%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-1674537815%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>Earlier</span><wbr></wbr><span>Or</span><wbr></wbr><span>Same</span><wbr></wbr><span><span>As</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1674537815%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-1674537815%2FFunctions%2F-615451212"><span class="token function">isEarlierOrSameAs</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point is time occurs earlier than the other one or they coincide.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2065569201%2FFunctions%2F-615451212" anchor-label="isEarlierThan" id="-2065569201%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-2065569201%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>Earlier</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2065569201%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-2065569201%2FFunctions%2F-615451212"><span class="token function">isEarlierThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point is time occurs earlier than the other one.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1712164210%2FFunctions%2F-615451212" anchor-label="isInFuture" id="1712164210%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#1712164210%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Future</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1712164210%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#1712164210%2FFunctions%2F-615451212"><span class="token function">isInFuture</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks that this point in time lies in the future.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1509344259%2FFunctions%2F-615451212" anchor-label="isInPast" id="1509344259%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#1509344259%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Past</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1509344259%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#1509344259%2FFunctions%2F-615451212"><span class="token function">isInPast</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks that this point in time lies in the past.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1629125579%2FFunctions%2F-615451212" anchor-label="isLaterOrSameAs" id="-1629125579%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-1629125579%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>Later</span><wbr></wbr><span>Or</span><wbr></wbr><span>Same</span><wbr></wbr><span><span>As</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1629125579%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-1629125579%2FFunctions%2F-615451212"><span class="token function">isLaterOrSameAs</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point is time occurs later than the other one or they coincide.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-986415141%2FFunctions%2F-615451212" anchor-label="isLaterThan" id="-986415141%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-986415141%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>Later</span><wbr></wbr><span><span>Than</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-986415141%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-986415141%2FFunctions%2F-615451212"><span class="token function">isLaterThan</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point is time occurs later than the other one.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-2025430868%2FFunctions%2F-615451212" anchor-label="isSameAs" id="-2025430868%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-2025430868%2FFunctions%2F-615451212"><span>is</span><wbr></wbr><span>Same</span><wbr></wbr><span><span>As</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2025430868%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span>boolean <a href="index.html#-2025430868%2FFunctions%2F-615451212"><span class="token function">isSameAs</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><span data-unresolved-link="io.spine.time.string/JtStringifier///PointingToGenericParameters(0)/">T</span> other</span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Checks if this point in time coincides with the given one.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-821741904%2FFunctions%2F-615451212" anchor-label="toInstant" id="-821741904%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#-821741904%2FFunctions%2F-615451212"><span>to</span><wbr></wbr><span><span>Instant</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-821741904%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword"></span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">Instant</a> <a href="index.html#-821741904%2FFunctions%2F-615451212"><span class="token function">toInstant</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Converts this <code class="lang-kotlin">Temporal</code> into a <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/Instant.html">java.time.Instant</a>.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1432759323%2FFunctions%2F-615451212" anchor-label="toTimestamp" id="1432759323%2FFunctions%2F-615451212" data-filterable-set=":time:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":time:dokkaHtml/main" data-filterable-set=":time:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="index.html#1432759323%2FFunctions%2F-615451212"><span>to</span><wbr></wbr><span><span>Timestamp</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1432759323%2FFunctions%2F-615451212"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":time:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">abstract </span><span class="token keyword"></span>Timestamp <a href="index.html#1432759323%2FFunctions%2F-615451212"><span class="token function">toTimestamp</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">Obtains this point in time as a Protobuf Timestamp.</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>Copyright 2022, TeamDev</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
