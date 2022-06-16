@@ -1,0 +1,22 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.time.testing////PointingToDeclaration/testutil-time/io.spine.time.testing/index.html
+$dokka.location:io.spine.time.testing/TimeTests.BackToTheFuture///PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-back-to-the-future/index.html
+$dokka.location:io.spine.time.testing/TimeTests.BackToTheFuture/TimeTests.BackToTheFuture/#/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-back-to-the-future/-time-tests.-back-to-the-future.html
+$dokka.location:io.spine.time.testing/TimeTests.BackToTheFuture/backward/#long/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-back-to-the-future/backward.html
+$dokka.location:io.spine.time.testing/TimeTests.BackToTheFuture/currentTime/#/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-back-to-the-future/current-time.html
+$dokka.location:io.spine.time.testing/TimeTests.BackToTheFuture/forward/#long/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-back-to-the-future/forward.html
+$dokka.location:io.spine.time.testing/TimeTests.FrozenMadHatterParty///PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-frozen-mad-hatter-party/index.html
+$dokka.location:io.spine.time.testing/TimeTests.FrozenMadHatterParty/TimeTests.FrozenMadHatterParty/#Timestamp/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-frozen-mad-hatter-party/-time-tests.-frozen-mad-hatter-party.html
+$dokka.location:io.spine.time.testing/TimeTests.FrozenMadHatterParty/currentTime/#/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-frozen-mad-hatter-party/current-time.html
+$dokka.location:io.spine.time.testing/TimeTests.Future///PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-future/index.html
+$dokka.location:io.spine.time.testing/TimeTests.Future/isFuture/#Timestamp/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-future/is-future.html
+$dokka.location:io.spine.time.testing/TimeTests.Future/secondsFromNow/#long/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-future/seconds-from-now.html
+$dokka.location:io.spine.time.testing/TimeTests.Past///PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-past/index.html
+$dokka.location:io.spine.time.testing/TimeTests.Past/minutesAgo/#int/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-past/minutes-ago.html
+$dokka.location:io.spine.time.testing/TimeTests.Past/secondsAgo/#long/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/-past/seconds-ago.html
+$dokka.location:io.spine.time.testing/TimeTests///PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/index.html
+$dokka.location:io.spine.time.testing/TimeTests/avoidDayEdge/#/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/avoid-day-edge.html
+$dokka.location:io.spine.time.testing/TimeTests/currentTimeSeconds/#/PointingToDeclaration/testutil-time/io.spine.time.testing/-time-tests/current-time-seconds.html
+io.spine.time.testing
+
