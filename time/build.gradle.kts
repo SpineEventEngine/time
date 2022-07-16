@@ -34,12 +34,12 @@ plugins {
 
 apply<IncrementGuard>()
 
-val spineBaseVersion: String by extra
+val baseVersion: String by extra
 dependencies {
     annotationProcessor(AutoService.processor)
     compileOnly(AutoService.annotations)
 
-    api("io.spine:spine-base:$spineBaseVersion")
+    api("io.spine:spine-base:$baseVersion")
 
     testImplementation(project(":testutil-time"))
 }
