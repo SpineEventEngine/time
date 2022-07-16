@@ -27,6 +27,7 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
+import io.spine.validate.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -102,7 +103,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         @DisplayName("lower year bound")
         void yearTooLow() {
             assertThrows(
-                    IllegalArgumentException.class,
+                    ValidationException.class,
                     () -> checkDate(LocalDate.newBuilder()
                                              .setYear(Year.MIN_VALUE - 1)
                                              .build())
@@ -113,7 +114,7 @@ class LocalDatesTest extends AbstractDateTimeUtilityTest<LocalDate, java.time.Lo
         @DisplayName("year high bound")
         void yearTooHigh() {
             assertThrows(
-                    IllegalArgumentException.class,
+                    ValidationException.class,
                     () -> checkDate(LocalDate.newBuilder()
                                              .setYear(Year.MAX_VALUE + 1)
                                              .build())
