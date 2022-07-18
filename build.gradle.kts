@@ -180,6 +180,9 @@ subprojects {
                 configureJavac()
                 configureErrorProne()
             }
+            withType<org.gradle.jvm.tasks.Jar>().configureEach {
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            }
         }
     }
 
