@@ -60,7 +60,7 @@ buildscript {
 
     val mcJavaVersion: String by extra
     val baseVersion: String by extra
-    val timeVersion: String by extra
+    val protoDataTimeVersion: String by extra
     val toolBaseVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
@@ -70,7 +70,7 @@ buildscript {
             resolutionStrategy {
                 force(
                     "io.spine:spine-base:$baseVersion",
-                    "io.spine:spine-time:$timeVersion",
+                    "io.spine:spine-time:$protoDataTimeVersion",
                     "io.spine.tools:spine-tool-base:$toolBaseVersion",
                     io.spine.internal.dependency.Jackson.annotations,
                     io.spine.internal.dependency.Jackson.bom,
@@ -123,7 +123,7 @@ allprojects {
     version = extra["versionToPublish"]!!
 
     val baseVersion: String by extra
-    val timeVersion: String by extra
+    val protoDataTimeVersion: String by extra
     val toolBaseVersion: String by extra
     val validationVersion: String by extra
     configurations {
@@ -132,7 +132,7 @@ allprojects {
             resolutionStrategy {
                 force(
                     "io.spine:spine-base:$baseVersion",
-                    "io.spine:spine-time:$timeVersion",
+                    "io.spine:spine-time:$protoDataTimeVersion",
                     "io.spine.tools:spine-tool-base:$toolBaseVersion",
                     "io.spine.validation:spine-validation-runtime:$validationVersion",
                     Jackson.databind
