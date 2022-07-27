@@ -26,18 +26,15 @@
 
 package io.spine.time.validate;
 
-import com.google.protobuf.Duration;
 import io.spine.base.Time;
 import io.spine.validate.ConstraintViolation;
-import io.spine.validate.MessageWithConstraints;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import io.spine.validate.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static io.spine.time.validate.given.WhenTestEnv.FIFTY_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.ZERO_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.currentTimeWithNanos;
@@ -46,21 +43,15 @@ import static io.spine.time.validate.given.WhenTestEnv.future;
 import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
 import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("`(when)` option should")
 class WhenTest {
 
-    private @Nullable List<ConstraintViolation> violations;
-
     @AfterEach
     void tearDown() {
         Time.resetProvider();
-        violations = null;
     }
 
     @Test
@@ -69,7 +60,8 @@ class WhenTest {
         var validMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(future())
                 .build();
-        assertValid(validMsg);
+        assertThat(validMsg.validate())
+                .isEmpty();
     }
 
     @Test
@@ -77,8 +69,11 @@ class WhenTest {
     void findOutThatTimeIsNotInFuture() {
         var invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
-                .build();
-        assertNotValid(invalidMsg);
+                .buildPartial();
+        var error = invalidMsg.validate();
+        assertThat(error)
+                .isPresent();
+        assertViolations(error.get());
     }
 
     @Test
@@ -87,7 +82,8 @@ class WhenTest {
         var validMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(past())
                 .build();
-        assertValid(validMsg);
+        assertThat(validMsg.validate())
+                .isEmpty();
     }
 
     @Test
@@ -95,8 +91,11 @@ class WhenTest {
     void findOutThatTimeIsNotInPast() {
         var invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(future())
-                .build();
-        assertNotValid(invalidMsg);
+                .buildPartial();
+        var error = invalidMsg.validate();
+        assertThat(error)
+                .isPresent();
+        assertViolations(error.get());
     }
 
     @Test
@@ -107,8 +106,11 @@ class WhenTest {
         freezeTime(currentTime);
         var invalidMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(timeInFuture)
-                .build();
-        assertNotValid(invalidMsg);
+                .buildPartial();
+        var error = invalidMsg.validate();
+        assertThat(error)
+                .isPresent();
+        assertViolations(error.get());
     }
 
     @Test
@@ -117,17 +119,19 @@ class WhenTest {
         var currentTime = currentTimeWithNanos(FIFTY_NANOSECONDS);
         var timeInPast = timeWithNanos(currentTime, ZERO_NANOSECONDS);
         freezeTime(currentTime);
-        var invalidMsg = TimeInPastFieldValue.newBuilder()
+        var validMsg = TimeInPastFieldValue.newBuilder()
                 .setValue(timeInPast)
                 .build();
-        assertValid(invalidMsg);
+        assertThat(validMsg.validate())
+                .isEmpty();
     }
 
     @Test
     @DisplayName("consider `Timestamp` field valid if no `TimeOption` set")
     void considerTimestampFieldIsValidIfNoTimeOptionSet() {
         var msg = TimeWithoutOptsFieldValue.getDefaultInstance();
-        assertValid(msg);
+        assertThat(msg.validate())
+                .isEmpty();
     }
 
     @Test
@@ -135,8 +139,23 @@ class WhenTest {
     void provideOneValidViolationIfTimeIsInvalid() {
         var invalidMsg = TimeInFutureFieldValue.newBuilder()
                 .setValue(past())
-                .build();
-        assertSingleViolation(invalidMsg, "Point in time must be in the future.");
+                .buildPartial();
+        var optionalError = invalidMsg.validate();
+        assertThat(optionalError)
+                .isPresent();
+        var error = optionalError.get();
+        assertSingleViolation(error, "The time must be in the future.");
+    }
+
+    private static void assertSingleViolation(ValidationError error, String expectedMsg) {
+        var violations = error.getConstraintViolationList();
+        assertThat(violations)
+                .hasSize(1);
+        var violation = violations.get(0);
+        var actualErrorMessage = format(violation.getMsgFormat(),
+                                        violation.getParamList()
+                                                 .toArray());
+        assertThat(actualErrorMessage).isEqualTo(expectedMsg);
     }
 
     @Test
@@ -145,7 +164,8 @@ class WhenTest {
         var validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(past())
                 .build();
-        assertValid(validTimeInPast);
+        assertThat(validTimeInPast.validate())
+                .isEmpty();
     }
 
     @Test
@@ -154,48 +174,14 @@ class WhenTest {
         var validTimeInPast = AlwaysValidTime.newBuilder()
                 .setValue(future())
                 .build();
-        assertValid(validTimeInPast);
+        assertThat(validTimeInPast.validate())
+                .isEmpty();
     }
 
-    @Test
-    @DisplayName("throw an `IllegalArgumentException` if applied on a non-temporal type")
-    void throwIaeOnWrongType() {
-        var failingMessage = WhenMisuse.newBuilder()
-                .setDuration(Duration.getDefaultInstance())
-                .build();
-        assertThrows(IllegalArgumentException.class, failingMessage::validate);
-    }
-
-    private void validate(MessageWithConstraints msg) {
-        violations = msg.validate();
-    }
-
-    private ConstraintViolation firstViolation() {
-        return violations.get(0);
-    }
-
-    private void assertValid(MessageWithConstraints msg) {
-        validate(msg);
-        assertIsValid(true);
-    }
-
-    private void assertNotValid(MessageWithConstraints msg) {
-        validate(msg);
-        assertIsValid(false);
-    }
-
-    private void assertIsValid(boolean isValid) {
-        assertNotNull(violations);
-        if (isValid) {
-            assertTrue(violations.isEmpty(), () -> violations.toString());
-        } else {
-            assertViolations();
-        }
-    }
-
-    private void assertViolations() {
-        assertNotNull(violations);
-        assertFalse(violations.isEmpty());
+    private static void assertViolations(ValidationError error) {
+        var violations = error.getConstraintViolationList();
+        assertThat(violations)
+                .isNotEmpty();
         for (var violation : violations) {
             assertHasCorrectFormat(violation);
         }
@@ -204,30 +190,12 @@ class WhenTest {
     private static void assertHasCorrectFormat(ConstraintViolation violation) {
         var format = violation.getMsgFormat();
         assertFalse(format.isEmpty());
-        var noParams = violation.getParamList().isEmpty();
+        var noParams = violation.getParamList()
+                                .isEmpty();
         if (format.contains("%s")) {
             assertFalse(noParams);
         } else {
             assertTrue(noParams);
         }
-    }
-
-    private void assertSingleViolation(MessageWithConstraints message, String expectedErrMsg) {
-        assertNotValid(message);
-        assertNotNull(violations);
-        assertEquals(1, violations.size());
-        assertSingleViolation(expectedErrMsg);
-    }
-
-    /** Checks that a message is not valid and has a single violation. */
-    private void assertSingleViolation(String expectedErrMsg) {
-        var violation = firstViolation();
-        var actualErrorMessage = format(violation.getMsgFormat(),
-                                        violation.getParamList().toArray());
-
-        assertThat(actualErrorMessage)
-                .isEqualTo(expectedErrMsg);
-        assertThat(violation.getViolationList())
-                .isEmpty();
     }
 }

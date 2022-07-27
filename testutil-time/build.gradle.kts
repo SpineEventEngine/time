@@ -26,7 +26,6 @@
 
 group = "io.spine.tools"
 
-val spineBaseVersion: String by extra
 dependencies {
     api(project(":time"))
 }

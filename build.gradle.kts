@@ -33,6 +33,7 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
+import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
@@ -58,8 +59,26 @@ buildscript {
     io.spine.internal.gradle.doForceVersions(configurations)
 
     val mcJavaVersion: String by extra
+    val baseVersion: String by extra
+    val protoDataTimeVersion: String by extra
+    val toolBaseVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+    }
+    configurations {
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$baseVersion",
+                    "io.spine:spine-time:$protoDataTimeVersion",
+                    "io.spine.tools:spine-tool-base:$toolBaseVersion",
+                    io.spine.internal.dependency.Jackson.annotations,
+                    io.spine.internal.dependency.Jackson.bom,
+                    io.spine.internal.dependency.Jackson.databind,
+                    io.spine.internal.dependency.Jackson.moduleKotlin
+                )
+            }
+        }
     }
 }
 
@@ -102,6 +121,23 @@ allprojects {
 
     group = "io.spine"
     version = extra["versionToPublish"]!!
+
+    val baseVersion: String by extra
+    val protoDataTimeVersion: String by extra
+    val toolBaseVersion: String by extra
+    configurations {
+        forceVersions()
+        all {
+            resolutionStrategy {
+                force(
+                    "io.spine:spine-base:$baseVersion",
+                    "io.spine:spine-time:$protoDataTimeVersion",
+                    "io.spine.tools:spine-tool-base:$toolBaseVersion",
+                    Jackson.databind
+                )
+            }
+        }
+    }
 }
 
 subprojects {
@@ -124,34 +160,13 @@ subprojects {
         applyStandard()
     }
 
-    val spineBaseVersion: String by extra
+    val baseVersion: String by extra
     dependencies {
         errorprone(ErrorProne.core)
         api(kotlin("stdlib-jdk8"))
 
-        testImplementation("io.spine.tools:spine-testlib:$spineBaseVersion")
+        testImplementation("io.spine.tools:spine-testlib:$baseVersion")
         testImplementation(JUnit.runner)
-    }
-
-    /**
-     * Force Error Prone dependencies to `2.10.0`, because in `2.11.0` an empty constructor in
-     * [com.google.errorprone.bugpatterns.CheckReturnValue] was removed leading to breaking the API.
-     */
-    configurations {
-        forceVersions()
-        all {
-            resolutionStrategy {
-                force(
-                    "io.spine:spine-base:$spineBaseVersion",
-                    "com.google.errorprone:error_prone_core:2.10.0",
-                    "com.google.errorprone:error_prone_annotations:2.10.0",
-                    "com.google.errorprone:error_prone_annotation:2.10.0",
-                    "com.google.errorprone:error_prone_check_api:2.10.0",
-                    "com.google.errorprone:error_prone_test_helpers:2.10.0",
-                    "com.google.errorprone:error_prone_type_annotations:2.10.0"
-                )
-            }
-        }
     }
 
     val javaVersion = JavaVersion.VERSION_11
@@ -164,6 +179,9 @@ subprojects {
             withType<JavaCompile>().configureEach {
                 configureJavac()
                 configureErrorProne()
+            }
+            withType<org.gradle.jvm.tasks.Jar>().configureEach {
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
             }
         }
     }
