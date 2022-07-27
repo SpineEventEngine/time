@@ -29,7 +29,6 @@ val baseVersion by extra("2.0.0-SNAPSHOT.91")
 val toolBaseVersion by extra("2.0.0-SNAPSHOT.93")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
 val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.96")
-val validationVersion: String by extra("2.0.0-SNAPSHOT.20")
 
 /** The version to use in `protodata` configuration in order to avoid version conflicts. */
 val protoDataTimeVersion by extra("2.0.0-SNAPSHOT.92")

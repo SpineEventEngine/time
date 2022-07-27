@@ -125,7 +125,6 @@ allprojects {
     val baseVersion: String by extra
     val protoDataTimeVersion: String by extra
     val toolBaseVersion: String by extra
-    val validationVersion: String by extra
     configurations {
         forceVersions()
         all {
@@ -134,7 +133,6 @@ allprojects {
                     "io.spine:spine-base:$baseVersion",
                     "io.spine:spine-time:$protoDataTimeVersion",
                     "io.spine.tools:spine-tool-base:$toolBaseVersion",
-                    "io.spine.validation:spine-validation-runtime:$validationVersion",
                     Jackson.databind
                 )
             }
