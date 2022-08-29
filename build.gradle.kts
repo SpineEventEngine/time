@@ -63,7 +63,7 @@ buildscript {
     val protoDataTimeVersion: String by extra
     val toolBaseVersion: String by extra
     dependencies {
-        classpath("io.spine.tools:spine-mc-java:$mcJavaVersion")
+        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
     configurations {
         all {
