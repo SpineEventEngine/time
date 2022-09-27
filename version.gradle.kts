@@ -25,8 +25,8 @@
  */
 
 /** Versions of the Spine libraries that `time` depends on. */
-val baseVersion by extra("2.0.0-SNAPSHOT.95")
-val toolBaseVersion by extra("2.0.0-SNAPSHOT.93")
+val baseVersion by extra("2.0.0-SNAPSHOT.99")
+val toolBaseVersion by extra("2.0.0-SNAPSHOT.95")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
 val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.97")
 
@@ -34,4 +34,4 @@ val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.97")
 val protoDataTimeVersion by extra("2.0.0-SNAPSHOT.92")
 
 /** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.95")
+val versionToPublish by extra("2.0.0-SNAPSHOT.96")
