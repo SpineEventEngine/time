@@ -40,6 +40,7 @@ dependencies {
     compileOnly(AutoService.annotations)
 
     api("io.spine:spine-base:$baseVersion")
+    implementation("io.spine:spine-validate:$baseVersion")
 
     testImplementation(project(":testutil-time"))
 }

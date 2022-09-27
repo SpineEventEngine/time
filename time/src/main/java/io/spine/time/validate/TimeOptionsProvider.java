@@ -24,14 +24,21 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** Versions of the Spine libraries that `time` depends on. */
-val baseVersion by extra("2.0.0-SNAPSHOT.99")
-val toolBaseVersion by extra("2.0.0-SNAPSHOT.95")
-val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
-val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.97")
+package io.spine.time.validate;
 
-/** The version to use in `protodata` configuration in order to avoid version conflicts. */
-val protoDataTimeVersion by extra("2.0.0-SNAPSHOT.92")
+import com.google.auto.service.AutoService;
+import com.google.protobuf.ExtensionRegistry;
+import io.spine.option.OptionsProvider;
+import io.spine.time.validation.TimeOptionsProto;
 
-/** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.96")
+/**
+ * Registers time-related proto options introduced by this library.
+ */
+@AutoService(OptionsProvider.class)
+public class TimeOptionsProvider implements OptionsProvider {
+
+    @Override
+    public void registerIn(ExtensionRegistry registry) {
+        TimeOptionsProto.registerAllExtensions(registry);
+    }
+}
