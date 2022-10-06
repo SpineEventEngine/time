@@ -54,3 +54,9 @@ sourceSets {
     main { java.srcDir("$generatedDir/main/java") }
     test { java.srcDir("$generatedDir/test/java") }
 }
+
+project.afterEvaluate {
+    val sourcesJar: Task by tasks.getting
+    val launchProtoDataMain: Task by tasks.getting
+    sourcesJar.dependsOn(launchProtoDataMain)
+}
