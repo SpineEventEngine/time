@@ -31,6 +31,7 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
+import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
@@ -60,8 +61,6 @@ buildscript {
 
     val mcJavaVersion: String by extra
     val baseVersion: String by extra
-    val protoDataTimeVersion: String by extra
-    val toolBaseVersion: String by extra
     dependencies {
         classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
     }
@@ -70,8 +69,6 @@ buildscript {
             resolutionStrategy {
                 force(
                     "io.spine:spine-base:$baseVersion",
-                    "io.spine:spine-time:$protoDataTimeVersion",
-                    "io.spine.tools:spine-tool-base:$toolBaseVersion",
                     io.spine.internal.dependency.Jackson.annotations,
                     io.spine.internal.dependency.Jackson.bom,
                     io.spine.internal.dependency.Jackson.databind,
@@ -123,16 +120,13 @@ allprojects {
     version = extra["versionToPublish"]!!
 
     val baseVersion: String by extra
-    val protoDataTimeVersion: String by extra
-    val toolBaseVersion: String by extra
     configurations {
         forceVersions()
         all {
             resolutionStrategy {
                 force(
                     "io.spine:spine-base:$baseVersion",
-                    "io.spine:spine-time:$protoDataTimeVersion",
-                    "io.spine.tools:spine-tool-base:$toolBaseVersion",
+                    Dokka.BasePlugin.lib,
                     Jackson.databind
                 )
             }

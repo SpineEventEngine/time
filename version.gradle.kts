@@ -26,12 +26,8 @@
 
 /** Versions of the Spine libraries that `time` depends on. */
 val baseVersion by extra("2.0.0-SNAPSHOT.108")
-val toolBaseVersion by extra("2.0.0-SNAPSHOT.109")
 val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
 val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.100")
-
-/** The version to use in `protodata` configuration in order to avoid version conflicts. */
-val protoDataTimeVersion by extra("2.0.0-SNAPSHOT.92")
 
 /** The version of this library. */
 val versionToPublish by extra("2.0.0-SNAPSHOT.108")
