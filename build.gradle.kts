@@ -35,7 +35,6 @@ import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
-import io.spine.internal.dependency.Protobuf
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
@@ -113,6 +112,11 @@ spinePublishing {
     }
 }
 
+// Temporarily use this version, since 3.21.x is known to provide
+// a broken `protoc-gen-js` artifact.
+// See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
+val protocArtifact = "com.google.protobuf:protoc:3.20.3"
+
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
 
@@ -127,7 +131,8 @@ allprojects {
                 force(
                     "io.spine:spine-base:$baseVersion",
                     Dokka.BasePlugin.lib,
-                    Jackson.databind
+                    Jackson.databind,
+                    protocArtifact
                 )
             }
         }
@@ -211,7 +216,12 @@ subprojects {
     protobuf {
         generatedFilesBaseDir = generatedRootDir
         protoc {
-            artifact = Protobuf.compiler
+            // Temporarily use this version, since 3.21.x is known to provide
+            // a broken `protoc-gen-js` artifact.
+            // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
+            //
+            // Once it is addressed, this artifact should be `Protobuf.compiler`.
+            artifact = protocArtifact
         }
         generateProtoTasks {
             all().forEach { task ->
