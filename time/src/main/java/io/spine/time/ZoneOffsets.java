@@ -53,7 +53,7 @@ public final class ZoneOffsets {
     private static final ZoneOffset UTC = ZoneOffset
             .newBuilder()
             .setAmountSeconds(0)
-            .vBuild();
+            .build();
 
     /** Prevent instantiation of this utility class. */
     private ZoneOffsets() {
@@ -176,7 +176,7 @@ public final class ZoneOffsets {
 
         return ZoneOffset.newBuilder()
                          .setAmountSeconds(offsetInSeconds)
-                         .vBuild();
+                         .build();
     }
 
     /**
