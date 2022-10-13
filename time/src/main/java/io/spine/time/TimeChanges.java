@@ -50,7 +50,7 @@ public final class TimeChanges {
         var result = LocalDateChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .vBuild();
+                .build();
         return result;
     }
 
@@ -66,7 +66,7 @@ public final class TimeChanges {
         var result = LocalTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .vBuild();
+                .build();
         return result;
     }
 
@@ -85,7 +85,7 @@ public final class TimeChanges {
         var result = OffsetTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .vBuild();
+                .build();
         return result;
     }
 
@@ -104,7 +104,7 @@ public final class TimeChanges {
         var result = OffsetDateTimeChange.newBuilder()
                 .setPreviousValue(previousValue)
                 .setNewValue(newValue)
-                .vBuild();
+                .build();
         return result;
     }
 

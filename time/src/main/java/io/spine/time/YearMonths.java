@@ -54,7 +54,7 @@ public final class YearMonths {
         var result = YearMonth.newBuilder()
                 .setYear(year)
                 .setMonth(Months.of(month))
-                .vBuild();
+                .build();
         return result;
     }
 

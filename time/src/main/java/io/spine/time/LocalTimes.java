@@ -50,7 +50,7 @@ public final class LocalTimes {
                 .setMinute(minutes)
                 .setSecond(seconds)
                 .setNano(nanos)
-                .vBuild();
+                .build();
         return result;
     }
 
@@ -144,7 +144,7 @@ public final class LocalTimes {
                     .setMinute(value.getMinute())
                     .setSecond(value.getSecond())
                     .setNano(value.getNano())
-                    .vBuild();
+                    .build();
             return result;
         }
 
