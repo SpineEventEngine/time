@@ -59,16 +59,16 @@ buildscript {
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations)
 
-    val mcJavaVersion: String by extra
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
+
     dependencies {
-        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
+        classpath(spine.mcJavaPlugin)
     }
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$baseVersion",
+                    spine.base,
                     io.spine.internal.dependency.Jackson.annotations,
                     io.spine.internal.dependency.Jackson.bom,
                     io.spine.internal.dependency.Jackson.databind,
@@ -125,14 +125,14 @@ allprojects {
     group = "io.spine"
     version = extra["versionToPublish"]!!
 
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
     configurations {
         forceVersions()
         all {
             exclude("io.spine:spine-validate")
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$baseVersion",
+                    spine.base,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
                     protocArtifact
@@ -162,12 +162,12 @@ subprojects {
         applyStandard()
     }
 
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
     dependencies {
         errorprone(ErrorProne.core)
         api(kotlin("stdlib-jdk8"))
 
-        testImplementation("io.spine.tools:spine-testlib:$baseVersion")
+        testImplementation(spine.testlib)
         testImplementation(JUnit.runner)
     }
 
@@ -243,7 +243,7 @@ subprojects {
         rootFolder.set(rootDir)
     }
 
-    // Apply the same IDEA module configuration for each of sub-projects.
+    // Apply the same IDEA module configuration for each of subprojects.
     idea {
         module {
             with(generatedSourceDirs) {
@@ -252,7 +252,10 @@ subprojects {
                 add(file("$generatedDir/main/kotlin"))
                 add(file("$generatedDir/main/spine"))
             }
-            testSourceDirs.add(file("$generatedDir/test/java"))
+            testSources.from(
+                file("$generatedDir/test/java"),
+                file("$generatedDir/test/kotlin")
+            )
             isDownloadJavadoc = true
             isDownloadSources = true
         }
