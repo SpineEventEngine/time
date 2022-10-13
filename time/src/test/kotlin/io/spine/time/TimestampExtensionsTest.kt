@@ -29,6 +29,7 @@ package io.spine.time
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.extensions.proto.ProtoTruth.assertThat
 import com.google.protobuf.Timestamp
+import com.google.protobuf.timestamp
 import com.google.protobuf.util.Timestamps
 import com.google.protobuf.util.Timestamps.between
 import com.google.protobuf.util.Timestamps.toMicros
@@ -50,7 +51,7 @@ internal class `Timestamp extensions should` {
 
     @Test
     fun `check if the instance is valid`() {
-        val invalid = Timestamp.newBuilder().setNanos(-1).build()
+        val invalid = timestamp { nanos = -1 }
         assertFalse(invalid.isValid())
         assertTrue(future.isValid())
     }
@@ -107,6 +108,7 @@ internal class `Timestamp extensions should` {
             assertTrue(future > past)
             assertFalse(past > future)
             assertFalse(future < past)
+            @Suppress("KotlinConstantConditions") // serves as documentation
             assertTrue(future == future)
         }
 

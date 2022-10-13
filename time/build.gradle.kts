@@ -24,23 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import com.google.protobuf.gradle.generateProtoTasks
+import com.google.protobuf.gradle.protobuf
 import io.spine.internal.dependency.AutoService
-import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.excludeProtobufLite
+import io.spine.internal.gradle.protobuf.suppressDeprecationsInKotlin
+import io.spine.internal.gradle.publish.IncrementGuard
 
 plugins {
+    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
     id("io.spine.mc-java")
 }
 
 apply<IncrementGuard>()
 
-val baseVersion: String by extra
 dependencies {
     annotationProcessor(AutoService.processor)
     compileOnly(AutoService.annotations)
 
-    api("io.spine:spine-base:$baseVersion")
-    implementation("io.spine:spine-validate:$baseVersion")
+    val spine = Spine(project)
+    api(spine.base)
+    implementation(spine.validation.runtime)
 
     testImplementation(project(":testutil-time"))
 }
@@ -49,14 +54,22 @@ configurations {
     excludeProtobufLite()
 }
 
+val generatedDir:String by extra("$projectDir/generated")
+
 sourceSets {
-    val generatedDir = "$projectDir/generated"
     main { java.srcDir("$generatedDir/main/java") }
+    main { kotlin.srcDir("$generatedDir/main/kotlin") }
     test { java.srcDir("$generatedDir/test/java") }
 }
 
-project.afterEvaluate {
-    val sourcesJar: Task by tasks.getting
-    val launchProtoDataMain: Task by tasks.getting
-    sourcesJar.dependsOn(launchProtoDataMain)
+protobuf {
+    generatedFilesBaseDir = generatedDir
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins.maybeCreate("kotlin")
+            task.doLast {
+                suppressDeprecationsInKotlin(generatedDir, task.sourceSet.name)
+            }
+        }
+    }
 }

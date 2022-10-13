@@ -233,7 +233,7 @@ class LocalTimesTest extends AbstractDateTimeUtilityTest<LocalTime, java.time.Lo
                 .setHour(0)
                 .setMinute(0)
                 .setSecond(0)
-                .vBuild();
+                .build();
         assertEquals(0, time.getHour());
         assertEquals(0, time.getMinute());
         assertEquals(0, time.getSecond());

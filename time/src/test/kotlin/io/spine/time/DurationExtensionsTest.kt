@@ -133,6 +133,7 @@ internal class `Duration extensions should` {
         fun compareTo() {
             assertTrue(duration > ZERO)
             assertTrue(ZERO < duration)
+            @Suppress("KotlinConstantConditions") // Serves for documentation purposes.
             assertTrue(duration == duration)
         }
 

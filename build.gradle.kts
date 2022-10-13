@@ -35,7 +35,6 @@ import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
-import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
@@ -44,6 +43,8 @@ import io.spine.internal.gradle.github.pages.updateGitHubPages
 import io.spine.internal.gradle.javac.configureErrorProne
 import io.spine.internal.gradle.javac.configureJavac
 import io.spine.internal.gradle.javadoc.JavadocConfig
+import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
+import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.license.LicenseReporter
@@ -58,16 +59,16 @@ buildscript {
     io.spine.internal.gradle.doApplyStandard(repositories)
     io.spine.internal.gradle.doForceVersions(configurations)
 
-    val mcJavaVersion: String by extra
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
+
     dependencies {
-        classpath("io.spine.tools:spine-mc-java-plugins:${mcJavaVersion}:all")
+        classpath(spine.mcJavaPlugin)
     }
     configurations {
         all {
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$baseVersion",
+                    spine.base,
                     io.spine.internal.dependency.Jackson.annotations,
                     io.spine.internal.dependency.Jackson.bom,
                     io.spine.internal.dependency.Jackson.databind,
@@ -113,9 +114,10 @@ spinePublishing {
 }
 
 // Temporarily use this version, since 3.21.x is known to provide
-// a broken `protoc-gen-js` artifact.
+// a broken `protoc-gen-js` artifact and Kotlin code without access modifiers.
 // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
-val protocArtifact = "com.google.protobuf:protoc:3.20.3"
+//     https://github.com/protocolbuffers/protobuf/issues/10593
+val protocArtifact = "com.google.protobuf:protoc:3.19.6"
 
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
@@ -123,13 +125,14 @@ allprojects {
     group = "io.spine"
     version = extra["versionToPublish"]!!
 
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
     configurations {
         forceVersions()
         all {
+            exclude("io.spine:spine-validate")
             resolutionStrategy {
                 force(
-                    "io.spine:spine-base:$baseVersion",
+                    spine.base,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
                     protocArtifact
@@ -159,12 +162,12 @@ subprojects {
         applyStandard()
     }
 
-    val baseVersion: String by extra
+    val spine = io.spine.internal.dependency.Spine(project)
     dependencies {
         errorprone(ErrorProne.core)
         api(kotlin("stdlib-jdk8"))
 
-        testImplementation("io.spine.tools:spine-testlib:$baseVersion")
+        testImplementation(spine.testlib)
         testImplementation(JUnit.runner)
     }
 
@@ -190,9 +193,8 @@ subprojects {
 
         tasks {
             withType<KotlinCompile>().configureEach {
-                kotlinOptions {
-                    jvmTarget = javaVersion.toString()
-                }
+                kotlinOptions.jvmTarget = javaVersion.toString()
+                setFreeCompilerArgs()
             }
         }
     }
@@ -211,10 +213,10 @@ subprojects {
         }
     }
 
-    val generatedRootDir = "$projectDir/generated"
+    val generatedDir:String by extra("$projectDir/generated")
 
     protobuf {
-        generatedFilesBaseDir = generatedRootDir
+        generatedFilesBaseDir = generatedDir
         protoc {
             // Temporarily use this version, since 3.21.x is known to provide
             // a broken `protoc-gen-js` artifact.
@@ -226,6 +228,7 @@ subprojects {
         generateProtoTasks {
             all().forEach { task ->
                 task.builtins {
+                    maybeCreate("kotlin")
                     id("js") {
                         option("library=spine-time-${project.version}")
                     }
@@ -240,19 +243,25 @@ subprojects {
         rootFolder.set(rootDir)
     }
 
-    // Apply the same IDEA module configuration for each of sub-projects.
+    // Apply the same IDEA module configuration for each of subprojects.
     idea {
         module {
             with(generatedSourceDirs) {
-                add(file("$generatedRootDir/main/js"))
-                add(file("$generatedRootDir/main/java"))
-                add(file("$generatedRootDir/main/spine"))
+                add(file("$generatedDir/main/js"))
+                add(file("$generatedDir/main/java"))
+                add(file("$generatedDir/main/kotlin"))
+                add(file("$generatedDir/main/spine"))
             }
-            testSourceDirs.add(file("$generatedRootDir/test/java"))
+            testSources.from(
+                file("$generatedDir/test/java"),
+                file("$generatedDir/test/kotlin")
+            )
             isDownloadJavadoc = true
             isDownloadSources = true
         }
     }
+
+    project.configureTaskDependencies()
 }
 
 LicenseReporter.mergeAllReports(project)
