@@ -25,6 +25,7 @@
  */
 
 import io.spine.internal.dependency.AutoService
+import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.internal.gradle.excludeProtobufLite
 
@@ -39,8 +40,9 @@ dependencies {
     annotationProcessor(AutoService.processor)
     compileOnly(AutoService.annotations)
 
-    api("io.spine:spine-base:$baseVersion")
-    implementation("io.spine:spine-validate:$baseVersion")
+    val spine = Spine(project)
+    api(spine.base)
+    implementation(spine.validation.runtime)
 
     testImplementation(project(":testutil-time"))
 }
