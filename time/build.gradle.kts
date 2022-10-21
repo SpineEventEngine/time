@@ -24,16 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.protobuf
 import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.protobuf.suppressDeprecationsInKotlin
 import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.protodata.gradle.plugin.LaunchProtoData
+import io.spine.tools.mc.gradle.modelCompiler
 
 plugins {
     id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
+    id("io.spine.protodata")
     id("io.spine.mc-java")
 }
 
@@ -44,6 +45,7 @@ dependencies {
     compileOnly(AutoService.annotations)
 
     val spine = Spine(project)
+    protoData(spine.validation.java)
     api(spine.base)
     implementation(spine.validation.runtime)
 
@@ -62,14 +64,33 @@ sourceSets {
     test { java.srcDir("$generatedDir/test/java") }
 }
 
-protobuf {
-    generatedFilesBaseDir = generatedDir
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins.maybeCreate("kotlin")
-            task.doLast {
-                suppressDeprecationsInKotlin(generatedDir, task.sourceSet.name)
-            }
+/**
+ * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
+ */
+modelCompiler.java.codegen.validation().skipValidation()
+
+protoData {
+    renderers(
+        "io.spine.validation.java.PrintValidationInsertionPoints",
+        "io.spine.validation.java.JavaValidationRenderer",
+
+        // Suppress warnings in the generated code.
+        "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
+        "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
+
+    )
+    plugins(
+        "io.spine.validation.ValidationPlugin",
+    )
+}
+
+/**
+ * Manually suppress deprecations in the generated Kotlin code until ProtoData does it.
+ */
+tasks.withType<LaunchProtoData>().forEach { task ->
+    task.doLast {
+        sourceSets.forEach { sourceSet ->
+            suppressDeprecationsInKotlin(generatedDir, sourceSet.name)
         }
     }
 }
