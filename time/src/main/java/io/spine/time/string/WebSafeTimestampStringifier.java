@@ -83,7 +83,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
      */
     private static String fromWebSafe(String webSafe) {
         checkArgument(webSafe.length() > MINUTE_SEPARATOR_INDEX + 2,
-                      "The passed string (%) is not in web-safe date/time format",
+                      "The passed string  is not in web-safe date/time format: \"%s\".",
                       webSafe);
         var chars = webSafe.toCharArray();
         chars[HOUR_SEPARATOR_INDEX] = COLON;
