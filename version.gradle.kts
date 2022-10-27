@@ -24,10 +24,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/** Versions of the Spine libraries that `time` depends on. */
-val baseVersion by extra("2.0.0-SNAPSHOT.114")
-val javadocToolsVersion by extra("2.0.0-SNAPSHOT.75")
-val mcJavaVersion: String by extra("2.0.0-SNAPSHOT.103")
-
-/** The version of this library. */
-val versionToPublish by extra("2.0.0-SNAPSHOT.110")
+/**
+ * The version of this library for publishing.
+ *
+ * For dependencies on Spine modules please see [io.spine.internal.dependency.Spine].
+ */
+val versionToPublish by extra("2.0.0-SNAPSHOT.111")
