@@ -94,8 +94,9 @@ plugins {
     idea
     `project-report`
 
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id(io.spine.internal.dependency.ErrorProne.GradlePlugin.id)
+    id(protobufPlugin)
+    id(errorPronePlugin)
+    `detekt-code-analysis`
 }
 
 spinePublishing {
@@ -136,6 +137,7 @@ allprojects {
             resolutionStrategy {
                 force(
                     spine.base,
+                    spine.validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
                     protocArtifact
