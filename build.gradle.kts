@@ -36,8 +36,8 @@ import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
-import io.spine.internal.gradle.applyGitHubPackages
 import io.spine.internal.gradle.applyStandard
+import io.spine.internal.gradle.applyStandardWithGitHub
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
@@ -52,12 +52,12 @@ import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.test.configureLogging
 import io.spine.internal.gradle.test.registerTestTasks
+import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    apply(from = "$rootDir/version.gradle.kts")
-
-    io.spine.internal.gradle.doApplyStandard(repositories)
+    io.spine.internal.gradle.applyWithStandard(this, rootProject,
+        "base", "mc-java")
     io.spine.internal.gradle.doForceVersions(configurations)
 
     dependencies {
@@ -147,7 +147,32 @@ allprojects {
 }
 
 subprojects {
+    applyPlugins()
+    repositories {
+        applyStandardWithGitHub(project, "base")
+    }
+    addDependencies()
 
+    val javaVersion = JavaVersion.VERSION_11
+    configureJava(javaVersion)
+    configureKotlin(javaVersion)
+
+    configureProtoc()
+    configureTests()
+    setupJavadoc()
+
+    val generatedDir:String by extra("$projectDir/generated")
+    configureIdea(generatedDir)
+    configureTaskDependencies()
+}
+
+LicenseReporter.mergeAllReports(project)
+JacocoConfig.applyTo(project)
+PomGenerator.applyTo(project)
+
+typealias Subproject = Project
+
+fun Subproject.applyPlugins() {
     apply {
         plugin("java-library")
         plugin("kotlin")
@@ -161,11 +186,12 @@ subprojects {
         plugin("dokka-for-java")
     }
 
-    repositories {
-        applyGitHubPackages("base", project)
-        applyStandard()
-    }
+    LicenseReporter.generateReportIn(project)
+    JavadocConfig.applyTo(project)
+    CheckStyleConfig.applyTo(project)
+}
 
+fun Subproject.addDependencies() {
     val spine = Spine(project)
     dependencies {
         errorprone(ErrorProne.core)
@@ -174,9 +200,9 @@ subprojects {
         testImplementation(spine.testlib)
         testImplementation(JUnit.runner)
     }
+}
 
-    val javaVersion = JavaVersion.VERSION_11
-
+fun Subproject.configureJava(javaVersion: JavaVersion) {
     java {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
@@ -186,12 +212,14 @@ subprojects {
                 configureJavac()
                 configureErrorProne()
             }
-            withType<org.gradle.jvm.tasks.Jar>().configureEach {
+            withType<Jar>().configureEach {
                 duplicatesStrategy = DuplicatesStrategy.INCLUDE
             }
         }
     }
+}
 
+fun Subproject.configureKotlin(javaVersion: JavaVersion) {
     kotlin {
         explicitApi()
 
@@ -202,11 +230,9 @@ subprojects {
             }
         }
     }
+}
 
-    LicenseReporter.generateReportIn(project)
-    JavadocConfig.applyTo(project)
-    CheckStyleConfig.applyTo(project)
-
+fun Subproject.configureTests() {
     tasks {
         registerTestTasks()
         test {
@@ -216,10 +242,10 @@ subprojects {
             configureLogging()
         }
     }
+}
 
-    val generatedDir:String by extra("$projectDir/generated")
-
-    protobuf {
+fun Subproject.configureProtoc() {
+    project.protobuf {
         protoc {
             // Temporarily use this version, since 3.21.x is known to provide
             // a broken `protoc-gen-js` artifact.
@@ -232,19 +258,15 @@ subprojects {
             all().forEach { task ->
                 task.builtins {
                     id("js") {
-                        option("library=spine-time-${project.version}")
+                        option("library=spine-time-${project.project.version}")
                     }
                 }
             }
         }
     }
+}
 
-    updateGitHubPages(Spine.DefaultVersion.javadocTools) {
-        allowInternalJavadoc.set(true)
-        rootFolder.set(rootDir)
-    }
-
-    // Apply the same IDEA module configuration for each of subprojects.
+fun Subproject.configureIdea(generatedDir: String) {
     idea {
         module {
             with(generatedSourceDirs) {
@@ -261,10 +283,11 @@ subprojects {
             isDownloadSources = true
         }
     }
-
-    project.configureTaskDependencies()
 }
 
-LicenseReporter.mergeAllReports(project)
-JacocoConfig.applyTo(project)
-PomGenerator.applyTo(project)
+fun Subproject.setupJavadoc() {
+    updateGitHubPages(Spine.DefaultVersion.javadocTools) {
+        allowInternalJavadoc.set(true)
+        rootFolder.set(rootDir)
+    }
+}
