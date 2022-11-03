@@ -195,7 +195,6 @@ fun Subproject.addDependencies() {
     val spine = Spine(project)
     dependencies {
         errorprone(ErrorProne.core)
-        api(kotlin("stdlib-jdk8"))
 
         testImplementation(spine.testlib)
         testImplementation(JUnit.runner)
@@ -236,9 +235,6 @@ fun Subproject.configureTests() {
     tasks {
         registerTestTasks()
         test {
-            useJUnitPlatform {
-                includeEngines("junit-jupiter")
-            }
             configureLogging()
         }
     }
