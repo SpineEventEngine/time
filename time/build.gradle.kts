@@ -33,9 +33,9 @@ import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 
 plugins {
-    id(io.spine.internal.dependency.Protobuf.GradlePlugin.id)
-    id("io.spine.protodata")
-    id("io.spine.mc-java")
+    id(protobufPlugin)
+    id(protoData.pluginId)
+    id(mcJava.pluginId)
 }
 
 apply<IncrementGuard>()
