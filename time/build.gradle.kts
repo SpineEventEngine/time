@@ -35,8 +35,8 @@ import io.spine.tools.mc.gradle.modelCompiler
 plugins {
     protobuf
     `detekt-code-analysis`
-    id("io.spine.protodata")
-    id("io.spine.mc-java")
+    id(protoData.pluginId)
+    id(mcJava.pluginId)
 }
 
 apply<IncrementGuard>()
