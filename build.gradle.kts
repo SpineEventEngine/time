@@ -233,6 +233,7 @@ fun Subproject.configureTests() {
     tasks {
         registerTestTasks()
         test {
+            useJUnitPlatform()
             configureLogging()
         }
     }
