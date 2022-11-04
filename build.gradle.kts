@@ -92,10 +92,8 @@ plugins {
     jacoco
     idea
     `project-report`
-
-    id(protobufPlugin)
-    id(errorPronePlugin)
-    `detekt-code-analysis`
+    protobuf
+    errorprone
 }
 
 spinePublishing {

@@ -33,9 +33,10 @@ import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 
 plugins {
-    id(protobufPlugin)
-    id(protoData.pluginId)
-    id(mcJava.pluginId)
+    protobuf
+    `detekt-code-analysis`
+    id("io.spine.protodata")
+    id("io.spine.mc-java")
 }
 
 apply<IncrementGuard>()
