@@ -92,10 +92,8 @@ plugins {
     jacoco
     idea
     `project-report`
-
-    id(protobufPlugin)
-    id(errorPronePlugin)
-    `detekt-code-analysis`
+    protobuf
+    errorprone
 }
 
 spinePublishing {
@@ -235,6 +233,7 @@ fun Subproject.configureTests() {
     tasks {
         registerTestTasks()
         test {
+            useJUnitPlatform()
             configureLogging()
         }
     }

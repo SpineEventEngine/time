@@ -33,7 +33,8 @@ import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 
 plugins {
-    id(protobufPlugin)
+    protobuf
+    `detekt-code-analysis`
     id(protoData.pluginId)
     id(mcJava.pluginId)
 }
