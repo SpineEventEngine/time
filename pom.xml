@@ -12,7 +12,7 @@ all modules and does not describe the project structure per-subproject.
 
 <groupId>io.spine</groupId>
 <artifactId>spine-time</artifactId>
-<version>1.8.2</version>
+<version>1.9.0-SNAPSHOT.5</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -46,7 +46,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-base</artifactId>
-    <version>1.8.2</version>
+    <version>1.9.0-SNAPSHOT.5</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -58,7 +58,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-testlib</artifactId>
-    <version>1.8.2</version>
+    <version>1.9.0-SNAPSHOT.5</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -86,9 +86,39 @@ all modules and does not describe the project structure per-subproject.
     <scope>test</scope>
   </dependency>
   <dependency>
+    <groupId>com.google.auto.service</groupId>
+    <artifactId>auto-service</artifactId>
+    <version>1.0-rc7</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>com.google.auto.service</groupId>
+    <artifactId>auto-service-annotations</artifactId>
+    <version>1.0-rc7</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>com.google.code.findbugs</groupId>
+    <artifactId>jsr305</artifactId>
+    <version>3.0.2</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>com.google.errorprone</groupId>
+    <artifactId>error_prone_annotations</artifactId>
+    <version>2.4.0</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
     <groupId>com.google.errorprone</groupId>
     <artifactId>error_prone_core</artifactId>
     <version>2.4.0</version>
+  </dependency>
+  <dependency>
+    <groupId>com.google.errorprone</groupId>
+    <artifactId>error_prone_type_annotations</artifactId>
+    <version>2.4.0</version>
+    <scope>provided</scope>
   </dependency>
   <dependency>
     <groupId>com.google.errorprone</groupId>
@@ -112,18 +142,30 @@ all modules and does not describe the project structure per-subproject.
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
+    <artifactId>spine-errorprone-checks</artifactId>
+    <version>1.9.0-SNAPSHOT.5</version>
+    <scope>provided</scope>
+  </dependency>
+  <dependency>
+    <groupId>io.spine.tools</groupId>
     <artifactId>spine-javadoc-filter</artifactId>
-    <version>1.8.2</version>
+    <version>1.9.0-SNAPSHOT.5</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>spine-protoc-plugin</artifactId>
-    <version>1.8.2</version>
+    <version>1.9.0-SNAPSHOT.5</version>
   </dependency>
   <dependency>
     <groupId>net.sourceforge.pmd</groupId>
     <artifactId>pmd-java</artifactId>
     <version>6.24.0</version>
+  </dependency>
+  <dependency>
+    <groupId>org.checkerframework</groupId>
+    <artifactId>checker-qual</artifactId>
+    <version>3.7.1</version>
+    <scope>provided</scope>
   </dependency>
   <dependency>
     <groupId>org.jacoco</groupId>
