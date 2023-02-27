@@ -103,6 +103,9 @@ tasks.withType<LaunchProtoData>().forEach { task ->
 val ensureInterimKotlinErased by tasks.registering {
     doLast {
         delete(generatedSourceProto)
+        while(File(generatedSourceProto).exists()) {
+            Thread.sleep(100)
+        }
     }
 }
 
