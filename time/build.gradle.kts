@@ -82,6 +82,8 @@ protoData {
     )
 }
 
+val generatedSourceProto = "$buildDir/generated/source/proto"
+
 /**
  * Manually suppress deprecations in the generated Kotlin code until ProtoData does it.
  *
@@ -94,6 +96,16 @@ tasks.withType<LaunchProtoData>().forEach { task ->
         }
 
         delete("$buildDir/generated-proto")
-        delete("$buildDir/generated/source/proto")
+        delete(generatedSourceProto)
     }
+}
+
+val ensureInterimKotlinErased by tasks.registering {
+    doLast {
+        delete(generatedSourceProto)
+    }
+}
+
+val compileKotlin: Task by tasks.getting {
+    dependsOn(ensureInterimKotlinErased)
 }
