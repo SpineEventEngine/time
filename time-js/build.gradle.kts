@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,47 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.remove
+
+plugins {
+    protobuf
+}
+
+val timeProject = project(":time")
+
+dependencies {
+    implementation(timeProject)
+}
+
+sourceSets {
+    main {
+        proto.srcDir(timeProject.projectDir.resolve("src/main/proto"))
     }
 }
 
-rootProject.name = "spine-time"
+protobuf {
+    generatedFilesBaseDir = "$projectDir/generated"
+    protoc {
+        // Temporarily use this version, since 3.21.x is known to provide
+        // a broken `protoc-gen-js` artifact.
+        // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
+        //
+        // Once it is addressed, this artifact should be `Protobuf.compiler`.
+        artifact = "com.google.protobuf:protoc:3.19.6"
+    }
 
-include(
-    "time",
-    "time-js",
-    "testutil-time",
-)
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                // Do not use java builtin output in this project.
+                remove("java")
+
+                id("js") {
+                    option("library=spine-time-${project.project.version}")
+                    outputSubDir = "js"
+                }
+            }
+        }
+    }
+}

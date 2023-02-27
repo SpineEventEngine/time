@@ -26,7 +26,7 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import com.google.protobuf.gradle.id
+import Build_gradle.Subproject
 import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
@@ -108,12 +108,6 @@ spinePublishing {
     }
 }
 
-// Temporarily use this version, since 3.21.x is known to provide
-// a broken `protoc-gen-js` artifact and Kotlin code without access modifiers.
-// See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
-//     https://github.com/protocolbuffers/protobuf/issues/10593
-val protocArtifact = "com.google.protobuf:protoc:3.19.6"
-
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
 
@@ -132,7 +126,6 @@ allprojects {
                     spine.validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
-                    protocArtifact,
                     JUnit.runner,
                 )
             }
@@ -150,7 +143,6 @@ subprojects {
     configureJava(javaVersion)
     configureKotlin(javaVersion)
 
-    configureProtoc()
     configureTests()
     setupJavadoc()
 
@@ -230,28 +222,6 @@ fun Subproject.configureTests() {
         test {
             useJUnitPlatform()
             configureLogging()
-        }
-    }
-}
-
-fun Subproject.configureProtoc() {
-    project.protobuf {
-        protoc {
-            // Temporarily use this version, since 3.21.x is known to provide
-            // a broken `protoc-gen-js` artifact.
-            // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
-            //
-            // Once it is addressed, this artifact should be `Protobuf.compiler`.
-            artifact = protocArtifact
-        }
-        generateProtoTasks {
-            all().forEach { task ->
-                task.builtins {
-                    id("js") {
-                        option("library=spine-time-${project.project.version}")
-                    }
-                }
-            }
         }
     }
 }

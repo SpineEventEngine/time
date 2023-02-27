@@ -59,10 +59,8 @@ configurations {
 
 val generatedDir:String by extra("$projectDir/generated")
 
-sourceSets {
-    main { java.srcDir("$generatedDir/main/java") }
-    main { kotlin.srcDir("$generatedDir/main/kotlin") }
-    test { java.srcDir("$generatedDir/test/java") }
+protobuf {
+    generatedFilesBaseDir = generatedDir
 }
 
 /**
@@ -78,7 +76,6 @@ protoData {
         // Suppress warnings in the generated code.
         "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
         "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
-
     )
     plugins(
         "io.spine.validation.ValidationPlugin",
@@ -87,11 +84,16 @@ protoData {
 
 /**
  * Manually suppress deprecations in the generated Kotlin code until ProtoData does it.
+ *
+ * Also, remove the generated vanilla proto code.
  */
 tasks.withType<LaunchProtoData>().forEach { task ->
     task.doLast {
         sourceSets.forEach { sourceSet ->
             suppressDeprecationsInKotlin(generatedDir, sourceSet.name)
         }
+
+        delete("$buildDir/generated-proto")
+        delete("$buildDir/generated/source/proto")
     }
 }
