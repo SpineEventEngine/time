@@ -26,29 +26,17 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import Build_gradle.Subproject
 import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
-import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
-import io.spine.internal.gradle.github.pages.updateGitHubPages
-import io.spine.internal.gradle.javac.configureErrorProne
-import io.spine.internal.gradle.javac.configureJavac
-import io.spine.internal.gradle.javadoc.JavadocConfig
-import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
 import io.spine.internal.gradle.standardToSpineSdk
-import io.spine.internal.gradle.testing.configureLogging
-import io.spine.internal.gradle.testing.registerTestTasks
-import org.gradle.jvm.tasks.Jar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     standardSpineSdkRepositories()
@@ -81,13 +69,10 @@ repositories {
 }
 
 plugins {
-    `java-library`
-    kotlin("jvm")
     jacoco
     idea
     `project-report`
-    protobuf
-    errorprone
+    `gradle-doctor`
 }
 
 spinePublishing {
@@ -134,120 +119,10 @@ allprojects {
 }
 
 subprojects {
-    applyPlugins()
-    repositories.standardToSpineSdk()
-
-    addDependencies()
-
-    val javaVersion = JavaVersion.VERSION_11
-    configureJava(javaVersion)
-    configureKotlin(javaVersion)
-
-    configureTests()
-    setupJavadoc()
-
-    val generatedDir:String by extra("$projectDir/generated")
-    configureIdea(generatedDir)
-    configureTaskDependencies()
+    apply(plugin = "module")
 }
 
+PomGenerator.applyTo(project)
 LicenseReporter.mergeAllReports(project)
 JacocoConfig.applyTo(project)
-PomGenerator.applyTo(project)
 
-typealias Subproject = Project
-
-fun Subproject.applyPlugins() {
-    apply {
-        plugin("java-library")
-        plugin("kotlin")
-        plugin("com.google.protobuf")
-        plugin("net.ltgt.errorprone")
-        plugin("pmd")
-        plugin("checkstyle")
-        plugin("idea")
-        plugin("pmd-settings")
-        plugin("jacoco")
-        plugin("dokka-for-java")
-    }
-
-    LicenseReporter.generateReportIn(project)
-    JavadocConfig.applyTo(project)
-    CheckStyleConfig.applyTo(project)
-}
-
-fun Subproject.addDependencies() {
-    val spine = Spine(project)
-    dependencies {
-        errorprone(ErrorProne.core)
-
-        testImplementation(spine.testlib)
-        testImplementation(JUnit.runner)
-    }
-}
-
-fun Subproject.configureJava(javaVersion: JavaVersion) {
-    java {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-
-        tasks {
-            withType<JavaCompile>().configureEach {
-                configureJavac()
-                configureErrorProne()
-            }
-            withType<Jar>().configureEach {
-                duplicatesStrategy = DuplicatesStrategy.INCLUDE
-            }
-        }
-    }
-}
-
-fun Subproject.configureKotlin(javaVersion: JavaVersion) {
-    kotlin {
-        explicitApi()
-
-        tasks {
-            withType<KotlinCompile>().configureEach {
-                kotlinOptions.jvmTarget = javaVersion.toString()
-                setFreeCompilerArgs()
-            }
-        }
-    }
-}
-
-fun Subproject.configureTests() {
-    tasks {
-        registerTestTasks()
-        test {
-            useJUnitPlatform()
-            configureLogging()
-        }
-    }
-}
-
-fun Subproject.configureIdea(generatedDir: String) {
-    idea {
-        module {
-            with(generatedSourceDirs) {
-                add(file("$generatedDir/main/js"))
-                add(file("$generatedDir/main/java"))
-                add(file("$generatedDir/main/kotlin"))
-                add(file("$generatedDir/main/spine"))
-            }
-            testSources.from(
-                file("$generatedDir/test/java"),
-                file("$generatedDir/test/kotlin")
-            )
-            isDownloadJavadoc = true
-            isDownloadSources = true
-        }
-    }
-}
-
-fun Subproject.setupJavadoc() {
-    updateGitHubPages(Spine.DefaultVersion.javadocTools) {
-        allowInternalJavadoc.set(true)
-        rootFolder.set(rootDir)
-    }
-}
