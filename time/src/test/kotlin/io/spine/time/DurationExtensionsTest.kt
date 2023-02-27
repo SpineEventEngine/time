@@ -28,7 +28,6 @@ package io.spine.time
 
 import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Duration
-import com.google.protobuf.util.Durations
 import com.google.protobuf.util.Durations.ZERO
 import com.google.protobuf.util.Durations.toDays
 import com.google.protobuf.util.Durations.toHours
