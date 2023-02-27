@@ -44,7 +44,6 @@ import io.spine.protobuf.Durations2.nanos
 import io.spine.protobuf.Durations2.seconds
 import io.spine.protobuf.Durations2.toJavaTime
 import io.spine.testing.TestValues.random
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -68,7 +67,7 @@ internal class DurationExtsSpec {
 
         @Test
         fun isValid() {
-            assertTrue(duration.isValid())
+            duration.isValid() shouldBe true
         }
 
         @Test
