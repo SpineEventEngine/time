@@ -26,8 +26,6 @@
 
 package io.spine.time
 
-import com.google.common.truth.Truth.assertThat
-import com.google.common.truth.extensions.proto.ProtoTruth.assertThat
 import com.google.protobuf.Timestamp
 import com.google.protobuf.timestamp
 import com.google.protobuf.util.Timestamps
@@ -35,15 +33,16 @@ import com.google.protobuf.util.Timestamps.between
 import com.google.protobuf.util.Timestamps.toMicros
 import com.google.protobuf.util.Timestamps.toMillis
 import com.google.protobuf.util.Timestamps.toNanos
+import io.kotest.matchers.shouldBe
 import io.spine.time.given.ImportantTimes.future
 import io.spine.time.given.ImportantTimes.inBetween
 import io.spine.time.given.ImportantTimes.past
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class `Timestamp extensions should` {
+@DisplayName("`Timestamp` Kotlin extensions should")
+internal class TimestampExtsSpec {
 
     private val past: Timestamp = past().toTimestamp()
     private val inBetween: Timestamp = inBetween().toTimestamp()
@@ -52,27 +51,37 @@ internal class `Timestamp extensions should` {
     @Test
     fun `check if the instance is valid`() {
         val invalid = timestamp { nanos = -1 }
-        assertFalse(invalid.isValid())
-        assertTrue(future.isValid())
+        invalid.isValid() shouldBe false
+        future.isValid() shouldBe true
     }
 
     @Test
-    fun `print to string`() = assertThat(future.print()).isEqualTo(Timestamps.toString(future))
+    fun `print to string`() {
+        future.print() shouldBe Timestamps.toString(future)
+    }
 
     @Nested
     inner class `Convert to` {
 
         @Test
-        fun toMillis() = assertThat(future.toMillis()).isEqualTo(toMillis(future))
+        fun toMillis() {
+            future.toMillis() shouldBe toMillis(future)
+        }
 
         @Test
-        fun toMicros() = assertThat(future.toMicros()).isEqualTo(toMicros(future))
+        fun toMicros() {
+            future.toMicros() shouldBe toMicros(future)
+        }
 
         @Test
-        fun toNanos() = assertThat(past.toNanos()).isEqualTo(toNanos(past))
+        fun toNanos() {
+            past.toNanos() shouldBe toNanos(past)
+        }
 
         @Test
-        fun instant() = assertThat(past.toInstant()).isEqualTo(past().toInstant())
+        fun instant() {
+            past.toInstant() shouldBe past().toInstant()
+        }
     }
 
     @Nested
@@ -80,22 +89,22 @@ internal class `Timestamp extensions should` {
 
         @Test
         fun `before another`() {
-            assertTrue(past.isBefore(future))
-            assertFalse(future.isBefore(past))
-            assertFalse(past.isBefore(past))
+            past.isBefore(future) shouldBe true
+            future.isBefore(past) shouldBe false
+            past.isBefore(past) shouldBe false
         }
 
         @Test
         fun `after another`() {
-            assertTrue(future.isAfter(past))
-            assertFalse(past.isAfter(future))
-            assertFalse(future.isAfter(future))
+            future.isAfter(past) shouldBe true
+            past.isAfter(future) shouldBe false
+            future.isAfter(future) shouldBe false
         }
 
         @Test
         fun `between two other`() {
-            assertTrue(inBetween.isBetween(past, future))
-            assertFalse(past.isBetween(inBetween, future))
+            inBetween.isBetween(past, future) shouldBe true
+            past.isBetween(inBetween, future) shouldBe false
         }
     }
 
@@ -104,33 +113,33 @@ internal class `Timestamp extensions should` {
 
         @Test
         fun compareTo() {
-            assertTrue(past < future)
-            assertTrue(future > past)
-            assertFalse(past > future)
-            assertFalse(future < past)
+            (past < future) shouldBe true
+            (future > past) shouldBe true
+            (past > future) shouldBe false
+            (future < past) shouldBe false
             @Suppress("KotlinConstantConditions") // serves as documentation
-            assertTrue(future == future)
+            (future == future) shouldBe true
         }
 
         @Test
         fun `minus 'Timestamp' calculating distance`() {
             val distance = inBetween - past
             val expected = between(inBetween, past)
-            assertThat(distance).isEqualTo(expected)
+            distance shouldBe expected
         }
 
         @Test
         fun `plus 'Duration'`() {
             val distance = past - inBetween
             val timestamp = past + distance
-            assertThat(timestamp).isEqualTo(inBetween)
+            timestamp shouldBe inBetween
         }
 
         @Test
         fun `minus 'Duration'`() {
             val distance = past - future
             val timestamp = future - distance
-            assertThat(timestamp).isEqualTo(past)
+            timestamp shouldBe past
         }
     }
 }
