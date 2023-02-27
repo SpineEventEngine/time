@@ -86,9 +86,9 @@ project.run {
     configureTaskDependencies()
 }
 
-typealias Subproject = Project
+typealias Module = Project
 
-fun Subproject.applyPlugins() {
+fun Module.applyPlugins() {
     apply {
         plugin("java-library")
         plugin("kotlin")
@@ -107,7 +107,7 @@ fun Subproject.applyPlugins() {
     CheckStyleConfig.applyTo(project)
 }
 
-fun Subproject.addDependencies() {
+fun Module.addDependencies() {
     val spine = Spine(project)
     dependencies {
         errorprone(ErrorProne.core)
@@ -117,7 +117,7 @@ fun Subproject.addDependencies() {
     }
 }
 
-fun Subproject.configureJava(javaVersion: JavaVersion) {
+fun Module.configureJava(javaVersion: JavaVersion) {
     java {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
@@ -134,7 +134,7 @@ fun Subproject.configureJava(javaVersion: JavaVersion) {
     }
 }
 
-fun Subproject.configureKotlin(javaVersion: JavaVersion) {
+fun Module.configureKotlin(javaVersion: JavaVersion) {
     kotlin {
         explicitApi()
 
@@ -147,7 +147,7 @@ fun Subproject.configureKotlin(javaVersion: JavaVersion) {
     }
 }
 
-fun Subproject.configureTests() {
+fun Module.configureTests() {
     tasks {
         registerTestTasks()
         test {
@@ -157,7 +157,7 @@ fun Subproject.configureTests() {
     }
 }
 
-fun Subproject.configureIdea(generatedDir: String) {
+fun Module.configureIdea(generatedDir: String) {
     idea {
         module {
             with(generatedSourceDirs) {
@@ -176,7 +176,7 @@ fun Subproject.configureIdea(generatedDir: String) {
     }
 }
 
-fun Subproject.setupJavadoc() {
+fun Module.setupJavadoc() {
     updateGitHubPages(Spine.DefaultVersion.javadocTools) {
         allowInternalJavadoc.set(true)
         rootFolder.set(rootDir)
