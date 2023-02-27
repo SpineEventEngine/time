@@ -29,6 +29,7 @@
 package io.spine.time
 
 import com.google.protobuf.Duration
+import com.google.protobuf.util.Durations
 import com.google.protobuf.util.Durations.compare
 import com.google.protobuf.util.Durations.isNegative
 import com.google.protobuf.util.Durations.isValid
@@ -42,7 +43,6 @@ import com.google.protobuf.util.Durations.toSeconds
 import com.google.protobuf.util.Durations.toString
 import io.spine.protobuf.Durations2
 import io.spine.protobuf.Durations2.add
-import io.spine.protobuf.Durations2.isPositive
 import io.spine.protobuf.Durations2.isPositiveOrZero
 import io.spine.protobuf.Durations2.isZero
 import io.spine.protobuf.Durations2.toJavaTime
@@ -79,7 +79,7 @@ public fun Duration.isNegative(): Boolean = isNegative(this)
  *
  * @returns `true` if the passed value is greater than zero, `false` otherwise.
  */
-public fun Duration.isPositive(): Boolean = isPositive(this)
+public fun Duration.isPositive(): Boolean = Durations.isPositive(this)
 
 /**
  * Tells whether this duration is not negative.

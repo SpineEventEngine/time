@@ -26,9 +26,7 @@
 
 package io.spine.time.string;
 
-import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Timestamp;
-import io.spine.string.Registrar;
 import io.spine.string.Stringifier;
 import io.spine.string.StringifierRegistry;
 import io.spine.time.DayOfWeek;
@@ -46,8 +44,8 @@ import io.spine.time.ZonedDateTime;
 public final class TimeStringifiers {
 
     static {
-        @SuppressWarnings({"deprecation", "RedundantSuppression"})
-        var registrar = new Registrar(ImmutableList.of(
+        var registry = StringifierRegistry.instance();
+        registry.register(
                 forDayOfWeek(),
                 forLocalDate(),
                 forLocalDateTime(),
@@ -57,10 +55,8 @@ public final class TimeStringifiers {
                 forOffsetTime(),
                 forYearMonth(),
                 forZoneId(),
-                forZonedDateTime(),
-                forZoneOffset()
-        ));
-        registrar.register();
+                forZonedDateTime(), forZoneOffset()
+        );
     }
 
     /** Prevent instantiation of this utility class. */

@@ -26,18 +26,12 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
-import io.spine.internal.gradle.applyStandard
-import io.spine.internal.gradle.applyStandardWithGitHub
 import io.spine.internal.gradle.checkstyle.CheckStyleConfig
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.github.pages.updateGitHubPages
@@ -50,14 +44,14 @@ import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.test.configureLogging
-import io.spine.internal.gradle.test.registerTestTasks
+import io.spine.internal.gradle.standardToSpineSdk
+import io.spine.internal.gradle.testing.configureLogging
+import io.spine.internal.gradle.testing.registerTestTasks
 import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-    io.spine.internal.gradle.applyWithStandard(this, rootProject,
-        "base", "mc-java")
+    standardSpineSdkRepositories()
     io.spine.internal.gradle.doForceVersions(configurations)
 
     dependencies {
@@ -83,7 +77,7 @@ buildscript {
 
 repositories {
     // Required to grab the dependencies for `JacocoConfig`.
-    applyStandard()
+    standardToSpineSdk()
 }
 
 plugins {
@@ -134,10 +128,12 @@ allprojects {
             resolutionStrategy {
                 force(
                     spine.base,
+                    spine.toolBase,
                     spine.validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
-                    protocArtifact
+                    protocArtifact,
+                    JUnit.runner,
                 )
             }
         }
@@ -146,9 +142,8 @@ allprojects {
 
 subprojects {
     applyPlugins()
-    repositories {
-        applyStandardWithGitHub(project, "base")
-    }
+    repositories.standardToSpineSdk()
+
     addDependencies()
 
     val javaVersion = JavaVersion.VERSION_11
