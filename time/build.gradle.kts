@@ -31,6 +31,7 @@ import io.spine.internal.gradle.protobuf.suppressDeprecationsInKotlin
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 
 plugins {
     protobuf
@@ -109,6 +110,10 @@ val ensureInterimKotlinErased by tasks.registering {
     }
 }
 
-val compileKotlin: Task by tasks.getting {
+val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
     dependsOn(ensureInterimKotlinErased)
+    val thisTask: org.jetbrains.kotlin.gradle.tasks.KotlinCompile = this as org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+    thisTask.sources.removeAll {
+        it.startsWith(generatedSourceProto)
+    }
 }
