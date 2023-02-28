@@ -105,15 +105,10 @@ tasks.withType<LaunchProtoData>().forEach { task ->
 val ensureInterimKotlinErased by tasks.registering {
     doLast {
         delete(generatedSourceProto)
-        while(File(generatedSourceProto).exists()) {
-            Thread.sleep(100)
-        }
     }
 }
 
 val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
-    dependsOn(ensureInterimKotlinErased)
-
     val generatedSourceProtoDir = File(generatedSourceProto)
     val notInSourceDir: (File) -> Boolean = { file -> !file.residesIn(generatedSourceProtoDir) }
     val thisTask = this as KotlinCompileTool
@@ -122,6 +117,8 @@ val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
     with(thisTask.sources as ConfigurableFileCollection) {
         setFrom(filteredKotlin)
     }
+
+    dependsOn(ensureInterimKotlinErased)
 }
 
 fun File.residesIn(directory: File): Boolean =
