@@ -32,6 +32,7 @@ import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompileTool
 
 plugins {
     protobuf
@@ -112,8 +113,16 @@ val ensureInterimKotlinErased by tasks.registering {
 
 val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
     dependsOn(ensureInterimKotlinErased)
-    val thisTask = this as org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-    thisTask.sources.removeAll {
-        it.toString().contains(generatedSourceProto)
+
+    val generatedSourceProtoDir = File(generatedSourceProto)
+    val notInSourceDir: (File) -> Boolean = { file -> !file.residesIn(generatedSourceProtoDir) }
+    val thisTask = this as KotlinCompileTool
+
+    val filteredKotlin = thisTask.sources.filter(notInSourceDir).toSet()
+    with(thisTask.sources as ConfigurableFileCollection) {
+        setFrom(filteredKotlin)
     }
 }
+
+fun File.residesIn(directory: File): Boolean =
+    canonicalFile.startsWith(directory.absolutePath)
