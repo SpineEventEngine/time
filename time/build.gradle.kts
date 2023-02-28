@@ -42,8 +42,6 @@ plugins {
 
 apply<IncrementGuard>()
 
-System.setProperty("kotlin.caching.enabled", "false")
-
 dependencies {
     annotationProcessor(AutoService.processor)
     compileOnly(AutoService.annotations)
@@ -113,10 +111,9 @@ val ensureInterimKotlinErased by tasks.registering {
 }
 
 val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
-    
     dependsOn(ensureInterimKotlinErased)
     val thisTask = this as org.jetbrains.kotlin.gradle.tasks.KotlinCompile
     thisTask.sources.removeAll {
-        it.startsWith(generatedSourceProto)
+        it.toString().contains(generatedSourceProto)
     }
 }
