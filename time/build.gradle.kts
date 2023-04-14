@@ -28,7 +28,6 @@ import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.internal.gradle.standardToSpineSdk
 import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
@@ -85,9 +84,7 @@ protoData {
 val generatedSourceProto = "$buildDir/generated/source/proto"
 
 /**
- * Manually suppress deprecations in the generated Kotlin code until ProtoData does it.
- *
- * Also, remove the generated vanilla proto code.
+ * Remove the generated vanilla proto code.
  */
 tasks.withType<LaunchProtoData>().forEach { task ->
     task.doLast {
