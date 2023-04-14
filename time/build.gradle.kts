@@ -27,8 +27,8 @@
 import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.gradle.excludeProtobufLite
-import io.spine.internal.gradle.protobuf.suppressDeprecationsInKotlin
 import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.internal.gradle.standardToSpineSdk
 import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
@@ -36,7 +36,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompileTool
 
 plugins {
     protobuf
-    `detekt-code-analysis`
+    `java-module`
+    `kotlin-jvm-module`
     id(protoData.pluginId)
     id(mcJava.pluginId)
 }
@@ -52,6 +53,7 @@ dependencies {
     api(spine.base)
     implementation(spine.validation.runtime)
 
+    testImplementation(spine.testlib)
     testImplementation(project(":testutil-time"))
 }
 
@@ -60,10 +62,6 @@ configurations {
 }
 
 val generatedDir:String by extra("$projectDir/generated")
-
-protobuf {
-    generatedFilesBaseDir = generatedDir
-}
 
 /**
  * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
@@ -93,10 +91,6 @@ val generatedSourceProto = "$buildDir/generated/source/proto"
  */
 tasks.withType<LaunchProtoData>().forEach { task ->
     task.doLast {
-        sourceSets.forEach { sourceSet ->
-            suppressDeprecationsInKotlin(generatedDir, sourceSet.name)
-        }
-
         delete("$buildDir/generated-proto")
         delete(generatedSourceProto)
     }

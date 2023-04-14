@@ -26,10 +26,13 @@
 
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.remove
+import io.spine.internal.gradle.report.license.LicenseReporter
 
 plugins {
     protobuf
+    `java-library`
 }
+LicenseReporter.generateReportIn(project)
 
 val timeProject = project(":time")
 
@@ -44,7 +47,6 @@ sourceSets {
 }
 
 protobuf {
-    generatedFilesBaseDir = "$projectDir/generated"
     protoc {
         // Temporarily use this version, since 3.21.x is known to provide
         // a broken `protoc-gen-js` artifact.

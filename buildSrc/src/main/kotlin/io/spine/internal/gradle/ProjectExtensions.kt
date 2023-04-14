@@ -73,6 +73,17 @@ fun <T : Task> Project.findTask(name: String): T {
 }
 
 /**
+ * Finds the task of type `T` in this project by the task name.
+ *
+ * Returns `null` if there is no task with such a name.
+ */
+@Suppress("UNCHECKED_CAST")     /* See the method docs. */
+fun <T : Task> Project.findTaskOrNull(name: String): T? {
+    val task = this.tasks.findByName(name)
+    return task as T?
+}
+
+/**
  * Obtains Maven artifact ID of this [Project].
  *
  * The method checks if [SpinePublishing] extension is configured upon this project. If yes,

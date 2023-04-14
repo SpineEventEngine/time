@@ -24,12 +24,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.internal.dependency.Spine
+
 plugins {
-    `detekt-code-analysis`
+    `java-module`
+    `kotlin-jvm-module`
 }
 
 group = "io.spine.tools"
 
 dependencies {
     api(project(":time"))
+    testImplementation(Spine(project).testlib)
 }

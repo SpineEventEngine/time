@@ -69,10 +69,10 @@ repositories {
 }
 
 plugins {
-    jacoco
     idea
-    `project-report`
+    jacoco
     `gradle-doctor`
+    `project-report`
 }
 
 spinePublishing {
@@ -89,7 +89,8 @@ spinePublishing {
     }
 
     dokkaJar {
-        enabled = true
+        kotlin = true
+        java = true
     }
 }
 
@@ -98,6 +99,8 @@ allprojects {
 
     group = "io.spine"
     version = extra["versionToPublish"]!!
+
+    repositories.standardToSpineSdk()
 
     val spine = Spine(project)
     configurations {
@@ -118,11 +121,8 @@ allprojects {
     }
 }
 
-subprojects {
-    apply(plugin = "module")
+gradle.projectsEvaluated {
+    JacocoConfig.applyTo(project)
+    LicenseReporter.mergeAllReports(project)
+    PomGenerator.applyTo(project)
 }
-
-PomGenerator.applyTo(project)
-LicenseReporter.mergeAllReports(project)
-JacocoConfig.applyTo(project)
-
