@@ -45,7 +45,7 @@ val time = "1.9.0-SNAPSHOT.5"
 /**
  * Versions of the Spine libraries that `time` depends on.
  */
-val base = "1.9.0-SNAPSHOT.5"
+val base = "1.9.0-SNAPSHOT.6"
 
 project.extra.apply {
     this["versionToPublish"] = time
