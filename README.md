@@ -1,6 +1,5 @@
 # Spine Time: Protobuf-based Date/Time types
 
-[![Build Status][travis-badge]][travis] &nbsp; 
 [![codecov][codecov-badge]][codecov] &nbsp;
 [![license][license-badge]][license]
 
@@ -11,7 +10,7 @@ The types provided by this library follow the conventions offered by [Java Time]
 
 ## Supported Languages
 
-Currently the library supports only Java, with JavaScript and Dart being on the priority list.
+Currently, the library supports only Java, with JavaScript and Dart being on the priority list.
  
 ## Using Spine Time in a Java Project
 
@@ -27,8 +26,6 @@ In addition to the generated types and basic factory and calculation routines, t
 provides converters between its types and Java Time. It is expected that an application would 
 perform the date/time calculations using Java Time.
 
-[travis]: https://travis-ci.com/SpineEventEngine/time
-[travis-badge]: https://travis-ci.com/SpineEventEngine/time.svg?branch=master
 [codecov]: https://codecov.io/gh/SpineEventEngine/time
 [codecov-badge]: https://codecov.io/gh/SpineEventEngine/time/branch/master/graph/badge.svg
 [license-badge]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
