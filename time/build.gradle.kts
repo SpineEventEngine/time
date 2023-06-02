@@ -28,7 +28,7 @@ import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.tools.mc.gradle.modelCompiler
+import org.gradle.jvm.tasks.Jar
 
 plugins {
     protobuf
@@ -69,4 +69,29 @@ protoData {
     plugins(
         "io.spine.validation.ValidationPlugin",
     )
+}
+
+/**
+ * Forcibly remove the code by `protoc` under the `build` directory
+ * until ProtoData can handle it by itself.
+ *
+ * The generated code is transferred by ProtoData into `$projectDir/generated` while it
+ * processes it. But ProtoData does not handle the Gradle model fully yet. That's why we have the
+ * build error because of the duplicated source code files are attempted to be packed
+ * into a source code JAR.
+ *
+ * We should not set the `DuplicatesStrategy.INCLUDE` as we did before, because it will
+ * lead to accidental removal of the generated code added by McJava (and ProtoData) into
+ * the vanilla Protobuf Java sources.
+ *
+ * Therefore, the `Jar` tasks are configured to depend on `removeGeneratedVanillaCode`.
+ */
+val removeGeneratedVanillaCode by tasks.registering(Delete::class) {
+    delete("$buildDir/generated/source/proto")
+}
+
+tasks {
+    withType<Jar>().configureEach {
+        dependsOn(removeGeneratedVanillaCode)
+    }
 }
