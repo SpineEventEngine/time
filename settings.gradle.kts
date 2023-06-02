@@ -35,5 +35,6 @@ rootProject.name = "spine-time"
 
 include(
     "time",
+    "time-js",
     "testutil-time",
 )

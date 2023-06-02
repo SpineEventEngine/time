@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,9 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/google/auto
-object AutoService {
-    private const val version = "1.0.1"
-    const val annotations = "com.google.auto.service:auto-service-annotations:${version}"
-    @Suppress("unused")
-    const val processor   = "com.google.auto.service:auto-service:${version}"
+// https://github.com/Kotlin/kotlinx-kover
+object Kover {
+    const val version = "0.7.0-Beta"
+    const val id = "org.jetbrains.kotlinx.kover"
+    const val classpath = "org.jetbrains.kotlinx:kover-gradle-plugin:$version"
 }

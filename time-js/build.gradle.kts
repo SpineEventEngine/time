@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,49 +24,49 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.dependency.Spine
-import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.tools.mc.gradle.modelCompiler
+import com.google.protobuf.gradle.id
+import com.google.protobuf.gradle.remove
+import io.spine.internal.gradle.report.license.LicenseReporter
 
 plugins {
     protobuf
-    `java-module`
-    `kotlin-jvm-module`
-    id(protoData.pluginId)
-    id(mcJava.pluginId)
+    `java-library`
 }
+LicenseReporter.generateReportIn(project)
 
-apply<IncrementGuard>()
+val timeProject = project(":time")
 
 dependencies {
-    annotationProcessor(AutoService.processor)
-    compileOnly(AutoService.annotations)
-
-    protoData(Validation.java)
-    api(Spine.base)
-    implementation(Validation.runtime)
-
-    testImplementation(Spine.testlib)
-    testImplementation(project(":testutil-time"))
+    implementation(timeProject)
 }
 
-configurations {
-    excludeProtobufLite()
+sourceSets {
+    main {
+        proto.srcDir(timeProject.projectDir.resolve("src/main/proto"))
+    }
 }
 
-/**
- * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
- */
-modelCompiler.java.codegen.validation().skipValidation()
+protobuf {
+    protoc {
+        // Temporarily use this version, since 3.21.x is known to provide
+        // a broken `protoc-gen-js` artifact.
+        // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
+        //
+        // Once it is addressed, this artifact should be `Protobuf.compiler`.
+        artifact = "com.google.protobuf:protoc:3.19.6"
+    }
 
-protoData {
-    renderers(
-        "io.spine.validation.java.PrintValidationInsertionPoints",
-        "io.spine.validation.java.JavaValidationRenderer",
-    )
-    plugins(
-        "io.spine.validation.ValidationPlugin",
-    )
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                // Do not use java builtin output in this project.
+                remove("java")
+
+                id("js") {
+                    option("library=spine-time-${project.project.version}")
+                    outputSubDir = "js"
+                }
+            }
+        }
+    }
 }

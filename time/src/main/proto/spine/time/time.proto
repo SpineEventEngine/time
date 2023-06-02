@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +34,6 @@ option (type_url_prefix) = "type.spine.io";
 option java_multiple_files = true;
 option java_outer_classname = "TimeProto";
 option java_package = "io.spine.time";
-
-import "google/protobuf/timestamp.proto";
 
 // Enum representing the 12 months of the year.
 enum Month {

@@ -26,8 +26,8 @@
 
 package io.spine.time
 
-import com.google.common.truth.Truth.assertThat
 import com.google.protobuf.Duration
+import com.google.protobuf.util.Durations.ZERO
 import com.google.protobuf.util.Durations.toDays
 import com.google.protobuf.util.Durations.toHours
 import com.google.protobuf.util.Durations.toMicros
@@ -36,7 +36,7 @@ import com.google.protobuf.util.Durations.toMinutes
 import com.google.protobuf.util.Durations.toNanos
 import com.google.protobuf.util.Durations.toSeconds
 import com.google.protobuf.util.Durations.toString
-import io.spine.protobuf.Durations2.ZERO
+import io.kotest.matchers.shouldBe
 import io.spine.protobuf.Durations2.add
 import io.spine.protobuf.Durations2.hours
 import io.spine.protobuf.Durations2.minutes
@@ -44,13 +44,13 @@ import io.spine.protobuf.Durations2.nanos
 import io.spine.protobuf.Durations2.seconds
 import io.spine.protobuf.Durations2.toJavaTime
 import io.spine.testing.TestValues.random
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-internal class `Duration extensions should` {
+@DisplayName("`Duration` Kotlin extensions should")
+internal class DurationExtsSpec {
 
     private lateinit var duration: Duration
 
@@ -66,64 +66,84 @@ internal class `Duration extensions should` {
     inner class `Tell if` {
 
         @Test
-        fun isValid() = assertTrue(duration.isValid())
+        fun isValid() {
+            duration.isValid() shouldBe true
+        }
 
         @Test
         fun isNegative() {
-            assertFalse(duration.isNegative())
-            assertTrue(hours(-1).isNegative())
+            duration.isNegative() shouldBe false
+            hours(-1).isNegative() shouldBe true
         }
 
         @Test
         fun isPositive() {
-            assertTrue(duration.isPositive())
-            assertFalse(minutes(-5).isPositive())
+            duration.isPositive() shouldBe true
+            minutes(-5).isPositive() shouldBe false
         }
 
         @Test
         fun isPositiveOrZero() {
-            assertTrue(duration.isPositiveOrZero())
-            assertTrue(ZERO.isPositiveOrZero())
-            assertFalse(seconds(-100).isPositiveOrZero())
+            duration.isPositiveOrZero() shouldBe true
+            ZERO.isPositiveOrZero() shouldBe true
+
+            seconds(-100).isPositiveOrZero() shouldBe false
         }
 
         @Test
         fun isZero() {
-            assertFalse(duration.isZero())
-            assertTrue(ZERO.isZero())
+            duration.isZero() shouldBe false
+            ZERO.isZero() shouldBe true
         }
     }
 
     @Test
-    fun `print to string`() =
-        assertThat(duration.print()).isEqualTo(toString(duration))
+    fun `print to string`() {
+        duration.print() shouldBe toString(duration)
+    }
 
     @Nested
     inner class `Convert to` {
 
         @Test
-        fun toDays() = assertThat(duration.toDays()).isEqualTo(toDays(duration))
+        fun toDays() {
+            duration.toDays() shouldBe toDays(duration)
+        }
 
         @Test
-        fun toHours() = assertThat(duration.toHours()).isEqualTo(toHours(duration))
+        fun toHours() {
+            duration.toHours() shouldBe toHours(duration)
+        }
 
         @Test
-        fun toMinutes() = assertThat(duration.toMinutes()).isEqualTo(toMinutes(duration))
+        fun toMinutes() {
+            duration.toMinutes() shouldBe toMinutes(duration)
+        }
 
         @Test
-        fun toSeconds() = assertThat(duration.toSeconds()).isEqualTo(toSeconds(duration))
+        fun toSeconds() {
+            duration.toSeconds() shouldBe toSeconds(duration)
+        }
 
         @Test
-        fun toMillis() = assertThat(duration.toMillis()).isEqualTo(toMillis(duration))
+        fun toMillis() {
+            duration.toMillis() shouldBe toMillis(duration)
+        }
 
         @Test
-        fun toMicros() = assertThat(duration.toMicros()).isEqualTo(toMicros(duration))
+        fun toMicros() {
+            duration.toMicros() shouldBe toMicros(duration)
+        }
 
         @Test
-        fun toNanos() = assertThat(duration.toNanos()).isEqualTo(toNanos(duration))
+        fun toNanos() {
+            duration.toNanos() shouldBe toNanos(duration)
+        }
 
         @Test
-        fun toJavaTime() = assertThat(duration.toJavaTime()).isEqualTo(toJavaTime(duration))
+        fun toJavaTime() {
+            duration.toJavaTime() shouldBe toJavaTime(duration)
+        }
     }
 
     @Nested
@@ -131,13 +151,15 @@ internal class `Duration extensions should` {
 
         @Test
         fun compareTo() {
-            assertTrue(duration > ZERO)
-            assertTrue(ZERO < duration)
+            (duration > ZERO) shouldBe true
+            (ZERO < duration) shouldBe true
             @Suppress("KotlinConstantConditions") // Serves for documentation purposes.
-            assertTrue(duration == duration)
+            (duration == duration) shouldBe true
         }
 
         @Test
-        fun `plus Duration`() = assertThat(duration + duration).isEqualTo(add(duration, duration))
+        fun `plus Duration`() {
+            duration + duration shouldBe add(duration, duration)
+        }
     }
 }

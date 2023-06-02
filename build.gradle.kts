@@ -26,51 +26,35 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import com.google.protobuf.gradle.builtins
-import com.google.protobuf.gradle.generateProtoTasks
-import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.ErrorProne
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
-import io.spine.internal.gradle.applyStandard
-import io.spine.internal.gradle.applyStandardWithGitHub
-import io.spine.internal.gradle.checkstyle.CheckStyleConfig
-import io.spine.internal.gradle.forceVersions
-import io.spine.internal.gradle.github.pages.updateGitHubPages
-import io.spine.internal.gradle.javac.configureErrorProne
-import io.spine.internal.gradle.javac.configureJavac
-import io.spine.internal.gradle.javadoc.JavadocConfig
-import io.spine.internal.gradle.kotlin.setFreeCompilerArgs
+import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
 import io.spine.internal.gradle.report.license.LicenseReporter
 import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.test.configureLogging
-import io.spine.internal.gradle.test.registerTestTasks
-import org.gradle.jvm.tasks.Jar
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.spine.internal.gradle.standardToSpineSdk
 
 buildscript {
-    io.spine.internal.gradle.applyWithStandard(this, rootProject,
-        "base", "mc-java")
-    io.spine.internal.gradle.doForceVersions(configurations)
+    standardSpineSdkRepositories()
+    doForceVersions(configurations)
 
     dependencies {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
-    val spine = io.spine.internal.dependency.Spine(project)
+    val spine = io.spine.internal.dependency.Spine
+    val validation = io.spine.internal.dependency.Validation
     val jackson = io.spine.internal.dependency.Jackson
     configurations {
         all {
             resolutionStrategy {
                 force(
                     spine.base,
+                    validation.runtime,
                     jackson.annotations,
                     jackson.bom,
                     jackson.databind,
@@ -83,17 +67,14 @@ buildscript {
 
 repositories {
     // Required to grab the dependencies for `JacocoConfig`.
-    applyStandard()
+    standardToSpineSdk()
 }
 
 plugins {
-    `java-library`
-    kotlin("jvm")
-    jacoco
     idea
+    jacoco
+    `gradle-doctor`
     `project-report`
-    protobuf
-    errorprone
 }
 
 spinePublishing {
@@ -110,15 +91,10 @@ spinePublishing {
     }
 
     dokkaJar {
-        enabled = true
+        kotlin = true
+        java = true
     }
 }
-
-// Temporarily use this version, since 3.21.x is known to provide
-// a broken `protoc-gen-js` artifact and Kotlin code without access modifiers.
-// See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
-//     https://github.com/protocolbuffers/protobuf/issues/10593
-val protocArtifact = "com.google.protobuf:protoc:3.19.6"
 
 allprojects {
     apply(from = "$rootDir/version.gradle.kts")
@@ -126,163 +102,28 @@ allprojects {
     group = "io.spine"
     version = extra["versionToPublish"]!!
 
-    val spine = Spine(project)
+    repositories.standardToSpineSdk()
+
     configurations {
         forceVersions()
         all {
             exclude("io.spine:spine-validate")
             resolutionStrategy {
                 force(
-                    spine.base,
-                    spine.validation.runtime,
+                    Spine.base,
+                    Spine.toolBase,
+                    Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
-                    protocArtifact
+                    JUnit.runner,
                 )
             }
         }
     }
 }
 
-subprojects {
-    applyPlugins()
-    repositories {
-        applyStandardWithGitHub(project, "base")
-    }
-    addDependencies()
-
-    val javaVersion = JavaVersion.VERSION_11
-    configureJava(javaVersion)
-    configureKotlin(javaVersion)
-
-    configureProtoc()
-    configureTests()
-    setupJavadoc()
-
-    val generatedDir:String by extra("$projectDir/generated")
-    configureIdea(generatedDir)
-    configureTaskDependencies()
-}
-
-LicenseReporter.mergeAllReports(project)
-JacocoConfig.applyTo(project)
-PomGenerator.applyTo(project)
-
-typealias Subproject = Project
-
-fun Subproject.applyPlugins() {
-    apply {
-        plugin("java-library")
-        plugin("kotlin")
-        plugin("com.google.protobuf")
-        plugin("net.ltgt.errorprone")
-        plugin("pmd")
-        plugin("checkstyle")
-        plugin("idea")
-        plugin("pmd-settings")
-        plugin("jacoco")
-        plugin("dokka-for-java")
-    }
-
-    LicenseReporter.generateReportIn(project)
-    JavadocConfig.applyTo(project)
-    CheckStyleConfig.applyTo(project)
-}
-
-fun Subproject.addDependencies() {
-    val spine = Spine(project)
-    dependencies {
-        errorprone(ErrorProne.core)
-
-        testImplementation(spine.testlib)
-        testImplementation(JUnit.runner)
-    }
-}
-
-fun Subproject.configureJava(javaVersion: JavaVersion) {
-    java {
-        sourceCompatibility = javaVersion
-        targetCompatibility = javaVersion
-
-        tasks {
-            withType<JavaCompile>().configureEach {
-                configureJavac()
-                configureErrorProne()
-            }
-            withType<Jar>().configureEach {
-                duplicatesStrategy = DuplicatesStrategy.INCLUDE
-            }
-        }
-    }
-}
-
-fun Subproject.configureKotlin(javaVersion: JavaVersion) {
-    kotlin {
-        explicitApi()
-
-        tasks {
-            withType<KotlinCompile>().configureEach {
-                kotlinOptions.jvmTarget = javaVersion.toString()
-                setFreeCompilerArgs()
-            }
-        }
-    }
-}
-
-fun Subproject.configureTests() {
-    tasks {
-        registerTestTasks()
-        test {
-            useJUnitPlatform()
-            configureLogging()
-        }
-    }
-}
-
-fun Subproject.configureProtoc() {
-    project.protobuf {
-        protoc {
-            // Temporarily use this version, since 3.21.x is known to provide
-            // a broken `protoc-gen-js` artifact.
-            // See https://github.com/protocolbuffers/protobuf-javascript/issues/127.
-            //
-            // Once it is addressed, this artifact should be `Protobuf.compiler`.
-            artifact = protocArtifact
-        }
-        generateProtoTasks {
-            all().forEach { task ->
-                task.builtins {
-                    id("js") {
-                        option("library=spine-time-${project.project.version}")
-                    }
-                }
-            }
-        }
-    }
-}
-
-fun Subproject.configureIdea(generatedDir: String) {
-    idea {
-        module {
-            with(generatedSourceDirs) {
-                add(file("$generatedDir/main/js"))
-                add(file("$generatedDir/main/java"))
-                add(file("$generatedDir/main/kotlin"))
-                add(file("$generatedDir/main/spine"))
-            }
-            testSources.from(
-                file("$generatedDir/test/java"),
-                file("$generatedDir/test/kotlin")
-            )
-            isDownloadJavadoc = true
-            isDownloadSources = true
-        }
-    }
-}
-
-fun Subproject.setupJavadoc() {
-    updateGitHubPages(Spine.DefaultVersion.javadocTools) {
-        allowInternalJavadoc.set(true)
-        rootFolder.set(rootDir)
-    }
+gradle.projectsEvaluated {
+    JacocoConfig.applyTo(project)
+    LicenseReporter.mergeAllReports(project)
+    PomGenerator.applyTo(project)
 }
