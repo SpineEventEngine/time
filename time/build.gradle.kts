@@ -28,10 +28,7 @@ import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.publish.IncrementGuard
-import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompileTool
 
 plugins {
     protobuf
@@ -59,8 +56,6 @@ configurations {
     excludeProtobufLite()
 }
 
-val generatedDir:String by extra("$projectDir/generated")
-
 /**
  * Suppress the "legacy" validation from McJava in favour of tha based on ProtoData.
  */
@@ -73,43 +68,8 @@ protoData {
 
         // Suppress warnings in the generated code.
         "io.spine.protodata.codegen.java.file.PrintBeforePrimaryDeclaration",
-        "io.spine.protodata.codegen.java.suppress.SuppressRenderer"
     )
     plugins(
         "io.spine.validation.ValidationPlugin",
     )
 }
-
-val generatedSourceProto = "$buildDir/generated/source/proto"
-
-/**
- * Remove the generated vanilla proto code.
- */
-tasks.withType<LaunchProtoData>().forEach { task ->
-    task.doLast {
-        delete("$buildDir/generated-proto")
-        delete(generatedSourceProto)
-    }
-}
-
-val ensureInterimKotlinErased by tasks.registering {
-    doLast {
-        delete(generatedSourceProto)
-    }
-}
-
-val compileKotlin: KotlinCompile<*> by tasks.getting(KotlinCompile::class) {
-    val generatedSourceProtoDir = File(generatedSourceProto)
-    val notInSourceDir: (File) -> Boolean = { file -> !file.residesIn(generatedSourceProtoDir) }
-    val thisTask = this as KotlinCompileTool
-
-    val filteredKotlin = thisTask.sources.filter(notInSourceDir).toSet()
-    with(thisTask.sources as ConfigurableFileCollection) {
-        setFrom(filteredKotlin)
-    }
-
-    dependsOn(ensureInterimKotlinErased)
-}
-
-fun File.residesIn(directory: File): Boolean =
-    canonicalFile.startsWith(directory.absolutePath)

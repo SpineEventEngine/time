@@ -780,7 +780,7 @@
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Jun 02 16:49:33 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
@@ -1006,7 +1006,7 @@ This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-Lic
 1.  **Group** : com.google.protobuf. **Name** : protobuf-kotlin. **Version** : 3.22.2.
      * **License:** [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
 
-1.  **Group** : com.google.protobuf. **Name** : protoc. **Version** : 3.21.12.
+1.  **Group** : com.google.protobuf. **Name** : protoc. **Version** : 3.22.0.
      * **Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
      * **License:** [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -1249,8 +1249,8 @@ This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-Lic
      * **License:** [Apache 2.0](https://opensource.org/licenses/Apache-2.0)
 
 1.  **Group** : io.spine.protodata. **Name** : protodata-codegen-java. **Version** : 0.7.2.**No license information found**
-1.  **Group** : io.spine.protodata. **Name** : protodata-fat-cli. **Version** : 0.6.1.**No license information found**
-1.  **Group** : io.spine.protodata. **Name** : protodata-protoc. **Version** : 0.6.1.**No license information found**
+1.  **Group** : io.spine.protodata. **Name** : protodata-fat-cli. **Version** : 0.8.1.**No license information found**
+1.  **Group** : io.spine.protodata. **Name** : protodata-protoc. **Version** : 0.8.1.**No license information found**
 1.  **Group** : io.spine.validation. **Name** : spine-validation-configuration. **Version** : 2.0.0-SNAPSHOT.81.**No license information found**
 1.  **Group** : io.spine.validation. **Name** : spine-validation-context. **Version** : 2.0.0-SNAPSHOT.81.**No license information found**
 1.  **Group** : io.spine.validation. **Name** : spine-validation-java. **Version** : 2.0.0-SNAPSHOT.81.**No license information found**
@@ -1638,7 +1638,7 @@ This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-Lic
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Jun 02 16:49:33 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
 
 
@@ -1816,4 +1816,4 @@ This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-Lic
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Fri Jun 02 16:19:23 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
+This report was generated on **Fri Jun 02 16:49:33 WEST 2023** using [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).

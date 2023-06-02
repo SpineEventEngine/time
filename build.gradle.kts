@@ -47,12 +47,14 @@ buildscript {
     }
 
     val spine = io.spine.internal.dependency.Spine
+    val validation = io.spine.internal.dependency.Validation
     val jackson = io.spine.internal.dependency.Jackson
     configurations {
         all {
             resolutionStrategy {
                 force(
                     spine.base,
+                    validation.runtime,
                     jackson.annotations,
                     jackson.bom,
                     jackson.databind,
