@@ -35,5 +35,5 @@ group = "io.spine.tools"
 
 dependencies {
     api(project(":time"))
-    testImplementation(Spine(project).testlib)
+    testImplementation(Spine.testlib)
 }

@@ -31,7 +31,6 @@ import com.github.jk1.license.LicenseReportExtension.ALL
 import com.github.jk1.license.LicenseReportPlugin
 import io.spine.internal.gradle.applyPlugin
 import io.spine.internal.gradle.findTask
-import io.spine.internal.gradle.findTaskOrNull
 import java.io.File
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -106,12 +105,10 @@ object LicenseReporter {
             val consolidationTask = this
             val assembleTask = project.findTask<Task>("assemble")
             val sourceProjects: Iterable<Project> = sourceProjects(rootProject)
-            sourceProjects.forEach { subproject ->
-                val perProjectTask = subproject.findTaskOrNull<Task>(projectTaskName)
-                perProjectTask?.let {
-                    consolidationTask.dependsOn(it)
-                    it.dependsOn(assembleTask)
-                }
+            sourceProjects.forEach {
+                val perProjectTask = it.findTask<Task>(projectTaskName)
+                consolidationTask.dependsOn(perProjectTask)
+                perProjectTask.dependsOn(assembleTask)
             }
             doLast {
                 mergeReports(sourceProjects, rootProject)

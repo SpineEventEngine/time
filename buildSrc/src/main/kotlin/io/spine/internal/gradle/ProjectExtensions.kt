@@ -69,18 +69,8 @@ fun Project.applyPlugin(cls: Class<out Plugin<*>>) {
 @Suppress("UNCHECKED_CAST")     /* See the method docs. */
 fun <T : Task> Project.findTask(name: String): T {
     val task = this.tasks.findByName(name)
-    return task!! as T
-}
-
-/**
- * Finds the task of type `T` in this project by the task name.
- *
- * Returns `null` if there is no task with such a name.
- */
-@Suppress("UNCHECKED_CAST")     /* See the method docs. */
-fun <T : Task> Project.findTaskOrNull(name: String): T? {
-    val task = this.tasks.findByName(name)
-    return task as T?
+        ?: error("Unable to find a task named `$name` in the project `${this.name}`.")
+    return task as T
 }
 
 /**

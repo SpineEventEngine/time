@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,16 @@
 
 package io.spine.internal.dependency
 
-// https://github.com/google/flogger
-object Flogger {
-    internal const val version = "0.7.4"
-    const val lib     = "com.google.flogger:flogger:${version}"
-    @Suppress("unused")
-    object Runtime {
-        const val systemBackend = "com.google.flogger:flogger-system-backend:${version}"
-        const val log4j2Backend = "com.google.flogger:flogger-log4j2-backend:${version}"
-        const val slf4JBackend  = "com.google.flogger:flogger-slf4j-backend:${version}"
-        const val grpcContext   = "com.google.flogger:flogger-grpc-context:${version}"
-    }
+/**
+ * Dependencies on Spine Validation SDK.
+ *
+ * See [`SpineEventEngine/validation`](https://github.com/SpineEventEngine/validation/).
+ */
+object Validation {
+    const val version = "2.0.0-SNAPSHOT.81"
+    const val group = "io.spine.validation"
+    const val runtime = "$group:spine-validation-java-runtime:$version"
+    const val java = "$group:spine-validation-java:$version"
+    const val model = "$group:spine-validation-model:$version"
+    const val config = "$group:spine-validation-configuration:$version"
 }

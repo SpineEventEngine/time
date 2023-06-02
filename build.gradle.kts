@@ -30,6 +30,7 @@ import io.spine.internal.dependency.Dokka
 import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
+import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.spinePublishing
@@ -46,7 +47,7 @@ buildscript {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
-    val spine = io.spine.internal.dependency.Spine(project)
+    val spine = io.spine.internal.dependency.Spine
     val jackson = io.spine.internal.dependency.Jackson
     configurations {
         all {
@@ -102,16 +103,15 @@ allprojects {
 
     repositories.standardToSpineSdk()
 
-    val spine = Spine(project)
     configurations {
         forceVersions()
         all {
             exclude("io.spine:spine-validate")
             resolutionStrategy {
                 force(
-                    spine.base,
-                    spine.toolBase,
-                    spine.validation.runtime,
+                    Spine.base,
+                    Spine.toolBase,
+                    Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
                     JUnit.runner,
