@@ -31,7 +31,6 @@ import io.spine.internal.dependency.JUnit
 import io.spine.internal.dependency.Jackson
 import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.forceVersions
 import io.spine.internal.gradle.publish.PublishingRepos
 import io.spine.internal.gradle.publish.spinePublishing
 import io.spine.internal.gradle.report.coverage.JacocoConfig
@@ -41,7 +40,7 @@ import io.spine.internal.gradle.standardToSpineSdk
 
 buildscript {
     standardSpineSdkRepositories()
-    io.spine.internal.gradle.doForceVersions(configurations)
+    doForceVersions(configurations)
 
     dependencies {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)

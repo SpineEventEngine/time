@@ -27,7 +27,6 @@
 import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.excludeProtobufLite
 import io.spine.internal.gradle.publish.IncrementGuard
 import io.spine.protodata.gradle.plugin.LaunchProtoData
 import io.spine.tools.mc.gradle.modelCompiler
