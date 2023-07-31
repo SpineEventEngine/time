@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import javax.annotation.Nullable;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -50,8 +51,7 @@ import static java.util.Objects.requireNonNull;
 @Deprecated
 public final class ZoneOffsets {
 
-    private static final ZoneOffset UTC = ZoneOffset
-            .newBuilder()
+    private static final ZoneOffset UTC = ZoneOffset.newBuilder()
             .setAmountSeconds(0)
             .build();
 
@@ -205,7 +205,8 @@ public final class ZoneOffsets {
              */
             @Override
             void checkReduced(int value) {
-                DtPreconditions.checkBounds(value, name().toLowerCase(), min() + 1, max() - 1);
+                DtPreconditions.checkBounds(value, name().toLowerCase(Locale.ENGLISH), min() + 1,
+                                            max() - 1);
             }
         },
 
@@ -238,7 +239,7 @@ public final class ZoneOffsets {
         abstract void checkReduced(int value);
 
         protected void checkBounds(int value) {
-            DtPreconditions.checkBounds(value, name().toLowerCase(), min(), max());
+            DtPreconditions.checkBounds(value, name().toLowerCase(Locale.ENGLISH), min(), max());
         }
 
         int min() {

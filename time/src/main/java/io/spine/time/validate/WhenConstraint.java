@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,6 +41,8 @@ import io.spine.validate.FieldValue;
 import io.spine.validate.MessageValue;
 import io.spine.validate.diags.ViolationText;
 import io.spine.validate.option.FieldConstraint;
+
+import java.util.Locale;
 
 import static io.spine.time.validation.Time.FUTURE;
 import static io.spine.time.validation.Time.TIME_UNDEFINED;
@@ -100,7 +102,7 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
     private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
         var msg = errorMessage(fieldValue.context());
         var inTime = optionValue().getIn();
-        var when = inTime.toString().toLowerCase();
+        var when = inTime.toString().toLowerCase(Locale.ENGLISH);
         var fieldPath = fieldValue.context().fieldPath();
         var violation = ConstraintViolation.newBuilder()
                 .setMsgFormat(msg)
