@@ -205,8 +205,7 @@ public final class ZoneOffsets {
              */
             @Override
             void checkReduced(int value) {
-                DtPreconditions.checkBounds(value, name().toLowerCase(Locale.ENGLISH), min() + 1,
-                                            max() - 1);
+                DtPreconditions.checkBounds(value, nameLowerCase(), min() + 1, max() - 1);
             }
         },
 
@@ -238,8 +237,12 @@ public final class ZoneOffsets {
 
         abstract void checkReduced(int value);
 
-        protected void checkBounds(int value) {
-            DtPreconditions.checkBounds(value, name().toLowerCase(Locale.ENGLISH), min(), max());
+        void checkBounds(int value) {
+            DtPreconditions.checkBounds(value, nameLowerCase(), min(), max());
+        }
+
+        String nameLowerCase() {
+            return name().toLowerCase(Locale.ENGLISH);
         }
 
         int min() {
