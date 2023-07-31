@@ -46,14 +46,14 @@ buildscript {
         classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
     }
 
-    val spine = io.spine.internal.dependency.Spine
-    val validation = io.spine.internal.dependency.Validation
-    val jackson = io.spine.internal.dependency.Jackson
     configurations {
         all {
             resolutionStrategy {
+                val validation = io.spine.internal.dependency.Validation
+                val jackson = io.spine.internal.dependency.Jackson
                 force(
-                    spine.base,
+                    io.spine.internal.dependency.Spine.base,
+                    io.spine.internal.dependency.Spine.Logging.lib,
                     validation.runtime,
                     jackson.annotations,
                     jackson.bom,
@@ -112,6 +112,7 @@ allprojects {
                 force(
                     Spine.base,
                     Spine.toolBase,
+                    Spine.Logging.lib,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,

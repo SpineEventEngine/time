@@ -27,8 +27,7 @@
 import io.spine.internal.dependency.Spine
 
 plugins {
-    `java-module`
-    `kotlin-jvm-module`
+    `jvm-module`
 }
 
 group = "io.spine.tools"
