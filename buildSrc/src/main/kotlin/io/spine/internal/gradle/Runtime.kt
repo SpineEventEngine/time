@@ -27,16 +27,10 @@
 package io.spine.internal.gradle
 
 import com.google.common.base.Joiner
-import io.spine.internal.dependency.Flogger
 import java.io.File
 import java.io.InputStream
 import java.io.StringWriter
 import java.util.*
-
-object Runtime {
-    @Suppress("unused")
-    val flogger = Flogger.Runtime
-}
 
 /**
  * Executor of CLI commands.

@@ -28,7 +28,6 @@ import io.spine.internal.dependency.AutoService
 import io.spine.internal.dependency.Spine
 import io.spine.internal.dependency.Validation
 import io.spine.internal.gradle.publish.IncrementGuard
-import org.gradle.jvm.tasks.Jar
 
 plugins {
     protobuf
