@@ -24,21 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.internal.dependency
+import io.spine.internal.dependency.Protobuf
+import io.spine.internal.gradle.protobuf.setup
 
-/**
- * Dependencies on ProtoData modules.
- *
- * See [`SpineEventEngine/ProtoData`](https://github.com/SpineEventEngine/ProtoData/).
- */
-@Suppress("unused", "ConstPropertyName")
-object ProtoData {
-    const val version = "0.9.9"
-    const val group = "io.spine.protodata"
-    const val compiler = "$group:protodata-compiler:$version"
+plugins {
+    id("java-library")
+    id("com.google.protobuf")
+}
 
-    const val codegenJava = "io.spine.protodata:protodata-codegen-java:$version"
 
-    const val pluginId = "io.spine.protodata"
-    const val pluginLib = "${Spine.group}:protodata:$version"
+// For generating test fixtures. See `src/test/proto`.
+protobuf {
+    configurations.excludeProtobufLite()
+    protoc {
+        artifact = Protobuf.compiler
+    }
+    generateProtoTasks.all().configureEach {
+        setup()
+    }
 }
