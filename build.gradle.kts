@@ -1,5 +1,5 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2023, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,9 +51,13 @@ buildscript {
             resolutionStrategy {
                 val validation = io.spine.internal.dependency.Validation
                 val jackson = io.spine.internal.dependency.Jackson
+                val logging = io.spine.internal.dependency.Spine.Logging
                 force(
                     io.spine.internal.dependency.Spine.base,
-                    io.spine.internal.dependency.Spine.Logging.lib,
+                    logging.lib,
+                    logging.backend,
+                    logging.floggerApi,
+
                     validation.runtime,
                     jackson.annotations,
                     jackson.bom,
@@ -113,6 +117,8 @@ allprojects {
                     Spine.base,
                     Spine.toolBase,
                     Spine.Logging.lib,
+                    Spine.Logging.backend,
+                    Spine.Logging.floggerApi,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
