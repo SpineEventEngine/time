@@ -48,6 +48,9 @@ buildscript {
 
     configurations {
         all {
+            exclude(group = "io.spine", module = "spine-flogger-api")
+            exclude(group = "io.spine", module = "spine-logging-backend")
+
             resolutionStrategy {
                 val validation = io.spine.internal.dependency.Validation
                 val jackson = io.spine.internal.dependency.Jackson
@@ -55,9 +58,6 @@ buildscript {
                 force(
                     io.spine.internal.dependency.Spine.base,
                     logging.lib,
-                    logging.backend,
-                    logging.floggerApi,
-
                     validation.runtime,
                     jackson.annotations,
                     jackson.bom,
@@ -111,14 +111,13 @@ allprojects {
     configurations {
         forceVersions()
         all {
-            exclude("io.spine:spine-validate")
+            exclude(group = "io.spine", module = "spine-validate")
+            exclude(group = "io.spine", module = "spine-flogger-api")
             resolutionStrategy {
                 force(
                     Spine.base,
                     Spine.toolBase,
                     Spine.Logging.lib,
-                    Spine.Logging.backend,
-                    Spine.Logging.floggerApi,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
