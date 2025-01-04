@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -27,14 +27,13 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.dependency.build.Dokka
-import io.spine.dependency.test.JUnit
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.local.Base
-import io.spine.dependency.local.Spine
 import io.spine.dependency.local.Logging
-import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
+import io.spine.dependency.test.JUnit
 import io.spine.gradle.publish.PublishingRepos
 import io.spine.gradle.publish.spinePublishing
 import io.spine.gradle.report.coverage.JacocoConfig
@@ -47,7 +46,7 @@ buildscript {
     doForceVersions(configurations)
 
     dependencies {
-        classpath(io.spine.dependency.local.Spine.McJava.pluginLib)
+        classpath(io.spine.dependency.local.McJava.pluginLib)
     }
 
     configurations {
@@ -90,7 +89,7 @@ plugins {
 spinePublishing {
     modules = setOf(
         "time",
-        "testutil-time"
+        "time-testlib"
     )
     destinations = with(PublishingRepos) {
         setOf(

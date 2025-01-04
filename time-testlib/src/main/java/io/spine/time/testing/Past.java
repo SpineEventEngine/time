@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -27,47 +27,52 @@
 package io.spine.time.testing;
 
 import com.google.common.annotations.VisibleForTesting;
-import io.spine.base.Time;
+import com.google.protobuf.Timestamp;
 
-import java.time.LocalTime;
-
+import static com.google.protobuf.util.Durations.fromMinutes;
+import static com.google.protobuf.util.Timestamps.subtract;
 import static io.spine.base.Time.currentTime;
-import static io.spine.base.Time.currentTimeZone;
+import static io.spine.protobuf.Durations2.seconds;
+import static io.spine.util.Preconditions2.checkPositive;
 
 /**
- * Utility class for working with time-related tests.
+ * Utility class for working with timestamps in the past.
  */
 @VisibleForTesting
-public final class TimeTests {
+public final class Past {
 
     /**
      * Prevents instantiation of this utility class.
      */
-    private TimeTests() {
+    private Past() {
     }
 
     /**
-     * Returns the {@linkplain Time#currentTime() current time} in seconds.
+     * The testing assistance utility, which returns a timestamp of the moment
+     * of the passed number of minutes from now.
      *
-     * @return a seconds value
+     * @param value
+     *         a positive number of minutes
+     * @return a timestamp instance
      */
-    public static long currentTimeSeconds() {
-        var secs = currentTime().getSeconds();
-        return secs;
+    public static Timestamp minutesAgo(int value) {
+        checkPositive(value);
+        var currentTime = currentTime();
+        var result = subtract(currentTime, fromMinutes(value));
+        return result;
     }
 
     /**
-     * Waits till new day to come, if it's the last day second.
+     * Obtains timestamp in the past a number of seconds ago.
      *
-     * <p>This method is useful for tests that obtain current date/time values
-     * and need to avoid the day edge for correctness of the test values.
+     * @param value
+     *         a positive number of seconds
+     * @return the moment `value` seconds ago
      */
-    @SuppressWarnings("StatementWithEmptyBody")
-    public static void avoidDayEdge() {
-        var lastDaySecond = LocalTime.MAX.withNano(0);
-        do {
-            // Wait.
-        } while (LocalTime.now(currentTimeZone())
-                          .isAfter(lastDaySecond));
+    public static Timestamp secondsAgo(long value) {
+        checkPositive(value);
+        var currentTime = currentTime();
+        var result = subtract(currentTime, seconds(value));
+        return result;
     }
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -24,35 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.testing;
+import io.spine.dependency.local.Spine
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.protobuf.Timestamp;
-import io.spine.base.Time;
+plugins {
+    `jvm-module`
+}
 
-import static com.google.common.base.Preconditions.checkNotNull;
+group = "io.spine.tools"
 
-/**
- * The provider of current time, which is always the same.
- *
- * <p>Use this {@code Timestamps.Provider} in time-related tests that are
- * sensitive to bounds of minutes, hours, days, etc.
- */
-@VisibleForTesting
-public class FrozenMadHatterParty implements Time.Provider {
-
-    private final Timestamp frozenTime;
-
-    /**
-     * Creates a new party with the given time.
-     */
-    public FrozenMadHatterParty(Timestamp frozenTime) {
-        this.frozenTime = checkNotNull(frozenTime);
-    }
-
-    /** Returns the value passed to the constructor. */
-    @Override
-    public Timestamp currentTime() {
-        return frozenTime;
-    }
+dependencies {
+    api(project(":time"))
+    testImplementation(Spine.testlib)
 }
