@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,6 +28,8 @@ package io.spine.time.validate;
 
 import io.spine.base.Time;
 import io.spine.validate.ConstraintViolation;
+import io.spine.validate.TemplateString;
+import io.spine.validate.TemplateStringExtsKt;
 import io.spine.validate.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,6 +37,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
+import static io.spine.string.Strings.count;
 import static io.spine.time.validate.given.WhenTestEnv.FIFTY_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.ZERO_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.currentTimeWithNanos;
@@ -42,9 +45,6 @@ import static io.spine.time.validate.given.WhenTestEnv.freezeTime;
 import static io.spine.time.validate.given.WhenTestEnv.future;
 import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
-import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("`(when)` option should")
 @SuppressWarnings("OptionalGetWithoutIsPresent") // OK for these tests.
@@ -153,9 +153,7 @@ class WhenTest {
         assertThat(violations)
                 .hasSize(1);
         var violation = violations.get(0);
-        var actualErrorMessage = format(violation.getMsgFormat(),
-                                        violation.getParamList()
-                                                 .toArray());
+        var actualErrorMessage = TemplateStringExtsKt.format(violation.getMessage());
         assertThat(actualErrorMessage).isEqualTo(expectedMsg);
     }
 
@@ -189,14 +187,14 @@ class WhenTest {
     }
 
     private static void assertHasCorrectFormat(ConstraintViolation violation) {
-        var format = violation.getMsgFormat();
-        assertFalse(format.isEmpty());
-        var noParams = violation.getParamList()
-                                .isEmpty();
-        if (format.contains("%s")) {
-            assertFalse(noParams);
+        var message = violation.getMessage();
+        assertThat(message).isNotEqualTo(TemplateString.getDefaultInstance());
+        var errorMessage = message.getWithPlaceholders();
+        var numberOfPlaceholders = count(errorMessage, "${");
+        if (numberOfPlaceholders != 0) {
+            assertThat(message.getPlaceholderValueMap()).hasSize(numberOfPlaceholders);
         } else {
-            assertTrue(noParams);
+            assertThat(message.getPlaceholderValueMap()).isEmpty();
         }
     }
 }
