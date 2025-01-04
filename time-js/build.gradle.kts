@@ -26,7 +26,7 @@
 
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.remove
-import io.spine.internal.gradle.report.license.LicenseReporter
+import io.spine.gradle.report.license.LicenseReporter
 
 plugins {
     protobuf

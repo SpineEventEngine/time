@@ -24,10 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.internal.dependency.AutoService
-import io.spine.internal.dependency.Spine
-import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.publish.IncrementGuard
+import io.spine.dependency.lib.AutoService
+import io.spine.dependency.local.Spine
+import io.spine.dependency.local.Validation
+import io.spine.gradle.publish.IncrementGuard
 
 plugins {
     protobuf
