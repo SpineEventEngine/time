@@ -92,7 +92,7 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
         var builder = TemplateString.newBuilder()
                 .setWithPlaceholders(errorMsg)
                 .putPlaceholderValue(TIME_PLACEHOLDER, time);
-        // TODO: Add popular placeholder values.
+        TemplateStringExtsKt.withField(builder, field.targetDeclaration());
         return builder.build();
     }
 
