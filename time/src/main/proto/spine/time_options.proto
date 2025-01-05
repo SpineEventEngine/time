@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -68,23 +68,31 @@ message TimeOption {
 
     // The default error message format string.
     //
-    // The format parameter is "past" or "future" string, depending on the restriction.
+    // The value of the `${field.time}` placeholder is either "past" or "future" string,
+    // depending on the restriction specified by the `in` field of this option.
     //
-    option (default_message) = "Point in time must be in the %s.";
+    option (default_message) = "Point in time must be in the ${field.time}.";
 
     // Defines a restriction for the timestamp.
     Time in = 1;
 
     // A user-defined validation error format message.
     //
-    // Deprecated. Use `error_msg` instead.
+    // Deprecated. Please use `error_msg` instead.
     //
     string msg_format = 2 [deprecated = true];
 
     // A user-defined validation error format message.
     //
-    // May include tokens `{value}`—for the actual value of the field, and `{other}`—for
-    // the expected value. The tokens will be replaced at runtime when the error is constructed.
+    // A user-defined error message.
+    //
+    // The specified message may include the following placeholders:
+    //
+    // 1. `${field.name}` – the field name.
+    // 2. `${field.type}` – the fully qualified name of the field type.
+    // 3. `${field.time}` — is either "past" or "future" string, depending on the restriction
+    //   specified by the `in` field of this option.
+    // 4. `${parent.type}` – the fully qualified name of the field declaring type.
     //
     string error_msg = 3;
 }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -39,6 +39,8 @@ import io.spine.validate.ConstraintViolation;
 import io.spine.validate.CustomConstraint;
 import io.spine.validate.FieldValue;
 import io.spine.validate.MessageValue;
+import io.spine.validate.TemplateString;
+import io.spine.validate.TemplateStringExtsKt;
 import io.spine.validate.diags.ViolationText;
 import io.spine.validate.option.FieldConstraint;
 
@@ -52,6 +54,12 @@ import static io.spine.time.validation.Time.TIME_UNDEFINED;
  * actual value is in the future or in the past, defined by the value of the field option.
  */
 final class WhenConstraint extends FieldConstraint<TimeOption> implements CustomConstraint {
+
+    /**
+     * The name of the placeholder for reporting the value of the {@link TimeOption#getIn in}
+     * constraint on a temporal field.
+     */
+    private static final String TIME_PLACEHOLDER = "field.time";
 
     WhenConstraint(TimeOption optionValue, FieldDeclaration field) {
         super(optionValue, field);
@@ -77,9 +85,21 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
     }
 
     @Override
-    @SuppressWarnings("deprecation") /* Old validation won't migrate to the new error messages. */
-    public String errorMessage(FieldContext context) {
-        return ViolationText.errorMessage(optionValue(), optionValue().getMsgFormat());
+    public TemplateString errorMessage(FieldContext field) {
+        var option = optionValue();
+        var errorMsg = ViolationText.errorMessage(option, option.getErrorMsg());
+        var time = option.getIn().name().toLowerCase(Locale.ENGLISH);
+        var builder = TemplateString.newBuilder()
+                .setWithPlaceholders(errorMsg)
+                .putPlaceholderValue(TIME_PLACEHOLDER, time);
+        TemplateStringExtsKt.withField(builder, field.targetDeclaration());
+        return builder.build();
+    }
+
+    @Override
+    public String formattedErrorMessage(FieldContext field) {
+        var templateString = errorMessage(field);
+        return TemplateStringExtsKt.format(templateString);
     }
 
     /**
@@ -101,12 +121,9 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
 
     private ConstraintViolation newTimeViolation(FieldValue fieldValue, Temporal<?> value) {
         var msg = errorMessage(fieldValue.context());
-        var inTime = optionValue().getIn();
-        var when = inTime.toString().toLowerCase(Locale.ENGLISH);
         var fieldPath = fieldValue.context().fieldPath();
         var violation = ConstraintViolation.newBuilder()
-                .setMsgFormat(msg)
-                .addParam(when)
+                .setMessage(msg)
                 .setFieldPath(fieldPath)
                 .setFieldValue(value.toAny())
                 .build();

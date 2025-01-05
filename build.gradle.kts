@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -26,24 +26,27 @@
 
 @file:Suppress("RemoveRedundantQualifierName")
 
-import io.spine.internal.dependency.Dokka
-import io.spine.internal.dependency.JUnit
-import io.spine.internal.dependency.Jackson
-import io.spine.internal.dependency.Spine
-import io.spine.internal.dependency.Validation
-import io.spine.internal.gradle.publish.PublishingRepos
-import io.spine.internal.gradle.publish.spinePublishing
-import io.spine.internal.gradle.report.coverage.JacocoConfig
-import io.spine.internal.gradle.report.license.LicenseReporter
-import io.spine.internal.gradle.report.pom.PomGenerator
-import io.spine.internal.gradle.standardToSpineSdk
+import io.spine.dependency.build.Dokka
+import io.spine.dependency.lib.Jackson
+import io.spine.dependency.local.Base
+import io.spine.dependency.local.Logging
+import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.ToolBase
+import io.spine.dependency.local.Validation
+import io.spine.dependency.test.JUnit
+import io.spine.gradle.publish.PublishingRepos
+import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.report.coverage.JacocoConfig
+import io.spine.gradle.report.license.LicenseReporter
+import io.spine.gradle.report.pom.PomGenerator
+import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     standardSpineSdkRepositories()
     doForceVersions(configurations)
 
     dependencies {
-        classpath(io.spine.internal.dependency.Spine.McJava.pluginLib)
+        classpath(io.spine.dependency.local.McJava.pluginLib)
     }
 
     configurations {
@@ -52,12 +55,14 @@ buildscript {
             exclude(group = "io.spine", module = "spine-logging-backend")
 
             resolutionStrategy {
-                val validation = io.spine.internal.dependency.Validation
-                val jackson = io.spine.internal.dependency.Jackson
-                val logging = io.spine.internal.dependency.Spine.Logging
+                val validation = io.spine.dependency.local.Validation
+                val jackson = io.spine.dependency.lib.Jackson
+                val logging = io.spine.dependency.local.Logging
                 force(
-                    io.spine.internal.dependency.Spine.base,
+                    io.spine.dependency.local.Base.lib,
+                    io.spine.dependency.local.Reflect.lib,
                     logging.lib,
+                    logging.middleware,
                     validation.runtime,
                     jackson.annotations,
                     jackson.bom,
@@ -84,12 +89,11 @@ plugins {
 spinePublishing {
     modules = setOf(
         "time",
-        "testutil-time"
+        "time-testlib"
     )
     destinations = with(PublishingRepos) {
         setOf(
             gitHub("time"),
-            cloudRepo,
             cloudArtifactRegistry
         )
     }
@@ -115,9 +119,11 @@ allprojects {
             exclude(group = "io.spine", module = "spine-flogger-api")
             resolutionStrategy {
                 force(
-                    Spine.base,
-                    Spine.toolBase,
-                    Spine.Logging.lib,
+                    Reflect.lib,
+                    Base.lib,
+                    ToolBase.lib,
+                    Logging.lib,
+                    Logging.middleware,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,
