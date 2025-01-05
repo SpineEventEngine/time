@@ -90,10 +90,9 @@ message TimeOption {
     //
     // 1. `${field.name}` – the field name.
     // 2. `${field.type}` – the fully qualified name of the field type.
-    // 3. `${field.value}` – the current field value.
-    // 4. `${field.time}` — is either "past" or "future" string, depending on the restriction
+    // 3. `${field.time}` — is either "past" or "future" string, depending on the restriction
     //   specified by the `in` field of this option.
-    // 5. `${parent.type}` – the fully qualified name of the field declaring type.
+    // 4. `${parent.type}` – the fully qualified name of the field declaring type.
     //
     string error_msg = 3;
 }
