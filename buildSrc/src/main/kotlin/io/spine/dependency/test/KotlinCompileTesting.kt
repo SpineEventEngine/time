@@ -1,5 +1,5 @@
 /*
- * Copyright 2024, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,19 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@file:Suppress("MaxLineLength")
+package io.spine.dependency.test
 
-package io.spine.dependency.build
-
-// https://github.com/pmd/pmd/releases
+/**
+ * A library for in-process compilation of Kotlin and Java code compilation.
+ *
+ * @see <a href="https://github.com/zacsweers/kotlin-compile-testing">GitHub repo</a>
+ */
 @Suppress("unused", "ConstPropertyName")
-object Pmd {
-    /**
-     * This is the last version in the 6.x series.
-     *
-     * There's a major update to 7.x series.
-     *
-     * @see <a href="https://docs.pmd-code.org/pmd-doc-7.0.0-rc3/pmd_release_notes_pmd7.html>PMD 7.0.0 release notes</a>
-     */
-    const val version = "6.55.0"
+object KotlinCompileTesting {
+    private const val version = "0.7.0"
+    private const val group = "dev.zacsweers.kctfork"
+    const val libCore = "$group:core:$version"
+    const val libKsp = "$group:ksp:$version"
 }
