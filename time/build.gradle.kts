@@ -24,8 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.lib.AutoService
-import io.spine.dependency.local.Spine
+import io.spine.dependency.local.Base
 import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.Validation
 import io.spine.gradle.publish.IncrementGuard
@@ -39,10 +38,7 @@ plugins {
 apply<IncrementGuard>()
 
 dependencies {
-    annotationProcessor(AutoService.processor)
-    compileOnly(AutoService.annotations)
-
-    api(Spine.base)
+    api(Base.lib)
     implementation(Validation.runtime)
 
     testImplementation(TestLib.lib)
