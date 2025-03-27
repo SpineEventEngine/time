@@ -24,27 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.local.Base
-import io.spine.dependency.local.TestLib
-import io.spine.dependency.local.Validation
-import io.spine.gradle.publish.IncrementGuard
+package io.spine.dependency.test
 
-plugins {
-    protobuf
-    `jvm-module`
-    id(mcJava.pluginId)
-}
-
-apply<IncrementGuard>()
-
-dependencies {
-    api(Base.lib)
-    implementation(Validation.runtime)
-
-    testImplementation(TestLib.lib)
-    testImplementation(project(":time-testlib"))
-}
-
-configurations {
-    excludeProtobufLite()
+/**
+ * A library for in-process compilation of Kotlin and Java code compilation.
+ *
+ * @see <a href="https://github.com/zacsweers/kotlin-compile-testing">GitHub repo</a>
+ */
+@Suppress("unused", "ConstPropertyName")
+object KotlinCompileTesting {
+    private const val version = "0.7.0"
+    private const val group = "dev.zacsweers.kctfork"
+    const val libCore = "$group:core:$version"
+    const val libKsp = "$group:ksp:$version"
 }

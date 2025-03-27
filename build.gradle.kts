@@ -28,8 +28,11 @@
 
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.KotlinPoet
+import io.spine.dependency.lib.KotlinX
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Logging
+import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
@@ -59,6 +62,10 @@ buildscript {
                 val jackson = io.spine.dependency.lib.Jackson
                 val logging = io.spine.dependency.local.Logging
                 force(
+                    io.spine.dependency.lib.KotlinX.Coroutines.bom,
+                    io.spine.dependency.lib.KotlinX.Coroutines.core,
+                    io.spine.dependency.lib.KotlinX.Coroutines.coreJvm,
+                    io.spine.dependency.lib.KotlinX.Coroutines.jdk8,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
                     logging.lib,
@@ -119,11 +126,20 @@ allprojects {
             exclude(group = "io.spine", module = "spine-flogger-api")
             resolutionStrategy {
                 force(
+                    KotlinPoet.lib,
+                    KotlinX.Coroutines.bom,
+                    KotlinX.Coroutines.core,
+                    KotlinX.Coroutines.coreJvm,
+                    KotlinX.Coroutines.debug,
+                    KotlinX.Coroutines.jdk8,
+                    KotlinX.Coroutines.test,
+                    KotlinX.Coroutines.testJvm,
                     Reflect.lib,
                     Base.lib,
                     ToolBase.lib,
                     Logging.lib,
                     Logging.middleware,
+                    ProtoData.api,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
                     Jackson.databind,

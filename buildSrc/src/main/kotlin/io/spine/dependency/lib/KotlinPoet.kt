@@ -24,27 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.local.Base
-import io.spine.dependency.local.TestLib
-import io.spine.dependency.local.Validation
-import io.spine.gradle.publish.IncrementGuard
+package io.spine.dependency.lib
 
-plugins {
-    protobuf
-    `jvm-module`
-    id(mcJava.pluginId)
-}
-
-apply<IncrementGuard>()
-
-dependencies {
-    api(Base.lib)
-    implementation(Validation.runtime)
-
-    testImplementation(TestLib.lib)
-    testImplementation(project(":time-testlib"))
-}
-
-configurations {
-    excludeProtobufLite()
+// https://github.com/square/kotlinpoet
+@Suppress("unused", "ConstPropertyName")
+object KotlinPoet {
+    private const val version = "2.0.0"
+    const val lib = "com.squareup:kotlinpoet:$version"
+    const val ksp = "com.squareup:kotlinpoet-ksp:$version"
 }
