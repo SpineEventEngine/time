@@ -55,13 +55,8 @@ extend google.protobuf.FieldOptions {
 
 // Specifies that the field value is a point in time lying either in the future or in the past.
 //
-// Applicable only to `google.protobuf.Timestamp` and types marked as `io.spine.time.Temporal`:
-//
-// 1. `spine.time.ZonedDateTime`.
-// 2. `spine.time.LocalDateTime`.
-// 3. `spine.time.LocalDate`.
-// 4. `spine.time.OffsetDateTime`.
-// 5. `spine.time.YearMonth`.
+// Applicable to `google.protobuf.Timestamp` and types introduced in the `spine.time` package
+// that describe time-related concepts.
 //
 // Repeated fields are supported.
 //
