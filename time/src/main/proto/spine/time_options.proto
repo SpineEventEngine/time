@@ -53,12 +53,19 @@ extend google.protobuf.FieldOptions {
     TimeOption when = 73819;
 }
 
-// The field value is point in time which lies in the future or in the past.
+// Specifies that the field value is a point in time lying either in the future or in the past.
 //
-// Is applicable only to `Timestamp`s and types marked as `Temporal`. See `io.spine.time.Temporal`.
+// Applicable only to `google.protobuf.Timestamp` and types marked as `io.spine.time.Temporal`:
+//
+// 1. `spine.time.ZonedDateTime`.
+// 2. `spine.time.LocalDateTime`.
+// 3. `spine.time.LocalDate`.
+// 4. `spine.time.OffsetDateTime`.
+// 5. `spine.time.YearMonth`.
+//
 // Repeated fields are supported.
 //
-// Example: Using `(when)` option.
+// Example: Using the `(when)` option.
 //
 //     message ScheduleMeeting {
 //         spine.time.ZonedDateTime start = 1 [(when).in = FUTURE];
@@ -66,33 +73,25 @@ extend google.protobuf.FieldOptions {
 //
 message TimeOption {
 
-    // The default error message format string.
-    //
-    // The value of the `${field.time}` placeholder is either "past" or "future" string,
-    // depending on the restriction specified by the `in` field of this option.
-    //
-    option (default_message) = "Point in time must be in the ${field.time}.";
+    // The default error message.
+    option (default_message) = "The field `${parent.type}.${field.path}` must be in the `when.in`."
+        " The passed value: `${field.value}`.";
 
     // Defines a restriction for the timestamp.
     Time in = 1;
 
-    // A user-defined validation error format message.
-    //
-    // Deprecated. Please use `error_msg` instead.
-    //
+    // Deprecated: please use `error_msg` instead.
     string msg_format = 2 [deprecated = true];
 
-    // A user-defined validation error format message.
-    //
     // A user-defined error message.
     //
     // The specified message may include the following placeholders:
     //
-    // 1. `${field.name}` – the field name.
-    // 2. `${field.type}` – the fully qualified name of the field type.
-    // 3. `${field.time}` — is either "past" or "future" string, depending on the restriction
-    //   specified by the `in` field of this option.
-    // 4. `${parent.type}` – the fully qualified name of the field declaring type.
+    // 1. `${field.path}` – the field path.
+    // 2. `${field.value}` - the field value.
+    // 3. `${field.type}` – the fully qualified name of the field type.
+    // 4. `${parent.type}` – the fully qualified name of the validated message.
+    // 5. `${when.in}` – the specified timestamp restriction. It is either "past" or "future".
     //
     string error_msg = 3;
 }
