@@ -32,6 +32,7 @@ import io.spine.validate.TemplateString;
 import io.spine.validate.TemplateStrings;
 import io.spine.validate.ValidationError;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -182,6 +183,10 @@ class WhenTest {
     }
 
     @Test
+    @Disabled("Until we can plug in custom validation options to McJava on runtime.")
+    // Currently, this test verifies the previous version of the library which is used by McJava
+    // because changing the content of `time_options.proto` does not have an effect
+    // on the default error message we obtain.
     @DisplayName("provide correct format of the violation message")
     void provideCorrectFormatOfViolationMessage() {
         var invalidMsg = TimeWithDefaultErrorMessage.newBuilder()
