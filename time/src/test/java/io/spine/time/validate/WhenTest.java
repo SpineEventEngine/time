@@ -179,9 +179,16 @@ class WhenTest {
         var violations = error.getConstraintViolationList();
         assertThat(violations)
                 .isNotEmpty();
-        for (var violation : violations) {
-            assertHasCorrectFormat(violation);
-        }
+    }
+
+    @Test
+    @DisplayName("provide correct format of the violation message")
+    void provideCorrectFormatOfViolationMessage() {
+        var invalidMsg = TimeWithDefaultErrorMessage.newBuilder()
+                .setValue(past())
+                .buildPartial();
+        var optionalError = invalidMsg.validate();
+        assertHasCorrectFormat(optionalError.get().getConstraintViolationList().get(0));
     }
 
     private static void assertHasCorrectFormat(ConstraintViolation violation) {
