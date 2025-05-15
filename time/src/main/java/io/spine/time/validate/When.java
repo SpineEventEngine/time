@@ -34,8 +34,8 @@ import io.spine.validate.Constraint;
 import io.spine.validate.option.FieldValidatingOption;
 
 /**
- * A validating option that specified the point in time which a {@link Timestamp} field value
- * has.
+ * A validating option that specified the point in time which
+ * a {@link Timestamp} field value has.
  */
 final class When extends FieldValidatingOption<TimeOption> {
 
