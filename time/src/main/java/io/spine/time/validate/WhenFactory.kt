@@ -24,31 +24,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate;
+package io.spine.time.validate
 
-import com.google.auto.service.AutoService;
-import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.Immutable;
-import io.spine.annotation.Internal;
-import io.spine.validate.option.FieldValidatingOption;
-import io.spine.validate.option.ValidatingOptionFactory;
-
-import java.util.Set;
+import com.google.auto.service.AutoService
+import com.google.common.collect.ImmutableSet
+import com.google.errorprone.annotations.Immutable
+import io.spine.annotation.Internal
+import io.spine.validate.option.FieldValidatingOption
+import io.spine.validate.option.ValidatingOptionFactory
 
 /**
- * An implementation of {@link ValidatingOptionFactory} which adds the {@link When} option
+ * An implementation of [ValidatingOptionFactory] which adds the [When] option
  * for message fields.
  */
-@AutoService(ValidatingOptionFactory.class)
+@AutoService(ValidatingOptionFactory::class)
 @Internal
 @Immutable
-public final class WhenFactory implements ValidatingOptionFactory {
+public class WhenFactory : ValidatingOptionFactory {
 
-    private static final ImmutableSet<FieldValidatingOption<?>> TYPE_OPTIONS =
-            ImmutableSet.of(When.create());
+    override fun forMessage(): Set<FieldValidatingOption<*>> {
+        return typeOptions
+    }
 
-    @Override
-    public Set<FieldValidatingOption<?>> forMessage() {
-        return TYPE_OPTIONS;
+    public companion object {
+
+        private val typeOptions by lazy {
+            ImmutableSet.of<FieldValidatingOption<*>>(When.create())
+        }
     }
 }
