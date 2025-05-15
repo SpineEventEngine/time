@@ -31,7 +31,7 @@ import com.google.protobuf.util.Durations;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import java.util.Locale;
 import java.util.TimeZone;
 

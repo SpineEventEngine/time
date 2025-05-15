@@ -29,14 +29,13 @@ package io.spine.time.validate;
 import io.spine.base.Time;
 import io.spine.validate.ConstraintViolation;
 import io.spine.validate.TemplateString;
-import io.spine.validate.TemplateStringExtsKt;
+import io.spine.validate.TemplateStrings;
 import io.spine.validate.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 import static io.spine.string.Strings.count;
 import static io.spine.time.validate.given.WhenTestEnv.FIFTY_NANOSECONDS;
 import static io.spine.time.validate.given.WhenTestEnv.ZERO_NANOSECONDS;
@@ -47,7 +46,6 @@ import static io.spine.time.validate.given.WhenTestEnv.past;
 import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
 
 @DisplayName("`(when)` option should")
-@SuppressWarnings("OptionalGetWithoutIsPresent") // OK for these tests.
 class WhenTest {
 
     @AfterEach
@@ -153,7 +151,7 @@ class WhenTest {
         assertThat(violations)
                 .hasSize(1);
         var violation = violations.get(0);
-        var actualErrorMessage = TemplateStringExtsKt.format(violation.getMessage());
+        var actualErrorMessage = TemplateStrings.format(violation.getMessage());
         assertThat(actualErrorMessage).isEqualTo(expectedMsg);
     }
 

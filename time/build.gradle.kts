@@ -31,7 +31,7 @@ import io.spine.gradle.publish.IncrementGuard
 
 plugins {
     protobuf
-    `jvm-module`
+    module
     id(mcJava.pluginId)
 }
 

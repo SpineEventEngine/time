@@ -40,7 +40,7 @@ import io.spine.validate.CustomConstraint;
 import io.spine.validate.FieldValue;
 import io.spine.validate.MessageValue;
 import io.spine.validate.TemplateString;
-import io.spine.validate.TemplateStringExtsKt;
+import io.spine.validate.TemplateStrings;
 import io.spine.validate.diags.ViolationText;
 import io.spine.validate.option.FieldConstraint;
 
@@ -92,14 +92,14 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
         var builder = TemplateString.newBuilder()
                 .setWithPlaceholders(errorMsg)
                 .putPlaceholderValue(TIME_PLACEHOLDER, time);
-        TemplateStringExtsKt.withField(builder, field.targetDeclaration());
+        TemplateStrings.withField(builder, field.targetDeclaration());
         return builder.build();
     }
 
     @Override
     public String formattedErrorMessage(FieldContext field) {
         var templateString = errorMessage(field);
-        return TemplateStringExtsKt.format(templateString);
+        return TemplateStrings.format(templateString);
     }
 
     /**

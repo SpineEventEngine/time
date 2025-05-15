@@ -27,7 +27,7 @@
 import io.spine.dependency.local.TestLib
 
 plugins {
-    `jvm-module`
+    module
 }
 
 group = "io.spine.tools"
