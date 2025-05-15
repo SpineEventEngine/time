@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.Validation
@@ -46,5 +47,10 @@ dependencies {
 }
 
 configurations {
+    all {
+        resolutionStrategy {
+            force(Protobuf.compiler)
+        }
+    }
     excludeProtobufLite()
 }
