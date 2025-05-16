@@ -1,5 +1,5 @@
 /*
- * Copyright 2024, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.gradle
+package io.spine.gradle.repo
 
 import org.gradle.api.GradleException
 
 /**
  * A name of a repository.
  */
+@Suppress("unused")
 class RepoSlug(val value: String) {
 
     companion object {
@@ -44,7 +45,7 @@ class RepoSlug(val value: String) {
         /**
          * Reads `REPO_SLUG` environment variable and returns its value.
          *
-         * In case it is not set, a [GradleException] is thrown.
+         * In case it is not set, a [org.gradle.api.GradleException] is thrown.
          */
         fun fromVar(): RepoSlug {
             val envValue = System.getenv(environmentVariable)

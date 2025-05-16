@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.boms.BomsPlugin
 import com.google.protobuf.gradle.id
 import com.google.protobuf.gradle.remove
 import io.spine.gradle.report.license.LicenseReporter
@@ -32,6 +33,7 @@ plugins {
     protobuf
     `java-library`
 }
+apply<BomsPlugin>()
 LicenseReporter.generateReportIn(project)
 
 val timeProject = project(":time")

@@ -24,31 +24,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate;
+@file:Suppress("unused")
 
-import com.google.auto.service.AutoService;
-import com.google.common.collect.ImmutableSet;
-import com.google.errorprone.annotations.Immutable;
-import io.spine.annotation.Internal;
-import io.spine.validate.option.FieldValidatingOption;
-import io.spine.validate.option.ValidatingOptionFactory;
-
-import java.util.Set;
+package io.spine.dependency.build
 
 /**
- * An implementation of {@link ValidatingOptionFactory} which adds the {@link When} option
- * for message fields.
+ * The Gradle plugin for publishing Gradle plugins to the Gradle Plugin Portal.
+ *
+ * @see <a href="https://plugins.gradle.org/plugin/com.gradle.plugin-publish">
+ *     The plugin page at the Portal</a>
+ * @see <a href="https://plugins.gradle.org/docs/publish-plugin">Publishing Rules</a>
  */
-@AutoService(ValidatingOptionFactory.class)
-@Internal
-@Immutable
-public final class WhenFactory implements ValidatingOptionFactory {
-
-    private static final ImmutableSet<FieldValidatingOption<?>> TYPE_OPTIONS =
-            ImmutableSet.of(When.create());
-
-    @Override
-    public Set<FieldValidatingOption<?>> forMessage() {
-        return TYPE_OPTIONS;
-    }
+@Suppress("ConstPropertyName")
+object PluginPublishPlugin {
+    const val version = "1.3.1"
+    const val id = "com.gradle.plugin-publish"
 }

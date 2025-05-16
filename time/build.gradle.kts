@@ -24,6 +24,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.lib.AutoServiceKsp
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.Validation
@@ -31,13 +33,14 @@ import io.spine.gradle.publish.IncrementGuard
 
 plugins {
     protobuf
-    `jvm-module`
+    module
     id(mcJava.pluginId)
 }
 
 apply<IncrementGuard>()
 
 dependencies {
+    ksp(AutoServiceKsp.processor)
     api(Base.lib)
     implementation(Validation.runtime)
 
@@ -46,5 +49,12 @@ dependencies {
 }
 
 configurations {
+    all {
+        resolutionStrategy {
+            // Force the compiler only in this module because
+            // the `time-js` module has its own Protobuf compiler.
+            force(Protobuf.compiler)
+        }
+    }
     excludeProtobufLite()
 }

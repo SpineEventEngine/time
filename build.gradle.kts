@@ -27,22 +27,22 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.dependency.build.Dokka
-import io.spine.dependency.lib.Jackson
+import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.lib.Grpc
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
-import io.spine.dependency.lib.KotlinX
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
-import io.spine.dependency.test.JUnit
 import io.spine.gradle.publish.PublishingRepos
 import io.spine.gradle.publish.spinePublishing
+import io.spine.gradle.repo.standardToSpineSdk
 import io.spine.gradle.report.coverage.JacocoConfig
 import io.spine.gradle.report.license.LicenseReporter
 import io.spine.gradle.report.pom.PomGenerator
-import io.spine.gradle.standardToSpineSdk
 
 buildscript {
     standardSpineSdkRepositories()
@@ -58,23 +58,20 @@ buildscript {
             exclude(group = "io.spine", module = "spine-logging-backend")
 
             resolutionStrategy {
+                io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
+                    project, this@all, this@resolutionStrategy
+                )
+                io.spine.dependency.lib.Grpc.forceArtifacts(
+                    project, this@all, this@resolutionStrategy
+                )
                 val validation = io.spine.dependency.local.Validation
-                val jackson = io.spine.dependency.lib.Jackson
                 val logging = io.spine.dependency.local.Logging
                 force(
-                    io.spine.dependency.lib.KotlinX.Coroutines.bom,
-                    io.spine.dependency.lib.KotlinX.Coroutines.core,
-                    io.spine.dependency.lib.KotlinX.Coroutines.coreJvm,
-                    io.spine.dependency.lib.KotlinX.Coroutines.jdk8,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
-                    jackson.annotations,
-                    jackson.bom,
-                    jackson.databind,
-                    jackson.moduleKotlin
                 )
             }
         }
@@ -87,6 +84,7 @@ repositories {
 }
 
 plugins {
+    id("org.jetbrains.kotlinx.kover")
     idea
     jacoco
     `gradle-doctor`
@@ -125,15 +123,11 @@ allprojects {
             exclude(group = "io.spine", module = "spine-validate")
             exclude(group = "io.spine", module = "spine-flogger-api")
             resolutionStrategy {
+                Coroutines.forceArtifacts(project, this@all, this@resolutionStrategy)
+                Grpc.forceArtifacts(project, this@all, this@resolutionStrategy)
                 force(
+                    Kotlin.bom,
                     KotlinPoet.lib,
-                    KotlinX.Coroutines.bom,
-                    KotlinX.Coroutines.core,
-                    KotlinX.Coroutines.coreJvm,
-                    KotlinX.Coroutines.debug,
-                    KotlinX.Coroutines.jdk8,
-                    KotlinX.Coroutines.test,
-                    KotlinX.Coroutines.testJvm,
                     Reflect.lib,
                     Base.lib,
                     ToolBase.lib,
@@ -142,8 +136,6 @@ allprojects {
                     ProtoData.api,
                     Validation.runtime,
                     Dokka.BasePlugin.lib,
-                    Jackson.databind,
-                    JUnit.runner,
                 )
             }
         }

@@ -42,11 +42,21 @@ import "google/protobuf/timestamp.proto";
 // Messages for "time" option tests.
 
 message TimeInFutureFieldValue {
-    google.protobuf.Timestamp value = 1 [(when).in = FUTURE];
+    google.protobuf.Timestamp value = 1 [(when) = {
+        in: FUTURE,
+        error_msg: "The time must be in the future."
+    }];
 }
 
 message TimeInPastFieldValue {
-    google.protobuf.Timestamp value = 1 [(when).in = PAST];
+    google.protobuf.Timestamp value = 1 [(when) = {
+        in: PAST,
+        error_msg: "The time must be in the past."
+    }];
+}
+
+message TimeWithDefaultErrorMessage {
+    google.protobuf.Timestamp value = 1 [(when).in = FUTURE];
 }
 
 message TimeWithoutOptsFieldValue {
