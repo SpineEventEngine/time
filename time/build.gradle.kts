@@ -51,6 +51,8 @@ dependencies {
 configurations {
     all {
         resolutionStrategy {
+            // Force the compiler only in this module because
+            // the `time-js` module has its own Protobuf compiler.
             force(Protobuf.compiler)
         }
     }
