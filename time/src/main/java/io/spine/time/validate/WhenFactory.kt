@@ -46,7 +46,7 @@ public class WhenFactory : ValidatingOptionFactory {
         return typeOptions
     }
 
-    public companion object {
+    private companion object {
 
         private val typeOptions by lazy {
             ImmutableSet.of<FieldValidatingOption<*>>(When.create())
