@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.lib.AutoServiceKsp
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.TestLib
@@ -39,6 +40,7 @@ plugins {
 apply<IncrementGuard>()
 
 dependencies {
+    ksp(AutoServiceKsp.processor)
     api(Base.lib)
     implementation(Validation.runtime)
 
