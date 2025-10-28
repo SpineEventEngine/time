@@ -30,7 +30,13 @@ package io.spine.time.kotlin
 
 import com.google.protobuf.Timestamp
 import com.google.protobuf.timestamp
+import com.google.protobuf.duration
 import kotlin.time.Duration.Companion.nanoseconds
+import io.spine.time.localDate
+import io.spine.time.localDateTime
+import io.spine.time.localTime
+import io.spine.time.yearMonth
+import io.spine.time.zoneId
 import com.google.protobuf.Duration as ProtoDuration
 import io.spine.time.LocalDate as ProtoLocalDate
 import io.spine.time.LocalDateTime as ProtoLocalDateTime
@@ -78,10 +84,10 @@ public fun KtDuration.toProtoDuration(): ProtoDuration {
     val totalNanos = this.inWholeNanoseconds
     val seconds = totalNanos / NANOS_IN_SECOND // truncates toward zero
     val nanos = (totalNanos % NANOS_IN_SECOND).toInt()
-    return ProtoDuration.newBuilder()
-        .setSeconds(seconds)
-        .setNanos(nanos)
-        .build()
+    return duration {
+        this.seconds = seconds
+        this.nanos = nanos
+    }
 }
 
 /**
@@ -132,10 +138,10 @@ public fun ProtoYearMonth.toKotlinYearMonth(): KtYearMonth =
  * Converts kotlinx.datetime `YearMonth` to Spine `YearMonth`.
  */
 public fun KtYearMonth.toProtoYearMonth(): ProtoYearMonth =
-    ProtoYearMonth.newBuilder()
-        .setYear(this.year)
-        .setMonth(this.month.toProtoMonth())
-        .build()
+    yearMonth {
+        year = this@toProtoYearMonth.year
+        month = this@toProtoYearMonth.month.toProtoMonth()
+    }
 
 /**
  * Converts Spine `LocalDate` to kotlinx.datetime `LocalDate`.
@@ -147,11 +153,11 @@ public fun ProtoLocalDate.toKotlinLocalDate(): KtLocalDate =
  * Converts kotlinx.datetime `LocalDate` to Spine `LocalDate`.
  */
 public fun KtLocalDate.toProtoLocalDate(): ProtoLocalDate =
-    ProtoLocalDate.newBuilder()
-        .setYear(this.year)
-        .setMonth(this.month.toProtoMonth())
-        .setDay(this.day)
-        .build()
+    localDate {
+        year = this@toProtoLocalDate.year
+        month = this@toProtoLocalDate.month.toProtoMonth()
+        day = this@toProtoLocalDate.day
+    }
 
 /**
  * Converts Spine `LocalTime` to kotlinx.datetime `LocalTime`.
@@ -163,12 +169,12 @@ public fun ProtoLocalTime.toKotlinLocalTime(): KtLocalTime =
  * Converts kotlinx.datetime `LocalTime` to Spine `LocalTime`.
  */
 public fun KtLocalTime.toProtoLocalTime(): ProtoLocalTime =
-    ProtoLocalTime.newBuilder()
-        .setHour(this.hour)
-        .setMinute(this.minute)
-        .setSecond(this.second)
-        .setNano(this.nanosecond)
-        .build()
+    localTime {
+        hour = this@toProtoLocalTime.hour
+        minute = this@toProtoLocalTime.minute
+        second = this@toProtoLocalTime.second
+        nano = this@toProtoLocalTime.nanosecond
+    }
 
 /**
  * Converts Spine `LocalDateTime` to kotlinx.datetime `LocalDateTime`.
@@ -184,10 +190,10 @@ public fun ProtoLocalDateTime.toKotlinLocalDateTime(): KtLocalDateTime {
  * Converts kotlinx.datetime `LocalDateTime` to Spine `LocalDateTime`.
  */
 public fun KtLocalDateTime.toProtoLocalDateTime(): ProtoLocalDateTime =
-    ProtoLocalDateTime.newBuilder()
-        .setDate(this.date.toProtoLocalDate())
-        .setTime(this.time.toProtoLocalTime())
-        .build()
+    localDateTime {
+        date = this@toProtoLocalDateTime.date.toProtoLocalDate()
+        time = this@toProtoLocalDateTime.time.toProtoLocalTime()
+    }
 
 /**
  * Converts Spine `ZoneId` to kotlinx.datetime `TimeZone`.
@@ -198,6 +204,6 @@ public fun ProtoZoneId.toKotlinTimeZone(): KtTimeZone = KtTimeZone.of(this.value
  * Converts kotlinx.datetime `TimeZone` to Spine `ZoneId`.
  */
 public fun KtTimeZone.toProtoZoneId(): ProtoZoneId =
-    ProtoZoneId.newBuilder()
-        .setValue(this.id)
-        .build()
+    zoneId {
+        value = id
+    }
