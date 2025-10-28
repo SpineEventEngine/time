@@ -42,9 +42,9 @@ import static io.spine.time.DtPreconditions.checkSameType;
  *
  * <p>The name of this interface is inspired by the {@link java.time.temporal.Temporal}.
  *
- * <p>Provides a {@linkplain #compareTo(Temporal) default implementation} for comparison of two
- * points in time. It is not supposed that concrete {@code Temporal}s would override this comparison
- * mechanism.
+ * <p>Provides a {@linkplain #compareTo(Temporal) default implementation} for
+ * comparison of two points in time.  It is not supposed that concrete
+ * {@code Temporal}s would override this comparison mechanism.
  *
  * @param <T>
  *         the type of itself
