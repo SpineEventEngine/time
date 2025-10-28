@@ -74,7 +74,7 @@ public final class TimestampTemporal implements Temporal<TimestampTemporal> {
     }
 
     @Override
-    public Any toAny() {
+    public Any packed() {
         return AnyPacker.pack(value);
     }
 }
