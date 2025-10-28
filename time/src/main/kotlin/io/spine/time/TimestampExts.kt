@@ -148,7 +148,3 @@ public operator fun Timestamp.minus(other: Timestamp): Duration = between(this, 
  */
 public operator fun Timestamp.minus(length: Duration): Timestamp = subtract(this, length)
 
-/**
- * Converts this timestamp to `Instant`.
- */
-public fun Timestamp.toInstant(): Instant = InstantConverter.reversed().convert(this)!!

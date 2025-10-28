@@ -78,10 +78,6 @@ internal class TimestampExtsSpec {
             past.toNanos() shouldBe toNanos(past)
         }
 
-        @Test
-        fun instant() {
-            past.toInstant() shouldBe past().toInstant()
-        }
     }
 
     @Nested

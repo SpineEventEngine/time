@@ -45,7 +45,6 @@ import io.spine.protobuf.Durations2
 import io.spine.protobuf.Durations2.add
 import io.spine.protobuf.Durations2.isPositiveOrZero
 import io.spine.protobuf.Durations2.isZero
-import io.spine.protobuf.Durations2.toJavaTime
 
 /**
  * Compares this duration with the passed one.
@@ -159,10 +158,6 @@ public fun Duration.toMicros(): Long = toMicros(this)
  */
 public fun Duration.toNanos(): Long = toNanos(this)
 
-/**
- * Converts this duration to a Java Time instance.
- */
-public fun Duration.toJavaTime(): java.time.Duration = toJavaTime(this)
 
 /**
  * Adds the passed duration to this one.

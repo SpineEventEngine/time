@@ -24,18 +24,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
+plugins {
+    module
 }
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-js",
-    "time-testlib",
-    "time-java",
-)
+dependencies {
+    // Expose the core `time` API and types to consumers of `time-java`.
+    api(project(":time"))
+}

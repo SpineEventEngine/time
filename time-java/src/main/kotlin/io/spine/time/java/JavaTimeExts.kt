@@ -24,18 +24,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+@file:JvmName("JavaTimeExtensions")
 
-rootProject.name = "spine-time"
+package io.spine.time.java
 
-include(
-    "time",
-    "time-js",
-    "time-testlib",
-    "time-java",
-)
+import com.google.protobuf.Duration
+import com.google.protobuf.Timestamp
+import io.spine.protobuf.Durations2.toJavaTime
+import io.spine.time.InstantConverter
+import java.time.Instant
+
+/**
+ * Converts this `Timestamp` to `Instant`.
+ */
+public fun Timestamp.toInstant(): Instant = InstantConverter.reversed().convert(this)!!
+
+/**
+ * Converts this `Duration` to a Java Time `Duration`.
+ */
+public fun Duration.toJavaTime(): java.time.Duration = toJavaTime(this)

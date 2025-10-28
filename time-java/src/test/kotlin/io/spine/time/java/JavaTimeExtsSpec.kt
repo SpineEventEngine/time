@@ -24,18 +24,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
+package io.spine.time.java
+
+import com.google.protobuf.Duration
+import com.google.protobuf.timestamp
+import io.kotest.matchers.shouldBe
+import io.spine.protobuf.Durations2.add
+import io.spine.protobuf.Durations2.nanos
+import io.spine.protobuf.Durations2.seconds
+import io.spine.protobuf.Durations2.toJavaTime
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import java.time.Instant
+
+@DisplayName("Java Time conversion extensions should")
+internal class JavaTimeExtsSpec {
+
+    @Nested
+    inner class DurationConversions {
+        @Test
+        fun toJavaTime() {
+            val duration: Duration = add(
+                seconds(1234),
+                nanos(567_000_000)
+            )
+            duration.toJavaTime() shouldBe toJavaTime(duration)
+        }
+    }
+
+    @Nested
+    inner class TimestampConversions {
+        @Test
+        fun instant() {
+            val seconds = 1_234L
+            val nanos = 567_000_000
+            val ts = timestamp {
+                this.seconds = seconds
+                this.nanos = nanos
+            }
+            ts.toInstant() shouldBe Instant.ofEpochSecond(seconds, nanos.toLong())
+        }
     }
 }
-
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-js",
-    "time-testlib",
-    "time-java",
-)
