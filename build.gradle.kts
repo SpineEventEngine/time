@@ -49,7 +49,7 @@ buildscript {
     doForceVersions(configurations)
 
     dependencies {
-        classpath(io.spine.dependency.local.McJava.pluginLib)
+        classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
     }
 
     configurations {
@@ -67,6 +67,7 @@ buildscript {
                 val validation = io.spine.dependency.local.Validation
                 val logging = io.spine.dependency.local.Logging
                 force(
+                    io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
                     logging.lib,
