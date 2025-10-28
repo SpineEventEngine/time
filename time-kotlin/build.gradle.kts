@@ -25,13 +25,14 @@
  */
 
 import io.spine.dependency.kotlinx.DateTime
+import io.spine.dependency.local.Validation
 
 plugins {
     module
 }
 
 dependencies {
-    // Expose the core `time` API and types to consumers of `time-kotlin`.
     api(project(":time"))
     api(DateTime.lib)
+    implementation(Validation.runtime)?.because("`ValidatingBuilder` is needed for compilation.")
 }

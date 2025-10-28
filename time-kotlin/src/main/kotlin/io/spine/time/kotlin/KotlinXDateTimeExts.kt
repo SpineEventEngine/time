@@ -28,12 +28,24 @@
 
 package io.spine.time.kotlin
 
-import com.google.protobuf.Duration as ProtoDuration
 import com.google.protobuf.Timestamp
 import com.google.protobuf.timestamp
-import kotlin.time.Instant as KtInstant
-import kotlin.time.Duration as KtDuration
 import kotlin.time.Duration.Companion.nanoseconds
+import com.google.protobuf.Duration as ProtoDuration
+import io.spine.time.LocalDate as ProtoLocalDate
+import io.spine.time.LocalDateTime as ProtoLocalDateTime
+import io.spine.time.LocalTime as ProtoLocalTime
+import io.spine.time.Month as ProtoMonth
+import io.spine.time.YearMonth as ProtoYearMonth
+import io.spine.time.ZoneId as ProtoZoneId
+import kotlin.time.Duration as KtDuration
+import kotlin.time.Instant as KtInstant
+import kotlinx.datetime.LocalDate as KtLocalDate
+import kotlinx.datetime.LocalDateTime as KtLocalDateTime
+import kotlinx.datetime.LocalTime as KtLocalTime
+import kotlinx.datetime.Month as KtMonth
+import kotlinx.datetime.TimeZone as KtTimeZone
+import kotlinx.datetime.YearMonth as KtYearMonth
 
 /**
  * Converts this `Timestamp` to KotlinX `Instant`.
@@ -71,3 +83,121 @@ public fun KtDuration.toProtoDuration(): ProtoDuration {
         .setNanos(nanos)
         .build()
 }
+
+/**
+ * Converts Spine `Month` to kotlinx.datetime `Month`.
+ */
+public fun ProtoMonth.toKotlinMonth(): KtMonth = when (this) {
+    ProtoMonth.JANUARY -> KtMonth.JANUARY
+    ProtoMonth.FEBRUARY -> KtMonth.FEBRUARY
+    ProtoMonth.MARCH -> KtMonth.MARCH
+    ProtoMonth.APRIL -> KtMonth.APRIL
+    ProtoMonth.MAY -> KtMonth.MAY
+    ProtoMonth.JUNE -> KtMonth.JUNE
+    ProtoMonth.JULY -> KtMonth.JULY
+    ProtoMonth.AUGUST -> KtMonth.AUGUST
+    ProtoMonth.SEPTEMBER -> KtMonth.SEPTEMBER
+    ProtoMonth.OCTOBER -> KtMonth.OCTOBER
+    ProtoMonth.NOVEMBER -> KtMonth.NOVEMBER
+    ProtoMonth.DECEMBER -> KtMonth.DECEMBER
+    ProtoMonth.MONTH_UNDEFINED, ProtoMonth.UNRECOGNIZED ->
+        error("Undefined `Month` cannot be converted to `kotlinx.datetime.Month`.")
+}
+
+/**
+ * Converts kotlinx.datetime `Month` to Spine `Month`.
+ */
+public fun KtMonth.toProtoMonth(): ProtoMonth = when (this) {
+    KtMonth.JANUARY -> ProtoMonth.JANUARY
+    KtMonth.FEBRUARY -> ProtoMonth.FEBRUARY
+    KtMonth.MARCH -> ProtoMonth.MARCH
+    KtMonth.APRIL -> ProtoMonth.APRIL
+    KtMonth.MAY -> ProtoMonth.MAY
+    KtMonth.JUNE -> ProtoMonth.JUNE
+    KtMonth.JULY -> ProtoMonth.JULY
+    KtMonth.AUGUST -> ProtoMonth.AUGUST
+    KtMonth.SEPTEMBER -> ProtoMonth.SEPTEMBER
+    KtMonth.OCTOBER -> ProtoMonth.OCTOBER
+    KtMonth.NOVEMBER -> ProtoMonth.NOVEMBER
+    KtMonth.DECEMBER -> ProtoMonth.DECEMBER
+}
+
+/**
+ * Converts Spine `YearMonth` to kotlinx.datetime `YearMonth`.
+ */
+public fun ProtoYearMonth.toKotlinYearMonth(): KtYearMonth =
+    KtYearMonth(this.year, this.month.toKotlinMonth())
+
+/**
+ * Converts kotlinx.datetime `YearMonth` to Spine `YearMonth`.
+ */
+public fun KtYearMonth.toProtoYearMonth(): ProtoYearMonth =
+    ProtoYearMonth.newBuilder()
+        .setYear(this.year)
+        .setMonth(this.month.toProtoMonth())
+        .build()
+
+/**
+ * Converts Spine `LocalDate` to kotlinx.datetime `LocalDate`.
+ */
+public fun ProtoLocalDate.toKotlinLocalDate(): KtLocalDate =
+    KtLocalDate(this.year, this.month.toKotlinMonth(), this.day)
+
+/**
+ * Converts kotlinx.datetime `LocalDate` to Spine `LocalDate`.
+ */
+public fun KtLocalDate.toProtoLocalDate(): ProtoLocalDate =
+    ProtoLocalDate.newBuilder()
+        .setYear(this.year)
+        .setMonth(this.month.toProtoMonth())
+        .setDay(this.day)
+        .build()
+
+/**
+ * Converts Spine `LocalTime` to kotlinx.datetime `LocalTime`.
+ */
+public fun ProtoLocalTime.toKotlinLocalTime(): KtLocalTime =
+    KtLocalTime(this.hour, this.minute, this.second, this.nano)
+
+/**
+ * Converts kotlinx.datetime `LocalTime` to Spine `LocalTime`.
+ */
+public fun KtLocalTime.toProtoLocalTime(): ProtoLocalTime =
+    ProtoLocalTime.newBuilder()
+        .setHour(this.hour)
+        .setMinute(this.minute)
+        .setSecond(this.second)
+        .setNano(this.nanosecond)
+        .build()
+
+/**
+ * Converts Spine `LocalDateTime` to kotlinx.datetime `LocalDateTime`.
+ */
+public fun ProtoLocalDateTime.toKotlinLocalDateTime(): KtLocalDateTime {
+    require(this.hasDate()) { "LocalDateTime.date is required by the proto definition." }
+    val kDate = this.date.toKotlinLocalDate()
+    val kTime = if (this.hasTime()) this.time.toKotlinLocalTime() else KtLocalTime(0, 0, 0, 0)
+    return KtLocalDateTime(kDate, kTime)
+}
+
+/**
+ * Converts kotlinx.datetime `LocalDateTime` to Spine `LocalDateTime`.
+ */
+public fun KtLocalDateTime.toProtoLocalDateTime(): ProtoLocalDateTime =
+    ProtoLocalDateTime.newBuilder()
+        .setDate(this.date.toProtoLocalDate())
+        .setTime(this.time.toProtoLocalTime())
+        .build()
+
+/**
+ * Converts Spine `ZoneId` to kotlinx.datetime `TimeZone`.
+ */
+public fun ProtoZoneId.toKotlinTimeZone(): KtTimeZone = KtTimeZone.of(this.value)
+
+/**
+ * Converts kotlinx.datetime `TimeZone` to Spine `ZoneId`.
+ */
+public fun KtTimeZone.toProtoZoneId(): ProtoZoneId =
+    ProtoZoneId.newBuilder()
+        .setValue(this.id)
+        .build()

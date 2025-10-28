@@ -34,6 +34,18 @@ import io.kotest.matchers.shouldBe
 import io.spine.protobuf.Durations2.add
 import io.spine.protobuf.Durations2.nanos
 import io.spine.protobuf.Durations2.seconds
+import io.spine.time.LocalDate
+import io.spine.time.LocalDateTime
+import io.spine.time.LocalTime
+import io.spine.time.Month as ProtoMonth
+import io.spine.time.YearMonth as ProtoYearMonth
+import io.spine.time.ZoneId
+import kotlinx.datetime.LocalDate as KtLocalDate
+import kotlinx.datetime.LocalDateTime as KtLocalDateTime
+import kotlinx.datetime.LocalTime as KtLocalTime
+import kotlinx.datetime.Month as KtMonth
+import kotlinx.datetime.TimeZone as KtTimeZone
+import kotlinx.datetime.YearMonth as KtYearMonth
 import kotlin.time.Duration.Companion.nanoseconds
 import kotlin.time.Instant
 import org.junit.jupiter.api.DisplayName
@@ -66,8 +78,9 @@ internal class KotlinXTimeExtsSpec {
 
     @Nested
     inner class TimestampConversions {
+        
         @Test
-        fun toInstant_and_back() {
+        fun `'toInstant' and back`() {
             val seconds = 1_234L
             val nanos = 567_000_000
             val ts = timestamp {
@@ -77,6 +90,102 @@ internal class KotlinXTimeExtsSpec {
             val instant = ts.toInstant()
             instant shouldBe Instant.fromEpochSeconds(seconds, nanos.toLong())
             instant.toTimestamp() shouldBe ts
+        }
+    }
+
+    @Nested
+    inner class MonthConversions {
+        
+        @Test
+        fun `map all months`() {
+            KtMonth.entries.forEach { kx ->
+                val proto = kx.toProtoMonth()
+                proto.toKotlinMonth() shouldBe kx
+            }
+        }
+    }
+
+    @Nested
+    inner class YearMonthConversions {
+
+        @Test
+        fun roundTrip() {
+            val kx = KtYearMonth(2025, KtMonth.OCTOBER)
+            val proto: ProtoYearMonth = kx.toProtoYearMonth()
+            proto.year shouldBe 2025
+            proto.month shouldBe ProtoMonth.OCTOBER
+            proto.toKotlinYearMonth() shouldBe kx
+        }
+    }
+
+    @Nested
+    inner class LocalDateConversions {
+
+        @Test
+        fun roundTrip() {
+            val kx = KtLocalDate(2024, KtMonth.FEBRUARY, 29)
+            val proto: LocalDate = kx.toProtoLocalDate()
+            proto.year shouldBe 2024
+            proto.month shouldBe ProtoMonth.FEBRUARY
+            proto.day shouldBe 29
+            proto.toKotlinLocalDate() shouldBe kx
+        }
+    }
+
+    @Nested
+    inner class LocalTimeConversions {
+
+        @Test
+        fun roundTrip() {
+            val kx = KtLocalTime(23, 59, 58, 999_999_999)
+            val proto: LocalTime = kx.toProtoLocalTime()
+            proto.hour shouldBe 23
+            proto.minute shouldBe 59
+            proto.second shouldBe 58
+            proto.nano shouldBe 999_999_999
+            proto.toKotlinLocalTime() shouldBe kx
+        }
+    }
+
+    @Nested
+    inner class LocalDateTimeConversions {
+
+        @Test
+        fun roundTrip() {
+            val kx = KtLocalDateTime(KtLocalDate(2030, KtMonth.JANUARY, 1), KtLocalTime(0, 0, 0, 1))
+            val proto: LocalDateTime = kx.toProtoLocalDateTime()
+            proto.date.year shouldBe 2030
+            proto.date.month shouldBe ProtoMonth.JANUARY
+            proto.date.day shouldBe 1
+            proto.time.hour shouldBe 0
+            proto.time.minute shouldBe 0
+            proto.time.second shouldBe 0
+            proto.time.nano shouldBe 1
+            proto.toKotlinLocalDateTime() shouldBe kx
+        }
+
+        @Test
+        fun `missing time defaults to midnight`() {
+            val localDate =
+                LocalDate.newBuilder().setYear(2021).setMonth(ProtoMonth.MARCH).setDay(14)
+            val proto = LocalDateTime.newBuilder()
+                .setDate(localDate)
+                .build()
+            val kx = proto.toKotlinLocalDateTime()
+            kx.date shouldBe KtLocalDate(2021, KtMonth.MARCH, 14)
+            kx.time shouldBe KtLocalTime(0, 0, 0, 0)
+        }
+    }
+
+    @Nested
+    inner class TimeZoneConversions {
+
+        @Test
+        fun roundTrip() {
+            val kx = KtTimeZone.of("Europe/Amsterdam")
+            val proto: ZoneId = kx.toProtoZoneId()
+            proto.value shouldBe "Europe/Amsterdam"
+            proto.toKotlinTimeZone() shouldBe kx
         }
     }
 }
