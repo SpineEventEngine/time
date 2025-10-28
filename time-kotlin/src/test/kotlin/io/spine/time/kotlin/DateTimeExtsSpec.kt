@@ -53,7 +53,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("KotlinX DateTime conversion extensions should")
-internal class KotlinXTimeExtsSpec {
+internal class DateTimeExtsSpec {
 
     @Nested
     inner class DurationConversions {
