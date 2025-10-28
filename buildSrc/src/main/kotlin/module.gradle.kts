@@ -31,8 +31,12 @@ import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
 import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.Guava
+import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.local.Base
+import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.ToolBase
 import io.spine.dependency.test.Jacoco
 import io.spine.gradle.checkstyle.CheckStyleConfig
 import io.spine.gradle.github.pages.updateGitHubPages
@@ -51,7 +55,6 @@ plugins {
     id("project-report")
     id("dokka-for-java")
     kotlin("jvm")
-    id("io.kotest")
     id("org.jetbrains.kotlinx.kover")
     id("detekt-code-analysis")
     id("dokka-for-kotlin")
@@ -141,9 +144,19 @@ fun Module.forceConfigurations() {
         excludeProtobufLite()
         all {
             resolutionStrategy {
+                Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
+                Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
                 force(
+                    Base.annotations,
+                    Compiler.api,
                     Dokka.BasePlugin.lib,
+                    Jackson.annotations,
                     Reflect.lib,
+                    ToolBase.gradlePluginApi,
+                    ToolBase.jvmTools,
+                    ToolBase.pluginBase,
+                    ToolBase.protobufSetupPlugins,
+                    ToolBase.psiJava,
                 )
             }
         }
