@@ -24,19 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
+import io.spine.dependency.kotlinx.DateTime
+
+plugins {
+    module
 }
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-js",
-    "time-testlib",
-    "time-java",
-    "time-kotlin",
-)
+dependencies {
+    // Expose the core `time` API and types to consumers of `time-kotlin`.
+    api(project(":time"))
+    api(DateTime.lib)
+}
