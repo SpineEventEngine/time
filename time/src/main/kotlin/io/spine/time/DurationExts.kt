@@ -160,7 +160,7 @@ public fun Duration.toMicros(): Long = toMicros(this)
 public fun Duration.toNanos(): Long = toNanos(this)
 
 /**
- * Converts this duration to Java Time instance.
+ * Converts this duration to a Java Time instance.
  */
 public fun Duration.toJavaTime(): java.time.Duration = toJavaTime(this)
 
