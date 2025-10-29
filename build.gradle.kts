@@ -93,10 +93,7 @@ plugins {
 }
 
 spinePublishing {
-    modules = setOf(
-        "time",
-        "time-testlib"
-    )
+    modules = productionModules.map { it.name }.toSet() - "time-js"
     destinations = with(PublishingRepos) {
         setOf(
             gitHub("time"),
