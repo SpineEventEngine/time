@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static io.spine.base.Time.currentTimeZone;
-import static io.spine.time.testing.TimeTests.avoidDayEdge;
+import static io.spine.testing.time.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("`YearMonths` should")

@@ -35,7 +35,7 @@ import static io.spine.base.Time.currentTimeZone;
 import static io.spine.protobuf.Messages.isNotDefault;
 import static io.spine.time.Asserts.assertDatesEqual;
 import static io.spine.time.ZonedDateTimes.toJavaTime;
-import static io.spine.time.testing.TimeTests.avoidDayEdge;
+import static io.spine.testing.time.TimeTests.avoidDayEdge;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
