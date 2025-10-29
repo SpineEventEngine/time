@@ -75,7 +75,7 @@ abstract class TemporalMessageTest<T extends TemporalMessage<T>> {
     @DisplayName("pack self to Any")
     void toAny() {
         var temporal = create();
-        var any = temporal.toAny();
+        var any = temporal.packed();
         var assertAny = assertThat(any);
         assertAny.isNotNull();
         assertAny.isNotEqualToDefaultInstance();

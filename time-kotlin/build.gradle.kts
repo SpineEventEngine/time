@@ -24,19 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenCentral()
-    }
+import io.spine.dependency.kotlinx.DateTime
+import io.spine.dependency.local.Validation
+
+plugins {
+    module
 }
 
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-js",
-    "time-testlib",
-    "time-java",
-    "time-kotlin",
-)
+dependencies {
+    api(project(":time"))
+    api(DateTime.lib)
+    implementation(Validation.runtime)?.because("`ValidatingBuilder` is needed for compilation.")
+}

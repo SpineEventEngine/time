@@ -67,7 +67,7 @@ class TimestampTemporalTest {
     void convertToAny() {
         var timestamp = currentTime();
         var temporal = Temporals.from(timestamp);
-        assertEquals(pack(timestamp), temporal.toAny());
+        assertEquals(pack(timestamp), temporal.packed());
     }
 
     private static TimestampTemporal now() {

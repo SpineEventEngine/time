@@ -30,6 +30,7 @@ import com.google.common.base.Converter;
 import com.google.protobuf.Timestamp;
 import io.spine.annotation.Internal;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -42,6 +43,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class InstantConverter extends Converter<Instant, Timestamp>
         implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final InstantConverter INSTANCE = new InstantConverter();
 
@@ -70,6 +72,7 @@ public final class InstantConverter extends Converter<Instant, Timestamp>
         return result;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

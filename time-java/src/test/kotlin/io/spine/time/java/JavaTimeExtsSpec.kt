@@ -24,17 +24,46 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.dependency.local
+package io.spine.time.java
 
-/**
- * Spine Reflect library.
- *
- * @see <a href="https://github.com/SpineEventEngine/text">spine-text</a>
- */
-@Suppress("ConstPropertyName")
-object Text {
-    const val version = "2.0.0-SNAPSHOT.6"
-    const val group = Spine.group
-    const val artifact = "spine-text"
-    const val lib = "$group:$artifact:$version"
+import com.google.protobuf.Duration
+import com.google.protobuf.timestamp
+import io.kotest.matchers.shouldBe
+import io.spine.protobuf.Durations2.add
+import io.spine.protobuf.Durations2.nanos
+import io.spine.protobuf.Durations2.seconds
+import io.spine.protobuf.Durations2.toJavaTime
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
+import java.time.Instant
+
+@DisplayName("Java Time conversion extensions should")
+internal class JavaTimeExtsSpec {
+
+    @Nested
+    inner class DurationConversions {
+        @Test
+        fun toJavaTime() {
+            val duration: Duration = add(
+                seconds(1234),
+                nanos(567_000_000)
+            )
+            duration.toJavaTime() shouldBe toJavaTime(duration)
+        }
+    }
+
+    @Nested
+    inner class TimestampConversions {
+        @Test
+        fun instant() {
+            val seconds = 1_234L
+            val nanos = 567_000_000
+            val ts = timestamp {
+                this.seconds = seconds
+                this.nanos = nanos
+            }
+            ts.toInstant() shouldBe Instant.ofEpochSecond(seconds, nanos.toLong())
+        }
+    }
 }

@@ -42,15 +42,14 @@ import static io.spine.time.DtPreconditions.checkSameType;
  *
  * <p>The name of this interface is inspired by the {@link java.time.temporal.Temporal}.
  *
- * <p>Provides a {@linkplain #compareTo(Temporal) default implementation} for comparison of two
- * points in time. It is not supposed that concrete {@code Temporal}s would override this comparison
- * mechanism.
+ * <p>Provides a {@linkplain #compareTo(Temporal) default implementation} for
+ * comparison of two points in time.  It is not supposed that concrete
+ * {@code Temporal}s would override this comparison mechanism.
  *
  * @param <T>
  *         the type of itself
  * @apiNote This interface is mainly (though not exclusively) designed to be implemented in
- *         messages
- *         marked with the {@code (is)} option. See {@link TemporalMessage}.
+ *         messages marked with the {@code (is)} option. See {@link TemporalMessage}.
  */
 @SuppressWarnings("ClassWithTooManyMethods") // because of convenience overloads.
 public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
@@ -86,8 +85,19 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      * Packs this point in time into an {@link Any}.
      *
      * @return itself packed as {@code Any}
+     * @deprecated Please use {@link #packed()} instead.
      */
-    Any toAny();
+    @Deprecated
+    default Any toAny() {
+        return packed();
+    }
+
+    /**
+     * Packs this point in time into an {@link Any}.
+     *
+     * @return itself packed as {@code Any}
+     */
+    Any packed();
 
     /**
      * Compares this point in time to the given one.

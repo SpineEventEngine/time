@@ -125,7 +125,7 @@ final class WhenConstraint extends FieldConstraint<TimeOption> implements Custom
         var violation = ConstraintViolation.newBuilder()
                 .setMessage(msg)
                 .setFieldPath(fieldPath)
-                .setFieldValue(value.toAny())
+                .setFieldValue(value.packed())
                 .build();
         return violation;
     }

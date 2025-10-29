@@ -31,6 +31,10 @@ package io.spine.time
 import com.google.protobuf.Timestamp
 import java.time.Instant
 
+// This file contains only essential extension functions for converting Java Time types
+// to our API. These functions are needed for features of this module.
+// For other conversion functions, please see the `java-time` module.
+
 /**
  * Converts this instant to [Timestamp].
  */

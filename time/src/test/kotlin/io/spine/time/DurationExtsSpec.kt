@@ -140,10 +140,6 @@ internal class DurationExtsSpec {
             duration.toNanos() shouldBe toNanos(duration)
         }
 
-        @Test
-        fun toJavaTime() {
-            duration.toJavaTime() shouldBe toJavaTime(duration)
-        }
     }
 
     @Nested
