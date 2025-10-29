@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.testing;
+package io.spine.testing.time;
 
 import com.google.common.testing.NullPointerTester;
 import com.google.protobuf.Duration;

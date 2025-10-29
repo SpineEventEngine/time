@@ -24,50 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.testing;
+package io.spine.testing.time;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 
-import java.time.LocalTime;
-
-import static io.spine.base.Time.currentTime;
-import static io.spine.base.Time.currentTimeZone;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Utility class for working with time-related tests.
+ * The provider of current time, which is always the same.
+ *
+ * <p>Use this {@code Timestamps.Provider} in time-related tests that are
+ * sensitive to bounds of minutes, hours, days, etc.
  */
 @VisibleForTesting
-public final class TimeTests {
+public class FrozenMadHatterParty implements Time.Provider {
+
+    private final Timestamp frozenTime;
 
     /**
-     * Prevents instantiation of this utility class.
+     * Creates a new party with the given time.
      */
-    private TimeTests() {
+    public FrozenMadHatterParty(Timestamp frozenTime) {
+        this.frozenTime = checkNotNull(frozenTime);
     }
 
-    /**
-     * Returns the {@linkplain Time#currentTime() current time} in seconds.
-     *
-     * @return a seconds value
-     */
-    public static long currentTimeSeconds() {
-        var secs = currentTime().getSeconds();
-        return secs;
-    }
-
-    /**
-     * Waits till new day to come, if it's the last day second.
-     *
-     * <p>This method is useful for tests that obtain current date/time values
-     * and need to avoid the day edge for correctness of the test values.
-     */
-    @SuppressWarnings("StatementWithEmptyBody")
-    public static void avoidDayEdge() {
-        var lastDaySecond = LocalTime.MAX.withNano(0);
-        do {
-            // Wait.
-        } while (LocalTime.now(currentTimeZone())
-                          .isAfter(lastDaySecond));
+    /** Returns the value passed to the constructor. */
+    @Override
+    public Timestamp currentTime() {
+        return frozenTime;
     }
 }

@@ -29,7 +29,7 @@
  */
 @CheckReturnValue
 @NullMarked
-package io.spine.time.testing;
+package io.spine.testing.time;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 

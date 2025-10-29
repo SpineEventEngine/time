@@ -24,35 +24,50 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.testing;
+package io.spine.testing.time;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.protobuf.Timestamp;
 import io.spine.base.Time;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.time.LocalTime;
+
+import static io.spine.base.Time.currentTime;
+import static io.spine.base.Time.currentTimeZone;
 
 /**
- * The provider of current time, which is always the same.
- *
- * <p>Use this {@code Timestamps.Provider} in time-related tests that are
- * sensitive to bounds of minutes, hours, days, etc.
+ * Utility class for working with time-related tests.
  */
 @VisibleForTesting
-public class FrozenMadHatterParty implements Time.Provider {
-
-    private final Timestamp frozenTime;
+public final class TimeTests {
 
     /**
-     * Creates a new party with the given time.
+     * Prevents instantiation of this utility class.
      */
-    public FrozenMadHatterParty(Timestamp frozenTime) {
-        this.frozenTime = checkNotNull(frozenTime);
+    private TimeTests() {
     }
 
-    /** Returns the value passed to the constructor. */
-    @Override
-    public Timestamp currentTime() {
-        return frozenTime;
+    /**
+     * Returns the {@linkplain Time#currentTime() current time} in seconds.
+     *
+     * @return a seconds value
+     */
+    public static long currentTimeSeconds() {
+        var secs = currentTime().getSeconds();
+        return secs;
+    }
+
+    /**
+     * Waits till new day to come, if it's the last day second.
+     *
+     * <p>This method is useful for tests that obtain current date/time values
+     * and need to avoid the day edge for correctness of the test values.
+     */
+    @SuppressWarnings("StatementWithEmptyBody")
+    public static void avoidDayEdge() {
+        var lastDaySecond = LocalTime.MAX.withNano(0);
+        do {
+            // Wait.
+        } while (LocalTime.now(currentTimeZone())
+                          .isAfter(lastDaySecond));
     }
 }
