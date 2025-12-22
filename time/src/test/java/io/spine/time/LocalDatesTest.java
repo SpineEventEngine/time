@@ -27,7 +27,7 @@
 package io.spine.time;
 
 import com.google.common.testing.NullPointerTester;
-import io.spine.validate.ValidationException;
+import io.spine.validation.ValidationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -27,7 +27,7 @@
 package io.spine.time.validate;
 
 import com.google.common.collect.Iterables;
-import io.spine.validate.option.ValidatingOptionFactory;
+import io.spine.validation.option.ValidatingOptionFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

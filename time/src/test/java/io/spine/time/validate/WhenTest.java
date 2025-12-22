@@ -27,10 +27,10 @@
 package io.spine.time.validate;
 
 import io.spine.base.Time;
-import io.spine.validate.ConstraintViolation;
-import io.spine.validate.TemplateString;
-import io.spine.validate.TemplateStrings;
-import io.spine.validate.ValidationError;
+import io.spine.validation.ConstraintViolation;
+import io.spine.validation.TemplateString;
+import io.spine.validation.TemplateStrings;
+import io.spine.validation.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;

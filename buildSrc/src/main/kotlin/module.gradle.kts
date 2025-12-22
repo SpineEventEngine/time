@@ -31,6 +31,7 @@ import io.spine.dependency.build.Dokka
 import io.spine.dependency.build.ErrorProne
 import io.spine.dependency.build.JSpecify
 import io.spine.dependency.lib.Guava
+import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
@@ -53,11 +54,10 @@ plugins {
     id("net.ltgt.errorprone")
     id("pmd-settings")
     id("project-report")
-    id("dokka-for-java")
     kotlin("jvm")
     id("org.jetbrains.kotlinx.kover")
     id("detekt-code-analysis")
-    id("dokka-for-kotlin")
+    id("dokka-setup")
 }
 apply<BomsPlugin>()
 LicenseReporter.generateReportIn(project)
@@ -147,6 +147,7 @@ fun Module.forceConfigurations() {
                 Jackson.forceArtifacts(project, this@all, this@resolutionStrategy)
                 Jackson.DataType.forceArtifacts(project, this@all, this@resolutionStrategy)
                 force(
+                    Grpc.bom,
                     Base.annotations,
                     Compiler.api,
                     Dokka.BasePlugin.lib,
@@ -183,9 +184,7 @@ fun Module.setTaskDependencies(generatedDir: String) {
 }
 
 fun Module.configureGitHubPages() {
-    val docletVersion = project.version.toString()
-    updateGitHubPages(docletVersion) {
-        allowInternalJavadoc.set(true)
+    updateGitHubPages() {
         rootFolder.set(rootDir)
     }
 }
