@@ -1,0 +1,34 @@
+$dokka.format:javadoc-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.time.validation/TimeOption.Builder///PointingToDeclaration/io/spine/time/validation/TimeOption.Builder.html
+$dokka.location:io.spine.time.validation/TimeOptionKt.Dsl///PointingToDeclaration/io/spine/time/validation/TimeOptionKt.Dsl.html
+$dokka.location:io.spine.time/LocalDate.Builder///PointingToDeclaration/io/spine/time/LocalDate.Builder.html
+$dokka.location:io.spine.time/LocalDateChange.Builder///PointingToDeclaration/io/spine/time/LocalDateChange.Builder.html
+$dokka.location:io.spine.time/LocalDateChangeKt.Dsl///PointingToDeclaration/io/spine/time/LocalDateChangeKt.Dsl.html
+$dokka.location:io.spine.time/LocalDateKt.Dsl///PointingToDeclaration/io/spine/time/LocalDateKt.Dsl.html
+$dokka.location:io.spine.time/LocalDateTime.Builder///PointingToDeclaration/io/spine/time/LocalDateTime.Builder.html
+$dokka.location:io.spine.time/LocalDateTimeKt.Dsl///PointingToDeclaration/io/spine/time/LocalDateTimeKt.Dsl.html
+$dokka.location:io.spine.time/LocalTime.Builder///PointingToDeclaration/io/spine/time/LocalTime.Builder.html
+$dokka.location:io.spine.time/LocalTimeChange.Builder///PointingToDeclaration/io/spine/time/LocalTimeChange.Builder.html
+$dokka.location:io.spine.time/LocalTimeChangeKt.Dsl///PointingToDeclaration/io/spine/time/LocalTimeChangeKt.Dsl.html
+$dokka.location:io.spine.time/LocalTimeKt.Dsl///PointingToDeclaration/io/spine/time/LocalTimeKt.Dsl.html
+$dokka.location:io.spine.time/OffsetDateTime.Builder///PointingToDeclaration/io/spine/time/OffsetDateTime.Builder.html
+$dokka.location:io.spine.time/OffsetDateTimeChange.Builder///PointingToDeclaration/io/spine/time/OffsetDateTimeChange.Builder.html
+$dokka.location:io.spine.time/OffsetDateTimeChangeKt.Dsl///PointingToDeclaration/io/spine/time/OffsetDateTimeChangeKt.Dsl.html
+$dokka.location:io.spine.time/OffsetDateTimeKt.Dsl///PointingToDeclaration/io/spine/time/OffsetDateTimeKt.Dsl.html
+$dokka.location:io.spine.time/OffsetTime.Builder///PointingToDeclaration/io/spine/time/OffsetTime.Builder.html
+$dokka.location:io.spine.time/OffsetTimeChange.Builder///PointingToDeclaration/io/spine/time/OffsetTimeChange.Builder.html
+$dokka.location:io.spine.time/OffsetTimeChangeKt.Dsl///PointingToDeclaration/io/spine/time/OffsetTimeChangeKt.Dsl.html
+$dokka.location:io.spine.time/OffsetTimeKt.Dsl///PointingToDeclaration/io/spine/time/OffsetTimeKt.Dsl.html
+$dokka.location:io.spine.time/YearMonth.Builder///PointingToDeclaration/io/spine/time/YearMonth.Builder.html
+$dokka.location:io.spine.time/YearMonthKt.Dsl///PointingToDeclaration/io/spine/time/YearMonthKt.Dsl.html
+$dokka.location:io.spine.time/ZoneId.Builder///PointingToDeclaration/io/spine/time/ZoneId.Builder.html
+$dokka.location:io.spine.time/ZoneIdKt.Dsl///PointingToDeclaration/io/spine/time/ZoneIdKt.Dsl.html
+$dokka.location:io.spine.time/ZoneOffset.Builder///PointingToDeclaration/io/spine/time/ZoneOffset.Builder.html
+$dokka.location:io.spine.time/ZoneOffsetKt.Dsl///PointingToDeclaration/io/spine/time/ZoneOffsetKt.Dsl.html
+$dokka.location:io.spine.time/ZonedDateTime.Builder///PointingToDeclaration/io/spine/time/ZonedDateTime.Builder.html
+$dokka.location:io.spine.time/ZonedDateTimeKt.Dsl///PointingToDeclaration/io/spine/time/ZonedDateTimeKt.Dsl.html
+io.spine.time
+io.spine.time.string
+io.spine.time.validate
+io.spine.time.validation
