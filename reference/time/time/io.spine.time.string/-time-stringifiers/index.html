@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>TimeStringifiers</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+        <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
+<link href="../../../images/logo-icon.svg">
+<link href="../../../styles/custom-styles.css" rel="Stylesheet">
+</head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../../index.html" tabindex="1">
+                    time
+            </a>
+        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
+                type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+2.0.0-SNAPSHOT.226        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
+                        data-filter=":time/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
+                        data-role="dropdown-toggle"
+                        aria-controls="platform-tags-listbox"
+                        aria-haspopup="listbox"
+                        aria-expanded="false"
+                        aria-label="Toggle source sets"
+                ></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":time/main"
+                                       data-filter=":time/main"/>
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
+                    type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    time
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="time::io.spine.time.string/TimeStringifiers///PointingToDeclaration//63534285">
+  <div class="breadcrumbs"><a href="../../../index.html">time</a><span class="delimiter">/</span><a href="../index.html">io.spine.time.string</a><span class="delimiter">/</span><span class="current">TimeStringifiers</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Time</span><wbr></wbr><span><span>Stringifiers</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">TimeStringifiers</a></div><p class="paragraph">A collection of stringifiers for date/time value objects.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="1371031992%2FFunctions%2F63534285" anchor-label="forDayOfWeek" id="1371031992%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-day-of-week.html"><span>for</span><wbr></wbr><span>Day</span><wbr></wbr><span>Of</span><wbr></wbr><span><span>Week</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1371031992%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-day-of-week.html"><span class="token function">forDayOfWeek</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-day-of-week/index.html">DayOfWeek</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">DayOfWeek</code>s.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1631405414%2FFunctions%2F63534285" anchor-label="forLocalDate" id="1631405414%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-local-date.html"><span>for</span><wbr></wbr><span>Local</span><wbr></wbr><span><span>Date</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1631405414%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-local-date.html"><span class="token function">forLocalDate</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-local-date/index.html">LocalDate</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for local dates.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2096679271%2FFunctions%2F63534285" anchor-label="forLocalDateTime" id="-2096679271%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-local-date-time.html"><span>for</span><wbr></wbr><span>Local</span><wbr></wbr><span>Date</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2096679271%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-local-date-time.html"><span class="token function">forLocalDateTime</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-local-date-time/index.html">LocalDateTime</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for local date-time values in ISO-8601 formats.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-343125209%2FFunctions%2F63534285" anchor-label="forLocalTime" id="-343125209%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-local-time.html"><span>for</span><wbr></wbr><span>Local</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-343125209%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-local-time.html"><span class="token function">forLocalTime</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-local-time/index.html">LocalTime</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">LocalTime</code> values.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="540657535%2FFunctions%2F63534285" anchor-label="forMonth" id="540657535%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-month.html"><span>for</span><wbr></wbr><span><span>Month</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="540657535%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-month.html"><span class="token function">forMonth</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-month/index.html">Month</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains a stringifier for <code class="lang-kotlin">Month</code> values.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1447995859%2FFunctions%2F63534285" anchor-label="forOffsetDateTime" id="-1447995859%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-offset-date-time.html"><span>for</span><wbr></wbr><span>Offset</span><wbr></wbr><span>Date</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1447995859%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-offset-date-time.html"><span class="token function"><strike>forOffsetDateTime</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-offset-date-time/index.html">OffsetDateTime</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains a stringifier for <code class="lang-kotlin">OffsetDateTime</code> values.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="196959419%2FFunctions%2F63534285" anchor-label="forOffsetTime" id="196959419%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-offset-time.html"><span>for</span><wbr></wbr><span>Offset</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="196959419%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-offset-time.html"><span class="token function"><strike>forOffsetTime</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-offset-time/index.html">OffsetTime</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">OffsetTime</code> values.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="849814416%2FFunctions%2F63534285" anchor-label="forTimestampWebSafe" id="849814416%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-timestamp-web-safe.html"><span>for</span><wbr></wbr><span>Timestamp</span><wbr></wbr><span>Web</span><wbr></wbr><span><span>Safe</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="849814416%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-timestamp-web-safe.html"><span class="token function">forTimestampWebSafe</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><span data-unresolved-link="com.google.protobuf/Timestamp///PointingToDeclaration/">Timestamp</span><span class="token operator">&gt;</span></div><div class="brief ">Obtains a stringifier for IDs based on <code class="lang-kotlin">Timestamp</code>s.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2990620%2FFunctions%2F63534285" anchor-label="forYearMonth" id="2990620%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-year-month.html"><span>for</span><wbr></wbr><span>Year</span><wbr></wbr><span><span>Month</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2990620%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-year-month.html"><span class="token function">forYearMonth</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-year-month/index.html">YearMonth</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">YearMonth</code> values.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2035805844%2FFunctions%2F63534285" anchor-label="forZonedDateTime" id="-2035805844%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-zoned-date-time.html"><span>for</span><wbr></wbr><span>Zoned</span><wbr></wbr><span>Date</span><wbr></wbr><span><span>Time</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2035805844%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-zoned-date-time.html"><span class="token function">forZonedDateTime</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-zoned-date-time/index.html">ZonedDateTime</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">ZonedDateTime</code>.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="727721396%2FFunctions%2F63534285" anchor-label="forZoneId" id="727721396%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-zone-id.html"><span>for</span><wbr></wbr><span>Zone</span><wbr></wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="727721396%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-zone-id.html"><span class="token function">forZoneId</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-zone-id/index.html">ZoneId</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">ZoneId</code>s.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-456197060%2FFunctions%2F63534285" anchor-label="forZoneOffset" id="-456197060%2FFunctions%2F63534285" data-filterable-set=":time/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":time/main" data-filterable-set=":time/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="for-zone-offset.html"><span>for</span><wbr></wbr><span>Zone</span><wbr></wbr><span><span>Offset</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-456197060%2FFunctions%2F63534285"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="for-zone-offset.html"><span class="token function"><strike>forZoneOffset</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="io.spine.string/Stringifier///PointingToDeclaration/">Stringifier</span><span class="token operator">&lt;</span><a href="../../io.spine.time/-zone-offset/index.html">ZoneOffset</a><span class="token operator">&gt;</span></div><div class="brief ">Obtains default stringifier for <code class="lang-kotlin">ZoneOffset</code>s.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025, TeamDev</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
