@@ -29,6 +29,7 @@
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
+import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.local.Base
@@ -130,8 +131,13 @@ allprojects {
             exclude(group = "io.spine", module = "spine-validate")
             exclude(group = "io.spine", module = "spine-flogger-api")
             resolutionStrategy {
-                Coroutines.forceArtifacts(project, this@all, this@resolutionStrategy)
-                Grpc.forceArtifacts(project, this@all, this@resolutionStrategy)
+                val cfg = this@all
+                val rs = this@resolutionStrategy
+                Jackson.forceArtifacts(project, cfg, rs)
+                Jackson.DataType.forceArtifacts(project, cfg, rs)
+                Jackson.DataFormat.forceArtifacts(project, cfg, rs)
+                Coroutines.forceArtifacts(project, cfg, rs)
+                Grpc.forceArtifacts(project, cfg, rs)
                 force(
                     Kotlin.bom,
                     KotlinPoet.lib,
