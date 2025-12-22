@@ -30,8 +30,8 @@ import com.google.protobuf.Timestamp;
 import io.spine.code.proto.FieldContext;
 import io.spine.time.validation.TimeOption;
 import io.spine.time.validation.TimeOptionsProto;
-import io.spine.validate.Constraint;
-import io.spine.validate.option.FieldValidatingOption;
+import io.spine.validation.Constraint;
+import io.spine.validation.option.FieldValidatingOption;
 
 /**
  * A validating option that specified the point in time which

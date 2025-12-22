@@ -35,14 +35,14 @@ import io.spine.time.Temporal;
 import io.spine.time.Temporals;
 import io.spine.time.validation.Time;
 import io.spine.time.validation.TimeOption;
-import io.spine.validate.ConstraintViolation;
-import io.spine.validate.CustomConstraint;
-import io.spine.validate.FieldValue;
-import io.spine.validate.MessageValue;
-import io.spine.validate.TemplateString;
-import io.spine.validate.TemplateStrings;
-import io.spine.validate.diags.ViolationText;
-import io.spine.validate.option.FieldConstraint;
+import io.spine.validation.ConstraintViolation;
+import io.spine.validation.CustomConstraint;
+import io.spine.validation.FieldValue;
+import io.spine.validation.MessageValue;
+import io.spine.validation.TemplateString;
+import io.spine.validation.TemplateStrings;
+import io.spine.validation.diags.ViolationText;
+import io.spine.validation.option.FieldConstraint;
 
 import java.util.Locale;
 
