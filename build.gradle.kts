@@ -32,6 +32,7 @@ import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.local.Base
+import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.Reflect
@@ -49,6 +50,7 @@ buildscript {
     doForceVersions(configurations)
 
     dependencies {
+        classpath(io.spine.dependency.local.Compiler.pluginLib)
         classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
     }
 
@@ -58,6 +60,12 @@ buildscript {
             exclude(group = "io.spine", module = "spine-logging-backend")
 
             resolutionStrategy {
+                val jackson = io.spine.dependency.lib.Jackson
+                val cfg = this@all
+                val rs = this@resolutionStrategy
+                jackson.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.Jackson.DataType.forceArtifacts(project, cfg, rs)
+
                 io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
                     project, this@all, this@resolutionStrategy
                 )
@@ -67,9 +75,15 @@ buildscript {
                 val validation = io.spine.dependency.local.Validation
                 val logging = io.spine.dependency.local.Logging
                 force(
+                    io.spine.dependency.lib.Kotlin.bom,
+                    io.spine.dependency.lib.Jackson.annotations,
+                    io.spine.dependency.lib.Grpc.bom,
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
+                    io.spine.dependency.local.Validation.oldRuntime,
+                    io.spine.dependency.local.Time.lib,
+                    io.spine.dependency.local.Time.javaExtensions,
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
@@ -100,11 +114,6 @@ spinePublishing {
             cloudArtifactRegistry
         )
     }
-
-    dokkaJar {
-        kotlin = true
-        java = true
-    }
 }
 
 allprojects {
@@ -131,9 +140,11 @@ allprojects {
                     ToolBase.lib,
                     Logging.lib,
                     Logging.middleware,
-                    ProtoData.api,
-                    Validation.runtime,
                     Dokka.BasePlugin.lib,
+                    Validation.runtime,
+                    Validation.oldRuntime,
+                    Validation.javaBundle,
+                    CoreJvm.server,
                 )
             }
         }
