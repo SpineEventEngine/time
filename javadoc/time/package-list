@@ -30,5 +30,4 @@ $dokka.location:io.spine.time/ZonedDateTime.Builder///PointingToDeclaration/io/
 $dokka.location:io.spine.time/ZonedDateTimeKt.Dsl///PointingToDeclaration/io/spine/time/ZonedDateTimeKt.Dsl.html
 io.spine.time
 io.spine.time.string
-io.spine.time.validate
 io.spine.time.validation
