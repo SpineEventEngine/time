@@ -24,32 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate
+@CheckReturnValue
+@NullMarked
+package io.spine.time.validation.given;
 
-import com.google.auto.service.AutoService
-import com.google.common.collect.ImmutableSet
-import com.google.errorprone.annotations.Immutable
-import io.spine.annotation.Internal
-import io.spine.validation.option.FieldValidatingOption
-import io.spine.validation.option.ValidatingOptionFactory
+import com.google.errorprone.annotations.CheckReturnValue;
 
-/**
- * An implementation of [ValidatingOptionFactory] which adds the [When] option
- * for message fields.
- */
-@AutoService(ValidatingOptionFactory::class)
-@Internal
-@Immutable
-public class WhenFactory : ValidatingOptionFactory {
-
-    override fun forMessage(): Set<FieldValidatingOption<*>> {
-        return typeOptions
-    }
-
-    private companion object {
-
-        private val typeOptions by lazy {
-            ImmutableSet.of<FieldValidatingOption<*>>(When.create())
-        }
-    }
-}
+import org.jspecify.annotations.NullMarked;

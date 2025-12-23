@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -24,14 +24,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+package io.spine.time.validation;
+
+import com.google.protobuf.Timestamp;
+import io.spine.code.proto.FieldContext;
+import io.spine.validation.Constraint;
+import io.spine.validation.option.FieldValidatingOption;
+
 /**
- * This package defines validation constraints for time-bearing types.
+ * A validating option that specified the point in time which
+ * a {@link Timestamp} field value has.
  */
+final class When extends FieldValidatingOption<TimeOption> {
 
-@CheckReturnValue
-@NullMarked
-package io.spine.time.validate;
+    private When() {
+        super(TimeOptionsProto.when);
+    }
 
-import com.google.errorprone.annotations.CheckReturnValue;
+    /** Creates a new instance of this option. */
+    public static When create() {
+        return new When();
+    }
 
-import org.jspecify.annotations.NullMarked;
+    @Override
+    public Constraint constraintFor(FieldContext value) {
+        return new WhenConstraint(optionValue(value), value.targetDeclaration());
+    }
+}
