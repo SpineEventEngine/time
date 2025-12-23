@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2025, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -24,21 +24,32 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate;
+package io.spine.time.validation
 
-import com.google.auto.service.AutoService;
-import com.google.protobuf.ExtensionRegistry;
-import io.spine.option.OptionsProvider;
-import io.spine.time.validation.TimeOptionsProto;
+import com.google.auto.service.AutoService
+import com.google.common.collect.ImmutableSet
+import com.google.errorprone.annotations.Immutable
+import io.spine.annotation.Internal
+import io.spine.validation.option.FieldValidatingOption
+import io.spine.validation.option.ValidatingOptionFactory
 
 /**
- * Registers time-related proto options introduced by this library.
+ * An implementation of [ValidatingOptionFactory] which adds the [When] option
+ * for message fields.
  */
-@AutoService(OptionsProvider.class)
-public class TimeOptionsProvider implements OptionsProvider {
+@AutoService(ValidatingOptionFactory::class)
+@Internal
+@Immutable
+public class WhenFactory : ValidatingOptionFactory {
 
-    @Override
-    public void registerIn(ExtensionRegistry registry) {
-        TimeOptionsProto.registerAllExtensions(registry);
+    override fun forMessage(): Set<FieldValidatingOption<*>> {
+        return typeOptions
+    }
+
+    private companion object {
+
+        private val typeOptions by lazy {
+            ImmutableSet.of<FieldValidatingOption<*>>(When.create())
+        }
     }
 }

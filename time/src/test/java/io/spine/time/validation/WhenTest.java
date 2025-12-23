@@ -24,9 +24,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate;
+package io.spine.time.validation;
 
 import io.spine.base.Time;
+import io.spine.time.validation.given.AlwaysValidTime;
+import io.spine.time.validation.given.TimeInFutureFieldValue;
+import io.spine.time.validation.given.TimeInPastFieldValue;
+import io.spine.time.validation.given.TimeWithDefaultErrorMessage;
+import io.spine.time.validation.given.TimeWithoutOptsFieldValue;
 import io.spine.validation.ConstraintViolation;
 import io.spine.validation.TemplateString;
 import io.spine.validation.TemplateStrings;
@@ -38,13 +43,13 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static io.spine.string.Strings.count;
-import static io.spine.time.validate.given.WhenTestEnv.FIFTY_NANOSECONDS;
-import static io.spine.time.validate.given.WhenTestEnv.ZERO_NANOSECONDS;
-import static io.spine.time.validate.given.WhenTestEnv.currentTimeWithNanos;
-import static io.spine.time.validate.given.WhenTestEnv.freezeTime;
-import static io.spine.time.validate.given.WhenTestEnv.future;
-import static io.spine.time.validate.given.WhenTestEnv.past;
-import static io.spine.time.validate.given.WhenTestEnv.timeWithNanos;
+import static io.spine.time.validation.given.WhenTestEnv.FIFTY_NANOSECONDS;
+import static io.spine.time.validation.given.WhenTestEnv.ZERO_NANOSECONDS;
+import static io.spine.time.validation.given.WhenTestEnv.currentTimeWithNanos;
+import static io.spine.time.validation.given.WhenTestEnv.freezeTime;
+import static io.spine.time.validation.given.WhenTestEnv.future;
+import static io.spine.time.validation.given.WhenTestEnv.past;
+import static io.spine.time.validation.given.WhenTestEnv.timeWithNanos;
 
 @DisplayName("`(when)` option should")
 class WhenTest {

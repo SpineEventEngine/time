@@ -24,7 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.time.validate;
+package io.spine.time.validation;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
@@ -33,8 +33,6 @@ import io.spine.code.proto.FieldContext;
 import io.spine.code.proto.FieldDeclaration;
 import io.spine.time.Temporal;
 import io.spine.time.Temporals;
-import io.spine.time.validation.Time;
-import io.spine.time.validation.TimeOption;
 import io.spine.validation.ConstraintViolation;
 import io.spine.validation.CustomConstraint;
 import io.spine.validation.FieldValue;
