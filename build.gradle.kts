@@ -35,7 +35,6 @@ import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
-import io.spine.dependency.local.ProtoData
 import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
@@ -82,7 +81,6 @@ buildscript {
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
-                    io.spine.dependency.local.Validation.oldRuntime,
                     io.spine.dependency.local.Time.lib,
                     io.spine.dependency.local.Time.javaExtensions,
                     logging.lib,
@@ -148,7 +146,6 @@ allprojects {
                     Logging.middleware,
                     Dokka.BasePlugin.lib,
                     Validation.runtime,
-                    Validation.oldRuntime,
                     Validation.javaBundle,
                     CoreJvm.server,
                 )
