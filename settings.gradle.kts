@@ -35,7 +35,6 @@ rootProject.name = "spine-time"
 
 include(
     "time",
-    "time-js",
     "time-testlib",
     "time-java",
     "time-kotlin",
