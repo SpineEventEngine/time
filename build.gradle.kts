@@ -103,7 +103,6 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
     idea
     jacoco
-    //`gradle-doctor`
     `project-report`
 }
 
