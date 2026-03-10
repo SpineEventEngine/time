@@ -31,10 +31,12 @@ import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.spine.time.LocalDate
 import io.spine.time.Month
+import io.spine.time.localDate
 import io.spine.validation.FieldViolation
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 
@@ -44,14 +46,14 @@ internal class LocalDateValidatorSpec {
     private val validator = LocalDateValidator()
 
     @Test
-    @DisplayName("allow valid dates")
-    fun allowValid() {
-        val date = LocalDate.newBuilder()
-            .setYear(2024)
-            .setMonth(Month.JANUARY)
-            .setDay(31)
-            .buildPartial()
-        validator.validate(date).shouldBeEmpty()
+    fun `allow valid dates`() {
+        assertDoesNotThrow {
+            localDate {
+                year = 2026
+                month = Month.JANUARY
+                day = 31
+            }
+        }
     }
 
     @ParameterizedTest
@@ -73,11 +75,13 @@ internal class LocalDateValidatorSpec {
         val violations = validator.validate(date)
         violations shouldHaveSize 1
         val violation = violations[0] as FieldViolation
-        violation.fieldPath!!.fieldNameList[0] shouldBe "day"
-        violation.fieldValue shouldBe day
-        violation.message.withPlaceholders shouldBe
-                "The \${field.path} value is out of range (\${range.value}): $day."
-        violation.message.placeholderValueMap["range.value"] shouldBe "1..$maxDays"
+        violation.run {
+            fieldPath!!.fieldNameList[0] shouldBe "day"
+            fieldValue shouldBe day
+            message.withPlaceholders shouldBe
+                    "The \${field.path} value is out of range (\${range.value}): $day."
+            message.placeholderValueMap["range.value"] shouldBe "1..$maxDays"
+        }
     }
 
     @Nested
@@ -85,8 +89,7 @@ internal class LocalDateValidatorSpec {
     inner class LeapYear {
 
         @Test
-        @DisplayName("allow Feb 29 in a leap year")
-        fun allowFeb29() {
+        fun `allow Feb 29 in a leap year`() {
             val date = LocalDate.newBuilder()
                 .setYear(2024)
                 .setMonth(Month.FEBRUARY)
@@ -96,8 +99,7 @@ internal class LocalDateValidatorSpec {
         }
 
         @Test
-        @DisplayName("detect invalid Feb 29 in a non-leap year")
-        fun detectInvalidFeb29() {
+        fun `detect invalid Feb 29 in a non-leap year`() {
             val date = LocalDate.newBuilder()
                 .setYear(2023)
                 .setMonth(Month.FEBRUARY)
@@ -105,14 +107,24 @@ internal class LocalDateValidatorSpec {
                 .buildPartial()
             val violations = validator.validate(date)
             violations shouldHaveSize 1
-            val fieldViolation = violations[0] as FieldViolation
-            fieldViolation.message.placeholderValueMap["range.value"] shouldBe "1..28"
+            val violation = violations[0] as FieldViolation
+            violation.message.placeholderValueMap["range.value"] shouldBe "1..28"
         }
     }
 
+    /**
+     * The test verifies that if a month is not defined the `LocalDate` instance
+     * is considered valid.
+     *
+     * There is nothing we can do in such a situation because `Month` is an enum.
+     * We do not restrict enum field values because it does not have much sense
+     * from the domain language point of view.
+     *
+     * We still want `MONTH_UNDEFINED` item to support the "unset" notion for a month
+     * as we have such a thing for other enums in the code.
+     */
     @Test
-    @DisplayName("ignore undefined month")
-    fun ignoreUndefinedMonth() {
+    fun `ignore undefined month`() {
         val date = LocalDate.newBuilder()
             .setYear(2024)
             .setMonth(Month.MONTH_UNDEFINED)
