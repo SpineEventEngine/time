@@ -154,8 +154,8 @@ message LocalDateTime {
         field: "time"
     };
 
-    LocalDate date = 1 [(required) = true, (validate) = true];
-    LocalTime time = 2 [(validate) = true];
+    LocalDate date = 1 [(required) = true];
+    LocalTime time = 2;
 }
 
 // A time-zone offset from UTC, such as `+02:00`.
@@ -175,7 +175,7 @@ message OffsetTime {
     option deprecated = true;
 
     // The local time.
-    LocalTime time = 1 [(validate) = true];
+    LocalTime time = 1;
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -191,7 +191,7 @@ message OffsetDateTime {
     option (is).java_type = "OffsetDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
+    LocalDateTime date_time = 1 [(required) = true];
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -214,7 +214,7 @@ message ZonedDateTime {
     option (is).java_type = "ZonedDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
+    LocalDateTime date_time = 1 [(required) = true];
 
     // The time-zone.
     ZoneId zone = 2 [(required) = true];
