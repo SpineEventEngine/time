@@ -108,6 +108,10 @@ message LocalDate {
     Month month = 2 [(required) = true];
 
     // A day which must be from 1 to 31 and valid for the year and month.
+    //
+    // In generated code for Kotlin/Java this is checked by
+    // `io.spine.time.validation.LocalDateValidator`.
+    //
     int32 day = 3 [(min).value = "1", (max).value = "31"];
 }
 
