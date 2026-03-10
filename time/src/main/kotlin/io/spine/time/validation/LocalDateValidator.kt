@@ -47,6 +47,7 @@ import java.time.YearMonth
 @AutoService(MessageValidator::class)
 public class LocalDateValidator : MessageValidator<LocalDate> {
 
+    @Suppress("ReturnCount")
     override fun validate(message: LocalDate): List<DetectedViolation> {
         val year = message.year
         val month = message.month
