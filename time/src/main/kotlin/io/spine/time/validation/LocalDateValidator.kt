@@ -36,6 +36,7 @@ import io.spine.validation.MessageValidator
 import io.spine.validation.RuntimeErrorPlaceholder.FIELD_PATH
 import io.spine.validation.RuntimeErrorPlaceholder.RANGE_VALUE
 import io.spine.validation.templateString
+import java.time.Year
 import java.time.YearMonth
 
 /**
@@ -54,6 +55,15 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
         val day = message.day
 
         if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
+            return emptyList()
+        }
+
+        if (year < Year.MIN_VALUE || year > Year.MAX_VALUE) {
+            // This is a safety net for the `YearMonth.of()` call which fails
+            // when the year is out of range defined by Java Time.
+            // We return an empty list because we have an option-based constraint
+            // on the `year` field for these values, and validation will fail in the generated code.
+            // We do not want to duplicate the error message for the `year` being out of range.
             return emptyList()
         }
 

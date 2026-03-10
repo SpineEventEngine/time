@@ -66,7 +66,7 @@ message YearMonth {
     };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
-    int32 year = 1;
+    int32 year = 1 [(min).value = "-999999999", (max).value = "999999999"];
 
     // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
@@ -102,7 +102,7 @@ message LocalDate {
     };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
-    int32 year = 1;
+    int32 year = 1 [(min).value = "-999999999", (max).value = "999999999"];
 
     // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
