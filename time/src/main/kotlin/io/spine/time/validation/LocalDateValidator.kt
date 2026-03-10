@@ -55,6 +55,9 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
         val day = message.day
 
         if (month == Month.MONTH_UNDEFINED || month == Month.UNRECOGNIZED) {
+             // There is nothing we can do in such a situation because `Month` is an enum.
+             // We do not restrict enum field values because it does not have much sense
+             // from the domain language point of view.
             return emptyList()
         }
 
