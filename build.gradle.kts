@@ -36,6 +36,7 @@ import io.spine.dependency.local.Base
 import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.Time
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
 import io.spine.gradle.publish.PublishingRepos
@@ -86,6 +87,7 @@ buildscript {
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
+                    io.spine.dependency.local.Compiler.api
                 )
             }
         }
@@ -101,7 +103,6 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
     idea
     jacoco
-    `gradle-doctor`
     `project-report`
 }
 
@@ -148,6 +149,8 @@ allprojects {
                     Validation.runtime,
                     Validation.javaBundle,
                     CoreJvm.server,
+                    Time.lib,
+                    Time.javaExtensions,
                 )
             }
         }

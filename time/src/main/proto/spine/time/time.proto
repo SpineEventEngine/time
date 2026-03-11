@@ -66,7 +66,7 @@ message YearMonth {
     };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
-    int32 year = 1;
+    int32 year = 1 [(min).value = "-999999999", (max).value = "999999999"];
 
     // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
@@ -102,12 +102,16 @@ message LocalDate {
     };
 
     // A year with `1` being year 1 CE and `-1` being 1 BC.
-    int32 year = 1;
+    int32 year = 1 [(min).value = "-999999999", (max).value = "999999999"];
 
     // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
 
     // A day which must be from 1 to 31 and valid for the year and month.
+    //
+    // In generated code for Kotlin/Java this is checked by
+    // `io.spine.time.validation.LocalDateValidator`.
+    //
     int32 day = 3 [(min).value = "1", (max).value = "31"];
 }
 
@@ -150,8 +154,8 @@ message LocalDateTime {
         field: "time"
     };
 
-    LocalDate date = 1 [(required) = true, (validate) = true];
-    LocalTime time = 2 [(validate) = true];
+    LocalDate date = 1 [(required) = true];
+    LocalTime time = 2;
 }
 
 // A time-zone offset from UTC, such as `+02:00`.
@@ -171,7 +175,7 @@ message OffsetTime {
     option deprecated = true;
 
     // The local time.
-    LocalTime time = 1 [(validate) = true];
+    LocalTime time = 1;
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -187,7 +191,7 @@ message OffsetDateTime {
     option (is).java_type = "OffsetDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
+    LocalDateTime date_time = 1 [(required) = true];
 
     // The offset of the time-zone from UTC.
     ZoneOffset offset = 2;
@@ -210,7 +214,7 @@ message ZonedDateTime {
     option (is).java_type = "ZonedDateTimeTemporal";
 
     // The local date-time.
-    LocalDateTime date_time = 1 [(required) = true, (validate) = true];
+    LocalDateTime date_time = 1 [(required) = true];
 
     // The time-zone.
     ZoneId zone = 2 [(required) = true];
