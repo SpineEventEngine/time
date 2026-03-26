@@ -114,7 +114,7 @@ plugins {
 val gradlePluginModule = "gradle-plugin"
 
 spinePublishing {
-    modules = productionModules.map { it.name }.toSet() - "time-js" - gradlePluginModule
+    modules = productionModules.map { it.name }.toSet() - gradlePluginModule
     modulesWithCustomPublishing = setOf(gradlePluginModule)
     destinations = with(PublishingRepos) {
         setOf(
