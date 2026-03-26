@@ -75,16 +75,18 @@ internal class TimeGradlePluginSpec {
     @Nested
     inner class `When 'useTestLib' is` {
 
+        private val testImplementation = "testImplementation"
+
         @Test
         fun `true, adds testImplementation dependency on 'time-testlib'`() {
             val project = buildProject { useTestLib.set(true) }
-            project.hasDependency(TimeLibrary.testLib, "testImplementation").shouldBeTrue()
+            project.hasDependency(TimeLibrary.testLib, testImplementation).shouldBeTrue()
         }
 
         @Test
         fun `false by default, adds no testImplementation dependency on 'time-testlib'`() {
             val project = buildProject { }
-            project.hasDependency(TimeLibrary.testLib, "testImplementation").shouldBeFalse()
+            project.hasDependency(TimeLibrary.testLib, testImplementation).shouldBeFalse()
         }
     }
 }
