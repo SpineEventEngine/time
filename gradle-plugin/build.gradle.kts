@@ -30,6 +30,7 @@ import org.gradle.api.publish.maven.MavenPublication
 
 plugins {
     module
+    `maven-publish`
     id("io.spine.artifact-meta")
     `java-gradle-plugin`
 }
