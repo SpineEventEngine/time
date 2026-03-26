@@ -52,10 +52,10 @@ public class TimeGradlePlugin : Plugin<Project> {
         project.addDependency(TimeLibrary.runtime.coordinates)
         project.afterEvaluate {
             if (extension.useJavaExtensions.get()) {
-                addDependency(TimeLibrary.javaExtensions.coordinates)
+                project.addDependency(TimeLibrary.javaExtensions.coordinates)
             }
             if (extension.useKotlinExtensions.get()) {
-                addDependency(TimeLibrary.kotlinExtensions.coordinates)
+                project.addDependency(TimeLibrary.kotlinExtensions.coordinates)
             }
         }
     }
