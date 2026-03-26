@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,43 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
+package io.spine.tools.time.gradle
+
+import javax.inject.Inject
+import org.gradle.api.Project
+import org.gradle.api.provider.Property
+
+/**
+ * The extension added by [TimeGradlePlugin] to configure the Spine Time library.
+ */
+public abstract class TimeGradleExtension @Inject public constructor(project: Project) {
+
+    /**
+     * Tells if the `spine-time-java` module should be added as a dependency.
+     *
+     * Default value is `false`.
+     */
+    public val useJavaExtensions: Property<Boolean> =
+        project.objects.property(Boolean::class.java)
+
+    /**
+     * Tells if the `spine-time-kotlin` module should be added as a dependency.
+     *
+     * Default value is `false`.
+     */
+    public val useKotlinExtensions: Property<Boolean> =
+        project.objects.property(Boolean::class.java)
+
+    init {
+        useJavaExtensions.convention(false)
+        useKotlinExtensions.convention(false)
+    }
+
+    public companion object {
+
+        /**
+         * The name of the extension as it appears in the Gradle DSL.
+         */
+        public const val NAME: String = "time"
     }
 }
-
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-testlib",
-    "time-java",
-    "time-kotlin",
-    "gradle-plugin",
-)

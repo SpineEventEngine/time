@@ -53,6 +53,7 @@ buildscript {
     dependencies {
         classpath(io.spine.dependency.local.Compiler.pluginLib)
         classpath(io.spine.dependency.local.CoreJvmCompiler.pluginLib)
+        classpath(io.spine.dependency.local.ToolBase.jvmToolPlugins)
     }
 
     configurations {
@@ -110,8 +111,11 @@ plugins {
     `project-report`
 }
 
+val gradlePluginModule = "gradle-plugin"
+
 spinePublishing {
-    modules = productionModules.map { it.name }.toSet() - "time-js"
+    modules = productionModules.map { it.name }.toSet() - "time-js" - gradlePluginModule
+    modulesWithCustomPublishing = setOf(gradlePluginModule)
     destinations = with(PublishingRepos) {
         setOf(
             gitHub("time"),

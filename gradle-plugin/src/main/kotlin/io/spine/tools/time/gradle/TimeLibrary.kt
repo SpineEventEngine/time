@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
-    }
+package io.spine.tools.time.gradle
+
+import io.spine.tools.meta.MavenArtifact
+import io.spine.tools.meta.Module
+
+/**
+ * Artifacts of the Spine Time library.
+ */
+internal object TimeLibrary {
+
+    /**
+     * The Maven artifact for the `io.spine:spine-time` module.
+     */
+    val runtime: MavenArtifact = Meta.dependency(Module("io.spine", "spine-time"))
+
+    /**
+     * The Maven artifact for the `io.spine:spine-time-java` module.
+     */
+    val javaExtensions: MavenArtifact = Meta.dependency(Module("io.spine", "spine-time-java"))
+
+    /**
+     * The Maven artifact for the `io.spine:spine-time-kotlin` module.
+     */
+    val kotlinExtensions: MavenArtifact = Meta.dependency(Module("io.spine", "spine-time-kotlin"))
 }
-
-rootProject.name = "spine-time"
-
-include(
-    "time",
-    "time-testlib",
-    "time-java",
-    "time-kotlin",
-    "gradle-plugin",
-)

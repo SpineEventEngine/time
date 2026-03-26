@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
-    }
-}
+package io.spine.tools.time.gradle
 
-rootProject.name = "spine-time"
+import io.spine.tools.meta.LazyMeta
+import io.spine.tools.meta.Module
 
-include(
-    "time",
-    "time-testlib",
-    "time-java",
-    "time-kotlin",
-    "gradle-plugin",
-)
+/**
+ * The meta-information about the Time Gradle Plugin.
+ */
+public object Meta : LazyMeta(Module("io.spine.tools", "time-gradle-plugin"))
