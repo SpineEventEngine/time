@@ -80,6 +80,7 @@ buildscript {
                     io.spine.dependency.lib.Jackson.annotations,
                     io.spine.dependency.lib.Grpc.bom,
                     io.spine.dependency.local.Base.annotations,
+                    io.spine.dependency.local.Base.environment,
                     io.spine.dependency.local.Base.lib,
                     io.spine.dependency.local.Reflect.lib,
                     io.spine.dependency.local.Time.lib,
@@ -87,7 +88,10 @@ buildscript {
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
-                    io.spine.dependency.local.Compiler.api
+                    io.spine.dependency.local.Compiler.api,
+                    io.spine.dependency.local.Compiler.gradleApi,
+                    io.spine.dependency.local.Compiler.params,
+                    io.spine.dependency.local.Compiler.pluginLib,
                 )
             }
         }
