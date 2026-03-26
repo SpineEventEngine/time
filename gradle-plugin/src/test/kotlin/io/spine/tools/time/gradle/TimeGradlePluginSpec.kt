@@ -40,6 +40,38 @@ import org.junit.jupiter.api.Test
 internal class TimeGradlePluginSpec {
 
     @Nested
+    inner class `When 'useJavaExtensions' is` {
+
+        @Test
+        fun `true, adds implementation dependency on 'spine-time-java'`() {
+            val project = buildProject { useJavaExtensions.set(true) }
+            project.hasImplDep(TimeLibrary.javaExtensions).shouldBeTrue()
+        }
+
+        @Test
+        fun `false by default, adds no implementation dependency on 'spine-time-java'`() {
+            val project = buildProject { }
+            project.hasImplDep(TimeLibrary.javaExtensions).shouldBeFalse()
+        }
+    }
+
+    @Nested
+    inner class `When 'useKotlinExtensions' is` {
+
+        @Test
+        fun `true, adds implementation dependency on 'spine-time-kotlin'`() {
+            val project = buildProject { useKotlinExtensions.set(true) }
+            project.hasImplDep(TimeLibrary.kotlinExtensions).shouldBeTrue()
+        }
+
+        @Test
+        fun `false by default, adds no implementation dependency on 'spine-time-kotlin'`() {
+            val project = buildProject { }
+            project.hasImplDep(TimeLibrary.kotlinExtensions).shouldBeFalse()
+        }
+    }
+
+    @Nested
     inner class `When 'useTestLib' is` {
 
         @Test
@@ -70,6 +102,11 @@ private fun buildProject(configure: TimeGradleExtension.() -> Unit): Project {
     (project as ProjectInternal).evaluate()
     return project
 }
+
+private fun Project.hasImplDep(artifact: MavenArtifact): Boolean =
+    configurations.getByName("implementation").dependencies.any {
+        it.group == artifact.group && it.name == artifact.name
+    }
 
 private fun Project.hasTestImplDep(artifact: MavenArtifact): Boolean =
     configurations.getByName("testImplementation").dependencies.any {
