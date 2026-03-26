@@ -52,7 +52,7 @@ public abstract class TimeGradleExtension @Inject public constructor(project: Pr
         project.objects.property(Boolean::class.java)
 
     /**
-     * Tells if the `spine-time-testlib` module should be added as a `testImplementation`
+     * Tells if the `time-testlib` module should be added as a `testImplementation`
      * dependency.
      *
      * Default value is `false`.

@@ -38,7 +38,7 @@ import org.gradle.api.Project
  *  1. Adds `io.spine:spine-time` as an `implementation` dependency.
  *  2. Adds `io.spine:spine-time-java` if [TimeGradleExtension.useJavaExtensions] is `true`.
  *  3. Adds `io.spine:spine-time-kotlin` if [TimeGradleExtension.useKotlinExtensions] is `true`.
- *  4. Adds `io.spine:spine-time-testlib` as a `testImplementation` dependency
+ *  4. Adds `io.spine.tools:time-testlib` as a `testImplementation` dependency
  *     if [TimeGradleExtension.useTestLib] is `true`.
  *
  * **Prerequisite:** a JVM language plugin (e.g. `java`, `java-library`, or `kotlin("jvm")`)

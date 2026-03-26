@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.local.Time
 import io.spine.dependency.local.ToolBase
 import io.spine.gradle.publish.addSourceAndDocJars
 import org.gradle.api.publish.maven.MavenPublication
@@ -44,10 +45,10 @@ val versionToPublish: String by extra
 artifactMeta {
     artifactId.set(moduleArtifactId)
     addDependencies(
-        "io.spine:spine-time:$versionToPublish",
-        "io.spine:spine-time-java:$versionToPublish",
-        "io.spine:spine-time-kotlin:$versionToPublish",
-        "io.spine.tools:spine-time-testlib:$versionToPublish",
+        Time.lib(versionToPublish),
+        Time.javaExtensions(versionToPublish),
+        Time.kotlinExtensions(versionToPublish),
+        Time.testLib(versionToPublish),
     )
     excludeConfigurations {
         containing(*buildToolConfigurations)

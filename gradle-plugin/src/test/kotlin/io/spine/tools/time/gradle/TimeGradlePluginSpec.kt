@@ -46,13 +46,13 @@ internal class TimeGradlePluginSpec {
         @Test
         fun `true, adds implementation dependency on 'spine-time-java'`() {
             val project = buildProject { useJavaExtensions.set(true) }
-            project.hasImplDep(TimeLibrary.javaExtensions).shouldBeTrue()
+            project.hasDependency(TimeLibrary.javaExtensions).shouldBeTrue()
         }
 
         @Test
         fun `false by default, adds no implementation dependency on 'spine-time-java'`() {
             val project = buildProject { }
-            project.hasImplDep(TimeLibrary.javaExtensions).shouldBeFalse()
+            project.hasDependency(TimeLibrary.javaExtensions).shouldBeFalse()
         }
     }
 
@@ -62,13 +62,13 @@ internal class TimeGradlePluginSpec {
         @Test
         fun `true, adds implementation dependency on 'spine-time-kotlin'`() {
             val project = buildProject { useKotlinExtensions.set(true) }
-            project.hasImplDep(TimeLibrary.kotlinExtensions).shouldBeTrue()
+            project.hasDependency(TimeLibrary.kotlinExtensions).shouldBeTrue()
         }
 
         @Test
         fun `false by default, adds no implementation dependency on 'spine-time-kotlin'`() {
             val project = buildProject { }
-            project.hasImplDep(TimeLibrary.kotlinExtensions).shouldBeFalse()
+            project.hasDependency(TimeLibrary.kotlinExtensions).shouldBeFalse()
         }
     }
 
@@ -76,15 +76,15 @@ internal class TimeGradlePluginSpec {
     inner class `When 'useTestLib' is` {
 
         @Test
-        fun `true, adds testImplementation dependency on 'spine-time-testlib'`() {
+        fun `true, adds testImplementation dependency on 'time-testlib'`() {
             val project = buildProject { useTestLib.set(true) }
-            project.hasTestImplDep(TimeLibrary.testLib).shouldBeTrue()
+            project.hasDependency(TimeLibrary.testLib, "testImplementation").shouldBeTrue()
         }
 
         @Test
-        fun `false by default, adds no testImplementation dependency on 'spine-time-testlib'`() {
+        fun `false by default, adds no testImplementation dependency on 'time-testlib'`() {
             val project = buildProject { }
-            project.hasTestImplDep(TimeLibrary.testLib).shouldBeFalse()
+            project.hasDependency(TimeLibrary.testLib, "testImplementation").shouldBeFalse()
         }
     }
 }
@@ -104,12 +104,10 @@ private fun buildProject(configure: TimeGradleExtension.() -> Unit): Project {
     return project
 }
 
-private fun Project.hasImplDep(artifact: MavenArtifact): Boolean =
-    configurations.getByName("implementation").dependencies.any {
-        it.group == artifact.group && it.name == artifact.name
-    }
-
-private fun Project.hasTestImplDep(artifact: MavenArtifact): Boolean =
-    configurations.getByName("testImplementation").dependencies.any {
+private fun Project.hasDependency(
+    artifact: MavenArtifact,
+    configuration: String = "implementation"
+): Boolean =
+    configurations.getByName(configuration).dependencies.any {
         it.group == artifact.group && it.name == artifact.name
     }
