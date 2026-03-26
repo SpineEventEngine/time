@@ -48,4 +48,9 @@ internal object TimeLibrary {
      * The Maven artifact for the `io.spine:spine-time-kotlin` module.
      */
     val kotlinExtensions: MavenArtifact = Meta.dependency(Module("io.spine", "spine-time-kotlin"))
+
+    /**
+     * The Maven artifact for the `io.spine:spine-time-testlib` module.
+     */
+    val testLib: MavenArtifact = Meta.dependency(Module("io.spine", "spine-time-testlib"))
 }

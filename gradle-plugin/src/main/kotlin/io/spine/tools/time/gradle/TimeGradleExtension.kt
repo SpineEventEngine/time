@@ -51,9 +51,19 @@ public abstract class TimeGradleExtension @Inject public constructor(project: Pr
     public val useKotlinExtensions: Property<Boolean> =
         project.objects.property(Boolean::class.java)
 
+    /**
+     * Tells if the `spine-time-testlib` module should be added as a `testImplementation`
+     * dependency.
+     *
+     * Default value is `false`.
+     */
+    public val useTestLib: Property<Boolean> =
+        project.objects.property(Boolean::class.java)
+
     init {
         useJavaExtensions.convention(false)
         useKotlinExtensions.convention(false)
+        useTestLib.convention(false)
     }
 
     public companion object {

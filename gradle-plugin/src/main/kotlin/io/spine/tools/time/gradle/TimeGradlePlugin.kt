@@ -36,10 +36,12 @@ import org.gradle.api.Project
  *  1. Adds `io.spine:spine-time` as an `implementation` dependency.
  *  2. Adds `io.spine:spine-time-java` if [TimeGradleExtension.useJavaExtensions] is `true`.
  *  3. Adds `io.spine:spine-time-kotlin` if [TimeGradleExtension.useKotlinExtensions] is `true`.
+ *  4. Adds `io.spine:spine-time-testlib` as a `testImplementation` dependency
+ *     if [TimeGradleExtension.useTestLib] is `true`.
  *
  * **Prerequisite:** a JVM language plugin (e.g. `java`, `java-library`, or `kotlin("jvm")`)
  * must be applied to the target project before this plugin, so that the `implementation`
- * configuration exists at the time the plugin runs.
+ * and `testImplementation` configurations exist at the time the plugin runs.
  */
 public class TimeGradlePlugin : Plugin<Project> {
 
@@ -57,15 +59,22 @@ public class TimeGradlePlugin : Plugin<Project> {
             if (extension.useKotlinExtensions.get()) {
                 project.addDependency(TimeLibrary.kotlinExtensions.coordinates)
             }
+            if (extension.useTestLib.get()) {
+                project.addDependency(TimeLibrary.testLib.coordinates, "testImplementation")
+            }
         }
     }
 }
 
-private fun Project.addDependency(coordinates: String) {
-    val config = configurations.findByName("implementation")
+private fun Project.addDependency(coordinates: String, configuration: String = "implementation") {
+    val config = configurations.findByName(configuration)
         ?: error(
-            "Configuration 'implementation' not found in project '$path'. " +
+            "Configuration '$configuration' not found in project '$path'. " + when (configuration) {
+                "testImplementation" ->
+                    "Ensure a test source set is present, or set `useTestLib = false`."
+                else ->
                     "Apply a JVM language plugin before 'io.spine.time'."
+            }
         )
     config.dependencies.add(dependencies.create(coordinates))
 }
