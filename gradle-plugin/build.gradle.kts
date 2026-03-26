@@ -47,6 +47,7 @@ artifactMeta {
         "io.spine:spine-time:$versionToPublish",
         "io.spine:spine-time-java:$versionToPublish",
         "io.spine:spine-time-kotlin:$versionToPublish",
+        "io.spine.tools:spine-time-testlib:$versionToPublish",
     )
     excludeConfigurations {
         containing(*buildToolConfigurations)
@@ -76,6 +77,7 @@ gradlePlugin {
 
 dependencies {
     compileOnly(gradleKotlinDsl())
+    implementation(ToolBase.gradlePluginApi)
     implementation(ToolBase.jvmTools)
 }
 

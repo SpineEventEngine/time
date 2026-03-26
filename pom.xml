@@ -61,6 +61,12 @@ all modules and does not describe the project structure per-subproject.
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
+    <artifactId>gradle-plugin-api</artifactId>
+    <version>2.0.0-SNAPSHOT.375</version>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>io.spine.tools</groupId>
     <artifactId>jvm-tools</artifactId>
     <version>2.0.0-SNAPSHOT.375</version>
     <scope>compile</scope>

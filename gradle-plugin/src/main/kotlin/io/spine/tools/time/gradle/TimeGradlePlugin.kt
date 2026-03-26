@@ -26,7 +26,9 @@
 
 package io.spine.tools.time.gradle
 
-import org.gradle.api.Plugin
+import io.spine.tools.gradle.DslSpec
+import io.spine.tools.gradle.lib.LibraryPlugin
+import io.spine.tools.gradle.lib.spineExtension
 import org.gradle.api.Project
 
 /**
@@ -43,28 +45,33 @@ import org.gradle.api.Project
  * must be applied to the target project before this plugin, so that the `implementation`
  * and `testImplementation` configurations exist at the time the plugin runs.
  */
-public class TimeGradlePlugin : Plugin<Project> {
+public class TimeGradlePlugin : LibraryPlugin<TimeGradleExtension>(
+    DslSpec(TimeGradleExtension.NAME, TimeGradleExtension::class)
+) {
 
     override fun apply(project: Project) {
-        val extension = project.extensions.create(
-            TimeGradleExtension.NAME,
-            TimeGradleExtension::class.java,
-            project
-        )
-        project.addDependency(TimeLibrary.runtime.coordinates)
-        project.afterEvaluate {
-            if (extension.useJavaExtensions.get()) {
-                project.addDependency(TimeLibrary.javaExtensions.coordinates)
-            }
-            if (extension.useKotlinExtensions.get()) {
-                project.addDependency(TimeLibrary.kotlinExtensions.coordinates)
-            }
-            if (extension.useTestLib.get()) {
-                project.addDependency(TimeLibrary.testLib.coordinates, "testImplementation")
-            }
+        super.apply(project)
+        project.configureTime()
+    }
+}
+
+private fun Project.configureTime() {
+    addDependency(TimeLibrary.runtime.coordinates)
+    afterEvaluate {
+        if (timeExtension.useJavaExtensions.get()) {
+            addDependency(TimeLibrary.javaExtensions.coordinates)
+        }
+        if (timeExtension.useKotlinExtensions.get()) {
+            addDependency(TimeLibrary.kotlinExtensions.coordinates)
+        }
+        if (timeExtension.useTestLib.get()) {
+            addDependency(TimeLibrary.testLib.coordinates, "testImplementation")
         }
     }
 }
+
+private val Project.timeExtension: TimeGradleExtension
+    get() = spineExtension<TimeGradleExtension>()
 
 private fun Project.addDependency(coordinates: String, configuration: String = "implementation") {
     val config = configurations.findByName(configuration)

@@ -28,6 +28,7 @@ package io.spine.tools.time.gradle
 
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
+import io.spine.tools.gradle.lib.spineExtension
 import io.spine.tools.meta.MavenArtifact
 import org.gradle.api.Project
 import org.gradle.api.internal.project.ProjectInternal
@@ -97,7 +98,7 @@ private fun buildProject(configure: TimeGradleExtension.() -> Unit): Project {
     val project = ProjectBuilder.builder().build()
     project.plugins.apply("java")
     project.plugins.apply(TimeGradlePlugin::class.java)
-    project.extensions.getByType(TimeGradleExtension::class.java).configure()
+    project.spineExtension<TimeGradleExtension>().configure()
     @Suppress("UnstableApiUsage")
     (project as ProjectInternal).evaluate()
     return project

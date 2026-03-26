@@ -3,6 +3,30 @@
 # Dependencies of `io.spine.tools:spine-gradle-plugin:2.0.0-SNAPSHOT.233`
 
 ## Runtime
+1.  **Group** : com.fasterxml.jackson. **Name** : jackson-bom. **Version** : 2.20.0.
+     * **Project URL:** [https://github.com/FasterXML/jackson-bom](https://github.com/FasterXML/jackson-bom)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+     * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.fasterxml.jackson.core. **Name** : jackson-annotations. **Version** : 2.20.
+     * **Project URL:** [https://github.com/FasterXML/jackson](https://github.com/FasterXML/jackson)
+     * **License:** [The Apache Software License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.fasterxml.jackson.core. **Name** : jackson-core. **Version** : 2.20.0.
+     * **Project URL:** [https://github.com/FasterXML/jackson-core](https://github.com/FasterXML/jackson-core)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+     * **License:** [The Apache Software License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.fasterxml.jackson.core. **Name** : jackson-databind. **Version** : 2.20.0.
+     * **Project URL:** [https://github.com/FasterXML/jackson](https://github.com/FasterXML/jackson)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+     * **License:** [The Apache Software License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.fasterxml.jackson.dataformat. **Name** : jackson-dataformat-yaml. **Version** : 2.20.0.
+     * **Project URL:** [https://github.com/FasterXML/jackson-dataformats-text](https://github.com/FasterXML/jackson-dataformats-text)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+     * **License:** [The Apache Software License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1.  **Group** : com.google.code.findbugs. **Name** : jsr305. **Version** : 3.0.2.
      * **Project URL:** [http://findbugs.sourceforge.net/](http://findbugs.sourceforge.net/)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -50,17 +74,41 @@
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-reflect. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-stdlib. **Version** : 2.3.20.
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlinx. **Name** : atomicfu. **Version** : 0.29.0.
+     * **Project URL:** [https://github.com/Kotlin/kotlinx.atomicfu](https://github.com/Kotlin/kotlinx.atomicfu)
+     * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlinx. **Name** : atomicfu-jvm. **Version** : 0.29.0.
+     * **Project URL:** [https://github.com/Kotlin/kotlinx.atomicfu](https://github.com/Kotlin/kotlinx.atomicfu)
+     * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : org.jetbrains.kotlinx. **Name** : kotlinx-coroutines-bom. **Version** : 1.10.2.
      * **Project URL:** [https://github.com/Kotlin/kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
      * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
+1.  **Group** : org.jetbrains.kotlinx. **Name** : kotlinx-datetime. **Version** : 0.7.1.
+     * **Project URL:** [https://github.com/Kotlin/kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime)
+     * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlinx. **Name** : kotlinx-datetime-jvm. **Version** : 0.7.1.
+     * **Project URL:** [https://github.com/Kotlin/kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime)
+     * **License:** [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1.  **Group** : org.jspecify. **Name** : jspecify. **Version** : 1.0.0.
      * **Project URL:** [http://jspecify.org/](http://jspecify.org/)
      * **License:** [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.yaml. **Name** : snakeyaml. **Version** : 2.4.
+     * **Project URL:** [https://bitbucket.org/snakeyaml/snakeyaml](https://bitbucket.org/snakeyaml/snakeyaml)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ## Compile, tests, and tooling
 1.  **Group** : com.fasterxml.jackson. **Name** : jackson-bom. **Version** : 2.20.0.
@@ -86,6 +134,11 @@
      * **Project URL:** [https://github.com/FasterXML/jackson-dataformat-xml](https://github.com/FasterXML/jackson-dataformat-xml)
      * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
      * **License:** [The Apache Software License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.fasterxml.jackson.dataformat. **Name** : jackson-dataformat-yaml. **Version** : 2.20.0.
+     * **Project URL:** [https://github.com/FasterXML/jackson-dataformats-text](https://github.com/FasterXML/jackson-dataformats-text)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+     * **License:** [The Apache Software License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : com.fasterxml.jackson.module. **Name** : jackson-module-kotlin. **Version** : 2.20.0.
      * **Project URL:** [https://github.com/FasterXML/jackson-module-kotlin](https://github.com/FasterXML/jackson-module-kotlin)
@@ -181,6 +234,10 @@
 1.  **Group** : com.google.j2objc. **Name** : j2objc-annotations. **Version** : 2.8.
      * **Project URL:** [https://github.com/google/j2objc/](https://github.com/google/j2objc/)
      * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : com.google.protobuf. **Name** : protobuf-gradle-plugin. **Version** : 0.9.6.
+     * **Project URL:** [https://github.com/google/protobuf-gradle-plugin](https://github.com/google/protobuf-gradle-plugin)
+     * **License:** [BSD 3-Clause](http://opensource.org/licenses/BSD-3-Clause)
 
 1.  **Group** : com.google.protobuf. **Name** : protobuf-java. **Version** : 4.34.1.
      * **Project URL:** [https://developers.google.com/protocol-buffers/](https://developers.google.com/protocol-buffers/)
@@ -564,6 +621,18 @@
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-gradle-plugin-annotations. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-gradle-plugin-api. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-gradle-plugins-bom. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-klib-abi-reader. **Version** : 2.3.20.
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
@@ -573,6 +642,10 @@
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-metadata-jvm. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-native-utils. **Version** : 2.3.20.
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -641,6 +714,10 @@
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-tooling-core. **Version** : 2.3.20.
+     * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
+     * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+1.  **Group** : org.jetbrains.kotlin. **Name** : kotlin-util-io. **Version** : 2.3.20.
      * **Project URL:** [https://kotlinlang.org/](https://kotlinlang.org/)
      * **License:** [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
@@ -796,10 +873,14 @@
      * **Project URL:** [https://github.com/xmlresolver/xmlresolver](https://github.com/xmlresolver/xmlresolver)
      * **License:** [Apache License version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
+1.  **Group** : org.yaml. **Name** : snakeyaml. **Version** : 2.4.
+     * **Project URL:** [https://bitbucket.org/snakeyaml/snakeyaml](https://bitbucket.org/snakeyaml/snakeyaml)
+     * **License:** [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
+
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Thu Mar 26 18:52:51 WET 2026** using 
+This report was generated on **Thu Mar 26 20:10:09 WET 2026** using 
 [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under 
 [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
@@ -1787,7 +1868,7 @@ This report was generated on **Thu Mar 26 18:52:51 WET 2026** using
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Thu Mar 26 18:52:51 WET 2026** using 
+This report was generated on **Thu Mar 26 20:10:09 WET 2026** using 
 [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under 
 [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
@@ -2597,7 +2678,7 @@ This report was generated on **Thu Mar 26 18:52:51 WET 2026** using
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Thu Mar 26 18:52:51 WET 2026** using 
+This report was generated on **Thu Mar 26 20:10:09 WET 2026** using 
 [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under 
 [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
@@ -3415,7 +3496,7 @@ This report was generated on **Thu Mar 26 18:52:51 WET 2026** using
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Thu Mar 26 18:52:51 WET 2026** using 
+This report was generated on **Thu Mar 26 20:10:09 WET 2026** using 
 [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under 
 [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
 
@@ -4225,6 +4306,6 @@ This report was generated on **Thu Mar 26 18:52:51 WET 2026** using
 
 The dependencies distributed under several licenses, are used according their commercial-use-friendly license.
 
-This report was generated on **Thu Mar 26 18:52:51 WET 2026** using 
+This report was generated on **Thu Mar 26 20:10:09 WET 2026** using 
 [Gradle-License-Report plugin](https://github.com/jk1/Gradle-License-Report) by Evgeny Naumenko, licensed under 
 [Apache 2.0 License](https://github.com/jk1/Gradle-License-Report/blob/master/LICENSE).
