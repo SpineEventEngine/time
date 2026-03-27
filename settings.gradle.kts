@@ -27,6 +27,7 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        mavenLocal()
         mavenCentral()
     }
 }
@@ -38,4 +39,5 @@ include(
     "time-testlib",
     "time-java",
     "time-kotlin",
+    "gradle-plugin",
 )
