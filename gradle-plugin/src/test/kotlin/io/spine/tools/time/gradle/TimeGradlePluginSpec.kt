@@ -40,6 +40,16 @@ import org.junit.jupiter.api.Test
 @DisplayName("`TimeGradlePlugin` should")
 internal class TimeGradlePluginSpec {
 
+    @Test
+    fun `be applied to a project by its ID`() {
+        val project = ProjectBuilder.builder().build()
+        project.plugins.apply("java")
+        project.plugins.apply("io.spine.time")
+
+        project.plugins.hasPlugin("io.spine.time").shouldBeTrue()
+        project.plugins.hasPlugin(TimeGradlePlugin::class.java).shouldBeTrue()
+    }
+
     @Nested
     inner class `When 'useJavaExtensions' is` {
 
