@@ -26,7 +26,6 @@
 
 package io.spine.gradle.docs
 
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import java.io.File
 import org.gradle.testfixtures.ProjectBuilder
