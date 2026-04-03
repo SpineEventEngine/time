@@ -114,6 +114,8 @@ plugins {
 val gradlePluginModule = "gradle-plugin"
 
 spinePublishing {
+    artifactPrefix = "spine-"
+    toolArtifactPrefix = "time-"
     modules = productionModules.map { it.name }.toSet() - gradlePluginModule
     modulesWithCustomPublishing = setOf(gradlePluginModule)
     destinations = with(PublishingRepos) {

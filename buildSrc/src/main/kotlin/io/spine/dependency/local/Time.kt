@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ import io.spine.dependency.Dependency
 )
 object Time : Dependency() {
     override val group = Spine.group
-    override val version = "2.0.0-SNAPSHOT.232"
+    override val version = "2.0.0-SNAPSHOT.234"
     private const val infix = "spine-time"
 
     fun lib(version: String): String = "$group:$infix:$version"
