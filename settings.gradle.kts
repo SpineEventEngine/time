@@ -36,8 +36,8 @@ rootProject.name = "spine-time"
 
 include(
     "time",
-    "time-testlib",
     "time-java",
     "time-kotlin",
+    "testlib",
     "gradle-plugin",
 )

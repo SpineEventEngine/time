@@ -45,7 +45,7 @@ dependencies {
     implementation(Validation.runtime)
 
     testImplementation(TestLib.lib)
-    testImplementation(project(":time-testlib"))
+    testImplementation(project(":testlib"))
 }
 
 configurations {
