@@ -24,6 +24,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Time
 import io.spine.dependency.local.ToolBase
 import io.spine.gradle.publish.addSourceAndDocJars
@@ -49,6 +50,7 @@ artifactMeta {
         Time.javaExtensions(versionToPublish),
         Time.kotlinExtensions(versionToPublish),
         Time.testLib(versionToPublish),
+        Time.validation(versionToPublish),
     )
     excludeConfigurations {
         containing(*buildToolConfigurations)
@@ -78,6 +80,7 @@ gradlePlugin {
 
 dependencies {
     compileOnly(gradleKotlinDsl())
+    implementation(Compiler.gradleApi)
     implementation(ToolBase.gradlePluginApi)
     implementation(ToolBase.jvmTools)
 }

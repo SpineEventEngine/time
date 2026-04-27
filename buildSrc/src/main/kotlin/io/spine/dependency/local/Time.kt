@@ -56,6 +56,9 @@ object Time : Dependency() {
     fun testLib(version: String): String = "${Spine.toolsGroup}:time-testlib:$version"
     val testLib get() = testLib(version)
 
+    fun validation(version: String): String = "${Spine.toolsGroup}:time-validation:$version"
+    val validation get() = validation(version)
+
     override val modules: List<String>
         get() = listOf(
             lib,
