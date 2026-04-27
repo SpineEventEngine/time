@@ -33,38 +33,3 @@ pluginManagement {
 }
 
 rootProject.name = "time-tests"
-
-/*
- * Dependency links established with the Gradle included build.
- *
- * See the `includeBuild(...)` block below for more info.
- */
-val links = mapOf(
-    "io.spine.tools:time-gradle-plugin" to ":gradle-plugin"
-)
-
-/*
- * Include the `spine-time` build into the `tests` project build.
- *
- * Integration tests are built separately in order to be able to test the current
- * version of the Gradle plugin.
- *
- * The explicit `dependencySubstitution` block disables Gradle's automatic substitution
- * of all modules from the included build, limiting it to only `time-gradle-plugin`.
- * This prevents Gradle from incorrectly substituting transitive dependencies such as
- * `io.spine:spine-time` with the local project (which lacks the expected JAR variants).
- *
- * Since Gradle 8.8, `includeBuild()` outside `pluginManagement` also enables plugin
- * resolution from the included build, so a separate `pluginManagement.includeBuild`
- * is not needed.
- *
- * See the Gradle manual for more info:
- * https://docs.gradle.org/current/userguide/composite_builds.html
- */
-includeBuild("..") {
-    dependencySubstitution {
-        links.forEach { (id, projectPath) ->
-            substitute(module(id)).using(project(projectPath))
-        }
-    }
-}
