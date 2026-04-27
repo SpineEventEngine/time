@@ -140,8 +140,8 @@ configurations {
                 Logging.testLib,
                 Validation.runtime,
                 Compiler.api,
-                Time.lib,
-                Time.javaExtensions,
+                Time.lib(version.toString()),
+                Time.javaExtensions(version.toString()),
             )
         }
     }
