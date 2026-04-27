@@ -100,8 +100,6 @@ plugins {
     kotlin("jvm")
     id("module-testing")
     `java-test-fixtures`
-    protobuf
-    prototap
 }
 apply(plugin ="io.spine.validation")
 apply(plugin ="io.spine.time")
@@ -167,8 +165,4 @@ dependencies {
 
     testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
     testImplementation(Compiler.testlib)
-}
-
-protobuf {
-    protoc { artifact = Protobuf.compiler }
 }
