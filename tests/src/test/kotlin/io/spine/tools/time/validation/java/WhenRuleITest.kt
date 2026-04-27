@@ -27,8 +27,7 @@
 package io.spine.tools.time.validation.java
 
 import com.google.protobuf.util.Timestamps
-import io.spine.validation.test.assertNoException
-import io.spine.validation.test.assertValidationException
+import io.spine.validation.test.Player
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 

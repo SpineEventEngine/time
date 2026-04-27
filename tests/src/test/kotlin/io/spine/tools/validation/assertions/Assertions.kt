@@ -24,36 +24,17 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.boms.BomsPlugin
-import io.spine.dependency.lib.Protobuf
-import io.spine.dependency.local.Base
-import io.spine.dependency.local.Compiler
-import io.spine.dependency.local.Logging
-import io.spine.dependency.local.Validation
-import io.spine.gradle.report.license.LicenseReporter
+package io.spine.tools.validation.assertions
 
-plugins {
-    kotlin("jvm")
-    module
-    id("module-testing")
-    protobuf
-    `java-test-fixtures`
-    prototap
-}
-apply<BomsPlugin>()
-LicenseReporter.generateReportIn(project)
+import io.spine.validation.ValidationException
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.function.Executable
 
-dependencies {
-    implementation(Validation.javaBundle)
-    implementation(project(":validation"))
-
-    testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
-    testImplementation(Compiler.testlib)
-
-    testFixturesImplementation(Base.lib)?.because("The `io.spine.option` package is needed.")
-    testFixturesImplementation(project(":time"))?.because("We need `TimeOptionsProto`.")
+fun assertValidationFails(executable: Executable) {
+    assertThrows(ValidationException::class.java, executable)
 }
 
-protobuf {
-    protoc { artifact = Protobuf.compiler }
+fun assertValidationPasses(executable: Executable) {
+    assertDoesNotThrow(executable)
 }

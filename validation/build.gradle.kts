@@ -25,8 +25,6 @@
  */
 
 import io.spine.dependency.local.Compiler
-import io.spine.dependency.local.CoreJvm
-import io.spine.dependency.local.Time
 import io.spine.dependency.local.Validation
 
 plugins {
@@ -40,8 +38,18 @@ group = "io.spine.tools"
 dependencies {
     implementation(Compiler.jvm)
     implementation(Validation.javaBundle)
-    implementation(CoreJvm.server)
-    implementation(Time.lib)
+    implementation(project(":time"))
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("io.spine:spine-time"))
+            .using(project(":time"))
+        substitute(module("io.spine:spine-time-java"))
+            .using(project(":time-java"))
+        substitute(module("io.spine:spine-time-kotlin"))
+            .using(project(":time-kotlin"))
+    }
 }
 
 spineCompilerRemoteDebug(enabled = false)

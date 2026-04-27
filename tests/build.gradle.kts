@@ -24,55 +24,151 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@file:Suppress("RemoveRedundantQualifierName") // To prevent IDEA replacing FQN imports.
+
 import io.spine.dependency.artifact
 import io.spine.dependency.boms.BomsPlugin
+import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.lib.Grpc
+import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Logging
+import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.Time
 import io.spine.dependency.local.Validation
-import io.spine.dependency.test.JUnit.Jupiter
-import io.spine.gradle.report.license.LicenseReporter
+import io.spine.gradle.kotlin.applyJvmToolchain
+import io.spine.gradle.kotlin.setFreeCompilerArgs
+import io.spine.gradle.publish.PublishingRepos.gitHub
+import io.spine.gradle.repo.standardToSpineSdk
+
+buildscript {
+    standardSpineSdkRepositories()
+    doForceVersions(configurations)
+
+    apply(from = "${rootDir}/../version.gradle.kts")
+    val versionToPublish = extra["versionToPublish"].toString()!!
+    dependencies {
+        classpath(io.spine.dependency.local.Validation.gradlePluginLib)
+        classpath(io.spine.dependency.local.Time.gradlePlugin(versionToPublish))
+    }
+
+    configurations {
+        all {
+            exclude(group = "io.spine", module = "spine-flogger-api")
+            exclude(group = "io.spine", module = "spine-logging-backend")
+
+            resolutionStrategy {
+                val jackson = io.spine.dependency.lib.Jackson
+                val cfg = this@all
+                val rs = this@resolutionStrategy
+                jackson.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.Jackson.DataType.forceArtifacts(project, cfg, rs)
+
+                io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
+                    project, this@all, this@resolutionStrategy
+                )
+                io.spine.dependency.lib.Grpc.forceArtifacts(
+                    project, this@all, this@resolutionStrategy
+                )
+                force(
+                    io.spine.dependency.lib.Kotlin.bom,
+                    io.spine.dependency.lib.Jackson.annotations,
+                    io.spine.dependency.lib.Grpc.bom,
+                    io.spine.dependency.local.Base.annotations,
+                    io.spine.dependency.local.Base.environment,
+                    io.spine.dependency.local.Base.lib,
+                    io.spine.dependency.local.Reflect.lib,
+                    io.spine.dependency.local.Time.lib(versionToPublish),
+                    io.spine.dependency.local.Time.javaExtensions(versionToPublish),
+                    io.spine.dependency.local.Logging.lib,
+                    io.spine.dependency.local.Logging.middleware,
+                    io.spine.dependency.local.Validation.runtime,
+                    io.spine.dependency.local.Compiler.api,
+                    io.spine.dependency.local.Compiler.gradleApi,
+                    io.spine.dependency.local.Compiler.params,
+                    io.spine.dependency.local.Compiler.pluginLib,
+                )
+            }
+        }
+    }
+}
 
 plugins {
     kotlin("jvm")
-    module
     id("module-testing")
-    protobuf
     `java-test-fixtures`
+    protobuf
     prototap
 }
+apply(plugin ="io.spine.validation")
+apply(plugin ="io.spine.time")
+
+apply(from = "${rootDir}/../version.gradle.kts")
 
 group = "io.spine.tools"
+version = extra["versionToPublish"]!!
+
+repositories {
+    standardToSpineSdk()
+    gitHub("time")
+    mavenLocal()
+}
 
 apply<BomsPlugin>()
-LicenseReporter.generateReportIn(project)
+
+configurations {
+    forceVersions()
+    all {
+        exclude(group = "io.spine", module = "spine-validate")
+        exclude(group = "io.spine", module = "spine-flogger-api")
+        resolutionStrategy {
+            val cfg = this@all
+            val rs = this@resolutionStrategy
+            Jackson.forceArtifacts(project, cfg, rs)
+            Jackson.DataType.forceArtifacts(project, cfg, rs)
+            Jackson.DataFormat.forceArtifacts(project, cfg, rs)
+            Coroutines.forceArtifacts(project, cfg, rs)
+            Grpc.forceArtifacts(project, cfg, rs)
+            Kotlin.StdLib.forceArtifacts(project, cfg, rs)
+            force(
+                Kotlin.bom,
+                Jackson.annotations,
+                Grpc.bom,
+                Reflect.lib,
+                Base.lib,
+                Logging.lib,
+                Logging.middleware,
+                Logging.testLib,
+                Validation.runtime,
+                Compiler.api,
+                Time.lib,
+                Time.javaExtensions,
+            )
+        }
+    }
+}
+
+kotlin {
+    applyJvmToolchain(BuildSettings.javaVersion.asInt())
+    compilerOptions {
+        jvmTarget.set(BuildSettings.jvmTarget)
+        setFreeCompilerArgs()
+    }
+}
 
 dependencies {
-    implementation(Time.lib)
-
-    testFixturesImplementation(Base.lib)
-    testFixturesImplementation(Time.lib)
-    testFixturesImplementation(Logging.lib)
+    testFixturesImplementation(Time.lib(version.toString()))
     testFixturesImplementation(Validation.runtime)
     testFixturesImplementation(Compiler.api)
     testFixturesImplementation(Compiler.testlib)
-    testFixturesImplementation(Jupiter.artifact { params })
 
     testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
     testImplementation(Compiler.testlib)
-    testImplementation(Time.lib)
 }
 
 protobuf {
     protoc { artifact = Protobuf.compiler }
 }
-
-//afterEvaluate {
-//    tasks.named("kspTestFixturesKotlin") {
-//        mustRunAfter("launchTestFixturesSpineCompiler")
-//    }
-//}
-
-//spineCompilerRemoteDebug(enabled = false)
