@@ -24,30 +24,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.boms.BomsPlugin
-import io.spine.dependency.local.Time
-import io.spine.gradle.report.license.LicenseReporter
+package io.spine.tools.time.validation.java
 
-plugins {
-    kotlin("jvm")
-    id("module-testing")
-}
+import com.google.protobuf.util.Timestamps
+import io.spine.validation.test.assertNoException
+import io.spine.validation.test.assertValidationException
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
-apply<BomsPlugin>()
-LicenseReporter.generateReportIn(project)
+@DisplayName("`(when)` rule should")
+internal class WhenRuleITest {
 
-spine {
-    compiler {
-        plugins(
-            "io.spine.tools.compiler.jvm.annotation.SuppressWarningsAnnotation\$Plugin",
-            "io.spine.validation.java.JavaValidationPlugin",
-        )
+    @Test
+    fun `prohibit invalid timestamp`() {
+        val startWhen = Timestamps.fromSeconds(4792687200L) // 15 Nov 2121
+        val player = Player.newBuilder()
+            .setStartedCareerIn(startWhen)
+        assertValidationException(player)
+    }
+
+    @Test
+    fun `allow valid timestamp`() {
+        val timestamp = Timestamps.fromSeconds(59086800L) // 15 Nov 1971
+        val player = Player.newBuilder()
+            .setStartedCareerIn(timestamp)
+        assertNoException(player)
     }
 }
-
-dependencies {
-    spineCompiler(project(":java"))
-    implementation(Time.lib)
-}
-
-spineCompilerRemoteDebug(enabled = false)
