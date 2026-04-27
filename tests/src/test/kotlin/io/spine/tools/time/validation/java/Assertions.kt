@@ -56,3 +56,11 @@ internal fun assertNoException(builder: Message.Builder) {
         fail<Any>("Unexpected constraint violation: " + e.constraintViolations, e)
     }
 }
+
+internal fun assertValidationFails(executable: Executable) {
+    assertThrows(ValidationException::class.java, executable)
+}
+
+internal fun assertValidationPasses(executable: Executable) {
+    assertDoesNotThrow(executable)
+}
