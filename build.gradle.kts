@@ -108,6 +108,7 @@ repositories {
 }
 
 plugins {
+    base
     id("org.jetbrains.kotlinx.kover")
     idea
     jacoco
@@ -202,6 +203,6 @@ val integrationTests by tasks.registering(RunBuild::class) {
     }
 }
 
-//val check by tasks.existing {
-//    dependsOn(integrationTests)
-//}
+val check by tasks.existing {
+    dependsOn(integrationTests)
+}
