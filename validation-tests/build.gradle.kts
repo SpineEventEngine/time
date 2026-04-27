@@ -24,13 +24,64 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import io.spine.dependency.artifact
+import io.spine.dependency.boms.BomsPlugin
+import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.local.Base
+import io.spine.dependency.local.Compiler
+import io.spine.dependency.local.Logging
+import io.spine.dependency.local.Time
+import io.spine.dependency.local.Validation
+import io.spine.dependency.test.JUnit.Jupiter
 import io.spine.gradle.report.license.LicenseReporter
 
 plugins {
     kotlin("jvm")
     id("module-testing")
+    protobuf
+    `java-test-fixtures`
+    prototap
 }
 
 group = "io.spine.tools"
 
+apply<BomsPlugin>()
 LicenseReporter.generateReportIn(project)
+
+spine {
+    compiler {
+        plugins(
+            "io.spine.tools.compiler.jvm.annotation.SuppressWarningsAnnotation\$Plugin",
+            "io.spine.validation.java.JavaValidationPlugin",
+        )
+    }
+}
+
+dependencies {
+    spineCompiler(project(":java"))
+    implementation(Time.lib)
+
+    testFixturesImplementation(Base.lib)
+    testFixturesImplementation(Time.lib)
+    testFixturesImplementation(Logging.lib)
+    testFixturesImplementation(Validation.runtime)
+    testFixturesImplementation(Compiler.api)
+    testFixturesImplementation(Compiler.testlib)
+    testFixturesImplementation(Jupiter.artifact { params })
+
+    testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
+    testImplementation(Compiler.testlib)
+    testImplementation(Time.lib)
+}
+
+protobuf {
+    protoc { artifact = Protobuf.compiler }
+}
+
+afterEvaluate {
+    tasks.named("kspTestFixturesKotlin") {
+        mustRunAfter("launchTestFixturesSpineCompiler")
+    }
+}
+
+spineCompilerRemoteDebug(enabled = false)

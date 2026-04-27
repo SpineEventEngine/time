@@ -24,31 +24,30 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import io.spine.dependency.local.Base
+import io.spine.dependency.lib.AutoServiceKsp
+import io.spine.dependency.local.Compiler
+import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Time
 import io.spine.dependency.local.Validation
-import io.spine.gradle.report.license.LicenseReporter
 
 plugins {
-    `java-test-fixtures`
-    kotlin("jvm")
-    id("module-testing")
+    protobuf
+    module
+    id(coreJvmCompiler.pluginId)
 }
-LicenseReporter.generateReportIn(project)
+
+group = "io.spine.tools"
 
 dependencies {
-    testFixturesImplementation(Base.lib)
-    testFixturesImplementation(Time.lib)
-    testFixturesImplementation(Logging.lib)
-    testFixturesImplementation(Validation.runtime)
+    ksp(AutoServiceKsp.processor)
 
-    testImplementation(testFixtures(project(":tests:validating")))
-    testImplementation(Time.lib)
-}
+    api(Validation.javaBundle)
+    api(Compiler.api)
+    implementation(CoreJvm.server)
+    implementation(Time.lib)
 
-afterEvaluate {
-    tasks.named("kspTestFixturesKotlin") {
-        mustRunAfter("launchTestFixturesSpineCompiler")
-    }
+    testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
+    testImplementation(Compiler.testlib)
+    testImplementation(testFixtures(project(":validation-tests")))
 }

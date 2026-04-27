@@ -40,5 +40,6 @@ include(
     "time-kotlin",
     "testlib",
     "gradle-plugin",
+    "validation",
     "validation-tests",
 )
