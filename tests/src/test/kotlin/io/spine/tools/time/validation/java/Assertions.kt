@@ -57,10 +57,10 @@ internal fun assertNoException(builder: Message.Builder) {
     }
 }
 
-internal fun assertValidationFails(executable: Executable) {
-    assertThrows(ValidationException::class.java, executable)
+internal fun assertValidationFails(executable: () -> Unit) {
+    assertThrows<ValidationException> { executable() }
 }
 
-internal fun assertValidationPasses(executable: Executable) {
+internal fun assertValidationPasses(executable: () -> Unit) {
     assertDoesNotThrow(executable)
 }
