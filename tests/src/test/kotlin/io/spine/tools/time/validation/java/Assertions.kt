@@ -24,28 +24,35 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package io.spine.validation.test
+package io.spine.tools.time.validation.java
 
-import com.google.protobuf.util.Timestamps
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
+import com.google.errorprone.annotations.CanIgnoreReturnValue
+import com.google.protobuf.Message
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldNotBe
+import io.spine.validation.ConstraintViolation
+import io.spine.validation.ValidationException
+import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 
-@DisplayName("`(when)` rule should")
-internal class WhenRuleITest {
-
-    @Test
-    fun `prohibit invalid timestamp`() {
-        val startWhen = Timestamps.fromSeconds(4792687200L) // 15 Nov 2121
-        val player = Player.newBuilder()
-            .setStartedCareerIn(startWhen)
-        assertValidationException(player)
+@CanIgnoreReturnValue
+internal fun assertValidationException(builder: Message.Builder): ConstraintViolation {
+    val exception = assertThrows<ValidationException> {
+        builder.build()
     }
+    val error = exception.asMessage()
+    error.constraintViolationList shouldHaveSize 1
+    return error.constraintViolationList[0]
+}
 
-    @Test
-    fun `allow valid timestamp`() {
-        val timestamp = Timestamps.fromSeconds(59086800L) // 15 Nov 1971
-        val player = Player.newBuilder()
-            .setStartedCareerIn(timestamp)
-        assertNoException(player)
+internal fun assertNoException(builder: Message.Builder) {
+    try {
+        assertDoesNotThrow {
+            val result = builder.build()
+            result shouldNotBe null
+        }
+    } catch (e: ValidationException) {
+        fail<Any>("Unexpected constraint violation: " + e.constraintViolations, e)
     }
 }

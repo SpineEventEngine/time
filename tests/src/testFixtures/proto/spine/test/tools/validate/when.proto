@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,38 +26,45 @@
 
 syntax = "proto3";
 
-package spine.validation.stubs;
+package spine.test.tools.validate;
 
 import "spine/options.proto";
 import "spine/time_options.proto";
 
-import "google/protobuf/timestamp.proto";
-
 option (type_url_prefix) = "type.spine.io";
-option java_package = "io.spine.tools.validation.given";
-option java_outer_classname = "WhenOptionSpecProto";
+option java_package = "io.spine.test.tools.validate";
+option java_outer_classname = "WhenProto";
 option java_multiple_files = true;
 
-// Provides a boolean field with the inapplicable `(when)` option.
-message WhenBoolField {
-    bool value = 1 [(when).in = FUTURE];
+import "google/protobuf/timestamp.proto";
+import "spine/time/time.proto";
+
+// Tests `PAST` restriction with a Protobuf timestamp.
+message PastProtoTimestamp {
+    google.protobuf.Timestamp value = 1 [(when).in = PAST];
 }
 
-// Provides an int32 field with the inapplicable `(when)` option.
-message WhenInt32Field {
-    int32 value = 1 [(when).in = FUTURE];
+// Tests `PAST` restriction with a Spine temporal.
+message PastSpineTemporal {
+    spine.time.LocalDateTime value = 1 [(when).in = PAST];
 }
 
-// Provides a string field with the inapplicable `(when)` option.
-message WhenStringField {
-    string value = 1 [(when).in = PAST];
+// Tests `FUTURE` restriction with a Protobuf timestamp.
+message FutureProtoTimestamp {
+    google.protobuf.Timestamp value = 1 [(when).in = FUTURE];
 }
 
-// Provides a `(when)` field that specifies a custom error message using
-// the placeholders not supported by the option.
-message WhenWithInvalidPlaceholders {
-    google.protobuf.Timestamp value = 1 [(when) = {
-        in: PAST,
-        error_msg: "The field value `${field.value}` must be in `${when}`."
-    }];
+// Tests `FUTURE` restriction with a Spine temporal.
+message FutureSpineTemporal {
+    spine.time.LocalDateTime value = 1 [(when).in = FUTURE];
+}
+
+// Tests that a Protobuf timestamp is not restricted when there's no option.
+message AnyProtoTimestamp {
+    google.protobuf.Timestamp value = 1;
+}
+
+// Tests that a Spine temporal is not restricted when there's no option.
+message AnySpineTemporal {
+    spine.time.LocalDateTime value = 1;
 }
