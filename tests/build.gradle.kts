@@ -49,7 +49,7 @@ buildscript {
     doForceVersions(configurations)
 
     apply(from = "${rootDir}/../version.gradle.kts")
-    val versionToPublish = extra["versionToPublish"].toString()!!
+    val versionToPublish = extra["versionToPublish"].toString()
     dependencies {
         classpath(io.spine.dependency.local.Validation.gradlePluginLib)
         classpath(io.spine.dependency.local.Time.gradlePlugin(versionToPublish))
