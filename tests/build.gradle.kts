@@ -26,13 +26,11 @@
 
 @file:Suppress("RemoveRedundantQualifierName") // To prevent IDEA replacing FQN imports.
 
-import io.spine.dependency.artifact
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Kotlin
-import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Logging
@@ -162,7 +160,4 @@ dependencies {
     testFixturesImplementation(Validation.runtime)
     testFixturesImplementation(Compiler.api)
     testFixturesImplementation(Compiler.testlib)
-
-    testImplementation(Logging.testLib)?.because("We need `tapConsole`.")
-    testImplementation(Compiler.testlib)
 }
