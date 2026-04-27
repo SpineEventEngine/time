@@ -59,6 +59,9 @@ object Time : Dependency() {
     fun validation(version: String): String = "${Spine.toolsGroup}:time-validation:$version"
     val validation get() = validation(version)
 
+    fun gradlePlugin(version: String): String = "${Spine.toolsGroup}:time-gradle-plugin:$version"
+    val gradlePlugin get() = gradlePlugin(version)
+
     override val modules: List<String>
         get() = listOf(
             lib,
