@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,21 +24,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        mavenLocal()
-        mavenCentral()
-    }
+import io.spine.gradle.report.license.LicenseReporter
+
+plugins {
+    kotlin("jvm")
+    id("module-testing")
 }
 
-rootProject.name = "spine-time"
+group = "io.spine.tools"
 
-include(
-    "time",
-    "time-java",
-    "time-kotlin",
-    "testlib",
-    "gradle-plugin",
-    "validation-tests",
-)
+LicenseReporter.generateReportIn(project)
