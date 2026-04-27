@@ -24,12 +24,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import groovy.util.Node
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Validation
+import io.spine.gradle.publish.addSourceAndDocJars
 
 plugins {
     protobuf
     module
+    `maven-publish`
     id(coreJvmCompiler.pluginId)
 }
 
@@ -49,6 +52,22 @@ configurations.all {
             .using(project(":time-java"))
         substitute(module("io.spine:spine-time-kotlin"))
             .using(project(":time-kotlin"))
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            // `groupId`, `artifactId` and `version` are filled in by `CustomPublicationHandler`.
+            artifact(tasks.named<Jar>("jar"))
+            // Declare no dependencies because they are going to be available via the
+            // classpath of the Validation Java plugin to which this module is plugged in
+            // via the `ValidationOption` service API.
+            pom.withXml {
+                Node(asNode(), "dependencies")
+            }
+            addSourceAndDocJars(project)
+        }
     }
 }
 

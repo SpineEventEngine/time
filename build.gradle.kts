@@ -115,13 +115,14 @@ plugins {
     `project-report`
 }
 
-val gradlePluginModule = "gradle-plugin"
-
 spinePublishing {
     artifactPrefix = "spine-"
     toolArtifactPrefix = "time-"
-    modules = productionModules.map { it.name }.toSet() - gradlePluginModule
-    modulesWithCustomPublishing = setOf(gradlePluginModule)
+    modulesWithCustomPublishing = setOf(
+        "gradle-plugin",
+        "validation",
+    )
+    modules = productionModules.map { it.name }.toSet() - modulesWithCustomPublishing
     destinations = with(PublishingRepos) {
         setOf(
             gitHub("time"),
