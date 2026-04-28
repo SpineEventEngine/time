@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import io.spine.time.LocalDateTime as SpineTimeLocalDateTime
 
-@DisplayName("If used with Spine `Temporal`, `(when)` constrain should")
+@DisplayName("If used with Spine `Temporal`, `(when)` constraint should")
 internal class SpineTemporalWhenSpec {
 
     @Nested inner class
