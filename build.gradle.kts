@@ -39,12 +39,15 @@ import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.Time
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.local.Validation
+import io.spine.gradle.RunBuild
 import io.spine.gradle.publish.PublishingRepos
+import io.spine.gradle.publish.SpinePublishing
 import io.spine.gradle.publish.spinePublishing
 import io.spine.gradle.repo.standardToSpineSdk
 import io.spine.gradle.report.coverage.JacocoConfig
 import io.spine.gradle.report.license.LicenseReporter
 import io.spine.gradle.report.pom.PomGenerator
+import java.time.Duration
 
 buildscript {
     standardSpineSdkRepositories()
@@ -105,19 +108,21 @@ repositories {
 }
 
 plugins {
+    base
     id("org.jetbrains.kotlinx.kover")
     idea
     jacoco
     `project-report`
 }
 
-val gradlePluginModule = "gradle-plugin"
-
 spinePublishing {
     artifactPrefix = "spine-"
     toolArtifactPrefix = "time-"
-    modules = productionModules.map { it.name }.toSet() - gradlePluginModule
-    modulesWithCustomPublishing = setOf(gradlePluginModule)
+    modulesWithCustomPublishing = setOf(
+        "gradle-plugin",
+        "validation",
+    )
+    modules = productionModules.map { it.name }.toSet() - modulesWithCustomPublishing
     destinations = with(PublishingRepos) {
         setOf(
             gitHub("time"),
@@ -171,4 +176,34 @@ gradle.projectsEvaluated {
     JacocoConfig.applyTo(project)
     LicenseReporter.mergeAllReports(project)
     PomGenerator.applyTo(project)
+}
+
+private val INTEGRATION_TEST_TIMEOUT_MINUTES = 30L
+
+val publishedModules: Set<Project> = extensions.getByType<SpinePublishing>().projectsToPublish()
+
+val localPublish by tasks.registering {
+    val pubTasks = publishedModules.map { p ->
+        p.tasks["publishToMavenLocal"]
+    }
+    dependsOn(pubTasks)
+}
+
+val integrationTests by tasks.registering(RunBuild::class) {
+    directory = "$rootDir/tests"
+    timeout.set(Duration.ofMinutes(INTEGRATION_TEST_TIMEOUT_MINUTES))
+    dependsOn(localPublish)
+    subprojects.forEach {
+        it.tasks.findByName("test")?.let { testTask ->
+            this@registering.dependsOn(testTask)
+        }
+    }
+    doLast {
+        val f = file("$directory/_out/error-out.txt")
+        project.logger.error(f.readText())
+    }
+}
+
+val check by tasks.existing {
+    dependsOn(integrationTests)
 }

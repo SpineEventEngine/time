@@ -36,6 +36,7 @@ import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
+import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.test.Jacoco
@@ -154,6 +155,7 @@ fun Module.forceConfigurations() {
                     Dokka.BasePlugin.lib,
                     Jackson.annotations,
                     Reflect.lib,
+                    Logging.testLib,
                     ToolBase.gradlePluginApi,
                     ToolBase.jvmTools,
                     ToolBase.pluginBase,

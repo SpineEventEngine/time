@@ -26,6 +26,7 @@
 
 package io.spine.tools.time.gradle
 
+import io.spine.tools.compiler.gradle.api.addUserClasspathDependency
 import io.spine.tools.gradle.DslSpec
 import io.spine.tools.gradle.lib.LibraryPlugin
 import io.spine.tools.gradle.lib.spineExtension
@@ -52,6 +53,7 @@ public class TimeGradlePlugin : LibraryPlugin<TimeGradleExtension>(
     override fun apply(project: Project) {
         super.apply(project)
         project.configureTime()
+        project.passValidationToCompiler()
     }
 }
 
@@ -67,6 +69,12 @@ private fun Project.configureTime() {
         if (timeExtension.useTestLib.get()) {
             addDependency(TimeLibrary.testLib.coordinates, "testImplementation")
         }
+    }
+}
+
+private fun Project.passValidationToCompiler() {
+    pluginManager.withPlugin(TimeValidation.validationPluginId) {
+        addUserClasspathDependency(TimeValidation.artifact)
     }
 }
 
