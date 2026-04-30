@@ -30,6 +30,7 @@ import io.spine.base.FieldPath
 import io.spine.server.query.select
 import io.spine.time.validation.Time.FUTURE
 import io.spine.tools.compiler.ast.TypeName
+import io.spine.tools.compiler.ast.isMap
 import io.spine.tools.compiler.ast.isRepeatedMessage
 import io.spine.tools.compiler.ast.name
 import io.spine.tools.compiler.jvm.CodeBlock
@@ -108,6 +109,15 @@ private class GenerateWhen(
             CodeBlock(
                 """
                 for (var element : $fieldValue) {
+                    ${validateTime(ReadVar("element"))}
+                }
+                """.trimIndent()
+            )
+
+        fieldType.isMap ->
+            CodeBlock(
+                """
+                for (var element : $fieldValue.values()) {
                     ${validateTime(ReadVar("element"))}
                 }
                 """.trimIndent()
