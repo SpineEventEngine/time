@@ -27,18 +27,15 @@
 package io.spine.tools.time.validation.java
 
 import io.spine.test.tools.validate.anyProtoTimestamp
-import io.spine.test.tools.validate.anyProtoTimestamps
 import io.spine.test.tools.validate.futureProtoTimestamp
-import io.spine.test.tools.validate.futureProtoTimestamps
 import io.spine.test.tools.validate.pastProtoTimestamp
-import io.spine.test.tools.validate.pastProtoTimestamps
 import io.spine.tools.time.validation.java.TimestampFixtures.futureTime
 import io.spine.tools.time.validation.java.TimestampFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("If used with Protobuf `Timestamp`, `(when)` constrain should")
+@DisplayName("If used with Protobuf `Timestamp`, `(when)` constraint should")
 internal class TimestampWhenSpec {
 
     @Nested inner class
@@ -90,118 +87,6 @@ internal class TimestampWhenSpec {
             fun `pass, if not restricted at all`() = assertValidationPasses {
                 anyProtoTimestamp {
                     value = futureTime()
-                }
-            }
-        }
-    }
-
-    @Nested inner class
-    `when given several timestamps` {
-
-        @Nested inner class
-        `denoting only the past` {
-
-            private val severalPastTimes = listOf(pastTime(), pastTime(), pastTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureProtoTimestamps {
-                    value.addAll(severalPastTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if restricted to be in past`() = assertValidationPasses {
-                pastProtoTimestamps {
-                    value.addAll(severalPastTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anyProtoTimestamps {
-                    value.addAll(severalPastTimes)
-                }
-            }
-        }
-
-        @Nested inner class
-        `denoting only the future` {
-
-            private val severalFutureTimes = listOf(futureTime(), futureTime(), futureTime())
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastProtoTimestamps {
-                    value.addAll(severalFutureTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if restricted to be in future`() = assertValidationPasses {
-                futureProtoTimestamps {
-                    value.addAll(severalFutureTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anyProtoTimestamps {
-                    value.addAll(severalFutureTimes)
-                }
-            }
-        }
-
-        @Nested inner class
-        `with a single past stamp within the future stamps` {
-
-            private val severalFutureAndPast = listOf(futureTime(), pastTime(), futureTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureProtoTimestamps {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastProtoTimestamps {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anyProtoTimestamps {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-        }
-
-        @Nested inner class
-        `with a single future stamp within the past stamps` {
-
-            private val severalPastAndFuture = listOf(pastTime(), futureTime(), pastTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureProtoTimestamps {
-                    value.addAll(severalPastAndFuture)
-                }
-            }
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastProtoTimestamps {
-                    value.addAll(severalPastAndFuture)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anyProtoTimestamps {
-                    value.addAll(severalPastAndFuture)
                 }
             }
         }

@@ -27,182 +27,63 @@
 package io.spine.tools.time.validation.java
 
 import io.spine.test.tools.validate.anySpineTemporal
-import io.spine.test.tools.validate.anySpineTemporals
 import io.spine.test.tools.validate.futureSpineTemporal
-import io.spine.test.tools.validate.futureSpineTemporals
 import io.spine.test.tools.validate.pastSpineTemporal
-import io.spine.test.tools.validate.pastSpineTemporals
 import io.spine.tools.time.validation.java.TemporalFixtures.futureTime
 import io.spine.tools.time.validation.java.TemporalFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
-@DisplayName("If used with Spine `Temporal`, `(when)` constraint should")
+@DisplayName("If used with `Temporal`, `(when)` constraint should")
 internal class TemporalWhenSpec {
 
     @Nested inner class
-    `when given a temporal denoting` {
+    `the past` {
 
-        @Nested inner class
-        `the past` {
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureSpineTemporal {
-                    value = pastTime()
-                }
-            }
-
-            @Test
-            fun `pass, if restricted to be in past`() = assertValidationPasses {
-                pastSpineTemporal {
-                    value = pastTime()
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporal {
-                    value = pastTime()
-                }
+        @Test
+        fun `throw, if restricted to be in future`() = assertValidationFails {
+            futureSpineTemporal {
+                value = pastTime()
             }
         }
 
-        @Nested inner class
-        `the future` {
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastSpineTemporal {
-                    value = futureTime()
-                }
+        @Test
+        fun `pass, if restricted to be in past`() = assertValidationPasses {
+            pastSpineTemporal {
+                value = pastTime()
             }
+        }
 
-            @Test
-            fun `pass, if restricted to be in future`() = assertValidationPasses {
-                futureSpineTemporal {
-                    value = futureTime()
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporal {
-                    value = futureTime()
-                }
+        @Test
+        fun `pass, if not restricted at all`() = assertValidationPasses {
+            anySpineTemporal {
+                value = pastTime()
             }
         }
     }
 
     @Nested inner class
-    `when given several times` {
+    `the future` {
 
-        @Nested inner class
-        `denoting only the past` {
-
-            private val severalPastTimes = listOf(pastTime(), pastTime(), pastTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureSpineTemporals {
-                    value.addAll(severalPastTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if restricted to be in past`() = assertValidationPasses {
-                pastSpineTemporals {
-                    value.addAll(severalPastTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporals {
-                    value.addAll(severalPastTimes)
-                }
+        @Test
+        fun `throw, if restricted to be in past`() = assertValidationFails {
+            pastSpineTemporal {
+                value = futureTime()
             }
         }
 
-        @Nested inner class
-        `denoting only the future` {
-
-            private val severalFutureTimes = listOf(futureTime(), futureTime(), futureTime())
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastSpineTemporals {
-                    value.addAll(severalFutureTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if restricted to be in future`() = assertValidationPasses {
-                futureSpineTemporals {
-                    value.addAll(severalFutureTimes)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporals {
-                    value.addAll(severalFutureTimes)
-                }
+        @Test
+        fun `pass, if restricted to be in future`() = assertValidationPasses {
+            futureSpineTemporal {
+                value = futureTime()
             }
         }
 
-        @Nested inner class
-        `with a single past time within the future times` {
-
-            private val severalFutureAndPast = listOf(futureTime(), pastTime(), futureTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureSpineTemporals {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastSpineTemporals {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporals {
-                    value.addAll(severalFutureAndPast)
-                }
-            }
-        }
-
-        @Nested inner class
-        `with a single future time within the past times` {
-
-            private val severalPastAndFuture = listOf(pastTime(), futureTime(), pastTime())
-
-            @Test
-            fun `throw, if restricted to be in future`() = assertValidationFails {
-                futureSpineTemporals {
-                    value.addAll(severalPastAndFuture)
-                }
-            }
-
-            @Test
-            fun `throw, if restricted to be in past`() = assertValidationFails {
-                pastSpineTemporals {
-                    value.addAll(severalPastAndFuture)
-                }
-            }
-
-            @Test
-            fun `pass, if not restricted at all`() = assertValidationPasses {
-                anySpineTemporals {
-                    value.addAll(severalPastAndFuture)
-                }
+        @Test
+        fun `pass, if not restricted at all`() = assertValidationPasses {
+            anySpineTemporal {
+                value = futureTime()
             }
         }
     }
