@@ -29,14 +29,11 @@ package io.spine.tools.time.validation.java
 import io.spine.test.tools.validate.anySpineTemporalMap
 import io.spine.test.tools.validate.futureSpineTemporalMap
 import io.spine.test.tools.validate.pastSpineTemporalMap
-import io.spine.time.LocalDateTimes
-import java.time.Instant
-import java.time.LocalDateTime.ofInstant
-import java.time.ZoneOffset.UTC
+import io.spine.tools.time.validation.java.TemporalFixtures.futureTime
+import io.spine.tools.time.validation.java.TemporalFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import io.spine.time.LocalDateTime as SpineTimeLocalDateTime
 
 @DisplayName("If used with a map of Spine `Temporal` values, `(when)` constraint should")
 internal class SpineTemporalWhenMapSpec {
@@ -126,15 +123,3 @@ internal class SpineTemporalWhenMapSpec {
         }
     }
 }
-
-private fun pastTime(): SpineTimeLocalDateTime {
-    val current = Instant.now()
-    return LocalDateTimes.of(ofInstant(current.minusMillis(HALF_OF_SECOND), UTC))
-}
-
-private fun futureTime(): SpineTimeLocalDateTime {
-    val current = Instant.now()
-    return LocalDateTimes.of(ofInstant(current.plusMillis(HALF_OF_SECOND), UTC))
-}
-
-private const val HALF_OF_SECOND: Long = 500

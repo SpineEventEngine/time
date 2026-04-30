@@ -32,14 +32,11 @@ import io.spine.test.tools.validate.futureSpineTemporal
 import io.spine.test.tools.validate.futureSpineTemporals
 import io.spine.test.tools.validate.pastSpineTemporal
 import io.spine.test.tools.validate.pastSpineTemporals
-import io.spine.time.LocalDateTimes
-import java.time.Instant
-import java.time.LocalDateTime.ofInstant
-import java.time.ZoneOffset.UTC
+import io.spine.tools.time.validation.java.TemporalFixtures.futureTime
+import io.spine.tools.time.validation.java.TemporalFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import io.spine.time.LocalDateTime as SpineTimeLocalDateTime
 
 @DisplayName("If used with Spine `Temporal`, `(when)` constraint should")
 internal class SpineTemporalWhenSpec {
@@ -210,30 +207,3 @@ internal class SpineTemporalWhenSpec {
         }
     }
 }
-
-private fun pastTime(): SpineTimeLocalDateTime {
-    val current = Instant.now() // It is a UTC stamp.
-    val past = current.minusMillis(HALF_OF_SECOND)
-    return LocalDateTimes.of(ofInstant(past, UTC))
-}
-
-private fun futureTime(): SpineTimeLocalDateTime {
-    val current = Instant.now() // It is a UTC stamp.
-    val past = current.plusMillis(HALF_OF_SECOND)
-    return LocalDateTimes.of(ofInstant(past, UTC))
-}
-
-/**
- * Five hundred milliseconds.
- *
- * To shift the time into the past or future, we add or subtract a difference of this amount.
- *
- * There are two reasons for choosing 500 milliseconds:
- *
- * 1. The generated code uses `io.spine.base.Time.currentTime()` to get the current timestamp
- *    for comparison. In turn, this method relies on `io.spine.base.Time.SystemTimeProvider`
- *    by default, which has millisecond precision.
- * 2. Adding too small amount of time to make the stamp denote "future" might be unreliable.
- *    As it could catch up `now` by the time `Time.currentTime()` is invoked.
- */
-private const val HALF_OF_SECOND: Long = 500

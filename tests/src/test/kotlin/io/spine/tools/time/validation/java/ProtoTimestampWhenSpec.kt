@@ -26,16 +26,14 @@
 
 package io.spine.tools.time.validation.java
 
-import com.google.protobuf.Duration
-import com.google.protobuf.Timestamp
-import com.google.protobuf.util.Durations.fromMillis
-import com.google.protobuf.util.Timestamps
 import io.spine.test.tools.validate.anyProtoTimestamp
 import io.spine.test.tools.validate.anyProtoTimestamps
 import io.spine.test.tools.validate.futureProtoTimestamp
 import io.spine.test.tools.validate.futureProtoTimestamps
 import io.spine.test.tools.validate.pastProtoTimestamp
 import io.spine.test.tools.validate.pastProtoTimestamps
+import io.spine.tools.time.validation.java.TimestampFixtures.futureTime
+import io.spine.tools.time.validation.java.TimestampFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -209,30 +207,3 @@ internal class ProtoTimestampWhenSpec {
         }
     }
 }
-
-private fun pastTime(): Timestamp {
-    val current = Timestamps.now()
-    val past = Timestamps.subtract(current, HALF_OF_SECONDS)
-    return past
-}
-
-private fun futureTime(): Timestamp {
-    val current = Timestamps.now()
-    val future = Timestamps.add(current, HALF_OF_SECONDS)
-    return future
-}
-
-/**
- * Protobuf [Duration] of five hundred milliseconds.
- *
- * To shift the time into the past or future, we add or subtract a difference of this amount.
- *
- * There are two reasons for choosing 500 milliseconds:
- *
- * 1. The generated code uses `io.spine.base.Time.currentTime()` to get the current timestamp
- *    for comparison. In turn, this method relies on `io.spine.base.Time.SystemTimeProvider`
- *    by default, which has millisecond precision.
- * 2. Adding too small amount of time to make the stamp denote "future" might be unreliable.
- *    As it could catch up `now` by the time `Time.currentTime()` is invoked.
- */
-private val HALF_OF_SECONDS: Duration = fromMillis(500)

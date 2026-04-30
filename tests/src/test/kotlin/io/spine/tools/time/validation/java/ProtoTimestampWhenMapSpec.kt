@@ -26,13 +26,11 @@
 
 package io.spine.tools.time.validation.java
 
-import com.google.protobuf.Duration
-import com.google.protobuf.Timestamp
-import com.google.protobuf.util.Durations.fromMillis
-import com.google.protobuf.util.Timestamps
 import io.spine.test.tools.validate.anyProtoTimestampMap
 import io.spine.test.tools.validate.futureProtoTimestampMap
 import io.spine.test.tools.validate.pastProtoTimestampMap
+import io.spine.tools.time.validation.java.TimestampFixtures.futureTime
+import io.spine.tools.time.validation.java.TimestampFixtures.pastTime
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -125,15 +123,3 @@ internal class ProtoTimestampWhenMapSpec {
         }
     }
 }
-
-private fun pastTime(): Timestamp {
-    val current = Timestamps.now()
-    return Timestamps.subtract(current, HALF_OF_SECOND)
-}
-
-private fun futureTime(): Timestamp {
-    val current = Timestamps.now()
-    return Timestamps.add(current, HALF_OF_SECOND)
-}
-
-private val HALF_OF_SECOND: Duration = fromMillis(500)
