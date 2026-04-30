@@ -156,7 +156,7 @@ private fun checkFieldType(field: Field, typeSystem: TypeSystem, file: File): Ti
 }
 
 /**
- * Analysis the given [fieldType], determining whether it represents
+ * Analyses the given [fieldType], determining whether it represents
  * the Protobuf [Timestamp] or Spine [Temporal].
  *
  * For other field types, the method returns [TimeFieldType.TFT_UNKNOWN].
