@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("If used with a map of Spine `Temporal` values, `(when)` constraint should")
-internal class SpineTemporalWhenMapSpec {
+internal class TemporalWhenMapSpec {
 
     @Nested inner class
     `when given a map with temporals denoting` {

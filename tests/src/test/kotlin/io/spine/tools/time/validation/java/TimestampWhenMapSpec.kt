@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 @DisplayName("If used with a map of Protobuf `Timestamp` values, `(when)` constraint should")
-internal class ProtoTimestampWhenMapSpec {
+internal class TimestampWhenMapSpec {
 
     @Nested inner class
     `when given a map with timestamps denoting` {
