@@ -47,6 +47,7 @@ import io.spine.tools.compiler.ast.FieldType
 import io.spine.tools.compiler.ast.File
 import io.spine.tools.compiler.ast.event.FieldOptionDiscovered
 import io.spine.tools.compiler.ast.extractMessageType
+import io.spine.tools.compiler.ast.isMap
 import io.spine.tools.compiler.ast.isRepeatedMessage
 import io.spine.tools.compiler.ast.name
 import io.spine.tools.compiler.ast.qualifiedName
@@ -155,13 +156,13 @@ private fun checkFieldType(field: Field, typeSystem: TypeSystem, file: File): Ti
 }
 
 /**
- * Analysis the given [fieldType], determining whether it represents
+ * Analyses the given [fieldType], determining whether it represents
  * the Protobuf [Timestamp] or Spine [Temporal].
  *
  * For other field types, the method returns [TimeFieldType.TFT_UNKNOWN].
  */
 private fun TypeSystem.determineTimeType(fieldType: FieldType): TimeFieldType {
-    if (!fieldType.isMessage && !fieldType.isRepeatedMessage) {
+    if (!fieldType.isMessage && !fieldType.isRepeatedMessage && !fieldType.isMap) {
         return TFT_UNKNOWN
     }
     val messageType = fieldType.extractMessageType(typeSystem = this)?.name
