@@ -39,14 +39,14 @@ import "spine/compiler/ast.proto";
 import "spine/time_options.proto";
 import "spine/tools/time/validation/time_field_type.proto";
 
-// The event emitted whenever a field with `(when)` option is discovered
-// and has passed the necessary checks to confirm the option is applied correctly.
+// The event emitted whenever a field with `(when)` option is discovered and
+// has passed the necessary checks to confirm the option is applied correctly.
 message WhenFieldDiscovered {
 
-    compiler.FieldRef id = 1;
+    spine.compiler.FieldRef id = 1;
 
     // The field in which the option was discovered.
-    compiler.Field subject = 2;
+    spine.compiler.Field subject = 2;
 
     // The error message template.
     string error_message = 3;
@@ -55,5 +55,5 @@ message WhenFieldDiscovered {
     Time bound = 4;
 
     // The type of the field.
-    spine.tools.time.validation.TimeFieldType type = 5;
+    TimeFieldType type = 5;
 }
