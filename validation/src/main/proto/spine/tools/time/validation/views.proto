@@ -41,7 +41,7 @@ import "spine/tools/time/validation/time_field_type.proto";
 
 // A view of a field that is marked with `(when)` option.
 message WhenField {
-    option (entity).kind = PROJECTION;
+    option (entity).kind = VIEW;
 
     spine.compiler.FieldRef id = 1;
 
