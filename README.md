@@ -23,10 +23,18 @@ The versions `1.*` are built using Java 8.
 The versions `2.*` are built with Java 17.
 Therefore, consumer projects should aim for Java 17+ to use them.
 
+## Integration with Spine CoreJvm
+
+Projects based on the [Spine CoreJvm][core-jvm] library do not need to configure Time manually.
+The [CoreJvm Compiler][core-jvm-compiler] automatically adds and configures Spine Time, including
+the `(when)` validation support.
+
+The sections below apply only when using Spine Time as a **standalone** library, without CoreJvm.
+
 ## Using the Time Gradle plugin
 
-The recommended way to add Spine Time to a project is via the `io.spine.time` Gradle plugin.
-Apply it after a JVM language plugin (`java`, `java-library`, or `kotlin("jvm")`):
+The recommended way to add Spine Time to a standalone project is via the `io.spine.time` Gradle
+plugin. Apply it after a JVM language plugin (`java`, `java-library`, or `kotlin("jvm")`):
 
 ```kotlin
 plugins {
@@ -44,8 +52,8 @@ Use the `time` extension block to opt in to additional modules:
 spine {
     time {
         useJavaExtensions.set(true)    // adds `spine-time-java` (Java Time converters)
-        useKotlinExtensions.set(true)  // adds `spine-time-kotlin` (kotlinx-datetime converters)
-        useTestLib.set(true)           // adds `time-testlib` as testImplementation
+        useKotlinExtensions.set(true)  // adds `spine-time-kotlin` (`kotlinx-datetime` converters)
+        useTestLib.set(true)           // adds `time-testlib` as `testImplementation`
     }
 }
 ```
@@ -130,6 +138,8 @@ google.protobuf.Timestamp scheduled_at = 1 [(when) = {
 [license-badge]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
 [license]: http://www.apache.org/licenses/LICENSE-2.0
 
+[core-jvm]: https://github.com/SpineEventEngine/core-jvm/
+[core-jvm-compiler]: https://github.com/SpineEventEngine/core-jvm-compiler/
 [java-time]: http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html
 [kotlinx-datetime]: https://github.com/Kotlin/kotlinx-datetime
 [validation]: https://github.com/SpineEventEngine/validation
