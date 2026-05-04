@@ -1,0 +1,6 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.time.java////PointingToDeclaration/time-java/io.spine.time.java/index.html
+$dokka.location:io.spine.time.java//toInstant/com.google.protobuf.Timestamp#/PointingToDeclaration/time-java/io.spine.time.java/to-instant.html
+$dokka.location:io.spine.time.java//toJavaTime/com.google.protobuf.Duration#/PointingToDeclaration/time-java/io.spine.time.java/to-java-time.html
+io.spine.time.java
