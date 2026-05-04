@@ -27,7 +27,7 @@ Therefore, consumer projects should aim for Java 17+ to use them.
 
 Projects based on the [Spine CoreJvm][core-jvm] library do not need to configure Time manually.
 The [CoreJvm Compiler][core-jvm-compiler] automatically adds and configures Spine Time, including
-the `(when)` validation support.
+the `(when)` option validation support.
 
 The sections below apply only when using Spine Time as a **standalone** library, without CoreJvm.
 
