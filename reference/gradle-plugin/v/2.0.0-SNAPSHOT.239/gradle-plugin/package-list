@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.tools.time.gradle////PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/index.html
+$dokka.location:io.spine.tools.time.gradle/Meta///PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-meta/index.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension.Companion///PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/-companion/index.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension.Companion/NAME/#/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/-companion/-n-a-m-e.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension///PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/index.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension/TimeGradleExtension/#org.gradle.api.Project/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/-time-gradle-extension.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension/useJavaExtensions/#/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/use-java-extensions.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension/useKotlinExtensions/#/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/use-kotlin-extensions.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradleExtension/useTestLib/#/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-extension/use-test-lib.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradlePlugin///PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-plugin/index.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradlePlugin/TimeGradlePlugin/#/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-plugin/-time-gradle-plugin.html
+$dokka.location:io.spine.tools.time.gradle/TimeGradlePlugin/apply/#org.gradle.api.Project/PointingToDeclaration/gradle-plugin/io.spine.tools.time.gradle/-time-gradle-plugin/apply.html
+io.spine.tools.time.gradle
