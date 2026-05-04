@@ -15,14 +15,13 @@ The types provided by this library follow the conventions offered by [Java Time]
 
 ## Supported programming languages
 
-The library currently supports Java, Kotlin (Protobuf DSL), and JavaScript. 
+The library currently supports Java and Kotlin (Protobuf DSL and
+compatibility with [`kotlinx-datetime`][kotlinx-datetime]). 
 
-For JavaScript code, please see the [`time-js`](./time-js) module.
+The versions `1.*` are built using Java 8. 
 
-The versions `1.x` and early `2.x` snapshots are built using Java 8. 
-
-Starting `2.0.0-SNAPSHOT.76`, all modules are built with Java 11. Therefore, consumer projects
-should aim for Java 11+ to use them.
+The versions `2.*` are built with Java 17. 
+Therefore, consumer projects should aim for Java 17+ to use them.
  
 ## Using Spine Time in a Gradle project
 
@@ -30,20 +29,15 @@ To add a dependency to a Gradle project, please use the following:
 
 ```kotlin
 dependencies {
-    implementation("io.spine:spine-time:$spineVersion") 
+    implementation("io.spine:spine-time:$version") 
 }
 ```
 
 In addition to the generated types and basic factory and calculation routines, the library 
-provides converters between its types and Java Time. It is expected that an application code would 
-perform the date/time calculations using Java Time.
-                                                   
-## Integration with `kotlinx-datetime` 
+provides converters between its types and Java Time and [`kotlinx-datetime`][kotlinx-datetime].
+It is expected that an application code would perform the date/time calculations using Java Time or
+[`kotlinx-datetime`][kotlinx-datetime].
 
-Compatibility with [`kotlinx-datetime`][kotlinx-datetime] [planned][issue-113] for v2.0.
-
-[travis]: https://travis-ci.com/SpineEventEngine/time
-[travis-badge]: https://travis-ci.com/SpineEventEngine/time.svg?branch=master
 [codecov]: https://codecov.io/gh/SpineEventEngine/time
 [codecov-badge]: https://codecov.io/gh/SpineEventEngine/time/branch/master/graph/badge.svg
 [license-badge]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
@@ -51,4 +45,3 @@ Compatibility with [`kotlinx-datetime`][kotlinx-datetime] [planned][issue-113] f
 
 [java-time]: http://www.oracle.com/technetwork/articles/java/jf14-date-time-2125367.html                                                        
 [kotlinx-datetime]: https://github.com/Kotlin/kotlinx-datetime
-[issue-113]: https://github.com/SpineEventEngine/time/issues/113
