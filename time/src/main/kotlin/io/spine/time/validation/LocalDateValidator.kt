@@ -33,8 +33,8 @@ import io.spine.time.Month
 import io.spine.validation.DetectedViolation
 import io.spine.validation.FieldViolation
 import io.spine.validation.MessageValidator
-import io.spine.validation.RuntimeErrorPlaceholder.FIELD_PATH
-import io.spine.validation.RuntimeErrorPlaceholder.RANGE_VALUE
+import io.spine.validation.ErrorPlaceholder.FIELD_PATH
+import io.spine.validation.ErrorPlaceholder.RANGE_VALUE
 import io.spine.validation.templateString
 import java.time.Year
 import java.time.YearMonth
