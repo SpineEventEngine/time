@@ -43,12 +43,6 @@ import io.spine.tools.compiler.jvm.field
 import io.spine.tools.time.validation.TimeFieldType.TFT_TEMPORAL
 import io.spine.tools.time.validation.TimeFieldType.TFT_TIMESTAMP
 import io.spine.tools.time.validation.WhenField
-import io.spine.tools.validation.ErrorPlaceholder
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_VALUE
-import io.spine.tools.validation.ErrorPlaceholder.PARENT_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.WHEN_IN
 import io.spine.tools.validation.java.expression.EmptyFieldCheck
 import io.spine.tools.validation.java.expression.JsonExtensionsClass
 import io.spine.tools.validation.java.expression.SpineTime
@@ -66,6 +60,12 @@ import io.spine.tools.validation.java.generate.ValidateScope.parentName
 import io.spine.tools.validation.java.generate.ValidateScope.parentPath
 import io.spine.tools.validation.java.generate.ValidateScope.violations
 import io.spine.validation.ConstraintViolation
+import io.spine.validation.ErrorPlaceholder
+import io.spine.validation.ErrorPlaceholder.FIELD_PATH
+import io.spine.validation.ErrorPlaceholder.FIELD_TYPE
+import io.spine.validation.ErrorPlaceholder.FIELD_VALUE
+import io.spine.validation.ErrorPlaceholder.PARENT_TYPE
+import io.spine.validation.ErrorPlaceholder.WHEN_IN
 
 /**
  * The generator for the `(when)` option.

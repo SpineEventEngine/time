@@ -65,16 +65,16 @@ import io.spine.tools.time.validation.TimeFieldType.TFT_UNKNOWN
 import io.spine.tools.time.validation.WhenField
 import io.spine.tools.time.validation.event.WhenFieldDiscovered
 import io.spine.tools.time.validation.event.whenFieldDiscovered
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_VALUE
-import io.spine.tools.validation.ErrorPlaceholder.PARENT_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.WHEN_IN
 import io.spine.tools.validation.OPTION_NAME
 import io.spine.tools.validation.checkPlaceholders
 import io.spine.tools.validation.defaultMessage
 import io.spine.tools.validation.java.ValidationOption
 import io.spine.tools.validation.java.generate.OptionGenerator
+import io.spine.validation.ErrorPlaceholder.FIELD_PATH
+import io.spine.validation.ErrorPlaceholder.FIELD_TYPE
+import io.spine.validation.ErrorPlaceholder.FIELD_VALUE
+import io.spine.validation.ErrorPlaceholder.PARENT_TYPE
+import io.spine.validation.ErrorPlaceholder.WHEN_IN
 
 /**
  * Extends the Java validation with code generation for the `(when)` option.
