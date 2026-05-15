@@ -33,8 +33,8 @@ import io.spine.time.Month
 import io.spine.validation.DetectedViolation
 import io.spine.validation.FieldViolation
 import io.spine.validation.MessageValidator
-import io.spine.validation.RuntimeErrorPlaceholder.FIELD_PATH
-import io.spine.validation.RuntimeErrorPlaceholder.RANGE_VALUE
+import io.spine.validation.StandardPlaceholder.FIELD_PATH
+import io.spine.validation.StandardPlaceholder.RANGE_VALUE
 import io.spine.validation.templateString
 import java.time.Year
 import java.time.YearMonth
@@ -86,10 +86,10 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
  */
 private fun invalidDay(day: Int, maxDays: Int): FieldViolation = FieldViolation(
     message = templateString {
-        withPlaceholders = "The \${$FIELD_PATH} value is out of range" +
-                " (\${$RANGE_VALUE}): $day."
-        placeholderValue.put(FIELD_PATH.value, "day")
-        placeholderValue.put(RANGE_VALUE.value, "1..$maxDays")
+        withPlaceholders = "The ${FIELD_PATH.value.placed} value is out of range" +
+                " (${RANGE_VALUE.value.placed}): $day."
+        placeholderValue.put(FIELD_PATH.value.name, "day")
+        placeholderValue.put(RANGE_VALUE.value.name, "1..$maxDays")
     },
     fieldPath = FieldPath.newBuilder()
         .addFieldName("day")

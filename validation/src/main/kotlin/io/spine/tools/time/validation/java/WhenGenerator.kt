@@ -43,12 +43,12 @@ import io.spine.tools.compiler.jvm.field
 import io.spine.tools.time.validation.TimeFieldType.TFT_TEMPORAL
 import io.spine.tools.time.validation.TimeFieldType.TFT_TIMESTAMP
 import io.spine.tools.time.validation.WhenField
-import io.spine.tools.validation.ErrorPlaceholder
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_VALUE
-import io.spine.tools.validation.ErrorPlaceholder.PARENT_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.WHEN_IN
+import io.spine.validation.Placeholder
+import io.spine.validation.StandardPlaceholder.FIELD_PATH
+import io.spine.validation.StandardPlaceholder.FIELD_TYPE
+import io.spine.validation.StandardPlaceholder.FIELD_VALUE
+import io.spine.validation.StandardPlaceholder.PARENT_TYPE
+import io.spine.validation.StandardPlaceholder.WHEN_IN
 import io.spine.tools.validation.java.expression.EmptyFieldCheck
 import io.spine.tools.validation.java.expression.JsonExtensionsClass
 import io.spine.tools.validation.java.expression.SpineTime
@@ -178,12 +178,12 @@ private class GenerateWhen(
         fieldPath: Expression<FieldPath>,
         typeName: Expression<String>,
         fieldValue: Expression<*>,
-    ): Map<ErrorPlaceholder, Expression<String>> = mapOf(
-        FIELD_PATH to fieldPath.joinToString(),
-        FIELD_VALUE to JsonExtensionsClass.call("toCompactJson", fieldValue),
-        FIELD_TYPE to StringLiteral(fieldType.name),
-        PARENT_TYPE to typeName,
-        WHEN_IN to StringLiteral("${view.bound}".lowercase())
+    ): Map<Placeholder, Expression<String>> = mapOf(
+        FIELD_PATH.value to fieldPath.joinToString(),
+        FIELD_VALUE.value to JsonExtensionsClass.call("toCompactJson", fieldValue),
+        FIELD_TYPE.value to StringLiteral(fieldType.name),
+        PARENT_TYPE.value to typeName,
+        WHEN_IN.value to StringLiteral("${view.bound}".lowercase())
     )
 
     private fun unsupportedFieldType(): Nothing =
