@@ -86,8 +86,8 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
  */
 private fun invalidDay(day: Int, maxDays: Int): FieldViolation = FieldViolation(
     message = templateString {
-        withPlaceholders = "The ${FIELD_PATH.value.placed} value is out of range" +
-                " (${RANGE_VALUE.value.placed}): $day."
+        withPlaceholders = "The ${FIELD_PATH.placed} value is out of range" +
+                " (${RANGE_VALUE.placed}): $day."
         placeholderValue.put(FIELD_PATH.value.name, "day")
         placeholderValue.put(RANGE_VALUE.value.name, "1..$maxDays")
     },
