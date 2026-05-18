@@ -27,14 +27,14 @@
 package io.spine.time.validation;
 
 import io.spine.base.Time;
+import io.spine.string.TemplateString;
+import io.spine.string.TemplateStrings;
 import io.spine.time.validation.given.AlwaysValidTime;
 import io.spine.time.validation.given.TimeInFutureFieldValue;
 import io.spine.time.validation.given.TimeInPastFieldValue;
 import io.spine.time.validation.given.TimeWithDefaultErrorMessage;
 import io.spine.time.validation.given.TimeWithoutOptsFieldValue;
 import io.spine.validation.ConstraintViolation;
-import io.spine.validation.TemplateString;
-import io.spine.validation.TemplateStrings;
 import io.spine.validation.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
@@ -52,6 +52,7 @@ import static io.spine.time.validation.given.WhenTestEnv.past;
 import static io.spine.time.validation.given.WhenTestEnv.timeWithNanos;
 
 @DisplayName("`(when)` option should")
+@Disabled("Until this integration test is migrated under the `tests` module")
 class WhenTest {
 
     @AfterEach
