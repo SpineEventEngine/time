@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,6 @@ import static io.spine.time.validation.given.WhenTestEnv.past;
 import static io.spine.time.validation.given.WhenTestEnv.timeWithNanos;
 
 @DisplayName("`(when)` option should")
-@Disabled("Until this integration test is migrated under the `tests` module")
 class WhenTest {
 
     @AfterEach
@@ -189,10 +188,6 @@ class WhenTest {
     }
 
     @Test
-    @Disabled("Until we can plug in custom validation options to McJava on runtime.")
-    // Currently, this test verifies the previous version of the library which is used by McJava
-    // because changing the content of `time_options.proto` does not have an effect
-    // on the default error message we obtain.
     @DisplayName("provide correct format of the violation message")
     void provideCorrectFormatOfViolationMessage() {
         var invalidMsg = TimeWithDefaultErrorMessage.newBuilder()
