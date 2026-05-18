@@ -134,6 +134,7 @@ configurations {
                 Jackson.annotations,
                 Grpc.bom,
                 Reflect.lib,
+                Base.annotations,
                 Base.lib,
                 Logging.lib,
                 Logging.middleware,
@@ -156,6 +157,9 @@ kotlin {
 }
 
 dependencies {
+    // Pass newer Base to the Compiler so that there is `io.spine.string.TemplateString`
+    // in the classpath. Once the Compiler is migrated to the newer Base, this would not be needed.
+    "spineCompiler"(Base.lib)
     testFixturesImplementation(Time.lib(version.toString()))
     testFixturesImplementation(Validation.runtime)
     testFixturesImplementation(Compiler.api)
