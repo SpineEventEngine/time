@@ -136,6 +136,7 @@ configurations {
                 Reflect.lib,
                 Base.annotations,
                 Base.lib,
+                Base.environment,
                 Logging.lib,
                 Logging.middleware,
                 Logging.testLib,
