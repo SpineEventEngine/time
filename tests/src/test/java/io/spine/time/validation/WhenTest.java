@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,14 +27,14 @@
 package io.spine.time.validation;
 
 import io.spine.base.Time;
+import io.spine.string.TemplateString;
+import io.spine.string.TemplateStrings;
 import io.spine.time.validation.given.AlwaysValidTime;
 import io.spine.time.validation.given.TimeInFutureFieldValue;
 import io.spine.time.validation.given.TimeInPastFieldValue;
 import io.spine.time.validation.given.TimeWithDefaultErrorMessage;
 import io.spine.time.validation.given.TimeWithoutOptsFieldValue;
 import io.spine.validation.ConstraintViolation;
-import io.spine.validation.TemplateString;
-import io.spine.validation.TemplateStrings;
 import io.spine.validation.ValidationError;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Disabled;
@@ -188,10 +188,6 @@ class WhenTest {
     }
 
     @Test
-    @Disabled("Until we can plug in custom validation options to McJava on runtime.")
-    // Currently, this test verifies the previous version of the library which is used by McJava
-    // because changing the content of `time_options.proto` does not have an effect
-    // on the default error message we obtain.
     @DisplayName("provide correct format of the violation message")
     void provideCorrectFormatOfViolationMessage() {
         var invalidMsg = TimeWithDefaultErrorMessage.newBuilder()

@@ -28,6 +28,7 @@ package io.spine.tools.time.validation.java
 
 import io.spine.base.FieldPath
 import io.spine.server.query.select
+import io.spine.string.Placeholder
 import io.spine.time.validation.Time.FUTURE
 import io.spine.tools.compiler.ast.TypeName
 import io.spine.tools.compiler.ast.isMap
@@ -43,12 +44,6 @@ import io.spine.tools.compiler.jvm.field
 import io.spine.tools.time.validation.TimeFieldType.TFT_TEMPORAL
 import io.spine.tools.time.validation.TimeFieldType.TFT_TIMESTAMP
 import io.spine.tools.time.validation.WhenField
-import io.spine.tools.validation.ErrorPlaceholder
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.FIELD_VALUE
-import io.spine.tools.validation.ErrorPlaceholder.PARENT_TYPE
-import io.spine.tools.validation.ErrorPlaceholder.WHEN_IN
 import io.spine.tools.validation.java.expression.EmptyFieldCheck
 import io.spine.tools.validation.java.expression.JsonExtensionsClass
 import io.spine.tools.validation.java.expression.SpineTime
@@ -66,6 +61,11 @@ import io.spine.tools.validation.java.generate.ValidateScope.parentName
 import io.spine.tools.validation.java.generate.ValidateScope.parentPath
 import io.spine.tools.validation.java.generate.ValidateScope.violations
 import io.spine.validation.ConstraintViolation
+import io.spine.validation.StandardPlaceholder.FIELD_PATH
+import io.spine.validation.StandardPlaceholder.FIELD_TYPE
+import io.spine.validation.StandardPlaceholder.FIELD_VALUE
+import io.spine.validation.StandardPlaceholder.PARENT_TYPE
+import io.spine.validation.StandardPlaceholder.WHEN_IN
 
 /**
  * The generator for the `(when)` option.
@@ -178,12 +178,12 @@ private class GenerateWhen(
         fieldPath: Expression<FieldPath>,
         typeName: Expression<String>,
         fieldValue: Expression<*>,
-    ): Map<ErrorPlaceholder, Expression<String>> = mapOf(
-        FIELD_PATH to fieldPath.joinToString(),
-        FIELD_VALUE to JsonExtensionsClass.call("toCompactJson", fieldValue),
-        FIELD_TYPE to StringLiteral(fieldType.name),
-        PARENT_TYPE to typeName,
-        WHEN_IN to StringLiteral("${view.bound}".lowercase())
+    ): Map<Placeholder, Expression<String>> = mapOf(
+        FIELD_PATH.value to fieldPath.joinToString(),
+        FIELD_VALUE.value to JsonExtensionsClass.call("toCompactJson", fieldValue),
+        FIELD_TYPE.value to StringLiteral(fieldType.name),
+        PARENT_TYPE.value to typeName,
+        WHEN_IN.value to StringLiteral("${view.bound}".lowercase())
     )
 
     private fun unsupportedFieldType(): Nothing =
