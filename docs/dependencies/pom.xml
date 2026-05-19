@@ -10,7 +10,7 @@ all modules and does not describe the project structure per-subproject.
  -->
 <groupId>io.spine</groupId>
 <artifactId>spine-time</artifactId>
-<version>2.0.0-SNAPSHOT.241</version>
+<version>2.0.0-SNAPSHOT.242</version>
 
 <inceptionYear>2015</inceptionYear>
 
@@ -56,7 +56,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine</groupId>
     <artifactId>spine-time</artifactId>
-    <version>2.0.0-SNAPSHOT.238</version>
+    <version>2.0.0-SNAPSHOT.241</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -68,13 +68,13 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-gradle-api</artifactId>
-    <version>2.0.0-SNAPSHOT.043</version>
+    <version>2.0.0-SNAPSHOT.044</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-jvm</artifactId>
-    <version>2.0.0-SNAPSHOT.043</version>
+    <version>2.0.0-SNAPSHOT.044</version>
     <scope>compile</scope>
   </dependency>
   <dependency>
@@ -140,7 +140,7 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-testlib</artifactId>
-    <version>2.0.0-SNAPSHOT.043</version>
+    <version>2.0.0-SNAPSHOT.044</version>
     <scope>test</scope>
   </dependency>
   <dependency>
@@ -235,12 +235,12 @@ all modules and does not describe the project structure per-subproject.
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-cli-all</artifactId>
-    <version>2.0.0-SNAPSHOT.043</version>
+    <version>2.0.0-SNAPSHOT.044</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
     <artifactId>compiler-protoc-plugin</artifactId>
-    <version>2.0.0-SNAPSHOT.043</version>
+    <version>2.0.0-SNAPSHOT.044</version>
   </dependency>
   <dependency>
     <groupId>io.spine.tools</groupId>
