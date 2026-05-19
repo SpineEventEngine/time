@@ -65,16 +65,16 @@ import io.spine.tools.time.validation.TimeFieldType.TFT_UNKNOWN
 import io.spine.tools.time.validation.WhenField
 import io.spine.tools.time.validation.event.WhenFieldDiscovered
 import io.spine.tools.time.validation.event.whenFieldDiscovered
+import io.spine.validation.StandardPlaceholder.FIELD_PATH
+import io.spine.validation.StandardPlaceholder.FIELD_TYPE
+import io.spine.validation.StandardPlaceholder.FIELD_VALUE
+import io.spine.validation.StandardPlaceholder.PARENT_TYPE
+import io.spine.validation.StandardPlaceholder.WHEN_IN
 import io.spine.tools.validation.OPTION_NAME
 import io.spine.tools.validation.checkPlaceholders
 import io.spine.tools.validation.defaultMessage
 import io.spine.tools.validation.java.ValidationOption
 import io.spine.tools.validation.java.generate.OptionGenerator
-import io.spine.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.validation.ErrorPlaceholder.FIELD_TYPE
-import io.spine.validation.ErrorPlaceholder.FIELD_VALUE
-import io.spine.validation.ErrorPlaceholder.PARENT_TYPE
-import io.spine.validation.ErrorPlaceholder.WHEN_IN
 
 /**
  * Extends the Java validation with code generation for the `(when)` option.
@@ -190,9 +190,9 @@ internal class WhenFieldView : View<FieldRef, WhenField, WhenField.Builder>() {
 }
 
 private val SUPPORTED_PLACEHOLDERS = setOf(
-    FIELD_PATH,
-    FIELD_TYPE,
-    FIELD_VALUE,
-    PARENT_TYPE,
-    WHEN_IN,
+    FIELD_PATH.value,
+    FIELD_TYPE.value,
+    FIELD_VALUE.value,
+    PARENT_TYPE.value,
+    WHEN_IN.value,
 )

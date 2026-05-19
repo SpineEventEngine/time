@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -24,45 +24,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-syntax = "proto3";
+@CheckReturnValue
+@NullMarked
+package io.spine.time.validation.given;
 
-package spine.time.validation;
+import com.google.errorprone.annotations.CheckReturnValue;
 
-import "spine/options.proto";
-import "spine/time_options.proto";
-
-option (type_url_prefix) = "type.spine.io";
-option java_package = "io.spine.time.validation.given";
-option java_outer_classname = "MessagesProto";
-option java_multiple_files = true;
-
-import "google/protobuf/duration.proto";
-import "google/protobuf/timestamp.proto";
-
-// Messages for "time" option tests.
-
-message TimeInFutureFieldValue {
-    google.protobuf.Timestamp value = 1 [(when) = {
-        in: FUTURE,
-        error_msg: "The time must be in the future."
-    }];
-}
-
-message TimeInPastFieldValue {
-    google.protobuf.Timestamp value = 1 [(when) = {
-        in: PAST,
-        error_msg: "The time must be in the past."
-    }];
-}
-
-message TimeWithDefaultErrorMessage {
-    google.protobuf.Timestamp value = 1 [(when).in = FUTURE];
-}
-
-message TimeWithoutOptsFieldValue {
-    google.protobuf.Timestamp value = 1;
-}
-
-message AlwaysValidTime {
-    google.protobuf.Timestamp value = 1 [(when).in = TIME_UNDEFINED];
-}
+import org.jspecify.annotations.NullMarked;

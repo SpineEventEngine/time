@@ -28,14 +28,14 @@ package io.spine.time.validation
 
 import com.google.auto.service.AutoService
 import io.spine.base.FieldPath
+import io.spine.string.templateString
 import io.spine.time.LocalDate
 import io.spine.time.Month
 import io.spine.validation.DetectedViolation
 import io.spine.validation.FieldViolation
 import io.spine.validation.MessageValidator
-import io.spine.validation.ErrorPlaceholder.FIELD_PATH
-import io.spine.validation.ErrorPlaceholder.RANGE_VALUE
-import io.spine.validation.templateString
+import io.spine.validation.StandardPlaceholder.FIELD_PATH
+import io.spine.validation.StandardPlaceholder.RANGE_VALUE
 import java.time.Year
 import java.time.YearMonth
 
@@ -86,10 +86,10 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
  */
 private fun invalidDay(day: Int, maxDays: Int): FieldViolation = FieldViolation(
     message = templateString {
-        withPlaceholders = "The \${$FIELD_PATH} value is out of range" +
-                " (\${$RANGE_VALUE}): $day."
-        placeholderValue.put(FIELD_PATH.value, "day")
-        placeholderValue.put(RANGE_VALUE.value, "1..$maxDays")
+        withPlaceholders = "The ${FIELD_PATH.value.placed} value is out of range" +
+                " (${RANGE_VALUE.value.placed}): $day."
+        placeholderValue.put(FIELD_PATH.value.name, "day")
+        placeholderValue.put(RANGE_VALUE.value.name, "1..$maxDays")
     },
     fieldPath = FieldPath.newBuilder()
         .addFieldName("day")
