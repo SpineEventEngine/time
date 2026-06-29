@@ -151,6 +151,7 @@ fun Module.forceConfigurations() {
                     Grpc.bom,
                     Base.annotations,
                     Base.environment,
+                    Base.format,
                     Compiler.api,
                     Dokka.BasePlugin.lib,
                     Jackson.annotations,
