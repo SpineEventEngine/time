@@ -32,7 +32,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "spine-time"
+rootProject.name = "time"
 
 include(
     "time",
