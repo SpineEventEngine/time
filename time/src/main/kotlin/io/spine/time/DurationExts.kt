@@ -162,8 +162,7 @@ public fun Duration.toNanos(): Long = toNanos(this)
  * Adds the passed duration to this one.
  *
  * @return
- * - Sum of two durations if both of them are non-null.
- * - Another `non-null` value, if one is `null`.
- * - [ZERO][Durations.ZERO] if both values are `null`.
+ * - the sum of this duration and `other`, if `other` is non-`null`;
+ * - this duration, if `other` is `null`.
  */
 public operator fun Duration.plus(other: Duration?): Duration = add(this, other)

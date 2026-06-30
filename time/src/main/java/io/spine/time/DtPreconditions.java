@@ -72,10 +72,13 @@ final class DtPreconditions {
      * Ensures that the passed message, which is a method argument, is neither
      * {@code null} nor default.
      *
+     * @throws NullPointerException
+     *         if the passed message is {@code null}
      * @throws IllegalArgumentException
      *         if the passed message is a default instance
      */
     static void checkNotDefault(Message dateTimeValue) {
+        checkNotNull(dateTimeValue);
         checkNotDefaultArg(dateTimeValue,
                            "Date-time value of class `%s` cannot have a default value.",
                            dateTimeValue.getClass()
@@ -86,10 +89,13 @@ final class DtPreconditions {
      * Ensures that the passed message, which represents the state of an object,
      * is neither {@code null} nor default.
      *
+     * @throws NullPointerException
+     *         if the passed message is {@code null}
      * @throws IllegalStateException
      *         if the passed message is a default instance
      */
     static void checkNotDefaultState(Message dateTimeValue) {
+        checkNotNull(dateTimeValue);
         Preconditions2.checkNotDefaultState(
                 dateTimeValue,
                 "Date-time value of class `%s` cannot be in the default state.",
