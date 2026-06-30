@@ -40,9 +40,6 @@ import static io.spine.util.Preconditions2.checkNotDefaultArg;
  */
 final class DtPreconditions {
 
-    private static final String NOT_DEFAULT_ERROR =
-            "Date-time value of class `%s` cannot have a default value.";
-
     /** Prevent instantiation of this utility class. */
     private DtPreconditions() {
     }
@@ -80,7 +77,7 @@ final class DtPreconditions {
      */
     static void checkNotDefault(Message dateTimeValue) {
         checkNotDefaultArg(dateTimeValue,
-                           NOT_DEFAULT_ERROR,
+                           "Date-time value of class `%s` cannot have a default value.",
                            dateTimeValue.getClass()
                                         .getName());
     }
@@ -95,7 +92,7 @@ final class DtPreconditions {
     static void checkNotDefaultState(Message dateTimeValue) {
         Preconditions2.checkNotDefaultState(
                 dateTimeValue,
-                NOT_DEFAULT_ERROR,
+                "Date-time value of class `%s` cannot be in the default state.",
                 dateTimeValue.getClass().getName()
         );
     }

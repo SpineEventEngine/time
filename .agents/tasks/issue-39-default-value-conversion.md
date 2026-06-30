@@ -19,8 +19,13 @@ Issue: https://github.com/SpineEventEngine/time/issues/39
 - Instance mixin `value.toJavaTime()` validates the **receiver state** →
   `checkNotDefaultState` → `IllegalStateException` (matches the pre-existing
   `LocalDateTemporal` / `LocalDateTest`).
-- Kotlin extensions use `checkNotDefaultArg` → `IllegalArgumentException`
-  (`Month` keeps its existing `error(...)` → `IllegalStateException`).
+- Kotlin `toKotlin*` extensions validate the **receiver** →
+  `checkNotDefaultState` (and `check(...)`) → `IllegalStateException`, consistent
+  with `Month`'s existing `error(...)` (the receiver is the object being
+  converted, like the Java mixins).
+- The two `DtPreconditions` helpers use distinct messages ("cannot have a default
+  value" for the argument check, "cannot be in the default state" for the state
+  check).
 
 ## Changes
 
@@ -31,7 +36,7 @@ Issue: https://github.com/SpineEventEngine/time/issues/39
   (enums) keep `checkMonth`/`checkDay`; documented only.
 - Instance mixins guarded with `checkNotDefaultState`: `LocalDateTemporal`,
   `LocalDateTimeTemporal`, `ZoneIdMixin`.
-- Kotlin extensions guarded with `checkNotDefaultArg`: `toKotlinLocalDate`,
+- Kotlin extensions guarded with `checkNotDefaultState`: `toKotlinLocalDate`,
   `toKotlinYearMonth`, `toKotlinLocalDateTime`, `toKotlinTimeZone`
   (`toKotlinMonth` already rejects `MONTH_UNDEFINED`).
 - New regression specs `DefaultValueConversionSpec` in `time` and `time-kotlin`;

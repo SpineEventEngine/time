@@ -57,28 +57,28 @@ internal class DefaultValueConversionSpec {
 
         @Test
         fun localDate() {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<IllegalStateException> {
                 LocalDate.getDefaultInstance().toKotlinLocalDate()
             }
         }
 
         @Test
         fun localDateTime() {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<IllegalStateException> {
                 LocalDateTime.getDefaultInstance().toKotlinLocalDateTime()
             }
         }
 
         @Test
         fun yearMonth() {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<IllegalStateException> {
                 ProtoYearMonth.getDefaultInstance().toKotlinYearMonth()
             }
         }
 
         @Test
         fun zoneId() {
-            shouldThrow<IllegalArgumentException> {
+            shouldThrow<IllegalStateException> {
                 ZoneId.getDefaultInstance().toKotlinTimeZone()
             }
         }

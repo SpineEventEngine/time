@@ -37,7 +37,7 @@ import io.spine.time.localDateTime
 import io.spine.time.localTime
 import io.spine.time.yearMonth
 import io.spine.time.zoneId
-import io.spine.util.Preconditions2.checkNotDefaultArg
+import io.spine.util.Preconditions2.checkNotDefaultState
 import com.google.protobuf.Duration as ProtoDuration
 import io.spine.time.LocalDate as ProtoLocalDate
 import io.spine.time.LocalDateTime as ProtoLocalDateTime
@@ -142,13 +142,11 @@ public fun KtMonth.toProtoMonth(): ProtoMonth = when (this) {
  * The receiver must not be a default instance: a default `YearMonth` has no
  * meaningful month, and therefore cannot be converted.
  *
- * @throws IllegalArgumentException
- *   if the receiver is a default instance
  * @throws IllegalStateException
- *   if the receiver's month is undefined or unrecognized
+ *   if the receiver is a default instance or has an undefined month
  */
 public fun ProtoYearMonth.toKotlinYearMonth(): KtYearMonth {
-    checkNotDefaultArg(
+    checkNotDefaultState(
         this, "A default `YearMonth` cannot be converted to `kotlinx.datetime.YearMonth`."
     )
     return KtYearMonth(this.year, this.month.toKotlinMonth())
@@ -169,13 +167,11 @@ public fun KtYearMonth.toProtoYearMonth(): ProtoYearMonth =
  * The receiver must not be a default instance: a default `LocalDate` has no
  * meaningful month or day, and therefore cannot be converted.
  *
- * @throws IllegalArgumentException
- *   if the receiver is a default instance
  * @throws IllegalStateException
- *   if the receiver's month is undefined or unrecognized
+ *   if the receiver is a default instance or has an undefined month
  */
 public fun ProtoLocalDate.toKotlinLocalDate(): KtLocalDate {
-    checkNotDefaultArg(
+    checkNotDefaultState(
         this, "A default `LocalDate` cannot be converted to `kotlinx.datetime.LocalDate`."
     )
     return KtLocalDate(this.year, this.month.toKotlinMonth(), this.day)
@@ -214,16 +210,14 @@ public fun KtLocalTime.toProtoLocalTime(): ProtoLocalTime =
  * The receiver must not be a default instance: a default `LocalDateTime` has no
  * meaningful date, and therefore cannot be converted.
  *
- * @throws IllegalArgumentException
- *   if the receiver is a default instance, or if it has no date.
  * @throws IllegalStateException
- *   if the receiver's date has an undefined or unrecognized month.
+ *   if the receiver is a default instance, has no date, or has an undefined month
  */
 public fun ProtoLocalDateTime.toKotlinLocalDateTime(): KtLocalDateTime {
-    checkNotDefaultArg(
+    checkNotDefaultState(
         this, "A default `LocalDateTime` cannot be converted to `kotlinx.datetime.LocalDateTime`."
     )
-    require(this.hasDate()) { "LocalDateTime.date is required by the proto definition." }
+    check(this.hasDate()) { "LocalDateTime.date is required by the proto definition." }
     val kDate = this.date.toKotlinLocalDate()
     val kTime = if (this.hasTime()) this.time.toKotlinLocalTime() else KtLocalTime(0, 0, 0, 0)
     return KtLocalDateTime(kDate, kTime)
@@ -244,11 +238,11 @@ public fun KtLocalDateTime.toProtoLocalDateTime(): ProtoLocalDateTime =
  * The receiver must not be a default instance: a default `ZoneId` has an empty
  * `value`, which does not identify any zone, and therefore cannot be converted.
  *
- * @throws IllegalArgumentException
+ * @throws IllegalStateException
  *   if the receiver is a default instance
  */
 public fun ProtoZoneId.toKotlinTimeZone(): KtTimeZone {
-    checkNotDefaultArg(
+    checkNotDefaultState(
         this, "A default `ZoneId` cannot be converted to `kotlinx.datetime.TimeZone`."
     )
     return KtTimeZone.of(this.value)
