@@ -31,7 +31,7 @@ Role in the org: a **library** with a companion **Gradle plugin**.
   `(when)` field option), and `testlib`. Cross-module integration tests live in
   the standalone `tests` build. Versions `2.*` build with Java 17.
 
-Read [`.agents/guidelines/jvm-project.md`](.agents/guidelines/jvm-project.md)
+Read [`.agents/guidelines/jvm-project.md`](../.agents/guidelines/jvm-project.md)
 for build stack, coding style, tests, and versioning.
 
 [java-time]: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/package-summary.html
