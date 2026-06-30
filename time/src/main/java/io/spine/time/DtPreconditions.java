@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,6 +28,7 @@ package io.spine.time;
 
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
+import io.spine.util.Preconditions2;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -38,6 +39,9 @@ import static io.spine.util.Preconditions2.checkNotDefaultArg;
  * Precondition routines specific to date/time.
  */
 final class DtPreconditions {
+
+    private static final String NOT_DEFAULT_ERROR =
+            "Date-time value of class `%s` cannot have a default value.";
 
     /** Prevent instantiation of this utility class. */
     private DtPreconditions() {
@@ -53,7 +57,7 @@ final class DtPreconditions {
     }
 
     /**
-     * Ensures that target value is in between passed bounds.
+     * Ensures that a target value is in between passed bounds.
      */
     static void checkBounds(int value, String paramName, int lowBound, int highBound) {
         checkNotNull(paramName);
@@ -68,13 +72,32 @@ final class DtPreconditions {
     }
 
     /**
-     * Ensures that the passed message is neither {@code null} nor default.
+     * Ensures that the passed message, which is a method argument, is neither
+     * {@code null} nor default.
+     *
+     * @throws IllegalArgumentException
+     *         if the passed message is a default instance
      */
     static void checkNotDefault(Message dateTimeValue) {
         checkNotDefaultArg(dateTimeValue,
-                           "Date-time value of class `%s` cannot have a default value.",
+                           NOT_DEFAULT_ERROR,
                            dateTimeValue.getClass()
                                         .getName());
+    }
+
+    /**
+     * Ensures that the passed message, which represents the state of an object,
+     * is neither {@code null} nor default.
+     *
+     * @throws IllegalStateException
+     *         if the passed message is a default instance
+     */
+    static void checkNotDefaultState(Message dateTimeValue) {
+        Preconditions2.checkNotDefaultState(
+                dateTimeValue,
+                NOT_DEFAULT_ERROR,
+                dateTimeValue.getClass().getName()
+        );
     }
 
     /**

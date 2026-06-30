@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -90,7 +90,7 @@ public fun Duration.isPositiveOrZero(): Boolean = isPositiveOrZero(this)
 /**
  * Returns `true` if the passed value is zero, `false` otherwise.
  *
- * @see Durations2.ZERO
+ * @see Durations.ZERO
  */
 public fun Duration.isZero(): Boolean = isZero(this)
 
@@ -158,13 +158,12 @@ public fun Duration.toMicros(): Long = toMicros(this)
  */
 public fun Duration.toNanos(): Long = toNanos(this)
 
-
 /**
  * Adds the passed duration to this one.
  *
  * @return
  * - Sum of two durations if both of them are non-null.
  * - Another `non-null` value, if one is `null`.
- * - [ZERO][Durations2.ZERO] if both values are `null`.
+ * - [ZERO][Durations.ZERO] if both values are `null`.
  */
 public operator fun Duration.plus(other: Duration?): Duration = add(this, other)

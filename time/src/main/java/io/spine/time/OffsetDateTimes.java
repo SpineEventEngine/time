@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -23,6 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package io.spine.time;
 
 import io.spine.time.string.TimeStringifiers;
@@ -31,6 +32,7 @@ import io.spine.util.SerializableConverter;
 import java.io.Serial;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.DtPreconditions.checkNotDefault;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -73,10 +75,17 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Converts the passed value to Java Time instance.
+     * Converts the passed value to a Java Time instance.
+     *
+     * <p>The passed value must not be a {@linkplain OffsetDateTime#getDefaultInstance()
+     * default instance}: a default {@code OffsetDateTime} has no meaningful date, and
+     * therefore cannot be represented as a {@link java.time.OffsetDateTime}.
+     *
+     * @throws IllegalArgumentException
+     *         if the passed value is a default instance
      */
     public static java.time.OffsetDateTime toJavaTime(OffsetDateTime value) {
-        checkNotNull(value);
+        checkNotDefault(value);
         var result = converter().reverse().convert(value);
         return requireNonNull(result);
     }
