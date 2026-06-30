@@ -32,6 +32,7 @@ import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
 import org.jspecify.annotations.Nullable;
+import java.io.Serial;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -260,6 +261,7 @@ public final class ZoneOffsets {
     private static final class JtConverter
             extends AbstractConverter<java.time.ZoneOffset, ZoneOffset> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -279,6 +281,7 @@ public final class ZoneOffsets {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

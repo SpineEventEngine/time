@@ -26,6 +26,8 @@
 
 package io.spine.time.string;
 
+import java.io.Serial;
+
 /**
  * Default stringifier for {@link io.spine.time.OffsetDateTime}.
  *
@@ -35,6 +37,7 @@ package io.spine.time.string;
 final class OffsetDateTimeStringifier
         extends JtStringifier<io.spine.time.OffsetDateTime, java.time.OffsetDateTime> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final OffsetDateTimeStringifier INSTANCE = new OffsetDateTimeStringifier();
 
@@ -48,6 +51,7 @@ final class OffsetDateTimeStringifier
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

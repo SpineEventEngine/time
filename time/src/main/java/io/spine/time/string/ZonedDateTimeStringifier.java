@@ -29,11 +29,14 @@ package io.spine.time.string;
 import io.spine.time.ZonedDateTime;
 import io.spine.time.ZonedDateTimes;
 
+import java.io.Serial;
+
 /**
  * The default stringifier for {@code ZonedDateTime} values.
  */
 final class ZonedDateTimeStringifier extends JtStringifier<ZonedDateTime, java.time.ZonedDateTime> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final ZonedDateTimeStringifier INSTANCE = new ZonedDateTimeStringifier();
 
@@ -47,6 +50,7 @@ final class ZonedDateTimeStringifier extends JtStringifier<ZonedDateTime, java.t
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

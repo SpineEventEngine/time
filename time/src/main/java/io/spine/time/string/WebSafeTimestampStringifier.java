@@ -30,6 +30,7 @@ import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
 import io.spine.string.SerializableStringifier;
 
+import java.io.Serial;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 
@@ -45,6 +46,7 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
  */
 final class WebSafeTimestampStringifier extends SerializableStringifier<Timestamp> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final WebSafeTimestampStringifier INSTANCE = new WebSafeTimestampStringifier();
 
@@ -108,6 +110,7 @@ final class WebSafeTimestampStringifier extends SerializableStringifier<Timestam
         }
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

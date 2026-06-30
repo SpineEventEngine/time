@@ -26,6 +26,8 @@
 
 package io.spine.time.string;
 
+import java.io.Serial;
+
 /**
  * The default stringifier for {@code io.spine.time.ZoneOffset} values.
  *
@@ -35,6 +37,7 @@ package io.spine.time.string;
 final class ZoneOffsetStringifier
         extends JtStringifier<io.spine.time.ZoneOffset, java.time.ZoneOffset> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final ZoneOffsetStringifier INSTANCE = new ZoneOffsetStringifier();
 
@@ -48,6 +51,7 @@ final class ZoneOffsetStringifier
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

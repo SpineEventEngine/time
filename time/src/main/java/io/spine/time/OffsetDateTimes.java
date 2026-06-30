@@ -28,6 +28,8 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
@@ -117,6 +119,7 @@ public final class OffsetDateTimes {
     private static final class JtConverter
             extends AbstractConverter<java.time.OffsetDateTime, OffsetDateTime> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -143,6 +146,7 @@ public final class OffsetDateTimes {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

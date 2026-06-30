@@ -29,6 +29,7 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
 import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -132,6 +133,7 @@ public final class Months {
      */
     private static final class JtConverter extends AbstractConverter<java.time.Month, Month> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -150,6 +152,7 @@ public final class Months {
             return java.time.Month.of(month.getNumber());
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

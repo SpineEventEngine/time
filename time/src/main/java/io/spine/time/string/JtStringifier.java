@@ -30,6 +30,8 @@ import io.spine.string.SerializableStringifier;
 import io.spine.util.SerializableConverter;
 import io.spine.util.SerializableFunction;
 
+import java.io.Serial;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
 import static java.util.Objects.requireNonNull;
@@ -44,6 +46,7 @@ import static java.util.Objects.requireNonNull;
  */
 abstract class JtStringifier<T, J> extends SerializableStringifier<T> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     private final SerializableConverter<J, T> converter;

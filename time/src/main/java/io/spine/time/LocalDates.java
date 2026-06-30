@@ -30,6 +30,7 @@ import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
 import java.time.DateTimeException;
 import java.time.YearMonth;
 
@@ -172,6 +173,7 @@ public final class LocalDates {
     private static final class JtConverter
             extends AbstractConverter<java.time.LocalDate, LocalDate> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -199,6 +201,7 @@ public final class LocalDates {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

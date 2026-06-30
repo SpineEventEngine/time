@@ -29,6 +29,8 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static io.spine.time.DtPreconditions.checkNotDefault;
 import static java.util.Objects.requireNonNull;
@@ -113,6 +115,7 @@ public final class YearMonths {
     private static final class JtConverter
             extends AbstractConverter<java.time.YearMonth, YearMonth> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -133,6 +136,7 @@ public final class YearMonths {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }
