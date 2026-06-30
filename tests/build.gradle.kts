@@ -78,6 +78,7 @@ buildscript {
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.environment,
                     io.spine.dependency.local.Base.lib,
+                    io.spine.dependency.local.Base.format,
                     io.spine.dependency.local.Reflect.lib,
                     io.spine.dependency.local.Time.lib(versionToPublish),
                     io.spine.dependency.local.Time.javaExtensions(versionToPublish),
@@ -88,6 +89,7 @@ buildscript {
                     io.spine.dependency.local.Compiler.gradleApi,
                     io.spine.dependency.local.Compiler.params,
                     io.spine.dependency.local.Compiler.pluginLib,
+                    io.spine.dependency.local.ToolBase.jvmTools,
                 )
             }
         }
@@ -137,6 +139,7 @@ configurations {
                 Base.annotations,
                 Base.lib,
                 Base.environment,
+                Base.format,
                 Logging.lib,
                 Logging.middleware,
                 Logging.testLib,
@@ -144,6 +147,7 @@ configurations {
                 Compiler.api,
                 Time.lib(version.toString()),
                 Time.javaExtensions(version.toString()),
+                io.spine.dependency.test.JUnit.bom,
             )
         }
     }
