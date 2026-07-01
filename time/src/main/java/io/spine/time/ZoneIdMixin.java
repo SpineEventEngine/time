@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -28,6 +28,7 @@ package io.spine.time;
 
 import io.spine.annotation.GeneratedMixin;
 
+import static io.spine.time.DtPreconditions.checkNotDefaultState;
 import static io.spine.time.ZoneIds.converter;
 import static java.util.Objects.requireNonNull;
 
@@ -37,10 +38,21 @@ import static java.util.Objects.requireNonNull;
 @GeneratedMixin
 interface ZoneIdMixin extends ZoneIdOrBuilder {
 
-    /** Converts this zone ID object to a Java Time instance. */
+    /**
+     * Converts this zone ID object to a Java Time instance.
+     *
+     * <p>This value must not be a {@linkplain ZoneId#getDefaultInstance() default
+     * instance}: a default {@code ZoneId} has an empty {@code value}, which does not
+     * identify any zone, and therefore cannot be represented as a
+     * {@link java.time.ZoneId}.
+     *
+     * @throws IllegalStateException
+     *         if this value is a default instance
+     */
     default java.time.ZoneId toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixin.
         var self = (ZoneId) this;
+        checkNotDefaultState(self);
         var result = converter().reverse().convert(self);
         return requireNonNull(result);
     }

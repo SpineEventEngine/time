@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -30,10 +30,12 @@ import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
 import java.time.DateTimeException;
 import java.time.YearMonth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static io.spine.time.DtPreconditions.checkNotDefault;
 import static io.spine.time.DtPreconditions.checkPositive;
 import static io.spine.time.Months.checkMonth;
 import static io.spine.util.Exceptions.illegalArgumentWithCauseOf;
@@ -60,9 +62,17 @@ public final class LocalDates {
     }
 
     /**
-     * Converts the passed value to Java Time instance.
+     * Converts the passed value to a Java Time instance.
+     *
+     * <p>The passed value must not be a {@linkplain LocalDate#getDefaultInstance()
+     * default instance}: a default {@code LocalDate} has no meaningful month or day,
+     * and therefore cannot be represented as a {@link java.time.LocalDate}.
+     *
+     * @throws IllegalArgumentException
+     *         if the passed value is a default instance
      */
     public static java.time.LocalDate toJavaTime(LocalDate date) {
+        checkNotDefault(date);
         checkDate(date);
         var result = converter().reverse().convert(date);
         return requireNonNull(result);
@@ -172,6 +182,7 @@ public final class LocalDates {
     private static final class JtConverter
             extends AbstractConverter<java.time.LocalDate, LocalDate> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -199,6 +210,7 @@ public final class LocalDates {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -29,6 +29,7 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
 import java.time.DateTimeException;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -64,6 +65,13 @@ public final class DaysOfWeek {
 
     /**
      * Converts the passed instance to Java Time value.
+     *
+     * <p>The passed value must be a defined day. {@link DayOfWeek#DOW_UNDEFINED}
+     * (the default enum value) does not correspond to any {@link java.time.DayOfWeek}
+     * and therefore cannot be converted.
+     *
+     * @throws IllegalArgumentException
+     *         if the passed value is {@code DOW_UNDEFINED}
      */
     public static java.time.DayOfWeek toJavaTime(DayOfWeek day) {
         checkNotNull(day);
@@ -114,6 +122,7 @@ public final class DaysOfWeek {
     private static final class JtConverter
             extends AbstractConverter<java.time.DayOfWeek, DayOfWeek> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -133,6 +142,7 @@ public final class DaysOfWeek {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

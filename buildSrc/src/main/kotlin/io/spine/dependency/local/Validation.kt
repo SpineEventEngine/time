@@ -36,17 +36,13 @@ object Validation {
     /**
      * The version of the Validation library artifacts.
      */
-    const val version = "2.0.0-SNAPSHOT.430"
-
-    /**
-     * The last version of Validation compatible with ProtoData.
-     */
-    const val pdCompatibleVersion = "2.0.0-SNAPSHOT.342"
+    const val version = "2.0.0-SNAPSHOT.446"
 
     const val group = Spine.toolsGroup
     private const val prefix = "validation"
 
-    const val gradlePluginLib = "$group:$prefix-gradle-plugin:$version"
+    const val gradlePluginModule = "$group:$prefix-gradle-plugin"
+    const val gradlePluginLib = "$gradlePluginModule:$version"
 
     const val runtimeModule = "${Spine.group}:spine-$prefix-jvm-runtime"
 

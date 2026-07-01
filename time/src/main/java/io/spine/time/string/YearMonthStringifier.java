@@ -29,11 +29,14 @@ package io.spine.time.string;
 import io.spine.time.YearMonth;
 import io.spine.time.YearMonths;
 
+import java.io.Serial;
+
 /**
  * The default stringifier for {@link io.spine.time.YearMonth YearMonth} instances.
  */
 final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.YearMonth> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final YearMonthStringifier INSTANCE = new YearMonthStringifier();
 
@@ -46,6 +49,7 @@ final class YearMonthStringifier extends JtStringifier<YearMonth, java.time.Year
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

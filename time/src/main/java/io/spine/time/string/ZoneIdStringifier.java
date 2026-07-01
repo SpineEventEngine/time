@@ -29,11 +29,14 @@ package io.spine.time.string;
 import io.spine.time.ZoneId;
 import io.spine.time.ZoneIds;
 
+import java.io.Serial;
+
 /**
  * The default stringifier for {@link io.spine.time.ZoneId ZoneId} instances.
  */
 final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final ZoneIdStringifier INSTANCE = new ZoneIdStringifier();
 
@@ -47,6 +50,7 @@ final class ZoneIdStringifier extends JtStringifier<ZoneId, java.time.ZoneId> {
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

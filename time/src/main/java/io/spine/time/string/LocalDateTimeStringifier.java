@@ -29,11 +29,14 @@ package io.spine.time.string;
 import io.spine.time.LocalDateTime;
 import io.spine.time.LocalDateTimes;
 
+import java.io.Serial;
+
 /**
  * The default stringifier for {@link io.spine.time.LocalDateTime LocalDateTime} values.
  */
 final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.time.LocalDateTime> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final LocalDateTimeStringifier INSTANCE = new LocalDateTimeStringifier();
 
@@ -47,6 +50,7 @@ final class LocalDateTimeStringifier extends JtStringifier<LocalDateTime, java.t
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

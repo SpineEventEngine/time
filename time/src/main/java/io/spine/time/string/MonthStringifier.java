@@ -30,6 +30,8 @@ import io.spine.string.SerializableStringifier;
 import io.spine.string.Stringifier;
 import io.spine.time.Month;
 
+import java.io.Serial;
+
 import static io.spine.string.Stringifiers.newForEnum;
 
 /**
@@ -37,6 +39,7 @@ import static io.spine.string.Stringifiers.newForEnum;
  */
 final class MonthStringifier extends SerializableStringifier<Month> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     private static final MonthStringifier INSTANCE = new MonthStringifier();
@@ -62,6 +65,7 @@ final class MonthStringifier extends SerializableStringifier<Month> {
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

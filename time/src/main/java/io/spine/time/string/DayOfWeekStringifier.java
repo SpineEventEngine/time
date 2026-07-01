@@ -30,6 +30,8 @@ import io.spine.string.SerializableStringifier;
 import io.spine.string.Stringifier;
 import io.spine.time.DayOfWeek;
 
+import java.io.Serial;
+
 import static io.spine.string.Stringifiers.newForEnum;
 
 /**
@@ -37,6 +39,7 @@ import static io.spine.string.Stringifiers.newForEnum;
  */
 final class DayOfWeekStringifier extends SerializableStringifier<DayOfWeek> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
     private static final DayOfWeekStringifier INSTANCE = new DayOfWeekStringifier();
 
@@ -61,6 +64,7 @@ final class DayOfWeekStringifier extends SerializableStringifier<DayOfWeek> {
         return INSTANCE;
     }
 
+    @Serial
     private Object readResolve() {
         return INSTANCE;
     }

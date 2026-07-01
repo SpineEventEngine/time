@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -30,6 +30,7 @@ import io.spine.annotation.GeneratedMixin;
 
 import java.time.Instant;
 
+import static io.spine.time.DtPreconditions.checkNotDefaultState;
 import static io.spine.time.LocalDates.checkDate;
 import static io.spine.time.LocalDates.converter;
 import static java.time.ZoneOffset.UTC;
@@ -83,11 +84,19 @@ interface LocalDateTemporal extends TemporalMessage<LocalDate>, LocalDateOrBuild
     }
 
     /**
-     * Converts this date to Java Time instance.
+     * Converts this date to a Java Time instance.
+     *
+     * <p>This value must not be a {@linkplain LocalDate#getDefaultInstance() default
+     * instance}: a default {@code LocalDate} has no meaningful month or day, and
+     * therefore cannot be represented as a {@link java.time.LocalDate}.
+     *
+     * @throws IllegalStateException
+     *         if this value is a default instance
      */
     default java.time.LocalDate toJavaTime() {
         @SuppressWarnings("ClassReferencesSubclass") // OK for mixins
         var self = (LocalDate) this;
+        checkNotDefaultState(self);
         try {
             checkDate(self);
         } catch (IllegalArgumentException e) {

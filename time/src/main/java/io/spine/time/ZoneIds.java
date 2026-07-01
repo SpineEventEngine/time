@@ -29,6 +29,8 @@ package io.spine.time;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
@@ -123,6 +125,7 @@ public final class ZoneIds {
      */
     private static final class JtConverter extends AbstractConverter<java.time.ZoneId, ZoneId> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -140,6 +143,7 @@ public final class ZoneIds {
             return java.time.ZoneId.of(id.getValue());
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }

@@ -28,6 +28,8 @@ package io.spine.time;
 
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
+
 /**
  * Abstract base for converters from Java Time.
  *
@@ -36,6 +38,7 @@ import io.spine.util.SerializableConverter;
  */
 abstract class AbstractConverter<T, P> extends SerializableConverter<T, P> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     private final String identify;

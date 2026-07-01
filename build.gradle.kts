@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,6 +86,7 @@ buildscript {
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.environment,
                     io.spine.dependency.local.Base.lib,
+                    io.spine.dependency.local.Base.format,
                     io.spine.dependency.local.Reflect.lib,
                     io.spine.dependency.local.Time.lib,
                     io.spine.dependency.local.Time.javaExtensions,

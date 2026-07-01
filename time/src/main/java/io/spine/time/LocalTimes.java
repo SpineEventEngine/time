@@ -29,6 +29,8 @@ import io.spine.string.Stringifier;
 import io.spine.time.string.TimeStringifiers;
 import io.spine.util.SerializableConverter;
 
+import java.io.Serial;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
@@ -42,7 +44,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Obtains local time from an hours, minutes, seconds, milliseconds, and nanoseconds.
+     * Obtains local time from hours, minutes, seconds, milliseconds, and nanoseconds.
      */
     public static LocalTime of(int hours, int minutes, int seconds, int nanos) {
         var result = LocalTime.newBuilder()
@@ -130,6 +132,7 @@ public final class LocalTimes {
     private static final class JtConverter
             extends AbstractConverter<java.time.LocalTime, LocalTime> {
 
+        @Serial
         private static final long serialVersionUID = 0L;
         private static final JtConverter INSTANCE = new JtConverter();
 
@@ -158,6 +161,7 @@ public final class LocalTimes {
             return result;
         }
 
+        @Serial
         private Object readResolve() {
             return INSTANCE;
         }
