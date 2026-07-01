@@ -1,0 +1,1 @@
+var packageSearchIndex = [{"l":"io.spine.tools.time.gradle","url":"io/spine/tools/time/gradle/package-summary.html"}, {"l":"All packages","url":"index.html"}]
