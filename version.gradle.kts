@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,4 +27,4 @@
 /**
  * The version of this library for publishing.
  */
-val versionToPublish by extra("2.0.0-SNAPSHOT.243")
+extra.set("versionToPublish", "2.0.0-SNAPSHOT.244")
