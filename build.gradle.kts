@@ -183,20 +183,20 @@ private val INTEGRATION_TEST_TIMEOUT_MINUTES = 30L
 
 val publishedModules: Set<Project> = extensions.getByType<SpinePublishing>().projectsToPublish()
 
-val localPublish by tasks.registering {
+val localPublish = tasks.register("localPublish") {
     val pubTasks = publishedModules.map { p ->
         p.tasks["publishToMavenLocal"]
     }
     dependsOn(pubTasks)
 }
 
-val integrationTests by tasks.registering(RunBuild::class) {
+val integrationTests = tasks.register<RunBuild>("integrationTests") {
     directory = "$rootDir/tests"
     timeout.set(Duration.ofMinutes(INTEGRATION_TEST_TIMEOUT_MINUTES))
     dependsOn(localPublish)
     subprojects.forEach {
         it.tasks.findByName("test")?.let { testTask ->
-            this@registering.dependsOn(testTask)
+            this@register.dependsOn(testTask)
         }
     }
     doLast {
@@ -205,6 +205,6 @@ val integrationTests by tasks.registering(RunBuild::class) {
     }
 }
 
-val check by tasks.existing {
+tasks.named("check") {
     dependsOn(integrationTests)
 }

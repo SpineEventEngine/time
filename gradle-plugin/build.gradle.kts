@@ -41,7 +41,7 @@ group = "io.spine.tools"
 
 val moduleArtifactId = "time-gradle-plugin"
 
-val versionToPublish: String by extra
+val versionToPublish = extra["versionToPublish"] as String
 
 artifactMeta {
     artifactId.set(moduleArtifactId)
@@ -101,7 +101,7 @@ afterEvaluate {
     // The above `publishing` block is executed after `ArtifactMetaPlugin` attempts to add
     // the dependency in the `afterEvaluate` block the plugin adds itself.
     // Therefore, we have to arrange the dependency manually below.
-    val sourcesJar by tasks.getting(Jar::class)
-    val writeArtifactMeta by tasks.getting
+    val sourcesJar = tasks.getByName<Jar>("sourcesJar")
+    val writeArtifactMeta = tasks.getByName("writeArtifactMeta")
     sourcesJar.dependsOn(writeArtifactMeta)
 }
