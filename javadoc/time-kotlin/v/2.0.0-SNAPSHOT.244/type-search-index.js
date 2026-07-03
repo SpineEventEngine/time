@@ -1,0 +1,1 @@
+var typeSearchIndex = [{"p":"io.spine.time.kotlin","l":"DateTimeExtsKt","url":"io/spine/time/kotlin/DateTimeExtsKt.html"}, {"l":"All classes","url":"allclasses.html"}]
