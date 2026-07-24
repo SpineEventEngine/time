@@ -65,9 +65,8 @@ public final class Temporals {
         checkNotNull(value);
         if (value instanceof Temporal) {
             return (Temporal<?>) value;
-        } else if (value instanceof Timestamp) {
-            var timestampValue = (Timestamp) value;
-            return TimestampTemporal.from(timestampValue);
+        } else if (value instanceof Timestamp timestamp) {
+            return TimestampTemporal.from(timestamp);
         } else {
             throw newIllegalArgumentException(
                     "The type `%s` cannot represent a point in time.",
