@@ -70,6 +70,7 @@ buildscript {
                 val rs = this@resolutionStrategy
                 jackson.forceArtifacts(project, cfg, rs)
                 io.spine.dependency.lib.Jackson.DataType.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.Jackson.DataFormat.forceArtifacts(project, cfg, rs)
 
                 io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
                     project, this@all, this@resolutionStrategy
@@ -82,6 +83,7 @@ buildscript {
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.lib.Jackson.annotations,
+                    io.spine.dependency.lib.Jackson.bom,
                     io.spine.dependency.lib.Grpc.bom,
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.environment,
@@ -156,6 +158,7 @@ allprojects {
                 force(
                     Kotlin.bom,
                     KotlinPoet.lib,
+                    Jackson.bom,
                     Reflect.lib,
                     Base.lib,
                     ToolBase.lib,
@@ -164,6 +167,7 @@ allprojects {
                     Dokka.BasePlugin.lib,
                     Validation.runtime,
                     Validation.javaBundle,
+                    CoreJvm.client,
                     CoreJvm.server,
                     Time.lib,
                     Time.javaExtensions,
