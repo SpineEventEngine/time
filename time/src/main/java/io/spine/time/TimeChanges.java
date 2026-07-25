@@ -91,7 +91,7 @@ public final class TimeChanges {
 
     /**
      * Creates an {@link OffsetDateTimeChange} object for the passed previous and new field values
-     * of offset time.
+     * of offset date-time.
      *
      * <p>Passed values cannot be equal.
      *

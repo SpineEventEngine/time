@@ -184,7 +184,7 @@ message OffsetTime {
 // A date-time with an offset from UTC.
 message OffsetDateTime {
 
-    // Usage history shown that this type causes much confusion.
+    // Usage history has shown that this type causes much confusion.
     // Please use [ZonedDateTime] instead.
     option deprecated = true;
 
