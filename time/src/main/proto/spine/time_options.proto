@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ syntax = "proto3";
 // API Note on Packaging
 // ---------------------
 // We do not define the package for this file to allow shorter options for user-defined types.
-// This allows to write:
+// This allows writing:
 //
 //      [(when).in = FUTURE];
 //
@@ -92,7 +92,7 @@ message TimeOption {
     string error_msg = 3;
 }
 
-// This enumeration defines restriction for date/time values.
+// This enumeration defines a restriction for date/time values.
 enum Time {
 
     // The default value (if the time option is not set).

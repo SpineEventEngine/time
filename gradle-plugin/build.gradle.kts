@@ -97,7 +97,7 @@ afterEvaluate {
     // The `io.spine.artifact-meta` attempts to add the dependency between
     // `sourcesJar` and `writeArtifactMeta` tasks automatically.
     // However, the `sourcesJar` task is added in the `afterEvaluate` block
-    // which hanbdles the custom publishing above.
+    // that handles the custom publishing above.
     // The above `publishing` block is executed after `ArtifactMetaPlugin` attempts to add
     // the dependency in the `afterEvaluate` block the plugin adds itself.
     // Therefore, we have to arrange the dependency manually below.

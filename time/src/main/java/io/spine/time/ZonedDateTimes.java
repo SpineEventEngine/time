@@ -87,7 +87,7 @@ public final class ZonedDateTimes {
     }
 
     /**
-     * Converts the passed value to ISO-8601 zoned date/time string.
+     * Converts the passed value to an ISO-8601 zoned date/time string.
      */
     public static String toString(ZonedDateTime value) {
         checkNotNull(value);
@@ -106,7 +106,7 @@ public final class ZonedDateTimes {
     }
 
     /**
-     * Obtains converter from Java Time and back.
+     * Obtains the converter from Java Time and back.
      */
     public static SerializableConverter<java.time.ZonedDateTime, ZonedDateTime> converter() {
         return JtConverter.INSTANCE;

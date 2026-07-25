@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -23,6 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package io.spine.time;
 
 import io.spine.string.Stringifier;
@@ -39,7 +40,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class LocalTimes {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private LocalTimes() {
     }
 
@@ -66,7 +67,7 @@ public final class LocalTimes {
     }
 
     /**
-     * Converts the passed value to corresponding Java Time instance.
+     * Converts the passed value to the corresponding Java Time instance.
      *
      * @deprecated please use {@link LocalTime#toJavaTime()}
      */

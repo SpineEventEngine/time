@@ -45,7 +45,7 @@ import java.time.ZoneOffset.UTC
  * 1. The generated code uses `io.spine.base.Time.currentTime()` to get the current timestamp
  *    for comparison. In turn, this method relies on `io.spine.base.Time.SystemTimeProvider`
  *    by default, which has millisecond precision.
- * 2. Adding too small amount of time to make the stamp denote "future" might be unreliable.
+ * 2. Adding too small an amount of time to make the stamp denote "future" might be unreliable.
  *    As it could catch up `now` by the time `Time.currentTime()` is invoked.
  */
 private const val HALF_OF_SECOND: Long = 500

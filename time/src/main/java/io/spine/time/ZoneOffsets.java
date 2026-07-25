@@ -56,7 +56,7 @@ public final class ZoneOffsets {
             .setAmountSeconds(0)
             .build();
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private ZoneOffsets() {
     }
 
@@ -68,7 +68,7 @@ public final class ZoneOffsets {
     }
 
     /**
-     * Obtains a {@code ZoneOffset} instance using default {@code TimeZone} of the Java
+     * Obtains a {@code ZoneOffset} instance using the default {@code TimeZone} of the Java
      * virtual machine.
      *
      * @see TimeZone#getDefault()
@@ -111,7 +111,7 @@ public final class ZoneOffsets {
     /**
      * Obtains the ZoneOffset for the passed number of seconds.
      *
-     * <p>If zero is passed {@link #utc()} instance is returned.
+     * <p>If zero is passed, {@link #utc()} instance is returned.
      *
      * @param seconds
      *         a positive, zero
@@ -124,7 +124,7 @@ public final class ZoneOffsets {
     /**
      * Obtains the ZoneOffset instance using an offset in hours and minutes.
      *
-     * <p>If a negative zone offset is created both passed values must be negative.
+     * <p>If a negative zone offset is created, both passed values must be negative.
      */
     public static ZoneOffset ofHoursMinutes(int hours, int minutes) {
         Parameter.HOURS.checkReduced(hours);
@@ -181,7 +181,7 @@ public final class ZoneOffsets {
     }
 
     /**
-     * Obtains converter from Java Time and back.
+     * Obtains the converter from Java Time and back.
      */
     public static SerializableConverter<java.time.ZoneOffset, ZoneOffset> converter() {
         return JtConverter.INSTANCE;
@@ -217,7 +217,7 @@ public final class ZoneOffsets {
             }
 
             /**
-             * Always throws exception since minute offset parameters do not support
+             * Always throws an exception since minute offset parameters do not support
              * reduced check.
              */
             @Override

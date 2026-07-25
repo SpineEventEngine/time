@@ -62,7 +62,7 @@ public class LocalDateValidator : MessageValidator<LocalDate> {
         }
 
         if (year < Year.MIN_VALUE || year > Year.MAX_VALUE) {
-            // This is a safety net for the `YearMonth.of()` call which fails
+            // This is a safety net for the `YearMonth.of()` call that fails
             // when the year is out of range defined by Java Time.
             // We return an empty list because we have an option-based constraint
             // on the `year` field for these values, and validation will fail in the generated code.

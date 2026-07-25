@@ -113,14 +113,14 @@ internal class LocalDateValidatorSpec {
     }
 
     /**
-     * The test verifies that if a month is not defined the `LocalDate` instance
+     * The test verifies that if a month is not defined, the `LocalDate` instance
      * is considered valid.
      *
      * There is nothing we can do in such a situation because `Month` is an enum.
      * We do not restrict enum field values because it does not have much sense
      * from the domain language point of view.
      *
-     * We still want `MONTH_UNDEFINED` item to support the "unset" notion for a month
+     * We still want the `MONTH_UNDEFINED` item to support the "unset" notion for a month
      * as we have such a thing for other enums in the code.
      */
     @Test

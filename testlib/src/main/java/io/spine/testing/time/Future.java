@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ import static io.spine.base.Time.systemTime;
 import static io.spine.util.Preconditions2.checkPositive;
 
 /**
- * Utility class for working with timestamps of the the future.
+ * Utility class for working with timestamps of the future.
  */
 @VisibleForTesting
 public final class Future {
@@ -51,11 +51,11 @@ public final class Future {
     }
 
     /**
-     * Obtains timestamp in the future a number of seconds from current time.
+     * Obtains a timestamp in the future a number of seconds from current time.
      *
      * @param seconds
      *         a positive number of seconds
-     * @return the moment which is {@code seconds} from now
+     * @return the moment that is {@code seconds} from now
      */
     public static Timestamp secondsFromNow(long seconds) {
         checkPositive(seconds);
@@ -70,7 +70,7 @@ public final class Future {
      */
     public static boolean isFuture(Timestamp timestamp) {
         checkNotNull(timestamp);
-        // Do not use `currentTime()` as we may use custom `TimestampProvider` already.
+        // Do not use `currentTime()` as we may use a custom `TimestampProvider` already.
         // Get time from metal.
         var currentSystemTime = systemTime();
 

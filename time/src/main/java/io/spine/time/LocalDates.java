@@ -48,7 +48,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class LocalDates {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private LocalDates() {
     }
 
@@ -96,7 +96,7 @@ public final class LocalDates {
     }
 
     /**
-     * Parse from ISO-8601 date representation of the format {@code yyyy-MM-dd}.
+     * Parses from an ISO-8601 date representation of the format {@code yyyy-MM-dd}.
      *
      * @see #toString(LocalDate)
      */
@@ -111,7 +111,7 @@ public final class LocalDates {
     }
 
     /**
-     * Converts a local date into ISO-8601 string with the format {@code yyyy-MM-dd}.
+     * Converts a local date into an ISO-8601 string with the format {@code yyyy-MM-dd}.
      *
      * @see #parse(String)
      */
@@ -122,7 +122,7 @@ public final class LocalDates {
     }
 
     /**
-     * Verified fields of the passed local date instance.
+     * Verifies fields of the passed local date instance.
      *
      * @param date
      *         the date to check
@@ -141,8 +141,9 @@ public final class LocalDates {
      * <ul>
      *     <li>the year is within the {@linkplain java.time.Year#MIN_VALUE min}/
      *     {@linkplain java.time.Year#MAX_VALUE max} range,
-     *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
-     *     <li>the day is less or equal zero or greater than can be in the month.
+     *     <li>the month is in the range of {@code JANUARY} to {@code DECEMBER},
+     *     <li>the day is greater than zero and does not exceed the number of days
+     *     in the given month.
      * </ul>
      *
      * @throws IllegalArgumentException
@@ -170,7 +171,7 @@ public final class LocalDates {
     }
 
     /**
-     * Obtains Java Time converter instance.
+     * Obtains the Java Time converter instance.
      */
     public static SerializableConverter<java.time.LocalDate, LocalDate> converter() {
         return JtConverter.INSTANCE;

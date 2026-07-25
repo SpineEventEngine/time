@@ -58,7 +58,7 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Creates new instance based on the passed Java Time value.
+     * Creates a new instance based on the passed Java Time value.
      */
     public static OffsetDateTime of(java.time.OffsetDateTime value) {
         checkNotNull(value);
@@ -91,7 +91,7 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Returns a ISO-8601 date/time string corresponding to the passed value.
+     * Returns an ISO-8601 date/time string corresponding to the passed value.
      *
      * @deprecated please use {@link java.time.OffsetDateTime#toString()} instead.
      */
@@ -103,7 +103,7 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Parses from ISO-8601 date/time string to {@code OffsetDateTime}.
+     * Parses from an ISO-8601 date/time string to {@code OffsetDateTime}.
      *
      * @deprecated please use {@link java.time.OffsetDateTime#parse(CharSequence)} instead.
      */
@@ -116,7 +116,7 @@ public final class OffsetDateTimes {
     }
 
     /**
-     * Obtains converter from Java Time and back.
+     * Obtains the converter from Java Time and back.
      */
     public static SerializableConverter<java.time.OffsetDateTime, OffsetDateTime> converter() {
         return JtConverter.INSTANCE;

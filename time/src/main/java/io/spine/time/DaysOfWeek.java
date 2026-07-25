@@ -64,7 +64,7 @@ public final class DaysOfWeek {
     }
 
     /**
-     * Converts the passed instance to Java Time value.
+     * Converts the passed instance to the Java Time value.
      *
      * <p>The passed value must be a defined day. {@link DayOfWeek#DOW_UNDEFINED}
      * (the default enum value) does not correspond to any {@link java.time.DayOfWeek}
@@ -83,7 +83,7 @@ public final class DaysOfWeek {
     /**
      * Obtains string representation of the passed day of week.
      *
-     * <p>Returned string is an internal representation, and should not be used
+     * <p>The returned string is an internal representation, and should not be used
      * in the user interface.
      *
      * <p>For displaying a day of week, please use

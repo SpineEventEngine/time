@@ -64,6 +64,7 @@ buildscript {
                 val rs = this@resolutionStrategy
                 jackson.forceArtifacts(project, cfg, rs)
                 io.spine.dependency.lib.Jackson.DataType.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.Jackson.DataFormat.forceArtifacts(project, cfg, rs)
 
                 io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
                     project, this@all, this@resolutionStrategy
@@ -74,6 +75,7 @@ buildscript {
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.lib.Jackson.annotations,
+                    io.spine.dependency.lib.Jackson.bom,
                     io.spine.dependency.lib.Grpc.bom,
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.environment,
@@ -134,6 +136,7 @@ configurations {
             force(
                 Kotlin.bom,
                 Jackson.annotations,
+                Jackson.bom,
                 Grpc.bom,
                 Reflect.lib,
                 Base.annotations,

@@ -124,11 +124,13 @@ internal class DefaultValueConversionSpec {
         }
 
         @Test
+        @Suppress("DEPRECATION") // `ZoneOffsets` is superseded by `ZoneIds`.
         fun `ZoneOffset to UTC`() {
             ZoneOffsets.toJavaTime(ZoneOffset.getDefaultInstance()) shouldBe JtZoneOffset.UTC
         }
 
         @Test
+        @Suppress("DEPRECATION") // `OffsetTimes` is superseded by `LocalTime` + `ZoneId`.
         fun `OffsetTime to midnight at UTC`() {
             OffsetTimes.toJavaTime(OffsetTime.getDefaultInstance()) shouldBe
                     JtOffsetTime.of(JtLocalTime.MIDNIGHT, JtZoneOffset.UTC)

@@ -130,7 +130,7 @@ private class GenerateWhen(
      * Yields an expression to check if the provided [fieldValue] matches
      * the time [restriction][WhenField.getBound].
      *
-     * The reported violations are appended to [violations] list, if any.
+     * The reported violations are appended to the [violations] list, if any.
      *
      * Depending on the field type, the method uses either Protobuf's
      * [Timestamps.compare()][com.google.protobuf.util.Timestamps.compare]

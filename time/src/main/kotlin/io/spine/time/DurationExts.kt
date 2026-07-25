@@ -49,7 +49,7 @@ import io.spine.protobuf.Durations2.isZero
 /**
  * Compares this duration with the passed one.
  *
- * @return the value `0` if `x == y`}`; a value less than `0`}` if `x < y`;
+ * @return the value `0` if `x == y`; a value less than `0` if `x < y`;
  *     and a value greater than `0` if `x > y`.
  */
 public operator fun Duration.compareTo(other: Duration): Int = compare(this, other)
@@ -76,19 +76,19 @@ public fun Duration.isNegative(): Boolean = isNegative(this)
 /**
  * Tells whether this duration is positive or not.
  *
- * @returns `true` if the passed value is greater than zero, `false` otherwise.
+ * @return `true` if this duration is greater than zero, `false` otherwise.
  */
 public fun Duration.isPositive(): Boolean = Durations.isPositive(this)
 
 /**
  * Tells whether this duration is not negative.
  *
- * @returns `true` of the passed value is greater or equal zero, `false` otherwise.
+ * @return `true` if this duration is greater than or equal to zero, `false` otherwise.
  */
 public fun Duration.isPositiveOrZero(): Boolean = isPositiveOrZero(this)
 
 /**
- * Returns `true` if the passed value is zero, `false` otherwise.
+ * Returns `true` if this duration is zero, `false` otherwise.
  *
  * @see Durations.ZERO
  */
@@ -116,7 +116,7 @@ public fun Duration.print(): String = toString(this)
 public fun Duration.toDays(): Long = toDays(this)
 
 /**
- * Convert this duration to the number of hours.
+ * Converts this duration to the number of hours.
  *
  * @return the number of hours rounded towards 0 to the nearest hour.
  */
@@ -138,7 +138,7 @@ public fun Duration.toMinutes(): Long = toMinutes(this)
 public fun Duration.toSeconds(): Long = toSeconds(this)
 
 /**
- * Convert this duration to the number of milliseconds.
+ * Converts this duration to the number of milliseconds.
  *
  * @return the number of milliseconds rounded towards 0 to the nearest millisecond.
  *         E.g., if the duration represents -1 nanosecond, it will be rounded to 0.
