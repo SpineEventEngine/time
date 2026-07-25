@@ -76,19 +76,19 @@ public fun Duration.isNegative(): Boolean = isNegative(this)
 /**
  * Tells whether this duration is positive or not.
  *
- * @return `true` if the passed value is greater than zero, `false` otherwise.
+ * @return `true` if this duration is greater than zero, `false` otherwise.
  */
 public fun Duration.isPositive(): Boolean = Durations.isPositive(this)
 
 /**
  * Tells whether this duration is not negative.
  *
- * @return `true` if the passed value is greater or equal zero, `false` otherwise.
+ * @return `true` if this duration is greater than or equal to zero, `false` otherwise.
  */
 public fun Duration.isPositiveOrZero(): Boolean = isPositiveOrZero(this)
 
 /**
- * Returns `true` if the passed value is zero, `false` otherwise.
+ * Returns `true` if this duration is zero, `false` otherwise.
  *
  * @see Durations.ZERO
  */

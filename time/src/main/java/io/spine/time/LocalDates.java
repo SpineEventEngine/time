@@ -141,8 +141,9 @@ public final class LocalDates {
      * <ul>
      *     <li>the year is within the {@linkplain java.time.Year#MIN_VALUE min}/
      *     {@linkplain java.time.Year#MAX_VALUE max} range,
-     *     <li>the month is not in the range of {@code JANUARY} to {@code DECEMBER},
-     *     <li>the day is less or equal zero or greater than can be in the month.
+     *     <li>the month is in the range of {@code JANUARY} to {@code DECEMBER},
+     *     <li>the day is greater than zero and does not exceed the number of days
+     *     in the given month.
      * </ul>
      *
      * @throws IllegalArgumentException
