@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -54,7 +54,7 @@ import "spine/time/time.proto";
 // Definition of a change of `LocalDate` fields.
 message LocalDateChange {
 
-    // The value of the field that are changing.
+    // The value of the field that is changing.
     LocalDate previous_value = 1;
 
     // The new value of the field.
@@ -64,7 +64,7 @@ message LocalDateChange {
 // Definition of a change of `LocalTime` fields.
 message LocalTimeChange {
 
-    // The value of the field that are changing.
+    // The value of the field that is changing.
     LocalTime previous_value = 1;
 
     // The new value of the field.
@@ -74,10 +74,10 @@ message LocalTimeChange {
 // Definition of a change of `OffsetTime` fields.
 message OffsetTimeChange {
 
-    // Please use [ZonedTime] with custom a change type instead.
+    // Please use [ZonedTime] with a custom change type instead.
     option deprecated = true;
 
-    // The value of the field that are changing.
+    // The value of the field that is changing.
     OffsetTime previous_value = 1;
 
     // The new value of the field.
@@ -90,7 +90,7 @@ message OffsetDateTimeChange {
     // Please use [ZonedDateTime] with a custom change type instead.
     option deprecated = true;
 
-    // The value of the field that are changing.
+    // The value of the field that is changing.
     OffsetDateTime previous_value = 1;
 
     // The new value of the field.

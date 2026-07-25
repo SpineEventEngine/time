@@ -1,11 +1,11 @@
 /*
- * Copyright 2023, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -107,7 +107,7 @@ message LocalDate {
     // One of 12 Gregorian calendar months specified by `Month`.
     Month month = 2 [(required) = true];
 
-    // A day which must be from 1 to 31 and valid for the year and month.
+    // A day that must be from 1 to 31 and valid for the year and month.
     //
     // In generated code for Kotlin/Java this is checked by
     // `io.spine.time.validation.LocalDateValidator`.
@@ -184,7 +184,7 @@ message OffsetTime {
 // A date-time with an offset from UTC.
 message OffsetDateTime {
 
-    // Usage history shown that this type cause much confusion.
+    // Usage history shown that this type causes much confusion.
     // Please use [ZonedDateTime] instead.
     option deprecated = true;
 

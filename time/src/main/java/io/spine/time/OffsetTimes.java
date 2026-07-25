@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -23,6 +23,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package io.spine.time;
 
 import io.spine.time.string.TimeStringifiers;
@@ -41,7 +42,7 @@ import static java.util.Objects.requireNonNull;
 @Deprecated
 public final class OffsetTimes {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private OffsetTimes() {
     }
 
@@ -64,7 +65,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Creates a new instance by passed Java Time value.
+     * Creates a new instance by the passed Java Time value.
      */
     public static OffsetTime of(java.time.OffsetTime value) {
         checkNotNull(value);
@@ -73,7 +74,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Coverts the passed value to Java Time instance.
+     * Converts the passed value to a Java Time instance.
      */
     public static java.time.OffsetTime toJavaTime(OffsetTime value) {
         checkNotNull(value);
@@ -83,7 +84,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Returns a ISO-8601 time string corresponding to the passed value.
+     * Returns an ISO-8601 time string corresponding to the passed value.
      *
      * @deprecated please use {@link java.time.OffsetTime#toString()} instead.
      */
@@ -95,7 +96,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Parse from ISO-8601 string to {@code OffsetTime}.
+     * Parses from an ISO-8601 string to {@code OffsetTime}.
      *
      * @deprecated please use {@link java.time.OffsetTime#parse(CharSequence)} instead.
      */
@@ -108,7 +109,7 @@ public final class OffsetTimes {
     }
 
     /**
-     * Obtains converter from Java Time.
+     * Obtains the converter from Java Time.
      */
     public static SerializableConverter<java.time.OffsetTime, OffsetTime> converter() {
         return JtConverter.INSTANCE;

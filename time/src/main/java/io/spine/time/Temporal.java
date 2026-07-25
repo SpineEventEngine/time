@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -43,7 +43,7 @@ import static io.spine.time.DtPreconditions.checkSameType;
  * <p>The name of this interface is inspired by the {@link java.time.temporal.Temporal}.
  *
  * <p>Provides a {@linkplain #compareTo(Temporal) default implementation} for
- * comparison of two points in time.  It is not supposed that concrete
+ * comparison of two points in time. It is not supposed that concrete
  * {@code Temporal}s would override this comparison mechanism.
  *
  * @param <T>
@@ -110,8 +110,8 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *         the value to compare to
      * @return <ul>
      *             <li>an integer greater than 0 if point in time occurs later than the other;
-     *             <li>an integer less than 0 if point in time occurs earlier than other;
-     *             <li>and 0 of these points in time are identical.
+     *             <li>an integer less than 0 if point in time occurs earlier than the other;
+     *             <li>and 0 if these points in time are identical.
      *         </ul>
      * @implNote Translates both temporal values into {@code Timestamp}s and compares them.
      */
@@ -145,7 +145,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one.
+     * Checks if this point in time occurs earlier than the other one.
      *
      * @deprecated please use {@link #isBefore(Temporal)}
      */
@@ -155,28 +155,28 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one.
+     * Checks if this point in time occurs earlier than the other one.
      */
     default boolean isBefore(T other) {
         return compareTo(other) < 0;
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one.
+     * Checks if this point in time occurs earlier than the other one.
      */
     default boolean isBefore(Instant other) {
         return compareTo(other) < 0;
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one.
+     * Checks if this point in time occurs earlier than the other one.
      */
     default boolean isBefore(Timestamp other) {
         return compareTo(other) < 0;
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one or they coincide.
+     * Checks if this point in time occurs earlier than the other one or they coincide.
      *
      * @deprecated please use {@link #isBeforeOrSameAs(Temporal)}.
      */
@@ -186,21 +186,21 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one or they coincide.
+     * Checks if this point in time occurs earlier than the other one or they coincide.
      */
     default boolean isBeforeOrSameAs(T other) {
         return compareTo(other) <= 0;
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one or they coincide.
+     * Checks if this point in time occurs earlier than the other one or they coincide.
      */
     default boolean isBeforeOrSameAs(Instant other) {
         return compareTo(other) <= 0;
     }
 
     /**
-     * Checks if this point is time occurs earlier than the other one or they coincide.
+     * Checks if this point in time occurs earlier than the other one or they coincide.
      */
     default boolean isBeforeOrSameAs(Timestamp other) {
         return compareTo(other) <= 0;
@@ -228,7 +228,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs later than the other one.
+     * Checks if this point in time occurs later than the other one.
      *
      * @deprecated please use {@link #isAfter(Temporal)}.
      */
@@ -238,28 +238,28 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs later than the other one.
+     * Checks if this point in time occurs later than the other one.
      */
     default boolean isAfter(T other) {
         return compareTo(other) > 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one.
+     * Checks if this point in time occurs later than the other one.
      */
     default boolean isAfter(Instant other) {
         return compareTo(other) > 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one.
+     * Checks if this point in time occurs later than the other one.
      */
     default boolean isAfter(Timestamp other) {
         return compareTo(other) > 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one or they coincide.
+     * Checks if this point in time occurs later than the other one or they coincide.
      *
      * @deprecated please use {@link #isAfterOrSameAs(Temporal)}.
      */
@@ -269,28 +269,28 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time occurs later than the other one or they coincide.
+     * Checks if this point in time occurs later than the other one or they coincide.
      */
     default boolean isAfterOrSameAs(T other) {
         return compareTo(other) >= 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one or they coincide.
+     * Checks if this point in time occurs later than the other one or they coincide.
      */
     default boolean isAfterOrSameAs(Instant other) {
         return compareTo(other) >= 0;
     }
 
     /**
-     * Checks if this point is time occurs later than the other one or they coincide.
+     * Checks if this point in time occurs later than the other one or they coincide.
      */
     default boolean isAfterOrSameAs(Timestamp other) {
         return compareTo(other) >= 0;
     }
 
     /**
-     * Checks if this point is time lies between the given.
+     * Checks if this point in time lies between the given.
      *
      * <p>All three {@code Temporal}s must exactly the same runtime type. Otherwise,
      * an {@code IllegalArgumentException} is thrown.
@@ -307,9 +307,8 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
                 && isBeforeOrSameAs(periodEnd);
     }
 
-
     /**
-     * Checks if this point is time lies between the given.
+     * Checks if this point in time lies between the given.
      *
      * @param periodStart
      *         lower bound, exclusive
@@ -324,7 +323,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
     }
 
     /**
-     * Checks if this point is time lies between the given.
+     * Checks if this point in time lies between the given.
      *
      * @param periodStart
      *         lower bound, exclusive
@@ -343,7 +342,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *
      * <p>Uses {@link Time#currentTime()} to determine the "current" time to compare to.
      *
-     * @return {@code true} if this point is time is later than the current time,
+     * @return {@code true} if this point in time is later than the current time,
      *         {@code false} otherwise
      * @apiNote Note that a point in time is considered to be in the future only if its
      *         {@linkplain #toTimestamp() timestamp representation} is in the future.
@@ -359,7 +358,7 @@ public interface Temporal<T extends Temporal<T>> extends Comparable<T> {
      *
      * <p>Uses {@link Time#currentTime()} to determine the "current" time to compare to.
      *
-     * @return {@code true} if this point is time is earlier than the current time,
+     * @return {@code true} if this point in time is earlier than the current time,
      *         {@code false} otherwise
      * @apiNote Note that a point in time is considered to be in the past only if its
      *         {@linkplain #toTimestamp() timestamp representation} is in the past. Thus, if a type

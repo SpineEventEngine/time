@@ -48,7 +48,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class LocalDates {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private LocalDates() {
     }
 
@@ -96,7 +96,7 @@ public final class LocalDates {
     }
 
     /**
-     * Parse from ISO-8601 date representation of the format {@code yyyy-MM-dd}.
+     * Parses from an ISO-8601 date representation of the format {@code yyyy-MM-dd}.
      *
      * @see #toString(LocalDate)
      */
@@ -111,7 +111,7 @@ public final class LocalDates {
     }
 
     /**
-     * Converts a local date into ISO-8601 string with the format {@code yyyy-MM-dd}.
+     * Converts a local date into an ISO-8601 string with the format {@code yyyy-MM-dd}.
      *
      * @see #parse(String)
      */
@@ -122,7 +122,7 @@ public final class LocalDates {
     }
 
     /**
-     * Verified fields of the passed local date instance.
+     * Verifies fields of the passed local date instance.
      *
      * @param date
      *         the date to check
@@ -170,7 +170,7 @@ public final class LocalDates {
     }
 
     /**
-     * Obtains Java Time converter instance.
+     * Obtains the Java Time converter instance.
      */
     public static SerializableConverter<java.time.LocalDate, LocalDate> converter() {
         return JtConverter.INSTANCE;

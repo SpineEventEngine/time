@@ -45,7 +45,7 @@ public final class YearMonths {
     }
 
     /**
-     * Creates an instance with the the passed year and month.
+     * Creates an instance with the passed year and month.
      */
     public static YearMonth of(int year, int month) {
         return create(year, month);
@@ -105,7 +105,7 @@ public final class YearMonths {
     }
 
     /**
-     * Converts the passed value into a ISO-8601 year-month string, such as {@code "2018-06"}.
+     * Converts the passed value into an ISO-8601 year-month string, such as {@code "2018-06"}.
      *
      * @see #parse(String)
      */

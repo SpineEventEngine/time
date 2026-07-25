@@ -49,7 +49,7 @@ public final class WhenTestEnv {
     private static final int SECONDS_IN_5_MINUTES = 5 * SECONDS_IN_MINUTE;
 
     /**
-     * Freezes time for current thread by setting the time provider to a
+     * Freezes time for the current thread by setting the time provider to a
      * {@link ConstantTimeProvider}.
      *
      * @param time

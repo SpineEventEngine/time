@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -59,12 +59,12 @@ public final class TimeStringifiers {
         );
     }
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private TimeStringifiers() {
     }
 
     /**
-     * Obtains default stringifier for {@code DayOfWeek}s.
+     * Obtains the default stringifier for {@code DayOfWeek}s.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -76,7 +76,8 @@ public final class TimeStringifiers {
     /**
      * Obtains a stringifier for IDs based on {@code Timestamp}s.
      *
-     * <p>The stringifier replaces colons in time part of a string representation of a timestamp.
+     * <p>The stringifier replaces colons in the time part of a string representation
+     * of a timestamp.
      *
      * <p>For example, the following string:
      * <pre>
@@ -94,7 +95,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for local dates.
+     * Obtains the default stringifier for local dates.
      *
      * <p>The stringifier uses {@code yyyy-MM-dd} format for dates.
      *
@@ -109,7 +110,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for local date-time values in ISO-8601 formats.
+     * Obtains the default stringifier for local date-time values in ISO-8601 formats.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -123,7 +124,7 @@ public final class TimeStringifiers {
         return LocalDateTimeStringifier.instance();
     }
     /**
-     * Obtains default stringifier for {@code LocalTime} values.
+     * Obtains the default stringifier for {@code LocalTime} values.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -167,7 +168,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for {@code OffsetTime} values.
+     * Obtains the default stringifier for {@code OffsetTime} values.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -183,9 +184,8 @@ public final class TimeStringifiers {
         return OffsetTimeStringifier.instance();
     }
 
-
     /**
-     * Obtains default stringifier for {@code YearMonth} values.
+     * Obtains the default stringifier for {@code YearMonth} values.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -198,7 +198,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for {@code ZoneId}s.
+     * Obtains the default stringifier for {@code ZoneId}s.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -211,7 +211,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for {@code ZonedDateTime}.
+     * Obtains the default stringifier for {@code ZonedDateTime}.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.
@@ -226,7 +226,7 @@ public final class TimeStringifiers {
     }
 
     /**
-     * Obtains default stringifier for {@code ZoneOffset}s.
+     * Obtains the default stringifier for {@code ZoneOffset}s.
      *
      * <p>This stringifier is automatically registered in the
      * {@link StringifierRegistry StringifierRegistry}.

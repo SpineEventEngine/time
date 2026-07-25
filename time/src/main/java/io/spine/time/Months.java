@@ -42,7 +42,7 @@ import static java.util.Objects.requireNonNull;
  */
 public final class Months {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private Months() {
     }
 
@@ -108,7 +108,7 @@ public final class Months {
     /**
      * Obtains string representation of the passed month.
      *
-     * <p>Returned string is an internal representation, and should not be used in
+     * <p>The returned string is an internal representation, and should not be used in
      * the user interface.
      *
      * <p>For displaying a month, please use

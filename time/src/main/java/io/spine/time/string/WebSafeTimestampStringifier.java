@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -40,7 +40,7 @@ import static io.spine.util.Exceptions.newIllegalArgumentException;
 /**
  * The stringifier for web-safe representation of timestamps.
  *
- * <p>The stringifier replaces colons in the time part of a a RFC 3339 date string
+ * <p>The stringifier replaces colons in the time part of an RFC 3339 date string
  * with dashes when converting a timestamp to a string. It also restores the colons
  * back during the backward conversion.
  */

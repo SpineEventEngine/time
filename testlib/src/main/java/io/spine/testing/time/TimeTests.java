@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ public final class TimeTests {
     }
 
     /**
-     * Waits till new day to come, if it's the last day second.
+     * Waits till a new day to come, if it's the last day second.
      *
      * <p>This method is useful for tests that obtain current date/time values
      * and need to avoid the day edge for correctness of the test values.

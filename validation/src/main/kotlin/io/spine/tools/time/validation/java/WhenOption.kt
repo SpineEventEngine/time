@@ -100,7 +100,7 @@ public class WhenOption : ValidationOption {
  * Controls whether a field should be validated with the `(when)` option.
  *
  * Whenever a field marked with the `(when)` options is discovered, emits
- * [WhenFieldDiscovered] event if the following conditions are met:
+ * the [WhenFieldDiscovered] event if the following conditions are met:
  *
  * 1) The field type is supported by the option.
  * 2) The error message does not contain unsupported placeholders.

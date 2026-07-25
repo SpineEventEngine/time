@@ -1,11 +1,11 @@
 /*
- * Copyright 2022, TeamDev. All rights reserved.
+ * Copyright 2026, TeamDev. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Redistribution and use in source and/or binary forms, with or without
  * modification, must retain the above copyright notice and the following
@@ -45,7 +45,7 @@ import io.spine.protobuf.AnyPacker;
  *     <li>mark the target message with the {@code (is)} option.
  * </ol>
  *
- * <p>Interfaces derived from this one are meant to be implemented only by corresponding
+ * <p>Interfaces derived from this one are meant to be implemented only by the corresponding
  * message type defined by the generic parameter {@code <T>}. As such, they should not add any
  * abstract methods because it would break the generated code.
  *

@@ -40,7 +40,7 @@ import static io.spine.util.Preconditions2.checkNotDefaultArg;
  */
 final class DtPreconditions {
 
-    /** Prevent instantiation of this utility class. */
+    /** Prevents instantiation of this utility class. */
     private DtPreconditions() {
     }
 
