@@ -93,6 +93,12 @@ buildscript {
                     io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.lib.Jackson.annotations,
                     io.spine.dependency.lib.Jackson.bom,
+                    // Floor artifacts request the pre-refresh versions;
+                    // the Protobuf runtime must never be older than the
+                    // refreshed gencode.
+                    io.spine.dependency.kotlinx.Coroutines.bom,
+                    io.spine.dependency.kotlinx.AtomicFu.lib,
+                    io.spine.dependency.lib.Protobuf.javaLib,
                     io.spine.dependency.lib.Grpc.bom,
                     io.spine.dependency.local.Base.annotations,
                     io.spine.dependency.local.Base.environment,
