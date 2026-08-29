@@ -31,6 +31,7 @@ import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.kotlinx.AtomicFu
 import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.lib.Caffeine
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.JacksonV2
 import io.spine.dependency.lib.Kotlin
@@ -183,6 +184,9 @@ allprojects {
                 Grpc.forceArtifacts(project, cfg, rs)
                 force(
                     Kotlin.bom,
+                    // The IntelliJ Platform artifacts request the 3.0.4 line
+                    // while the refreshed baseline is on 3.2.4.
+                    Caffeine.lib,
                     // `Coroutines.forceArtifacts` covers the modules list but
                     // not the BOM itself; floor artifacts request the
                     // pre-refresh versions of all three.
