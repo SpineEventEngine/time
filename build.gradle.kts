@@ -29,6 +29,8 @@
 import io.spine.dependency.build.Dokka
 import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
+import io.spine.dependency.kotlinx.AtomicFu
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.JacksonV2
 import io.spine.dependency.lib.Kotlin
@@ -181,6 +183,12 @@ allprojects {
                 Grpc.forceArtifacts(project, cfg, rs)
                 force(
                     Kotlin.bom,
+                    // `Coroutines.forceArtifacts` covers the modules list but
+                    // not the BOM itself; floor artifacts request the
+                    // pre-refresh versions of all three.
+                    Coroutines.bom,
+                    AtomicFu.lib,
+                    Protobuf.javaLib,
                     KotlinPoet.lib,
                     Jackson.bom,
                     Reflect.lib,
