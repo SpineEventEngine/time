@@ -30,6 +30,7 @@ import io.spine.dependency.build.Dokka
 import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.JacksonV2
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
 import io.spine.dependency.local.Base
@@ -71,6 +72,14 @@ buildscript {
                 jackson.forceArtifacts(project, cfg, rs)
                 io.spine.dependency.lib.Jackson.DataType.forceArtifacts(project, cfg, rs)
                 io.spine.dependency.lib.Jackson.DataFormat.forceArtifacts(project, cfg, rs)
+                // The Jackson 2.x line (`com.fasterxml.*`) arrives through the
+                // refresh-era plugin jars and floor artifacts; the helpers
+                // above cover only the 3.x (`tools.jackson.*`) family.
+                io.spine.dependency.lib.JacksonV2.Core.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.JacksonV2.DataType.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.JacksonV2.DataFormat.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.JacksonV2.Module.forceArtifacts(project, cfg, rs)
+                io.spine.dependency.lib.JacksonV2.Junior.forceArtifacts(project, cfg, rs)
 
                 io.spine.dependency.kotlinx.Coroutines.forceArtifacts(
                     project, this@all, this@resolutionStrategy
@@ -152,6 +161,14 @@ allprojects {
                 val rs = this@resolutionStrategy
                 Jackson.forceArtifacts(project, cfg, rs)
                 Jackson.DataType.forceArtifacts(project, cfg, rs)
+                // The Jackson 2.x line (`com.fasterxml.*`) arrives through the
+                // refresh-era plugin jars and floor artifacts; the helpers
+                // above cover only the 3.x (`tools.jackson.*`) family.
+                JacksonV2.Core.forceArtifacts(project, cfg, rs)
+                JacksonV2.DataType.forceArtifacts(project, cfg, rs)
+                JacksonV2.DataFormat.forceArtifacts(project, cfg, rs)
+                JacksonV2.Module.forceArtifacts(project, cfg, rs)
+                JacksonV2.Junior.forceArtifacts(project, cfg, rs)
                 Jackson.DataFormat.forceArtifacts(project, cfg, rs)
                 Coroutines.forceArtifacts(project, cfg, rs)
                 Grpc.forceArtifacts(project, cfg, rs)
