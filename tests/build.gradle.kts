@@ -28,6 +28,9 @@
 
 import io.spine.dependency.boms.BomsPlugin
 import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.kotlinx.AtomicFu
+import io.spine.dependency.lib.Caffeine
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.Kotlin
@@ -74,6 +77,13 @@ buildscript {
                 )
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
+                    // Floor artifacts (e.g. the current published Validation)
+                    // request the pre-refresh versions; the Protobuf runtime
+                    // must never be older than the refreshed gencode.
+                    io.spine.dependency.kotlinx.Coroutines.bom,
+                    io.spine.dependency.kotlinx.AtomicFu.lib,
+                    io.spine.dependency.lib.Protobuf.javaLib,
+                    io.spine.dependency.lib.Caffeine.lib,
                     io.spine.dependency.lib.Jackson.annotations,
                     io.spine.dependency.lib.Jackson.bom,
                     io.spine.dependency.lib.Grpc.bom,
@@ -135,6 +145,10 @@ configurations {
             Kotlin.StdLib.forceArtifacts(project, cfg, rs)
             force(
                 Kotlin.bom,
+                Coroutines.bom,
+                AtomicFu.lib,
+                Protobuf.javaLib,
+                Caffeine.lib,
                 Jackson.annotations,
                 Jackson.bom,
                 Grpc.bom,
