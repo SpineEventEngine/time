@@ -12,7 +12,6 @@ $dokka.location:io.spine.tools.time.validation.event/WhenFieldDiscovered.Field.S
 $dokka.location:io.spine.tools.time.validation.event/WhenFieldDiscovered.Field.TypeField///PointingToDeclaration/io/spine/tools/time/validation/event/WhenFieldDiscovered.Field.TypeField.html
 $dokka.location:io.spine.tools.time.validation.event/WhenFieldDiscovered.Field.TypeNameField///PointingToDeclaration/io/spine/tools/time/validation/event/WhenFieldDiscovered.Field.TypeNameField.html
 $dokka.location:io.spine.tools.time.validation.event/WhenFieldDiscovered.Field///PointingToDeclaration/io/spine/tools/time/validation/event/WhenFieldDiscovered.Field.html
-$dokka.location:io.spine.tools.time.validation.event/WhenFieldDiscoveredKt.Dsl///PointingToDeclaration/io/spine/tools/time/validation/event/WhenFieldDiscoveredKt.Dsl.html
 $dokka.location:io.spine.tools.time.validation/WhenField.Builder///PointingToDeclaration/io/spine/tools/time/validation/WhenField.Builder.html
 $dokka.location:io.spine.tools.time.validation/WhenField.Column///PointingToDeclaration/io/spine/tools/time/validation/WhenField.Column.html
 $dokka.location:io.spine.tools.time.validation/WhenField.Field.DocField///PointingToDeclaration/io/spine/tools/time/validation/WhenField.Field.DocField.html
@@ -28,7 +27,6 @@ $dokka.location:io.spine.tools.time.validation/WhenField.Field.TypeNameField///P
 $dokka.location:io.spine.tools.time.validation/WhenField.Field///PointingToDeclaration/io/spine/tools/time/validation/WhenField.Field.html
 $dokka.location:io.spine.tools.time.validation/WhenField.Query///PointingToDeclaration/io/spine/tools/time/validation/WhenField.Query.html
 $dokka.location:io.spine.tools.time.validation/WhenField.QueryBuilder///PointingToDeclaration/io/spine/tools/time/validation/WhenField.QueryBuilder.html
-$dokka.location:io.spine.tools.time.validation/WhenFieldKt.Dsl///PointingToDeclaration/io/spine/tools/time/validation/WhenFieldKt.Dsl.html
 io.spine.tools.time.validation
 io.spine.tools.time.validation.event
 io.spine.tools.time.validation.java
