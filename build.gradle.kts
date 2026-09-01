@@ -27,15 +27,15 @@
 @file:Suppress("RemoveRedundantQualifierName")
 
 import io.spine.dependency.build.Dokka
-import io.spine.dependency.kotlinx.Coroutines
-import io.spine.dependency.lib.Grpc
 import io.spine.dependency.kotlinx.AtomicFu
-import io.spine.dependency.lib.Protobuf
+import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Caffeine
+import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
 import io.spine.dependency.lib.JacksonV2
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.lib.KotlinPoet
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.CoreJvm
 import io.spine.dependency.local.Logging
@@ -97,10 +97,12 @@ buildscript {
                     io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.lib.Jackson.annotations,
                     io.spine.dependency.lib.Jackson.bom,
+                    // `aedile-core` requests the 3.0.4 line while the
+                    // refreshed baseline is on 3.2.4.
+                    io.spine.dependency.lib.Caffeine.lib,
                     // Floor artifacts request the pre-refresh versions;
                     // the Protobuf runtime must never be older than the
                     // refreshed gencode.
-                    io.spine.dependency.lib.Caffeine.lib,
                     io.spine.dependency.kotlinx.Coroutines.bom,
                     io.spine.dependency.kotlinx.AtomicFu.lib,
                     io.spine.dependency.lib.Protobuf.javaLib,
@@ -199,6 +201,7 @@ allprojects {
                 val rs = this@resolutionStrategy
                 Jackson.forceArtifacts(project, cfg, rs)
                 Jackson.DataType.forceArtifacts(project, cfg, rs)
+                Jackson.DataFormat.forceArtifacts(project, cfg, rs)
                 // The Jackson 2.x line (`com.fasterxml.*`) arrives through the
                 // refresh-era plugin jars and floor artifacts; the helpers
                 // above cover only the 3.x (`tools.jackson.*`) family.
@@ -207,7 +210,6 @@ allprojects {
                 JacksonV2.DataFormat.forceArtifacts(project, cfg, rs)
                 JacksonV2.Module.forceArtifacts(project, cfg, rs)
                 JacksonV2.Junior.forceArtifacts(project, cfg, rs)
-                Jackson.DataFormat.forceArtifacts(project, cfg, rs)
                 Coroutines.forceArtifacts(project, cfg, rs)
                 Grpc.forceArtifacts(project, cfg, rs)
                 force(

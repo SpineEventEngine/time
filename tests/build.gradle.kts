@@ -27,12 +27,12 @@
 @file:Suppress("RemoveRedundantQualifierName") // To prevent IDEA replacing FQN imports.
 
 import io.spine.dependency.boms.BomsPlugin
-import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.kotlinx.AtomicFu
+import io.spine.dependency.kotlinx.Coroutines
 import io.spine.dependency.lib.Caffeine
-import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
@@ -169,9 +169,14 @@ configurations {
             Kotlin.StdLib.forceArtifacts(project, cfg, rs)
             force(
                 Kotlin.bom,
+                // Floor artifacts request the pre-refresh versions; the
+                // Protobuf runtime must never be older than the refreshed
+                // gencode.
                 Coroutines.bom,
                 AtomicFu.lib,
                 Protobuf.javaLib,
+                // `aedile-core` requests the 3.0.4 line while the refreshed
+                // baseline is on 3.2.4.
                 Caffeine.lib,
                 Jackson.annotations,
                 Jackson.bom,
