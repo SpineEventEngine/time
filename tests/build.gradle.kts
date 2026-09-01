@@ -101,7 +101,30 @@ buildscript {
                     io.spine.dependency.local.Compiler.gradleApi,
                     io.spine.dependency.local.Compiler.params,
                     io.spine.dependency.local.Compiler.pluginLib,
+                    // The published Compiler was built against the previous
+                    // `tool-base` and requests its artifacts one version behind
+                    // the one pinned here; `failOnVersionConflict()` cannot
+                    // choose. That release carried only build-script changes,
+                    // so the two are source-identical.
                     io.spine.dependency.local.ToolBase.jvmTools,
+                    io.spine.dependency.local.ToolBase.lib,
+                    io.spine.dependency.local.ToolBase.archive,
+                    io.spine.dependency.local.ToolBase.code,
+                    io.spine.dependency.local.ToolBase.fs,
+                    io.spine.dependency.local.ToolBase.javaCode,
+                    io.spine.dependency.local.ToolBase.kotlinCode,
+                    io.spine.dependency.local.ToolBase.protoCode,
+                    io.spine.dependency.local.ToolBase.classicCodegen,
+                    io.spine.dependency.local.ToolBase.pluginBase,
+                    io.spine.dependency.local.ToolBase.pluginTestlib,
+                    io.spine.dependency.local.ToolBase.intellijPlatform,
+                    io.spine.dependency.local.ToolBase.intellijPlatformJava,
+                    io.spine.dependency.local.ToolBase.psi,
+                    io.spine.dependency.local.ToolBase.rootGradlePlugins,
+                    io.spine.dependency.local.ToolBase.gradlePluginApi,
+                    io.spine.dependency.local.ToolBase.gradlePluginApiTestFixtures,
+                    io.spine.dependency.local.ToolBase.jvmToolPlugins,
+                    io.spine.dependency.local.ToolBase.protobufSetupPlugins,
                 )
             }
         }

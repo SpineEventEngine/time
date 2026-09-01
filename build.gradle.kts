@@ -92,6 +92,7 @@ buildscript {
                 )
                 val validation = io.spine.dependency.local.Validation
                 val logging = io.spine.dependency.local.Logging
+                val toolBase = io.spine.dependency.local.ToolBase
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
                     io.spine.dependency.lib.Jackson.annotations,
@@ -114,6 +115,30 @@ buildscript {
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
+                    // The published Compiler was built against the previous
+                    // `tool-base` and requests its artifacts one version behind
+                    // the one pinned here, which `failOnVersionConflict()`
+                    // cannot resolve on its own. The two are source-identical:
+                    // that release carried only build-script changes.
+                    toolBase.lib,
+                    toolBase.archive,
+                    toolBase.code,
+                    toolBase.fs,
+                    toolBase.javaCode,
+                    toolBase.kotlinCode,
+                    toolBase.protoCode,
+                    toolBase.classicCodegen,
+                    toolBase.pluginBase,
+                    toolBase.pluginTestlib,
+                    toolBase.intellijPlatform,
+                    toolBase.intellijPlatformJava,
+                    toolBase.psi,
+                    toolBase.rootGradlePlugins,
+                    toolBase.gradlePluginApi,
+                    toolBase.gradlePluginApiTestFixtures,
+                    toolBase.jvmTools,
+                    toolBase.jvmToolPlugins,
+                    toolBase.protobufSetupPlugins,
                     io.spine.dependency.local.Compiler.api,
                     io.spine.dependency.local.Compiler.gradleApi,
                     io.spine.dependency.local.Compiler.params,
@@ -198,6 +223,11 @@ allprojects {
                     Reflect.lib,
                     Base.lib,
                     ToolBase.lib,
+                    // The published Compiler was built against the previous
+                    // `tool-base`, so it requests `code` one version behind
+                    // the one pinned here and `failOnVersionConflict()` has
+                    // no way to choose. The two are source-identical.
+                    ToolBase.code,
                     Logging.lib,
                     Logging.middleware,
                     Dokka.BasePlugin.lib,
