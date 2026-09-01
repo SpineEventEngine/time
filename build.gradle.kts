@@ -115,12 +115,14 @@ buildscript {
                     logging.lib,
                     logging.middleware,
                     validation.runtime,
+                    // `module.gradle.kts` forces the rest of the tool-base
+                    // artifacts for project configurations; only the ones
+                    // a failure proved necessary are repeated here.
                     // The published Compiler was built against the previous
                     // `tool-base` and requests its artifacts one version behind
                     // the one pinned here, which `failOnVersionConflict()`
                     // cannot resolve on its own. The two are source-identical:
                     // that release carried only build-script changes.
-                    toolBase.lib,
                     toolBase.archive,
                     toolBase.code,
                     toolBase.fs,
@@ -133,6 +135,7 @@ buildscript {
                     toolBase.intellijPlatform,
                     toolBase.intellijPlatformJava,
                     toolBase.psi,
+                    toolBase.psiJava,
                     toolBase.rootGradlePlugins,
                     toolBase.gradlePluginApi,
                     toolBase.gradlePluginApiTestFixtures,
@@ -222,11 +225,14 @@ allprojects {
                     Jackson.bom,
                     Reflect.lib,
                     Base.lib,
-                    ToolBase.lib,
                     // The published Compiler was built against the previous
                     // `tool-base`, so it requests `code` one version behind
                     // the one pinned here and `failOnVersionConflict()` has
                     // no way to choose. The two are source-identical.
+                    //
+                    // Only `code` is listed: `module.gradle.kts` already forces
+                    // the other tool-base artifacts for project configurations,
+                    // and `failOnVersionConflict()` surfaces any gap loudly.
                     ToolBase.code,
                     Logging.lib,
                     Logging.middleware,
