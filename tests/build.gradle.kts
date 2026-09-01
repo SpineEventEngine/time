@@ -27,9 +27,12 @@
 @file:Suppress("RemoveRedundantQualifierName") // To prevent IDEA replacing FQN imports.
 
 import io.spine.dependency.boms.BomsPlugin
+import io.spine.dependency.kotlinx.AtomicFu
 import io.spine.dependency.kotlinx.Coroutines
+import io.spine.dependency.lib.Caffeine
 import io.spine.dependency.lib.Grpc
 import io.spine.dependency.lib.Jackson
+import io.spine.dependency.lib.Protobuf
 import io.spine.dependency.lib.Kotlin
 import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
@@ -60,6 +63,7 @@ buildscript {
 
             resolutionStrategy {
                 val jackson = io.spine.dependency.lib.Jackson
+                val toolBase = io.spine.dependency.local.ToolBase
                 val cfg = this@all
                 val rs = this@resolutionStrategy
                 jackson.forceArtifacts(project, cfg, rs)
@@ -74,6 +78,13 @@ buildscript {
                 )
                 force(
                     io.spine.dependency.lib.Kotlin.bom,
+                    // Floor artifacts (e.g. the current published Validation)
+                    // request the pre-refresh versions; the Protobuf runtime
+                    // must never be older than the refreshed gencode.
+                    io.spine.dependency.kotlinx.Coroutines.bom,
+                    io.spine.dependency.kotlinx.AtomicFu.lib,
+                    io.spine.dependency.lib.Protobuf.javaLib,
+                    io.spine.dependency.lib.Caffeine.lib,
                     io.spine.dependency.lib.Jackson.annotations,
                     io.spine.dependency.lib.Jackson.bom,
                     io.spine.dependency.lib.Grpc.bom,
@@ -91,7 +102,30 @@ buildscript {
                     io.spine.dependency.local.Compiler.gradleApi,
                     io.spine.dependency.local.Compiler.params,
                     io.spine.dependency.local.Compiler.pluginLib,
-                    io.spine.dependency.local.ToolBase.jvmTools,
+                    // The published Compiler was built against the previous
+                    // `tool-base` and requests its artifacts one version behind
+                    // the one pinned here; `failOnVersionConflict()` cannot
+                    // choose. That release carried only build-script changes,
+                    // so the two are source-identical.
+                    toolBase.jvmTools,
+                    toolBase.archive,
+                    toolBase.code,
+                    toolBase.fs,
+                    toolBase.javaCode,
+                    toolBase.kotlinCode,
+                    toolBase.protoCode,
+                    toolBase.classicCodegen,
+                    toolBase.pluginBase,
+                    toolBase.pluginTestlib,
+                    toolBase.intellijPlatform,
+                    toolBase.intellijPlatformJava,
+                    toolBase.psi,
+                    toolBase.psiJava,
+                    toolBase.rootGradlePlugins,
+                    toolBase.gradlePluginApi,
+                    toolBase.gradlePluginApiTestFixtures,
+                    toolBase.jvmToolPlugins,
+                    toolBase.protobufSetupPlugins,
                 )
             }
         }
@@ -135,6 +169,15 @@ configurations {
             Kotlin.StdLib.forceArtifacts(project, cfg, rs)
             force(
                 Kotlin.bom,
+                // Floor artifacts request the pre-refresh versions; the
+                // Protobuf runtime must never be older than the refreshed
+                // gencode.
+                Coroutines.bom,
+                AtomicFu.lib,
+                Protobuf.javaLib,
+                // `aedile-core` requests the 3.0.4 line while the refreshed
+                // baseline is on 3.2.4.
+                Caffeine.lib,
                 Jackson.annotations,
                 Jackson.bom,
                 Grpc.bom,
