@@ -38,6 +38,7 @@ import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.Time
 import io.spine.dependency.local.Validation
 import io.spine.gradle.kotlin.applyJvmToolchain
@@ -189,6 +190,7 @@ configurations {
                 Logging.lib,
                 Logging.middleware,
                 Logging.testLib,
+                TestLib.lib,
                 Validation.runtime,
                 Compiler.api,
                 Time.lib(version.toString()),

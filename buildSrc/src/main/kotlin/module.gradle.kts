@@ -38,6 +38,7 @@ import io.spine.dependency.local.Base
 import io.spine.dependency.local.Compiler
 import io.spine.dependency.local.Logging
 import io.spine.dependency.local.Reflect
+import io.spine.dependency.local.TestLib
 import io.spine.dependency.local.ToolBase
 import io.spine.dependency.test.Jacoco
 import io.spine.gradle.checkstyle.CheckStyleConfig
@@ -157,6 +158,7 @@ fun Module.forceConfigurations() {
                     Jackson.annotations,
                     Reflect.lib,
                     Logging.testLib,
+                    TestLib.lib,
                     ToolBase.gradlePluginApi,
                     ToolBase.jvmTools,
                     ToolBase.pluginBase,
