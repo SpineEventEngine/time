@@ -1,0 +1,1 @@
+var memberSearchIndex = [{"p":"io.spine.time.java","c":"JavaTimeExtensions","l":"toInstant(Timestamp)","url":"io/spine/time/java/JavaTimeExtensions.html#toInstant(com.google.protobuf.Timestamp)"}, {"p":"io.spine.time.java","c":"JavaTimeExtensions","l":"toJavaTime(Duration)","url":"io/spine/time/java/JavaTimeExtensions.html#toJavaTime(com.google.protobuf.Duration)"}]
