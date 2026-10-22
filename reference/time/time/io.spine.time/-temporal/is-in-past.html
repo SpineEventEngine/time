@@ -45,7 +45,7 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-2.0.0-SNAPSHOT.251        </div>
+2.0.0-SNAPSHOT.252        </div>
         <div class="navigation-controls">
         <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
                 <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
@@ -110,7 +110,7 @@
   <div class="cover ">
     <h1 class="cover"><span>is</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Past</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="is-in-past.html"><span class="token function">isInPast</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><p class="paragraph">Checks that this point in time lies in the past. </p><p class="paragraph">Uses <span data-unresolved-link="io.spine.base/Time/currentTime/#/PointingToDeclaration/">currentTime</span> to determine the &quot;current&quot; time to compare to.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph"><code class="lang-java">true</code> if this point in time is earlier than the current time, <code class="lang-java">false</code> otherwise</p></span></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":time/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="is-in-past.html"><span class="token function">isInPast</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><p class="paragraph">Checks that this point in time lies in the past. </p><p class="paragraph">Uses <span data-unresolved-link="io.spine.base/Time/currentTime/#/PointingToDeclaration/">currentTime</span> to determine the &quot;current&quot; time to compare to.</p><p class="paragraph"><strong>API Note:</strong> Note that a point in time is considered to be in the past only if its <a href="to-timestamp.html">timestamp representation</a> is in the past. Thus, if a type representing time with precision with up to a year contains current year, it is considered to be in the past, as the year has already started.</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph"><code class="lang-java">true</code> if this point in time is earlier than the current time, <code class="lang-java">false</code> otherwise</p></span></div></div>
 </div>
     <div class="footer">
         <div class="footer--container">
@@ -121,7 +121,7 @@
                     <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
                         Dokka
                     </a>
-                    <div>Copyright 2026, TeamDev</div>
+                    <div>Copyright 2026 CodeMatters, Lda.</div>
                 </div>
             </div>
         </div>
