@@ -1,0 +1,20 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.spine.time.kotlin////PointingToDeclaration/time-kotlin/io.spine.time.kotlin/index.html
+$dokka.location:io.spine.time.kotlin//toInstant/com.google.protobuf.Timestamp#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-instant.html
+$dokka.location:io.spine.time.kotlin//toKotlinDuration/com.google.protobuf.Duration#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-duration.html
+$dokka.location:io.spine.time.kotlin//toKotlinLocalDate/io.spine.time.LocalDate#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-local-date.html
+$dokka.location:io.spine.time.kotlin//toKotlinLocalDateTime/io.spine.time.LocalDateTime#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-local-date-time.html
+$dokka.location:io.spine.time.kotlin//toKotlinLocalTime/io.spine.time.LocalTime#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-local-time.html
+$dokka.location:io.spine.time.kotlin//toKotlinMonth/io.spine.time.Month#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-month.html
+$dokka.location:io.spine.time.kotlin//toKotlinTimeZone/io.spine.time.ZoneId#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-time-zone.html
+$dokka.location:io.spine.time.kotlin//toKotlinYearMonth/io.spine.time.YearMonth#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-kotlin-year-month.html
+$dokka.location:io.spine.time.kotlin//toProtoDuration/kotlin.time.Duration#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-duration.html
+$dokka.location:io.spine.time.kotlin//toProtoLocalDate/kotlinx.datetime.LocalDate#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-local-date.html
+$dokka.location:io.spine.time.kotlin//toProtoLocalDateTime/kotlinx.datetime.LocalDateTime#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-local-date-time.html
+$dokka.location:io.spine.time.kotlin//toProtoLocalTime/kotlinx.datetime.LocalTime#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-local-time.html
+$dokka.location:io.spine.time.kotlin//toProtoMonth/kotlinx.datetime.Month#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-month.html
+$dokka.location:io.spine.time.kotlin//toProtoYearMonth/kotlinx.datetime.YearMonth#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-year-month.html
+$dokka.location:io.spine.time.kotlin//toProtoZoneId/kotlinx.datetime.TimeZone#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-proto-zone-id.html
+$dokka.location:io.spine.time.kotlin//toTimestamp/kotlin.time.Instant#/PointingToDeclaration/time-kotlin/io.spine.time.kotlin/to-timestamp.html
+io.spine.time.kotlin
